@@ -1,0 +1,19 @@
+<section class="confirm-dialog-section">
+    <div class="dialog-header">
+        <h2>{{data.title}}</h2>
+    </div>
+
+    <div class="dialog-content">
+        <h2 class="dialog-message">{{data.message}}</h2>
+        <div class="buttons-container">
+            <button class="primary-button icon-button" (click)="confirm()">
+                <mat-icon>done</mat-icon>
+                Aceptar
+            </button>
+            <button class="primary-button icon-button" type="button" (click)="closeDialog()">
+                <mat-icon>close</mat-icon>
+                Cancelar
+            </button>
+        </div>
+    </div>
+</section>

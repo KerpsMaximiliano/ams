@@ -1,0 +1,29 @@
+<div class="dialog-title">
+    <h2>{{data.title}}</h2>
+</div>
+
+<div class="dialog-content">
+
+    <form class="form-datos" [formGroup]="formGroup" (ngSubmit)="confirm()">
+
+      <div class="seeker-fields-container">
+        <mat-form-field class="seeker-form-field">
+          <input matInput formControlName="descripcion" required maxlength="15" minlength="3">
+          <mat-error *ngIf="formGroup.get('descripcion')?.invalid && formGroup.get('descripcion')?.touched">{{getErrorMessage(formGroup.get('descripcion'))}}</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="buttons-container">
+        <button class="primary-button icon-button" type="submit">
+          <mat-icon>done</mat-icon>
+          Guardar
+        </button>
+        <button class="primary-button icon-button" type="button" (click)="closeDialog()">
+          <mat-icon>close</mat-icon>
+          Cancelar
+        </button>
+      </div>
+
+    </form>
+
+</div>

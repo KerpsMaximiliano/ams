@@ -1,0 +1,9 @@
+AMSSrunCDPipeline(application: "parametrosui",
+                  noprodProject: "ams01-operacionesparam-preprod",
+                  prodProject: "ams01-operacionesparam-prod",
+                  agent: "skopeo",
+                  version: "latest",
+                  applicationTemplate: "./openshift/template.yaml",
+                  applicationTemplateParametersProd: "./openshift/environments/prod/templateParameters.txt",
+                  applicationDeploymentPatchProd: "./openshift/environments/prod/deploymentPatch.yaml",
+                  applicationReplaceConfigProd: "./openshift/environments/prod/replaceConfig.yaml")

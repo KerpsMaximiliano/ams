@@ -1,0 +1,30 @@
+<div class="login-section">
+    <form class="login-form" [formGroup]="formGroup" (ngSubmit)="login()">    
+
+        <mat-card>
+            <div class="logo">
+                <img alt="Logo Sancor" class="responsive-img" src="https://fluir.sancorsalud.com.ar/assets/img/logo.png">
+            </div>
+            <mat-card-content>
+                <div class="grid-login">
+                    <mat-form-field hideRequiredMarker>
+                        <mat-label for="username">Nombre de usuario</mat-label>
+						<input autofocus appFocusNext="1" name="user" matInput formControlName="username" required>
+						<mat-icon matPrefix>person</mat-icon>
+					</mat-form-field>
+					<mat-form-field hideRequiredMarker>
+                        <mat-label for="password">Contraseña</mat-label>
+						<mat-icon matPrefix>lock</mat-icon>
+						<input appFocusNext="2" matInput formControlName="password" [type]="!showPass ? 'password' : 'text'" required>
+						<mat-icon class="action" matSuffix (click)="showPass = !showPass">{{!showPass ? 'visibility_off' : 'visibility'}}</mat-icon>
+					</mat-form-field>
+            
+                    <div class="error-message" *ngIf="showError">Usuario y/o contraseña incorrectos</div>
+                </div>
+            </mat-card-content>
+            <mat-card-actions>
+                <button class="primary-button" appFocusNext="3" [disabled]="!formGroup.valid" (keyup.enter)="login()" mat-raised-button>Iniciar sesión</button>
+            </mat-card-actions>
+        </mat-card>
+    </form>
+</div>

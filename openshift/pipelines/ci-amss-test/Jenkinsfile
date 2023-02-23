@@ -1,0 +1,11 @@
+AMSSrunCIPipelineFront2(application: "parametrosui",
+                  noprodProject: "ams01-operacionesparam-test",
+                  agent: "nodejs14",
+                  prepareCommands: "npm install",
+                  compileCommands: "npm run build",
+                  testFile: "ls -lah",
+                  artifactsDir: "./dist/parametros-ui",
+                  applicationTemplate: "./openshift/template.yaml",
+                  applicationTemplateParametersNoProd: "./openshift/environments/test/templateParameters.txt",
+                  applicationDeploymentPatchNoProd: "./openshift/environments/test/deploymentPatch.yaml",
+                  applicationReplaceConfigNoProd: "./openshift/environments/test/replaceConfig.yaml")

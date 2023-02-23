@@ -1,0 +1,16 @@
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+      - name: parametrosui
+        resources:
+          limits:
+            memory: 512Mi
+            cpu: 500m
+          requests:
+            memory: 128Mi
+            cpu: 25m
+        env:
+          - name: TZ
+            value: America/Argentina/Buenos_Aires

@@ -1,0 +1,30 @@
+.main-sections{
+    display:flex;
+    justify-content: space-between;
+    margin-bottom: 3rem;
+
+    .navigator{
+        display:flex;
+        align-items: center;
+        height:100%;
+        width:100vw;
+        margin-bottom: 1rem;
+        @media only screen and (min-width: 768px){
+            width:calc(100vw - 14rem);
+        }
+
+        //para seleccionar el componente invocado por router-outlet sin seleccionar el router-outlet
+        ::ng-deep & > :not(router-outlet){
+            width:100% !important;
+        }
+    }
+
+
+
+    .full-width{
+        @media only screen and (min-width: 769px){
+            width: 100vw !important;
+        }
+    }
+
+}

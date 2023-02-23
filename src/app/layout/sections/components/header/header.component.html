@@ -1,0 +1,25 @@
+<mat-toolbar class="header mat-elevation-z1">
+    <div class="left-container">
+        <button class="nav-button"
+        aria-label="Example icon-button with menu icon"
+        (click)="toggleNav()">
+            <mat-icon class="menu-icon">menu</mat-icon>
+        </button>
+
+        <img class="logo" src="https://fluir.sancorsalud.com.ar/assets/img/logo.png">
+
+    </div>
+
+    <button class="nav-end-btn" mat-button tabindex="-1" [matMenuTriggerFor]="menuUsuario">
+        <div class="username">{{username}}</div>
+        <i class="material-icons">account_circle</i>
+    </button>
+</mat-toolbar>
+
+<mat-menu #menuUsuario="matMenu" overlapTrigger="false" xPosition="before">
+    <button disabled mat-menu-item>{{ username }}</button>
+    <button (click)="logout()" mat-menu-item>
+      <mat-icon>exit_to_app</mat-icon>
+      Cerrar sesión
+    </button>
+</mat-menu>

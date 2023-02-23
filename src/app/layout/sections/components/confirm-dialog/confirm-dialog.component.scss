@@ -1,0 +1,28 @@
+.confirm-dialog-section{
+    padding: 0;
+    border:none;
+    width: 25rem !important;
+
+    .dialog-header{
+      height:64px;
+      padding: 1rem;
+      width: 100%;
+      display:flex;
+      justify-content: space-between;
+      align-items: center;
+
+      h2 {
+        font-size: 20px;
+        font-weight: 500;
+      }
+    }
+}
+
+.dialog-content{
+    padding: 0 1rem 1rem;
+
+    h2 {
+        font-size: 14px;
+        font-weight: normal;
+    }
+}
