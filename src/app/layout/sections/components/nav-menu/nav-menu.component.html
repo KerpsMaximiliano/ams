@@ -9,7 +9,7 @@
 				<a mat-list-item [ngClass]="{ 'expanded': section.expanded }" (click)="section.expanded = !section.expanded">
 					<p class="section-title">{{ section.title | uppercase }}</p>
 					<mat-icon class="nav-dropdown-icon" [class.expandido]="section.expanded">keyboard_arrow_down</mat-icon>
-				</a> 
+				</a>
 				<ng-container *ngFor="let link of section.children">
 					<ng-container *ngIf="(currentRoute == link.url) || section.expanded">
 						<a class="subnav" (click)="navigate(link.url, section)" mat-list-item [ngClass]="{ 'active': isActive(link) }">

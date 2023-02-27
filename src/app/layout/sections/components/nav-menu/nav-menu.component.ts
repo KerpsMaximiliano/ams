@@ -18,12 +18,17 @@ export class NavMenuComponent {
 
   public sections: MenuItem[] =   [
     {
-      "title": "Estados",
+      "title": "Parametros",
       "expanded": true,
       "children": [
         {
-          "title": "Estados",
-          "url": "/configuracion/estados",
+          "title": "Tipos de Documento",
+          "url": "/parametros/tipo-documento",
+          "icon": "keyboard_arrow_right"
+        },
+        {
+          "title": "Tipos de Nacionalidades",
+          "url": "/parametros/tipo-nacionalidad",
           "icon": "keyboard_arrow_right"
         }
       ]

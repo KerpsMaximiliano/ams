@@ -1,21 +1,21 @@
-import { UtilService } from './../../../../../../core/services/util.service';
-import { EstadosService } from './../../../../../../core/services/estados.service';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { Estado } from 'src/app/core/models/estado';
 import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
-import { AddEditEstadoDialogComponent } from '../../add-edit-estado-dialog/add-edit-estado-dialog.component';
+import { TipoDocumento } from 'src/app/core/models/tipo-documento';
+import { ParametrosService } from 'src/app/core/services/parametros.service';
+import { UtilService } from 'src/app/core/services/util.service';
+import { AddEditTipoDocumentoDialogComponent } from '../add-edit-tipo-documento-dialog/add-edit-tipo-documento-dialog.component';
 
 @Component({
-  selector: 'app-estados-dashboard',
-  templateUrl: './estados-dashboard.component.html',
-  styleUrls: ['./estados-dashboard.component.scss']
+  selector: 'app-tipo-documento-dashboard',
+  templateUrl: './tipo-documento-dashboard.component.html',
+  styleUrls: ['./tipo-documento-dashboard.component.scss']
 })
-export class EstadosDashboardComponent {
+export class TipoDocumentoDashboardComponent {
 
   @ViewChild(MatSort) sort: MatSort = new MatSort();
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator =
@@ -23,35 +23,37 @@ export class EstadosDashboardComponent {
   @ViewChild(MatTable) table!: MatTable<any>;
 
   public displayedColumns: string[] = [
-    'description',
-    'actions',
+    'tipo-documento',
+    'abreviatura',
+    'control-cuit',
+    'actions'
   ];
 
-  public dataSource!: MatTableDataSource<Estado>;
+  public dataSource!: MatTableDataSource<TipoDocumento>;
 
   public searchText: string = "";
 
-  public states: Estado[] = [];
+  public states: TipoDocumento[] = [];
 
-  constructor(private estadosService: EstadosService,
+  constructor(private parametrosService: ParametrosService,
               private utils: UtilService,
               private _liveAnnouncer: LiveAnnouncer,
               private cdr: ChangeDetectorRef,
               private dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.getEstados();
+    this.getTipoDocumento();
     this.paginator._intl.itemsPerPageLabel = 'Elementos por página';
   }
 
-  private getEstados(): void {
+  private getTipoDocumento(): void {
     this.utils.openLoading();
     let pageIndex = this.paginator.pageIndex;
     let pageSize = this.paginator.pageSize ?? 10;
-    this.estadosService.getEstados(pageIndex, pageSize, this.searchText).subscribe({
+    this.parametrosService.getParametros(pageIndex, pageSize, this.searchText).subscribe({
       next:(res:any) => {
-        this.states = res.content as Estado[];
-        this.dataSource = new MatTableDataSource<Estado>(this.states);
+        this.states = res.content as TipoDocumento[];
+        this.dataSource = new MatTableDataSource<TipoDocumento>(this.states);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
         setTimeout(() => {
@@ -64,7 +66,7 @@ export class EstadosDashboardComponent {
       },
       error:(err: any) => {
         this.utils.closeLoading();
-        this.utils.notification(`Error al obtener estados: ${err.message}`, 'error')
+        this.utils.notification(`Error al obtener parametros: ${err.message}`, 'error')
       },
       complete: () => {
         this.utils.closeLoading();
@@ -80,31 +82,31 @@ export class EstadosDashboardComponent {
     }
   }
 
-  public editState(estado: Estado): void {
-    const modalNuevoEstado = this.dialog.open(AddEditEstadoDialogComponent, {
+  public editDocType(tipoDocumento: TipoDocumento): void {
+    const modalNuevoTipoDocumento = this.dialog.open(AddEditTipoDocumentoDialogComponent, {
       data: {
-        title: `Editar Estado`,
-        id: estado.id,
-        descripcion: estado.descripcion
+        title: `Editar Parametro`,
+        id: tipoDocumento.id,
+        descripcion: tipoDocumento.tipo
       }
     });
 
-    modalNuevoEstado.afterClosed().subscribe({
+    modalNuevoTipoDocumento.afterClosed().subscribe({
       next:(res) => {
         if (res && res.descripcion.length > 0) {
           this.utils.openLoading();
-          this.estadosService.editEstado(res).subscribe({
+          this.parametrosService.editParametro(res).subscribe({
             next: () => {
-              this.utils.notification("El estado se ha editado extiosamente", 'success')
+              this.utils.notification("El Tipo de Documento se ha editado extiosamente", 'success')
             },
             error: (err) => {
               this.utils.closeLoading();
-              this.utils.notification(`Error al editar estado: ${err.error.message}`, 'error')
+              this.utils.notification(`Error al editar Tipo de Documento: ${err.error.message}`, 'error')
             },
             complete: () => {
               this.utils.closeLoading();
               setTimeout(() => {
-                this.getEstados();
+                this.getTipoDocumento();
               }, 300);
             }
           });
@@ -113,24 +115,24 @@ export class EstadosDashboardComponent {
     });
   }
 
-  public deleteState(state: Estado): void {
+  public deleteDocType(tipoDoc: TipoDocumento): void {
     const modalConfirm = this.dialog.open(ConfirmDialogComponent, {
       data: {
-        title: `Eliminar Estado`,
-        message: `¿Está seguro de eliminar el estado ${state.descripcion}?`
+        title: `Eliminar Tipo de Documento`,
+        message: `¿Está seguro de eliminar el tipo de documento ${tipoDoc.tipo}?`
       }
     });
 
     modalConfirm.afterClosed().subscribe({
       next:(res) => {
         if (res) {
-          this.estadosService.deleteEstado(state.id).subscribe({
+          this.parametrosService.deleteParametro(tipoDoc.id).subscribe({
             next: (res: any) => {
-              this.utils.notification("El estado se ha borrado exitosamente", 'success')
-              this.getEstados();
+              this.utils.notification("El tipo de documento se ha borrado exitosamente", 'success')
+              this.getTipoDocumento();
             },
             error: (err) => {
-              this.utils.notification(`Error al borrar estado: ${err.message}`, 'error')
+              this.utils.notification(`Error al borrar tipo de documento: ${err.message}`, 'error')
             }
           });
         }
@@ -140,7 +142,7 @@ export class EstadosDashboardComponent {
 
   public filter(text: any):void {
     this.searchText = text;
-    this.getEstados()
+    this.getTipoDocumento()
   }
 
 }

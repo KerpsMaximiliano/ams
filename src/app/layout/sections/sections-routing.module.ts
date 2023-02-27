@@ -9,12 +9,12 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'estados',
+        redirectTo: 'parametros',
         pathMatch: 'full'
       },
       {
         path: '',
-        loadChildren:() => import ('./estados/estados.module').then(m => m.EstadosModule),
+        loadChildren:() => import ('./parametros/parametros.module').then(m => m.ParametrosModule),
       }
     ]
   }

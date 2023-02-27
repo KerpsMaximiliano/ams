@@ -2,14 +2,14 @@ import { Component, Inject, Input } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { isAlphanumericWithSpaces } from 'src/app/core/validators/character.validator';
-import { ConfirmDialogComponent } from '../../../components/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
-  selector: 'app-add-edit-estado-dialog',
-  templateUrl: './add-edit-estado-dialog.component.html',
-  styleUrls: ['./add-edit-estado-dialog.component.scss']
+  selector: 'app-add-edit-tipo-documento-dialog',
+  templateUrl: './add-edit-tipo-documento-dialog.component.html',
+  styleUrls: ['./add-edit-tipo-documento-dialog.component.scss']
 })
-export class AddEditEstadoDialogComponent {
+export class AddEditTipoDocumentoDialogComponent {
 
   public formGroup: UntypedFormGroup;
 

@@ -1,0 +1,16 @@
+<section class="browse-section">
+
+  <div class="section-header">
+    <h2>Tipos de Documentos</h2>
+    <button class="new-button icon-button" (click)="nuevoTipoDocumento()">
+      <mat-icon>add</mat-icon>
+      Nuevo
+    </button>
+  </div>
+
+  <div class="section-content">
+    <app-tipo-documento-filter (searchEvent)="handleSearch($event)"></app-tipo-documento-filter>
+    <app-tipo-documento-dashboard></app-tipo-documento-dashboard>
+  </div>
+
+</section>

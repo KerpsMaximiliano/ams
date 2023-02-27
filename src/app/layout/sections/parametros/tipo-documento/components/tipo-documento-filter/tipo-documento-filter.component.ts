@@ -2,11 +2,11 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 
 @Component({
-  selector: 'app-estados-filter',
-  templateUrl: './estados-filter.component.html',
-  styleUrls: ['./estados-filter.component.scss']
+  selector: 'app-tipo-documento-filter',
+  templateUrl: './tipo-documento-filter.component.html',
+  styleUrls: ['./tipo-documento-filter.component.scss']
 })
-export class EstadosFilterComponent {
+export class TipoDocumentoFilterComponent {
 
   @Output() searchEvent: EventEmitter<string> = new EventEmitter<string>();
 
