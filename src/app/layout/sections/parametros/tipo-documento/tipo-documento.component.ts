@@ -28,7 +28,7 @@ export class TipoDocumentoComponent {
   public nuevoTipoDocumento(): void {
     const modalNuevoTipoDocumento = this.dialog.open(AddEditTipoDocumentoDialogComponent, {
       data: {
-        title: `Nuevo Tipo de Documento`
+        title: `Crear Tipo de Documento`
       }
     });
 

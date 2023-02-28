@@ -29,7 +29,14 @@ export class TipoDocumentoDashboardComponent {
     'actions'
   ];
 
-  public dataSource!: MatTableDataSource<TipoDocumento>;
+  example = [{
+    id: 999,
+    tipo: 'Doc Nac Ident',
+    abreviatura: 'DNI',
+    cuit: 'S'
+  }]
+
+  public dataSource: MatTableDataSource<TipoDocumento> = new MatTableDataSource(this.example);
 
   public searchText: string = "";
 
@@ -42,7 +49,6 @@ export class TipoDocumentoDashboardComponent {
               private dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.getTipoDocumento();
     this.paginator._intl.itemsPerPageLabel = 'Elementos por página';
   }
 
@@ -85,9 +91,12 @@ export class TipoDocumentoDashboardComponent {
   public editDocType(tipoDocumento: TipoDocumento): void {
     const modalNuevoTipoDocumento = this.dialog.open(AddEditTipoDocumentoDialogComponent, {
       data: {
-        title: `Editar Parametro`,
+        title: `Editar Documento`,
         id: tipoDocumento.id,
-        descripcion: tipoDocumento.tipo
+        tipo: tipoDocumento.tipo,
+        abreviatura: tipoDocumento.abreviatura,
+        cuit: tipoDocumento.cuit,
+        edit: true
       }
     });
 
@@ -114,6 +123,20 @@ export class TipoDocumentoDashboardComponent {
       }
     });
   }
+
+  public viewDocType(tipoDocumento: TipoDocumento): void {
+    this.dialog.open(AddEditTipoDocumentoDialogComponent, {
+      data: {
+        title: `Ver Parametro`,
+        id: tipoDocumento.id,
+        tipo: tipoDocumento.tipo,
+        abreviatura: tipoDocumento.abreviatura,
+        cuit: tipoDocumento.cuit,
+        edit: false
+      }
+    });
+  }
+
 
   public deleteDocType(tipoDoc: TipoDocumento): void {
     const modalConfirm = this.dialog.open(ConfirmDialogComponent, {

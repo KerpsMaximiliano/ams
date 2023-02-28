@@ -1,5 +1,5 @@
 <div class="dialog-title">
-    <h2>{{data.title}}</h2>
+    <h2>{{data.title | uppercase}}</h2>
 </div>
 
 <div class="dialog-content">
@@ -7,20 +7,43 @@
     <form class="form-datos" [formGroup]="formGroup" (ngSubmit)="confirm()">
 
       <div class="seeker-fields-container">
-        <mat-form-field class="seeker-form-field">
-          <input matInput formControlName="descripcion" required maxlength="15" minlength="3">
-          <mat-error *ngIf="formGroup.get('descripcion')?.invalid && formGroup.get('descripcion')?.touched">{{getErrorMessage(formGroup.get('descripcion'))}}</mat-error>
+        <h3>TIPO DE DOCUMENTO</h3>
+        <mat-form-field class="seeker-form-field" appearance="outline">
+          <input matInput formControlName="tipo" required maxlength="20" minlength="3" [readonly]="!data.edit">
+          <mat-error *ngIf="formGroup.get('tipo')?.invalid && formGroup.get('tipo')?.touched">{{getErrorMessage(formGroup.get('tipo'))}}</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="seeker-fields-container">
+        <h3>ABREVIATURA</h3>
+        <mat-form-field class="seeker-form-field" appearance="outline">
+          <input matInput formControlName="abreviatura" required maxlength="3" minlength="1" [readonly]="!data.edit">
+          <mat-error *ngIf="formGroup.get('abreviatura')?.invalid && formGroup.get('abreviatura')?.touched">{{getErrorMessage(formGroup.get('abreviatura'))}}</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="seeker-fields-container">
+        <h3>CONTROL DE CUIT</h3>
+        <mat-form-field class="seeker-form-field" appearance="outline">
+          <mat-select formControlName="cuit">
+            <mat-option [value]="'S'">
+              SI
+            </mat-option>
+            <mat-option [value]="'N'">
+              NO
+            </mat-option>
+          </mat-select>
         </mat-form-field>
       </div>
 
       <div class="buttons-container">
-        <button class="primary-button icon-button" type="submit">
-          <mat-icon>done</mat-icon>
-          Guardar
-        </button>
         <button class="primary-button icon-button" type="button" (click)="closeDialog()">
           <mat-icon>close</mat-icon>
           Cancelar
+        </button>
+        <button class="primary-button icon-button" type="submit" [disabled]="formGroup.invalid">
+          <mat-icon>done</mat-icon>
+          Guardar
         </button>
       </div>
 

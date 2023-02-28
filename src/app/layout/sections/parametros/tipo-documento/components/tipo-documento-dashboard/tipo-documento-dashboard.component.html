@@ -11,27 +11,27 @@
   
       <ng-container matColumnDef="tipo-documento">
         <th mat-header-cell *matHeaderCellDef>Tipo de documento</th>
-        <td mat-cell *matCellDef="let param">{{param.descripcion}}</td>
+        <td mat-cell *matCellDef="let param">{{param.tipo}}</td>
       </ng-container>
 
       <ng-container matColumnDef="abreviatura">
         <th mat-header-cell *matHeaderCellDef>Abreviatura</th>
-        <td mat-cell *matCellDef="let param">{{param.descripcion}}</td>
+        <td mat-cell *matCellDef="let param">{{param.abreviatura}}</td>
       </ng-container>
 
       <ng-container matColumnDef="control-cuit">
         <th mat-header-cell *matHeaderCellDef>Control de CUIT</th>
-        <td mat-cell *matCellDef="let param">{{param.descripcion}}</td>
+        <td mat-cell *matCellDef="let param">{{param.cuit}}</td>
       </ng-container>
   
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef>Acciones</th>
         <td mat-cell *matCellDef="let doctype">
-          <button class="action-button" (click)="editDocType(doctype)">
-            <mat-icon class="edit-icon" aria-label="false">edit_note</mat-icon>
+          <button class="action-button" (click)="viewDocType(doctype)">
+            <mat-icon class="edit-icon" aria-label="false">visibility</mat-icon>
           </button>
-          <button class="action-button" (click)="deleteDocType(doctype)">
-            <mat-icon class="delete-icon" aria-label="false">delete</mat-icon>
+          <button class="action-button" (click)="editDocType(doctype)">
+            <mat-icon class="delete-icon" aria-label="false">edit</mat-icon>
           </button>
         </td>
       </ng-container>

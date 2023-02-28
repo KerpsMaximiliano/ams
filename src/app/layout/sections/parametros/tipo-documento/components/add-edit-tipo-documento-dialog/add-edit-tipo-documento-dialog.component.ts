@@ -24,17 +24,29 @@ export class AddEditTipoDocumentoDialogComponent {
 
   private setUpForm():void {
     this.formGroup = new UntypedFormGroup({
-      descripcion: new UntypedFormControl('', Validators.compose([
+      tipo: new UntypedFormControl('', Validators.compose([
         Validators.required,
         Validators.minLength(3),
-        Validators.maxLength(15),
+        Validators.maxLength(20),
         isAlphanumericWithSpaces()
-      ])
-    )})
+      ])),
+      abreviatura: new UntypedFormControl('', Validators.compose([
+        Validators.required,
+        Validators.minLength(1),
+        Validators.maxLength(3),
+      ])),
+      cuit: new UntypedFormControl('N', Validators.compose([
+        Validators.required,
+        Validators.minLength(1),
+        Validators.maxLength(2),
+      ]))
+    })
   }
 
   private setFormValues() {
-    this.formGroup.get('descripcion')?.setValue(this.data.descripcion);
+    this.formGroup.get('tipo')?.setValue(this.data.tipo);
+    this.formGroup.get('abreviatura')?.setValue(this.data.abreviatura);
+    this.formGroup.get('cuit')?.setValue(this.data.cuit);
   }
 
   closeDialog(): void {
@@ -54,15 +66,15 @@ export class AddEditTipoDocumentoDialogComponent {
       return `Campo requerido`
     } else {
       if (control.errors?.['maxlength']) {
-        return `Descripción no puede contener más de ${control.errors?.['maxlength'].requiredLength} caracteres`
+        return `No puede contener más de ${control.errors?.['maxlength'].requiredLength} caracteres`
       }
 
       if (control.errors?.['minlength']) {
-        return `Descripción debe contener al menos ${control.errors?.['minlength'].requiredLength} caracteres`
+        return `Debe contener al menos ${control.errors?.['minlength'].requiredLength} caracteres`
       }
 
       if ((control.errors?.['notAlphanumeric'] || control.errors?.['notAlphanumericWithSpaces']) && control.value != '' && control.value != null) {
-        return `Descripción no puede contener caracteres especiales`
+        return `No puede contener caracteres especiales`
       }
     }    
 
