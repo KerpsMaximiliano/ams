@@ -97,22 +97,25 @@ export class TipoDocumentoDashboardComponent {
 
     modalNuevoTipoDocumento.afterClosed().subscribe({
       next:(res) => {
-        this.utils.openLoading();
-        this.parametrosService.editParametro(res).subscribe({
-          next: () => {
-            this.utils.notification("El Documento se ha editado extiosamente", 'success')
-          },
-          error: (err) => {
-            this.utils.closeLoading();
-            this.utils.notification(`Error al editar el Documento: ${err.error.message}`, 'error')
-          },
-          complete: () => {
-            this.utils.closeLoading();
-            setTimeout(() => {
-              this.getTipoDocumento();
-            }, 300);
-          }
-        });
+        if (res) {
+          this.utils.openLoading();
+          this.parametrosService.editParametro(res).subscribe({
+            next: () => {
+              this.utils.notification("El Documento se ha editado extiosamente", 'success')
+            },
+            error: (err) => {
+              this.utils.closeLoading();
+              this.utils.notification(`Error al editar el Documento: ${err.error.message}`, 'error')
+              this.editDocType(res)
+            },
+            complete: () => {
+              this.utils.closeLoading();
+              setTimeout(() => {
+                this.getTipoDocumento();
+              }, 300);
+            }
+          });
+        }
       }
     });
   }
