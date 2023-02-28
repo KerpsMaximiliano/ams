@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { TipoDocumento } from '../models/tipo-documento';
 import { EnvironmentService } from './environment.service';
@@ -16,12 +17,12 @@ export class ParametrosService {
   constructor(private http:HttpClient,
     private environmentService: EnvironmentService) { }
 
-  getParamByDesc(body:string) {    
-    return this.http.post(`${this.environmentService.api}/tiposdedocumentos`, body, httpOptions)
+  getParamByDesc(body:string): Observable<TipoDocumento[]> {    
+    return this.http.post<TipoDocumento[]>(`${this.environmentService.api}/tiposdedocumentos`, body, httpOptions)
   }
 
-  getParamById(body:string) {    
-    return this.http.post(`${this.environmentService.api}/tipodedocumento`, body, httpOptions)
+  getParamById(body:string): Observable<TipoDocumento[]> {    
+    return this.http.post<TipoDocumento[]>(`${this.environmentService.api}/tipodedocumento`, body, httpOptions)
   }
 
   // public getParametros(pageNumber:number, pageSize:number, description?:string) {
@@ -43,8 +44,8 @@ export class ParametrosService {
     return this.http.post(`${this.environmentService.api}/parametros`, {descripcion: description});
   }
 
-  public editParametro(state:TipoDocumento) {
+  public editParametro(state:TipoDocumento): Observable<TipoDocumento> {
     let body = JSON.stringify(state);
-    return this.http.put(`${this.environmentService.api}/modificartipodocumento`, body, httpOptions);
+    return this.http.put<TipoDocumento>(`${this.environmentService.api}/modificartipodocumento`, body, httpOptions);
   }
 }

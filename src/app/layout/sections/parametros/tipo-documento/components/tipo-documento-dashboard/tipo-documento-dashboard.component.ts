@@ -74,7 +74,7 @@ export class TipoDocumentoDashboardComponent {
     });
   }
 
-  public announceSortChange(sortState: Sort) {
+  public announceSortChange(sortState: Sort): void {
     if (sortState.direction) {
       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
     } else {

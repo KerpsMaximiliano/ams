@@ -22,7 +22,7 @@ export class AddEditTipoDocumentoDialogComponent {
     if (this.data.id) this.setFormValues();
   }
 
-  private setUpForm():void {
+  private setUpForm(): void {
     this.formGroup = new UntypedFormGroup({
       tipo: new UntypedFormControl('', Validators.compose([
         Validators.required,
@@ -43,7 +43,7 @@ export class AddEditTipoDocumentoDialogComponent {
     })
   }
 
-  private setFormValues() {
+  private setFormValues(): void {
     this.formGroup.get('tipo')?.setValue(this.data.tipo);
     this.formGroup.get('abreviatura')?.setValue(this.data.abreviatura);
     this.formGroup.get('cuit')?.setValue(this.data.cuit);
@@ -53,7 +53,7 @@ export class AddEditTipoDocumentoDialogComponent {
     this.dialogRef.close(false);
   }
 
-  public confirm(): void{
+  public confirm(): void {
     this.formGroup.markAllAsTouched();
     if (this.formGroup.valid) {
       this.data.id ? this.dialogRef.close({id: this.data.id, descripcion: this.formGroup.get('tipo')?.value, descripcion_reducida: this.formGroup.get('abreviatura')?.value, control_cuit: this.formGroup.get('cuit')?.value, tipo_de_documento: this.data.tipo_documento})
@@ -61,7 +61,7 @@ export class AddEditTipoDocumentoDialogComponent {
     }
   }
 
-  getErrorMessage(control: any) {
+  getErrorMessage(control: any): string {
     if (control.errors?.['required']) {
       return `Campo requerido`
     } else {

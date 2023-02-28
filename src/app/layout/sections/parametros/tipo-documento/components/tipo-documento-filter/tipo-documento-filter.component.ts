@@ -16,16 +16,16 @@ export class TipoDocumentoFilterComponent {
   ngOnInit(): void {
   }
 
-  public search(){
+  public search(): void {
     this.searchEvent.emit(this.descripcion.value)
   }
 
-  public searchKeyUp(e:any){
+  public searchKeyUp(e:any): void {
     e.preventDefault();
     this.searchEvent.emit(this.descripcion.value)
   }
 
-  public clearInputs(){
+  public clearInputs(): void {
     this.descripcion.setValue("");
     this.search();
   }
