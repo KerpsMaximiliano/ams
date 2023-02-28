@@ -29,14 +29,7 @@ export class TipoDocumentoDashboardComponent {
     'actions'
   ];
 
-  example = [{
-    id: 999,
-    tipo: 'Doc Nac Ident',
-    abreviatura: 'DNI',
-    cuit: 'S'
-  }]
-
-  public dataSource: MatTableDataSource<TipoDocumento> = new MatTableDataSource(this.example);
+  public dataSource: MatTableDataSource<TipoDocumento>;
 
   public searchText: string = "";
 
@@ -54,19 +47,20 @@ export class TipoDocumentoDashboardComponent {
 
   private getTipoDocumento(): void {
     this.utils.openLoading();
-    let pageIndex = this.paginator.pageIndex;
-    let pageSize = this.paginator.pageSize ?? 10;
-    this.parametrosService.getParametros(pageIndex, pageSize, this.searchText).subscribe({
+    let aux = {
+      descripcion: this.searchText
+    }
+    let body = JSON.stringify(aux)
+    this.parametrosService.getParamByDesc(body).subscribe({
       next:(res:any) => {
-        this.states = res.content as TipoDocumento[];
+        console.log (res)
+        this.states = res as TipoDocumento[];
         this.dataSource = new MatTableDataSource<TipoDocumento>(this.states);
         this.dataSource.sort = this.sort;
-        this.dataSource.paginator = this.paginator;
         setTimeout(() => {
-          this.paginator.length = res.totalElements
-          this.paginator.pageIndex = res.pageable.pageNumber;
+          this.dataSource.paginator = this.paginator;
           this.paginator._intl.getRangeLabel = (): string => {
-            return "Página " +  (res.pageable.pageNumber+1) + " de " + res.totalPages
+            return "Página " +  (this.paginator.pageIndex + 1) + " de " +  this.paginator.length
           }
         }, 100)
       },
@@ -93,33 +87,32 @@ export class TipoDocumentoDashboardComponent {
       data: {
         title: `Editar Documento`,
         id: tipoDocumento.id,
-        tipo: tipoDocumento.tipo,
-        abreviatura: tipoDocumento.abreviatura,
-        cuit: tipoDocumento.cuit,
+        tipo: tipoDocumento.descripcion,
+        abreviatura: tipoDocumento.descripcion_reducida,
+        cuit: tipoDocumento.control_cuit,
+        tipo_documento: tipoDocumento.tipo_de_documento,
         edit: true
       }
     });
 
     modalNuevoTipoDocumento.afterClosed().subscribe({
       next:(res) => {
-        if (res && res.descripcion.length > 0) {
-          this.utils.openLoading();
-          this.parametrosService.editParametro(res).subscribe({
-            next: () => {
-              this.utils.notification("El Tipo de Documento se ha editado extiosamente", 'success')
-            },
-            error: (err) => {
-              this.utils.closeLoading();
-              this.utils.notification(`Error al editar Tipo de Documento: ${err.error.message}`, 'error')
-            },
-            complete: () => {
-              this.utils.closeLoading();
-              setTimeout(() => {
-                this.getTipoDocumento();
-              }, 300);
-            }
-          });
-        }
+        this.utils.openLoading();
+        this.parametrosService.editParametro(res).subscribe({
+          next: () => {
+            this.utils.notification("El Documento se ha editado extiosamente", 'success')
+          },
+          error: (err) => {
+            this.utils.closeLoading();
+            this.utils.notification(`Error al editar el Documento: ${err.error.message}`, 'error')
+          },
+          complete: () => {
+            this.utils.closeLoading();
+            setTimeout(() => {
+              this.getTipoDocumento();
+            }, 300);
+          }
+        });
       }
     });
   }
@@ -129,9 +122,9 @@ export class TipoDocumentoDashboardComponent {
       data: {
         title: `Ver Documento`,
         id: tipoDocumento.id,
-        tipo: tipoDocumento.tipo,
-        abreviatura: tipoDocumento.abreviatura,
-        cuit: tipoDocumento.cuit,
+        tipo: tipoDocumento.descripcion,
+        abreviatura: tipoDocumento.descripcion_reducida,
+        cuit: tipoDocumento.control_cuit,
         edit: false
       }
     });
@@ -141,8 +134,8 @@ export class TipoDocumentoDashboardComponent {
   public deleteDocType(tipoDoc: TipoDocumento): void {
     const modalConfirm = this.dialog.open(ConfirmDialogComponent, {
       data: {
-        title: `Eliminar Tipo de Documento`,
-        message: `¿Está seguro de eliminar el tipo de documento ${tipoDoc.tipo}?`
+        title: `Eliminar Documento`,
+        message: `¿Está seguro de eliminar el documento ${tipoDoc.descripcion}?`
       }
     });
 
@@ -151,11 +144,11 @@ export class TipoDocumentoDashboardComponent {
         if (res) {
           this.parametrosService.deleteParametro(tipoDoc.id).subscribe({
             next: (res: any) => {
-              this.utils.notification("El tipo de documento se ha borrado exitosamente", 'success')
+              this.utils.notification("El Documento se ha borrado exitosamente", 'success')
               this.getTipoDocumento();
             },
             error: (err) => {
-              this.utils.notification(`Error al borrar tipo de documento: ${err.message}`, 'error')
+              this.utils.notification(`Error al borrar Documento: ${err.message}`, 'error')
             }
           });
         }
@@ -165,7 +158,8 @@ export class TipoDocumentoDashboardComponent {
 
   public filter(text: any):void {
     this.searchText = text;
-    this.getTipoDocumento()
+    (this.searchText != "")
+      ? this.getTipoDocumento()
+      : this.dataSource.data = [] 
   }
-
 }

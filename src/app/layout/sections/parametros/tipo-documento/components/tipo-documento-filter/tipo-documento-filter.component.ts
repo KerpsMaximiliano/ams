@@ -20,9 +20,13 @@ export class TipoDocumentoFilterComponent {
     this.searchEvent.emit(this.descripcion.value)
   }
 
+  public searchKeyUp(e:any){
+    e.preventDefault();
+    this.searchEvent.emit(this.descripcion.value)
+  }
+
   public clearInputs(){
     this.descripcion.setValue("");
     this.search();
   }
-
 }

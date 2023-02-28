@@ -1,6 +1,7 @@
 export interface TipoDocumento {
     id: number;
-    tipo: string;
-    abreviatura: string;
-    cuit: string;
+    descripcion: string;
+    descripcion_reducida: string;
+    control_cuit: string;
+    tipo_de_documento: number
 }

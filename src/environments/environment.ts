@@ -6,7 +6,7 @@ import { IEnvironment } from "src/app/core/models/environment";
 
 export const environment: IEnvironment = {
   production: false,
-  api: "http://devplanesapisvc.ams.red/api",
+  api: "http://localhost:8080/api",
   baseUrlKeycloak: "http://172.22.111.117:8080",
 };
 
