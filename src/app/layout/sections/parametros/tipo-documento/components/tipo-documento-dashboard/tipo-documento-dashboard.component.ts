@@ -127,7 +127,7 @@ export class TipoDocumentoDashboardComponent {
   public viewDocType(tipoDocumento: TipoDocumento): void {
     this.dialog.open(AddEditTipoDocumentoDialogComponent, {
       data: {
-        title: `Ver Parametro`,
+        title: `Ver Documento`,
         id: tipoDocumento.id,
         tipo: tipoDocumento.tipo,
         abreviatura: tipoDocumento.abreviatura,
