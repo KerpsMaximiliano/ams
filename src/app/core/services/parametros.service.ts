@@ -25,18 +25,18 @@ export class ParametrosService {
     return this.http.post<TipoDocumento[]>(`${this.environmentService.api}/tipodedocumento`, body, httpOptions)
   }
 
-  // public getParametros(pageNumber:number, pageSize:number, description?:string) {
-  //   let queryParams = new HttpParams();
-  //   queryParams = queryParams.append('page', pageNumber);
-  //   queryParams = queryParams.append('size', pageSize);
-  //   if (description) {
-  //     queryParams = queryParams.append('descripcion', description);
-  //   }
+  public getParametros(pageNumber:number, pageSize:number, description?:string) {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append('page', pageNumber);
+    queryParams = queryParams.append('size', pageSize);
+    if (description) {
+      queryParams = queryParams.append('descripcion', description);
+    }
 
-  //   return this.http.get(`${this.environmentService.api}/parametros`, { params: queryParams})
-  // }
+    return this.http.get(`${this.environmentService.api}/parametros`, { params: queryParams})
+  }
 
-  public deleteParametro(id:number){
+  public deleteParametro(id:number|string){
     return this.http.delete(`${this.environmentService.api}/parametros/${id}`);
   }
 

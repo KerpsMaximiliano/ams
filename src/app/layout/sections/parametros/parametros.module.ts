@@ -6,14 +6,21 @@ import { AddEditTipoDocumentoDialogComponent } from './tipo-documento/components
 import { TipoDocumentoDashboardComponent } from './tipo-documento/components/tipo-documento-dashboard/tipo-documento-dashboard.component';
 import { TipoDocumentoFilterComponent } from './tipo-documento/components/tipo-documento-filter/tipo-documento-filter.component';
 import { TipoDocumentoComponent } from './tipo-documento/tipo-documento.component';
-
+import { EditTipoNacionalidadDialogComponent } from './tipo-nacionalidad/components/edit-tipo-nacionalidad-dialog/edit-tipo-nacionalidad-dialog.component';
+import { TipoNacionalidadComponent } from './tipo-nacionalidad/tipo-nacionalidad.component';
+import { TipoNacionalidadFilterComponent } from './tipo-nacionalidad/components/tipo-nacionalidad-filter/tipo-nacionalidad-filter.component';
+import { TipoNacionalidadDashboardComponent } from './tipo-nacionalidad/components/tipo-nacionalidad-dashboard/tipo-nacionalidad-dashboard.component'; 
 
 @NgModule({
   declarations: [
     TipoDocumentoComponent,
     TipoDocumentoFilterComponent,
     TipoDocumentoDashboardComponent,
-    AddEditTipoDocumentoDialogComponent
+    AddEditTipoDocumentoDialogComponent,
+    TipoNacionalidadComponent,
+    TipoNacionalidadFilterComponent,
+    TipoNacionalidadDashboardComponent,
+    EditTipoNacionalidadDialogComponent,
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,16 @@
+<section class="browse-section">
+
+    <div class="section-header">
+        <h2>Tipos de Nacionalidad</h2>
+        <button class="new-button icon-button" (click)="nuevaNacionalidad()">
+            <mat-icon>add</mat-icon>
+            Nuevo
+        </button>
+    </div>
+
+    <div class="section-content">
+        <app-tipo-nacionalidad-filter (searchEvent)="handleSearch($event)">
+        </app-tipo-nacionalidad-filter>
+        <app-tipo-nacionalidad-dashboard></app-tipo-nacionalidad-dashboard>
+    </div>
+</section>
