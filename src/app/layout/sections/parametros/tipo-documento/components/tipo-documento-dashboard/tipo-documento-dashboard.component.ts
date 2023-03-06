@@ -6,9 +6,9 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
 import { TipoDocumento } from 'src/app/core/models/tipo-documento';
-import { ParametrosService } from 'src/app/core/services/parametros.service';
 import { UtilService } from 'src/app/core/services/util.service';
 import { AddEditTipoDocumentoDialogComponent } from '../add-edit-tipo-documento-dialog/add-edit-tipo-documento-dialog.component';
+import { TipoDocumentoService } from 'src/app/core/services/tipo-documento.service';
 
 @Component({
   selector: 'app-tipo-documento-dashboard',
@@ -33,9 +33,9 @@ export class TipoDocumentoDashboardComponent {
 
   public searchText: string = "";
 
-  public states: TipoDocumento[] = [];
+  public documents: TipoDocumento[] = [];
 
-  constructor(private parametrosService: ParametrosService,
+  constructor(private parametrosService: TipoDocumentoService,
               private utils: UtilService,
               private _liveAnnouncer: LiveAnnouncer,
               private cdr: ChangeDetectorRef,
@@ -51,11 +51,11 @@ export class TipoDocumentoDashboardComponent {
       descripcion: this.searchText
     }
     let body = JSON.stringify(aux)
-    this.parametrosService.getParamByDesc(body).subscribe({
+    this.parametrosService.getDocumentByDesc(body).subscribe({
       next:(res:any) => {
         console.log (res)
-        this.states = res as TipoDocumento[];
-        this.dataSource = new MatTableDataSource<TipoDocumento>(this.states);
+        this.documents = res.dataset as TipoDocumento[];
+        this.dataSource = new MatTableDataSource<TipoDocumento>(this.documents);
         this.dataSource.sort = this.sort;
         setTimeout(() => {
           this.dataSource.paginator = this.paginator;
@@ -65,9 +65,12 @@ export class TipoDocumentoDashboardComponent {
         }, 100)
       },
       error:(err: any) => {
+        console.log(err)
         this.utils.closeLoading();
-        this.utils.notification(`Error al obtener parametros: ${err.message}`, 'error')
-      },
+        (err.status == 0)
+          ? this.utils.notification('Error de conexion', 'error') 
+          : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')
+        },
       complete: () => {
         this.utils.closeLoading();
       }
@@ -99,13 +102,15 @@ export class TipoDocumentoDashboardComponent {
       next:(res) => {
         if (res) {
           this.utils.openLoading();
-          this.parametrosService.editParametro(res).subscribe({
+          this.parametrosService.editDocument(res).subscribe({
             next: () => {
               this.utils.notification("El Documento se ha editado extiosamente", 'success')
             },
             error: (err) => {
               this.utils.closeLoading();
-              this.utils.notification(`Error al editar el Documento: ${err.error.message}`, 'error')
+              (err.status == 0)
+                ? this.utils.notification('Error de conexion', 'error') 
+                : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')
               this.editDocType(res)
             },
             complete: () => {
@@ -145,14 +150,15 @@ export class TipoDocumentoDashboardComponent {
     modalConfirm.afterClosed().subscribe({
       next:(res) => {
         if (res) {
-          this.parametrosService.deleteParametro(tipoDoc.id).subscribe({
+          this.parametrosService.deleteParametro(res.id).subscribe({
             next: (res: any) => {
               this.utils.notification("El Documento se ha borrado exitosamente", 'success')
               this.getTipoDocumento();
             },
             error: (err) => {
-              this.utils.notification(`Error al borrar Documento: ${err.message}`, 'error')
-            }
+              (err.status == 0)
+              ? this.utils.notification('Error de conexion', 'error') 
+              : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')            }
           });
         }
       }
