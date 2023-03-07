@@ -3,31 +3,55 @@
 </div>
 <div class="dialog-content">
     <form class="form-datos" [formGroup]="formGroup" (ngSubmit)="confirm()">
-    <div class="seeker-fields-container">
-        <h3>Nacionalidad</h3>
-        <mat-form-field class="seeker-form-field" appearance="outline">
-            <input matInput formControlName="Nacionalidad" required maxlength="20" minlength="3" [readonly]="!data.edit">
-            <mat-error *ngIf="formGroup.get('Nacionalidad')?.invalid && formGroup.get('Nacionalidad')?.touched">{{getErrorMessage(formGroup.get('Nacionalidad'))}}</mat-error>
-        </mat-form-field>
-    </div>
-    <div class="seeker-fields-container">
-        <h3>Nacionalidad anterior</h3>
-        <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="NacionalidadAnterior" required maxlength="3" minlength="1" [readonly]="!data.edit">
-          <mat-error *ngIf="formGroup.get('NacionalidadAnterior')?.invalid && formGroup.get('NacionalidadAnterior')?.touched">{{getErrorMessage(formGroup.get('NacionalidadAnterior'))}}</mat-error>
-        </mat-form-field>
-    </div>
-    <div class="buttons-container">
-        <button class="primary-button icon-button" type="button" (click)="closeDialog()">
-        <mat-icon>close</mat-icon>
-        Cancelar
-        </button>
-        <button class="primary-button icon-button" type="submit" [disabled]="formGroup.invalid">
-        <mat-icon>done</mat-icon>
-        Guardar
-        </button>
-    </div>
-
+        <div class="seeker-fields-container">
+            <h3>Codigo</h3>
+            <mat-form-field class="seeker-form-field" appearance="outline">
+                <input matInput formControlName="codigo_nacionalidad"
+                    required maxlength="3"
+                    minlength="1"
+                    [readonly]="!data.edit">
+                <mat-error *ngIf="formGroup.get('codigo_nacionalidad')?.invalid
+                    && formGroup.get('codigo_nacionalidad')?.touched">
+                        {{getErrorMessage(formGroup.get('codigo_nacionalidad'))}}
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <div class="seeker-fields-container">
+            <h3>Nacionalidad</h3>
+            <mat-form-field class="seeker-form-field" appearance="outline">
+                <input matInput formControlName="descripcion"
+                    required maxlength="20"
+                    minlength="3"
+                    [readonly]="!data.edit">
+                <mat-error *ngIf="formGroup.get('descripcion')?.invalid
+                    && formGroup.get('descripcion')?.touched">
+                        {{getErrorMessage(formGroup.get('descripcion'))}}
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <div class="seeker-fields-container">
+            <h3>Nacionalidad anterior</h3>
+            <mat-form-field class="seeker-form-field" appearance="outline">
+            <input matInput formControlName="codigo_sistema_anterior"
+                required maxlength="3"
+                minlength="1"
+                [readonly]="!data.edit">
+            <mat-error *ngIf="formGroup.get('codigo_sistema_anterior')?.invalid
+                && formGroup.get('codigo_sistema_anterior')?.touched">
+                    {{getErrorMessage(formGroup.get('codigo_sistema_anterior'))}}
+            </mat-error>
+            </mat-form-field>
+        </div>
+        <div class="buttons-container">
+            <button class="primary-button icon-button"type="button" (click)="closeDialog()">
+            <mat-icon>close</mat-icon>
+                Cancelar
+            </button>
+            <button class="primary-button icon-button" type="submit"
+                [disabled]="formGroup.invalid">
+            <mat-icon>done</mat-icon>
+                Guardar
+            </button>
+        </div>
     </form>
-
 </div>

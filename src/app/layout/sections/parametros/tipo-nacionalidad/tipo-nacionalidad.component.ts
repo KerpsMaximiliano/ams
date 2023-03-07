@@ -1,9 +1,9 @@
 import { MatDialog } from '@angular/material/dialog';
 import { Component, ViewChild } from '@angular/core';
-import { ParametrosService } from 'src/app/core/services/parametros.service';
 import { UtilService } from 'src/app/core/services/util.service';
 import { TipoNacionalidadDashboardComponent } from './components/tipo-nacionalidad-dashboard/tipo-nacionalidad-dashboard.component'; 
 import { EditTipoNacionalidadDialogComponent } from './components/edit-tipo-nacionalidad-dialog/edit-tipo-nacionalidad-dialog.component'; 
+import { EstadosService } from 'src/app/core/services/estados.service';
 
 @Component({
   selector: 'app-tipo-nacionalidad',
@@ -14,7 +14,7 @@ export class TipoNacionalidadComponent {
 
   @ViewChild(TipoNacionalidadDashboardComponent) dashboard: TipoNacionalidadDashboardComponent;
 
-  constructor(private parametrosService: ParametrosService,
+  constructor(private estados: EstadosService,
               private utils: UtilService,
               private dialog: MatDialog) {}
 
@@ -37,7 +37,7 @@ export class TipoNacionalidadComponent {
       next:(res) => {
         if (res && res.length > 0) {
           this.utils.openLoading();
-          this.parametrosService.addParametro(res).subscribe({
+          this.estados.addEstado(res).subscribe({
             next: (res: any) => {
               this.utils.notification("El Tipo de Nacionalidad se ha creado exitosamente", 'success')
             },

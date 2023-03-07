@@ -17,31 +17,40 @@ export class EditTipoNacionalidadDialogComponent {
               @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit(): void {
+    
     this.setUpForm();
+    console.log(this.formGroup);
 
-    if (this.data.id) this.setFormValues();
+    if (this.data.codigo_nacionalidad) this.setFormValues();
   }
 
   private setUpForm():void {
     this.formGroup = new UntypedFormGroup({
-      Nacionalidad: new UntypedFormControl(''//, Validators.compose([
-      //   Validators.required,
-      //   Validators.minLength(3),
-      //   Validators.maxLength(20),
-      // ])
+      par_modo: new UntypedFormControl(''),
+      id_tabla: new UntypedFormControl(''),
+      codigo_nacionalidad: new UntypedFormControl('',Validators.compose([
+        Validators.maxLength(3)
+      ])
+    ),
+      descripcion: new UntypedFormControl('', Validators.compose([
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(20),
+        ])
       ),
-      NacionalidadAnterior: new UntypedFormControl(''//, Validators.compose([
-      //   Validators.required,
-      //   Validators.minLength(1),
-      //   Validators.maxLength(3),
-      // ])
+      codigo_sistema_anterior: new UntypedFormControl('', Validators.compose([
+          Validators.maxLength(3)
+        ])
       ),
     })
   }
 
   private setFormValues() {
-    this.formGroup.get('Nacionalidad')?.setValue(this.data.nacionalidad);
-    this.formGroup.get('NacionalidadAnterior')?.setValue(this.data.nacionalidadAnterior);
+    this.formGroup.get('par_modo')?.setValue('U');
+    this.formGroup.get('id_tabla')?.setValue(this.data.id_tabla);
+    this.formGroup.get('codigo_nacionalidad')?.setValue(this.data.codigo_nacionalidad);
+    this.formGroup.get('descripcion')?.setValue(this.data.descripcion);
+    this.formGroup.get('codigo_sistema_anterior')?.setValue(this.data.codigo_sistema_anterior);
   }
 
   closeDialog(): void {
@@ -51,11 +60,13 @@ export class EditTipoNacionalidadDialogComponent {
   public confirm(): void{
     this.formGroup.markAllAsTouched();
     if (this.formGroup.valid) {
-      this.data.id ? this.dialogRef.close({id: this.data.id
-                  , Nacionalidad: this.formGroup.get('Nacionalidad')?.value
-                  , NacionalidadAnterior: this.formGroup.get('NacionalidadAnterior')?.value})
-                  : this.dialogRef.close(this.formGroup.get('Nacionalidad')?.value)
-                  , this.dialogRef.close(this.formGroup.get('NacionalidadAnterior')?.value);
+      this.data.codigo_nacionalidad ? this.dialogRef.close({
+          par_modo: this.formGroup.get('par_modo')?.value,
+          id_tabla: this.formGroup.get('id_tabla')?.value,
+          codigo_nacionalidad: this.formGroup.get('codigo_nacionalidad')?.value,
+          descripcion: this.formGroup.get('descripcion')?.value,
+          codigo_sistema_anterior: this.formGroup.get('codigo_sistema_anterior')?.value})
+        : this.dialogRef.close(this.formGroup.get('descripcion')?.value);
     }
   }
 

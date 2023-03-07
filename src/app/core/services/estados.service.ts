@@ -1,9 +1,13 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Estado } from '../models/estado';
+import { TipoNacionalidad } from '../models/tipo-nacionalidad';
 import { EnvironmentService } from './environment.service';
 
+const httpOptions = {
+  headers: new HttpHeaders({'Content-Type': 'application/json'})
+}
 @Injectable({
   providedIn: 'root'
 })
@@ -12,9 +16,13 @@ export class EstadosService {
   constructor(private http:HttpClient,
     private environmentService: EnvironmentService) { }
 
-  public getAllEstados() {
-    return this.http.get(environment.api + '/estados/obtenerTodos')
-  }
+    getParamByDesc(body:string): Observable<TipoNacionalidad[]> {    
+      return this.http.post<TipoNacionalidad[]>(`${this.environmentService.api}/nacionalidades`, body, httpOptions)
+    }
+  
+    getParamById(body:string): Observable<TipoNacionalidad[]> {    
+      return this.http.post<TipoNacionalidad[]>(`${this.environmentService.api}/nacionalidad`, body, httpOptions)
+    }
 
   public getEstados(pageNumber:number, pageSize:number, description?:string) {
     let queryParams = new HttpParams();
@@ -32,10 +40,12 @@ export class EstadosService {
   }
 
   public addEstado(description:string){
-    return this.http.post(`${this.environmentService.api}/estados`, {descripcion: description});
+    return this.http.post(`${this.environmentService.api}/abmnacionalidades`, {descripcion: description});
   }
 
-  public editEstado(state:Estado) {
-    return this.http.put(`${this.environmentService.api}/estados/${state.id}`, {descripcion: state.descripcion});
+  public editEstado(state:TipoNacionalidad): Observable<TipoNacionalidad> {
+    let body = JSON.stringify(state);
+    console.log(body);
+    return this.http.post<TipoNacionalidad>(`${this.environmentService.api}/abmnacionalidades`, body, httpOptions);
   }
 }
