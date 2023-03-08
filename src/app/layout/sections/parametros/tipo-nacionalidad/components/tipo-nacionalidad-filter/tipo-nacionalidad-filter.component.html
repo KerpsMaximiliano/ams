@@ -14,7 +14,7 @@
             </mat-form-field>
         </div>
         <div class="buttons-container">
-            <button class="primary-button icon-button" type="button" (click)="search()" [disabled]="descripcion.value == ''">
+            <button class="primary-button icon-button" type="button" (click)="search()" [disabled]="descripcion.value.length < 3">
             <mat-icon>done</mat-icon>
             Buscar</button>
             <button class="primary-button icon-button" type="button" (click)="clearInputs()">

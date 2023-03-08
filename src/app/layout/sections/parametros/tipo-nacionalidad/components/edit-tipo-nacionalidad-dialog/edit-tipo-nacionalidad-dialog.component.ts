@@ -34,7 +34,7 @@ export class EditTipoNacionalidadDialogComponent {
       descripcion: new UntypedFormControl('', Validators.compose([
           Validators.required,
           Validators.minLength(3),
-          Validators.maxLength(20),
+          Validators.maxLength(30),
           isAlphanumericWithSpaces
         ])
       ),

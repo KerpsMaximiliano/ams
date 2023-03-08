@@ -22,7 +22,9 @@ export class TipoDocumentoFilterComponent {
 
   public searchKeyUp(e:any): void {
     e.preventDefault();
-    this.searchEvent.emit(this.descripcion.value)
+    if(this.descripcion.value.length > 2 ) {
+      this.searchEvent.emit(this.descripcion.value)
+    }
   }
 
   public clearInputs(): void {

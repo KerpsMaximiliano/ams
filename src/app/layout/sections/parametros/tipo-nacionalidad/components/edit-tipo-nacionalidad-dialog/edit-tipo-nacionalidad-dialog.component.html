@@ -20,7 +20,7 @@
             <h3>Nacionalidad</h3>
             <mat-form-field class="seeker-form-field" appearance="outline">
                 <input matInput formControlName="descripcion"
-                    required maxlength="20"
+                    required maxlength="30"
                     minlength="3"
                     [readonly]="!data.edit">
                 <mat-error *ngIf="formGroup.get('descripcion')?.invalid
