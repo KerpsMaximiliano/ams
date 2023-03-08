@@ -10,7 +10,7 @@
         <div class="seeker-fields-container">
             <mat-form-field class="seeker-form-field">
             <mat-label class="seeker-label" for="descripcion">Descripción</mat-label>
-            <input  matInput class="seeker-input" [formControl]="descripcion">
+            <input  matInput class="seeker-input" [formControl]="descripcion" (keydown.enter)="searchKeyUp($event)">
             </mat-form-field>
         </div>
         <div class="buttons-container">

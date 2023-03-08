@@ -6,7 +6,7 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
 import { TipoNacionalidad } from 'src/app/core/models/tipo-nacionalidad';
-import { EstadosService } from 'src/app/core/services/estados.service';
+import { NacionalidadService } from 'src/app/core/services/nacionalidad.service';
 import { UtilService } from 'src/app/core/services/util.service';
 import { EditTipoNacionalidadDialogComponent } from '../edit-tipo-nacionalidad-dialog/edit-tipo-nacionalidad-dialog.component'; 
 @Component({
@@ -34,7 +34,7 @@ export class TipoNacionalidadDashboardComponent {
 
   public states: TipoNacionalidad[] = [];
 
-  constructor(private EstadosService: EstadosService,
+  constructor(private nacionalidadService: NacionalidadService,
               private utils: UtilService,
               private _liveAnnouncer: LiveAnnouncer,
               private cdr: ChangeDetectorRef,
@@ -50,9 +50,8 @@ export class TipoNacionalidadDashboardComponent {
       descripcion: this.searchText
     }
     let body = JSON.stringify(aux)
-    this.EstadosService.getParamByDesc(body).subscribe({
+    this.nacionalidadService.getParamByDesc(body).subscribe({
       next:(res:any) => {
-        console.log (res)
         this.states = res.dataset as TipoNacionalidad[];
         this.dataSource = new MatTableDataSource<TipoNacionalidad>(this.states);
         this.dataSource.sort = this.sort;
@@ -65,7 +64,9 @@ export class TipoNacionalidadDashboardComponent {
       },
       error:(err: any) => {
         this.utils.closeLoading();
-        this.utils.notification(`Error al obtener Estados: ${err.message}`, 'error')
+        (err.status == 0)
+          ? this.utils.notification('Error de conexion', 'error') 
+          : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')
       },
       complete: () => {
         this.utils.closeLoading();
@@ -81,39 +82,42 @@ export class TipoNacionalidadDashboardComponent {
     }
   }
 
-  public editDocType(TipoNacionalidad: TipoNacionalidad): void {
+  public editDocType(tipoNacionalidad: TipoNacionalidad): void {
     const modalNuevoTipoNacionalidad = this.dialog.open(EditTipoNacionalidadDialogComponent, {
       data: {
         title: `Editar Nacionalidad`,
         par_modo: "U",
         id_tabla: 3,
-        codigo_nacionalidad: TipoNacionalidad.codigo_nacionalidad,
-        descripcion: TipoNacionalidad.descripcion,
-        codigo_sistema_anterior: TipoNacionalidad.codigo_sistema_anterior,
+        codigo_nacionalidad: tipoNacionalidad.codigo_nacionalidad,
+        descripcion: tipoNacionalidad.descripcion,
+        codigo_sistema_anterior: tipoNacionalidad.codigo_sistema_anterior,
         edit: true
       }
     });
 
     modalNuevoTipoNacionalidad.afterClosed().subscribe({
       next:(res) => {
-        this.utils.openLoading();
-        this.EstadosService.editEstado(res).subscribe({
-          next: () => {
-            this.utils.notification("La Nacionalidad se ha editado extiosamente", 'success')
-          },
-          error: (err) => {
-            this.utils.closeLoading();
-            console.log(err.error);
-            
-            this.utils.notification(`Error al editar la Nacionalidad: ${err.error.message}`, 'error')
-          },
-          complete: () => {
-            this.utils.closeLoading();
-            setTimeout(() => {
-              this.getTipoNacionalidad();
-            }, 300);
-          }
-        });
+        if (res) {
+          this.utils.openLoading();
+          this.nacionalidadService.editNacionalidad(res).subscribe({
+            next: () => {
+              this.utils.notification("La Nacionalidad se ha editado extiosamente", 'success')
+            },
+            error: (err) => {
+              this.utils.closeLoading();
+              (err.status == 0)
+                ? this.utils.notification('Error de conexion', 'error') 
+                : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')
+              this.editDocType(res)
+            },
+            complete: () => {
+              this.utils.closeLoading();
+              setTimeout(() => {
+                this.getTipoNacionalidad();
+              }, 300);
+            }
+          });
+        }
       }
     });
   }
@@ -121,8 +125,7 @@ export class TipoNacionalidadDashboardComponent {
   public viewDocType(TipoNacionalidad: TipoNacionalidad): void {
     this.dialog.open(EditTipoNacionalidadDialogComponent, {
       data: {
-        title: `Ver Documento`,
-        par_modo: "U",
+        title: `Ver Nacionalidad`,
         id_tabla: 3,
         codigo_nacionalidad: TipoNacionalidad.codigo_nacionalidad,
         descripcion: TipoNacionalidad.descripcion,
@@ -144,7 +147,7 @@ export class TipoNacionalidadDashboardComponent {
     modalConfirm.afterClosed().subscribe({
       next:(res) => {
         if (res) {
-          this.EstadosService.deleteEstado(tipoNac.codigo_nacionalidad).subscribe({
+          this.nacionalidadService.deleteEstado(tipoNac.codigo_nacionalidad).subscribe({
             next: (res: any) => {
               this.utils.notification("El Documento se ha borrado exitosamente", 'success')
               this.getTipoNacionalidad();

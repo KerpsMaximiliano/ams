@@ -24,4 +24,9 @@ export class TipoNacionalidadFilterComponent {
     this.descripcion.setValue("");
     this.search();
   }
+
+  public searchKeyUp(e:any): void {
+    e.preventDefault();
+    this.searchEvent.emit(this.descripcion.value)
+  }
 }

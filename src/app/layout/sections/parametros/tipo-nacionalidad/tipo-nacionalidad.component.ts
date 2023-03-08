@@ -3,7 +3,8 @@ import { Component, ViewChild } from '@angular/core';
 import { UtilService } from 'src/app/core/services/util.service';
 import { TipoNacionalidadDashboardComponent } from './components/tipo-nacionalidad-dashboard/tipo-nacionalidad-dashboard.component'; 
 import { EditTipoNacionalidadDialogComponent } from './components/edit-tipo-nacionalidad-dialog/edit-tipo-nacionalidad-dialog.component'; 
-import { EstadosService } from 'src/app/core/services/estados.service';
+import { NacionalidadService } from 'src/app/core/services/nacionalidad.service';
+import { TipoNacionalidad } from 'src/app/core/models/tipo-nacionalidad';
 
 @Component({
   selector: 'app-tipo-nacionalidad',
@@ -14,7 +15,7 @@ export class TipoNacionalidadComponent {
 
   @ViewChild(TipoNacionalidadDashboardComponent) dashboard: TipoNacionalidadDashboardComponent;
 
-  constructor(private estados: EstadosService,
+  constructor(private nacionalidadService: NacionalidadService,
               private utils: UtilService,
               private dialog: MatDialog) {}
 
@@ -25,25 +26,33 @@ export class TipoNacionalidadComponent {
     this.dashboard.filter(inputValue);
   }
 
-  public nuevaNacionalidad(): void {
+  public nuevaNacionalidad(tipoNacionalidad?:TipoNacionalidad): void {
     const modalNuevoTipoNacionalidad = this.dialog.open(EditTipoNacionalidadDialogComponent, {
       data: {
         title: `Nuevo Tipo de Nacionalidad`,
-        edit: true
+        edit: true,
+        id_tabla: 3,
+        codigo_nacionalidad: tipoNacionalidad?.codigo_nacionalidad,
+        descripcion: tipoNacionalidad?.descripcion,
+        codigo_sistema_anterior: tipoNacionalidad?.codigo_sistema_anterior,
       }
     });
 
     modalNuevoTipoNacionalidad.afterClosed().subscribe({
       next:(res) => {
-        if (res && res.length > 0) {
+        if (res) {
           this.utils.openLoading();
-          this.estados.addEstado(res).subscribe({
+          this.nacionalidadService.addNacionalidad(res).subscribe({
             next: (res: any) => {
               this.utils.notification("El Tipo de Nacionalidad se ha creado exitosamente", 'success')
             },
             error: (err) => {
               this.utils.closeLoading();
-              this.utils.notification(`Error al crear Tipo de Nacionalidad: ${err.error.message}`, 'error')
+              console.log(err);
+              (err.status == 0)
+                ? this.utils.notification('Error de conexion', 'error') 
+                : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')
+              this.nuevaNacionalidad(res);
             },
             complete: () => {
               this.utils.closeLoading();

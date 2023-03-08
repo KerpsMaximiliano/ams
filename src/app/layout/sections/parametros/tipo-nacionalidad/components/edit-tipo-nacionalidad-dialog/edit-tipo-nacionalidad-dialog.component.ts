@@ -1,4 +1,4 @@
-import { Component, Inject, Input } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { isAlphanumericWithSpaces } from 'src/app/core/validators/character.validator';
@@ -19,35 +19,35 @@ export class EditTipoNacionalidadDialogComponent {
   ngOnInit(): void {
     
     this.setUpForm();
-    console.log(this.formGroup);
 
     if (this.data.codigo_nacionalidad) this.setFormValues();
   }
 
-  private setUpForm():void {
+  private setUpForm(): void {
     this.formGroup = new UntypedFormGroup({
-      par_modo: new UntypedFormControl(''),
-      id_tabla: new UntypedFormControl(''),
       codigo_nacionalidad: new UntypedFormControl('',Validators.compose([
-        Validators.maxLength(3)
+        Validators.maxLength(3),
+        Validators.minLength(1),
+        Validators.pattern("^[0-9]*$"),
       ])
     ),
       descripcion: new UntypedFormControl('', Validators.compose([
           Validators.required,
           Validators.minLength(3),
           Validators.maxLength(20),
+          isAlphanumericWithSpaces
         ])
       ),
       codigo_sistema_anterior: new UntypedFormControl('', Validators.compose([
-          Validators.maxLength(3)
+        Validators.maxLength(3),
+        Validators.minLength(1),
+        Validators.pattern("^[0-9]*$"),
         ])
       ),
     })
   }
 
-  private setFormValues() {
-    this.formGroup.get('par_modo')?.setValue('U');
-    this.formGroup.get('id_tabla')?.setValue(this.data.id_tabla);
+  private setFormValues(): void {
     this.formGroup.get('codigo_nacionalidad')?.setValue(this.data.codigo_nacionalidad);
     this.formGroup.get('descripcion')?.setValue(this.data.descripcion);
     this.formGroup.get('codigo_sistema_anterior')?.setValue(this.data.codigo_sistema_anterior);
@@ -57,16 +57,24 @@ export class EditTipoNacionalidadDialogComponent {
     this.dialogRef.close(false);
   }
 
-  public confirm(): void{
+  public confirm(): void {
     this.formGroup.markAllAsTouched();
     if (this.formGroup.valid) {
-      this.data.codigo_nacionalidad ? this.dialogRef.close({
-          par_modo: this.formGroup.get('par_modo')?.value,
-          id_tabla: this.formGroup.get('id_tabla')?.value,
+      this.data.codigo_nacionalidad 
+        ? this.dialogRef.close({
+            par_modo: 'U',
+            id_tabla: 3,
+            codigo_nacionalidad: this.formGroup.get('codigo_nacionalidad')?.value,
+            descripcion: this.formGroup.get('descripcion')?.value,
+            codigo_sistema_anterior: this.formGroup.get('codigo_sistema_anterior')?.value
+        })
+        : this.dialogRef.close({
+          par_modo: 'I',
+          id_tabla: 3,
           codigo_nacionalidad: this.formGroup.get('codigo_nacionalidad')?.value,
           descripcion: this.formGroup.get('descripcion')?.value,
-          codigo_sistema_anterior: this.formGroup.get('codigo_sistema_anterior')?.value})
-        : this.dialogRef.close(this.formGroup.get('descripcion')?.value);
+          codigo_sistema_anterior: this.formGroup.get('codigo_sistema_anterior')?.value
+        });
     }
   }
 
@@ -82,6 +90,9 @@ export class EditTipoNacionalidadDialogComponent {
       }
       if ((control.errors?.['notAlphanumeric'] || control.errors?.['notAlphanumericWithSpaces']) && control.value != '' && control.value != null) {
         return `No puede contener caracteres especiales`
+      }
+      if (control.errors?.['pattern']) {
+        return `No puede contener letras ni caracteres especiales`
       }
     }    
     return '';
