@@ -23,13 +23,13 @@ export class NacionalidadService {
     return this.http.post<TipoNacionalidad[]>(`${this.environmentService.api}/nacionalidad`, body, httpOptions)
   }
 
-  public deleteEstado(id:number){
+  public deleteEstado(id:number) {
     return this.http.delete(`${this.environmentService.api}/estados/${id}`);
   }
 
-  public addNacionalidad(data:TipoNacionalidad){
+  public addNacionalidad(data:TipoNacionalidad): Observable<TipoNacionalidad> {
     let body = JSON.stringify(data);
-    return this.http.post(`${this.environmentService.api}/abmnacionalidades`, body);
+    return this.http.post<TipoNacionalidad>(`${this.environmentService.api}/abmnacionalidades`, body, httpOptions);
   }
 
   public editNacionalidad(data:TipoNacionalidad): Observable<TipoNacionalidad> {

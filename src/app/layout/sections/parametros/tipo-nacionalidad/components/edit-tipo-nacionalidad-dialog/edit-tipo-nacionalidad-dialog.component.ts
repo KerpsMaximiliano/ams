@@ -39,7 +39,7 @@ export class EditTipoNacionalidadDialogComponent {
           isAlphanumericWithSpaces
         ])
       ),
-      codigo_nacionalidad: new UntypedFormControl({value: '', disabled: !this.data.codigo_nacionalidad_nuevo}, Validators.compose([
+      codigo_nacionalidad: new UntypedFormControl({value: '', disabled: !this.data.codigo_nacionalidad_nuevo || this.data.codigo_nacionalidad == 0}, Validators.compose([
         Validators.maxLength(3),
         Validators.minLength(1),
         Validators.pattern("^[0-9]*$"),
@@ -72,8 +72,9 @@ export class EditTipoNacionalidadDialogComponent {
         : this.dialogRef.close({
           par_modo: 'I',
           id_tabla: 3,
-          codigo_nacionalidad_nuevo: this.formGroup.get('codigo_nacionalidad_nuevo')?.value,
+          codigo_nacionalidad_nuevo: +this.formGroup.get('codigo_nacionalidad_nuevo')?.value,
           descripcion: this.formGroup.get('descripcion')?.value,
+          codigo_nacionalidad: this.formGroup.get('codigo_nacionalidad')?.value
         });
     }
   }
