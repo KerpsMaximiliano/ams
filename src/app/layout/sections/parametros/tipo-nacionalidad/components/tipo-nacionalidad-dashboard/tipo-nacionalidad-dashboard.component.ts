@@ -54,7 +54,6 @@ export class TipoNacionalidadDashboardComponent {
       next:(res:any) => {
         this.nacionalidades = res.dataset as TipoNacionalidad[];
         this.dataSource = new MatTableDataSource<TipoNacionalidad>(this.nacionalidades);
-        console.log('nacionalidades',this.nacionalidades)
         this.dataSource.sort = this.sort;
         setTimeout(() => {
           this.dataSource.paginator = this.paginator;
