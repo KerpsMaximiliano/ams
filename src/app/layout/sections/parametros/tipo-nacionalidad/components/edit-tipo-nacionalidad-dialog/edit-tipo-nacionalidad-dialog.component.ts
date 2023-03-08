@@ -19,13 +19,13 @@ export class EditTipoNacionalidadDialogComponent {
   ngOnInit(): void {
     
     this.setUpForm();
-
-    if (this.data.codigo_nacionalidad) this.setFormValues();
+    console.log(this.data.codigo_nacionalidad_nuevo);
+    if (this.data.codigo_nacionalidad_nuevo) this.setFormValues();
   }
 
   private setUpForm(): void {
     this.formGroup = new UntypedFormGroup({
-      codigo_nacionalidad: new UntypedFormControl('',Validators.compose([
+      codigo_nacionalidad_nuevo: new UntypedFormControl('',Validators.compose([
         Validators.maxLength(3),
         Validators.minLength(1),
         Validators.pattern("^[0-9]*$"),
@@ -38,7 +38,7 @@ export class EditTipoNacionalidadDialogComponent {
           isAlphanumericWithSpaces
         ])
       ),
-      codigo_sistema_anterior: new UntypedFormControl('', Validators.compose([
+      codigo_nacionalidad: new UntypedFormControl('', Validators.compose([
         Validators.maxLength(3),
         Validators.minLength(1),
         Validators.pattern("^[0-9]*$"),
@@ -48,9 +48,9 @@ export class EditTipoNacionalidadDialogComponent {
   }
 
   private setFormValues(): void {
-    this.formGroup.get('codigo_nacionalidad')?.setValue(this.data.codigo_nacionalidad);
+    this.formGroup.get('codigo_nacionalidad_nuevo')?.setValue(this.data.codigo_nacionalidad_nuevo);
     this.formGroup.get('descripcion')?.setValue(this.data.descripcion);
-    this.formGroup.get('codigo_sistema_anterior')?.setValue(this.data.codigo_sistema_anterior);
+    this.formGroup.get('codigo_nacionalidad')?.setValue(this.data.codigo_nacionalidad);
   }
 
   closeDialog(): void {
@@ -64,16 +64,16 @@ export class EditTipoNacionalidadDialogComponent {
         ? this.dialogRef.close({
             par_modo: 'U',
             id_tabla: 3,
-            codigo_nacionalidad: this.formGroup.get('codigo_nacionalidad')?.value,
+            codigo_nacionalidad_nuevo: this.formGroup.get('codigo_nacionalidad_nuevo')?.value,
             descripcion: this.formGroup.get('descripcion')?.value,
-            codigo_sistema_anterior: this.formGroup.get('codigo_sistema_anterior')?.value
+            codigo_nacionalidad: this.formGroup.get('codigo_nacionalidad')?.value
         })
         : this.dialogRef.close({
           par_modo: 'I',
           id_tabla: 3,
-          codigo_nacionalidad: this.formGroup.get('codigo_nacionalidad')?.value,
+          codigo_nacionalidad_nuevo: this.formGroup.get('codigo_nacionalidad_nuevo')?.value,
           descripcion: this.formGroup.get('descripcion')?.value,
-          codigo_sistema_anterior: this.formGroup.get('codigo_sistema_anterior')?.value
+          codigo_nacionalidad: this.formGroup.get('codigo_nacionalidad')?.value
         });
     }
   }

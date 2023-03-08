@@ -22,9 +22,9 @@ export class TipoNacionalidadDashboardComponent {
   @ViewChild(MatTable) table!: MatTable<any>;
 
   public displayedColumns: string[] = [
-    'codigo_nacionalidad',
+    'codigo_nacionalidad_nuevo',
     'descripcion',
-    'codigo_sistema_anterior',
+    'codigo_nacionalidad',
     'actions'
   ];
 
@@ -32,7 +32,7 @@ export class TipoNacionalidadDashboardComponent {
 
   public searchText: string = "";
 
-  public states: TipoNacionalidad[] = [];
+  public nacionalidades: TipoNacionalidad[] = [];
 
   constructor(private nacionalidadService: NacionalidadService,
               private utils: UtilService,
@@ -52,8 +52,9 @@ export class TipoNacionalidadDashboardComponent {
     let body = JSON.stringify(aux)
     this.nacionalidadService.getParamByDesc(body).subscribe({
       next:(res:any) => {
-        this.states = res.dataset as TipoNacionalidad[];
-        this.dataSource = new MatTableDataSource<TipoNacionalidad>(this.states);
+        this.nacionalidades = res.dataset as TipoNacionalidad[];
+        this.dataSource = new MatTableDataSource<TipoNacionalidad>(this.nacionalidades);
+        console.log('nacionalidades',this.nacionalidades)
         this.dataSource.sort = this.sort;
         setTimeout(() => {
           this.dataSource.paginator = this.paginator;
@@ -82,15 +83,15 @@ export class TipoNacionalidadDashboardComponent {
     }
   }
 
-  public editDocType(tipoNacionalidad: TipoNacionalidad): void {
+  public editNacType(tipoNacionalidad: TipoNacionalidad): void {
     const modalNuevoTipoNacionalidad = this.dialog.open(EditTipoNacionalidadDialogComponent, {
       data: {
         title: `Editar Nacionalidad`,
         par_modo: "U",
         id_tabla: 3,
-        codigo_nacionalidad: tipoNacionalidad.codigo_nacionalidad,
+        codigo_nacionalidad_nuevo: tipoNacionalidad.codigo_nacionalidad_nuevo,
         descripcion: tipoNacionalidad.descripcion,
-        codigo_sistema_anterior: tipoNacionalidad.codigo_sistema_anterior,
+        codigo_nacionalidad: tipoNacionalidad.codigo_nacionalidad,
         edit: true
       }
     });
@@ -108,7 +109,7 @@ export class TipoNacionalidadDashboardComponent {
               (err.status == 0)
                 ? this.utils.notification('Error de conexion', 'error') 
                 : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')
-              this.editDocType(res)
+              this.editNacType(res)
             },
             complete: () => {
               this.utils.closeLoading();
@@ -122,21 +123,21 @@ export class TipoNacionalidadDashboardComponent {
     });
   }
 
-  public viewDocType(TipoNacionalidad: TipoNacionalidad): void {
+  public viewNacType(TipoNacionalidad: TipoNacionalidad): void {
     this.dialog.open(EditTipoNacionalidadDialogComponent, {
       data: {
         title: `Ver Nacionalidad`,
         id_tabla: 3,
-        codigo_nacionalidad: TipoNacionalidad.codigo_nacionalidad,
+        codigo_nacionalidad_nuevo: TipoNacionalidad.codigo_nacionalidad_nuevo,
         descripcion: TipoNacionalidad.descripcion,
-        codigo_sistema_anterior: TipoNacionalidad.codigo_sistema_anterior,
+        codigo_nacionalidad: TipoNacionalidad.codigo_nacionalidad,
         edit: false
       }
     });
   }
 
 
-  public deleteDocType(tipoNac: TipoNacionalidad): void {
+  public deleteNacType(tipoNac: TipoNacionalidad): void {
     const modalConfirm = this.dialog.open(ConfirmDialogComponent, {
       data: {
         title: `Eliminar Documento`,

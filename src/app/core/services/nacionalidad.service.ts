@@ -35,6 +35,7 @@ export class NacionalidadService {
 
   public editNacionalidad(data:TipoNacionalidad): Observable<TipoNacionalidad> {
     let body = JSON.stringify(data);
+    console.log(body)
     return this.http.post<TipoNacionalidad>(`${this.environmentService.api}/abmnacionalidades`, body, httpOptions);
   }
 }

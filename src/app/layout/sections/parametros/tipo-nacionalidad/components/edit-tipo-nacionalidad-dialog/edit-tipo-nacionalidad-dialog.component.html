@@ -6,13 +6,12 @@
         <div class="seeker-fields-container">
             <h3>Codigo</h3>
             <mat-form-field class="seeker-form-field" appearance="outline">
-                <input matInput formControlName="codigo_nacionalidad"
-                    required maxlength="3"
-                    minlength="1"
+                <input matInput formControlName="codigo_nacionalidad_nuevo"
+                    required maxlength="3" minlength="1"
                     [readonly]="!data.edit">
-                <mat-error *ngIf="formGroup.get('codigo_nacionalidad')?.invalid
-                    && formGroup.get('codigo_nacionalidad')?.touched">
-                        {{getErrorMessage(formGroup.get('codigo_nacionalidad'))}}
+                <mat-error *ngIf="formGroup.get('codigo_nacionalidad_nuevo')?.invalid
+                    && formGroup.get('codigo_nacionalidad_nuevo')?.touched">
+                        {{getErrorMessage(formGroup.get('codigo_nacionalidad_nuevo'))}}
                 </mat-error>
             </mat-form-field>
         </div>
@@ -20,8 +19,7 @@
             <h3>Nacionalidad</h3>
             <mat-form-field class="seeker-form-field" appearance="outline">
                 <input matInput formControlName="descripcion"
-                    required maxlength="30"
-                    minlength="3"
+                    required maxlength="30" minlength="3"
                     [readonly]="!data.edit">
                 <mat-error *ngIf="formGroup.get('descripcion')?.invalid
                     && formGroup.get('descripcion')?.touched">
@@ -32,13 +30,12 @@
         <div class="seeker-fields-container">
             <h3>Nacionalidad anterior</h3>
             <mat-form-field class="seeker-form-field" appearance="outline">
-            <input matInput formControlName="codigo_sistema_anterior"
-                required maxlength="3"
-                minlength="1"
+            <input matInput formControlName="codigo_nacionalidad"
+                required maxlength="3" minlength="1"
                 [readonly]="!data.edit">
-            <mat-error *ngIf="formGroup.get('codigo_sistema_anterior')?.invalid
-                && formGroup.get('codigo_sistema_anterior')?.touched">
-                    {{getErrorMessage(formGroup.get('codigo_sistema_anterior'))}}
+            <mat-error *ngIf="formGroup.get('codigo_nacionalidad')?.invalid
+                && formGroup.get('codigo_nacionalidad')?.touched">
+                    {{getErrorMessage(formGroup.get('codigo_nacionalidad'))}}
             </mat-error>
             </mat-form-field>
         </div>
