@@ -1,9 +1,10 @@
 import { MatDialog } from '@angular/material/dialog';
 import { Component, ViewChild } from '@angular/core';
-import { ParametrosService } from 'src/app/core/services/parametros.service';
 import { UtilService } from 'src/app/core/services/util.service';
 import { AddEditTipoDocumentoDialogComponent } from './components/add-edit-tipo-documento-dialog/add-edit-tipo-documento-dialog.component';
 import { TipoDocumentoDashboardComponent } from './components/tipo-documento-dashboard/tipo-documento-dashboard.component';
+import { TipoDocumento } from 'src/app/core/models/tipo-documento';
+import { TipoDocumentoService } from 'src/app/core/services/tipo-documento.service';
 
 @Component({
   selector: 'app-tipo-documento',
@@ -14,7 +15,7 @@ export class TipoDocumentoComponent {
 
   @ViewChild(TipoDocumentoDashboardComponent) dashboard: TipoDocumentoDashboardComponent;
 
-  constructor(private parametrosService: ParametrosService,
+  constructor(private tipoDocumentoService: TipoDocumentoService,
               private utils: UtilService,
               private dialog: MatDialog) {}
 
@@ -25,25 +26,35 @@ export class TipoDocumentoComponent {
     this.dashboard.filter(inputValue);
   }
 
-  public nuevoTipoDocumento(): void {
+  public nuevoTipoDocumento(tipoDocumento?: TipoDocumento): void {
     const modalNuevoTipoDocumento = this.dialog.open(AddEditTipoDocumentoDialogComponent, {
       data: {
+        id: 99,
         title: `Crear Tipo de Documento`,
-        edit: true
+        edit: true,
+        tipo: tipoDocumento?.descripcion,
+        abreviatura: tipoDocumento?.descripcion_reducida,
+        cuit: tipoDocumento?.control_cuit,
+        tipo_documento: tipoDocumento?.tipo_de_documento,
       }
     });
 
     modalNuevoTipoDocumento.afterClosed().subscribe({
       next:(res) => {
-        if (res && res.length > 0) {
+        if (res) {
+          let body = res;
+          delete body['id'];
           this.utils.openLoading();
-          this.parametrosService.addParametro(res).subscribe({
-            next: (res: any) => {
-              this.utils.notification("El Tipo de Documento se ha creado exitosamente", 'success')
+          this.tipoDocumentoService.addDocument(body).subscribe({
+            next: () => {
+              this.utils.notification("El Documento se ha creado exitosamente", 'success')
             },
             error: (err) => {
               this.utils.closeLoading();
-              this.utils.notification(`Error al crear Tipo de Documento: ${err.error.message}`, 'error')
+              (err.status == 0)
+                ? this.utils.notification('Error de conexion', 'error') 
+                : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')
+                this.nuevoTipoDocumento(res)
             },
             complete: () => {
               this.utils.closeLoading();
@@ -56,5 +67,4 @@ export class TipoDocumentoComponent {
       }
     })
   }
-
 }
