@@ -18,7 +18,6 @@ export class AddEditTipoDocumentoDialogComponent {
 
   ngOnInit(): void {
     this.setUpForm();
-
     if (this.data.id) this.setFormValues();
   }
 
@@ -47,7 +46,9 @@ export class AddEditTipoDocumentoDialogComponent {
   private setFormValues(): void {
     this.formGroup.get('tipo')?.setValue(this.data.tipo);
     this.formGroup.get('abreviatura')?.setValue(this.data.abreviatura);
-    this.formGroup.get('cuit')?.setValue(this.data.cuit);
+    (this.data.cuit)
+      ? this.formGroup.get('cuit')?.setValue(this.data.cuit)
+      : this.formGroup.get('cuit')?.setValue('N');
   }
 
   closeDialog(): void {
@@ -57,9 +58,9 @@ export class AddEditTipoDocumentoDialogComponent {
   public confirm(): void {
     this.formGroup.markAllAsTouched();
     if (this.formGroup.valid) {
-      this.data.id 
-        ? this.dialogRef.close({par_modo: 'U', descripcion: this.formGroup.get('tipo')?.value, descripcion_reducida: this.formGroup.get('abreviatura')?.value, control_cuit: this.formGroup.get('cuit')?.value, tipo_de_documento: this.data.tipo_documento})
-        : this.dialogRef.close({par_modo: 'I', descripcion: this.formGroup.get('tipo')?.value, descripcion_reducida: this.formGroup.get('abreviatura')?.value, control_cuit: this.formGroup.get('cuit')?.value, tipo_de_documento: 3});
+      (this.data.id != 99)
+        ? this.dialogRef.close({par_modo: 'U', id: this.data.id, descripcion: this.formGroup.get('tipo')?.value, descripcion_reducida: this.formGroup.get('abreviatura')?.value, control_cuit: this.formGroup.get('cuit')?.value, tipo_de_documento: this.data.tipo_documento})
+        : this.dialogRef.close({par_modo: 'I', id: this.data.id, descripcion: this.formGroup.get('tipo')?.value, descripcion_reducida: this.formGroup.get('abreviatura')?.value, control_cuit: this.formGroup.get('cuit')?.value, tipo_de_documento: 3});
     }
   }
 

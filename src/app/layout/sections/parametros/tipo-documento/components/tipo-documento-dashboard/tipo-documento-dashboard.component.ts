@@ -35,7 +35,7 @@ export class TipoDocumentoDashboardComponent {
 
   public documents: TipoDocumento[] = [];
 
-  constructor(private parametrosService: TipoDocumentoService,
+  constructor(private tipoDocumentoService: TipoDocumentoService,
               private utils: UtilService,
               private _liveAnnouncer: LiveAnnouncer,
               private cdr: ChangeDetectorRef,
@@ -51,9 +51,8 @@ export class TipoDocumentoDashboardComponent {
       descripcion: this.searchText
     }
     let body = JSON.stringify(aux)
-    this.parametrosService.getDocumentByDesc(body).subscribe({
+    this.tipoDocumentoService.getDocumentByDesc(body).subscribe({
       next:(res:any) => {
-        console.log (res)
         this.documents = res.dataset as TipoDocumento[];
         this.dataSource = new MatTableDataSource<TipoDocumento>(this.documents);
         this.dataSource.sort = this.sort;
@@ -65,7 +64,6 @@ export class TipoDocumentoDashboardComponent {
         }, 100)
       },
       error:(err: any) => {
-        console.log(err)
         this.utils.closeLoading();
         (err.status == 0)
           ? this.utils.notification('Error de conexion', 'error') 
@@ -102,7 +100,7 @@ export class TipoDocumentoDashboardComponent {
       next:(res) => {
         if (res) {
           this.utils.openLoading();
-          this.parametrosService.editDocument(res).subscribe({
+          this.tipoDocumentoService.editDocument(res).subscribe({
             next: () => {
               this.utils.notification("El Documento se ha editado extiosamente", 'success')
             },
@@ -150,7 +148,7 @@ export class TipoDocumentoDashboardComponent {
     modalConfirm.afterClosed().subscribe({
       next:(res) => {
         if (res) {
-          this.parametrosService.deleteParametro(res.id).subscribe({
+          this.tipoDocumentoService.deleteParametro(res.id).subscribe({
             next: (res: any) => {
               this.utils.notification("El Documento se ha borrado exitosamente", 'success')
               this.getTipoDocumento();

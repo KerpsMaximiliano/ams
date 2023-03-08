@@ -24,13 +24,14 @@ export class TipoDocumentoService {
     return this.http.post<TipoDocumentoResponse>(`${this.environmentService.api}/tipodedocumento`, body, httpOptions);
   }
   
-  addDocument(body:string): Observable<TipoDocumento>{
+  addDocument(data:TipoDocumento): Observable<TipoDocumento>{
+    let body = JSON.stringify(data);
     return this.http.post<TipoDocumento>(`${this.environmentService.api}/abmtipodocumento`, body, httpOptions);
   }
 
   editDocument(data:TipoDocumento): Observable<TipoDocumento> {
     let body = JSON.stringify(data);
-    return this.http.put<TipoDocumento>(`${this.environmentService.api}/abmtipodocumento`, body, httpOptions);
+    return this.http.post<TipoDocumento>(`${this.environmentService.api}/abmtipodocumento`, body, httpOptions);
   }
 
   deleteParametro(id:number){

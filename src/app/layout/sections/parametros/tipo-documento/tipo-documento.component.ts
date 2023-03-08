@@ -15,7 +15,7 @@ export class TipoDocumentoComponent {
 
   @ViewChild(TipoDocumentoDashboardComponent) dashboard: TipoDocumentoDashboardComponent;
 
-  constructor(private parametrosService: TipoDocumentoService,
+  constructor(private tipoDocumentoService: TipoDocumentoService,
               private utils: UtilService,
               private dialog: MatDialog) {}
 
@@ -29,6 +29,7 @@ export class TipoDocumentoComponent {
   public nuevoTipoDocumento(tipoDocumento?: TipoDocumento): void {
     const modalNuevoTipoDocumento = this.dialog.open(AddEditTipoDocumentoDialogComponent, {
       data: {
+        id: 99,
         title: `Crear Tipo de Documento`,
         edit: true,
         tipo: tipoDocumento?.descripcion,
@@ -41,8 +42,10 @@ export class TipoDocumentoComponent {
     modalNuevoTipoDocumento.afterClosed().subscribe({
       next:(res) => {
         if (res) {
+          let body = res;
+          delete body['id'];
           this.utils.openLoading();
-          this.parametrosService.addDocument(res).subscribe({
+          this.tipoDocumentoService.addDocument(body).subscribe({
             next: () => {
               this.utils.notification("El Documento se ha creado exitosamente", 'success')
             },
@@ -64,5 +67,4 @@ export class TipoDocumentoComponent {
       }
     })
   }
-
 }
