@@ -26,7 +26,7 @@ export class EditTipoNacionalidadDialogComponent {
 
   private setUpForm(): void {
     this.formGroup = new UntypedFormGroup({
-      codigo_nacionalidad_nuevo: new UntypedFormControl('',Validators.compose([
+      codigo_nacionalidad_nuevo: new UntypedFormControl({value:'', disabled: this.data.codigo_nacionalidad_nuevo},Validators.compose([
         Validators.maxLength(3),
         Validators.minLength(1),
         Validators.pattern("^[0-9]*$"),
