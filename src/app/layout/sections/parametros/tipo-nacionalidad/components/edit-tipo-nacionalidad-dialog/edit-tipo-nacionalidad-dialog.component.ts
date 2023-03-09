@@ -39,7 +39,7 @@ export class EditTipoNacionalidadDialogComponent {
           isAlphanumericWithSpaces
         ])
       ),
-      codigo_nacionalidad: new UntypedFormControl({value: '', disabled: !this.data.codigo_nacionalidad_nuevo || this.data.codigo_nacionalidad == 0}, Validators.compose([
+      codigo_nacionalidad: new UntypedFormControl('', Validators.compose([
         Validators.maxLength(3),
         Validators.minLength(1),
         Validators.pattern("^[0-9]*$"),
