@@ -24,7 +24,7 @@ export class TipoNacionalidadDashboardComponent {
   public displayedColumns: string[] = [
     'codigo_nacionalidad_nuevo',
     'descripcion',
-    'codigo_nacionalidad',
+    'codigo_sistema_anterior',
     'actions'
   ];
 
@@ -90,7 +90,7 @@ export class TipoNacionalidadDashboardComponent {
         id_tabla: 3,
         codigo_nacionalidad_nuevo: tipoNacionalidad.codigo_nacionalidad_nuevo,
         descripcion: tipoNacionalidad.descripcion,
-        codigo_nacionalidad: tipoNacionalidad.codigo_nacionalidad,
+        codigo_sistema_anterior: tipoNacionalidad.codigo_sistema_anterior,
         edit: true
       }
     });
@@ -129,7 +129,7 @@ export class TipoNacionalidadDashboardComponent {
         id_tabla: 3,
         codigo_nacionalidad_nuevo: TipoNacionalidad.codigo_nacionalidad_nuevo,
         descripcion: TipoNacionalidad.descripcion,
-        codigo_nacionalidad: TipoNacionalidad.codigo_nacionalidad,
+        codigo_sistema_anterior: TipoNacionalidad.codigo_sistema_anterior,
         edit: false
       }
     });
@@ -147,7 +147,7 @@ export class TipoNacionalidadDashboardComponent {
     modalConfirm.afterClosed().subscribe({
       next:(res) => {
         if (res) {
-          this.nacionalidadService.deleteEstado(tipoNac.codigo_nacionalidad).subscribe({
+          this.nacionalidadService.deleteEstado(tipoNac.codigo_nacionalidad_nuevo).subscribe({
             next: (res: any) => {
               this.utils.notification("El Documento se ha borrado exitosamente", 'success')
               this.getTipoNacionalidad();

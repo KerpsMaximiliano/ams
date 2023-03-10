@@ -34,7 +34,7 @@ export class TipoNacionalidadComponent {
         id_tabla: 3,
         codigo_nacionalidad_nuevo: tipoNacionalidad?.codigo_nacionalidad_nuevo,
         descripcion: tipoNacionalidad?.descripcion,
-        codigo_nacionalidad: tipoNacionalidad?.codigo_nacionalidad,
+        codigo_sistema_anterior: tipoNacionalidad?.codigo_sistema_anterior,
       }
     });
 
