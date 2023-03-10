@@ -27,7 +27,7 @@ export class EditTipoNacionalidadDialogComponent {
       codigo_nacionalidad_nuevo: new UntypedFormControl({value:'', disabled: this.data.codigo_nacionalidad_nuevo && this.data.title === 'Editar Nacionalidad'},Validators.compose([
         Validators.maxLength(3),
         Validators.minLength(1),
-        Validators.pattern("^[1-9][0-9]*$"),
+        Validators.pattern("^[0-9]*$"),
       ])
     ),
       descripcion: new UntypedFormControl('', Validators.compose([
@@ -40,7 +40,7 @@ export class EditTipoNacionalidadDialogComponent {
       codigo_sistema_anterior: new UntypedFormControl('', Validators.compose([
         Validators.maxLength(3),
         Validators.minLength(1),
-        Validators.pattern("^[1-9][0-9]*$"),
+        Validators.pattern("^[0-9]*$"),
         ])
       ),
     })
@@ -89,7 +89,7 @@ export class EditTipoNacionalidadDialogComponent {
         return `No puede contener caracteres especiales`
       }
       if (control.errors?.['pattern']) {
-        return `No puede contener letras, caracteres especiales ni iniciar con 0`
+        return `No puede contener letras, caracteres especiales`
       }
     }    
     return '';
