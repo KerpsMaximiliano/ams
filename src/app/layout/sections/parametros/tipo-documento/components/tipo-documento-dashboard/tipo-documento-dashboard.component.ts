@@ -23,6 +23,7 @@ export class TipoDocumentoDashboardComponent {
   @ViewChild(MatTable) table!: MatTable<any>;
 
   public displayedColumns: string[] = [
+    'id',
     'tipo-documento',
     'abreviatura',
     'control-cuit',
@@ -32,6 +33,7 @@ export class TipoDocumentoDashboardComponent {
   public dataSource: MatTableDataSource<TipoDocumento>;
 
   public searchText: string = "";
+  public searchId: number = 0;
 
   public documents: TipoDocumento[] = [];
 
@@ -48,7 +50,8 @@ export class TipoDocumentoDashboardComponent {
   private getTipoDocumento(): void {
     this.utils.openLoading();
     let aux = {
-      descripcion: this.searchText
+      descripcion: this.searchText,
+      id: this.searchId
     }
     let body = JSON.stringify(aux)
     this.tipoDocumentoService.getDocumentByDesc(body).subscribe({
@@ -87,7 +90,7 @@ export class TipoDocumentoDashboardComponent {
     const modalNuevoTipoDocumento = this.dialog.open(AddEditTipoDocumentoDialogComponent, {
       data: {
         title: `Editar Documento`,
-        id: tipoDocumento.id,
+        id: tipoDocumento.tipo_de_documento,
         tipo: tipoDocumento.descripcion,
         abreviatura: tipoDocumento.descripcion_reducida,
         cuit: tipoDocumento.control_cuit,
@@ -163,9 +166,10 @@ export class TipoDocumentoDashboardComponent {
     })
   }
 
-  public filter(text: any):void {
-    this.searchText = text;
-    (this.searchText != "")
+  public filter(buscar: any):void {
+    this.searchText = buscar.descripcion;
+    this.searchId = buscar.id;
+    (this.searchText != "" || this.searchId != 0)
       ? this.getTipoDocumento()
       : this.dataSource.data = [] 
   }

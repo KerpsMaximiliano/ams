@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
+import { FormControl, FormGroup, UntypedFormControl } from '@angular/forms';
+import { isNumeric } from 'src/app/core/validators/character.validator';
 
 @Component({
   selector: 'app-tipo-documento-filter',
@@ -8,27 +9,34 @@ import { UntypedFormControl } from '@angular/forms';
 })
 export class TipoDocumentoFilterComponent {
 
-  @Output() searchEvent: EventEmitter<string> = new EventEmitter<string>();
+  @Output() searchEvent: EventEmitter<any> = new EventEmitter<any>();
 
-  public descripcion = new UntypedFormControl('');
+  searching = new FormGroup({
+    "id": new FormControl('',isNumeric),
+    "descripcion": new FormControl('')
+  })
   constructor() { }
   
   ngOnInit(): void {
   }
 
   public search(): void {
-    this.searchEvent.emit(this.descripcion.value)
+    this.searchEvent.emit(this.searching.value)
+  }
+
+  public searchid(e: any){
+    e.preventDefault();
+    this.searchEvent.emit(this.searching.value)
   }
 
   public searchKeyUp(e:any): void {
     e.preventDefault();
-    if(this.descripcion.value.length > 2 ) {
-      this.searchEvent.emit(this.descripcion.value)
-    }
+    this.searchEvent.emit(this.searching.value)
   }
 
-  public clearInputs(): void {
-    this.descripcion.setValue("");
+  public clearInputs(){
+    this.searching.value.id;
+    this.searching.value.descripcion = '';
     this.search();
   }
 }

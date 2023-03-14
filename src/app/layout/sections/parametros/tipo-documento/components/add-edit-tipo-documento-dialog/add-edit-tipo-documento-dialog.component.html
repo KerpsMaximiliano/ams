@@ -5,7 +5,18 @@
 <div class="dialog-content">
 
     <form class="form-datos" [formGroup]="formGroup" (ngSubmit)="confirm()">
-
+      <div class="seeker-fields-container">
+        <h3>Código</h3>
+        <mat-form-field class="seeker-form-field" appearance="outline">
+            <input matInput formControlName="id"
+                required maxlength="2" minlength="1"
+                [readonly]="data.id != 99">
+            <mat-error *ngIf="formGroup.get('id')?.invalid
+                && formGroup.get('id')?.touched">
+                    {{getErrorMessage(formGroup.get('id'))}}
+            </mat-error>
+        </mat-form-field>
+    </div>
       <div class="seeker-fields-container">
         <h3>TIPO DE DOCUMENTO</h3>
         <mat-form-field class="seeker-form-field" appearance="outline">
