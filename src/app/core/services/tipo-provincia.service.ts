@@ -17,7 +17,7 @@ export class ProvinciaService {
 
     getParamByDesc(body:string): Observable<TipoProvincia[]> {  
         console.log(body);
-        return this.http.post<TipoProvincia[]>(`${this.environmentService.api}/provincia`, body, httpOptions)
+        return this.http.post<TipoProvincia[]>(`${this.environmentService.api}/provincias`, body, httpOptions)
     }
 
     getParamById(body:string): Observable<TipoProvincia[]> {    
@@ -31,11 +31,11 @@ export class ProvinciaService {
 
     public addProvincia(data:TipoProvincia): Observable<TipoProvincia> {
         let body = JSON.stringify(data);
-        return this.http.post<TipoProvincia>(`${this.environmentService.api}/abmprovincia`, body, httpOptions);
+        return this.http.post<TipoProvincia>(`${this.environmentService.api}/abmprovincias`, body, httpOptions);
     }
 
     public editProviType(data:TipoProvincia): Observable<TipoProvincia> {
         let body = JSON.stringify(data);
-        return this.http.post<TipoProvincia>(`${this.environmentService.api}/abmprovincia`, body, httpOptions);
+        return this.http.post<TipoProvincia>(`${this.environmentService.api}/abmprovincias`, body, httpOptions);
     }
 }

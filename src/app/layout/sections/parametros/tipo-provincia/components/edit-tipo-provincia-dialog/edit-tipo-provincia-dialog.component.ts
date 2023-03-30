@@ -19,40 +19,41 @@ export class EditTipoProvinciaDialogComponent {
   ngOnInit(): void {
     
     this.setUpForm();
-    if(this.data.Cod_provincia) this.setFormValues()
+    if(this.data.codigo) this.setFormValues()
   }
 
   private setUpForm(): void {
     this.formGroup = new UntypedFormGroup({
-      Cod_provincia: new UntypedFormControl({
-        value:'', disabled: this.data.Cod_provincia
+      codigo: new UntypedFormControl({
+        value:'', disabled: this.data.codigo
         && this.data.title === 'Editar Provincia'},Validators.compose([
         Validators.maxLength(1),
         Validators.minLength(1),
         isAlphanumeric,
       ])
     ),
-      descripcion: new UntypedFormControl('', Validators.compose([
+      nombre_provincia: new UntypedFormControl('', Validators.compose([
           Validators.required,
           Validators.minLength(3),
           Validators.maxLength(30),
           isAlphanumericWithSpaces
         ])
       ),
-      Codifica_Alturas: new UntypedFormControl('', Validators.compose([
-        Validators.maxLength(1),
+      codifica_altura: new UntypedFormControl({value: 'N', disabled: !this.data.edit},
+      Validators.compose([
+        Validators.required,
         Validators.minLength(1),
-        isAlphanumeric,
-        ])
+        Validators.maxLength(2)]
+        )
       ),
-      Codigo_provincia: new UntypedFormControl('', Validators.compose([
+      codigo_provincia: new UntypedFormControl('', Validators.compose([
         Validators.maxLength(2),
         Validators.minLength(2),
         Validators.pattern("^[0-9]*$"),
         isNumeric
         ])
       ),
-      Flete_Transportistas: new UntypedFormControl('', Validators.compose([
+      flete_transportista: new UntypedFormControl('', Validators.compose([
         Validators.maxLength(7),
         Validators.minLength(1),
         Validators.max(999.999),
@@ -63,11 +64,11 @@ export class EditTipoProvinciaDialogComponent {
   }
 
   private setFormValues(): void {
-    this.formGroup.get('Cod_provincia')?.setValue(this.data.Cod_provincia);
-    this.formGroup.get('descripcion')?.setValue(this.data.descripcion);
-    this.formGroup.get('Codifica_Alturas')?.setValue(this.data.Codifica_Alturas);
-    this.formGroup.get('Codigo_provincia')?.setValue(this.data.Codigo_provincia);
-    this.formGroup.get('Flete_Transportistas')?.setValue(this.data.Flete_Transportistas);    
+    this.formGroup.get('codigo')?.setValue(this.data.codigo);
+    this.formGroup.get('nombre_provincia')?.setValue(this.data.nombre_provincia);
+    this.formGroup.get('codifica_altura')?.setValue(this.data.codifica_altura);
+    this.formGroup.get('codigo_provincia')?.setValue(this.data.codigo_provincia);
+    this.formGroup.get('flete_transportista')?.setValue(this.data.flete_transportista);    
   }
 
   closeDialog(): void {
@@ -79,20 +80,20 @@ export class EditTipoProvinciaDialogComponent {
     if (this.formGroup.valid) {
       this.data.codigo_provincia 
         ? this.dialogRef.close({
-            par_modo: 'U',
-            Cod_provincia: this.formGroup.get('Cod_provincia')?.value,
-            descripcion: this.formGroup.get('descripcion')?.value,
-            Codifica_Alturas: this.formGroup.get('Codifica_Alturas')?.value,
-            Codigo_provincia: this.formGroup.get('Codigo_provincia')?.value,
-            Flete_Transportistas: this.formGroup.get('Flete_Transportistas')?.value
+          par_modo: 'U',
+          codigo: this.formGroup.get('codigo')?.value,
+          nombre_provincia: this.formGroup.get('nombre_provincia')?.value,
+          codifica_altura: this.formGroup.get('codifica_altura')?.value,
+          codigo_provincia: this.formGroup.get('codigo_provincia')?.value,
+          flete_transportista: this.formGroup.get('flete_transportista')?.value
         })
         : this.dialogRef.close({
           par_modo: 'I',
-          Cod_provincia: this.formGroup.get('Cod_provincia')?.value,
-          descripcion: this.formGroup.get('descripcion')?.value,
-          Codifica_Alturas: this.formGroup.get('Codifica_Alturas')?.value,
-          Codigo_provincia: this.formGroup.get('Codigo_provincia')?.value,
-          Flete_Transportistas: this.formGroup.get('Flete_Transportistas')?.value
+          codigo: this.formGroup.get('codigo')?.value,
+          nombre_provincia: this.formGroup.get('nombre_provincia')?.value,
+          codifica_altura: this.formGroup.get('codifica_altura')?.value,
+          codigo_provincia: this.formGroup.get('codigo_provincia')?.value,
+          flete_transportista: this.formGroup.get('flete_transportista')?.value
         });
     }
   }

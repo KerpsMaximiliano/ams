@@ -22,11 +22,11 @@ export class TipoProvinciaDashboardComponent {
   @ViewChild(MatTable) table!: MatTable<any>;
 
   public displayedColumns: string[] = [
-    'Cod_provincia',
-    'descripcion',
-    'Codifica_Alturas',
-    'Codigo_provincia',
-    'Flete_Transportistas',
+    'codigo',
+    'nombre_provincia',
+    'codifica_altura',
+    'codigo_provincia',
+    'flete_transportista',
     'actions'
   ];
 
@@ -48,8 +48,8 @@ export class TipoProvinciaDashboardComponent {
   private getTipoProvincia(): void {
     this.utils.openLoading();
     let aux = {
-      descripcion: this.searchText,
-      Cod_provincia: this.searchId
+      nombre_provincia: this.searchText,
+      codigo: this.searchId
     }
     let body = JSON.stringify(aux)
     this.ProvinciaService.getParamByDesc(body).subscribe({
@@ -89,12 +89,12 @@ export class TipoProvinciaDashboardComponent {
       data: {
         title: `Editar Provincia`,
         par_modo: "U",
-        id_tabla: 3,
-        Cod_provincia: tipoProvincia?.Cod_provincia,
-        descripcion: tipoProvincia?.descripcion,
-        Codifica_Alturas: tipoProvincia?.Codifica_Alturas,
-        Codigo_provincia: tipoProvincia?.Codigo_provincia,
-        Flete_Transportistas: tipoProvincia?.Flete_Transportistas,
+        id_tabla: 9,
+        codigo: tipoProvincia?.codigo,
+        nombre_provincia: tipoProvincia?.nombre_provincia,
+        codifica_altura: tipoProvincia?.codifica_altura,
+        codigo_provincia: tipoProvincia?.codigo_provincia,
+        flete_transportista: tipoProvincia?.flete_transportista,
         edit: true
       }
     });
@@ -130,12 +130,12 @@ export class TipoProvinciaDashboardComponent {
     this.dialog.open(EditTipoProvinciaDialogComponent, {
       data: {
         title: `Ver Provincia`,
-        id_tabla: 3,
-        Cod_provincia: tipoProvincia?.Cod_provincia,
-        descripcion: tipoProvincia?.descripcion,
-        Codifica_Alturas: tipoProvincia?.Codifica_Alturas,
-        Codigo_provincia: tipoProvincia?.Codigo_provincia,
-        Flete_Transportistas: tipoProvincia?.Flete_Transportistas,
+        id_tabla: 9,
+        codigo: tipoProvincia?.codigo,
+        nombre_provincia: tipoProvincia?.nombre_provincia,
+        codifica_altura: tipoProvincia?.codifica_altura,
+        codigo_provincia: tipoProvincia?.codigo_provincia,
+        flete_transportista: tipoProvincia?.flete_transportista,
         edit: false
       }
     });
@@ -146,14 +146,14 @@ export class TipoProvinciaDashboardComponent {
     const modalConfirm = this.dialog.open(ConfirmDialogComponent, {
       data: {
         title: `Eliminar Provincia`,
-        message: `¿Está seguro de eliminar el Provincia ${tipoProv.descripcion}?`
+        message: `¿Está seguro de eliminar el Provincia ${tipoProv.nombre_provincia}?`
       }
     });
 
     modalConfirm.afterClosed().subscribe({
       next:(res) => {
         if (res) {
-          this.ProvinciaService.deleteEstado(tipoProv.Cod_provincia).subscribe({
+          this.ProvinciaService.deleteEstado(tipoProv.codigo).subscribe({
             next: (res: any) => {
               this.utils.notification("El Provincia se ha borrado exitosamente", 'success')
               this.getTipoProvincia();
@@ -168,8 +168,8 @@ export class TipoProvinciaDashboardComponent {
   }
 
   public filter(buscar: any):void {
-    this.searchText = buscar.descripcion;
-    this.searchId = buscar.Cod_provincia;
+    this.searchText = buscar.nombre_provincia;
+    this.searchId = buscar.codigo;
     (this.searchText != "" || this.searchId != '')
       ? this.getTipoProvincia()
       : this.dataSource.data = [] 

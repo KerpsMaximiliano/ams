@@ -32,11 +32,11 @@ export class TipoProvinciaComponent {
         title: `Nuevo Tipo de Provincia`,
         edit: true,
         id_tabla: 9,
-        Cod_provincia: tipoProvincia?.Cod_provincia,
-        descripcion: tipoProvincia?.descripcion,
-        Codifica_Alturas: tipoProvincia?.Codifica_Alturas,
-        Codigo_provincia: tipoProvincia?.Codigo_provincia,
-        Flete_Transportistas: tipoProvincia?.Flete_Transportistas
+        codigo: tipoProvincia?.codigo,
+        nombre_provincia: tipoProvincia?.nombre_provincia,
+        codifica_altura: tipoProvincia?.codifica_altura,
+        codigo_provincia: tipoProvincia?.codigo_provincia,
+        flete_transportista: tipoProvincia?.flete_transportista,
       }
     });
 

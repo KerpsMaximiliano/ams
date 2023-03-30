@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { isNumeric } from 'src/app/core/validators/character.validator';
+import { isAlphanumeric, isAlphanumericWithSpaces, isNumeric } from 'src/app/core/validators/character.validator';
 
 @Component({
   selector: 'app-tipo-provincia-filter',
@@ -11,8 +11,8 @@ export class TipoProvinciaFilterComponent {
 
   @Output() searchEvent: EventEmitter<any> = new EventEmitter<any>();
   searching = new FormGroup({
-    "Cod_provincia": new FormControl(''),
-    "descripcion": new FormControl('')
+    "codigo": new FormControl(''),
+    "nombre_provincia": new FormControl('')
   })
 
   constructor() { }
@@ -32,8 +32,8 @@ export class TipoProvinciaFilterComponent {
   }
 
   public clearInputs(){
-    this.searching.value.Cod_provincia;
-    this.searching.value.descripcion = '';
+    this.searching.value.codigo;
+    this.searching.value.nombre_provincia = '';
     this.search();
   }
 

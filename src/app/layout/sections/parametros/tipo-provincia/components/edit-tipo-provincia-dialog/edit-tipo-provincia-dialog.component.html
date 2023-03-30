@@ -6,61 +6,62 @@
         <div class="seeker-fields-container">
             <h3>Código</h3>
             <mat-form-field class="seeker-form-field" appearance="outline">
-                <input matInput formControlName="Cod_provincia"
+                <input matInput formControlName="codigo"
                     required maxlength="1" minlength="1"
                     [readonly]="!data.edit">
-                <mat-error *ngIf="formGroup.get('Cod_provincia')?.invalid
-                    && formGroup.get('Cod_provincia')?.touched">
-                        {{getErrorMessage(formGroup.get('Cod_provincia'))}}
+                <mat-error *ngIf="formGroup.get('codigo')?.invalid
+                    && formGroup.get('codigo')?.touched">
+                        {{getErrorMessage(formGroup.get('codigo'))}}
                 </mat-error>
             </mat-form-field>
         </div>
         <div class="seeker-fields-container">
             <h3>Provincia</h3>
             <mat-form-field class="seeker-form-field" appearance="outline">
-                <input matInput formControlName="descripcion"
+                <input matInput formControlName="nombre_provincia"
                     required maxlength="30" minlength="3"
                     [readonly]="!data.edit">
-                <mat-error *ngIf="formGroup.get('descripcion')?.invalid
-                    && formGroup.get('descripcion')?.touched">
-                        {{getErrorMessage(formGroup.get('descripcion'))}}
+                <mat-error *ngIf="formGroup.get('nombre_provincia')?.invalid
+                    && formGroup.get('nombre_provincia')?.touched">
+                        {{getErrorMessage(formGroup.get('nombre_provincia'))}}
                 </mat-error>
             </mat-form-field>
         </div>
         <div class="seeker-fields-container">
             <h3>Codifica Alturas</h3>
             <mat-form-field class="seeker-form-field" appearance="outline">
-            <input matInput formControlName="Codifica_Alturas"
-                required maxlength="1" minlength="1"
-                [readonly]="!data.edit">
-            <mat-error *ngIf="formGroup.get('Codifica_Alturas')?.invalid
-                && formGroup.get('Codifica_Alturas')?.touched">
-                    {{getErrorMessage(formGroup.get('Codifica_Alturas'))}}
-            </mat-error>
+            <mat-select formControlName="codifica_altura">
+                <mat-option [value]="'S'">
+                SI
+                </mat-option>
+                <mat-option [value]="'N'">
+                NO
+                </mat-option>
+            </mat-select>
             </mat-form-field>
         </div>
         <div class="seeker-fields-container">
             <h3>Codigo Provincia</h3>
             <mat-form-field class="seeker-form-field" appearance="outline">
-            <input matInput formControlName="Codigo_provincia"
+            <input matInput formControlName="codigo_provincia"
                 required maxlength="2" minlength="1"
                 [readonly]="!data.edit">
-            <mat-error *ngIf="formGroup.get('Codigo_provincia')?.invalid
-                && formGroup.get('Codigo_provincia')?.touched">
-                    {{getErrorMessage(formGroup.get('Codigo_provincia'))}}
+            <mat-error *ngIf="formGroup.get('codigo_provincia')?.invalid
+                && formGroup.get('codigo_provincia')?.touched">
+                    {{getErrorMessage(formGroup.get('codigo_provincia'))}}
             </mat-error>
             </mat-form-field>
         </div>
         <div class="seeker-fields-container">
             <h3>Flete Transportistas</h3>
             <mat-form-field class="seeker-form-field" appearance="outline">
-            <input matInput formControlName="Flete_Transportistas"
+            <input matInput formControlName="flete_transportista"
                 required maxlength="7" minlength="1" step="0.001"
                 [max]="999"
                 [readonly]="!data.edit">
-            <mat-error *ngIf="formGroup.get('Flete_Transportistas')?.invalid
-                && formGroup.get('Flete_Transportistas')?.touched">
-                    {{getErrorMessage(formGroup.get('Flete_Transportistas'))}}
+            <mat-error *ngIf="formGroup.get('flete_transportista')?.invalid
+                && formGroup.get('flete_transportista')?.touched">
+                    {{getErrorMessage(formGroup.get('flete_transportista'))}}
             </mat-error>
             </mat-form-field>
         </div>
