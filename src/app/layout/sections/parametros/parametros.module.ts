@@ -10,6 +10,10 @@ import { EditTipoNacionalidadDialogComponent } from './tipo-nacionalidad/compone
 import { TipoNacionalidadComponent } from './tipo-nacionalidad/tipo-nacionalidad.component';
 import { TipoNacionalidadFilterComponent } from './tipo-nacionalidad/components/tipo-nacionalidad-filter/tipo-nacionalidad-filter.component';
 import { TipoNacionalidadDashboardComponent } from './tipo-nacionalidad/components/tipo-nacionalidad-dashboard/tipo-nacionalidad-dashboard.component'; 
+import { EditTipoProvinciaDialogComponent } from './tipo-provincia/components/edit-tipo-provincia-dialog/edit-tipo-provincia-dialog.component';
+import { TipoProvinciaFilterComponent } from './tipo-provincia/components/tipo-provincia-filter/tipo-provincia-filter.component';
+import { TipoProvinciaComponent } from './tipo-provincia/tipo-provincia.component';
+import { TipoProvinciaDashboardComponent } from './tipo-provincia/components/tipo-provincia-dashboard/tipo-provincia-dashboard.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +25,10 @@ import { TipoNacionalidadDashboardComponent } from './tipo-nacionalidad/componen
     TipoNacionalidadFilterComponent,
     TipoNacionalidadDashboardComponent,
     EditTipoNacionalidadDialogComponent,
+    TipoProvinciaComponent,
+    TipoProvinciaFilterComponent,
+    TipoProvinciaDashboardComponent,
+    EditTipoProvinciaDialogComponent,
   ],
   imports: [
     CommonModule,
