@@ -43,7 +43,7 @@
             <h3>Codigo Provincia</h3>
             <mat-form-field class="seeker-form-field" appearance="outline">
             <input matInput formControlName="Codigo_provincia"
-                required maxlength="1" minlength="1"
+                required maxlength="2" minlength="1"
                 [readonly]="!data.edit">
             <mat-error *ngIf="formGroup.get('Codigo_provincia')?.invalid
                 && formGroup.get('Codigo_provincia')?.touched">
@@ -55,7 +55,8 @@
             <h3>Flete Transportistas</h3>
             <mat-form-field class="seeker-form-field" appearance="outline">
             <input matInput formControlName="Flete_Transportistas"
-                required maxlength="1" minlength="1"
+                required maxlength="7" minlength="1" step="0.001"
+                [max]="999"
                 [readonly]="!data.edit">
             <mat-error *ngIf="formGroup.get('Flete_Transportistas')?.invalid
                 && formGroup.get('Flete_Transportistas')?.touched">

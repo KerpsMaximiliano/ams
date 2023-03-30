@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { isAlphanumeric, isAlphanumericWithSpaces } from 'src/app/core/validators/character.validator';
+import { isAlphanumeric, isAlphanumericWithSpaces, isNumeric } from 'src/app/core/validators/character.validator';
 import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
@@ -49,12 +49,14 @@ export class EditTipoProvinciaDialogComponent {
         Validators.maxLength(2),
         Validators.minLength(2),
         Validators.pattern("^[0-9]*$"),
+        isNumeric
         ])
       ),
       Flete_Transportistas: new UntypedFormControl('', Validators.compose([
-        Validators.maxLength(6),
-        Validators.minLength(6),
-        Validators.pattern("^[0-9]*$"),
+        Validators.maxLength(7),
+        Validators.minLength(1),
+        Validators.max(999.999),
+        isNumeric
         ])
       ),
     })
