@@ -28,57 +28,57 @@
             </mat-form-field>
         </div>
         <div class="seeker-fields-container">
-            <h3>Codifica Alturas</h3>
-            <mat-form-field class="seeker-form-field" appearance="outline">
-            <mat-select formControlName="codifica_altura">
-                <mat-option [value]="'S'">
-                SI
-                </mat-option>
-                <mat-option [value]="'N'">
-                NO
-                </mat-option>
-            </mat-select>
-            </mat-form-field>
-        </div>
-        <div class="seeker-fields-container">
             <h3>Codigo Provincia</h3>
             <mat-form-field class="seeker-form-field" appearance="outline">
-            <input matInput formControlName="codigo_provincia"
+                <input matInput formControlName="codigo_provincia"
                 required maxlength="2" minlength="1"
                 [readonly]="!data.edit">
-            <mat-error *ngIf="formGroup.get('codigo_provincia')?.invalid
+                <mat-error *ngIf="formGroup.get('codigo_provincia')?.invalid
                 && formGroup.get('codigo_provincia')?.touched">
                     {{getErrorMessage(formGroup.get('codigo_provincia'))}}
             </mat-error>
-            </mat-form-field>
-        </div>
-        <div class="seeker-fields-container">
-            <h3>Flete Transportistas</h3>
-            <mat-form-field class="seeker-form-field" appearance="outline">
+        </mat-form-field>
+    </div>
+    <div class="seeker-fields-container">
+        <h3>Flete Transportistas</h3>
+        <mat-form-field class="seeker-form-field" appearance="outline">
             <input matInput formControlName="flete_transportista"
-                required maxlength="7" minlength="1" step="0.001"
-                [max]="999"
+            required maxlength="7" minlength="1" step="0.001"
+            [max]="999"
                 [readonly]="!data.edit">
             <mat-error *ngIf="formGroup.get('flete_transportista')?.invalid
-                && formGroup.get('flete_transportista')?.touched">
-                    {{getErrorMessage(formGroup.get('flete_transportista'))}}
-            </mat-error>
-            </mat-form-field>
-        </div>
-        <div *ngIf="data.edit; else other_content" class="buttons-container">
-            <button class="primary-button icon-button" type="button" (click)="closeDialog()">
-                <mat-icon>close</mat-icon>
-                Cancelar
-            </button>
-            <button class="primary-button icon-button" type="submit" [disabled]="formGroup.invalid">
-                <mat-icon>done</mat-icon>
-                Guardar
-            </button>
-        </div>
+            && formGroup.get('flete_transportista')?.touched">
+            {{getErrorMessage(formGroup.get('flete_transportista'))}}
+        </mat-error>
+        </mat-form-field>
+    </div>
+    <div class="seeker-fields-container">
+        <h3>Codifica Alturas</h3>
+        <mat-form-field class="seeker-form-field" appearance="outline">
+        <mat-select formControlName="codifica_altura">
+            <mat-option [value]="'S'">
+            SI
+            </mat-option>
+            <mat-option [value]="'N'">
+            NO
+            </mat-option>
+        </mat-select>
+        </mat-form-field>
+    </div>
+    <div *ngIf="data.edit; else other_content" class="buttons-container">
+        <button class="primary-button icon-button" type="button" (click)="closeDialog()">
+            <mat-icon>close</mat-icon>
+            Cancelar
+        </button>
+        <button class="primary-button icon-button" type="submit" [disabled]="formGroup.invalid">
+            <mat-icon>done</mat-icon>
+            Guardar
+        </button>
+    </div>
         <ng-template #other_content>
             <button class="primary-button icon-button right" mat-dialog-close>
-            <mat-icon>done</mat-icon>
-            Aceptar
+                <mat-icon>done</mat-icon>
+                Aceptar
             </button>
         </ng-template>
     </form>

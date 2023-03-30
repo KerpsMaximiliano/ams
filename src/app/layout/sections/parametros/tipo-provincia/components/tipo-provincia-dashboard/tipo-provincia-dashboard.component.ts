@@ -24,8 +24,8 @@ export class TipoProvinciaDashboardComponent {
   public displayedColumns: string[] = [
     'codigo',
     'nombre_provincia',
-    'codifica_altura',
     'codigo_provincia',
+    'codifica_altura',
     'flete_transportista',
     'actions'
   ];
