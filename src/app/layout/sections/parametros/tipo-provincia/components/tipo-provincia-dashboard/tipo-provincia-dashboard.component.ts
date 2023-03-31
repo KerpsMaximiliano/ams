@@ -31,7 +31,7 @@ export class TipoProvinciaDashboardComponent {
   ];
 
   public dataSource: MatTableDataSource<TipoProvincia>;
-  public searchText: string = "";
+  public searchText: string;
   public searchId: string;
   public provincia: TipoProvincia[] = [];
 
@@ -48,8 +48,8 @@ export class TipoProvinciaDashboardComponent {
   private getTipoProvincia(): void {
     this.utils.openLoading();
     let aux = {
+      codigo: this.searchId,
       nombre_provincia: this.searchText,
-      codigo: this.searchId
     }
     let body = JSON.stringify(aux)
     this.ProvinciaService.getParamByDesc(body).subscribe({
@@ -167,7 +167,7 @@ export class TipoProvinciaDashboardComponent {
     })
   }
 
-  public filter(buscar: any):void {
+  public filter(buscar: any):void {    
     this.searchText = buscar.nombre_provincia;
     this.searchId = buscar.codigo;
     (this.searchText != "" || this.searchId != '')

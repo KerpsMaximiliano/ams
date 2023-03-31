@@ -22,6 +22,7 @@ export class TipoProvinciaFilterComponent {
   }
 
   public search(){
+    console.log(this.searching.value);
     this.searchEvent.emit(this.searching.value)
   }
 
@@ -32,7 +33,7 @@ export class TipoProvinciaFilterComponent {
   }
 
   public clearInputs(){
-    this.searching.value.codigo;
+    this.searching.value.codigo = '';
     this.searching.value.nombre_provincia = '';
     this.search();
   }
