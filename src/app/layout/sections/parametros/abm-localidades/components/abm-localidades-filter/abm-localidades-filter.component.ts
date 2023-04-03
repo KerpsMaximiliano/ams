@@ -3,16 +3,19 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { isAlphanumeric, isAlphanumericWithSpaces, isNumeric } from 'src/app/core/validators/character.validator';
 
 @Component({
-  selector: 'app-tipo-provincia-filter',
-  templateUrl: './tipo-provincia-filter.component.html',
-  styleUrls: ['./tipo-provincia-filter.component.scss']
+  selector: 'app-abm-localidades-filter',
+  templateUrl: './abm-localidades-filter.component.html',
+  styleUrls: ['./abm-localidades-filter.component.scss']
 })
-export class TipoProvinciaFilterComponent {
+export class AbmLocalidadesFilterComponent {
 
   @Output() searchEvent: EventEmitter<any> = new EventEmitter<any>();
   searching = new FormGroup({
     "codigo": new FormControl(''),
-    "nombre_provincia": new FormControl('')
+    "nombre_provincia": new FormControl(''),
+    "nombre_departamento": new FormControl(''),
+    "nombre_localidad": new FormControl('')
+
   })
 
   constructor() { }
@@ -35,6 +38,8 @@ export class TipoProvinciaFilterComponent {
   public clearInputs(){
     this.searching.value.codigo = '';
     this.searching.value.nombre_provincia = '';
+    this.searching.value.nombre_departamento = '';
+    this.searching.value.nombre_localidad = '';
     this.search();
   }
 

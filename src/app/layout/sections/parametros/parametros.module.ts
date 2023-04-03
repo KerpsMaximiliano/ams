@@ -10,10 +10,10 @@ import { EditTipoNacionalidadDialogComponent } from './tipo-nacionalidad/compone
 import { TipoNacionalidadComponent } from './tipo-nacionalidad/tipo-nacionalidad.component';
 import { TipoNacionalidadFilterComponent } from './tipo-nacionalidad/components/tipo-nacionalidad-filter/tipo-nacionalidad-filter.component';
 import { TipoNacionalidadDashboardComponent } from './tipo-nacionalidad/components/tipo-nacionalidad-dashboard/tipo-nacionalidad-dashboard.component'; 
-import { EditTipoProvinciaDialogComponent } from './tipo-provincia/components/edit-tipo-provincia-dialog/edit-tipo-provincia-dialog.component';
-import { TipoProvinciaFilterComponent } from './tipo-provincia/components/tipo-provincia-filter/tipo-provincia-filter.component';
-import { TipoProvinciaComponent } from './tipo-provincia/tipo-provincia.component';
-import { TipoProvinciaDashboardComponent } from './tipo-provincia/components/tipo-provincia-dashboard/tipo-provincia-dashboard.component';
+import { AbmLocalidadesComponent } from './abm-localidades/abm-localidades.component';
+import { AbmLocalidadesFilterComponent } from './abm-localidades/components/abm-localidades-filter/abm-localidades-filter.component';
+import { AbmLocalidadesDashboardComponent } from './abm-localidades/components/abm-localidades-dashboard/abm-localidades-dashboard.component';
+import { EditAbmLocalidadesDialogComponent } from './abm-localidades/components/abm-localidades-dialog/edit-abm-localidades-dialog.component';
 
 @NgModule({
   declarations: [
@@ -25,10 +25,10 @@ import { TipoProvinciaDashboardComponent } from './tipo-provincia/components/tip
     TipoNacionalidadFilterComponent,
     TipoNacionalidadDashboardComponent,
     EditTipoNacionalidadDialogComponent,
-    TipoProvinciaComponent,
-    TipoProvinciaFilterComponent,
-    TipoProvinciaDashboardComponent,
-    EditTipoProvinciaDialogComponent,
+    AbmLocalidadesComponent,
+    AbmLocalidadesFilterComponent,
+    AbmLocalidadesDashboardComponent,
+    EditAbmLocalidadesDialogComponent,
   ],
   imports: [
     CommonModule,

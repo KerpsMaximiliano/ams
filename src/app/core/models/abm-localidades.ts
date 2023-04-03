@@ -1,0 +1,16 @@
+export interface AbmLocalidades {
+    par_modo: string,
+    codigo: number,
+    subcodigo: string,
+    nombre_localidad:string,
+    letra_provincia:string,
+    flete_transportista: string,
+    referente: string,
+    medico: string,
+    zona_promocion: string,
+    cod_departamento: string,
+    zona_envio: string,
+    ticket: string,
+    zona_atencion: string,
+    habitantes: string,
+}

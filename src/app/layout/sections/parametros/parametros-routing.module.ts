@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TipoDocumentoComponent } from './tipo-documento/tipo-documento.component';
 import { TipoNacionalidadComponent } from './tipo-nacionalidad/tipo-nacionalidad.component';
-import { TipoProvinciaComponent } from './tipo-provincia/tipo-provincia.component';
+import { AbmLocalidadesComponent } from './abm-localidades/abm-localidades.component';
 
 const routes: Routes = [
   {
@@ -14,8 +14,8 @@ const routes: Routes = [
     component: TipoNacionalidadComponent
   },
   {
-    path: 'parametros/tipo-provincia',
-    component: TipoProvinciaComponent
+    path: 'parametros/abm-localidades',
+    component: AbmLocalidadesComponent
   }
 ];
 
