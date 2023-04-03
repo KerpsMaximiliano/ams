@@ -35,7 +35,7 @@ export class DepartamentoService {
     return this.http.post<AbmDepartamento>(`${this.environmentService.api}/abmDepartamento`, body, httpOptions);
   }
 
-  deleteDepart(id:number){
+  deleteDepar(id:number){
     return this.http.delete(`${this.environmentService.api}/parametros/${id}`);
   }
 }

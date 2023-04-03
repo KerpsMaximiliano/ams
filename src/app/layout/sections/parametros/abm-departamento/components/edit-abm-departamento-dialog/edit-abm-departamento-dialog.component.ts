@@ -35,8 +35,8 @@ export class EditAbmDepartamentoDialogComponent {
       Validators.required,
       Validators.minLength(1),
       Validators.maxLength(3),
-    ])
-  ),
+      ])
+    ),
       descripcion: new UntypedFormControl('', Validators.compose([
           Validators.required,
           Validators.minLength(3),

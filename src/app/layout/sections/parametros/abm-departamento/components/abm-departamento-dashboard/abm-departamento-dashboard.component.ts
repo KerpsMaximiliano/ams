@@ -143,21 +143,21 @@ export class AbmDepartamentoDashboardComponent {
   public deleteDeparType(abmdepar: AbmDepartamento): void {
     const modalConfirm = this.dialog.open(ConfirmDialogComponent, {
       data: {
-        title: `Eliminar Documento`,
-        message: `¿Está seguro de eliminar el documento ${abmdepar.descripcion}?`
+        title: `Eliminar Departamento`,
+        message: `¿Está seguro de eliminar el Departamento ${abmdepar.codigo_departamento}?`
       }
     });
 
     modalConfirm.afterClosed().subscribe({
       next:(res) => {
         if (res) {
-          this.departamentoService.deleteDepart(abmdepar.codigo_departamento).subscribe({
+          this.departamentoService.deleteDepar(abmdepar.codigo_departamento).subscribe({
             next: (res: any) => {
-              this.utils.notification("El Documento se ha borrado exitosamente", 'success')
+              this.utils.notification("El Departamento se ha borrado exitosamente", 'success')
               this.getAbmDepartamento();
             },
             error: (err) => {
-              this.utils.notification(`Error al borrar Documento: ${err.message}`, 'error')
+              this.utils.notification(`Error al borrar Departamento: ${err.message}`, 'error')
             }
           });
         }

@@ -29,7 +29,7 @@ export class AbmDepartamentoComponent {
   public nuevoDepartamento(abmdepartamento?:AbmDepartamento): void {
     const modalNuevoAbmDepartamento = this.dialog.open(EditAbmDepartamentoDialogComponent, {
       data: {
-        title: `Nuevo Tipo de Departamento`,
+        title: `Nuevo Departamento`,
         edit: true,
         id_tabla: 10,
         letra_provincia: abmdepartamento?.letra_provincia,
@@ -45,7 +45,7 @@ export class AbmDepartamentoComponent {
           this.utils.openLoading();
           this.departamentoService.addDepar(res).subscribe({
             next: (res: any) => {
-              this.utils.notification("El Tipo de Departamento se ha creado exitosamente", 'success')
+              this.utils.notification("El Departamento se ha creado exitosamente", 'success')
             },
             error: (err) => {
               this.utils.closeLoading();
