@@ -30,6 +30,11 @@ export class NavMenuComponent {
           "title": "Tipos de Nacionalidades",
           "url": "/parametros/tipo-nacionalidad",
           "icon": "keyboard_arrow_right"
+        },
+        {
+          "title": "Obras Sociales",
+          "url": "/parametros/obra-social",
+          "icon": "keyboard_arrow_right"
         }
       ]
     }

@@ -1,0 +1,16 @@
+<section class="browse-section">
+
+  <div class="section-header">
+    <h2>Obras Sociales</h2>
+    <button class="new-button icon-button" (click)="nuevoObraSocial()">
+      <mat-icon>add</mat-icon>
+      Nuevo
+    </button>
+  </div>
+
+  <div class="section-content">
+    <app-obra-social-filter (searchEvent)="handleSearch($event)"></app-obra-social-filter>
+    <app-obra-social-dashboard></app-obra-social-dashboard>
+  </div>
+
+</section>

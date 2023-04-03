@@ -11,6 +11,12 @@ import { TipoNacionalidadComponent } from './tipo-nacionalidad/tipo-nacionalidad
 import { TipoNacionalidadFilterComponent } from './tipo-nacionalidad/components/tipo-nacionalidad-filter/tipo-nacionalidad-filter.component';
 import { TipoNacionalidadDashboardComponent } from './tipo-nacionalidad/components/tipo-nacionalidad-dashboard/tipo-nacionalidad-dashboard.component'; 
 
+// Obra Social
+import { AddEditObraSocialDialogComponent } from './obra-social/components/add-edit-obra-social-dialog/add-edit-obra-social-dialog.component';
+import { ObraSocialDashboardComponent } from './obra-social/components/obra-social-dashboard/obra-social-dashboard.component';
+import { ObraSocialFilterComponent } from './obra-social/components/obra-social-filter/obra-social-filter.component';
+import { ObraSocialComponent } from './obra-social/obra-social.component';
+
 @NgModule({
   declarations: [
     TipoDocumentoComponent,
@@ -21,6 +27,12 @@ import { TipoNacionalidadDashboardComponent } from './tipo-nacionalidad/componen
     TipoNacionalidadFilterComponent,
     TipoNacionalidadDashboardComponent,
     EditTipoNacionalidadDialogComponent,
+    
+    // Obra Social
+    AddEditObraSocialDialogComponent,
+    ObraSocialDashboardComponent,
+    ObraSocialFilterComponent,
+    ObraSocialComponent,
   ],
   imports: [
     CommonModule,
