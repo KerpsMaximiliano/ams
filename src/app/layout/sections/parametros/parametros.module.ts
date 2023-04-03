@@ -10,6 +10,10 @@ import { EditTipoNacionalidadDialogComponent } from './tipo-nacionalidad/compone
 import { TipoNacionalidadComponent } from './tipo-nacionalidad/tipo-nacionalidad.component';
 import { TipoNacionalidadFilterComponent } from './tipo-nacionalidad/components/tipo-nacionalidad-filter/tipo-nacionalidad-filter.component';
 import { TipoNacionalidadDashboardComponent } from './tipo-nacionalidad/components/tipo-nacionalidad-dashboard/tipo-nacionalidad-dashboard.component'; 
+import { EditAbmDepartamentoDialogComponent } from './abm-departamento/components/edit-abm-departamento-dialog/edit-abm-departamento-dialog.component';
+import { AbmDepartamentoComponent } from './abm-departamento/abm-departamento.component';
+import { AbmDepartamentoFilterComponent } from './abm-departamento/components/abm-departamento-filter/abm-departamento-filter.component';
+import { AbmDepartamentoDashboardComponent } from './abm-departamento/components/abm-departamento-dashboard/abm-departamento-dashboard.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +25,10 @@ import { TipoNacionalidadDashboardComponent } from './tipo-nacionalidad/componen
     TipoNacionalidadFilterComponent,
     TipoNacionalidadDashboardComponent,
     EditTipoNacionalidadDialogComponent,
+    AbmDepartamentoComponent,
+    AbmDepartamentoDashboardComponent,
+    AbmDepartamentoFilterComponent,
+    EditAbmDepartamentoDialogComponent,
   ],
   imports: [
     CommonModule,

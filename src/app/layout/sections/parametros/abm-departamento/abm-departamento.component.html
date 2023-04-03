@@ -1,0 +1,16 @@
+<section class="browse-section">
+
+    <div class="section-header">
+        <h2>Tipos de Departamento</h2>
+        <button class="new-button icon-button" (click)="nuevoDepartamento()">
+            <mat-icon>add</mat-icon>
+            Nuevo
+        </button>
+    </div>
+
+    <div class="section-content">
+        <app-abm-departamento-filter (searchEvent)="handleSearch($event)">
+        </app-abm-departamento-filter>
+        <app-abm-departamento-dashboard></app-abm-departamento-dashboard>
+    </div>
+</section>

@@ -30,6 +30,11 @@ export class NavMenuComponent {
           "title": "Tipos de Nacionalidades",
           "url": "/parametros/tipo-nacionalidad",
           "icon": "keyboard_arrow_right"
+        },
+        {
+          "title": "Tipos de Departamento",
+          "url": "/parametros/abm-departamento",
+          "icon": "keyboard_arrow_right"
         }
       ]
     }
