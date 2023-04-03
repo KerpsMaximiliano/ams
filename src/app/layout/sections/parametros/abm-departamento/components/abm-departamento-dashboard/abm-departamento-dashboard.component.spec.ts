@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TipoNacionalidadDashboardComponent } from './abm-departamento-dashboard.component';
+import { AbmDepartamentoDashboardComponent } from './abm-departamento-dashboard.component';
 
-describe('TipoNacionalidadDashboardComponent', () => {
-  let component: TipoNacionalidadDashboardComponent;
-  let fixture: ComponentFixture<TipoNacionalidadDashboardComponent>;
+describe('AbmDepartamentoDashboardComponent', () => {
+  let component: AbmDepartamentoDashboardComponent;
+  let fixture: ComponentFixture<AbmDepartamentoDashboardComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TipoNacionalidadDashboardComponent ]
+      declarations: [ AbmDepartamentoDashboardComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(TipoNacionalidadDashboardComponent);
+    fixture = TestBed.createComponent(AbmDepartamentoDashboardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
