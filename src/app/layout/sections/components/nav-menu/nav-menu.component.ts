@@ -30,6 +30,11 @@ export class NavMenuComponent {
           "title": "Tipos de Nacionalidades",
           "url": "/parametros/tipo-nacionalidad",
           "icon": "keyboard_arrow_right"
+        },
+        {
+          "title": "Condiciones de IVA",
+          "url": "/parametros/condicion-iva",
+          "icon": "keyboard_arrow_right"
         }
       ]
     }

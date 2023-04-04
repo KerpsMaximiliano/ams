@@ -1,0 +1,8 @@
+table .mat-cell.mat-column-description {
+    text-align: left !important;
+}
+
+// Mejora la distribucion del header de la tabla
+th.mat-header-cell:first-of-type{
+    padding-left: 0px;
+}

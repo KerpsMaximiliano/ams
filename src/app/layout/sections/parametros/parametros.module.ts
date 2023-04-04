@@ -2,6 +2,13 @@ import { SharedModule } from '../../../shared/shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ParametrosRoutingModule } from './parametros-routing.module';
+
+// ABM condiciones iva
+import { AddEditCondicionIvaDialogComponent } from './tipo-condicion-iva/components/add-edit-condicion-iva-dialog/add-edit-condicion-iva-dialog.component';
+import { CondicionIvaDashboardComponent } from './tipo-condicion-iva/components/tipo-condicion-iva-dashboard/tipo-condicion-iva-dashboard.component';
+import { CondicionIvaFilterComponent } from './tipo-condicion-iva/components/tipo-condicion-iva-filter/tipo-condicion-iva-filter.component';
+import { CondicionIvaComponent } from './tipo-condicion-iva/tipo-condicion-iva.component';
+
 import { AddEditTipoDocumentoDialogComponent } from './tipo-documento/components/add-edit-tipo-documento-dialog/add-edit-tipo-documento-dialog.component';
 import { TipoDocumentoDashboardComponent } from './tipo-documento/components/tipo-documento-dashboard/tipo-documento-dashboard.component';
 import { TipoDocumentoFilterComponent } from './tipo-documento/components/tipo-documento-filter/tipo-documento-filter.component';
@@ -21,6 +28,11 @@ import { TipoNacionalidadDashboardComponent } from './tipo-nacionalidad/componen
     TipoNacionalidadFilterComponent,
     TipoNacionalidadDashboardComponent,
     EditTipoNacionalidadDialogComponent,
+    // ABM condicion iva
+    AddEditCondicionIvaDialogComponent,
+    CondicionIvaDashboardComponent,
+    CondicionIvaFilterComponent,
+    CondicionIvaComponent
   ],
   imports: [
     CommonModule,
