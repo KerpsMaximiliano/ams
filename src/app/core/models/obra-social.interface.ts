@@ -6,7 +6,7 @@ export interface ObraSocial {
     descripcion: string;
     formulario: string;
     tipo: string;
-    tipo_de_documento: number;
+    codigo: number;
 }
 
 export type ObraSocialResponse = Response<ObraSocial[]>;

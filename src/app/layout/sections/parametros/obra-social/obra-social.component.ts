@@ -34,7 +34,7 @@ export class ObraSocialComponent {
         edit: true,
         tipo: ObraSocial?.descripcion,
         formulario: ObraSocial?.formulario,
-        tipo_documento: ObraSocial?.tipo_de_documento,
+        codigo: ObraSocial?.codigo,
       }
     });
 

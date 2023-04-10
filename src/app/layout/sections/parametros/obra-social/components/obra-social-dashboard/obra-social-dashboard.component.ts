@@ -91,7 +91,7 @@ export class ObraSocialDashboardComponent {
         id: obraSocial.id,
         tipo: obraSocial.descripcion,
         formulario: obraSocial.formulario,
-        tipo_documento: obraSocial.tipo_de_documento,
+        codigo: obraSocial.codigo,
         edit: true
       }
     });

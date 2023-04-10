@@ -17,11 +17,11 @@ export class ObraSocialService {
     private environmentService: EnvironmentService) { }
 
   getDocumentByDesc(body:string): Observable<ObraSocialResponse> {
-    return this.http.post<ObraSocialResponse>(`${this.environmentService.api}/obrasocial`, body, httpOptions);
+    return this.http.post<ObraSocialResponse>(`${this.environmentService.api}/abmobrasocial`, body, httpOptions);
   }
 
   getDocumentById(body:string): Observable<ObraSocialResponse> {
-    return this.http.post<ObraSocialResponse>(`${this.environmentService.api}/obrasocial`, body, httpOptions);
+    return this.http.post<ObraSocialResponse>(`${this.environmentService.api}/abmobrasocial`, body, httpOptions);
   }
   
   addDocument(data:ObraSocial): Observable<ObraSocial>{
@@ -35,6 +35,6 @@ export class ObraSocialService {
   }
 
   deleteParametro(id:number){
-    return this.http.delete(`${this.environmentService.api}/parametros/${id}`);
+    return this.http.delete(`${this.environmentService.api}/abmobrasocial/${id}`);
   }
 }
