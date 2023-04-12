@@ -34,53 +34,7 @@ export class CondicionIvaDashboardComponent {
 
   public searchText: string = "";
 
-  public documents: CondicionIva[] = [
-    {
-      par_modo: '',
-      id: 1,
-      descripcion: 'sssssssss',
-      codigo: 'sss',
-      descripcion_reducida: 'ssss',
-      formulario: 'sss',
-      tipo_de_documento: 5,
-    },
-    {
-      par_modo: '',
-      id: 1,
-      descripcion: 'sssssssss',
-      codigo: 'sss',
-      descripcion_reducida: 'ssss',
-      formulario: 'sss',
-      tipo_de_documento: 5,
-    },
-    {
-      par_modo: '',
-      id: 1,
-      descripcion: 'sssssssss',
-      codigo: 'sss',
-      descripcion_reducida: 'ssss',
-      formulario: 'sss',
-      tipo_de_documento: 5,
-    },
-    {
-      par_modo: '',
-      id: 1,
-      descripcion: 'sssssssss',
-      codigo: 'sss',
-      descripcion_reducida: 'ssss',
-      formulario: 'sss',
-      tipo_de_documento: 5,
-    },
-    {
-      par_modo: '',
-      id: 1,
-      descripcion: 'sssssssss',
-      codigo: 'sss',
-      descripcion_reducida: 'ssss',
-      formulario: 'sss',
-      tipo_de_documento: 5,
-    },
-  ];
+  public documents: CondicionIva[] = [];
 
   constructor(private tipoCondicionService: CondicionIvaService,
               private utils: UtilService,
@@ -89,7 +43,6 @@ export class CondicionIvaDashboardComponent {
               private dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.dataSource = new MatTableDataSource<CondicionIva>(this.documents);
     this.paginator._intl.itemsPerPageLabel = 'Elementos por página';
   }
 
