@@ -6,7 +6,7 @@
                 Opciones de búsqueda
             </mat-panel-title>
         </mat-expansion-panel-header>
-        <form [formGroup]="searching">
+        <form [formGroup]="searchForm">
             <div class="seeker-fields-container">
                 <mat-form-field class="seeker-form-field">
                 <mat-label class="seeker-label"
@@ -14,7 +14,8 @@
                 <input  matInput
                 class="seeker-input"
                 formControlName="letra_provincia"
-                (keydown.enter)="searchid($event)">
+                (keyup.enter)="searchKeyUp($event)">
+                <mat-error *ngIf="searchForm.get('letra_provincia')?.invalid"> Campo Requerido </mat-error>
                 </mat-form-field>
                 <mat-form-field class="seeker-form-field">
                 <mat-label class="seeker-label"
@@ -22,11 +23,11 @@
                 <input  matInput
                 class="seeker-input"
                 formControlName="codigo_departamento"
-                (keydown.enter)="searchKeyUp($event)">
+                (keyup.enter)="searchKeyUp($event)">
                 </mat-form-field>
             </div>
             <div class="buttons-container">
-                <button class="primary-button icon-button" type="button" (click)="search()">
+                <button class="primary-button icon-button" type="button" (click)="search()" [disabled]="this.searchForm.value.letra_provincia == ''">
                 <mat-icon>done</mat-icon>
                 Buscar</button>
                 <button class="primary-button icon-button" type="button" (click)="clearInputs()">

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { isNumeric } from 'src/app/core/validators/character.validator';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { isAlphanumericWithSpaces } from 'src/app/core/validators/character.validator';
 
 @Component({
   selector: 'app-abm-departamento-filter',
@@ -10,36 +10,56 @@ import { isNumeric } from 'src/app/core/validators/character.validator';
 export class AbmDepartamentoFilterComponent {
 
   @Output() searchEvent: EventEmitter<any> = new EventEmitter<any>();
-  searching = new FormGroup({
-    "letra_provincia": new FormControl(''),
-    "codigo_departamento": new FormControl('')
-  })
+  public searchForm: UntypedFormGroup;
 
   constructor() { }
 
   ngOnInit(): void {
-    //  this.setUpForm()
+    this.setUpForm();
   }
 
-
+  private setUpForm(): void {
+    this.searchForm = new UntypedFormGroup({
+      letra_provincia: new UntypedFormControl('', Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(1),
+        ])
+      ),
+      codigo_departamento: new UntypedFormControl(null, Validators.compose([
+        Validators.minLength(1),
+        Validators.maxLength(2),
+        ])
+      ),
+    })
+  }
 
   public search(){
-    this.searchEvent.emit(this.searching.value)
-  }
-
-  public searchid(e: any){
-    e.preventDefault();
-    this.searchEvent.emit(this.searching.value)
+    let body = {
+      par_modo: 'G',
+      letra_provincia: this.searchForm.value.letra_provincia.toUpperCase(),
+      codigo_departamento: this.searchForm.value.codigo_departamento,
+      descripcion: "",
+      descripcion_reducida: ""
+    }
+    this.searchEvent.emit(body)
   }
 
   public clearInputs(){
-    this.searching.value.letra_provincia;
-    this.searching.value.codigo_departamento = '';
+    this.searchForm.get('letra_provincia')?.setValue('');
+    this.searchForm.get('codigo_departamento')?.setValue(null);
     this.search();
   }
 
   public searchKeyUp(e:any): void {
     e.preventDefault();
-    this.searchEvent.emit(this.searching.value)
+    let body = {
+      par_modo: 'G',
+      letra_provincia: this.searchForm.value.letra_provincia.toUpperCase(),
+      codigo_departamento: this.searchForm.value.codigo_departamento,
+      descripcion: "",
+      descripcion_reducida: ""
+    }
+    this.searchEvent.emit(body)
   }
 }

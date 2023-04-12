@@ -4,11 +4,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
 import { AbmDepartamento } from 'src/app/core/models/abm-departamento';
 import { DepartamentoService } from 'src/app/core/services/abm-departamento.service';
 import { UtilService } from 'src/app/core/services/util.service';
-import { EditAbmDepartamentoDialogComponent } from '../edit-abm-departamento-dialog/edit-abm-departamento-dialog.component'; 
+import { EditAbmDepartamentoDialogComponent } from '../edit-abm-departamento-dialog/edit-abm-departamento-dialog.component';
+
 @Component({
   selector: 'app-abm-departamento-dashboard',
   templateUrl: './abm-departamento-dashboard.component.html',
@@ -31,8 +31,7 @@ export class AbmDepartamentoDashboardComponent {
 
   public dataSource: MatTableDataSource<AbmDepartamento>;
 
-  public searchText: string = "";
-  public searchId: number = 0;
+  public searchValue: string;
   public departamentos: AbmDepartamento[] = [];
 
   constructor(private departamentoService: DepartamentoService,
@@ -47,12 +46,7 @@ export class AbmDepartamentoDashboardComponent {
 
   private getAbmDepartamento(): void {
     this.utils.openLoading();
-    let aux = {
-      descripcion: this.searchText,
-      id: this.searchId
-    }
-    let body = JSON.stringify(aux)
-    this.departamentoService.getDeparByDesc(body).subscribe({
+    this.departamentoService.getDeparByDesc(this.searchValue).subscribe({
       next:(res:any) => {
         this.departamentos = res.dataset as AbmDepartamento[];
         this.dataSource = new MatTableDataSource<AbmDepartamento>(this.departamentos);
@@ -139,36 +133,11 @@ export class AbmDepartamentoDashboardComponent {
     });
   }
 
-
-  public deleteDeparType(abmdepar: AbmDepartamento): void {
-    const modalConfirm = this.dialog.open(ConfirmDialogComponent, {
-      data: {
-        title: `Eliminar Departamento`,
-        message: `¿Está seguro de eliminar el Departamento ${abmdepar.codigo_departamento}?`
-      }
-    });
-
-    modalConfirm.afterClosed().subscribe({
-      next:(res) => {
-        if (res) {
-          this.departamentoService.deleteDepar(abmdepar.codigo_departamento).subscribe({
-            next: (res: any) => {
-              this.utils.notification("El Departamento se ha borrado exitosamente", 'success')
-              this.getAbmDepartamento();
-            },
-            error: (err) => {
-              this.utils.notification(`Error al borrar Departamento: ${err.message}`, 'error')
-            }
-          });
-        }
-      }
-    })
-  }
-
-  public filter(buscar: any):void {
-    this.searchText = buscar.descripcion;
-    this.searchId = buscar.id;
-    (this.searchText != "" || this.searchId != 0)
+  public filter(buscar: any): void {
+    if (buscar.codigo_departamento != null) buscar.codigo_departamento = Number(buscar.codigo_departamento);
+    this.searchValue = JSON.stringify(buscar);
+    console.log(buscar);
+    (buscar.letra_provincia != "")
       ? this.getAbmDepartamento()
       : this.dataSource.data = [] 
   }

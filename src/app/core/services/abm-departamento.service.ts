@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AbmDepartamento , AbmDepartamentoResponse } from '../models/abm-departamento';
@@ -11,31 +11,23 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class DepartamentoService { 
+export class DepartamentoService {
+  
+  URL: string = '/abmdepartamentos';
 
-  constructor(private http:HttpClient,
-    private environmentService: EnvironmentService) { }
+  constructor(private http: HttpClient, private environmentService: EnvironmentService) { }  
 
   getDeparByDesc(body:string): Observable<AbmDepartamentoResponse> {
-    console.log(body);
-    return this.http.post<AbmDepartamentoResponse>(`${this.environmentService.api}/abmDepartamentos`, body, httpOptions);
-  }
-
-  getDeparById(body:string): Observable<AbmDepartamentoResponse> {
-    return this.http.post<AbmDepartamentoResponse>(`${this.environmentService.api}/departamento`, body, httpOptions);
+    return this.http.post<AbmDepartamentoResponse>(`${this.environmentService.api}`+this.URL, body, httpOptions);
   }
   
-  addDepar(data:AbmDepartamento): Observable<AbmDepartamento>{
+  addDepar(data:AbmDepartamento): Observable<AbmDepartamento> {
     let body = JSON.stringify(data);
-    return this.http.post<AbmDepartamento>(`${this.environmentService.api}/abmDepartamento`, body, httpOptions);
+    return this.http.post<AbmDepartamento>(`${this.environmentService.api}`+this.URL, body, httpOptions);
   }
 
   editDepar(data:AbmDepartamento): Observable<AbmDepartamento> {
     let body = JSON.stringify(data);
-    return this.http.post<AbmDepartamento>(`${this.environmentService.api}/abmDepartamento`, body, httpOptions);
-  }
-
-  deleteDepar(id:number){
-    return this.http.delete(`${this.environmentService.api}/parametros/${id}`);
+    return this.http.post<AbmDepartamento>(`${this.environmentService.api}`+this.URL, body, httpOptions);
   }
 }
