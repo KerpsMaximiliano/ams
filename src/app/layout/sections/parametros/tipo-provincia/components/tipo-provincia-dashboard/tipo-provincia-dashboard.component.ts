@@ -170,8 +170,6 @@ export class TipoProvinciaDashboardComponent {
   public filter(buscar: any):void {    
     this.searchText = buscar.nombre_provincia;
     this.searchId = buscar.codigo;
-    (this.searchText != "" || this.searchId != '')
-      ? this.getTipoProvincia()
-      : this.dataSource.data = [] 
+    this.getTipoProvincia();
   }
 }
