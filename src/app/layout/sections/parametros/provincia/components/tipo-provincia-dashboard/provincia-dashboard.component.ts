@@ -4,17 +4,17 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
-import { TipoProvincia } from 'src/app/core/models/tipo-provincia';
-import { ProvinciaService } from 'src/app/core/services/tipo-provincia.service';
+import { Provincia } from 'src/app/core/models/provincia';
+import { ProvinciaService } from 'src/app/core/services/provincia.service';
 import { UtilService } from 'src/app/core/services/util.service';
-import { EditTipoProvinciaDialogComponent } from '../edit-tipo-provincia-dialog/edit-tipo-provincia-dialog.component'; 
+import { AddEditProvinciaDialogComponent } from '../edit-provincia-dialog/add-edit-provincia-dialog.component'; 
+
 @Component({
-  selector: 'app-tipo-provincia-dashboard',
-  templateUrl: './tipo-provincia-dashboard.component.html',
-  styleUrls: ['./tipo-provincia-dashboard.component.scss']
+  selector: 'app-provincia-dashboard',
+  templateUrl: './provincia-dashboard.component.html',
+  styleUrls: ['./provincia-dashboard.component.scss']
 })
-export class TipoProvinciaDashboardComponent {
+export class ProvinciaDashboardComponent {
 
   @ViewChild(MatSort) sort: MatSort = new MatSort();
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator =
@@ -30,10 +30,10 @@ export class TipoProvinciaDashboardComponent {
     'actions'
   ];
 
-  public dataSource: MatTableDataSource<TipoProvincia>;
+  public dataSource: MatTableDataSource<Provincia>;
   public searchText: string;
   public searchId: string;
-  public provincia: TipoProvincia[] = [];
+  public provincia: Provincia[] = [];
 
   constructor(private ProvinciaService: ProvinciaService,
               private utils: UtilService,
@@ -52,10 +52,10 @@ export class TipoProvinciaDashboardComponent {
       nombre_provincia: this.searchText,
     }
     let body = JSON.stringify(aux)
-    this.ProvinciaService.getParamByDesc(body).subscribe({
+    this.ProvinciaService.getProvinciaByDesc(body).subscribe({
       next:(res:any) => {
-        this.provincia = res.dataset as TipoProvincia[];
-        this.dataSource = new MatTableDataSource<TipoProvincia>(this.provincia);
+        this.provincia = res.dataset as Provincia[];
+        this.dataSource = new MatTableDataSource<Provincia>(this.provincia);
         this.dataSource.sort = this.sort;
         setTimeout(() => {
           this.dataSource.paginator = this.paginator;
@@ -84,8 +84,8 @@ export class TipoProvinciaDashboardComponent {
     }
   }
 
-  public editProviType(tipoProvincia: TipoProvincia): void {
-    const modalNuevoTipoProvincia = this.dialog.open(EditTipoProvinciaDialogComponent, {
+  public editProviType(tipoProvincia: Provincia): void {
+    const modalNuevoTipoProvincia = this.dialog.open(AddEditProvinciaDialogComponent, {
       data: {
         title: `Editar Provincia`,
         par_modo: "U",
@@ -103,7 +103,7 @@ export class TipoProvinciaDashboardComponent {
       next:(res) => {
         if (res) {
           this.utils.openLoading();
-          this.ProvinciaService.editProviType(res).subscribe({
+          this.ProvinciaService.editProvincia(res).subscribe({
             next: () => {
               this.utils.notification("La Provincia se ha editado extiosamente", 'success')
             },
@@ -126,8 +126,8 @@ export class TipoProvinciaDashboardComponent {
     });
   }
 
-  public viewProvinType(tipoProvincia: TipoProvincia): void {
-    this.dialog.open(EditTipoProvinciaDialogComponent, {
+  public viewProvinType(tipoProvincia: Provincia): void {
+    this.dialog.open(AddEditProvinciaDialogComponent, {
       data: {
         title: `Ver Provincia`,
         id_tabla: 9,
@@ -139,32 +139,6 @@ export class TipoProvinciaDashboardComponent {
         edit: false
       }
     });
-  }
-
-
-  public deleteProvinType(tipoProv: TipoProvincia): void {
-    const modalConfirm = this.dialog.open(ConfirmDialogComponent, {
-      data: {
-        title: `Eliminar Provincia`,
-        message: `¿Está seguro de eliminar el Provincia ${tipoProv.nombre_provincia}?`
-      }
-    });
-
-    modalConfirm.afterClosed().subscribe({
-      next:(res) => {
-        if (res) {
-          this.ProvinciaService.deleteEstado(tipoProv.codigo).subscribe({
-            next: (res: any) => {
-              this.utils.notification("El Provincia se ha borrado exitosamente", 'success')
-              this.getTipoProvincia();
-            },
-            error: (err) => {
-              this.utils.notification(`Error al borrar Provincia: ${err.message}`, 'error')
-            }
-          });
-        }
-      }
-    })
   }
 
   public filter(buscar: any):void {    

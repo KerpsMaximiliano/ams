@@ -1,19 +1,19 @@
 import { MatDialog } from '@angular/material/dialog';
 import { Component, ViewChild } from '@angular/core';
 import { UtilService } from 'src/app/core/services/util.service';
-import { TipoProvinciaDashboardComponent } from './components/tipo-provincia-dashboard/tipo-provincia-dashboard.component'; 
-import { EditTipoProvinciaDialogComponent } from './components/edit-tipo-provincia-dialog/edit-tipo-provincia-dialog.component'; 
-import { ProvinciaService } from 'src/app/core/services/tipo-provincia.service';
-import { TipoProvincia } from 'src/app/core/models/tipo-provincia';
+import { ProvinciaDashboardComponent } from './components/tipo-provincia-dashboard/provincia-dashboard.component'; 
+import { AddEditProvinciaDialogComponent } from './components/edit-provincia-dialog/add-edit-provincia-dialog.component'; 
+import { ProvinciaService } from 'src/app/core/services/provincia.service';
+import { Provincia } from 'src/app/core/models/provincia';
 
 @Component({
-  selector: 'app-tipo-provincia',
-  templateUrl: './tipo-provincia.component.html',
-  styleUrls: ['./tipo-provincia.component.scss']
+  selector: 'app-provincia',
+  templateUrl: './provincia.component.html',
+  styleUrls: ['./provincia.component.scss']
 })
-export class TipoProvinciaComponent {
+export class ProvinciaComponent {
 
-  @ViewChild(TipoProvinciaDashboardComponent) dashboard: TipoProvinciaDashboardComponent;
+  @ViewChild(ProvinciaDashboardComponent) dashboard: ProvinciaDashboardComponent;
 
   constructor(private ProvinciaService: ProvinciaService,
               private utils: UtilService,
@@ -26,8 +26,8 @@ export class TipoProvinciaComponent {
     this.dashboard.filter(inputValue);
   }
 
-  public nuevaProvincia(tipoProvincia?:TipoProvincia): void {
-    const modalNuevoTipoProvincia = this.dialog.open(EditTipoProvinciaDialogComponent, {
+  public nuevaProvincia(tipoProvincia?:Provincia): void {
+    const modalNuevoTipoProvincia = this.dialog.open(AddEditProvinciaDialogComponent, {
       data: {
         title: `Nuevo Tipo de Provincia`,
         edit: true,

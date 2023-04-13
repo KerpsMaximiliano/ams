@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TipoProvinciaDashboardComponent } from './tipo-provincia-dashboard.component';
+import { TipoProvinciaDashboardComponent } from './provincia-dashboard.component';
 
 describe('TipoProvinciaDashboardComponent', () => {
   let component: TipoProvinciaDashboardComponent;

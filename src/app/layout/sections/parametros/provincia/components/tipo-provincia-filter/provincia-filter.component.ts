@@ -1,13 +1,12 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { isAlphanumeric, isAlphanumericWithSpaces, isNumeric } from 'src/app/core/validators/character.validator';
 
 @Component({
-  selector: 'app-tipo-provincia-filter',
-  templateUrl: './tipo-provincia-filter.component.html',
-  styleUrls: ['./tipo-provincia-filter.component.scss']
+  selector: 'app-provincia-filter',
+  templateUrl: './provincia-filter.component.html',
+  styleUrls: ['./provincia-filter.component.scss']
 })
-export class TipoProvinciaFilterComponent {
+export class ProvinciaFilterComponent {
 
   @Output() searchEvent: EventEmitter<any> = new EventEmitter<any>();
   searching = new FormGroup({
@@ -18,14 +17,12 @@ export class TipoProvinciaFilterComponent {
   constructor() { }
 
   ngOnInit(): void {
-    //  this.setUpForm()
   }
 
   public search(){
     console.log(this.searching.value);
     this.searchEvent.emit(this.searching.value)
   }
-
   
   public searchid(e: any){
     e.preventDefault();

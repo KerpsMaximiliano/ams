@@ -1,4 +1,6 @@
-export interface TipoProvincia {
+import { Response } from "./response";
+
+export interface Provincia {
     par_modo: string,
     codigo: number,
     nombre_provincia: string,
@@ -6,3 +8,5 @@ export interface TipoProvincia {
     codigo_provincia: string,
     flete_transportista: string
 }
+
+export type ProvinciaResponse = Response<Provincia[]>;

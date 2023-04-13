@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EditTipoProvinciaDialogComponent } from './edit-tipo-provincia-dialog.component';
+import { EditTipoProvinciaDialogComponent } from './add-edit-provincia-dialog.component';
 
 describe('EditTipoProvinciaDialogComponent', () => {
   let component: EditTipoProvinciaDialogComponent;

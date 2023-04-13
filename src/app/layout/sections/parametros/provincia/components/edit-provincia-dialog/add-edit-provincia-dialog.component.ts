@@ -5,11 +5,11 @@ import { isAlphanumeric, isAlphanumericWithSpaces, isNumeric } from 'src/app/cor
 import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
-  selector: 'app-edit-tipo-provincia-dialog',
-  templateUrl: './edit-tipo-provincia-dialog.component.html',
-  styleUrls: ['./edit-tipo-provincia-dialog.component.scss']
+  selector: 'app-add-edit-provincia-dialog',
+  templateUrl: './add-edit-provincia-dialog.component.html',
+  styleUrls: ['./add-edit-provincia-dialog.component.scss']
 })
-export class EditTipoProvinciaDialogComponent {
+export class AddEditProvinciaDialogComponent {
 
   public formGroup: UntypedFormGroup;
 
