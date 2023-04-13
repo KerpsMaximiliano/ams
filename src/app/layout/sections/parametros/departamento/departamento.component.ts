@@ -1,23 +1,21 @@
 import { MatDialog } from '@angular/material/dialog';
 import { Component, ViewChild } from '@angular/core';
 import { UtilService } from 'src/app/core/services/util.service';
-import { AbmDepartamentoDashboardComponent } from './components/abm-departamento-dashboard/abm-departamento-dashboard.component'; 
-import { EditAbmDepartamentoDialogComponent } from './components/edit-abm-departamento-dialog/edit-abm-departamento-dialog.component'; 
-import { DepartamentoService } from 'src/app/core/services/abm-departamento.service';
-import { AbmDepartamento } from 'src/app/core/models/abm-departamento';
+import { DepartamentoDashboardComponent } from './components/departamento-dashboard/departamento-dashboard.component'; 
+import { DepartamentoService } from 'src/app/core/services/departamento.service';
+import { Departamento } from 'src/app/core/models/departamento';
+import { AddEditDepartamentoDialogComponent } from './components/add-edit-departamento-dialog/add-edit-departamento-dialog.component';
 
 @Component({
-  selector: 'app-abm-departamento',
-  templateUrl: './abm-departamento.component.html',
-  styleUrls: ['./abm-departamento.component.scss']
+  selector: 'app-departamento',
+  templateUrl: './departamento.component.html',
+  styleUrls: ['./departamento.component.scss']
 })
-export class AbmDepartamentoComponent {
+export class DepartamentoComponent {
 
-  @ViewChild(AbmDepartamentoDashboardComponent) dashboard: AbmDepartamentoDashboardComponent;
+  @ViewChild(DepartamentoDashboardComponent) dashboard: DepartamentoDashboardComponent;
 
-  constructor(private departamentoService: DepartamentoService,
-              private utils: UtilService,
-              private dialog: MatDialog) {}
+  constructor(private departamentoService: DepartamentoService, private utils: UtilService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
   }
@@ -26,8 +24,8 @@ export class AbmDepartamentoComponent {
     this.dashboard.filter(inputValue);
   }
 
-  public nuevoDepartamento(abmdepartamento?:AbmDepartamento): void {
-    const modalNuevoAbmDepartamento = this.dialog.open(EditAbmDepartamentoDialogComponent, {
+  public nuevoDepartamento(abmdepartamento?:Departamento): void {
+    const modalNuevoAbmDepartamento = this.dialog.open(AddEditDepartamentoDialogComponent, {
       data: {
         title: `Nuevo Departamento`,
         edit: true,
@@ -43,7 +41,7 @@ export class AbmDepartamentoComponent {
       next:(res) => {
         if (res) {
           this.utils.openLoading();
-          this.departamentoService.addDepar(res).subscribe({
+          this.departamentoService.departamentoCRUD(res).subscribe({
             next: (res: any) => {
               this.utils.notification("El Departamento se ha creado exitosamente", 'success')
             },

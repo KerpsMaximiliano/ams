@@ -19,7 +19,7 @@
             <h3>Codigo Departamento</h3>
             <mat-form-field class="seeker-form-field" appearance="outline">
                 <input matInput formControlName="codigo_departamento"
-                    required maxlength="3" minlength="3"
+                    required maxlength="3" minlength="1"
                     [readonly]="!data.edit">
                 <mat-error *ngIf="formGroup.get('codigo_departamento')?.invalid
                     && formGroup.get('codigo_departamento')?.touched">

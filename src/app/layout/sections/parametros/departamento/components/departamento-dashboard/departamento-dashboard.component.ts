@@ -4,17 +4,17 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { AbmDepartamento } from 'src/app/core/models/abm-departamento';
-import { DepartamentoService } from 'src/app/core/services/abm-departamento.service';
+import { Departamento } from 'src/app/core/models/departamento';
+import { DepartamentoService } from 'src/app/core/services/departamento.service';
 import { UtilService } from 'src/app/core/services/util.service';
-import { EditAbmDepartamentoDialogComponent } from '../edit-abm-departamento-dialog/edit-abm-departamento-dialog.component';
+import { AddEditDepartamentoDialogComponent } from '../add-edit-departamento-dialog/add-edit-departamento-dialog.component';
 
 @Component({
-  selector: 'app-abm-departamento-dashboard',
-  templateUrl: './abm-departamento-dashboard.component.html',
-  styleUrls: ['./abm-departamento-dashboard.component.scss']
+  selector: 'app-departamento-dashboard',
+  templateUrl: './departamento-dashboard.component.html',
+  styleUrls: ['./departamento-dashboard.component.scss']
 })
-export class AbmDepartamentoDashboardComponent {
+export class DepartamentoDashboardComponent {
 
   @ViewChild(MatSort) sort: MatSort = new MatSort();
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator =
@@ -29,10 +29,10 @@ export class AbmDepartamentoDashboardComponent {
     'actions'
   ];
 
-  public dataSource: MatTableDataSource<AbmDepartamento>;
+  public dataSource: MatTableDataSource<Departamento>;
 
   public searchValue: string;
-  public departamentos: AbmDepartamento[] = [];
+  public departamentos: Departamento[] = [];
 
   constructor(private departamentoService: DepartamentoService,
               private utils: UtilService,
@@ -46,10 +46,12 @@ export class AbmDepartamentoDashboardComponent {
 
   private getAbmDepartamento(): void {
     this.utils.openLoading();
-    this.departamentoService.getDeparByDesc(this.searchValue).subscribe({
+    this.departamentoService.departamentoCRUD(this.searchValue).subscribe({
       next:(res:any) => {
-        this.departamentos = res.dataset as AbmDepartamento[];
-        this.dataSource = new MatTableDataSource<AbmDepartamento>(this.departamentos);
+        (res.dataset.length)
+          ? this.departamentos = res.dataset as Departamento[]
+          : this.departamentos = [res.dataset];
+        this.dataSource = new MatTableDataSource<Departamento>(this.departamentos);
         this.dataSource.sort = this.sort;
         setTimeout(() => {
           this.dataSource.paginator = this.paginator;
@@ -78,16 +80,16 @@ export class AbmDepartamentoDashboardComponent {
     }
   }
 
-  public editdeparType(abmDepartamento: AbmDepartamento): void {
-    const modalNuevoAbmDepartamento = this.dialog.open(EditAbmDepartamentoDialogComponent, {
+  public editdeparType(departamento: Departamento): void {
+    const modalNuevoAbmDepartamento = this.dialog.open(AddEditDepartamentoDialogComponent, {
       data: {
         title: `Editar Departamento`,
         par_modo: "U",
         id_tabla: 10,
-        letra_provincia: abmDepartamento?.letra_provincia,
-        codigo_departamento: abmDepartamento?.codigo_departamento,
-        descripcion: abmDepartamento?.descripcion,
-        descripcion_reducida: abmDepartamento?.descripcion_reducida,
+        letra_provincia: departamento?.letra_provincia,
+        codigo_departamento: departamento?.codigo_departamento,
+        descripcion: departamento?.descripcion,
+        descripcion_reducida: departamento?.descripcion_reducida,
         edit: true
       }
     });
@@ -96,7 +98,7 @@ export class AbmDepartamentoDashboardComponent {
       next:(res) => {
         if (res) {
           this.utils.openLoading();
-          this.departamentoService.editDepar(res).subscribe({
+          this.departamentoService.departamentoCRUD(res).subscribe({
             next: () => {
               this.utils.notification("El Departamento se ha editado extiosamente", 'success')
             },
@@ -119,15 +121,15 @@ export class AbmDepartamentoDashboardComponent {
     });
   }
 
-  public viewdeparType(abmDepartamento: AbmDepartamento): void {
-    this.dialog.open(EditAbmDepartamentoDialogComponent, {
+  public viewdeparType(departamento: Departamento): void {
+    this.dialog.open(AddEditDepartamentoDialogComponent, {
       data: {
         title: `Ver Departamento`,
         id_tabla: 10,
-        letra_provincia: abmDepartamento?.letra_provincia,
-        codigo_departamento: abmDepartamento?.codigo_departamento,
-        descripcion: abmDepartamento?.descripcion,
-        descripcion_reducida: abmDepartamento?.descripcion_reducida,
+        letra_provincia: departamento?.letra_provincia,
+        codigo_departamento: departamento?.codigo_departamento,
+        descripcion: departamento?.descripcion,
+        descripcion_reducida: departamento?.descripcion_reducida,
         edit: false
       }
     });
@@ -136,7 +138,6 @@ export class AbmDepartamentoDashboardComponent {
   public filter(buscar: any): void {
     if (buscar.codigo_departamento != null) buscar.codigo_departamento = Number(buscar.codigo_departamento);
     this.searchValue = JSON.stringify(buscar);
-    console.log(buscar);
     (buscar.letra_provincia != "")
       ? this.getAbmDepartamento()
       : this.dataSource.data = [] 

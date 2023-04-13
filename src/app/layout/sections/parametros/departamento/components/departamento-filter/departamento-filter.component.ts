@@ -1,13 +1,12 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { isAlphanumericWithSpaces } from 'src/app/core/validators/character.validator';
 
 @Component({
-  selector: 'app-abm-departamento-filter',
-  templateUrl: './abm-departamento-filter.component.html',
-  styleUrls: ['./abm-departamento-filter.component.scss']
+  selector: 'app-departamento-filter',
+  templateUrl: './departamento-filter.component.html',
+  styleUrls: ['./departamento-filter.component.scss']
 })
-export class AbmDepartamentoFilterComponent {
+export class DepartamentoFilterComponent {
 
   @Output() searchEvent: EventEmitter<any> = new EventEmitter<any>();
   public searchForm: UntypedFormGroup;

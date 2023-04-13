@@ -5,38 +5,35 @@ import { isAlphanumericWithSpaces } from 'src/app/core/validators/character.vali
 import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
-  selector: 'app-edit-abm-departamento-dialog',
-  templateUrl: './edit-abm-departamento-dialog.component.html',
-  styleUrls: ['./edit-abm-departamento-dialog.component.scss']
+  selector: 'app-add-edit-departamento-dialog',
+  templateUrl: './add-edit-departamento-dialog.component.html',
+  styleUrls: ['./add-edit-departamento-dialog.component.scss']
 })
-export class EditAbmDepartamentoDialogComponent {
+export class AddEditDepartamentoDialogComponent {
 
   public formGroup: UntypedFormGroup;
 
-  constructor(public dialogRef: MatDialogRef<ConfirmDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: any) { }
+  constructor(public dialogRef: MatDialogRef<ConfirmDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any) { }
 
-  ngOnInit(): void {
-    
+  ngOnInit(): void {    
     this.setUpForm();
     if(this.data.letra_provincia) this.setFormValues()
   }
 
   private setUpForm(): void {
     this.formGroup = new UntypedFormGroup({
-      letra_provincia: new UntypedFormControl({value:'',
-      disabled: this.data.letra_provincia && 
-      this.data.title === 'Editar Departamento'},Validators.compose([
+      letra_provincia: new UntypedFormControl({value:'', disabled: this.data.letra_provincia && 
+      this.data.title === 'Editar Departamento'}, Validators.compose([
         Validators.minLength(1),
         Validators.maxLength(1),
-      ])
-    ),
-    codigo_departamento: new UntypedFormControl('', Validators.compose([
-      Validators.required,
-      Validators.minLength(1),
-      Validators.maxLength(3),
-      ])
-    ),
+        ])
+      ),
+      codigo_departamento: new UntypedFormControl('', Validators.compose([
+        Validators.required,
+        Validators.minLength(1),
+        Validators.maxLength(3),
+        ])
+      ),
       descripcion: new UntypedFormControl('', Validators.compose([
           Validators.required,
           Validators.minLength(3),
