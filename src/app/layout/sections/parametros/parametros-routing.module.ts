@@ -14,7 +14,7 @@ const routes: Routes = [
     component: TipoNacionalidadComponent
   },
   {
-    path: 'parametros/tipo-provincia',
+    path: 'parametros/provincia',
     component: ProvinciaComponent
   }
 ];

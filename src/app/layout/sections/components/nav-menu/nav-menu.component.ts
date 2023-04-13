@@ -32,8 +32,8 @@ export class NavMenuComponent {
           "icon": "keyboard_arrow_right"
         },
         {
-          "title": "Tipos de Provincias",
-          "url": "/parametros/tipo-provincia",
+          "title": "Provincias",
+          "url": "/parametros/provincia",
           "icon": "keyboard_arrow_right"
         }
       ]
