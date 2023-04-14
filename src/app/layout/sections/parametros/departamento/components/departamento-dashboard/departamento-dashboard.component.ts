@@ -23,9 +23,8 @@ export class DepartamentoDashboardComponent {
 
   public displayedColumns: string[] = [
     'letra_provincia',
-    'codigo_departamento',
-    'descripcion',
-    'descripcion_reducida',
+    'departamento',
+    'abreviatura',
     'actions'
   ];
 
@@ -44,7 +43,7 @@ export class DepartamentoDashboardComponent {
     this.paginator._intl.itemsPerPageLabel = 'Elementos por página';
   }
 
-  private getAbmDepartamento(): void {
+  private getDepartamento(): void {
     this.utils.openLoading();
     this.departamentoService.departamentoCRUD(this.searchValue).subscribe({
       next:(res:any) => {
@@ -80,8 +79,8 @@ export class DepartamentoDashboardComponent {
     }
   }
 
-  public editdeparType(departamento: Departamento): void {
-    const modalNuevoAbmDepartamento = this.dialog.open(AddEditDepartamentoDialogComponent, {
+  public editDepartamento(departamento: Departamento): void {
+    const modalNuevoDepartamento = this.dialog.open(AddEditDepartamentoDialogComponent, {
       data: {
         title: `Editar Departamento`,
         par_modo: "U",
@@ -94,7 +93,7 @@ export class DepartamentoDashboardComponent {
       }
     });
 
-    modalNuevoAbmDepartamento.afterClosed().subscribe({
+    modalNuevoDepartamento.afterClosed().subscribe({
       next:(res) => {
         if (res) {
           this.utils.openLoading();
@@ -107,12 +106,12 @@ export class DepartamentoDashboardComponent {
               (err.status == 0)
                 ? this.utils.notification('Error de conexion', 'error') 
                 : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')
-              this.editdeparType(res)
+              this.editDepartamento(res)
             },
             complete: () => {
               this.utils.closeLoading();
               setTimeout(() => {
-                this.getAbmDepartamento();
+                this.getDepartamento();
               }, 300);
             }
           });
@@ -121,7 +120,7 @@ export class DepartamentoDashboardComponent {
     });
   }
 
-  public viewdeparType(departamento: Departamento): void {
+  public viewDepartamento(departamento: Departamento): void {
     this.dialog.open(AddEditDepartamentoDialogComponent, {
       data: {
         title: `Ver Departamento`,
@@ -139,7 +138,7 @@ export class DepartamentoDashboardComponent {
     if (buscar.codigo_departamento != null) buscar.codigo_departamento = Number(buscar.codigo_departamento);
     this.searchValue = JSON.stringify(buscar);
     (buscar.letra_provincia != "")
-      ? this.getAbmDepartamento()
+      ? this.getDepartamento()
       : this.dataSource.data = [] 
   }
 }
