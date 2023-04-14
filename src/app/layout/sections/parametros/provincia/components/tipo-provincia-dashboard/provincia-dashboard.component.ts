@@ -110,7 +110,7 @@ export class ProvinciaDashboardComponent {
               this.editProvincia(res)
             },
             complete: () => {
-              this.searchText = res.nombre_provincia;
+              this.searchText = res.nombre_provincia.trim();
               this.utils.closeLoading();
               setTimeout(() => {
                 this.getProvincia();

@@ -59,7 +59,7 @@ export class ProvinciaComponent {
             complete: () => {
               this.utils.closeLoading();
               setTimeout(() => {
-                this.handleSearch(res.nombre_provincia);
+                this.handleSearch(res.nombre_provincia.trim());
               }, 300);
             }
           });
