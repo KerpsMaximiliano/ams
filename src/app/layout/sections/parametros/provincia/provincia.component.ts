@@ -15,7 +15,7 @@ export class ProvinciaComponent {
 
   @ViewChild(ProvinciaDashboardComponent) dashboard: ProvinciaDashboardComponent;
 
-  constructor(private ProvinciaService: ProvinciaService,
+  constructor(private provinciaService: ProvinciaService,
               private utils: UtilService,
               private dialog: MatDialog) {}
 
@@ -27,7 +27,7 @@ export class ProvinciaComponent {
   }
 
   public nuevaProvincia(tipoProvincia?:Provincia): void {
-    const modalNuevoTipoProvincia = this.dialog.open(AddEditProvinciaDialogComponent, {
+    const modalNuevaProvincia = this.dialog.open(AddEditProvinciaDialogComponent, {
       data: {
         title: `Nuevo Tipo de Provincia`,
         edit: true,
@@ -37,15 +37,16 @@ export class ProvinciaComponent {
         codifica_altura: tipoProvincia?.codifica_altura,
         codigo_provincia: tipoProvincia?.codigo_provincia,
         flete_transportista: tipoProvincia?.flete_transportista,
+        par_modo: 'I'
       }
     });
 
-    modalNuevoTipoProvincia.afterClosed().subscribe({
+    modalNuevaProvincia.afterClosed().subscribe({
       next:(res) => {
         if (res) {
           this.utils.openLoading();
-          this.ProvinciaService.addProvincia(res).subscribe({
-            next: (res: any) => {
+          this.provinciaService.addProvincia(res).subscribe({
+            next: () => {
               this.utils.notification("El Tipo de Provincia se ha creado exitosamente", 'success')
             },
             error: (err:any) => {
@@ -58,7 +59,7 @@ export class ProvinciaComponent {
             complete: () => {
               this.utils.closeLoading();
               setTimeout(() => {
-                this.handleSearch('');
+                this.handleSearch(res.nombre_provincia);
               }, 300);
             }
           });

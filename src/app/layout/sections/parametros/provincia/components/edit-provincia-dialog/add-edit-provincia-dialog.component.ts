@@ -78,23 +78,14 @@ export class AddEditProvinciaDialogComponent {
   public confirm(): void {
     this.formGroup.markAllAsTouched();
     if (this.formGroup.valid) {
-      this.data.codigo_provincia 
-        ? this.dialogRef.close({
-          par_modo: 'U',
+      this.dialogRef.close({
+          par_modo: this.data.par_modo,
           codigo: this.formGroup.get('codigo')?.value,
           nombre_provincia: this.formGroup.get('nombre_provincia')?.value,
           codifica_altura: this.formGroup.get('codifica_altura')?.value,
           codigo_provincia: this.formGroup.get('codigo_provincia')?.value,
           flete_transportista: this.formGroup.get('flete_transportista')?.value
         })
-        : this.dialogRef.close({
-          par_modo: 'I',
-          codigo: this.formGroup.get('codigo')?.value,
-          nombre_provincia: this.formGroup.get('nombre_provincia')?.value,
-          codifica_altura: this.formGroup.get('codifica_altura')?.value,
-          codigo_provincia: this.formGroup.get('codigo_provincia')?.value,
-          flete_transportista: this.formGroup.get('flete_transportista')?.value
-        });
     }
   }
 

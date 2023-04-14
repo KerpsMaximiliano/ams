@@ -32,10 +32,9 @@ export class ProvinciaDashboardComponent {
 
   public dataSource: MatTableDataSource<Provincia>;
   public searchText: string;
-  public searchId: string;
   public provincia: Provincia[] = [];
 
-  constructor(private ProvinciaService: ProvinciaService,
+  constructor(private provinciaService: ProvinciaService,
               private utils: UtilService,
               private _liveAnnouncer: LiveAnnouncer,
               private cdr: ChangeDetectorRef,
@@ -45,14 +44,10 @@ export class ProvinciaDashboardComponent {
     this.paginator._intl.itemsPerPageLabel = 'Elementos por página';
   }
 
-  private getTipoProvincia(): void {
+  private getProvincia(): void {
     this.utils.openLoading();
-    let aux = {
-      codigo: this.searchId,
-      nombre_provincia: this.searchText,
-    }
-    let body = JSON.stringify(aux)
-    this.ProvinciaService.getProvinciaByDesc(body).subscribe({
+    let body = JSON.stringify({nombre_provincia: this.searchText});
+    this.provinciaService.getProvinciaByDesc(body).subscribe({
       next:(res:any) => {
         this.provincia = res.dataset as Provincia[];
         this.dataSource = new MatTableDataSource<Provincia>(this.provincia);
@@ -84,7 +79,7 @@ export class ProvinciaDashboardComponent {
     }
   }
 
-  public editProviType(tipoProvincia: Provincia): void {
+  public editProvincia(tipoProvincia: Provincia): void {
     const modalNuevoTipoProvincia = this.dialog.open(AddEditProvinciaDialogComponent, {
       data: {
         title: `Editar Provincia`,
@@ -103,7 +98,7 @@ export class ProvinciaDashboardComponent {
       next:(res) => {
         if (res) {
           this.utils.openLoading();
-          this.ProvinciaService.editProvincia(res).subscribe({
+          this.provinciaService.editProvincia(res).subscribe({
             next: () => {
               this.utils.notification("La Provincia se ha editado extiosamente", 'success')
             },
@@ -112,12 +107,13 @@ export class ProvinciaDashboardComponent {
               (err.status == 0)
                 ? this.utils.notification('Error de conexion', 'error') 
                 : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')
-              this.editProviType(res)
+              this.editProvincia(res)
             },
             complete: () => {
+              this.searchText = res.nombre_provincia;
               this.utils.closeLoading();
               setTimeout(() => {
-                this.getTipoProvincia();
+                this.getProvincia();
               }, 300);
             }
           });
@@ -126,7 +122,7 @@ export class ProvinciaDashboardComponent {
     });
   }
 
-  public viewProvinType(tipoProvincia: Provincia): void {
+  public viewProvincia(tipoProvincia: Provincia): void {
     this.dialog.open(AddEditProvinciaDialogComponent, {
       data: {
         title: `Ver Provincia`,
@@ -141,9 +137,8 @@ export class ProvinciaDashboardComponent {
     });
   }
 
-  public filter(buscar: any):void {    
-    this.searchText = buscar.nombre_provincia;
-    this.searchId = buscar.codigo;
-    this.getTipoProvincia();
+  public filter(data: string):void {    
+    this.searchText = data;
+    this.getProvincia();
   }
 }

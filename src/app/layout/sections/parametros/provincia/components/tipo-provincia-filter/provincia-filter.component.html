@@ -6,22 +6,14 @@
                 Opciones de búsqueda
             </mat-panel-title>
         </mat-expansion-panel-header>
-        <form [formGroup]="searching">
+        <form>
             <div class="seeker-fields-container">
-                <!-- <mat-form-field class="seeker-form-field">
-                <mat-label class="seeker-label"
-                for="codigo">id</mat-label>
-                <input  matInput
-                class="seeker-input"
-                formControlName="codigo"
-                (keydown.enter)="searchid($event)">
-                </mat-form-field> -->
                 <mat-form-field class="seeker-form-field">
                 <mat-label class="seeker-label"
                 >Descripción</mat-label>
                 <input  matInput
                 class="seeker-input"
-                formControlName="nombre_provincia"
+                [formControl]="nombre_provincia"
                 (keydown.enter)="searchKeyUp($event)">
                 </mat-form-field>
             </div>

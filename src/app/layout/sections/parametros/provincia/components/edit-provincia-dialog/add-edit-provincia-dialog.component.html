@@ -28,7 +28,7 @@
             </mat-form-field>
         </div>
         <div class="seeker-fields-container">
-            <h3>Codigo Provincia</h3>
+            <h3>Código Alternativo</h3>
             <mat-form-field class="seeker-form-field" appearance="outline">
                 <input matInput formControlName="codigo_provincia"
                 required maxlength="2" minlength="1"
@@ -40,16 +40,13 @@
         </mat-form-field>
     </div>
     <div class="seeker-fields-container">
-        <h3>Flete Transportistas</h3>
+        <h3>Flete Transportistas (%)</h3>
         <mat-form-field class="seeker-form-field" appearance="outline">
-            <input matInput formControlName="flete_transportista"
-            required maxlength="7" minlength="1" step="0.001"
-            [max]="999"
-                [readonly]="!data.edit">
+            <input matInput formControlName="flete_transportista" required maxlength="7" minlength="1" step="0.001" [max]="999" [readonly]="!data.edit">
             <mat-error *ngIf="formGroup.get('flete_transportista')?.invalid
             && formGroup.get('flete_transportista')?.touched">
             {{getErrorMessage(formGroup.get('flete_transportista'))}}
-        </mat-error>
+            </mat-error>
         </mat-form-field>
     </div>
     <div class="seeker-fields-container">
