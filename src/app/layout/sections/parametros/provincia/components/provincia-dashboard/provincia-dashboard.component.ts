@@ -84,7 +84,6 @@ export class ProvinciaDashboardComponent {
       data: {
         title: `Editar Provincia`,
         par_modo: "U",
-        id_tabla: 9,
         codigo: tipoProvincia?.codigo,
         nombre_provincia: tipoProvincia?.nombre_provincia,
         codifica_altura: tipoProvincia?.codifica_altura,

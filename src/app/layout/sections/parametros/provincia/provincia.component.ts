@@ -31,7 +31,6 @@ export class ProvinciaComponent {
       data: {
         title: `Nuevo Tipo de Provincia`,
         edit: true,
-        id_tabla: 9,
         codigo: tipoProvincia?.codigo,
         nombre_provincia: tipoProvincia?.nombre_provincia,
         codifica_altura: tipoProvincia?.codifica_altura,
