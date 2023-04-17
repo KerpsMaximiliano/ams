@@ -36,7 +36,6 @@ export class DepartamentoFilterComponent {
   public clearInputs(){
     this.searchForm.get('selectedProvincia')?.setValue('');
     this.searchForm.get('codigoDepartamento')?.setValue(null);
-    this.search();
   }
 
   public searchKeyUp(e:any): void {

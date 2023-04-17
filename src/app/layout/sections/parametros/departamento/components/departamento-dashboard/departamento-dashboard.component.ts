@@ -26,6 +26,7 @@ export class DepartamentoDashboardComponent {
 
   public displayedColumns: string[] = [
     'letra_provincia',
+    'codigo_departamento',
     'departamento',
     'abreviatura',
     'actions'
