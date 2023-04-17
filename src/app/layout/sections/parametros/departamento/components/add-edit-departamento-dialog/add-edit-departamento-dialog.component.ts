@@ -73,7 +73,6 @@ export class AddEditDepartamentoDialogComponent {
     if (this.formGroup.valid) {
         this.dialogRef.close({
           par_modo: this.data.par_modo,
-          id_tabla: 10,
           letra_provincia:  this.formGroup.get('letra_provincia')?.value,
           codigo_departamento:  this.formGroup.get('codigo_departamento')?.value,
           descripcion:  this.formGroup.get('descripcion')?.value,

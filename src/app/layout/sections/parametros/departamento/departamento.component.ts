@@ -34,7 +34,6 @@ export class DepartamentoComponent {
       data: {
         title: `Nuevo Departamento`,
         edit: true,
-        id_tabla: 10,
         letra_provincia: departamento?.letra_provincia,
         codigo_departamento: departamento?.codigo_departamento,
         descripcion: departamento?.descripcion,

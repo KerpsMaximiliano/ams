@@ -93,7 +93,6 @@ export class DepartamentoDashboardComponent {
       data: {
         title: `Editar Departamento`,
         par_modo: "U",
-        id_tabla: 10,
         letra_provincia: departamento.letra_provincia,
         codigo_departamento: departamento?.codigo_departamento,
         descripcion: departamento?.descripcion,
