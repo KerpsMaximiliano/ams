@@ -1,7 +1,7 @@
 import { MatDialog } from '@angular/material/dialog';
 import { Component, ViewChild } from '@angular/core';
 import { UtilService } from 'src/app/core/services/util.service';
-import { ProvinciaDashboardComponent } from './components/tipo-provincia-dashboard/provincia-dashboard.component'; 
+import { ProvinciaDashboardComponent } from './components/provincia-dashboard/provincia-dashboard.component'; 
 import { AddEditProvinciaDialogComponent } from './components/edit-provincia-dialog/add-edit-provincia-dialog.component'; 
 import { ProvinciaService } from 'src/app/core/services/provincia.service';
 import { Provincia } from 'src/app/core/models/provincia';

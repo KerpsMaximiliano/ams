@@ -80,7 +80,7 @@ export class ProvinciaDashboardComponent {
   }
 
   public editProvincia(tipoProvincia: Provincia): void {
-    const modalNuevoTipoProvincia = this.dialog.open(AddEditProvinciaDialogComponent, {
+    const modalNuevaProvincia = this.dialog.open(AddEditProvinciaDialogComponent, {
       data: {
         title: `Editar Provincia`,
         par_modo: "U",
@@ -94,7 +94,7 @@ export class ProvinciaDashboardComponent {
       }
     });
 
-    modalNuevoTipoProvincia.afterClosed().subscribe({
+    modalNuevaProvincia.afterClosed().subscribe({
       next:(res) => {
         if (res) {
           this.utils.openLoading();
