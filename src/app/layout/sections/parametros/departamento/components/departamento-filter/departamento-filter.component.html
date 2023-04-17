@@ -8,7 +8,7 @@
         </mat-expansion-panel-header>
         <form [formGroup]="searchForm">
             <div class="seeker-fields-container">
-                <mat-form-field class="seeker-form-field" *ngIf="provincias$ | async as provincias; else loading" appearance="outline">
+                <mat-form-field class="seeker-form-field" *ngIf="provincias$ | async as provincias; else loading">
                     <mat-label class="seeker-label">Provincia</mat-label>
                     <mat-select formControlName="selectedProvincia">
                         <mat-option [value]="">
@@ -21,7 +21,7 @@
                 </mat-form-field>
                 <ng-template #loading>
                     <div class="seeker-fields-container">
-                        <mat-form-field class="seeker-form-field" appearance="outline">
+                        <mat-form-field class="seeker-form-field">
                             <mat-select>
                                 <mat-option>
                                     Cargando
@@ -30,7 +30,7 @@
                         </mat-form-field>
                     </div>
                 </ng-template>
-                <mat-form-field class="seeker-form-field" appearance="outline">
+                <mat-form-field class="seeker-form-field">
                     <mat-label class="seeker-label">Codigo Departamento</mat-label>
                     <input matInput class="seeker-input" formControlName="codigoDepartamento">
                 </mat-form-field>
