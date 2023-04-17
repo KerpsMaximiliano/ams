@@ -3,18 +3,40 @@
 </div>
 <div class="dialog-content">
     <form class="form-datos" [formGroup]="formGroup" (ngSubmit)="confirm()">
-        <div class="seeker-fields-container">
+        <div class="seeker-fields-container" *ngIf="data.par_modo == 'I'; else elseBlock">
             <h3>Provincia</h3>
-            <mat-form-field class="seeker-form-field" appearance="outline">
-                <input matInput formControlName="letra_provincia"
-                    required maxlength="1" minlength="1"
-                    [readonly]="!data.edit">
+            <mat-form-field class="seeker-form-field" *ngIf="provincias$ | async as provincias; else loading" appearance="outline">
+                <mat-select formControlName="letra_provincia">
+                    <mat-option *ngFor="let prov of provincias.dataset" [value]="prov.codigo">
+                        {{prov.nombre_provincia}}
+                    </mat-option>
+                </mat-select>
                 <mat-error *ngIf="formGroup.get('letra_provincia')?.invalid
-                    && formGroup.get('letra_provincia')?.touched">
-                        {{getErrorMessage(formGroup.get('letra_provincia'))}}
+                        && formGroup.get('letra_provincia')?.touched">
+                            {{getErrorMessage(formGroup.get('letra_provincia'))}}
                 </mat-error>
             </mat-form-field>
+            <ng-template #loading>
+                <div class="seeker-fields-container">
+                    <mat-form-field class="seeker-form-field" appearance="outline">
+                        <mat-select>
+                            <mat-option>
+                                Cargando
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </ng-template>
         </div>
+        <ng-template #elseBlock>
+            <div class="seeker-fields-container">
+                <h3>Provincia</h3>
+                <mat-form-field class="seeker-form-field" appearance="outline">
+                    <input matInput formControlName="nombre_provincia"
+                        [readonly]="!data.edit">
+                </mat-form-field>
+            </div>
+        </ng-template>
         <div class="seeker-fields-container">
             <h3>Código Departamento</h3>
             <mat-form-field class="seeker-form-field" appearance="outline">

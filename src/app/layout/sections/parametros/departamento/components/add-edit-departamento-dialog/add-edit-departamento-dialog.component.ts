@@ -1,6 +1,9 @@
 import { Component, Inject } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
+import { ProvinciaResponse } from 'src/app/core/models/provincia';
+import { ProvinciaService } from 'src/app/core/services/provincia.service';
 import { isAlphanumericWithSpaces } from 'src/app/core/validators/character.validator';
 import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
 
@@ -12,23 +15,25 @@ import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confi
 export class AddEditDepartamentoDialogComponent {
 
   public formGroup: UntypedFormGroup;
+  provincias$: Observable<ProvinciaResponse>
 
-  constructor(public dialogRef: MatDialogRef<ConfirmDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any) { }
+  constructor(private provinciaService: ProvinciaService, public dialogRef: MatDialogRef<ConfirmDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any) { }
 
-  ngOnInit(): void {    
+  ngOnInit(): void {
+    this.provincias$ = this.provinciaService.provinciaList; 
     this.setUpForm();
     if(this.data.letra_provincia) this.setFormValues()
   }
 
   private setUpForm(): void {
     this.formGroup = new UntypedFormGroup({
-      letra_provincia: new UntypedFormControl({value:'', disabled: this.data.letra_provincia && 
-      this.data.title === 'Editar Departamento'}, Validators.compose([
+      letra_provincia: new UntypedFormControl({value:'', disabled: this.data.par_modo == 'U'}, Validators.compose([
+        Validators.required,
         Validators.minLength(1),
         Validators.maxLength(1),
         ])
       ),
-      codigo_departamento: new UntypedFormControl('', Validators.compose([
+      codigo_departamento: new UntypedFormControl({value:'', disabled: this.data.par_modo == 'U'}, Validators.compose([
         Validators.required,
         Validators.minLength(1),
         Validators.maxLength(3),
@@ -46,6 +51,8 @@ export class AddEditDepartamentoDialogComponent {
         Validators.maxLength(15),
         ])
       ),
+      nombre_provincia: new UntypedFormControl({value:'', disabled: this.data.par_modo == 'U'}
+      ),
     })
   }
 
@@ -53,7 +60,8 @@ export class AddEditDepartamentoDialogComponent {
     this.formGroup.get('letra_provincia')?.setValue(this.data.letra_provincia);
     this.formGroup.get('codigo_departamento')?.setValue(this.data.codigo_departamento);
     this.formGroup.get('descripcion')?.setValue(this.data.descripcion);    
-    this.formGroup.get('descripcion_reducida')?.setValue(this.data.descripcion_reducida);    
+    this.formGroup.get('descripcion_reducida')?.setValue(this.data.descripcion_reducida);
+    this.formGroup.get('nombre_provincia')?.setValue(this.data.nombre_provincia);    
   }
 
   closeDialog(): void {
@@ -63,23 +71,14 @@ export class AddEditDepartamentoDialogComponent {
   public confirm(): void {
     this.formGroup.markAllAsTouched();
     if (this.formGroup.valid) {
-      this.data.letra_provincia 
-        ? this.dialogRef.close({
-          par_modo: 'U',
+        this.dialogRef.close({
+          par_modo: this.data.par_modo,
           id_tabla: 10,
           letra_provincia:  this.formGroup.get('letra_provincia')?.value,
           codigo_departamento:  this.formGroup.get('codigo_departamento')?.value,
           descripcion:  this.formGroup.get('descripcion')?.value,
           descripcion_reducida:  this.formGroup.get('descripcion_reducida')?.value,
         })
-        : this.dialogRef.close({
-          par_modo: 'I',
-          id_tabla: 10,
-          letra_provincia:  this.formGroup.get('letra_provincia')?.value,
-          codigo_departamento:  this.formGroup.get('codigo_departamento')?.value,
-          descripcion:  this.formGroup.get('descripcion')?.value,
-          descripcion_reducida:  this.formGroup.get('descripcion_reducida')?.value,
-        });
     }
   }
 

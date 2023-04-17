@@ -5,6 +5,9 @@ import { DepartamentoDashboardComponent } from './components/departamento-dashbo
 import { DepartamentoService } from 'src/app/core/services/departamento.service';
 import { Departamento } from 'src/app/core/models/departamento';
 import { AddEditDepartamentoDialogComponent } from './components/add-edit-departamento-dialog/add-edit-departamento-dialog.component';
+import { ProvinciaService } from 'src/app/core/services/provincia.service';
+import { ProvinciaResponse } from 'src/app/core/models/provincia';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-departamento',
@@ -14,30 +17,33 @@ import { AddEditDepartamentoDialogComponent } from './components/add-edit-depart
 export class DepartamentoComponent {
 
   @ViewChild(DepartamentoDashboardComponent) dashboard: DepartamentoDashboardComponent;
+  provincias$: Observable<ProvinciaResponse>
 
-  constructor(private departamentoService: DepartamentoService, private utils: UtilService, private dialog: MatDialog) {}
+  constructor(private departamentoService: DepartamentoService, private utils: UtilService, private dialog: MatDialog, private provinciaService: ProvinciaService) {}
 
   ngOnInit(): void {
+    this.provincias$ = this.provinciaService.provinciaList;
   }
 
   public handleSearch(inputValue: any): void {
     this.dashboard.filter(inputValue);
   }
 
-  public nuevoDepartamento(abmdepartamento?:Departamento): void {
-    const modalNuevoAbmDepartamento = this.dialog.open(AddEditDepartamentoDialogComponent, {
+  public nuevoDepartamento(departamento?:Departamento): void {
+    const modalNuevoDepartamento = this.dialog.open(AddEditDepartamentoDialogComponent, {
       data: {
         title: `Nuevo Departamento`,
         edit: true,
         id_tabla: 10,
-        letra_provincia: abmdepartamento?.letra_provincia,
-        codigo_departamento: abmdepartamento?.codigo_departamento,
-        descripcion: abmdepartamento?.descripcion,
-        descripcion_reducida: abmdepartamento?.descripcion_reducida,
+        letra_provincia: departamento?.letra_provincia,
+        codigo_departamento: departamento?.codigo_departamento,
+        descripcion: departamento?.descripcion,
+        descripcion_reducida: departamento?.descripcion_reducida,
+        par_modo: 'I',
       }
     });
 
-    modalNuevoAbmDepartamento.afterClosed().subscribe({
+    modalNuevoDepartamento.afterClosed().subscribe({
       next:(res) => {
         if (res) {
           this.utils.openLoading();

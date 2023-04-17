@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Provincia } from '../models/provincia';
+import { Provincia, ProvinciaResponse } from '../models/provincia';
 import { EnvironmentService } from './environment.service';
 
 const httpOptions = {
@@ -12,11 +12,14 @@ const httpOptions = {
 })
 export class ProvinciaService {
 
+    get provinciaList(): any {
+        return this.getProvinciaByDesc(JSON.stringify({nombre_provincia:''}));
+    }
+
     constructor(private http:HttpClient, private environmentService: EnvironmentService) { }
 
-    getProvinciaByDesc(body:string): Observable<Provincia[]> {  
-        console.log(body);
-        return this.http.post<Provincia[]>(`${this.environmentService.api}/provincias`, body, httpOptions)
+    getProvinciaByDesc(body:string): Observable<ProvinciaResponse> {  
+        return this.http.post<ProvinciaResponse>(`${this.environmentService.api}/provincias`, body, httpOptions)
     }
 
     getProvinciaById(body:string): Observable<Provincia[]> {    

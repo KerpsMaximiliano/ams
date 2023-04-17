@@ -1,5 +1,7 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { ProvinciaResponse } from 'src/app/core/models/provincia';
 
 @Component({
   selector: 'app-departamento-filter',
@@ -8,45 +10,32 @@ import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms
 })
 export class DepartamentoFilterComponent {
 
+  @Input() provincias$: Observable<ProvinciaResponse>;
   @Output() searchEvent: EventEmitter<any> = new EventEmitter<any>();
-  public searchForm: UntypedFormGroup;
+  searchForm = new FormGroup({
+    selectedProvincia: new FormControl(''),
+    codigoDepartamento: new FormControl(null)
+  })
 
   constructor() { }
 
   ngOnInit(): void {
-    this.setUpForm();
   }
 
-  private setUpForm(): void {
-    this.searchForm = new UntypedFormGroup({
-      letra_provincia: new UntypedFormControl('', Validators.compose([
-          Validators.required,
-          Validators.minLength(1),
-          Validators.maxLength(1),
-        ])
-      ),
-      codigo_departamento: new UntypedFormControl(null, Validators.compose([
-        Validators.minLength(1),
-        Validators.maxLength(2),
-        ])
-      ),
-    })
-  }
-
-  public search(){
+  public search(){    
     let body = {
       par_modo: 'G',
-      letra_provincia: this.searchForm.value.letra_provincia.toUpperCase(),
-      codigo_departamento: this.searchForm.value.codigo_departamento,
+      letra_provincia: this.searchForm.get('selectedProvincia')?.value?.toUpperCase(),
+      codigo_departamento: this.searchForm.get('codigoDepartamento')?.value,
       descripcion: "",
       descripcion_reducida: ""
-    }
+    };
     this.searchEvent.emit(body)
   }
 
   public clearInputs(){
-    this.searchForm.get('letra_provincia')?.setValue('');
-    this.searchForm.get('codigo_departamento')?.setValue(null);
+    this.searchForm.get('selectedProvincia')?.setValue('');
+    this.searchForm.get('codigoDepartamento')?.setValue(null);
     this.search();
   }
 
@@ -54,8 +43,8 @@ export class DepartamentoFilterComponent {
     e.preventDefault();
     let body = {
       par_modo: 'G',
-      letra_provincia: this.searchForm.value.letra_provincia.toUpperCase(),
-      codigo_departamento: this.searchForm.value.codigo_departamento,
+      letra_provincia: this.searchForm.get('selectedProvincia')?.value?.toUpperCase(),
+      codigo_departamento: this.searchForm.get('codigoDepartamento')?.value,
       descripcion: "",
       descripcion_reducida: ""
     }

@@ -8,6 +8,9 @@ import { Departamento } from 'src/app/core/models/departamento';
 import { DepartamentoService } from 'src/app/core/services/departamento.service';
 import { UtilService } from 'src/app/core/services/util.service';
 import { AddEditDepartamentoDialogComponent } from '../add-edit-departamento-dialog/add-edit-departamento-dialog.component';
+import { Provincia, ProvinciaResponse } from 'src/app/core/models/provincia';
+import { Observable } from 'rxjs';
+import { ProvinciaService } from 'src/app/core/services/provincia.service';
 
 @Component({
   selector: 'app-departamento-dashboard',
@@ -29,6 +32,8 @@ export class DepartamentoDashboardComponent {
   ];
 
   public dataSource: MatTableDataSource<Departamento>;
+  provincias$: Observable<ProvinciaResponse>;
+  provinciaList: Provincia[]
 
   public searchValue: string;
   public departamentos: Departamento[] = [];
@@ -37,9 +42,12 @@ export class DepartamentoDashboardComponent {
               private utils: UtilService,
               private _liveAnnouncer: LiveAnnouncer,
               private cdr: ChangeDetectorRef,
-              private dialog: MatDialog) { }
+              private dialog: MatDialog,
+              private provinciaService: ProvinciaService) { }
 
   ngOnInit(): void {
+    this.provincias$ = this.provinciaService.provinciaList;
+    this.provincias$.subscribe(data => this.provinciaList = data.dataset)
     this.paginator._intl.itemsPerPageLabel = 'Elementos por página';
   }
 
@@ -85,11 +93,12 @@ export class DepartamentoDashboardComponent {
         title: `Editar Departamento`,
         par_modo: "U",
         id_tabla: 10,
-        letra_provincia: departamento?.letra_provincia,
+        letra_provincia: departamento.letra_provincia,
         codigo_departamento: departamento?.codigo_departamento,
         descripcion: departamento?.descripcion,
         descripcion_reducida: departamento?.descripcion_reducida,
-        edit: true
+        edit: true,
+        nombre_provincia: this.provinciaList.find(provincia => provincia.codigo == departamento?.letra_provincia)?.nombre_provincia
       }
     });
 
@@ -125,11 +134,12 @@ export class DepartamentoDashboardComponent {
       data: {
         title: `Ver Departamento`,
         id_tabla: 10,
-        letra_provincia: departamento?.letra_provincia,
+        letra_provincia: departamento.letra_provincia,
         codigo_departamento: departamento?.codigo_departamento,
         descripcion: departamento?.descripcion,
         descripcion_reducida: departamento?.descripcion_reducida,
-        edit: false
+        edit: false,
+        nombre_provincia: this.provinciaList.find(provincia => provincia.codigo == departamento?.letra_provincia)?.nombre_provincia
       }
     });
   }
