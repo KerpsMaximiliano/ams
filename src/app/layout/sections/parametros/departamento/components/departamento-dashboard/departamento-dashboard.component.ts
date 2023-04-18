@@ -120,6 +120,13 @@ export class DepartamentoDashboardComponent {
             complete: () => {
               this.utils.closeLoading();
               setTimeout(() => {
+                this.searchValue = JSON.stringify({
+                  par_modo: 'G',
+                  letra_provincia: res.letra_provincia,
+                  codigo_departamento: res.codigo_departamento,
+                  descripcion: "",
+                  descripcion_reducida: ""
+                })
                 this.getDepartamento();
               }, 300);
             }
@@ -147,8 +154,6 @@ export class DepartamentoDashboardComponent {
   public filter(buscar: any): void {
     if (buscar.codigo_departamento != null) buscar.codigo_departamento = Number(buscar.codigo_departamento);
     this.searchValue = JSON.stringify(buscar);
-    (buscar.letra_provincia != "")
-      ? this.getDepartamento()
-      : this.dataSource.data = [] 
+    this.getDepartamento()
   }
 }

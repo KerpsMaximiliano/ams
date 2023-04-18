@@ -60,7 +60,13 @@ export class DepartamentoComponent {
             complete: () => {
               this.utils.closeLoading();
               setTimeout(() => {
-                this.handleSearch('');
+                this.handleSearch({
+                  par_modo: 'G',
+                  letra_provincia: res.letra_provincia,
+                  codigo_departamento: res.codigo_departamento,
+                  descripcion: "",
+                  descripcion_reducida: ""
+                });
               }, 300);
             }
           });

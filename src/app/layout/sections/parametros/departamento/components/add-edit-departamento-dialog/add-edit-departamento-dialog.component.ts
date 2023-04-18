@@ -75,7 +75,7 @@ export class AddEditDepartamentoDialogComponent {
           par_modo: this.data.par_modo,
           letra_provincia:  this.formGroup.get('letra_provincia')?.value,
           codigo_departamento:  this.formGroup.get('codigo_departamento')?.value,
-          descripcion:  this.formGroup.get('descripcion')?.value,
+          descripcion:  this.formGroup.get('descripcion')?.value.trim(),
           descripcion_reducida:  this.formGroup.get('descripcion_reducida')?.value,
         })
     }
