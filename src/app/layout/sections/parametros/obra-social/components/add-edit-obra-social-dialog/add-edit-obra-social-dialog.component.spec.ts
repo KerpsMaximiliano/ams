@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AddEditTipoDocumentoDialogComponent } from './add-edit-obra-social-dialog.component';
+import { AddEditObraSocialDialogComponent } from './add-edit-obra-social-dialog.component';
 
 
 describe('AddEditParametroDialogComponent', () => {
-  let component: AddEditTipoDocumentoDialogComponent;
-  let fixture: ComponentFixture<AddEditTipoDocumentoDialogComponent>;
+  let component: AddEditObraSocialDialogComponent;
+  let fixture: ComponentFixture<AddEditObraSocialDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AddEditTipoDocumentoDialogComponent ]
+      declarations: [ AddEditObraSocialDialogComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AddEditTipoDocumentoDialogComponent);
+    fixture = TestBed.createComponent(AddEditObraSocialDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

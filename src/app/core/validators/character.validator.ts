@@ -35,3 +35,12 @@ export function isAlphanumericWithSlash(): ValidatorFn {
     : {notAlphanumericWithSlash:true};
   };
 }
+
+export function isAlphanumericWithPointAndSpaces(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    let regex = /^[a-zA-Z0-9.\s]+$/;
+    return regex.test(control.value) ?
+    null
+    : {notAlphanumericWithPoint:true};
+  };
+}

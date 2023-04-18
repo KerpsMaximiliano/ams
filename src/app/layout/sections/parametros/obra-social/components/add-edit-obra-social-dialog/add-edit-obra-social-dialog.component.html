@@ -7,17 +7,23 @@
     <form class="form-datos" [formGroup]="formGroup" (ngSubmit)="confirm()">
 
       <div class="seeker-fields-container">
-        <h3>OBRA SOCIAL</h3>
+        <h3>CODIGO</h3>
         <mat-form-field class="seeker-form-field" appearance="outline">
-          <input matInput formControlName="obraSocial" required maxlength="20" minlength="3" [readonly]="!data.edit">
-          <mat-error *ngIf="formGroup.get('obraSocial')?.invalid && formGroup.get('obraSocial')?.touched">{{getErrorMessage(formGroup.get('obraSocial'))}}</mat-error>
+          <input matInput formControlName="codigo" required maxlength="5" minlength="1" [readonly]="!data.edit">
+          <mat-error *ngIf="formGroup.get('codigo')?.invalid && formGroup.get('codigo')?.touched">{{getErrorMessage(formGroup.get('codigo'))}}</mat-error>
         </mat-form-field>
       </div>
-
+      <div class="seeker-fields-container">
+        <h3>OBRA SOCIAL</h3>
+        <mat-form-field class="seeker-form-field" appearance="outline">
+          <input matInput formControlName="descripcion" required maxlength="30" minlength="3" [readonly]="!data.edit">
+          <mat-error *ngIf="formGroup.get('descripcion')?.invalid && formGroup.get('descripcion')?.touched">{{getErrorMessage(formGroup.get('descripcion'))}}</mat-error>
+        </mat-form-field>
+      </div>
       <div class="seeker-fields-container">
         <h3>PROPONE FECHA PATOLOGÍA</h3>
         <mat-form-field class="seeker-form-field" appearance="outline">
-          <mat-select formControlName="proponeFechaPatologia">
+          <mat-select formControlName="proponeFechaPatologia" (selectionChange)="changeProponeFechaPatologia()">
             <mat-option [value]="'S'">
               SI
             </mat-option>
@@ -27,24 +33,24 @@
           </mat-select>
         </mat-form-field>
       </div>
-
+      
       <div class="seeker-fields-container">
         <h3>TIPO FECHA PATOLOGÍA</h3>
         <mat-form-field class="seeker-form-field" appearance="outline" >
-          <mat-select formControlName="tipoFechaPatologia" >
-            <mat-option [value]="'FI'" [disabled]="formGroup.get('proponeFechaPatologia')?.value === 'N'">
+          <mat-select formControlName="tipoFechaPatologia" [required]="formGroup.get('proponeFechaPatologia')?.value === 'S'">
+            <mat-option [value]="'FI'" [disabled]="formGroup.get('proponeFechaPatologia')?.value !== 'S'">
               Fecha de ingreso al servicio
             </mat-option>
-            <mat-option [value]="'FS'" [disabled]="formGroup.get('proponeFechaPatologia')?.value === 'N'">
+            <mat-option [value]="'FS'" [disabled]="formGroup.get('proponeFechaPatologia')?.value !== 'S'">
               Fecha de subscripción
             </mat-option>
           </mat-select>
           
         </mat-form-field>
       </div>
-
+      
       <div class="seeker-fields-container">
-        <h3>Tipo</h3>
+        <h3>TIPO</h3>
         <mat-form-field class="seeker-form-field" appearance="outline">
           <mat-select formControlName="tipo">
             <mat-option [value]="'O'">
@@ -59,19 +65,19 @@
           </mat-select>
         </mat-form-field>
       </div>
-
+      
       <div class="seeker-fields-container">
         <h3>NÚMERO REGISTRO NACIONAL</h3>
         <mat-form-field class="seeker-form-field" appearance="outline">
-          <input matInput formControlName="numeroRegistroNacional" required maxlength="3" minlength="1" [readonly]="!data.edit">
+          <input matInput formControlName="numeroRegistroNacional" required maxlength="15" minlength="1" [readonly]="!data.edit">
           <mat-error *ngIf="formGroup.get('numeroRegistroNacional')?.invalid && formGroup.get('numeroRegistroNacional')?.touched">{{getErrorMessage(formGroup.get('numeroRegistroNacional'))}}</mat-error>
         </mat-form-field>
       </div>
-
+      
       <div class="seeker-fields-container">
         <h3>SIMILAR SMP</h3>
         <mat-form-field class="seeker-form-field" appearance="outline">
-          <mat-select formControlName="similarSMP">
+          <mat-select formControlName="similar_SMP">
             <mat-option [value]="'S'">
               SI
             </mat-option>
@@ -81,11 +87,12 @@
           </mat-select>
         </mat-form-field>
       </div>
-
+      
+      
       <div class="seeker-fields-container">
         <h3>OMITE RESOLUCIÓN 420</h3>
         <mat-form-field class="seeker-form-field" appearance="outline">
-          <mat-select formControlName="omiteResolucion">
+          <mat-select formControlName="omite_R420">
             <mat-option [value]="'S'">
               SI
             </mat-option>

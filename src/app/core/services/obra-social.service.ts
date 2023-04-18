@@ -11,30 +11,12 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class ObraSocialService { 
+export class ObraSocialService {
 
   constructor(private http:HttpClient,
     private environmentService: EnvironmentService) { }
 
-  getDocumentByDesc(body:string): Observable<ObraSocialResponse> {
+  getObraSocialCrud(body:string): Observable<ObraSocialResponse> {
     return this.http.post<ObraSocialResponse>(`${this.environmentService.api}/abmobrasocial`, body, httpOptions);
-  }
-
-  getDocumentById(body:string): Observable<ObraSocialResponse> {
-    return this.http.post<ObraSocialResponse>(`${this.environmentService.api}/abmobrasocial`, body, httpOptions);
-  }
-  
-  addDocument(data:ObraSocial): Observable<ObraSocial>{
-    let body = JSON.stringify(data);
-    return this.http.post<ObraSocial>(`${this.environmentService.api}/abmobrasocial`, body, httpOptions);
-  }
-
-  editDocument(data:ObraSocial): Observable<ObraSocial> {
-    let body = JSON.stringify(data);
-    return this.http.post<ObraSocial>(`${this.environmentService.api}/abmobrasocial`, body, httpOptions);
-  }
-
-  deleteParametro(id:number){
-    return this.http.delete(`${this.environmentService.api}/abmobrasocial/${id}`);
   }
 }

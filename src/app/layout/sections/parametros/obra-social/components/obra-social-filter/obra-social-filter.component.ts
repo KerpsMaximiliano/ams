@@ -8,7 +8,7 @@ import { UntypedFormControl } from '@angular/forms';
 })
 export class ObraSocialFilterComponent {
 
-  @Output() searchEvent: EventEmitter<string> = new EventEmitter<string>();
+  @Output() searchEvent: EventEmitter<any> = new EventEmitter<any>();
 
   public descripcion = new UntypedFormControl('');
   constructor() { }
@@ -17,7 +17,11 @@ export class ObraSocialFilterComponent {
   }
 
   public search(): void {
-    this.searchEvent.emit(this.descripcion.value)
+    let body = {
+      par_modo: "C",
+      descripcion: this.descripcion.value
+    };
+    this.searchEvent.emit(body)
   }
 
   public searchKeyUp(e:any): void {
@@ -29,6 +33,5 @@ export class ObraSocialFilterComponent {
 
   public clearInputs(): void {
     this.descripcion.setValue("");
-    this.search();
   }
 }

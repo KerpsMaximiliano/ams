@@ -17,10 +17,10 @@
         </div>
   
         <div class="buttons-container">
-          <button class="primary-button icon-button" type="button" (click)="search()" [disabled]="descripcion.value.length < 3">
+          <button class="primary-button icon-button" type="button" (click)="search()" [disabled]="descripcion.value.length < 1">
             <mat-icon>done</mat-icon>
             Buscar</button>
-          <button class="primary-button icon-button" type="button" (click)="clearInputs()">
+          <button class="primary-button icon-button" type="button" (click)="clearInputs()" [disabled]="descripcion.value.length === 0">
             <mat-icon>close</mat-icon>
             Limpiar</button>
         </div>

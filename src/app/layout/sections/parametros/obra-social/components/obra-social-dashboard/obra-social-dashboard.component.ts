@@ -5,10 +5,11 @@ import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
-import { ObraSocial } from 'src/app/core/models/obra-social.interface';
+import { ObraSocial, ObraSocialResponse } from 'src/app/core/models/obra-social.interface';
 import { UtilService } from 'src/app/core/services/util.service';
 import { AddEditObraSocialDialogComponent } from '../add-edit-obra-social-dialog/add-edit-obra-social-dialog.component';
 import { ObraSocialService } from 'src/app/core/services/obra-social.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-obra-social-dashboard',
@@ -23,18 +24,19 @@ export class ObraSocialDashboardComponent {
   @ViewChild(MatTable) table!: MatTable<any>;
 
   public displayedColumns: string[] = [
-    'obra-social',
     'codigo',
+    'descripcion',
     'tipo',
-    'formulario',
+    'numeroRegistroNacional',
+    'simil',
+    'omite_R420',
     'actions'
   ];
 
   public dataSource: MatTableDataSource<ObraSocial>;
 
-  public searchText: string = "";
-
-  public documents: ObraSocial[] = [];
+  public searchValue: string;
+  public obrasSociales: ObraSocial[] = [];
 
   constructor(private obraSocialService: ObraSocialService,
     private utils: UtilService,
@@ -48,14 +50,13 @@ export class ObraSocialDashboardComponent {
 
   private getobraSocial(): void {
     this.utils.openLoading();
-    let aux = {
-      descripcion: this.searchText
-    }
-    let body = JSON.stringify(aux)
-    this.obraSocialService.getDocumentByDesc(body).subscribe({
+    console.log(this.searchValue)
+    this.obraSocialService.getObraSocialCrud(this.searchValue).subscribe({
       next: (res: any) => {
-        this.documents = res.dataset as ObraSocial[];
-        this.dataSource = new MatTableDataSource<ObraSocial>(this.documents);
+        (res.dataset.length)
+          ? this.obrasSociales = res.dataset as ObraSocial[]
+          : this.obrasSociales = [res.dataset];
+        this.dataSource = new MatTableDataSource<ObraSocial>(this.obrasSociales);
         this.dataSource.sort = this.sort;
         setTimeout(() => {
           this.dataSource.paginator = this.paginator;
@@ -84,14 +85,19 @@ export class ObraSocialDashboardComponent {
     }
   }
 
-  public editDocType(obraSocial: ObraSocial): void {
+  public editObraSocial(obraSocial: ObraSocial): void {
     const modalNuevoObraSocial = this.dialog.open(AddEditObraSocialDialogComponent, {
       data: {
-        title: `Editar Documento`,
-        id: obraSocial.id,
-        tipo: obraSocial.descripcion,
-        formulario: obraSocial.formulario,
+        title: `Editar Obra Social`,
+        par_modo: "U",
         codigo: obraSocial.codigo,
+        descripcion: obraSocial.descripcion,
+        propone_fecha_patologia: obraSocial.propone_fecha_patologia,
+        tipo_fecha_patologia: obraSocial.tipo_fecha_patologia,
+        tipo_obra_social_prepaga: obraSocial.tipo_obra_social_prepaga,
+        nro_registro: obraSocial.nro_registro,
+        similar_SMP: obraSocial.similar_SMP,
+        omite_R420: obraSocial.omite_R420,
         edit: true
       }
     });
@@ -100,20 +106,24 @@ export class ObraSocialDashboardComponent {
       next: (res) => {
         if (res) {
           this.utils.openLoading();
-          this.obraSocialService.editDocument(res).subscribe({
+          this.obraSocialService.getObraSocialCrud(res).subscribe({
             next: () => {
-              this.utils.notification("El Documento se ha editado extiosamente", 'success')
+              this.utils.notification("La Obra Social se ha editado extiosamente", 'success')
             },
             error: (err) => {
               this.utils.closeLoading();
               (err.status == 0)
                 ? this.utils.notification('Error de conexion', 'error')
                 : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')
-              this.editDocType(res)
+              this.editObraSocial(res)
             },
             complete: () => {
               this.utils.closeLoading();
               setTimeout(() => {
+                this.searchValue = JSON.stringify({
+                    par_modo: "C",
+                    descripcion: res.descripcion
+                  })
                 this.getobraSocial();
               }, 300);
             }
@@ -123,33 +133,39 @@ export class ObraSocialDashboardComponent {
     });
   }
 
-  public viewDocType(obraSocial: ObraSocial): void {
+  public viewObraSocial(obraSocial: ObraSocial): void {
     this.dialog.open(AddEditObraSocialDialogComponent, {
       data: {
-        title: `Ver Documento`,
-        id: obraSocial.id,
-        tipo: obraSocial.descripcion,
-        formulario: obraSocial.formulario,
+        title: `Ver Obra Social`,
+        par_modo: "C",
+        codigo: obraSocial.codigo,
+        descripcion: obraSocial.descripcion,
+        propone_fecha_patologia: obraSocial.propone_fecha_patologia,
+        tipo_fecha_patologia: obraSocial.tipo_fecha_patologia,
+        tipo_obra_social_prepaga: obraSocial.tipo_obra_social_prepaga,
+        nro_registro: obraSocial.nro_registro,
+        similar_SMP: obraSocial.similar_SMP,
+        omite_R420: obraSocial.omite_R420,
         edit: false
       }
     });
   }
 
 
-  public deleteDocType(tipoDoc: ObraSocial): void {
+  public deleteObraSocial(obraSocial: ObraSocial): void {
     const modalConfirm = this.dialog.open(ConfirmDialogComponent, {
       data: {
-        title: `Eliminar Documento`,
-        message: `¿Está seguro de eliminar el documento ${tipoDoc.descripcion}?`
+        title: `Eliminar Obra Social`,
+        message: `¿Está seguro de eliminar la Obra Social ${obraSocial.descripcion}?`
       }
     });
 
     modalConfirm.afterClosed().subscribe({
       next: (res) => {
         if (res) {
-          this.obraSocialService.deleteParametro(res.id).subscribe({
+          this.obraSocialService.getObraSocialCrud(res.id).subscribe({
             next: (res: any) => {
-              this.utils.notification("El Documento se ha borrado exitosamente", 'success')
+              this.utils.notification("La Obra Social se ha borrado exitosamente", 'success')
               this.getobraSocial();
             },
             error: (err) => {
@@ -163,10 +179,8 @@ export class ObraSocialDashboardComponent {
     })
   }
 
-  public filter(text: any): void {
-    this.searchText = text;
-    (this.searchText != "")
-      ? this.getobraSocial()
-      : this.dataSource.data = []
+  public filter(buscar: string):void {
+    this.searchValue = buscar;
+      this.getobraSocial()
   }
 }
