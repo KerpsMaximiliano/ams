@@ -7,10 +7,10 @@
             </mat-panel-title>
         </mat-expansion-panel-header>
         <form [formGroup]="searchForm">
-            <div class="seeker-fields-container">
+            <div class="seeker-fields-container" (keyup.enter)="searchKeyUp($event)">
                 <mat-form-field class="seeker-form-field" *ngIf="provincias$ | async as provincias; else loading">
                     <mat-label class="seeker-label">Provincia</mat-label>
-                    <mat-select formControlName="selectedProvincia">
+                    <mat-select formControlName="letra_provincia">
                         <mat-option [value]="">
                             Buscar todas
                         </mat-option>
@@ -31,8 +31,8 @@
                     </div>
                 </ng-template>
                 <mat-form-field class="seeker-form-field">
-                    <mat-label class="seeker-label">Codigo Departamento</mat-label>
-                    <input matInput class="seeker-input" formControlName="codigoDepartamento">
+                    <mat-label class="seeker-label">Nombre Departamento</mat-label>
+                    <input matInput class="seeker-input" formControlName="descripcion">
                 </mat-form-field>
             </div>
             <div class="buttons-container">

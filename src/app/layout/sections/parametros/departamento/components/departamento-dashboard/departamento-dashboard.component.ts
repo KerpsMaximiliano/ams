@@ -12,6 +12,11 @@ import { Provincia, ProvinciaResponse } from 'src/app/core/models/provincia';
 import { Observable } from 'rxjs';
 import { ProvinciaService } from 'src/app/core/services/provincia.service';
 
+export interface searchValue {
+  descripcion: Number,
+  letra_provincia: string
+}
+
 @Component({
   selector: 'app-departamento-dashboard',
   templateUrl: './departamento-dashboard.component.html',
@@ -36,7 +41,7 @@ export class DepartamentoDashboardComponent {
   provincias$: Observable<ProvinciaResponse>;
   provinciaList: Provincia[]
 
-  public searchValue: string;
+  public searchValue: searchValue;
   public departamentos: Departamento[] = [];
 
   constructor(private departamentoService: DepartamentoService,
@@ -54,7 +59,14 @@ export class DepartamentoDashboardComponent {
 
   private getDepartamento(): void {
     this.utils.openLoading();
-    this.departamentoService.departamentoCRUD(this.searchValue).subscribe({
+    let body = {
+        par_modo: 'C',
+        letra_provincia: this.searchValue.letra_provincia,
+        codigo_departamento: null,
+        descripcion: this.searchValue.descripcion,
+        descripcion_reducida: ""
+    };
+    this.departamentoService.departamentoCRUD(JSON.stringify(body)).subscribe({
       next:(res:any) => {
         (res.dataset.length)
           ? this.departamentos = res.dataset as Departamento[]
@@ -120,13 +132,8 @@ export class DepartamentoDashboardComponent {
             complete: () => {
               this.utils.closeLoading();
               setTimeout(() => {
-                this.searchValue = JSON.stringify({
-                  par_modo: 'G',
-                  letra_provincia: res.letra_provincia,
-                  codigo_departamento: res.codigo_departamento,
-                  descripcion: "",
-                  descripcion_reducida: ""
-                })
+                this.searchValue.letra_provincia = res.letra_provincia;
+                this.searchValue.descripcion = res.descripcion;
                 this.getDepartamento();
               }, 300);
             }
@@ -151,9 +158,8 @@ export class DepartamentoDashboardComponent {
     });
   }
 
-  public filter(buscar: any): void {
-    if (buscar.codigo_departamento != null) buscar.codigo_departamento = Number(buscar.codigo_departamento);
-    this.searchValue = JSON.stringify(buscar);
+  public filter(buscar: searchValue): void {
+    this.searchValue = buscar;
     this.getDepartamento()
   }
 }

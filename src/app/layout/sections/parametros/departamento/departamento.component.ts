@@ -1,7 +1,7 @@
 import { MatDialog } from '@angular/material/dialog';
 import { Component, ViewChild } from '@angular/core';
 import { UtilService } from 'src/app/core/services/util.service';
-import { DepartamentoDashboardComponent } from './components/departamento-dashboard/departamento-dashboard.component'; 
+import { DepartamentoDashboardComponent, searchValue } from './components/departamento-dashboard/departamento-dashboard.component'; 
 import { DepartamentoService } from 'src/app/core/services/departamento.service';
 import { Departamento } from 'src/app/core/models/departamento';
 import { AddEditDepartamentoDialogComponent } from './components/add-edit-departamento-dialog/add-edit-departamento-dialog.component';
@@ -25,7 +25,7 @@ export class DepartamentoComponent {
     this.provincias$ = this.provinciaService.provinciaList;
   }
 
-  public handleSearch(inputValue: any): void {
+  public handleSearch(inputValue: searchValue): void {
     this.dashboard.filter(inputValue);
   }
 
@@ -60,13 +60,7 @@ export class DepartamentoComponent {
             complete: () => {
               this.utils.closeLoading();
               setTimeout(() => {
-                this.handleSearch({
-                  par_modo: 'G',
-                  letra_provincia: res.letra_provincia,
-                  codigo_departamento: res.codigo_departamento,
-                  descripcion: "",
-                  descripcion_reducida: ""
-                });
+                this.handleSearch({letra_provincia: res.letra_provincia, descripcion: res.codigo_departamento})
               }, 300);
             }
           });

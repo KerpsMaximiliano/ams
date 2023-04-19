@@ -13,8 +13,8 @@ export class DepartamentoFilterComponent {
   @Input() provincias$: Observable<ProvinciaResponse>;
   @Output() searchEvent: EventEmitter<any> = new EventEmitter<any>();
   searchForm = new FormGroup({
-    selectedProvincia: new FormControl(''),
-    codigoDepartamento: new FormControl(null)
+    letra_provincia: new FormControl(''),
+    descripcion: new FormControl('')
   })
 
   constructor() { }
@@ -22,31 +22,17 @@ export class DepartamentoFilterComponent {
   ngOnInit(): void {
   }
 
-  public search(){    
-    let body = {
-      par_modo: 'G',
-      letra_provincia: this.searchForm.get('selectedProvincia')?.value?.toUpperCase(),
-      codigo_departamento: this.searchForm.get('codigoDepartamento')?.value,
-      descripcion: "",
-      descripcion_reducida: ""
-    };
-    this.searchEvent.emit(body)
+  public search(){
+    this.searchEvent.emit(this.searchForm.value)
   }
 
   public clearInputs(){
-    this.searchForm.get('selectedProvincia')?.setValue('');
-    this.searchForm.get('codigoDepartamento')?.setValue(null);
+    this.searchForm.get('letra_provincia')?.setValue('');
+    this.searchForm.get('descripcion')?.setValue('');
   }
 
   public searchKeyUp(e:any): void {
     e.preventDefault();
-    let body = {
-      par_modo: 'G',
-      letra_provincia: this.searchForm.get('selectedProvincia')?.value?.toUpperCase(),
-      codigo_departamento: this.searchForm.get('codigoDepartamento')?.value,
-      descripcion: "",
-      descripcion_reducida: ""
-    }
-    this.searchEvent.emit(body)
+    this.searchEvent.emit(this.searchForm.value)
   }
 }

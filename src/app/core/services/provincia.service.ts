@@ -12,28 +12,17 @@ const httpOptions = {
 })
 export class ProvinciaService {
 
+    URL: string = "/abmprovincias";
     get provinciaList(): any {
-        return this.getProvinciaByDesc(JSON.stringify({nombre_provincia:''}));
+        return this.provinciaCRUD(JSON.stringify({
+            par_modo: "C",
+            nombre_provincia: ""
+        }));
     }
 
     constructor(private http:HttpClient, private environmentService: EnvironmentService) { }
 
-    getProvinciaByDesc(body:string): Observable<ProvinciaResponse> {  
-        return this.http.post<ProvinciaResponse>(`${this.environmentService.api}/provincias`, body, httpOptions)
+    provinciaCRUD(body:string): Observable<ProvinciaResponse | Provincia> {  
+        return this.http.post<ProvinciaResponse | Provincia>(`${this.environmentService.api}` + this.URL, body, httpOptions)
     }
-
-    getProvinciaById(body:string): Observable<Provincia[]> {    
-        console.log(body);
-        return this.http.post<Provincia[]>(`${this.environmentService.api}/provincia`, body, httpOptions)
-    }
-
-    public addProvincia(data:Provincia): Observable<Provincia> {
-        let body = JSON.stringify(data);
-        return this.http.post<Provincia>(`${this.environmentService.api}/abmprovincias`, body, httpOptions);
-    }
-
-    public editProvincia(data:Provincia): Observable<Provincia> {
-        let body = JSON.stringify(data);
-        return this.http.post<Provincia>(`${this.environmentService.api}/abmprovincias`, body, httpOptions);
-    }
-}
+}    
