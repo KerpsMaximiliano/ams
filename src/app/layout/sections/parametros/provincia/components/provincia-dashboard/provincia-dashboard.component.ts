@@ -46,8 +46,11 @@ export class ProvinciaDashboardComponent {
 
   private getProvincia(): void {
     this.utils.openLoading();
-    let body = JSON.stringify({nombre_provincia: this.searchText});
-    this.provinciaService.getProvinciaByDesc(body).subscribe({
+    let body = JSON.stringify({
+      par_modo: "C",
+      nombre_provincia: this.searchText
+    });
+    this.provinciaService.provinciaCRUD(body).subscribe({
       next:(res:any) => {
         this.provincia = res.dataset as Provincia[];
         this.dataSource = new MatTableDataSource<Provincia>(this.provincia);
@@ -97,7 +100,7 @@ export class ProvinciaDashboardComponent {
       next:(res) => {
         if (res) {
           this.utils.openLoading();
-          this.provinciaService.editProvincia(res).subscribe({
+          this.provinciaService.provinciaCRUD(res).subscribe({
             next: () => {
               this.utils.notification("La Provincia se ha editado extiosamente", 'success')
             },

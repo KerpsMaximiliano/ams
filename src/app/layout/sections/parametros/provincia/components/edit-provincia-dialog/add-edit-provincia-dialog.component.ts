@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { isAlphanumeric, isAlphanumericWithSpaces, isNumeric } from 'src/app/core/validators/character.validator';
+import { isAlphanumeric, isAlphanumericWithSpaces, isNumeric, isPercentage } from 'src/app/core/validators/character.validator';
 import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
@@ -29,14 +29,14 @@ export class AddEditProvinciaDialogComponent {
         && this.data.title === 'Editar Provincia'},Validators.compose([
         Validators.maxLength(1),
         Validators.minLength(1),
-        isAlphanumeric,
+        isAlphanumeric(),
       ])
     ),
       nombre_provincia: new UntypedFormControl('', Validators.compose([
           Validators.required,
           Validators.minLength(3),
           Validators.maxLength(30),
-          isAlphanumericWithSpaces
+          isAlphanumericWithSpaces()
         ])
       ),
       codifica_altura: new UntypedFormControl({value: 'N', disabled: !this.data.edit},
@@ -49,15 +49,11 @@ export class AddEditProvinciaDialogComponent {
       codigo_provincia: new UntypedFormControl('', Validators.compose([
         Validators.maxLength(2),
         Validators.minLength(2),
-        Validators.pattern("^[0-9]*$"),
-        isNumeric
+        isNumeric()
         ])
       ),
-      flete_transportista: new UntypedFormControl('', Validators.compose([
-        Validators.maxLength(7),
-        Validators.minLength(1),
-        Validators.max(999.999),
-        isNumeric
+      flete_transportista: new UntypedFormControl(null, Validators.compose([
+        isPercentage()
         ])
       ),
     })
@@ -83,8 +79,8 @@ export class AddEditProvinciaDialogComponent {
           codigo: this.formGroup.get('codigo')?.value,
           nombre_provincia: this.formGroup.get('nombre_provincia')?.value,
           codifica_altura: this.formGroup.get('codifica_altura')?.value,
-          codigo_provincia: this.formGroup.get('codigo_provincia')?.value,
-          flete_transportista: this.formGroup.get('flete_transportista')?.value
+          codigo_provincia: Number(this.formGroup.get('codigo_provincia')?.value),
+          flete_transportista: Number(this.formGroup.get('flete_transportista')?.value)
         })
     }
   }
@@ -101,6 +97,12 @@ export class AddEditProvinciaDialogComponent {
       }
       if ((control.errors?.['notAlphanumeric'] || control.errors?.['notAlphanumericWithSpaces']) && control.value != '' && control.value != null) {
         return `No puede contener caracteres especiales`
+      }
+      if ((control.errors?.['notNumeric'] || control.errors?.['notNumeric']) && control.value != '' && control.value != null) {
+        return `Solo admite numeros`
+      }
+      if ((control.errors?.['notPercentage'] || control.errors?.['notPercentage']) && control.value != '' && control.value != null) {
+        return `Debe ser un numero que indique procentaje. Ej: 1.5`
       }
       if (control.errors?.['pattern']) {
         return `No puede contener letras, caracteres especiales`

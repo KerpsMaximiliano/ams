@@ -44,7 +44,7 @@ export class ProvinciaComponent {
       next:(res) => {
         if (res) {
           this.utils.openLoading();
-          this.provinciaService.addProvincia(res).subscribe({
+          this.provinciaService.provinciaCRUD(res).subscribe({
             next: () => {
               this.utils.notification("El Tipo de Provincia se ha creado exitosamente", 'success')
             },
