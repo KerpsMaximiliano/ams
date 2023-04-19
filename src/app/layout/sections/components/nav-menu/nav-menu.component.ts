@@ -32,7 +32,7 @@ export class NavMenuComponent {
           "icon": "keyboard_arrow_right"
         },
         {
-          "title": "Preguntas Declaraciones juradas",
+          "title": "Obras Sociales",
           "url": "/parametros/obra-social",
           "icon": "keyboard_arrow_right"
         }

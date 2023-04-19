@@ -9,11 +9,11 @@ th.mat-header-cell:first-of-type{
 
 // Numeros y fechas a la derecha
 .mat-column-codigo, .mat-column-numeroRegistroNacional {
-    text-align: right !important;
+    text-align: right;
     padding-right: 50px;
 }
 
 // Textos a la izquierda
 .mat-column-descripcion, .mat-column-tipo, .mat-column-simil, .mat-column-omite_R420{
-    text-align: left !important;
+    text-align: left;
 }
