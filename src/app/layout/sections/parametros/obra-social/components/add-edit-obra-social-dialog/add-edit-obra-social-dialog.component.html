@@ -69,7 +69,7 @@
       <div class="seeker-fields-container">
         <h3>NÚMERO REGISTRO NACIONAL</h3>
         <mat-form-field class="seeker-form-field" appearance="outline">
-          <input matInput formControlName="numeroRegistroNacional" required maxlength="15" minlength="1" notZeroValidator [readonly]="!data.edit">
+          <input matInput formControlName="numeroRegistroNacional" required maxlength="15" minlength="1" [readonly]="!data.edit">
           <mat-error *ngIf="formGroup.get('numeroRegistroNacional')?.invalid && formGroup.get('numeroRegistroNacional')?.touched">{{getErrorMessage(formGroup.get('numeroRegistroNacional'))}}</mat-error>
         </mat-form-field>
       </div>
