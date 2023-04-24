@@ -10,10 +10,8 @@ import { EditTipoNacionalidadDialogComponent } from './tipo-nacionalidad/compone
 import { TipoNacionalidadComponent } from './tipo-nacionalidad/tipo-nacionalidad.component';
 import { TipoNacionalidadFilterComponent } from './tipo-nacionalidad/components/tipo-nacionalidad-filter/tipo-nacionalidad-filter.component';
 import { TipoNacionalidadDashboardComponent } from './tipo-nacionalidad/components/tipo-nacionalidad-dashboard/tipo-nacionalidad-dashboard.component'; 
-import { EditAbmDepartamentoDialogComponent } from './abm-departamento/components/edit-abm-departamento-dialog/edit-abm-departamento-dialog.component';
-import { AbmDepartamentoComponent } from './abm-departamento/abm-departamento.component';
-import { AbmDepartamentoFilterComponent } from './abm-departamento/components/abm-departamento-filter/abm-departamento-filter.component';
-import { AbmDepartamentoDashboardComponent } from './abm-departamento/components/abm-departamento-dashboard/abm-departamento-dashboard.component';
+import { AbmPosicionesComponent } from './abm-posiciones/abm-posiciones.component';
+import { AddEditAbmPosicionesComponent } from './abm-posiciones/add-edit-abm-posiciones/add-edit-abm-posiciones.component';
 
 @NgModule({
   declarations: [
@@ -25,10 +23,7 @@ import { AbmDepartamentoDashboardComponent } from './abm-departamento/components
     TipoNacionalidadFilterComponent,
     TipoNacionalidadDashboardComponent,
     EditTipoNacionalidadDialogComponent,
-    AbmDepartamentoComponent,
-    AbmDepartamentoDashboardComponent,
-    AbmDepartamentoFilterComponent,
-    EditAbmDepartamentoDialogComponent,
+    AddEditAbmPosicionesComponent,
   ],
   imports: [
     CommonModule,

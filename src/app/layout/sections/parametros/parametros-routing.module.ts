@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AbmDepartamentoComponent } from './abm-departamento/abm-departamento.component';
+import { AbmPosicionesComponent } from './abm-posiciones/abm-posiciones.component'; 
 import { TipoDocumentoComponent } from './tipo-documento/tipo-documento.component';
 import { TipoNacionalidadComponent } from './tipo-nacionalidad/tipo-nacionalidad.component';
 const routes: Routes = [
@@ -13,8 +13,8 @@ const routes: Routes = [
     component: TipoNacionalidadComponent
   },
   {
-    path: 'parametros/abm-departamento',
-    component: AbmDepartamentoComponent
+    path: 'parametros/posicion',
+    component: AbmPosicionesComponent
   }
 ];
 

@@ -32,8 +32,8 @@ export class NavMenuComponent {
           "icon": "keyboard_arrow_right"
         },
         {
-          "title": "Departamento",
-          "url": "/parametros/abm-departamento",
+          "title": "Posicion",
+          "url": "/parametros/abm-posiciones",
           "icon": "keyboard_arrow_right"
         }
       ]
@@ -50,9 +50,9 @@ export class NavMenuComponent {
     });
     this.sViewport = window.innerWidth <= 600;
 
-   this.service.navHidden.subscribe(
-    value => this.opened = !this.opened
-   )
+    this.service.navHidden.subscribe(
+      value => this.opened = !this.opened
+    )
   }
 
   navigate(url: string, section: MenuItem) {
