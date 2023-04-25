@@ -25,4 +25,5 @@ export class ProvinciaService {
     provinciaCRUD(body:string): Observable<ProvinciaResponse | Provincia> {  
         return this.http.post<ProvinciaResponse | Provincia>(`${this.environmentService.api}` + this.URL, body, httpOptions)
     }
+
 }    
