@@ -40,7 +40,6 @@ export class NavMenuComponent {
           "title": "Provincias",
           "url": "/parametros/provincia",
           "icon": "keyboard_arrow_right"
-
         }
         
       ]

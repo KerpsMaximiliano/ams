@@ -10,3 +10,4 @@ export interface Provincia {
 }
 
 export type ProvinciaResponse = Response<Provincia[]>;
+

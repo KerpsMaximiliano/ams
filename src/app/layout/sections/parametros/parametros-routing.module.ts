@@ -4,6 +4,7 @@ import { DepartamentoComponent } from './departamento/departamento.component';
 import { TipoDocumentoComponent } from './tipo-documento/tipo-documento.component';
 import { TipoNacionalidadComponent } from './tipo-nacionalidad/tipo-nacionalidad.component';
 import { ProvinciaComponent } from './provincia/provincia.component';
+
 const routes: Routes = [
   {
     path: 'parametros/tipo-documento',
