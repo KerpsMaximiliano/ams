@@ -48,7 +48,7 @@ export class ObraSocialComponent {
         if (res) {
           console.log(res)
           this.utils.openLoading();
-          this.obraSocialService.getObraSocialCrud(res).subscribe({
+          this.obraSocialService.getObraSocialCRUD(res).subscribe({
             next: () => {
               this.utils.notification("La Obra Social se ha creado exitosamente", 'success')
             },

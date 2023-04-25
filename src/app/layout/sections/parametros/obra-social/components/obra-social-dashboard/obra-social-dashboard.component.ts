@@ -50,8 +50,7 @@ export class ObraSocialDashboardComponent {
 
   private getobraSocial(): void {
     this.utils.openLoading();
-    console.log(this.searchValue)
-    this.obraSocialService.getObraSocialCrud(this.searchValue).subscribe({
+    this.obraSocialService.getObraSocialCRUD(this.searchValue).subscribe({
       next: (res: any) => {
         (res.dataset.length)
           ? this.obrasSociales = res.dataset as ObraSocial[]
@@ -106,7 +105,7 @@ export class ObraSocialDashboardComponent {
       next: (res) => {
         if (res) {
           this.utils.openLoading();
-          this.obraSocialService.getObraSocialCrud(res).subscribe({
+          this.obraSocialService.getObraSocialCRUD(res).subscribe({
             next: () => {
               this.utils.notification("La Obra Social se ha editado extiosamente", 'success')
             },
@@ -149,34 +148,6 @@ export class ObraSocialDashboardComponent {
         edit: false
       }
     });
-  }
-
-
-  public deleteObraSocial(obraSocial: ObraSocial): void {
-    const modalConfirm = this.dialog.open(ConfirmDialogComponent, {
-      data: {
-        title: `Eliminar Obra Social`,
-        message: `¿Está seguro de eliminar la Obra Social ${obraSocial.descripcion}?`
-      }
-    });
-
-    modalConfirm.afterClosed().subscribe({
-      next: (res) => {
-        if (res) {
-          this.obraSocialService.getObraSocialCrud(res.id).subscribe({
-            next: (res: any) => {
-              this.utils.notification("La Obra Social se ha borrado exitosamente", 'success')
-              this.getobraSocial();
-            },
-            error: (err) => {
-              (err.status == 0)
-                ? this.utils.notification('Error de conexion', 'error')
-                : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')
-            }
-          });
-        }
-      }
-    })
   }
 
   public filter(buscar: string):void {

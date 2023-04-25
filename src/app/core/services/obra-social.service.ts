@@ -16,7 +16,7 @@ export class ObraSocialService {
   constructor(private http:HttpClient,
     private environmentService: EnvironmentService) { }
 
-  getObraSocialCrud(body:string): Observable<ObraSocialResponse> {
+  getObraSocialCRUD(body:string): Observable<ObraSocialResponse> {
     return this.http.post<ObraSocialResponse>(`${this.environmentService.api}/abmobrasocial`, body, httpOptions);
   }
 }
