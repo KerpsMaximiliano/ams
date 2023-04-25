@@ -27,6 +27,15 @@ export function isNumeric(): ValidatorFn {
   };
 }
 
+export function isPercentage(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    let regex = /^((?:|0|[1-9]\d?|100)(?:\.\d{1,2})?)$/;
+    return regex.test(control.value) ?
+    null
+    : {notPercentage:true};
+  };
+}
+
 export function isAlphanumericWithSlash(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     let regex = /^[a-zA-Z0-9\/]*$/;

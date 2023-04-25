@@ -15,13 +15,16 @@ export class NacionalidadService {
   constructor(private http:HttpClient,
     private environmentService: EnvironmentService) { }
 
-  getParamByDesc(body:string): Observable<TipoNacionalidad[]> {    
+  getParamByDesc(body:string): Observable<TipoNacionalidad[]> {  
+    console.log(body);
+      
     return this.http.post<TipoNacionalidad[]>(`${this.environmentService.api}/nacionalidades`, body, httpOptions)
   }
 
-  getParamById(body:string): Observable<TipoNacionalidad[]> {    
-    return this.http.post<TipoNacionalidad[]>(`${this.environmentService.api}/nacionalidad`, body, httpOptions)
-  }
+  // getParamById(body:string): Observable<TipoNacionalidad[]> {    
+  //   console.log(body);
+  //   return this.http.post<TipoNacionalidad[]>(`${this.environmentService.api}/nacionalidad`, body, httpOptions)
+  // }
 
   public deleteEstado(id:number) {
     return this.http.delete(`${this.environmentService.api}/estados/${id}`);

@@ -30,6 +30,11 @@ export class NavMenuComponent {
           "title": "Tipos de Nacionalidades",
           "url": "/parametros/tipo-nacionalidad",
           "icon": "keyboard_arrow_right"
+        },
+        {
+          "title": "Provincias",
+          "url": "/parametros/provincia",
+          "icon": "keyboard_arrow_right"
         }
       ]
     }
