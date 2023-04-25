@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { isAlphanumericWithSpaces } from 'src/app/core/validators/character.validator';
+import { isAlphanumericWithSpaces, isNumeric } from 'src/app/core/validators/character.validator';
 import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
@@ -23,32 +23,36 @@ export class AddEditCondicionIvaDialogComponent {
 
   private setUpForm(): void {
     this.formGroup = new UntypedFormGroup({
-      condicion: new UntypedFormControl('', Validators.compose([
+      codigoCondIva: new UntypedFormControl(this.data.codigo_de_IVA, Validators.compose([
+        Validators.required,
+        Validators.minLength(1),
+        Validators.maxLength(2),
+        isNumeric()
+      ])),
+      descripcion: new UntypedFormControl(this.data.descripcion, Validators.compose([
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(20),
         isAlphanumericWithSpaces()
       ])),
-      abreviatura: new UntypedFormControl('', Validators.compose([
+      abreviatura: new UntypedFormControl({value: this.data.descripcion_reducida, disabled: !this.data.edit}, Validators.compose([
         Validators.required,
         Validators.minLength(1),
-        Validators.maxLength(3),
-        isAlphanumericWithSpaces()
+        Validators.maxLength(8),
       ])),
-      formulario: new UntypedFormControl({value: 'A', disabled: !this.data.edit}, Validators.compose([
-        Validators.required,
-        Validators.minLength(1),
-        Validators.maxLength(2),
+      formulario: new UntypedFormControl({value: this.data.formulario_AB, disabled: !this.data.edit}, Validators.compose([
+        Validators.required
       ]))
     })
   }
 
   private setFormValues(): void {
-    this.formGroup.get('condicion')?.setValue(this.data.condicion);
-    this.formGroup.get('abreviatura')?.setValue(this.data.abreviatura);
-    (this.data.cuit)
-      ? this.formGroup.get('formulario')?.setValue(this.data.cuit)
-      : this.formGroup.get('formulario')?.setValue('A');
+    this.formGroup.get('codigoCondIva')?.setValue(this.data.codigo_de_IVA);
+    this.formGroup.get('descripcion')?.setValue(this.data.descripcion);
+    this.formGroup.get('abreviatura')?.setValue(this.data.descripcion_reducida);
+    (this.data.formulario_AB)
+      ? this.formGroup.get('formulario')?.setValue(this.data.formulario_AB)
+      : this.formGroup.get('formulario')?.setValue('');
   }
 
   closeDialog(): void {
@@ -58,9 +62,7 @@ export class AddEditCondicionIvaDialogComponent {
   public confirm(): void {
     this.formGroup.markAllAsTouched();
     if (this.formGroup.valid) {
-      (this.data.id != 99)
-        ? this.dialogRef.close({par_modo: 'U', id: this.data.id, descripcion: this.formGroup.get('condicion')?.value, descripcion_reducida: this.formGroup.get('abreviatura')?.value, control_cuit: this.formGroup.get('formulario')?.value, tipo_de_documento: this.data.tipo_documento})
-        : this.dialogRef.close({par_modo: 'I', id: this.data.id, descripcion: this.formGroup.get('condicion')?.value, descripcion_reducida: this.formGroup.get('abreviatura')?.value, control_cuit: this.formGroup.get('formulario')?.value, tipo_de_documento: 3});
+        this.dialogRef.close({par_modo: this.data.par_modo, id: this.data.id, descripcion: this.formGroup.get('descripcion')?.value, descripcion_reducida: this.formGroup.get('abreviatura')?.value, formulario_AB: this.formGroup.get('formulario')?.value, codigo_de_IVA: this.formGroup.get('codigoCondIva')?.value})
     }
   }
 
@@ -74,6 +76,10 @@ export class AddEditCondicionIvaDialogComponent {
 
       if (control.errors?.['minlength']) {
         return `Debe contener al menos ${control.errors?.['minlength'].requiredLength} caracteres`
+      }
+
+      if (control.errors?.['notNumeric']) {
+        return `Solo debe contener numeros`
       }
 
       if ((control.errors?.['notAlphanumeric'] || control.errors?.['notAlphanumericWithSpaces']) && control.value != '' && control.value != null) {

@@ -9,14 +9,14 @@
         </td>
       </ng-container>
   
-      <ng-container matColumnDef="tipo-documento">
-        <th mat-header-cell *matHeaderCellDef>Tipo de documento</th>
-        <td mat-cell *matCellDef="let param">{{param.descripcion}} </td>
+      <ng-container matColumnDef="codigoCondIva">
+        <th mat-header-cell *matHeaderCellDef>Código Cond IVA</th>
+        <td mat-cell *matCellDef="let param">{{param.codigo_de_IVA}} </td>
       </ng-container>
       
-      <ng-container matColumnDef="codigo">
-        <th mat-header-cell *matHeaderCellDef>Codigo</th>
-        <td mat-cell *matCellDef="let param">{{param.tipo_de_documento}} </td>
+      <ng-container matColumnDef="descripcion">
+        <th mat-header-cell *matHeaderCellDef>Condición de IVA</th>
+        <td mat-cell *matCellDef="let param">{{param.descripcion}} </td>
       </ng-container>
 
       <ng-container matColumnDef="abreviatura">
@@ -32,10 +32,10 @@
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef>Acciones</th>
         <td mat-cell *matCellDef="let doctype">
-          <button class="action-button" (click)="viewDocType(doctype)">
+          <button class="action-button" (click)="viewCondicionIVA(doctype)">
             <mat-icon class="edit-icon" aria-label="false">visibility</mat-icon>
           </button>
-          <button class="action-button" (click)="editDocType(doctype)">
+          <button class="action-button" (click)="editCondicionIVA(doctype)">
             <mat-icon class="delete-icon" aria-label="false">edit</mat-icon>
           </button>
         </td>

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TipoDocumentoComponent } from './tipo-documento/tipo-documento.component';
 import { TipoNacionalidadComponent } from './tipo-nacionalidad/tipo-nacionalidad.component';
-import { CondicionIvaComponent } from './tipo-condicion-iva/tipo-condicion-iva.component';
+import { CondicionIvaComponent } from './condicion-iva/condicion-iva.component';
 
 const routes: Routes = [
   {

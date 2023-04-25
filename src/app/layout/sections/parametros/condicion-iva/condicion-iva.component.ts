@@ -2,14 +2,14 @@ import { MatDialog } from '@angular/material/dialog';
 import { Component, ViewChild } from '@angular/core';
 import { UtilService } from 'src/app/core/services/util.service';
 import { AddEditCondicionIvaDialogComponent } from './components/add-edit-condicion-iva-dialog/add-edit-condicion-iva-dialog.component';
-import { CondicionIvaDashboardComponent } from './components/tipo-condicion-iva-dashboard/tipo-condicion-iva-dashboard.component';
-import { CondicionIva } from 'src/app/core/models/tipo-condicion-iva.interface';
-import { CondicionIvaService } from 'src/app/core/services/tipo-condicion-iva.service';
+import { CondicionIvaDashboardComponent } from './components/condicion-iva-dashboard/condicion-iva-dashboard.component';
+import { CondicionIva } from 'src/app/core/models/condicion-iva.interface';
+import { CondicionIvaService } from 'src/app/core/services/condicion-iva.service';
 
 @Component({
   selector: 'app-condicion-iva-documento',
-  templateUrl: './tipo-condicion-iva.component.html',
-  styleUrls: ['./tipo-condicion-iva.component.scss']
+  templateUrl: './condicion-iva.component.html',
+  styleUrls: ['./condicion-iva.component.scss']
 })
 export class CondicionIvaComponent {
 
@@ -32,10 +32,10 @@ export class CondicionIvaComponent {
           id: 99,
           title: `Crear condición de IVA`,
           edit: true,
-          tipo: condicionIva?.descripcion,
-          abreviatura: condicionIva?.codigo,
-          cuit: condicionIva?.formulario,
-          tipo_documento: condicionIva?.tipo_de_documento,
+          codigoCondIva: condicionIva?.codigo_de_IVA,
+          descripcion: condicionIva?.descripcion,
+          abreviatura: condicionIva?.descripcion_reducida,
+          formulario: condicionIva?.formulario_AB,
         }
       });
   
@@ -45,9 +45,9 @@ export class CondicionIvaComponent {
             let body = res;
             delete body['id'];
             this.utils.openLoading();
-            this.condicionIvaService.addDocument(body).subscribe({
+            this.condicionIvaService.getCondicionIvaCRUD(body).subscribe({
               next: () => {
-                this.utils.notification("El Documento se ha creado exitosamente", 'success')
+                this.utils.notification("La Condicion IVA se ha creado exitosamente", 'success')
               },
               error: (err) => {
                 this.utils.closeLoading();

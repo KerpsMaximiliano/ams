@@ -7,10 +7,18 @@
     <form class="form-datos" [formGroup]="formGroup" (ngSubmit)="confirm()">
 
       <div class="seeker-fields-container">
+        <h3>CÓDIGO CONDICIÓN DE IVA</h3>
+        <mat-form-field class="seeker-form-field" appearance="outline">
+          <input matInput formControlName="codigoCondIva" required maxlength="2" minlength="1" [readonly]="!data.edit">
+          <mat-error *ngIf="formGroup.get('codigoCondIva')?.invalid && formGroup.get('codigoCondIva')?.touched">{{getErrorMessage(formGroup.get('codigoCondIva'))}}</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="seeker-fields-container">
         <h3>CONDICIÓN DE IVA</h3>
         <mat-form-field class="seeker-form-field" appearance="outline">
-          <input matInput formControlName="condicion" required maxlength="20" minlength="3" [readonly]="!data.edit">
-          <mat-error *ngIf="formGroup.get('condicion')?.invalid && formGroup.get('condicion')?.touched">{{getErrorMessage(formGroup.get('condicion'))}}</mat-error>
+          <input matInput formControlName="descripcion" required maxlength="20" minlength="3" [readonly]="!data.edit">
+          <mat-error *ngIf="formGroup.get('descripcion')?.invalid && formGroup.get('descripcion')?.touched">{{getErrorMessage(formGroup.get('descripcion'))}}</mat-error>
         </mat-form-field>
       </div>
 

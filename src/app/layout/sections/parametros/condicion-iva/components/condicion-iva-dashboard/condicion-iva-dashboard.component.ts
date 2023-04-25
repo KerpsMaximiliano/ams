@@ -5,15 +5,15 @@ import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
-import { CondicionIva } from 'src/app/core/models/tipo-condicion-iva.interface';
+import { CondicionIva } from 'src/app/core/models/condicion-iva.interface';
 import { UtilService } from 'src/app/core/services/util.service';
 import { AddEditCondicionIvaDialogComponent } from '../add-edit-condicion-iva-dialog/add-edit-condicion-iva-dialog.component';
-import { CondicionIvaService } from 'src/app/core/services/tipo-condicion-iva.service';
+import { CondicionIvaService } from 'src/app/core/services/condicion-iva.service';
 
 @Component({
   selector: 'app-condicion-iva-dashboard',
-  templateUrl: './tipo-condicion-iva-dashboard.component.html',
-  styleUrls: ['./tipo-condicion-iva-dashboard.component.scss']
+  templateUrl: './condicion-iva-dashboard.component.html',
+  styleUrls: ['./condicion-iva-dashboard.component.scss']
 })
 export class CondicionIvaDashboardComponent {
 
@@ -23,8 +23,8 @@ export class CondicionIvaDashboardComponent {
   @ViewChild(MatTable) table!: MatTable<any>;
 
   public displayedColumns: string[] = [
-    'tipo-documento',
-    'codigo',
+    'codigoCondIva',
+    'descripcion',
     'abreviatura',
     'formulario',
     'actions'
@@ -32,7 +32,7 @@ export class CondicionIvaDashboardComponent {
 
   public dataSource: MatTableDataSource<CondicionIva>;
 
-  public searchText: string = "";
+  public searchValue: string;
 
   public documents: CondicionIva[] = [];
 
@@ -48,11 +48,7 @@ export class CondicionIvaDashboardComponent {
 
   private getCondicionIva(): void {
     this.utils.openLoading();
-    let aux = {
-      descripcion: this.searchText
-    }
-    let body = JSON.stringify(aux)
-    this.tipoCondicionService.getDocumentByDesc(body).subscribe({
+    this.tipoCondicionService.getCondicionIvaCRUD(this.searchValue).subscribe({
       next:(res:any) => {
         this.documents = res.dataset as CondicionIva[];
         this.dataSource = new MatTableDataSource<CondicionIva>(this.documents);
@@ -84,15 +80,15 @@ export class CondicionIvaDashboardComponent {
     }
   }
 
-  public editDocType(tipoCondicion: CondicionIva): void {
+  public editCondicionIVA(tipoCondicion: CondicionIva): void {
     const modalNuevaCondicionIva = this.dialog.open(AddEditCondicionIvaDialogComponent, {
       data: {
-        title: `Editar Documento`,
+        title: `Editar Condicion IVA`,
         id: tipoCondicion.id,
-        tipo: tipoCondicion.descripcion,
-        abreviatura: tipoCondicion.codigo,
-        formulario: tipoCondicion.formulario,
-        tipo_documento: tipoCondicion.tipo_de_documento,
+        codigoCondIva: tipoCondicion.codigo_de_IVA,
+        descripcion: tipoCondicion.descripcion,
+        abreviatura: tipoCondicion.descripcion_reducida,
+        formulario: tipoCondicion.formulario_AB,
         edit: true
       }
     });
@@ -101,16 +97,16 @@ export class CondicionIvaDashboardComponent {
       next:(res) => {
         if (res) {
           this.utils.openLoading();
-          this.tipoCondicionService.editDocument(res).subscribe({
+          this.tipoCondicionService.getCondicionIvaCRUD(res).subscribe({
             next: () => {
-              this.utils.notification("El Documento se ha editado extiosamente", 'success')
+              this.utils.notification("La Condicion IVA se ha editado extiosamente", 'success')
             },
             error: (err) => {
               this.utils.closeLoading();
               (err.status == 0)
                 ? this.utils.notification('Error de conexion', 'error') 
                 : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')
-              this.editDocType(res)
+              this.editCondicionIVA(res)
             },
             complete: () => {
               this.utils.closeLoading();
@@ -124,50 +120,23 @@ export class CondicionIvaDashboardComponent {
     });
   }
 
-  public viewDocType(tipoCondicion: CondicionIva): void {
+  public viewCondicionIVA(tipoCondicion: CondicionIva): void {
     this.dialog.open(AddEditCondicionIvaDialogComponent, {
       data: {
-        title: `Ver Documento`,
+        title: `Ver Condicion IVA`,
         id: tipoCondicion.id,
-        tipo: tipoCondicion.descripcion,
-        abreviatura: tipoCondicion.codigo,
-        formulario: tipoCondicion.formulario,
+        codigoCondIva: tipoCondicion.codigo_de_IVA,
+        descripcion: tipoCondicion.descripcion,
+        abreviatura: tipoCondicion.descripcion_reducida,
+        formulario: tipoCondicion.formulario_AB,
         edit: false
       }
     });
   }
 
-
-  public deleteDocType(tipoDoc: CondicionIva): void {
-    const modalConfirm = this.dialog.open(ConfirmDialogComponent, {
-      data: {
-        title: `Eliminar Documento`,
-        message: `¿Está seguro de eliminar el documento ${tipoDoc.descripcion}?`
-      }
-    });
-
-    modalConfirm.afterClosed().subscribe({
-      next:(res) => {
-        if (res) {
-          this.tipoCondicionService.deleteParametro(res.id).subscribe({
-            next: (res: any) => {
-              this.utils.notification("El Documento se ha borrado exitosamente", 'success')
-              this.getCondicionIva();
-            },
-            error: (err) => {
-              (err.status == 0)
-              ? this.utils.notification('Error de conexion', 'error') 
-              : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')            }
-          });
-        }
-      }
-    })
+  public filter(buscar: string):void {
+    this.searchValue = buscar;
+      this.getCondicionIva()
   }
 
-  public filter(text: any):void {
-    this.searchText = text;
-    (this.searchText != "")
-      ? this.getCondicionIva()
-      : this.dataSource.data = [] 
-  }
 }

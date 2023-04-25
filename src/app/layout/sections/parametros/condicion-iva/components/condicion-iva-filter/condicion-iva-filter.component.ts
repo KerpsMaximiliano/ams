@@ -3,11 +3,11 @@ import { UntypedFormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-condicion-iva-filter',
-  templateUrl: './tipo-condicion-iva-filter.component.html',
-  styleUrls: ['./tipo-condicion-iva-filter.component.scss']
+  templateUrl: './condicion-iva-filter.component.html',
+  styleUrls: ['./condicion-iva-filter.component.scss']
 })
 export class CondicionIvaFilterComponent {
-
+  body: string | any;
   @Output() searchEvent: EventEmitter<string> = new EventEmitter<string>();
 
   public descripcion = new UntypedFormControl('');
@@ -17,7 +17,12 @@ export class CondicionIvaFilterComponent {
   }
 
   public search(): void {
-    this.searchEvent.emit(this.descripcion.value)
+    this.body = {
+      par_modo: "G",
+      descripcion: this.descripcion.value
+    };
+    this.searchEvent.emit(this.body)
+
   }
 
   public searchKeyUp(e:any): void {
@@ -29,6 +34,5 @@ export class CondicionIvaFilterComponent {
 
   public clearInputs(): void {
     this.descripcion.setValue("");
-    this.search();
   }
 }

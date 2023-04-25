@@ -4,10 +4,9 @@ export interface CondicionIva {
     par_modo: string,
     id: number;
     descripcion: string;
-    codigo: string;
     descripcion_reducida: string;
-    formulario: string;
-    tipo_de_documento: number
+    formulario_AB: string;
+    codigo_de_IVA: string;
 }
 
 export type CondicionIvaResponse = Response<CondicionIva[]>;
