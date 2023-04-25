@@ -35,7 +35,14 @@ export class NavMenuComponent {
           "title": "Departamento",
           "url": "/parametros/abm-departamento",
           "icon": "keyboard_arrow_right"
+        },
+        {
+          "title": "Provincias",
+          "url": "/parametros/provincia",
+          "icon": "keyboard_arrow_right"
+
         }
+        
       ]
     }
   ];
