@@ -2,7 +2,7 @@ import { Response } from "./response";
 
 export interface Provincia {
     par_modo: string,
-    codigo: number,
+    codigo: number | string,
     nombre_provincia: string,
     codifica_altura: number,
     codigo_provincia: string,

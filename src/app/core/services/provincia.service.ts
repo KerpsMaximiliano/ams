@@ -13,10 +13,17 @@ const httpOptions = {
 export class ProvinciaService {
 
     URL: string = "/abmprovincias";
+    get provinciaList(): any {
+        return this.provinciaCRUD(JSON.stringify({
+            par_modo: "C",
+            nombre_provincia: ""
+        }));
+    }
 
     constructor(private http:HttpClient, private environmentService: EnvironmentService) { }
 
     provinciaCRUD(body:string): Observable<ProvinciaResponse | Provincia> {  
         return this.http.post<ProvinciaResponse | Provincia>(`${this.environmentService.api}` + this.URL, body, httpOptions)
     }
-}
+
+}    
