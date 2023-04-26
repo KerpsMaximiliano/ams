@@ -2,6 +2,13 @@ import { SharedModule } from '../../../shared/shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ParametrosRoutingModule } from './parametros-routing.module';
+
+// ABM condiciones iva
+import { AddEditCondicionIvaDialogComponent } from './condicion-iva/components/add-edit-condicion-iva-dialog/add-edit-condicion-iva-dialog.component';
+import { CondicionIvaDashboardComponent } from './condicion-iva/components/condicion-iva-dashboard/condicion-iva-dashboard.component';
+import { CondicionIvaFilterComponent } from './condicion-iva/components/condicion-iva-filter/condicion-iva-filter.component';
+import { CondicionIvaComponent } from './condicion-iva/condicion-iva.component';
+
 import { AddEditTipoDocumentoDialogComponent } from './tipo-documento/components/add-edit-tipo-documento-dialog/add-edit-tipo-documento-dialog.component';
 import { TipoDocumentoDashboardComponent } from './tipo-documento/components/tipo-documento-dashboard/tipo-documento-dashboard.component';
 import { TipoDocumentoFilterComponent } from './tipo-documento/components/tipo-documento-filter/tipo-documento-filter.component';
@@ -49,6 +56,11 @@ import { ObraSocialComponent } from './obra-social/obra-social.component';
     ObraSocialDashboardComponent,
     ObraSocialFilterComponent,
     ObraSocialComponent,
+    // ABM condicion iva
+    AddEditCondicionIvaDialogComponent,
+    CondicionIvaDashboardComponent,
+    CondicionIvaFilterComponent,
+    CondicionIvaComponent
   ],
   imports: [
     CommonModule,

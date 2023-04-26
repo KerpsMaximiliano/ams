@@ -7,12 +7,13 @@ import { SectionsRoutingModule } from './sections-routing.module';
 import { SectionsComponent } from './sections.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 
+
 @NgModule({
   declarations: [
     SectionsComponent,
     NavMenuComponent,
     HeaderComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
   ],
   imports: [
     CommonModule,

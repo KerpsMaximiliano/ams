@@ -1,0 +1,25 @@
+table .mat-cell.mat-column-description {
+    text-align: left !important;
+}
+
+// Mejora la distribucion del header de la tabla
+th.mat-header-cell:first-of-type{
+    padding-left: 0px;
+}
+
+.mat-table {
+    display: table;
+    width: 100%;
+
+    > .mat-header-row, > .mat-row {
+        display: table-row;
+        padding: 0;
+        border: none;
+
+        > .mat-header-cell, > .mat-cell {
+            display: table-cell;
+            height: 48px;
+            vertical-align: middle;
+        }
+    }
+}

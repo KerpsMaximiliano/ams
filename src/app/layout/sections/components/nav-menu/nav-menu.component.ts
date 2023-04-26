@@ -45,6 +45,11 @@ export class NavMenuComponent {
           "title": "Obras Sociales",
           "url": "/parametros/obra-social",
           "icon": "keyboard_arrow_right"
+        },
+        {
+          "title": "Condiciones de IVA",
+          "url": "/parametros/condicion-iva",
+          "icon": "keyboard_arrow_right"
         }
         
       ]

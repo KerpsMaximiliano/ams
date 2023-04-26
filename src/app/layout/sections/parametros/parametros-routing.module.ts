@@ -5,6 +5,7 @@ import { TipoDocumentoComponent } from './tipo-documento/tipo-documento.componen
 import { TipoNacionalidadComponent } from './tipo-nacionalidad/tipo-nacionalidad.component';
 import { ProvinciaComponent } from './provincia/provincia.component';
 import { ObraSocialComponent } from './obra-social/obra-social.component';
+import { CondicionIvaComponent } from './condicion-iva/condicion-iva.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,10 @@ const routes: Routes = [
   {
     path: 'parametros/obra-social',
     component: ObraSocialComponent
+  },
+  {
+    path: 'parametros/condicion-iva',
+    component: CondicionIvaComponent
   }
 ];
 
