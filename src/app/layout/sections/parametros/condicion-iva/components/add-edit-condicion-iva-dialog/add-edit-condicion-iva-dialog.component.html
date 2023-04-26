@@ -9,8 +9,8 @@
       <div class="seeker-fields-container">
         <h3>CÓDIGO CONDICIÓN DE IVA</h3>
         <mat-form-field class="seeker-form-field" appearance="outline">
-          <input matInput formControlName="codigoCondIva" required maxlength="2" minlength="1" [readonly]="!data.edit">
-          <mat-error *ngIf="formGroup.get('codigoCondIva')?.invalid && formGroup.get('codigoCondIva')?.touched">{{getErrorMessage(formGroup.get('codigoCondIva'))}}</mat-error>
+          <input matInput formControlName="codigo_de_IVA" required maxlength="2" minlength="1" [readonly]="!data.edit">
+          <mat-error *ngIf="formGroup.get('codigo_de_IVA')?.invalid && formGroup.get('codigo_de_IVA')?.touched">{{getErrorMessage(formGroup.get('codigo_de_IVA'))}}</mat-error>
         </mat-form-field>
       </div>
 
@@ -25,15 +25,15 @@
       <div class="seeker-fields-container">
         <h3>ABREVIATURA</h3>
         <mat-form-field class="seeker-form-field" appearance="outline">
-          <input matInput formControlName="abreviatura" required maxlength="3" minlength="1" [readonly]="!data.edit">
-          <mat-error *ngIf="formGroup.get('abreviatura')?.invalid && formGroup.get('abreviatura')?.touched">{{getErrorMessage(formGroup.get('abreviatura'))}}</mat-error>
+          <input matInput formControlName="descripcion_reducida" required maxlength="8" minlength="1" [readonly]="!data.edit">
+          <mat-error *ngIf="formGroup.get('descripcion_reducida')?.invalid && formGroup.get('descripcion_reducida')?.touched">{{getErrorMessage(formGroup.get('descripcion_reducida'))}}</mat-error>
         </mat-form-field>
       </div>
 
       <div class="seeker-fields-container">
         <h3>FORMULARIO</h3>
         <mat-form-field class="seeker-form-field" appearance="outline">
-          <mat-select formControlName="formulario">
+          <mat-select formControlName="formulario_AB">
             <mat-option [value]="'A'">
               A
             </mat-option>

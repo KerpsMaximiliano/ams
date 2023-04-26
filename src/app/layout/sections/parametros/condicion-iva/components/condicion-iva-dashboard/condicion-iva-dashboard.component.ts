@@ -23,10 +23,10 @@ export class CondicionIvaDashboardComponent {
   @ViewChild(MatTable) table!: MatTable<any>;
 
   public displayedColumns: string[] = [
-    'codigoCondIva',
+    'codigo_de_IVA',
     'descripcion',
-    'abreviatura',
-    'formulario',
+    'descripcion_reducida',
+    'formulario_AB',
     'actions'
   ];
 
@@ -85,10 +85,10 @@ export class CondicionIvaDashboardComponent {
       data: {
         title: `Editar Condicion IVA`,
         par_modo: "U",
-        codigoCondIva: tipoCondicion.codigo_de_IVA,
+        codigo_de_IVA: tipoCondicion.codigo_de_IVA,
         descripcion: tipoCondicion.descripcion,
-        abreviatura: tipoCondicion.descripcion_reducida,
-        formulario: tipoCondicion.formulario_AB,
+        descripcion_reducida: tipoCondicion.descripcion_reducida,
+        formulario_AB: tipoCondicion.formulario_AB,
         edit: true
       }
     });
@@ -130,10 +130,10 @@ export class CondicionIvaDashboardComponent {
       data: {
         title: `Ver Condicion IVA`,
         par_modo: "G",
-        codigoCondIva: tipoCondicion.codigo_de_IVA,
+        codigo_de_IVA: tipoCondicion.codigo_de_IVA,
         descripcion: tipoCondicion.descripcion,
-        abreviatura: tipoCondicion.descripcion_reducida,
-        formulario: tipoCondicion.formulario_AB,
+        descripcion_reducida: tipoCondicion.descripcion_reducida,
+        formulario_AB: tipoCondicion.formulario_AB,
         edit: false
       }
     });
