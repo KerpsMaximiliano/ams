@@ -19,6 +19,12 @@ import { ProvinciaDashboardComponent } from './provincia/components/provincia-da
 import { ProvinciaFilterComponent } from './provincia/components/provincia-filter/provincia-filter.component';
 import { ProvinciaComponent } from './provincia/provincia.component';
 
+// Obra Social
+import { AddEditObraSocialDialogComponent } from './obra-social/components/add-edit-obra-social-dialog/add-edit-obra-social-dialog.component';
+import { ObraSocialDashboardComponent } from './obra-social/components/obra-social-dashboard/obra-social-dashboard.component';
+import { ObraSocialFilterComponent } from './obra-social/components/obra-social-filter/obra-social-filter.component';
+import { ObraSocialComponent } from './obra-social/obra-social.component';
+
 @NgModule({
   declarations: [
     TipoDocumentoComponent,
@@ -37,6 +43,12 @@ import { ProvinciaComponent } from './provincia/provincia.component';
     ProvinciaFilterComponent,
     ProvinciaDashboardComponent,
     AddEditProvinciaDialogComponent,
+    
+    // Obra Social
+    AddEditObraSocialDialogComponent,
+    ObraSocialDashboardComponent,
+    ObraSocialFilterComponent,
+    ObraSocialComponent,
   ],
   imports: [
     CommonModule,

@@ -4,6 +4,7 @@ import { DepartamentoComponent } from './departamento/departamento.component';
 import { TipoDocumentoComponent } from './tipo-documento/tipo-documento.component';
 import { TipoNacionalidadComponent } from './tipo-nacionalidad/tipo-nacionalidad.component';
 import { ProvinciaComponent } from './provincia/provincia.component';
+import { ObraSocialComponent } from './obra-social/obra-social.component';
 
 const routes: Routes = [
   {
@@ -21,7 +22,10 @@ const routes: Routes = [
   {
     path: 'parametros/provincia',
     component: ProvinciaComponent
-
+  },
+  {
+    path: 'parametros/obra-social',
+    component: ObraSocialComponent
   }
 ];
 

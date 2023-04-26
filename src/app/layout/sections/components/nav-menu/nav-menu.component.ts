@@ -40,6 +40,11 @@ export class NavMenuComponent {
           "title": "Provincias",
           "url": "/parametros/provincia",
           "icon": "keyboard_arrow_right"
+        },
+        {
+          "title": "Obras Sociales",
+          "url": "/parametros/obra-social",
+          "icon": "keyboard_arrow_right"
         }
         
       ]
