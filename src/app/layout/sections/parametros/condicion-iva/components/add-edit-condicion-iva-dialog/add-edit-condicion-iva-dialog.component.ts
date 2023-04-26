@@ -18,29 +18,31 @@ export class AddEditCondicionIvaDialogComponent {
 
   ngOnInit(): void {
     this.setUpForm();
-    if (this.data.id) this.setFormValues();
+    if (this.data.id){
+     this.setFormValues();
+    }
   }
 
   private setUpForm(): void {
     this.formGroup = new UntypedFormGroup({
-      codigoCondIva: new UntypedFormControl({value: this.data.codigo_de_IVA, disabled: this.data.par_modo == 'U'},Validators.compose([
+      codigoCondIva: new UntypedFormControl({value: '', disabled: this.data.par_modo == 'U'},Validators.compose([
         Validators.required,
         Validators.minLength(1),
         Validators.maxLength(2),
         isNumeric()
       ])),
-      descripcion: new UntypedFormControl(this.data.descripcion, Validators.compose([
+      descripcion: new UntypedFormControl('', Validators.compose([
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(20),
         isAlphanumericWithSpaces()
       ])),
-      abreviatura: new UntypedFormControl({value: this.data.descripcion_reducida, disabled: !this.data.edit}, Validators.compose([
+      abreviatura: new UntypedFormControl({value: '', disabled: !this.data.edit}, Validators.compose([
         Validators.required,
         Validators.minLength(1),
         Validators.maxLength(8),
       ])),
-      formulario: new UntypedFormControl({value: this.data.formulario_AB, disabled: !this.data.edit}, Validators.compose([
+      formulario: new UntypedFormControl({value: '', disabled: !this.data.edit}, Validators.compose([
         Validators.required
       ]))
     })
@@ -62,7 +64,7 @@ export class AddEditCondicionIvaDialogComponent {
   public confirm(): void {
     this.formGroup.markAllAsTouched();
     if (this.formGroup.valid) {
-        this.dialogRef.close({par_modo: this.data.par_modo, id: this.data.id, descripcion: this.formGroup.get('descripcion')?.value, descripcion_reducida: this.formGroup.get('abreviatura')?.value, formulario_AB: this.formGroup.get('formulario')?.value, codigo_de_IVA: this.formGroup.get('codigoCondIva')?.value})
+        this.dialogRef.close({par_modo: this.data.par_modo, descripcion: this.formGroup.get('descripcion')?.value, descripcion_reducida: this.formGroup.get('abreviatura')?.value, formulario_AB: this.formGroup.get('formulario')?.value, codigo_de_IVA: this.formGroup.get('codigoCondIva')?.value})
     }
   }
 
