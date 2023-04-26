@@ -42,10 +42,8 @@ export class CondicionIvaComponent {
       modalNuevaCondicionIva.afterClosed().subscribe({
         next:(res) => {
           if (res) {
-            let body = res;
-            delete body['id'];
             this.utils.openLoading();
-            this.condicionIvaService.getCondicionIvaCRUD(body).subscribe({
+            this.condicionIvaService.getCondicionIvaCRUD(res).subscribe({
               next: () => {
                 this.utils.notification("La Condicion IVA se ha creado exitosamente", 'success')
               },
@@ -59,7 +57,10 @@ export class CondicionIvaComponent {
               complete: () => {
                 this.utils.closeLoading();
                 setTimeout(() => {
-                  this.handleSearch('');
+                  this.handleSearch(JSON.stringify({
+                    par_modo: "G",
+                    descripcion: res.descripcion
+                  }));
                 }, 300);
               }
             });
