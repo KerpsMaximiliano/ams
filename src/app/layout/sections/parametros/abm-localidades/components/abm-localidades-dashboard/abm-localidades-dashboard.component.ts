@@ -34,7 +34,10 @@ export class AbmLocalidadesDashboardComponent {
   public dataSource: MatTableDataSource<AbmLocalidades>;
   public searchText: string;
   public searchId: string;
+  public searchDep: string;
+  public searchLetra: string;
   public localidades: AbmLocalidades[] = [];
+  paramProv: any;
 
   constructor(private LocalidadesService: LocalidadesService,
               private utils: UtilService,
@@ -46,14 +49,13 @@ export class AbmLocalidadesDashboardComponent {
     this.paginator._intl.itemsPerPageLabel = 'Elementos por página';
   }
 
-  private getAbmLocalidades(): void {
+  private getAbmLocalidad(): void {
     this.utils.openLoading();
     let aux = {
-      codigo: this.searchId,
-      nombre_localidad: this.searchText,
+      par_modo: "C",
+      codigo_postal: this.searchId,
     }
-    let body = JSON.stringify(aux)
-    this.LocalidadesService.getParamByDesc(body).subscribe({
+    this.LocalidadesService.getParamById(JSON.stringify(aux)).subscribe({
       next:(res:any) => {
         this.localidades = res.dataset as AbmLocalidades[];
         this.dataSource = new MatTableDataSource<AbmLocalidades>(this.localidades);
@@ -67,6 +69,40 @@ export class AbmLocalidadesDashboardComponent {
       },
       error:(err: any) => {
         this.utils.closeLoading();
+        console.log(err);
+        (err.status == 0)
+          ? this.utils.notification('Error de conexion', 'error') 
+          : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')
+      },
+      complete: () => {
+        this.utils.closeLoading();
+      }
+    });
+  }
+  private getAbmLocalidades(): void {
+    this.utils.openLoading();
+    let aux = {
+      par_modo: "C",
+      codigo_departamento: this.searchDep,
+      letra_provincia: this.searchLetra,
+      descripcion: this.searchText
+    }
+    this.LocalidadesService.getParamByDesc(JSON.stringify(aux)).subscribe({
+      next:(res:any) => {
+        this.localidades = res.dataset as AbmLocalidades[];
+        this.dataSource = new MatTableDataSource<AbmLocalidades>(this.localidades);
+        this.dataSource.sort = this.sort;
+        setTimeout(() => {
+          this.dataSource.paginator = this.paginator;
+          this.paginator._intl.getRangeLabel = (): string => {
+            return "Página " +  (this.paginator.pageIndex + 1) + " de " +  this.paginator.length
+          }
+        }, 100)
+      },
+      error:(err: any) => {
+        this.utils.closeLoading();
+        console.log(err);
+        
         (err.status == 0)
           ? this.utils.notification('Error de conexion', 'error') 
           : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')
@@ -91,19 +127,19 @@ export class AbmLocalidadesDashboardComponent {
         title: `Editar Localidad`,
         par_modo: "U",
         id_tabla: 8,
-        codigo: AbmLocalidades?.codigo,
-        subcodigo: AbmLocalidades?.subcodigo,
-        nombre_localidad:AbmLocalidades?.nombre_localidad,
+        codigo_postal: AbmLocalidades?.codigo_postal,
+        sub_codigo_postal: AbmLocalidades?.sub_codigo_postal,
+        descripcion:AbmLocalidades?.descripcion,
         letra_provincia:AbmLocalidades?.letra_provincia,
-        flete_transportista: AbmLocalidades?.flete_transportista,
-        referente: AbmLocalidades?.referente,
-        medico: AbmLocalidades?.medico,
+        flete_transporte: AbmLocalidades?.flete_transporte,
+        posicion_referente: AbmLocalidades?.posicion_referente,
+        visitado_auditor: AbmLocalidades?.visitado_auditor,
         zona_promocion: AbmLocalidades?.zona_promocion,
-        cod_departamento: AbmLocalidades?.cod_departamento,
+        codigo_departamento: AbmLocalidades?.codigo_departamento,
         zona_envio: AbmLocalidades?.zona_envio,
-        ticket: AbmLocalidades?.ticket,
+        ingreso_ticket: AbmLocalidades?.ingreso_ticket,
         zona_atencion: AbmLocalidades?.zona_atencion,
-        habitantes: AbmLocalidades?.habitantes,
+        cant_habitantes: AbmLocalidades?.cant_habitantes,
         edit: true
       }
     });
@@ -140,19 +176,19 @@ export class AbmLocalidadesDashboardComponent {
       data: {
         title: `Ver Localidad`,
         id_tabla: 8,
-        codigo: AbmLocalidades?.codigo,
-        subcodigo: AbmLocalidades?.subcodigo,
-        nombre_localidad:AbmLocalidades?.nombre_localidad,
+        codigo_postal: AbmLocalidades?.codigo_postal,
+        sub_codigo_postal: AbmLocalidades?.sub_codigo_postal,
+        descripcion:AbmLocalidades?.descripcion,
         letra_provincia:AbmLocalidades?.letra_provincia,
-        flete_transportista: AbmLocalidades?.flete_transportista,
-        referente: AbmLocalidades?.referente,
-        medico: AbmLocalidades?.medico,
+        flete_transporte: AbmLocalidades?.flete_transporte,
+        posicion_referente: AbmLocalidades?.posicion_referente,
+        visitado_auditor: AbmLocalidades?.visitado_auditor,
         zona_promocion: AbmLocalidades?.zona_promocion,
-        cod_departamento: AbmLocalidades?.cod_departamento,
+        codigo_departamento: AbmLocalidades?.codigo_departamento,
         zona_envio: AbmLocalidades?.zona_envio,
-        ticket: AbmLocalidades?.ticket,
+        ingreso_ticket: AbmLocalidades?.ingreso_ticket,
         zona_atencion: AbmLocalidades?.zona_atencion,
-        habitantes: AbmLocalidades?.habitantes,
+        cant_habitantes: AbmLocalidades?.cant_habitantes,
         edit: false
       }
     });
@@ -163,14 +199,14 @@ export class AbmLocalidadesDashboardComponent {
     const modalConfirm = this.dialog.open(ConfirmDialogComponent, {
       data: {
         title: `Eliminar Localidad`,
-        message: `¿Está seguro de eliminar el Localidad ${tipoLocal.nombre_localidad}?`
+        message: `¿Está seguro de eliminar el Localidad ${tipoLocal.descripcion}?`
       }
     });
 
     modalConfirm.afterClosed().subscribe({
       next:(res) => {
         if (res) {
-          this.LocalidadesService.deleteEstado(tipoLocal.codigo).subscribe({
+          this.LocalidadesService.deleteEstado(tipoLocal.codigo_postal).subscribe({
             next: (res: any) => {
               this.utils.notification("El Localidades se ha borrado exitosamente", 'success')
               this.getAbmLocalidades();
@@ -185,10 +221,12 @@ export class AbmLocalidadesDashboardComponent {
   }
 
   public filter(buscar: any):void {    
-    this.searchText = buscar.nombre_localidad;
-    this.searchId = buscar.codigo;
+    this.searchId = buscar.codigo_postal;
+    this.searchLetra = buscar.letra_provincia;
+    this.searchDep = buscar.codigo_departamento;
+    this.searchText = buscar.descripcion;
     (this.searchText != "" || this.searchId != '')
       ? this.getAbmLocalidades()
-      : this.dataSource.data = [] 
+      : this.dataSource.data = [];
   }
 }

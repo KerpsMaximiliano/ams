@@ -29,22 +29,22 @@ export class AbmLocalidadesComponent {
   public nuevaLocalidad(AbmLocalidades?:AbmLocalidades): void {
     const modalNuevoAbmLocalidades = this.dialog.open(EditAbmLocalidadesDialogComponent, {
       data: {
-        title: `Nuevo Tipo de Localidades`,
+        title: `Nueva Localidades`,
         edit: true,
         id_tabla: 9,
-        codigo: AbmLocalidades?.codigo,
-        subcodigo: AbmLocalidades?.subcodigo,
-        nombre_localidad:AbmLocalidades?.nombre_localidad,
+        codigo_postal: AbmLocalidades?.codigo_postal,
+        sub_codigo_postal: AbmLocalidades?.sub_codigo_postal,
+        descripcion:AbmLocalidades?.descripcion,
         letra_provincia:AbmLocalidades?.letra_provincia,
-        flete_transportista: AbmLocalidades?.flete_transportista,
-        referente: AbmLocalidades?.referente,
-        medico: AbmLocalidades?.medico,
+        flete_transporte: AbmLocalidades?.flete_transporte,
+        posicion_referente: AbmLocalidades?.posicion_referente,
+        visitado_auditor: AbmLocalidades?.visitado_auditor,
         zona_promocion: AbmLocalidades?.zona_promocion,
-        cod_departamento: AbmLocalidades?.cod_departamento,
+        codigo_departamento: AbmLocalidades?.codigo_departamento,
         zona_envio: AbmLocalidades?.zona_envio,
-        ticket: AbmLocalidades?.ticket,
+        ingreso_ticket: AbmLocalidades?.ingreso_ticket,
         zona_atencion: AbmLocalidades?.zona_atencion,
-        habitantes: AbmLocalidades?.habitantes,
+        cant_habitantes: AbmLocalidades?.cant_habitantes,
       }
     });
 

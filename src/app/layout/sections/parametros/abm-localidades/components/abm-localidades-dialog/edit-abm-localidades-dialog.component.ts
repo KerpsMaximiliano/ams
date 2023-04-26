@@ -1,8 +1,10 @@
 import { Component, Inject } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { UtilService } from 'src/app/core/services/util.service';
 import { isAlphanumeric, isAlphanumericWithSpaces, isNumeric } from 'src/app/core/validators/character.validator';
 import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
+import { LocalidadesService } from 'src/app/core/services/abm-localidades.service';
 
 @Component({
   selector: 'app-edit-abm-localidades-dialog',
@@ -10,36 +12,55 @@ import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confi
   styleUrls: ['./edit-abm-localidades-dialog.component.scss']
 })
 export class EditAbmLocalidadesDialogComponent {
-
+  paramDepto:[]| any;
+  paramProv:[]| any;
   public formGroup: UntypedFormGroup;
 
-  constructor(public dialogRef: MatDialogRef<ConfirmDialogComponent>,
+  constructor(private LocalidadesService: LocalidadesService,
+              private utils: UtilService,
+              public dialogRef: MatDialogRef<ConfirmDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit(): void {
     
     this.setUpForm();
-    if(this.data.codigo) this.setFormValues()
+    if(this.data.codigo_postal) this.setFormValues();
+    let bodyprov = {
+      par_modo: 'C',
+      nombre_provincia:''
+    }
+    this.utils.openLoading();
+    this.LocalidadesService.getProvincia(bodyprov).subscribe({
+      next:(res) => {this.paramProv = res.dataset
+      },
+      error:(err) => {
+        console.log(err);
+        (err.status == 0)
+          ? this.utils.notification('Error de conexion', 'error') 
+          : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')
+      }
+    })
+    this.utils.closeLoading();
   }
 
   private setUpForm(): void {
     this.formGroup = new UntypedFormGroup({
-      codigo: new UntypedFormControl({
-        value:'', disabled: this.data.codigo
+      codigo_postal: new UntypedFormControl({
+        value:'', disabled: this.data.codigo_postal
         && this.data.title === 'Editar Localidad'},Validators.compose([
           Validators.maxLength(7),
           Validators.minLength(4),
           Validators.required,
           isNumeric
         ])),
-        subcodigo : new UntypedFormControl('',
+        sub_codigo_postal : new UntypedFormControl('',
           Validators.compose([
           Validators.required,
           Validators.minLength(1),
           Validators.maxLength(2),
           isNumeric
         ])),
-        nombre_localidad : new UntypedFormControl('',
+        descripcion : new UntypedFormControl('',
           Validators.compose([
           Validators.minLength(3),
           Validators.maxLength(30),
@@ -52,21 +73,21 @@ export class EditAbmLocalidadesDialogComponent {
           Validators.maxLength(1),
           isAlphanumericWithSpaces
         ])),
-        flete_transportista : new UntypedFormControl('',
+        flete_transporte : new UntypedFormControl('',
         Validators.compose([
           Validators.required,
           Validators.minLength(1),
           Validators.maxLength(6),
           isNumeric
         ])),
-        referente : new UntypedFormControl('',
+        posicion_referente : new UntypedFormControl('',
           Validators.compose([
           Validators.required,
           Validators.minLength(1),
           Validators.maxLength(3),
           isNumeric
         ])),
-        medico : new UntypedFormControl({value: 'N', disabled: !this.data.edit},
+        visitado_auditor : new UntypedFormControl({value: 'N', disabled: !this.data.edit},
           Validators.compose([
           Validators.required,
           Validators.minLength(1),
@@ -79,7 +100,7 @@ export class EditAbmLocalidadesDialogComponent {
           Validators.maxLength(2),
           isNumeric
         ])),
-        cod_departamento : new UntypedFormControl('',
+        codigo_departamento : new UntypedFormControl('',
           Validators.compose([
           Validators.required,
           Validators.minLength(1),
@@ -94,7 +115,7 @@ export class EditAbmLocalidadesDialogComponent {
           isAlphanumericWithSpaces
         ])),
         // codifica_altura: new UntypedFormControl({value: 'N', disabled: !this.data.edit},Validators.compose([Validators.required,Validators.minLength(1),Validators.maxLength(2)])),
-        ticket: new UntypedFormControl(
+        ingreso_ticket: new UntypedFormControl(
           {value: 'N', disabled: !this.data.edit},
           Validators.compose([
           Validators.required,
@@ -108,7 +129,7 @@ export class EditAbmLocalidadesDialogComponent {
           Validators.pattern("^[0-9]*$"),
           isNumeric
         ])),
-        habitantes: new UntypedFormControl('',
+        cant_habitantes: new UntypedFormControl('',
           Validators.compose([
           Validators.maxLength(8),
           Validators.minLength(1),
@@ -117,22 +138,38 @@ export class EditAbmLocalidadesDialogComponent {
     })
   }
 
-  
+  buscar(letra_provincia:string){    
+    let bodydep = {
+      par_modo: 'C',
+      descripcion:'',
+      letra_provincia:letra_provincia
+    }
+    this.LocalidadesService.getDepart(bodydep).subscribe({
+      next:(res) => {this.paramDepto = res.dataset
+      },
+      error:(err) => {
+        console.log(err);
+        (err.status == 0)
+          ? this.utils.notification('Error de conexion', 'error') 
+          : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')
+      }
+    })
+  }  
   
   private setFormValues(): void {
-    this.formGroup.get('codigo')?.setValue(this.data.codigo);
-    this.formGroup.get('subcodigo')?.setValue(this.data.subcodigo);
-    this.formGroup.get('nombre_localidad')?.setValue(this.data.nombre_localidad);
+    this.formGroup.get('codigo_postal')?.setValue(this.data.codigo_postal);
+    this.formGroup.get('sub_codigo_postal')?.setValue(this.data.sub_codigo_postal);
+    this.formGroup.get('descripcion')?.setValue(this.data.descripcion);
     this.formGroup.get('letra_provincia')?.setValue(this.data.letra_provincia);
-    this.formGroup.get('flete_transportista')?.setValue(this.data.flete_transportista);
-    this.formGroup.get('referente')?.setValue(this.data.referente);
-    this.formGroup.get('medico')?.setValue(this.data.medico);
+    this.formGroup.get('flete_transporte')?.setValue(this.data.flete_transporte);
+    this.formGroup.get('posicion_referente')?.setValue(this.data.posicion_referente);
+    this.formGroup.get('visitado_auditor')?.setValue(this.data.visitado_auditor);
     this.formGroup.get('zona_promocion')?.setValue(this.data.zona_promocion);
-    this.formGroup.get('cod_departamento')?.setValue(this.data.cod_departamento);
+    this.formGroup.get('codigo_departamento')?.setValue(this.data.codigo_departamento);
     this.formGroup.get('zona_envio')?.setValue(this.data.zona_envio);
-    this.formGroup.get('ticket')?.setValue(this.data.ticket);
+    this.formGroup.get('ingreso_ticket')?.setValue(this.data.ingreso_ticket);
     this.formGroup.get('zona_atencion')?.setValue(this.data.zona_atencion);
-    this.formGroup.get('habitantes')?.setValue(this.data.habitantes);
+    this.formGroup.get('cant_habitantes')?.setValue(this.data.cant_habitantes);
   }
 
   closeDialog(): void {
@@ -142,38 +179,38 @@ export class EditAbmLocalidadesDialogComponent {
   public confirm(): void {
     this.formGroup.markAllAsTouched();
     if (this.formGroup.valid) {
-      this.data.codigo_localidad 
+      this.data.codigo_postal 
         ? this.dialogRef.close({
           par_modo: 'U',
-          codigo: this.data.codigo.value,
-          subcodigo: this.data.subcodigo.value,
-          nombre_localidad: this.data.nombre_localidad.value,
+          codigo_postal: this.data.codigo_postal.value,
+          sub_codigo_postal: this.data.sub_codigo_postal.value,
+          descripcion: this.data.descripcion.value,
           letra_provincia: this.data.letra_provincia.value,
-          flete_transportista: this.data.flete_transportista.value,
-          referente: this.data.referente.value,
-          medico: this.data.medico.value,
+          flete_transporte: this.data.flete_transporte.value,
+          posicion_referente: this.data.posicion_referente.value,
+          visitado_auditor: this.data.visitado_auditor.value,
           zona_promocion: this.data.zona_promocion.value,
-          cod_departamento: this.data.cod_departamento.value,
+          codigo_departamento: this.data.codigo_departamento.value,
           zona_envio: this.data.zona_envio.value,
-          ticket: this.data.ticket.value,
+          ingreso_ticket: this.data.ingreso_ticket.value,
           zona_atencion: this.data.zona_atencion.value,
-          habitantes: this.data.habitantes.value,
+          cant_habitantes: this.data.cant_habitantes.value,
         })
         : this.dialogRef.close({
           par_modo: 'I',
-          codigo: this.data.codigo.value,
-          subcodigo: this.data.subcodigo.value,
-          nombre_localidad: this.data.nombre_localidad.value,
+          codigo_postal: this.data.codigo_postal.value,
+          sub_codigo_postal: this.data.sub_codigo_postal.value,
+          descripcion: this.data.descripcion.value,
           letra_provincia: this.data.letra_provincia.value,
-          flete_transportista: this.data.flete_transportista.value,
-          referente: this.data.referente.value,
-          medico: this.data.medico.value,
+          flete_transporte: this.data.flete_transporte.value,
+          posicion_referente: this.data.posicion_referente.value,
+          visitado_auditor: this.data.visitado_auditor.value,
           zona_promocion: this.data.zona_promocion.value,
-          cod_departamento: this.data.cod_departamento.value,
+          codigo_departamento: this.data.codigo_departamento.value,
           zona_envio: this.data.zona_envio.value,
-          ticket: this.data.ticket.value,
+          ingreso_ticket: this.data.ingreso_ticket.value,
           zona_atencion: this.data.zona_atencion.value,
-          habitantes: this.data.habitantes.value,
+          cant_habitantes: this.data.cant_habitantes.value,
         });
     }
   }

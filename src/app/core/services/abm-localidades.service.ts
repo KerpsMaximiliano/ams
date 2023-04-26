@@ -17,12 +17,12 @@ export class LocalidadesService {
 
     getParamByDesc(body:string): Observable<AbmLocalidades[]> {  
         console.log(body);
-        return this.http.post<AbmLocalidades[]>(`${this.environmentService.api}/localidades`, body, httpOptions)
+        return this.http.post<AbmLocalidades[]>(`${this.environmentService.api}/abmlocalidades`, body, httpOptions)
     }
 
     getParamById(body:string): Observable<AbmLocalidades[]> {    
         console.log(body);
-        return this.http.post<AbmLocalidades[]>(`${this.environmentService.api}/localidad`, body, httpOptions)
+        return this.http.post<AbmLocalidades[]>(`${this.environmentService.api}/abmlocalidades`, body, httpOptions)
     }
 
     public deleteEstado(id:number) {
@@ -37,5 +37,15 @@ export class LocalidadesService {
     public editLocalType(data:AbmLocalidades): Observable<AbmLocalidades> {
         let body = JSON.stringify(data);
         return this.http.post<AbmLocalidades>(`${this.environmentService.api}/abmlocalidades`, body, httpOptions);
+    }
+
+    public getDepart (data:any): Observable<any> {
+        let body = JSON.stringify(data);
+        return this.http.post<any>(`${this.environmentService.api}/abmdepartamentos`, body, httpOptions);
+    }
+    
+    public getProvincia (data:any): Observable<any> {
+        let body = JSON.stringify(data);
+        return this.http.post<any>(`${this.environmentService.api}/abmprovincias`, body, httpOptions);
     }
 }
