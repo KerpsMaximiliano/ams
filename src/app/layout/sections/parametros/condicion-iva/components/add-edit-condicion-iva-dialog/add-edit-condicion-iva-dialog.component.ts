@@ -23,7 +23,7 @@ export class AddEditCondicionIvaDialogComponent {
 
   private setUpForm(): void {
     this.formGroup = new UntypedFormGroup({
-      codigoCondIva: new UntypedFormControl(this.data.codigo_de_IVA, Validators.compose([
+      codigoCondIva: new UntypedFormControl({value: this.data.codigo_de_IVA, disabled: this.data.par_modo == 'U'},Validators.compose([
         Validators.required,
         Validators.minLength(1),
         Validators.maxLength(2),
