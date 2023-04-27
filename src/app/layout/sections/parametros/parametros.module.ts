@@ -24,6 +24,11 @@ import { AddEditDepartamentoDialogComponent } from './departamento/components/ad
 import { DepartamentoComponent } from './departamento/departamento.component';
 import { DepartamentoDashboardComponent } from './departamento/components/departamento-dashboard/departamento-dashboard.component';
 import { DepartamentoFilterComponent } from './departamento/components/departamento-filter/departamento-filter.component';
+// 08 - CONDICIONES DE IVA
+import { AddEditCondicionIvaDialogComponent } from './condicion-iva/components/add-edit-condicion-iva-dialog/add-edit-condicion-iva-dialog.component';
+import { CondicionIvaComponent } from './condicion-iva/condicion-iva.component';
+import { CondicionIvaDashboardComponent } from './condicion-iva/components/condicion-iva-dashboard/condicion-iva-dashboard.component';
+import { CondicionIvaFilterComponent } from './condicion-iva/components/condicion-iva-filter/condicion-iva-filter.component';
 // 09 - ESTADO CIVIL
 import { AddEditEstadoCivilDialogComponent } from './estado-civil/components/add-edit-estado-civil-dialog/add-edit-estado-civil-dialog.component';
 import { EstadoCivilComponent } from "./estado-civil/estado-civil.component";
@@ -60,6 +65,12 @@ import { ObraSocialFilterComponent } from './obra-social/components/obra-social-
     DepartamentoComponent,
     DepartamentoDashboardComponent,
     DepartamentoFilterComponent,
+
+    // 08 - CONDICIONES DE IVA
+    AddEditCondicionIvaDialogComponent,
+    CondicionIvaComponent,
+    CondicionIvaDashboardComponent,
+    CondicionIvaFilterComponent,
     
     // 09 - ESTADO CIVIL
     AddEditEstadoCivilDialogComponent,
