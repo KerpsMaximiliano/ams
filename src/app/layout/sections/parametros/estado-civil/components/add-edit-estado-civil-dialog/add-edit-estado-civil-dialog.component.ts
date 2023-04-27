@@ -6,9 +6,7 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import {
-  isAlphanumericWithSpaces,
-} from 'src/app/core/validators/character.validator';
+import { isAlphanumericWithSpaces } from 'src/app/core/validators/character.validator';
 
 // * Material
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -37,6 +35,10 @@ export class AddEditEstadoCivilDialogComponent {
   private setUpForm(): void {
     this.formGroup = new UntypedFormGroup({
       codigo_estado_civil: new UntypedFormControl(
+        {
+          value: this.data.codigo_estado_civil,
+          disabled: this.data.par_modo == 'U',
+        },
         Validators.compose([
           Validators.required,
           Validators.minLength(1),
@@ -56,9 +58,11 @@ export class AddEditEstadoCivilDialogComponent {
   }
 
   private setFormValues(): void {
-    this.formGroup.get('codigo_estado_civil')?.setValue(this.data.codigo_estado_civil);
+    this.formGroup
+      .get('codigo_estado_civil')
+      ?.setValue(this.data.codigo_estado_civil);
     this.formGroup.get('description')?.setValue(this.data.description);
-    
+
     // this.data.codigo_estado_civil ? this.formGroup.get('codigo_estado_civil')?.setValue(this.data.codigo_estado_civil) : this.formGroup.get('codigo_estado_civil')?.setValue('');
     // this.data.description ? this.formGroup.get('description')?.setValue(this.data.description) : this.formGroup.get('description')?.setValue('');
   }
