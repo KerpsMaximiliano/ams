@@ -138,7 +138,6 @@ export class AbmLocalidadesDashboardComponent {
         codigo_departamento: AbmLocalidades?.codigo_departamento,
         zona_envio: AbmLocalidades?.zona_envio,
         ingreso_ticket: AbmLocalidades?.ingreso_ticket,
-        zona_atencion: AbmLocalidades?.zona_atencion,
         cant_habitantes: AbmLocalidades?.cant_habitantes,
         edit: true
       }
@@ -157,7 +156,9 @@ export class AbmLocalidadesDashboardComponent {
               (err.status == 0)
                 ? this.utils.notification('Error de conexion', 'error') 
                 : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')
-              this.editLocalType(res)
+              console.log(err.error.returnset.Mensaje);
+              
+                this.editLocalType(res)
             },
             complete: () => {
               this.utils.closeLoading();
@@ -187,7 +188,6 @@ export class AbmLocalidadesDashboardComponent {
         codigo_departamento: AbmLocalidades?.codigo_departamento,
         zona_envio: AbmLocalidades?.zona_envio,
         ingreso_ticket: AbmLocalidades?.ingreso_ticket,
-        zona_atencion: AbmLocalidades?.zona_atencion,
         cant_habitantes: AbmLocalidades?.cant_habitantes,
         edit: false
       }
@@ -213,6 +213,8 @@ export class AbmLocalidadesDashboardComponent {
             },
             error: (err) => {
               this.utils.notification(`Error al borrar Localidades: ${err.message}`, 'error')
+              console.log(err.message);
+              
             }
           });
         }

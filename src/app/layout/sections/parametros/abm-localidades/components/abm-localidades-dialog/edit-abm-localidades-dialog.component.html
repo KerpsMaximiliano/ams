@@ -86,7 +86,7 @@
             <h3>Posición</h3>
             <mat-form-field class="seeker-form-field" appearance="outline">
                 <input matInput formControlName="posicion_referente"
-                    required maxlength="7" minlength="1" step="0.001"
+                    required maxlength="3" minlength="1" step="0.001"
                     [max]="999"
                     [readonly]="!data.edit">
                 <mat-error *ngIf="formGroup.get('posicion_referente')?.invalid
