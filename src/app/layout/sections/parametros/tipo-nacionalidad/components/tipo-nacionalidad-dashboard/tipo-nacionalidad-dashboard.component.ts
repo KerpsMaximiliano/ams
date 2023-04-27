@@ -30,7 +30,7 @@ export class TipoNacionalidadDashboardComponent {
 
   public dataSource: MatTableDataSource<TipoNacionalidad>;
 
-  public searchText: string = "";
+  public searchEvent: string = "";
   public searchId: number = 0;
   public nacionalidades: TipoNacionalidad[] = [];
 
@@ -47,7 +47,7 @@ export class TipoNacionalidadDashboardComponent {
   private getTipoNacionalidad(): void {
     this.utils.openLoading();
     let aux = {
-      descripcion: this.searchText,
+      descripcion: this.searchEvent,
       id: this.searchId
     }
     let body = JSON.stringify(aux)
@@ -163,10 +163,8 @@ export class TipoNacionalidadDashboardComponent {
   }
 
   public filter(buscar: any):void {
-    this.searchText = buscar.descripcion;
+    this.searchEvent = buscar.descripcion;
     this.searchId = buscar.id;
-    (this.searchText != "" || this.searchId != 0)
-      ? this.getTipoNacionalidad()
-      : this.dataSource.data = [] 
+    this.getTipoNacionalidad();
   }
 }

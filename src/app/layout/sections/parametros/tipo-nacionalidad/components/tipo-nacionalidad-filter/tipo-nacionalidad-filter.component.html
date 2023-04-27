@@ -1,39 +1,30 @@
 <section class="seeker-section">
     <mat-accordion>
-    <mat-expansion-panel class="mat-elevation-z1">
+      <mat-expansion-panel class="mat-elevation-z1">
         <mat-expansion-panel-header floating>
-            <mat-panel-title>
-                Opciones de búsqueda
-            </mat-panel-title>
+          <mat-panel-title> Opciones de búsqueda </mat-panel-title>
         </mat-expansion-panel-header>
-        <form [formGroup]="searching">
-            <div class="seeker-fields-container">
-                <mat-form-field class="seeker-form-field">
-                <mat-label class="seeker-label"
-                for="id">id</mat-label>
-                <input  matInput
-                class="seeker-input"
-                formControlName="id"
-                (keydown.enter)="searchid($event)">
-                </mat-form-field>
-                <mat-form-field class="seeker-form-field">
-                <mat-label class="seeker-label"
-                >Descripción</mat-label>
-                <input  matInput
-                class="seeker-input"
-                formControlName="descripcion"
-                (keydown.enter)="searchKeyUp($event)">
-                </mat-form-field>
-            </div>
-            <div class="buttons-container">
-                <button class="primary-button icon-button" type="button" (click)="search()">
-                <mat-icon>done</mat-icon>
-                Buscar</button>
-                <button class="primary-button icon-button" type="button" (click)="clearInputs()">
-                <mat-icon>close</mat-icon>
-                Limpiar</button>
-            </div>
+  
+        <form>
+          <div class="seeker-fields-container">
+            <mat-form-field class="seeker-form-field">
+              <mat-label class="seeker-label" for="descripcion">Descripción</mat-label>
+              <input matInput class="seeker-input" (keydown.enter)="search($event, input.value)" #input />
+            </mat-form-field>
+          </div>
+  
+          <div class="buttons-container">
+            <button class="primary-button icon-button" type="button" (click)="search($event, input.value)">
+              <mat-icon>done</mat-icon>
+              Buscar
+            </button>
+            <button class="primary-button icon-button" type="button" (click)="clear(input)"
+              [disabled]="input.value.length === 0">
+              <mat-icon>close</mat-icon>
+              Limpiar
+            </button>
+          </div>
         </form>
-    </mat-expansion-panel>
+      </mat-expansion-panel>
     </mat-accordion>
-</section>
+  </section>
