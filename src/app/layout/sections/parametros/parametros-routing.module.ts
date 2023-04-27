@@ -13,7 +13,7 @@ const routes: Routes = [
     component: TipoNacionalidadComponent
   },
   {
-    path: 'parametros/posicion',
+    path: 'parametros/posiciones',
     component: AbmPosicionesComponent
   }
 ];

@@ -2,18 +2,15 @@ import { Component, ViewChild } from '@angular/core';
 
 // * SERVICES
 import { UtilService } from 'src/app/core/services/util.service';
-import { PosicionesService } from 'src/app/core/services/posiciones.service';
-
-// * INTERFACES
-import { TableColumn } from 'src/app/core/models/table';
+import { PosicionesService } from 'src/app/core/services/abm-posiciones.service';
 
 // * MATERIAL
 import { MatDialog } from '@angular/material/dialog';
 
 // * COMPONENTS
-import { Posiciones } from 'src/app/core/models/posicion.interface';
+import { AbmPosiciones } from 'src/app/core/models/abm-posiciones';
 import { AddEditAbmPosicionesComponent } from './add-edit-abm-posiciones/add-edit-abm-posiciones.component';
-import { TableComponent } from '../../components/table/table.component';
+import { AbmPosicionesDashboardComponent } from './abm-posiciones-dashboard/abm-posiciones-dashboard.component';
 
 @Component({
   selector: 'app-abm-posiciones',
@@ -21,10 +18,7 @@ import { TableComponent } from '../../components/table/table.component';
   styleUrls: ['./abm-posiciones.component.scss']
 })
 export class AbmPosicionesComponent {
-  // * TABLE
-  tableColumns: TableColumn[] = [];
-  dataSource: any = [];
-  @ViewChild(TableComponent) table: TableComponent;
+  @ViewChild(AbmPosicionesDashboardComponent) dashboard: AbmPosicionesDashboardComponent;
 
   constructor(private posicionesService: PosicionesService,
     private utils: UtilService,
@@ -34,15 +28,23 @@ export class AbmPosicionesComponent {
   }
 
   public handleSearch(inputValue: any): void {
+    this.dashboard.filter(inputValue);
   }
 
-  public nuevaPosicion(posiciones?: Posiciones): void {
+  public nuevaPosicion(posiciones?: AbmPosiciones): void {
     const modalNuevaPosicion = this.dialog.open(AddEditAbmPosicionesComponent, {
       data: {
         title: `Nueva Posicion`,
-        id: posiciones?.id,
-        codigo: posiciones?.codigo,
+        edit: true,
+        codigo_posicion: posiciones?.codigo_posicion,
         descripcion: posiciones?.descripcion,
+        domicilio: posiciones?.domicilio,
+        codigo_postal: posiciones?.codigo_postal,
+        sub_codigo_postal: posiciones?.sub_codigo_postal,
+        control_rechazo: posiciones?.control_rechazo,
+        yes_no: posiciones?.yes_no,
+        fecha_vigencia: posiciones?.fecha_vigencia,
+        letra_provincia: posiciones?.letra_provincia,
       }
     });
 
@@ -50,7 +52,7 @@ export class AbmPosicionesComponent {
       next: (res) => {
         if (res) {
           this.utils.openLoading();
-          this.posicionesService.addPosiciones(res).subscribe({
+          this.posicionesService.addPosicion(res).subscribe({
             next: (res: any) => {
               this.utils.notification("La Posicion se ha creado exitosamente", 'success')
             },

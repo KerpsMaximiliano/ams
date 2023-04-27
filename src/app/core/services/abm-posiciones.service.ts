@@ -18,7 +18,7 @@ export class PosicionesService {
 
   getPosicionByDesc(body:string): Observable<AbmPosicionesResponse> {
     console.log(body);
-    return this.http.post<AbmPosicionesResponse>(`${this.environmentService.api}/abmPosiciones`, body, httpOptions);
+    return this.http.post<AbmPosicionesResponse>(`${this.environmentService.api}/abmposiciones`, body, httpOptions);
   }
 
   getPosicionById(body:string): Observable<AbmPosicionesResponse> {
@@ -27,15 +27,20 @@ export class PosicionesService {
   
   addPosicion(data:AbmPosiciones): Observable<AbmPosiciones>{
     let body = JSON.stringify(data);
-    return this.http.post<AbmPosiciones>(`${this.environmentService.api}/abmPosiciones`, body, httpOptions);
+    return this.http.post<AbmPosiciones>(`${this.environmentService.api}/abmposiciones`, body, httpOptions);
   }
 
   editPosicion(data:AbmPosiciones): Observable<AbmPosiciones> {
     let body = JSON.stringify(data);
-    return this.http.post<AbmPosiciones>(`${this.environmentService.api}/abmPosiciones`, body, httpOptions);
+    return this.http.post<AbmPosiciones>(`${this.environmentService.api}/abmposiciones`, body, httpOptions);
   }
 
   deletePosicion(id:number){
     return this.http.delete(`${this.environmentService.api}/parametros/${id}`);
+  }
+
+  getProv(body:any): Observable<AbmPosicionesResponse> {
+    console.log(body);
+    return this.http.post<AbmPosicionesResponse>(`${this.environmentService.api}/abmprovincias`, body, httpOptions);
   }
 }

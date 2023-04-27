@@ -12,6 +12,8 @@ import { TipoNacionalidadFilterComponent } from './tipo-nacionalidad/components/
 import { TipoNacionalidadDashboardComponent } from './tipo-nacionalidad/components/tipo-nacionalidad-dashboard/tipo-nacionalidad-dashboard.component'; 
 import { AbmPosicionesComponent } from './abm-posiciones/abm-posiciones.component';
 import { AddEditAbmPosicionesComponent } from './abm-posiciones/add-edit-abm-posiciones/add-edit-abm-posiciones.component';
+import { AbmPosicionesFilterComponent } from './abm-posiciones/abm-posiciones-filter/abm-posiciones-filter.component';
+import { AbmPosicionesDashboardComponent } from './abm-posiciones/abm-posiciones-dashboard/abm-posiciones-dashboard.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,10 @@ import { AddEditAbmPosicionesComponent } from './abm-posiciones/add-edit-abm-pos
     TipoNacionalidadFilterComponent,
     TipoNacionalidadDashboardComponent,
     EditTipoNacionalidadDialogComponent,
+    AbmPosicionesComponent,
     AddEditAbmPosicionesComponent,
+    AbmPosicionesFilterComponent,
+    AbmPosicionesDashboardComponent,
   ],
   imports: [
     CommonModule,

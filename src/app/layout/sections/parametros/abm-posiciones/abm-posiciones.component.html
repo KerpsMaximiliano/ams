@@ -1,15 +1,13 @@
 <section class="browse-section">
-
     <div class="section-header">
-        <h2>Estado Civil</h2>
-        <button class="new-button icon-button" (click)="nuevoEstadoCivil()">
+        <h2>Posiciones</h2>
+        <button class="new-button icon-button" (click)="nuevaPosicion()">
             <mat-icon>add</mat-icon>
             Nuevo
         </button>
     </div>
     <div class="section-content">
-        <!-- <app-estado-civil-filter (searchEvent)="handleSearch($event)"></app-estado-civil-filter> -->
-        <app-table [data]="dataSource" [columns]="tableColumns"></app-table>
+        <app-abm-posiciones-filter (searchEvent)="handleSearch($event)"></app-abm-posiciones-filter>
+        <app-abm-posiciones-dashboard></app-abm-posiciones-dashboard>
     </div>
-
 </section>
