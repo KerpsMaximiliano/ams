@@ -14,6 +14,8 @@ import { LocalidadesService } from 'src/app/core/services/abm-localidades.servic
 export class EditAbmLocalidadesDialogComponent {
   paramDepto:[]| any;
   paramProv:[]| any;
+  paramZonaP: []| any;
+  paramZonaE: []| any;
   public formGroup: UntypedFormGroup;
 
   constructor(private LocalidadesService: LocalidadesService,
@@ -29,7 +31,6 @@ export class EditAbmLocalidadesDialogComponent {
       par_modo: 'C',
       nombre_provincia:''
     }
-    this.utils.openLoading();
     this.LocalidadesService.getProvincia(bodyprov).subscribe({
       next:(res) => {this.paramProv = res.dataset
       },
@@ -40,7 +41,6 @@ export class EditAbmLocalidadesDialogComponent {
           : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')
       }
     })
-    this.utils.closeLoading();
   }
 
   private setUpForm(): void {

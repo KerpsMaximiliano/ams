@@ -29,7 +29,6 @@ export class AbmLocalidadesFilterComponent {
       par_modo: 'C',
       nombre_provincia:''
     }
-    this.utils.openLoading();
     this.LocalidadesService.getProvincia(bodyprov).subscribe({
       next:(res) => {this.paramProv = res.dataset
       },
@@ -40,19 +39,18 @@ export class AbmLocalidadesFilterComponent {
           : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')
       }
     })
-    this.utils.closeLoading();
   }
 
   public search(){
     this.searchEvent.emit(this.searching.value)
   }
+
   buscar(letra_provincia:string){    
     let bodydep = {
       par_modo: 'C',
       descripcion:'',
       letra_provincia:letra_provincia
     }
-    this.utils.openLoading();
     this.LocalidadesService.getDepart(bodydep).subscribe({
       next:(res) => {this.paramDepto = res.dataset
       },
@@ -63,19 +61,18 @@ export class AbmLocalidadesFilterComponent {
           : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')
       }
     })
-    this.utils.closeLoading();
   }
+
   public searchid(e: any){
     e.preventDefault();
     this.searchEvent.emit(this.searching.value)
   }
 
   public clearInputs(){
-    this.searching.value.codigo_postal = '';
-    this.searching.value.letra_provincia = '';
-    this.searching.value.codigo_departamento = '';
-    this.searching.value.descripcion = '';
-    this.search();
+    this.searching.get('codigo_postal')?.setValue(''),
+    this.searching.get('letra_provincia')?.setValue(''),
+    this.searching.get('codigo_departamento')?.setValue(''),
+    this.searching.get('descripcion')?.setValue('')
   }
 
   public searchKeyUp(e:any): void {

@@ -38,6 +38,7 @@ export class AbmLocalidadesDashboardComponent {
   public searchLetra: string;
   public localidades: AbmLocalidades[] = [];
   paramProv: any;
+  aux: any;
 
   constructor(private LocalidadesService: LocalidadesService,
               private utils: UtilService,
@@ -49,68 +50,104 @@ export class AbmLocalidadesDashboardComponent {
     this.paginator._intl.itemsPerPageLabel = 'Elementos por página';
   }
 
-  private getAbmLocalidad(): void {
-    this.utils.openLoading();
-    let aux = {
-      par_modo: "C",
-      codigo_postal: this.searchId,
-    }
-    this.LocalidadesService.getParamById(JSON.stringify(aux)).subscribe({
-      next:(res:any) => {
-        this.localidades = res.dataset as AbmLocalidades[];
-        this.dataSource = new MatTableDataSource<AbmLocalidades>(this.localidades);
-        this.dataSource.sort = this.sort;
-        setTimeout(() => {
-          this.dataSource.paginator = this.paginator;
-          this.paginator._intl.getRangeLabel = (): string => {
-            return "Página " +  (this.paginator.pageIndex + 1) + " de " +  this.paginator.length
-          }
-        }, 100)
-      },
-      error:(err: any) => {
-        this.utils.closeLoading();
-        console.log(err);
-        (err.status == 0)
-          ? this.utils.notification('Error de conexion', 'error') 
-          : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')
-      },
-      complete: () => {
-        this.utils.closeLoading();
-      }
-    });
-  }
+  // private getAbmLocalidad(): void {
+  //   this.utils.openLoading();
+  //   let aux = {
+  //     par_modo: "C",
+  //     codigo_departamento: this.searchDep,
+  //     letra_provincia: this.searchLetra,
+  //     codigo_postal: this.searchId,
+  //   }
+  //   this.LocalidadesService.getParamById(JSON.stringify(aux)).subscribe({
+  //     next:(res:any) => {
+  //       this.localidades = res.dataset as AbmLocalidades[];
+  //       this.dataSource = new MatTableDataSource<AbmLocalidades>(this.localidades);
+  //       this.dataSource.sort = this.sort;
+  //       setTimeout(() => {
+  //         this.dataSource.paginator = this.paginator;
+  //         this.paginator._intl.getRangeLabel = (): string => {
+  //           return "Página " +  (this.paginator.pageIndex + 1) + " de " +  this.paginator.length
+  //         }
+  //       }, 100)
+  //     },
+  //     error:(err: any) => {
+  //       this.utils.closeLoading();
+  //       console.log(err);
+  //       (err.status == 0)
+  //         ? this.utils.notification('Error de conexion', 'error') 
+  //         : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')
+  //     },
+  //     complete: () => {
+  //       this.utils.closeLoading();
+  //     }
+  //   });
+  // }
+  
   private getAbmLocalidades(): void {
     this.utils.openLoading();
-    let aux = {
-      par_modo: "C",
+    this.aux = {
       codigo_departamento: this.searchDep,
       letra_provincia: this.searchLetra,
-      descripcion: this.searchText
+      descripcion: this.searchText,
+      codigo_postal: this.searchId
     }
-    this.LocalidadesService.getParamByDesc(JSON.stringify(aux)).subscribe({
-      next:(res:any) => {
-        this.localidades = res.dataset as AbmLocalidades[];
-        this.dataSource = new MatTableDataSource<AbmLocalidades>(this.localidades);
-        this.dataSource.sort = this.sort;
-        setTimeout(() => {
-          this.dataSource.paginator = this.paginator;
-          this.paginator._intl.getRangeLabel = (): string => {
-            return "Página " +  (this.paginator.pageIndex + 1) + " de " +  this.paginator.length
-          }
-        }, 100)
-      },
-      error:(err: any) => {
-        this.utils.closeLoading();
-        console.log(err);
-        
-        (err.status == 0)
-          ? this.utils.notification('Error de conexion', 'error') 
-          : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')
-      },
-      complete: () => {
-        this.utils.closeLoading();
-      }
-    });
+    if (this.aux.codigo_postal != ''){
+      this.aux.par_modo =  'R';
+      this.LocalidadesService.getParamById(JSON.stringify(this.aux)).subscribe({
+        next:(res:any) => {
+          console.log(res);
+          (res.dataset.length)
+          ? this.localidades = res.dataset as AbmLocalidades[]
+          : this.localidades = [res.dataset];
+          this.dataSource = new MatTableDataSource<AbmLocalidades>(this.localidades);
+          this.dataSource.sort = this.sort;
+          setTimeout(() => {
+            this.dataSource.paginator = this.paginator;
+            this.paginator._intl.getRangeLabel = (): string => {
+              return "Página " +  (this.paginator.pageIndex + 1) + " de " +  this.paginator.length
+            }
+          }, 100)
+        },
+        error:(err: any) => {
+          this.utils.closeLoading();
+          console.log(err);
+          
+          (err.status == 0)
+            ? this.utils.notification('Error de conexion', 'error') 
+            : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')
+        },
+        complete: () => {
+          this.utils.closeLoading();
+        }
+      });
+    }
+    else {
+      this.aux.par_modo = 'C'
+      this.LocalidadesService.getParamByDesc(JSON.stringify(this.aux)).subscribe({
+        next:(res:any) => {
+          this.localidades = res.dataset as AbmLocalidades[];
+          this.dataSource = new MatTableDataSource<AbmLocalidades>(this.localidades);
+          this.dataSource.sort = this.sort;
+          setTimeout(() => {
+            this.dataSource.paginator = this.paginator;
+            this.paginator._intl.getRangeLabel = (): string => {
+              return "Página " +  (this.paginator.pageIndex + 1) + " de " +  this.paginator.length
+            }
+          }, 100)
+        },
+        error:(err: any) => {
+          this.utils.closeLoading();
+          console.log(err);
+          
+          (err.status == 0)
+            ? this.utils.notification('Error de conexion', 'error') 
+            : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')
+        },
+        complete: () => {
+          this.utils.closeLoading();
+        }
+      });
+    }
   }
 
   public announceSortChange(sortState: Sort): void {
@@ -227,7 +264,11 @@ export class AbmLocalidadesDashboardComponent {
     this.searchLetra = buscar.letra_provincia;
     this.searchDep = buscar.codigo_departamento;
     this.searchText = buscar.descripcion;
-    (this.searchText != "" || this.searchId != '')
+    console.log('codigo_postal',this.searchId,
+    'letra_provincia',this.searchLetra,'codigo_departamento',this.searchDep,
+    'descripcion',this.searchText);
+    
+    (this.searchLetra != "" || this.searchDep != '')
       ? this.getAbmLocalidades()
       : this.dataSource.data = [];
   }

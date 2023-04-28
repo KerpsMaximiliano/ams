@@ -43,7 +43,7 @@
                     <input  matInput
                         class="seeker-input"
                         formControlName="codigo_postal"
-                        (keydown.enter)="searchid($event)">
+                        (keydown.enter)="searchKeyUp($event)">
                 </mat-form-field>
                 <mat-form-field class="seeker-form-field">
                     <mat-label class="seeker-label"
@@ -51,7 +51,7 @@
                     <input  matInput
                         class="seeker-input"
                         formControlName="descripcion"
-                        (keydown.enter)="searchid($event)">
+                        (keydown.enter)="searchKeyUp($event)">
                 </mat-form-field>
             </div>
             <div class="buttons-container">
