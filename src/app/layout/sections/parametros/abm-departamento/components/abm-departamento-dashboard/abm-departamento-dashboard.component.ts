@@ -32,7 +32,7 @@ export class AbmDepartamentoDashboardComponent {
   public dataSource: MatTableDataSource<AbmDepartamento>;
 
   public searchText: string = "";
-  public searchId: number = 0;
+  public searchId: string = "";
   public departamentos: AbmDepartamento[] = [];
 
   constructor(private departamentoService: DepartamentoService,
@@ -48,17 +48,19 @@ export class AbmDepartamentoDashboardComponent {
   private getAbmDepartamento(): void {
     this.utils.openLoading();
     let aux = {
+      par_modo:'C',
+      id_tabla: 10,
+      letra_provincia: this.searchId,
       descripcion: this.searchText,
-      id: this.searchId
     }
     let body = JSON.stringify(aux)
-    this.departamentoService.getDeparByDesc(body).subscribe({
+    this.departamentoService.getDeparById(body).subscribe({
       next:(res:any) => {
+        console.log(res);
         this.departamentos = res.dataset as AbmDepartamento[];
         this.dataSource = new MatTableDataSource<AbmDepartamento>(this.departamentos);
-        this.dataSource.sort = this.sort;
+        this.dataSource.sort;
         setTimeout(() => {
-          this.dataSource.paginator = this.paginator;
           this.paginator._intl.getRangeLabel = (): string => {
             return "Página " +  (this.paginator.pageIndex + 1) + " de " +  this.paginator.length
           }
@@ -89,7 +91,6 @@ export class AbmDepartamentoDashboardComponent {
       data: {
         title: `Editar Departamento`,
         par_modo: "U",
-        id_tabla: 10,
         letra_provincia: abmDepartamento?.letra_provincia,
         codigo_departamento: abmDepartamento?.codigo_departamento,
         descripcion: abmDepartamento?.descripcion,
@@ -129,7 +130,6 @@ export class AbmDepartamentoDashboardComponent {
     this.dialog.open(EditAbmDepartamentoDialogComponent, {
       data: {
         title: `Ver Departamento`,
-        id_tabla: 10,
         letra_provincia: abmDepartamento?.letra_provincia,
         codigo_departamento: abmDepartamento?.codigo_departamento,
         descripcion: abmDepartamento?.descripcion,
@@ -139,12 +139,11 @@ export class AbmDepartamentoDashboardComponent {
     });
   }
 
-
   public deleteDeparType(abmdepar: AbmDepartamento): void {
     const modalConfirm = this.dialog.open(ConfirmDialogComponent, {
       data: {
         title: `Eliminar Departamento`,
-        message: `¿Está seguro de eliminar el Departamento ${abmdepar.codigo_departamento}?`
+        message: `¿Está seguro de eliminar el Departamento ${abmdepar.descripcion}?`
       }
     });
 
@@ -167,8 +166,8 @@ export class AbmDepartamentoDashboardComponent {
 
   public filter(buscar: any):void {
     this.searchText = buscar.descripcion;
-    this.searchId = buscar.id;
-    (this.searchText != "" || this.searchId != 0)
+    this.searchId = buscar.letra_provincia;
+    (this.searchText != "" || this.searchId !=  "")
       ? this.getAbmDepartamento()
       : this.dataSource.data = [] 
   }

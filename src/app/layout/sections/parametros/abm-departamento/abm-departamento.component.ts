@@ -31,7 +31,6 @@ export class AbmDepartamentoComponent {
       data: {
         title: `Nuevo Departamento`,
         edit: true,
-        id_tabla: 10,
         letra_provincia: abmdepartamento?.letra_provincia,
         codigo_departamento: abmdepartamento?.codigo_departamento,
         descripcion: abmdepartamento?.descripcion,
@@ -41,6 +40,8 @@ export class AbmDepartamentoComponent {
 
     modalNuevoAbmDepartamento.afterClosed().subscribe({
       next:(res) => {
+        console.log(res);
+        
         if (res) {
           this.utils.openLoading();
           this.departamentoService.addDepar(res).subscribe({
@@ -52,7 +53,8 @@ export class AbmDepartamentoComponent {
               (err.status == 0)
                 ? this.utils.notification('Error de conexion', 'error') 
                 : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')
-              this.nuevoDepartamento(res);
+              console.log(err.error.returnset.Mensaje);
+                this.nuevoDepartamento(res);
             },
             complete: () => {
               this.utils.closeLoading();

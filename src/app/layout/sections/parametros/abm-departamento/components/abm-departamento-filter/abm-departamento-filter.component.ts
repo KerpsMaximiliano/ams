@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { isNumeric } from 'src/app/core/validators/character.validator';
+import { UtilService } from 'src/app/core/services/util.service';
+import { DepartamentoService } from 'src/app/core/services/abm-departamento.service';
+
 
 @Component({
   selector: 'app-abm-departamento-filter',
@@ -12,13 +14,33 @@ export class AbmDepartamentoFilterComponent {
   @Output() searchEvent: EventEmitter<any> = new EventEmitter<any>();
   searching = new FormGroup({
     "letra_provincia": new FormControl(''),
-    "codigo_departamento": new FormControl('')
+    "descripcion": new FormControl('')
   })
+  paramProv: any;
 
-  constructor() { }
+  constructor(
+    private utils: UtilService,
+    private DepartamentoService: DepartamentoService,
+    
+  ) { }
 
   ngOnInit(): void {
-    //  this.setUpForm()
+    let bodyprov = {
+      par_modo: 'C',
+      nombre_provincia:''
+    }
+    this.utils.openLoading();
+    this.DepartamentoService.getProvincia(bodyprov).subscribe({
+      next:(res) => {this.paramProv = res.dataset
+      },
+      error:(err) => {
+        console.log(err);
+        (err.status == 0)
+          ? this.utils.notification('Error de conexion', 'error') 
+          : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')
+      }
+    })
+    this.utils.closeLoading();
   }
 
 
@@ -33,8 +55,8 @@ export class AbmDepartamentoFilterComponent {
   }
 
   public clearInputs(){
-    this.searching.value.letra_provincia;
-    this.searching.value.codigo_departamento = '';
+    this.searching.get('letra_provincia')?.setValue(''),
+    this.searching.get('descripcion')?.setValue(''),
     this.search();
   }
 
