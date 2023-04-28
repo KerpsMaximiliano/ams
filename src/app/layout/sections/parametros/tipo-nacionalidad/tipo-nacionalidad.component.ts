@@ -29,7 +29,7 @@ export class TipoNacionalidadComponent {
   public nuevaNacionalidad(tipoNacionalidad?:TipoNacionalidad): void {
     const modalNuevoTipoNacionalidad = this.dialog.open(EditTipoNacionalidadDialogComponent, {
       data: {
-        title: `Nuevo Tipo de Nacionalidad`,
+        title: `NUEVA NACIONALIDAD`,
         edit: true,
         id_tabla: 3,
         codigo_nacionalidad_nuevo: tipoNacionalidad?.codigo_nacionalidad_nuevo,

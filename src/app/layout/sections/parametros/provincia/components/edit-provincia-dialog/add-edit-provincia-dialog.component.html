@@ -4,7 +4,7 @@
 <div class="dialog-content">
     <form class="form-datos" [formGroup]="formGroup" (ngSubmit)="confirm()">
         <div class="seeker-fields-container">
-            <h3>Código</h3>
+            <h3>CÓDIGO</h3>
             <mat-form-field class="seeker-form-field" appearance="outline">
                 <input matInput formControlName="codigo"
                     required maxlength="1" minlength="1"
@@ -16,7 +16,7 @@
             </mat-form-field>
         </div>
         <div class="seeker-fields-container">
-            <h3>Provincia</h3>
+            <h3>PROVINCIA</h3>
             <mat-form-field class="seeker-form-field" appearance="outline">
                 <input matInput formControlName="nombre_provincia"
                     required maxlength="30" minlength="3"
@@ -28,7 +28,7 @@
             </mat-form-field>
         </div>
         <div class="seeker-fields-container">
-            <h3>Código Alternativo</h3>
+            <h3>CÓDIGO ALTERATIVO</h3>
             <mat-form-field class="seeker-form-field" appearance="outline">
                 <input matInput formControlName="codigo_provincia"
                 required maxlength="2" minlength="1"
@@ -40,17 +40,7 @@
         </mat-form-field>
     </div>
     <div class="seeker-fields-container">
-        <h3>Flete Transportistas (%)</h3>
-        <mat-form-field class="seeker-form-field" appearance="outline">
-            <input matInput formControlName="flete_transportista" required maxlength="7" minlength="1" step="0.001" [max]="999" [readonly]="!data.edit">
-            <mat-error *ngIf="formGroup.get('flete_transportista')?.invalid
-            && formGroup.get('flete_transportista')?.touched">
-            {{getErrorMessage(formGroup.get('flete_transportista'))}}
-            </mat-error>
-        </mat-form-field>
-    </div>
-    <div class="seeker-fields-container">
-        <h3>Codifica Alturas</h3>
+        <h3>¿CODIFICA ALTURA DE CALLES?</h3>
         <mat-form-field class="seeker-form-field" appearance="outline">
         <mat-select formControlName="codifica_altura">
             <mat-option [value]="'S'">
@@ -60,6 +50,16 @@
             NO
             </mat-option>
         </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="seeker-fields-container">
+        <h3>% FLETE A TRANSPORTISTA</h3>
+        <mat-form-field class="seeker-form-field" appearance="outline">
+            <input matInput formControlName="flete_transportista" required maxlength="7" minlength="1" step="0.001" [max]="999" [readonly]="!data.edit">
+            <mat-error *ngIf="formGroup.get('flete_transportista')?.invalid
+            && formGroup.get('flete_transportista')?.touched">
+            {{getErrorMessage(formGroup.get('flete_transportista'))}}
+            </mat-error>
         </mat-form-field>
     </div>
     <div *ngIf="data.edit; else other_content" class="buttons-container">

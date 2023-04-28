@@ -86,7 +86,7 @@ export class TipoNacionalidadDashboardComponent {
   public editNacType(tipoNacionalidad: TipoNacionalidad): void {
     const modalNuevoTipoNacionalidad = this.dialog.open(EditTipoNacionalidadDialogComponent, {
       data: {
-        title: `Editar Nacionalidad`,
+        title: `EDITAR NACIONALIDAD`,
         par_modo: "U",
         id_tabla: 3,
         codigo_nacionalidad_nuevo: tipoNacionalidad.codigo_nacionalidad_nuevo,
@@ -126,7 +126,7 @@ export class TipoNacionalidadDashboardComponent {
   public viewNacType(TipoNacionalidad: TipoNacionalidad): void {
     this.dialog.open(EditTipoNacionalidadDialogComponent, {
       data: {
-        title: `Ver Nacionalidad`,
+        title: `VER NACIONALIDAD`,
         id_tabla: 3,
         codigo_nacionalidad_nuevo: TipoNacionalidad.codigo_nacionalidad_nuevo,
         descripcion: TipoNacionalidad.descripcion,
@@ -137,20 +137,20 @@ export class TipoNacionalidadDashboardComponent {
   }
 
 
-  public deleteNacType(tipoNac: TipoNacionalidad): void {
+  public deleteNacType(nacionalidad: TipoNacionalidad): void {
     const modalConfirm = this.dialog.open(ConfirmDialogComponent, {
       data: {
-        title: `Eliminar Documento`,
-        message: `¿Está seguro de eliminar el documento ${tipoNac.descripcion}?`
+        title: `ELIMINAR NACIONALIDAD`,
+        message: `¿Está seguro de eliminar la nacionalidad ${nacionalidad.descripcion}?`
       }
     });
 
     modalConfirm.afterClosed().subscribe({
       next:(res) => {
         if (res) {
-          this.nacionalidadService.deleteEstado(tipoNac.codigo_nacionalidad_nuevo).subscribe({
+          this.nacionalidadService.deleteEstado(nacionalidad.codigo_nacionalidad_nuevo).subscribe({
             next: (res: any) => {
-              this.utils.notification("El Documento se ha borrado exitosamente", 'success')
+              this.utils.notification("La Nacionalidad se ha borrado exitosamente", 'success')
               this.getTipoNacionalidad();
             },
             error: (err) => {

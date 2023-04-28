@@ -32,7 +32,7 @@ export class DepartamentoComponent {
   public nuevoDepartamento(departamento?:Departamento): void {
     const modalNuevoDepartamento = this.dialog.open(AddEditDepartamentoDialogComponent, {
       data: {
-        title: `Nuevo Departamento`,
+        title: `NUEVO DEPARTAMENTO`,
         edit: true,
         letra_provincia: departamento?.letra_provincia,
         codigo_departamento: departamento?.codigo_departamento,
