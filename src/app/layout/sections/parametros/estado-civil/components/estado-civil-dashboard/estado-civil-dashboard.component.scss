@@ -1,9 +1,3 @@
-table .mat-cell.mat-column-description {
-  text-align: left !important;
-}
-
-// Textos a la izquierda
-.mat-column-codigo,
-.mat-column-descripcion {
-  text-align: left;
+.mat-cell {
+  text-transform: uppercase;
 }
