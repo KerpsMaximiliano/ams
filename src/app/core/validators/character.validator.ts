@@ -62,3 +62,12 @@ export function notZeroValidator(): ValidatorFn {
     : {notZero:true};
   };
 }
+
+export function notOnlySpacesValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    let regex = /^[\S]+$/;
+    return regex.test(control.value) ?
+    null
+    : {onlySpaces:true};
+  };
+}

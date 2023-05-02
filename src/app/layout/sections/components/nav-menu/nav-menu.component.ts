@@ -56,6 +56,11 @@ export class NavMenuComponent {
           url: '/parametros/condicion-iva',
           icon: 'keyboard_arrow_right',
         },
+        {
+          title: 'Preguntas DDJJ',
+          url: '/parametros/preguntas-ddjj',
+          icon: 'keyboard_arrow_right',
+        },
       ],
     },
   ];

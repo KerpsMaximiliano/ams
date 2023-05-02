@@ -16,6 +16,8 @@ import { CondicionIvaComponent } from './condicion-iva/condicion-iva.component';
 import { EstadoCivilComponent } from './estado-civil/estado-civil.component';
 // 12 - OBRA SOCIAL
 import { ObraSocialComponent } from './obra-social/obra-social.component';
+// 13 - PREGUNTAS DDJJ
+import { PreguntasDDJJComponent } from './preguntas-ddjj/preguntas-ddjj.component';
 
 const routes: Routes = [
   {
@@ -45,6 +47,10 @@ const routes: Routes = [
   {
     path: 'parametros/obra-social',
     component: ObraSocialComponent
+  },
+  {
+    path: 'parametros/preguntas-ddjj',
+    component: PreguntasDDJJComponent,
   },
 ];
 
