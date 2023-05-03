@@ -43,4 +43,9 @@ export class PosicionesService {
     console.log(body);
     return this.http.post<AbmPosicionesResponse>(`${this.environmentService.api}/abmprovincias`, body, httpOptions);
   }
+
+  public getLocal (data:any): Observable<any> {
+    let body = JSON.stringify(data);
+    return this.http.post<any>(`${this.environmentService.api}/abmlocalidades`, body, httpOptions);
+  }
 }

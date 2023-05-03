@@ -1,0 +1,99 @@
+<div class="dialog-title">
+    <h2>{{data.title | uppercase}}</h2>
+</div>
+
+<div class="dialog-content">
+
+    <form class="form-datos" [formGroup]="formGroup">
+        <div class="seeker-fields-container">
+            <h3>Provincia</h3>
+            <mat-form-field appearance="outline" floatLabel="always">
+                <mat-select 
+                formControlName="letra_provincia"
+                >
+                <mat-option *ngFor="let provin of paramProv" 
+                    [value]="provin.codigo"
+                    >
+                    {{ provin.nombre_provincia }}
+                </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="seeker-fields-container">
+            <h3>Localidad</h3>
+            <mat-form-field class="seeker-form-field" appearance="outline">
+                <input matInput formControlName="descripcion" type="text"
+                maxlength="30"
+                minlength="1" 
+                >
+                <mat-error *ngIf="formGroup.get('descripcion')?.invalid
+                && formGroup.get('descripcion')?.touched">
+                {{getErrorMessage(formGroup.get('descripcion'))}}</mat-error>
+            </mat-form-field>
+        </div>
+        <div class="seeker-fields-container">
+            <h3>Codigo Postal</h3>
+            <mat-form-field class="seeker-form-field" appearance="outline">
+                <input matInput formControlName="codigo_postal" type="number"
+                maxlength="7"
+                minlength="6" 
+                >
+                <mat-error *ngIf="formGroup.get('codigo_postal')?.invalid
+                && formGroup.get('codigo_postal')?.touched">
+                {{getErrorMessage(formGroup.get('codigo_postal'))}}</mat-error>
+            </mat-form-field>
+        </div>
+        <div class="buttons-container">
+            <button class="primary-button icon-button" type="button" (click)="search()">
+            <mat-icon>done</mat-icon>
+            Buscar</button>
+            <button class="primary-button icon-button" type="button" (click)="clearInputs()">
+            <mat-icon>close</mat-icon>
+            Limpiar</button>
+        </div>
+        <section>
+            <table mat-table [dataSource]="dataSource" matSort>
+                <ng-container class="mat-row" *matNoDataRow>
+                    <td class="mat-cell no-data-cell" [attr.colspan]="displayedColumns.length">
+                        No se encontraron resultados
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="codigo_postal">
+                    <th mat-header-cell *matHeaderCellDef>Codigo</th>
+                    <td mat-cell *matCellDef="let param">{{param.codigo_postal}}</td>
+                </ng-container>
+                <ng-container matColumnDef="descripcion">
+                    <th mat-header-cell *matHeaderCellDef>Posicion</th>
+                    <td mat-cell *matCellDef="let param">{{param.descripcion}}</td>
+                </ng-container>
+                <ng-container matColumnDef="letra_provincia">
+                    <th mat-header-cell *matHeaderCellDef>Provincia</th>
+                    <td mat-cell *matCellDef="let param">{{param.letra_provincia}}</td>
+                </ng-container>
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef>Acciones</th>
+                    <td mat-cell *matCellDef="let param">
+                        <input type="checkbox" (click)="onCheckboxChange(param)" [disabled]="block">
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns:displayedColumns"></tr>
+            </table>
+            <mat-paginator [pageSizeOptions]="[10,20,30]"
+            showFirstLastButtons
+            aria-label="controles de página de la tabla de estados">
+            </mat-paginator>
+        </section>
+
+        <div class="buttons-container">
+            <button class="primary-button icon-button" type="button" (click)="closeDialog()">
+                <mat-icon>close</mat-icon>
+                Cancelar
+            </button>
+            <button class="primary-button icon-button" (click)="confirm()" mat-dialog-close>
+                <mat-icon>done</mat-icon>
+                Aceptar
+            </button>
+        </div>
+    </form>
+</div>

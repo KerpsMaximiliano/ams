@@ -20,6 +20,7 @@ export class AbmPosicionesDashboardComponent {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator =
     new MatPaginator(new MatPaginatorIntl(), this.cdr);
   @ViewChild(MatTable) table!: MatTable<any>;
+  fecha_hoy: Date = new Date();
 
   public displayedColumns: string[] = [
     'codigo_postal',
@@ -31,10 +32,8 @@ export class AbmPosicionesDashboardComponent {
   ];
 
   public dataSource: MatTableDataSource<AbmPosiciones>;
-
   public searchText: string = "";
   public searchId: number = 0;
-
   public Posicion: AbmPosiciones[] = [];
 
   constructor(private posicionesService: PosicionesService,
@@ -57,8 +56,6 @@ export class AbmPosicionesDashboardComponent {
     let body = JSON.stringify(aux)
     this.posicionesService.getPosicionByDesc(body).subscribe({
       next:(res:any) => {
-        console.log(res);
-        
         this.Posicion = res.dataset as AbmPosiciones[];
         this.dataSource = new MatTableDataSource<AbmPosiciones>(this.Posicion);
         this.dataSource.sort = this.sort;
@@ -90,11 +87,10 @@ export class AbmPosicionesDashboardComponent {
   }
 
   public editPosicionType(posiciones: AbmPosiciones): void {
-    const modalNuevoTipoDocumento = this.dialog.open(AddEditAbmPosicionesComponent, {
+    const modalPosicion = this.dialog.open(AddEditAbmPosicionesComponent, {
       data: {
         title: `Editar Posicion`,
         par_modo: "U",
-        id_tabla: 1,
         codigo_posicion: posiciones?.codigo_posicion,
         descripcion: posiciones?.descripcion,
         domicilio: posiciones?.domicilio,
@@ -103,14 +99,15 @@ export class AbmPosicionesDashboardComponent {
         control_rechazo: posiciones?.control_rechazo,
         yes_no: posiciones?.yes_no,
         fecha_vigencia: posiciones?.fecha_vigencia,
+        letra_provincia: this.searchId,
         edit: true
       }
     });
-
-    modalNuevoTipoDocumento.afterClosed().subscribe({
+    modalPosicion.afterClosed().subscribe({
       next:(res) => {
-        console.log(res);
+        console.log(res); 
         if (res) {
+          console.log(res);
           this.utils.openLoading();
           this.posicionesService.editPosicion(res).subscribe({
             next: () => {
@@ -123,7 +120,6 @@ export class AbmPosicionesDashboardComponent {
                 : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')
               this.editPosicionType(res)
               console.log(err.error.returnset.Mensaje);
-              
             },
             complete: () => {
               this.utils.closeLoading();

@@ -1,8 +1,12 @@
 import { Component, Inject } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { isAlphanumericWithSpaces, isNumeric } from 'src/app/core/validators/character.validator';
 import { ConfirmDialogComponent } from '../../../components/confirm-dialog/confirm-dialog.component';
+import { PosicionesService } from 'src/app/core/services/abm-posiciones.service';
+import { UtilService } from 'src/app/core/services/util.service';
+import { ModalLocalidadComponent } from './modal-localidad/modal-localidad.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @Component({
   selector: 'app-add-edit-abm-posiciones',
@@ -14,13 +18,19 @@ export class AddEditAbmPosicionesComponent {
   public formGroup: UntypedFormGroup;
   vigencia: boolean = false;
   fecha_hoy: Date = new Date();
+  paramLocal: []| any;
+  paramProv: []|any;
+  searchDescription: any;
+  searchCodePost: any;
+  dataSource: any;
+  localidad: any;
   constructor(public dialogRef: MatDialogRef<ConfirmDialogComponent>,
+              private utils: UtilService,
+              private posicionesService: PosicionesService,
+              private dialog: MatDialog,
               @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit(): void {
-    console.log(this.data);
-    
-    console.log(this.fecha_hoy);
     this.setUpForm();
     if (this.data.codigo_posicion) this.setFormValues();
     if (this.data.fecha_vigencia == 0 || this.data.fecha_vigencia > this.fecha_hoy) {
@@ -30,9 +40,32 @@ export class AddEditAbmPosicionesComponent {
     }
   }
 
+  getLocalidad (){
+    const modalSearchLocal = this.dialog.open(ModalLocalidadComponent, {
+      data: {
+        title: `Seleccionar Localidad`,
+        par_modo: "C"
+      }
+    })
+
+    modalSearchLocal.afterClosed().subscribe({
+      next:(datos) => {
+        this.localidad = datos.datos;
+        console.log(this.localidad);
+        
+        this.formGroup.get('localidad')?.setValue(this.localidad.descripcion);
+        this.formGroup.get('codigo_postal')?.setValue(this.localidad.codigo_postal);
+        this.formGroup.get('sub_codigo_postal')?.setValue(this.localidad.sub_codigo_postal);
+        this.formGroup.get('letra_provincia')?.setValue(this.localidad.letra_provincia);
+      },
+      error: (err) => {
+        console.log(err);
+      },})
+  }
+
   private setUpForm(): void {
     this.formGroup = new UntypedFormGroup({
-      codigo_posicion: new UntypedFormControl('',Validators.compose([
+      codigo_posicion: new UntypedFormControl({value:'', disabled: this.data.codigo_posicion && this.data.title === 'Editar Posicion'},Validators.compose([
         Validators.required,
         Validators.minLength(1),
         Validators.maxLength(3),
@@ -44,6 +77,7 @@ export class AddEditAbmPosicionesComponent {
         Validators.maxLength(30),
         isAlphanumericWithSpaces()
       ])),
+      localidad: new UntypedFormControl(''),
       domicilio: new UntypedFormControl('', Validators.compose([
         Validators.required,
         Validators.minLength(1),
@@ -77,12 +111,13 @@ export class AddEditAbmPosicionesComponent {
 
   closeDialog(): void {
     console.log(this.formGroup);
-    
     this.dialogRef.close(false);
   }
 
   public confirm(): void {
     // this.formGroup.markAllAsTouched();
+    console.log(this.formGroup);
+    
     if (this.formGroup.valid) {
       this.data.codigo_posicion
         ? this.dialogRef.close({
@@ -95,6 +130,7 @@ export class AddEditAbmPosicionesComponent {
           control_rechazo: this.formGroup.get('control_rechazo')?.value,
           yes_no: this.formGroup.get('yes_no')?.value,
           fecha_vigencia: this.formGroup.get('fecha_vigencia')?.value,
+          letra_provincia: this.formGroup.get('letra_provincia')?.value,
         })
         : this.dialogRef.close({
           par_modo: 'I',
@@ -106,6 +142,7 @@ export class AddEditAbmPosicionesComponent {
           control_rechazo: this.formGroup.get('control_rechazo')?.value,
           yes_no: this.formGroup.get('yes_no')?.value,
           fecha_vigencia: this.formGroup.get('fecha_vigencia')?.value,
+          letra_provincia: this.formGroup.get('letra_provincia')?.value,
         });
     }
   }
@@ -129,11 +166,9 @@ export class AddEditAbmPosicionesComponent {
       if (control.errors?.['maxlength']) {
         return `No puede contener más de ${control.errors?.['maxlength'].requiredLength} caracteres`
       }
-
       if (control.errors?.['minlength']) {
         return `Debe contener al menos ${control.errors?.['minlength'].requiredLength} caracteres`
       }
-
       if ((control.errors?.['notAlphanumeric'] || control.errors?.['notAlphanumericWithSpaces']) && control.value != '' && control.value != null) {
         return `No puede contener caracteres especiales`
       }

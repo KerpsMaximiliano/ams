@@ -14,6 +14,7 @@ import { AbmPosicionesComponent } from './abm-posiciones/abm-posiciones.componen
 import { AddEditAbmPosicionesComponent } from './abm-posiciones/add-edit-abm-posiciones/add-edit-abm-posiciones.component';
 import { AbmPosicionesFilterComponent } from './abm-posiciones/abm-posiciones-filter/abm-posiciones-filter.component';
 import { AbmPosicionesDashboardComponent } from './abm-posiciones/abm-posiciones-dashboard/abm-posiciones-dashboard.component';
+import { ModalLocalidadComponent } from './abm-posiciones/add-edit-abm-posiciones/modal-localidad/modal-localidad.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { AbmPosicionesDashboardComponent } from './abm-posiciones/abm-posiciones
     AddEditAbmPosicionesComponent,
     AbmPosicionesFilterComponent,
     AbmPosicionesDashboardComponent,
+    ModalLocalidadComponent,
   ],
   imports: [
     CommonModule,
