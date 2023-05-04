@@ -1,3 +1,20 @@
-.mat-cell {
-  text-transform: uppercase;
+/*
+ * Ajusta el tamaño y elimina el espacio de las celdas y encabezado de las columnas:
+ * 'codigo_estado_civil' y 'actions'.
+*/
+.mat-column-codigo_estado_civil.mat-header-cell, .mat-column-codigo_estado_civil.mat-cell,
+.mat-column-actions.mat-header-cell, .mat-column-actions.mat-cell {
+  width: 25% !important;
+  padding-left: 0px !important;
+}
+
+/*
+ * Ajusta el tamaño de las celdas y encabezado, agrega espacios a ambos lados y ...
+ * ... ajusta el texto a la derecha de la columna:
+ * 'description'.
+*/
+.mat-column-description.mat-header-cell, .mat-column-description.mat-cell {
+  width: 50% !important;
+  text-align: left !important;
+  padding: 0vw 2vw !important;
 }

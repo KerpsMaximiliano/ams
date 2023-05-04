@@ -8,7 +8,7 @@ import {
 } from '@angular/forms';
 
 // * Validations
-import { isAlpha } from 'src/app/core/validators/character.validator';
+import { isAlphanumericWithSpaces, isAlphanumeric } from 'src/app/core/validators/character.validator';
 
 // * Material
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -45,16 +45,16 @@ export class AddEditEstadoCivilDialogComponent {
           Validators.required,
           Validators.minLength(1),
           Validators.maxLength(1),
-          isAlpha(),
+          isAlphanumeric(),
         ])
       ),
       description: new UntypedFormControl(
         '',
         Validators.compose([
           Validators.required,
-          Validators.minLength(3),
+          Validators.minLength(1),
           Validators.maxLength(20),
-          isAlpha(),
+          isAlphanumericWithSpaces(),
         ])
       ),
     });
@@ -86,8 +86,8 @@ export class AddEditEstadoCivilDialogComponent {
     if (control.errors?.['required']) {
       return `Campo requerido`;
     } else {
-      if (control.errors?.['notAlpha']) {
-        return `Solo se aceptan letras`;
+      if ((control.errors?.['notAlphanumeric'] || control.errors?.['notAlphanumericWithSpaces']) && control.value != '' && control.value != null) {
+        return `Solo se aceptan letras y números.`;
       }
 
       if (control.errors?.['maxlength']) {
