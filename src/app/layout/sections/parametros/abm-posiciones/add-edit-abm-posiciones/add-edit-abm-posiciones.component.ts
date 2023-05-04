@@ -52,11 +52,12 @@ export class AddEditAbmPosicionesComponent {
       next:(datos) => {
         this.localidad = datos.datos;
         console.log(this.localidad);
-        
-        this.formGroup.get('localidad')?.setValue(this.localidad.descripcion);
-        this.formGroup.get('codigo_postal')?.setValue(this.localidad.codigo_postal);
-        this.formGroup.get('sub_codigo_postal')?.setValue(this.localidad.sub_codigo_postal);
-        this.formGroup.get('letra_provincia')?.setValue(this.localidad.letra_provincia);
+        if (this.localidad){
+          this.formGroup.get('localidad')?.setValue(this.localidad.descripcion);
+          this.formGroup.get('codigo_postal')?.setValue(this.localidad.codigo_postal);
+          this.formGroup.get('sub_codigo_postal')?.setValue(this.localidad.sub_codigo_postal);
+          this.formGroup.get('letra_provincia')?.setValue(this.localidad.letra_provincia);
+        }
       },
       error: (err) => {
         console.log(err);

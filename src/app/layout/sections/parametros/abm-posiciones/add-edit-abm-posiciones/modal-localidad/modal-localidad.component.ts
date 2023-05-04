@@ -1,7 +1,8 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, Inject } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, ViewChild } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { PosicionesService } from 'src/app/core/services/abm-posiciones.service';
 import { UtilService } from 'src/app/core/services/util.service';
@@ -14,13 +15,13 @@ import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confi
   styleUrls: ['./modal-localidad.component.scss']
 })
 export class ModalLocalidadComponent {
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator =
+  new MatPaginator(new MatPaginatorIntl(), this.cdr);
   formGroup: any;
   paramProv: any;
   selection = [];
-  // block = new SelectionModel(false, []);
   public localidad: any;
   public dataSource: any;
-
   public displayedColumns: string[] = [
     'codigo_postal',
     'descripcion',
@@ -34,6 +35,7 @@ export class ModalLocalidadComponent {
     private utils: UtilService,
     private dialogRefLocal: MatDialogRef<ConfirmDialogComponent>,
     private posicionesService: PosicionesService,
+    private cdr: ChangeDetectorRef,
     @Inject(MAT_DIALOG_DATA) public data: any
     ){
     this.setUpForm()
@@ -116,6 +118,12 @@ export class ModalLocalidadComponent {
           ? this.localidad = res.dataset as any[]
           : this.localidad = [res.dataset];
           this.dataSource = new MatTableDataSource<any>(this.localidad);
+          setTimeout(() => {
+            this.dataSource.paginator = this.paginator;
+            this.paginator._intl.getRangeLabel = (): string => {
+              return "Página " +  (this.paginator.pageIndex + 1) + " de " +  this.paginator.length
+            }
+          }, 100)
         },
         error:(err: any) => {
           this.utils.closeLoading();
@@ -135,6 +143,12 @@ export class ModalLocalidadComponent {
           console.log(res);
           this.localidad = res.dataset as any[];
           this.dataSource = new MatTableDataSource<any>(this.localidad);
+          setTimeout(() => {
+            this.dataSource.paginator = this.paginator;
+            this.paginator._intl.getRangeLabel = (): string => {
+              return "Página " +  (this.paginator.pageIndex + 1) + " de " +  this.paginator.length
+            }
+          }, 100)
         },
         error:(err: any) => {
           this.utils.closeLoading();
