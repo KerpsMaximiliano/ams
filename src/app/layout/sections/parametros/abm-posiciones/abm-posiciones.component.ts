@@ -50,6 +50,7 @@ export class AbmPosicionesComponent {
 
     modalNuevaPosicion.afterClosed().subscribe({
       next: (res) => {
+        console.log(res);
         if (res) {
           this.utils.openLoading();
           this.posicionesService.addPosicion(res).subscribe({

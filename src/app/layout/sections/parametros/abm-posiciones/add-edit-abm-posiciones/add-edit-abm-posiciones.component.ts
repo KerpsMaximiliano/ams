@@ -91,7 +91,7 @@ export class AddEditAbmPosicionesComponent {
         Validators.minLength(1),
         Validators.maxLength(2),
       ])),
-      yes_no: new UntypedFormControl({value: '', disabled: !this.data.edit}),
+      yes_no: new UntypedFormControl({value: 'N', disabled: !this.data.edit}),
       fecha_vigencia: new UntypedFormControl(''),
       letra_provincia: new UntypedFormControl(''),
     })
@@ -116,8 +116,6 @@ export class AddEditAbmPosicionesComponent {
 
   public confirm(): void {
     // this.formGroup.markAllAsTouched();
-    console.log(this.formGroup);
-    
     if (this.formGroup.valid) {
       this.data.codigo_posicion
         ? this.dialogRef.close({
@@ -129,7 +127,7 @@ export class AddEditAbmPosicionesComponent {
           sub_codigo_postal: this.formGroup.get('sub_codigo_postal')?.value,
           control_rechazo: this.formGroup.get('control_rechazo')?.value,
           yes_no: this.formGroup.get('yes_no')?.value,
-          fecha_vigencia: this.formGroup.get('fecha_vigencia')?.value,
+          fecha_vigencia: this.fecha(this.formGroup.get('fecha_vigencia')?.value),
           letra_provincia: this.formGroup.get('letra_provincia')?.value,
         })
         : this.dialogRef.close({
@@ -141,13 +139,13 @@ export class AddEditAbmPosicionesComponent {
           sub_codigo_postal: this.formGroup.get('sub_codigo_postal')?.value,
           control_rechazo: this.formGroup.get('control_rechazo')?.value,
           yes_no: this.formGroup.get('yes_no')?.value,
-          fecha_vigencia: this.formGroup.get('fecha_vigencia')?.value,
+          fecha_vigencia: this.fecha(this.formGroup.get('fecha_vigencia')?.value),
           letra_provincia: this.formGroup.get('letra_provincia')?.value,
         });
     }
   }
 
-  fecha() {
+  fecha(fecha:any) {
     let auxFecha: number;
     let ano = this.fecha_hoy.getFullYear().toString();
     let mes = (this.fecha_hoy.getMonth() + 1).toString();
@@ -155,8 +153,9 @@ export class AddEditAbmPosicionesComponent {
     let dia = this.fecha_hoy.getDate().toString()
     if (dia.length == 1) { dia = "0" + dia };
     auxFecha = parseInt(ano + mes + dia);
-    this.formGroup.get('fecha_vigencia')?.setValue(auxFecha);
     console.log(this.formGroup.get('fecha_vigencia')?.value);
+    console.log(this.formGroup.value);
+    return (auxFecha);
   }
 
   getErrorMessage(control: any): string {

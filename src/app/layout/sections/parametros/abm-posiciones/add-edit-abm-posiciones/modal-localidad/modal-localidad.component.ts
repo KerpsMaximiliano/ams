@@ -1,3 +1,4 @@
+import { SelectionModel } from '@angular/cdk/collections';
 import { Component, Inject } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -16,7 +17,7 @@ export class ModalLocalidadComponent {
   formGroup: any;
   paramProv: any;
   selection = [];
-  // selection = new SelectionModel(false, []);
+  // block = new SelectionModel(false, []);
   public localidad: any;
   public dataSource: any;
 
@@ -57,18 +58,22 @@ export class ModalLocalidadComponent {
     })
   }
 
+  // limpiarLocal() {
+  //   this.block = false;
+  // }
+
   onCheckboxChange(row: any) {
     if (this.selection.length < 1){
       if (row) {
         console.log(`Se ha marcado la casilla de la fila ${row.codigo_departamento}`);
         this.selection = row;
-        this.block= true;
+        this.block = true;
       } else{
         console.log(`Se ha desmarcado la casilla de la fila ${row.codigo_departamento}`);
-        this.selection=[];
-        this.block= false;
       }
     } else {
+      this.selection=[];
+      this.block = false;
       console.log(`Casilla de la fila ${row.codigo_departamento}`);
     }
   }
