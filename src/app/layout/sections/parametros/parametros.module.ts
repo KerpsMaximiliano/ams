@@ -14,6 +14,7 @@ import { DepartamentoDashboardComponent } from './departamento/components/depart
 import { DepartamentoFilterComponent } from './departamento/components/departamento-filter/departamento-filter.component';
 import { DepartamentoComponent } from './departamento/departamento.component';
 import { AddEditDepartamentoDialogComponent } from './departamento/components/add-edit-departamento-dialog/add-edit-departamento-dialog.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { AddEditDepartamentoDialogComponent } from './departamento/components/ad
   imports: [
     CommonModule,
     ParametrosRoutingModule,
-    SharedModule
+    SharedModule,
+    MatAutocompleteModule
   ]
 })
 export class ParametrosModule { }
