@@ -8,35 +8,32 @@
         </mat-expansion-panel-header>
         <form [formGroup]="searching">
             <div class="seeker-fields-container">
-                <div class="seeker-fields-container">
-                    <mat-form-field appearance="outline" floatLabel="always">
-                        <mat-label>Provincia</mat-label>
-                        <mat-select 
-                        formControlName="letra_provincia"
+                    <h3>Provincia</h3>
+                    <mat-form-field class="seeker-form-field" appearance="outline">
+                        <input type="text" required matInput [formControl]="myControlProv" [matAutocomplete]="prov">
+                        <mat-autocomplete #prov="matAutocomplete" [displayWith]="displayFnProv">
+                        <mat-option *ngFor="let Prov of provinciaFiltrados | async" 
+                        [value]="Prov"
+                        (onSelectionChange)="buscar(Prov.codigo)"
                         >
-                        <mat-option *ngFor="let provin of paramProv" 
-                            [value]="provin.codigo"
-                            (onSelectionChange)="buscar(provin.codigo)"
-                            >
-                            {{ provin.nombre_provincia }}
+                            {{Prov.nombre_provincia}}
                         </mat-option>
-                        </mat-select>
+                        </mat-autocomplete>
                     </mat-form-field>
-                </div>
-                <div class="seeker-fields-container">
-                    <mat-form-field appearance="outline" floatLabel="always">
-                        <mat-label>Departamento</mat-label>
-                        <mat-select 
-                        value="this.forma.controls['codigo_departamento'].value"
-                        formControlName="codigo_departamento"
+                    <h3>Departamento</h3>
+                    <mat-form-field class="seeker-form-field" appearance="outline">
+                        <input type="text" required matInput [formControl]="myControldepto" [matAutocomplete]="dep">
+                        <mat-autocomplete #dep="matAutocomplete" [displayWith]="displayFnDep">
+                        <mat-option *ngFor="let depto of deptoFiltrados | async" 
+                        [value]="depto"
+                        (onSelectionChange)="dato(depto.codigo_departamento)"
                         >
-                        <mat-option *ngFor="let departamento of paramDepto" 
-                            [value]="departamento.codigo_departamento">
-                            {{ departamento.descripcion }}
+                            {{depto.descripcion}}
                         </mat-option>
-                        </mat-select>
+                        </mat-autocomplete>
                     </mat-form-field>
-                </div>
+            </div>
+            <div class="seeker-fields-container">
                 <mat-form-field class="seeker-form-field">
                     <mat-label class="seeker-label"
                         >codigo postal</mat-label>

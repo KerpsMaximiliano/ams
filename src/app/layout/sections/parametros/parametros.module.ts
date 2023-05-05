@@ -14,6 +14,7 @@ import { AbmLocalidadesComponent } from './abm-localidades/abm-localidades.compo
 import { AbmLocalidadesFilterComponent } from './abm-localidades/components/abm-localidades-filter/abm-localidades-filter.component';
 import { AbmLocalidadesDashboardComponent } from './abm-localidades/components/abm-localidades-dashboard/abm-localidades-dashboard.component';
 import { EditAbmLocalidadesDialogComponent } from './abm-localidades/components/abm-localidades-dialog/edit-abm-localidades-dialog.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { EditAbmLocalidadesDialogComponent } from './abm-localidades/components/
   imports: [
     CommonModule,
     ParametrosRoutingModule,
-    SharedModule
+    SharedModule,
+    MatAutocompleteModule
   ]
 })
 export class ParametrosModule { }

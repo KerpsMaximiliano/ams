@@ -4,7 +4,7 @@
 
 <div class="dialog-content">
     <form class="form-datos" [formGroup]="formGroup" (ngSubmit)="confirm()" >
-        <div style="overflow:scroll; overflow-y: auto">
+        <div style="overflow-y: auto">
         <div class="seeker-fields-container">
             <h3>Código Postal</h3>
             <mat-form-field class="seeker-form-field" appearance="outline">
@@ -95,43 +95,34 @@
                 </mat-error>
             </mat-form-field>
         </div>
-        
         <div class="seeker-fields-container">
             <h3>Zona de Promoción</h3>
-            <mat-form-field class="seeker-form-field" appearance="outline">
-                <input matInput formControlName="zona_promocion"
-                required maxlength="2" minlength="1"
-                [readonly]="!data.edit">
-                <mat-error *ngIf="formGroup.get('zona_promocion')?.invalid
-                && formGroup.get('zona_promocion')?.touched">
-                {{getErrorMessage(formGroup.get('zona_promocion'))}}
-            </mat-error>
+            <mat-form-field appearance="outline" floatLabel="always">
+                <mat-select 
+                formControlName="zona_promocion"
+                >
+                <mat-option *ngFor="let ZonaP of paramZonaP" 
+                    [value]="ZonaP.codigo"
+                    >
+                    {{ ZonaP.descripcion }}
+                </mat-option>
+                </mat-select>
             </mat-form-field>
         </div>
         <div class="seeker-fields-container">
             <h3>Zona de Envío</h3>
-            <mat-form-field class="seeker-form-field" appearance="outline">
-                <input matInput formControlName="zona_envio"
-                required maxlength="10" minlength="1"
-                [readonly]="!data.edit">
-                <mat-error *ngIf="formGroup.get('zona_envio')?.invalid
-                && formGroup.get('zona_envio')?.touched">
-                {{getErrorMessage(formGroup.get('zona_envio'))}}
-                </mat-error>
+            <mat-form-field appearance="outline" floatLabel="always">
+                <mat-select 
+                formControlName="zona_envio"
+                >
+                <mat-option *ngFor="let ZonaE of paramZonaE" 
+                    [value]="ZonaE.codigo"
+                    >
+                    {{ ZonaE.descripcion }}
+                </mat-option>
+                </mat-select>
             </mat-form-field>
         </div>
-<!-- <div class="seeker-fields-container">
-    <h3>Zona de Atención</h3>
-    <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="zona_atencion"
-        required maxlength="3" minlength="1"
-        [readonly]="!data.edit">
-        <mat-error *ngIf="formGroup.get('zona_atencion')?.invalid
-        && formGroup.get('zona_atencion')?.touched">
-        {{getErrorMessage(formGroup.get('zona_atencion'))}}
-    </mat-error>
-</mat-form-field>
-</div> -->
         <div class="seeker-fields-container">
             <h3>Igreso de Ticket</h3>
             <mat-form-field class="seeker-form-field" appearance="outline">
@@ -145,7 +136,6 @@
                 </mat-select>
             </mat-form-field>
         </div>
-
         <div class="seeker-fields-container">
             <h3>Visitado por Medico Auditor</h3>
             <mat-form-field class="seeker-form-field" appearance="outline">

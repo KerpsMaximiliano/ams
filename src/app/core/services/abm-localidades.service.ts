@@ -25,6 +25,11 @@ export class LocalidadesService {
         return this.http.post<AbmLocalidades[]>(`${this.environmentService.api}/abmlocalidades`, body, httpOptions)
     }
 
+    public getZona (data:any): Observable<any> {
+        let body = JSON.stringify(data);
+        return this.http.post<any>(`${this.environmentService.api}/abmlocalidades`, body, httpOptions);
+    }
+
     public deleteEstado(id:number) {
         return this.http.delete(`${this.environmentService.api}/estados/${id}`);
     }

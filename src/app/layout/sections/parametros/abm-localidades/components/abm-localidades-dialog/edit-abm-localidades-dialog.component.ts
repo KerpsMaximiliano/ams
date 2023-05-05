@@ -41,6 +41,39 @@ export class EditAbmLocalidadesDialogComponent {
           : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')
       }
     })
+
+    let bodyzonaP = {
+      par_modo: 'P',
+    }
+    this.LocalidadesService.getZona(bodyzonaP).subscribe({
+      next:(res) => {this.paramZonaP = res.dataset
+        console.log(this.paramZonaP);
+        
+      },
+      error:(err) => {
+        console.log(err);
+        (err.status == 0)
+          ? this.utils.notification('Error de conexion', 'error') 
+          : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')
+      }
+    })
+
+    let bodyzonaE = {
+      par_modo: 'E',
+    }
+    this.LocalidadesService.getZona(bodyzonaE).subscribe({
+      next:(res) => {this.paramZonaE = res.dataset
+        console.log(this.paramZonaE);
+        
+      },
+      error:(err) => {
+        console.log(err);
+        (err.status == 0)
+          ? this.utils.notification('Error de conexion', 'error') 
+          : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')
+      }
+    })
+
   }
 
   private setUpForm(): void {
@@ -73,7 +106,6 @@ export class EditAbmLocalidadesDialogComponent {
           Validators.required,
           Validators.minLength(1),
           Validators.maxLength(2),
-          isAlphanumericWithSpaces
         ])),
         flete_transporte : new UntypedFormControl('',
         Validators.compose([
@@ -97,22 +129,19 @@ export class EditAbmLocalidadesDialogComponent {
           Validators.compose([
           Validators.required,
           Validators.minLength(1),
-          Validators.maxLength(2),
-          isNumeric
+          Validators.maxLength(3),
         ])),
         codigo_departamento : new UntypedFormControl('',
           Validators.compose([
           Validators.required,
           Validators.minLength(1),
           Validators.maxLength(3),
-          isNumeric
         ])),
         zona_envio : new UntypedFormControl('',
           Validators.compose([
           Validators.required,
           Validators.minLength(1),
           Validators.maxLength(10),
-          isAlphanumericWithSpaces
         ])),
         // codifica_altura: new UntypedFormControl({value: 'N', disabled: !this.data.edit},Validators.compose([Validators.required,Validators.minLength(1),Validators.maxLength(2)])),
         ingreso_ticket: new UntypedFormControl(
@@ -139,6 +168,8 @@ export class EditAbmLocalidadesDialogComponent {
     }
     this.LocalidadesService.getDepart(bodydep).subscribe({
       next:(res) => {this.paramDepto = res.dataset
+        console.log(this.paramDepto);
+        
       },
       error:(err) => {
         console.log(err);
