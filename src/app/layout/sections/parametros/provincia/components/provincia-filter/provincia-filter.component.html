@@ -6,7 +6,7 @@
                 Opciones de búsqueda
             </mat-panel-title>
         </mat-expansion-panel-header>
-        <form [formGroup]="searching">
+        <form>
             <div class="seeker-fields-container">
                 <div class="seeker-fields-container">
                     <mat-form-field appearance="outline" floatLabel="always">
@@ -24,10 +24,10 @@
                 </div>
                 <mat-form-field class="seeker-form-field">
                 <mat-label class="seeker-label"
-                >Departamento</mat-label>
+                >Descripción</mat-label>
                 <input  matInput
                 class="seeker-input"
-                formControlName="descripcion"
+                [formControl]="nombre_provincia"
                 (keydown.enter)="searchKeyUp($event)">
                 </mat-form-field>
             </div>

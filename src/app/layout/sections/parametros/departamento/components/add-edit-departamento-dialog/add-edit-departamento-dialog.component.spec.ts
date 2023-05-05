@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EditAbmDepartamentoDialogComponent } from './edit-abm-departamento-dialog.component';
+import { AddEditDepartamentoDialogComponent } from './add-edit-departamento-dialog.component';
 
 describe('EditAbmDepartamentoDialogComponent', () => {
-  let component: EditAbmDepartamentoDialogComponent;
-  let fixture: ComponentFixture<EditAbmDepartamentoDialogComponent>;
+  let component: AddEditDepartamentoDialogComponent;
+  let fixture: ComponentFixture<AddEditDepartamentoDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EditAbmDepartamentoDialogComponent ]
+      declarations: [ AddEditDepartamentoDialogComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(EditAbmDepartamentoDialogComponent);
+    fixture = TestBed.createComponent(AddEditDepartamentoDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AbmDepartamentoComponent } from './abm-departamento.component';
+import { AbmDepartamentoComponent } from './departamento.component';
 
 describe('AbmDepartamentoComponent', () => {
   let component: AbmDepartamentoComponent;

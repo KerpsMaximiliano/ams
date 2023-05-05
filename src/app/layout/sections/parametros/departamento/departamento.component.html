@@ -9,8 +9,8 @@
     </div>
 
     <div class="section-content">
-        <app-abm-departamento-filter (searchEvent)="handleSearch($event)">
-        </app-abm-departamento-filter>
-        <app-abm-departamento-dashboard></app-abm-departamento-dashboard>
+        <app-departamento-filter (searchEvent)="handleSearch($event)" [provincias$]="provincias$">
+        </app-departamento-filter>
+        <app-departamento-dashboard></app-departamento-dashboard>
     </div>
 </section>

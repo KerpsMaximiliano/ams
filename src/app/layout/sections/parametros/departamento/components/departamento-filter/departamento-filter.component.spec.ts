@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AbmDepartamentoFilterComponent } from './abm-departamento-filter.component';
+import { DepartamentoFilterComponent } from './departamento-filter.component';
 
 describe('TipoNacionalidadFilterComponent', () => {
-  let component: AbmDepartamentoFilterComponent;
-  let fixture: ComponentFixture<AbmDepartamentoFilterComponent>;
+  let component: DepartamentoFilterComponent;
+  let fixture: ComponentFixture<DepartamentoFilterComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AbmDepartamentoFilterComponent ]
+      declarations: [ DepartamentoFilterComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AbmDepartamentoFilterComponent);
+    fixture = TestBed.createComponent(DepartamentoFilterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

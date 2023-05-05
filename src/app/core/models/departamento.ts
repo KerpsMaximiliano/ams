@@ -1,6 +1,6 @@
 import { Response } from "./response";
 
-export interface AbmDepartamento {
+export interface Departamento {
     par_modo: string,
     letra_provincia: string,
     codigo_departamento: number,
@@ -8,4 +8,4 @@ export interface AbmDepartamento {
     descripcion_reducida: string,
 }
 
-export type AbmDepartamentoResponse = Response<AbmDepartamento[]>;
+export type DepartamentoResponse = Response<Departamento[]>;
