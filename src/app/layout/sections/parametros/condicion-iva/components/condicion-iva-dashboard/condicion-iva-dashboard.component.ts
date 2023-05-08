@@ -1,14 +1,21 @@
-import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
+
+// * Services
+import { CondicionIvaService } from 'src/app/core/services/condicion-iva.service';
+import { UtilService } from 'src/app/core/services/util.service';
+
+// * Interface
+import { ICondicionIva } from 'src/app/core/models/condicion-iva.interface';
+
+// * Material
 import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
-import { CondicionIva } from 'src/app/core/models/condicion-iva.interface';
-import { UtilService } from 'src/app/core/services/util.service';
+import { MatDialog } from '@angular/material/dialog';
+
+// * Componentes
 import { AddEditCondicionIvaDialogComponent } from '../add-edit-condicion-iva-dialog/add-edit-condicion-iva-dialog.component';
-import { CondicionIvaService } from 'src/app/core/services/condicion-iva.service';
 
 @Component({
   selector: 'app-condicion-iva-dashboard',
@@ -30,11 +37,11 @@ export class CondicionIvaDashboardComponent {
     'actions'
   ];
 
-  public dataSource: MatTableDataSource<CondicionIva>;
+  public dataSource: MatTableDataSource<ICondicionIva>;
 
   public searchValue: string;
 
-  public documents: CondicionIva[] = [];
+  public documents: ICondicionIva[] = [];
 
   constructor(private tipoCondicionService: CondicionIvaService,
               private utils: UtilService,
@@ -50,8 +57,8 @@ export class CondicionIvaDashboardComponent {
     this.utils.openLoading();
     this.tipoCondicionService.getCondicionIvaCRUD(this.searchValue).subscribe({
       next:(res:any) => {
-        this.documents = res.dataset as CondicionIva[];
-        this.dataSource = new MatTableDataSource<CondicionIva>(this.documents);
+        this.documents = res.dataset as ICondicionIva[];
+        this.dataSource = new MatTableDataSource<ICondicionIva>(this.documents);
         this.dataSource.sort = this.sort;
         setTimeout(() => {
           this.dataSource.paginator = this.paginator;
@@ -63,7 +70,7 @@ export class CondicionIvaDashboardComponent {
       error:(err: any) => {
         this.utils.closeLoading();
         (err.status == 0)
-          ? this.utils.notification('Error de conexion', 'error') 
+          ? this.utils.notification('Error de conexion.', 'error') 
           : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')
         },
       complete: () => {
@@ -80,16 +87,16 @@ export class CondicionIvaDashboardComponent {
     }
   }
 
-  public editCondicionIVA(tipoCondicion: CondicionIva): void {
+  public editCondicionIVA(tipoCondicion: ICondicionIva): void {
     const modalNuevaCondicionIva = this.dialog.open(AddEditCondicionIvaDialogComponent, {
       data: {
-        title: `Editar Condicion IVA`,
+        title: `EDITAR CONDICION IVA`,
+        edit: true,
         par_modo: "U",
         codigo_de_IVA: tipoCondicion.codigo_de_IVA,
         descripcion: tipoCondicion.descripcion,
         descripcion_reducida: tipoCondicion.descripcion_reducida,
         formulario_AB: tipoCondicion.formulario_AB,
-        edit: true
       }
     });
 
@@ -99,7 +106,7 @@ export class CondicionIvaDashboardComponent {
           this.utils.openLoading();
           this.tipoCondicionService.getCondicionIvaCRUD(res).subscribe({
             next: () => {
-              this.utils.notification("La Condicion IVA se ha editado extiosamente", 'success')
+              this.utils.notification("La Condicion IVA se ha editado extiosamente.", 'success')
             },
             error: (err) => {
               this.utils.closeLoading();
@@ -115,7 +122,6 @@ export class CondicionIvaDashboardComponent {
                   par_modo: "G",
                   descripcion: res.descripcion
                 })
-
                 this.getCondicionIva();
               }, 300);
             }
@@ -125,16 +131,16 @@ export class CondicionIvaDashboardComponent {
     });
   }
 
-  public viewCondicionIVA(tipoCondicion: CondicionIva): void {
+  public viewCondicionIVA(tipoCondicion: ICondicionIva): void {
     this.dialog.open(AddEditCondicionIvaDialogComponent, {
       data: {
-        title: `Ver Condicion IVA`,
+        title: `VER CONDICION IVA`,
         par_modo: "G",
+        edit: false,
         codigo_de_IVA: tipoCondicion.codigo_de_IVA,
         descripcion: tipoCondicion.descripcion,
         descripcion_reducida: tipoCondicion.descripcion_reducida,
         formulario_AB: tipoCondicion.formulario_AB,
-        edit: false
       }
     });
   }

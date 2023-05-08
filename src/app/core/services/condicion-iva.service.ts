@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { CondicionIva, CondicionIvaResponse } from '../models/condicion-iva.interface';
+import { CondicionIvaResponse } from '../models/condicion-iva.interface';
 import { EnvironmentService } from './environment.service';
 
 const httpOptions = {

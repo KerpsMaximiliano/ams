@@ -12,15 +12,15 @@
         <div class="seeker-fields-container">
           <mat-form-field class="seeker-form-field">
             <mat-label class="seeker-label" for="descripcion">Ingrese la Condición de IVA</mat-label>
-            <input matInput class="seeker-input" [formControl]="descripcion" (keydown.enter)="searchKeyUp($event)">
+            <input matInput class="seeker-input"  #input (keydown.enter)="search($event, input.value)">
           </mat-form-field>
         </div>
   
         <div class="buttons-container">
-          <button class="primary-button icon-button" type="button" (click)="search()" >
+          <button class="primary-button icon-button" type="button" (click)="search($event, input.value)" >
             <mat-icon>done</mat-icon>
             Buscar</button>
-          <button class="primary-button icon-button" type="button" (click)="clearInputs()" [disabled]="descripcion.value.length === 0">
+          <button class="primary-button icon-button" type="button" (click)="clear(input)" [disabled]="descripcion.value.length === 0">
             <mat-icon>close</mat-icon>
             Limpiar</button>
         </div>

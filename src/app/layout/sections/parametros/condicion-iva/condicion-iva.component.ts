@@ -1,10 +1,18 @@
-import { MatDialog } from '@angular/material/dialog';
 import { Component, ViewChild } from '@angular/core';
+
+// * Services
+import { CondicionIvaService } from 'src/app/core/services/condicion-iva.service';
 import { UtilService } from 'src/app/core/services/util.service';
+
+// * Interfaces
+import { ICondicionIva } from 'src/app/core/models/condicion-iva.interface';
+
+// * Material
+import { MatDialog } from '@angular/material/dialog';
+
+// * Componentes
 import { AddEditCondicionIvaDialogComponent } from './components/add-edit-condicion-iva-dialog/add-edit-condicion-iva-dialog.component';
 import { CondicionIvaDashboardComponent } from './components/condicion-iva-dashboard/condicion-iva-dashboard.component';
-import { CondicionIva } from 'src/app/core/models/condicion-iva.interface';
-import { CondicionIvaService } from 'src/app/core/services/condicion-iva.service';
 
 @Component({
   selector: 'app-condicion-iva-documento',
@@ -26,12 +34,12 @@ export class CondicionIvaComponent {
       this.dashboard.filter(inputValue);
     }
   
-    public nuevaCondicionIVA(condicionIva?: CondicionIva): void {
+    public nuevaCondicionIVA(condicionIva?: ICondicionIva): void {
       const modalNuevaCondicionIva = this.dialog.open(AddEditCondicionIvaDialogComponent, {
         data: {
-          title: `Crear condición de IVA`,
-          par_modo: "I",
+          title: `CREAR CONDICION DE IVA`,
           edit: true,
+          par_modo: "I",
           codigoCondIva: condicionIva?.codigo_de_IVA,
           descripcion: condicionIva?.descripcion,
           abreviatura: condicionIva?.descripcion_reducida,
@@ -45,12 +53,12 @@ export class CondicionIvaComponent {
             this.utils.openLoading();
             this.condicionIvaService.getCondicionIvaCRUD(res).subscribe({
               next: () => {
-                this.utils.notification("La Condicion IVA se ha creado exitosamente", 'success')
+                this.utils.notification("La Condicion IVA se ha creado exitosamente.", 'success')
               },
               error: (err) => {
                 this.utils.closeLoading();
                 (err.status == 0)
-                  ? this.utils.notification('Error de conexion', 'error') 
+                  ? this.utils.notification('Error de conexion.', 'error') 
                   : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')
                   this.nuevaCondicionIVA(res)
               },

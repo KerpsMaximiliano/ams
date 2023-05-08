@@ -1,7 +1,13 @@
 import { Component, Inject } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+
+// * Material
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+
+// * Validators
 import { isAlphanumericWithSpaces, isNumeric } from 'src/app/core/validators/character.validator';
+
+// * Componentes
 import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
@@ -18,44 +24,59 @@ export class AddEditCondicionIvaDialogComponent {
 
   ngOnInit(): void {
     this.setUpForm();
-    if (this.data.id){
-     this.setFormValues();
+    if (this.data.codigo_de_IVA !== undefined) {
+      this.setFormValues();
+    }
+    if (!this.data.edit && this.data.par_modo === 'G') {
+      this.formGroup.disable();
     }
   }
-
   private setUpForm(): void {
     this.formGroup = new UntypedFormGroup({
-      codigo_de_IVA: new UntypedFormControl({value: this.data.codigo_de_IVA, disabled: this.data.par_modo == 'U'},Validators.compose([
+      codigo_de_IVA: new UntypedFormControl({value: '', disabled: this.data.par_modo == 'U'},Validators.compose([
         Validators.required,
         Validators.minLength(1),
         Validators.maxLength(2),
         isNumeric()
       ])),
-      descripcion: new UntypedFormControl(this.data.descripcion, Validators.compose([
+      descripcion: new UntypedFormControl('', Validators.compose([
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(20),
         isAlphanumericWithSpaces()
       ])),
 
-      descripcion_reducida: new UntypedFormControl(this.data.descripcion_reducida, Validators.compose([
+      descripcion_reducida: new UntypedFormControl('', Validators.compose([
         Validators.required,
         Validators.minLength(1),
         Validators.maxLength(8),
       ])),
-      formulario_AB: new UntypedFormControl({value: this.data.formulario_AB, disabled: !this.data.edit}, Validators.compose([
+      formulario_AB: new UntypedFormControl({value: '', disabled: !this.data.edit}, Validators.compose([
         Validators.required
       ]))
     })
   }
 
   private setFormValues(): void {
-    this.formGroup.get('codigo_de_IVA')?.setValue(this.data.codigo_de_IVA);
-    this.formGroup.get('descripcion')?.setValue(this.data.descripcion);
-    this.formGroup.get('descripcion_reducida')?.setValue(this.data.descripcion_reducida);
-    (this.data.formulario_AB)
-      ? this.formGroup.get('formulario_AB')?.setValue(this.data.formulario_AB)
-      : this.formGroup.get('formulario_AB')?.setValue('');
+    // Codigo de iva
+    this.formGroup.get('codigo_de_IVA')?.patchValue({codigo_de_IVA: this.data.codigo_de_IVA});
+    
+    // Descripcion
+    if (this.data.descripcion !== undefined) {
+      this.formGroup.get('descripcion')?.patchValue({descripcion: this.data.descripcion});
+    }
+    
+    // Descripcion reducida
+    if (this.data.descripcion_reducida !== undefined) {
+      this.formGroup.get('descripcion_reducida')?.patchValue({descripcion_reducida: this.data.descripcion_reducida});
+    }
+    
+    // Formulario A o B
+    if (this.data.formulario_AB !== undefined) {
+      this.formGroup.get('formulario_AB')?.patchValue({formulario_AB: this.data.formulario_AB})
+    } else {
+      this.formGroup.get('formulario_AB')?.patchValue(null);
+    } 
   }
 
   closeDialog(): void {
@@ -74,19 +95,19 @@ export class AddEditCondicionIvaDialogComponent {
       return `Campo requerido`
     } else {
       if (control.errors?.['maxlength']) {
-        return `No puede contener más de ${control.errors?.['maxlength'].requiredLength} caracteres`
+        return `No puede contener más de ${control.errors?.['maxlength'].requiredLength} caracteres.`
       }
 
       if (control.errors?.['minlength']) {
-        return `Debe contener al menos ${control.errors?.['minlength'].requiredLength} caracteres`
+        return `Debe contener al menos ${control.errors?.['minlength'].requiredLength} caracteres.`
       }
 
       if (control.errors?.['notNumeric']) {
-        return `Solo debe contener numeros`
+        return `Solo debe contener numeros.`
       }
 
-      if ((control.errors?.['notAlphanumeric'] || control.errors?.['notAlphanumericWithSpaces']) && control.value != '' && control.value != null) {
-        return `No puede contener caracteres especiales`
+      if ((control.errors?.['notAlphanumericWithSpaces']) && control.value != '' && control.value != null) {
+        return `No puede contener caracteres especiales.`
       }
     }
     return '';
