@@ -50,39 +50,6 @@ export class AbmLocalidadesDashboardComponent {
     this.paginator._intl.itemsPerPageLabel = 'Elementos por página';
   }
 
-  // private getAbmLocalidad(): void {
-  //   this.utils.openLoading();
-  //   let aux = {
-  //     par_modo: "C",
-  //     codigo_departamento: this.searchDep,
-  //     letra_provincia: this.searchLetra,
-  //     codigo_postal: this.searchId,
-  //   }
-  //   this.LocalidadesService.getParamById(JSON.stringify(aux)).subscribe({
-  //     next:(res:any) => {
-  //       this.localidades = res.dataset as AbmLocalidades[];
-  //       this.dataSource = new MatTableDataSource<AbmLocalidades>(this.localidades);
-  //       this.dataSource.sort = this.sort;
-  //       setTimeout(() => {
-  //         this.dataSource.paginator = this.paginator;
-  //         this.paginator._intl.getRangeLabel = (): string => {
-  //           return "Página " +  (this.paginator.pageIndex + 1) + " de " +  this.paginator.length
-  //         }
-  //       }, 100)
-  //     },
-  //     error:(err: any) => {
-  //       this.utils.closeLoading();
-  //       console.log(err);
-  //       (err.status == 0)
-  //         ? this.utils.notification('Error de conexion', 'error') 
-  //         : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')
-  //     },
-  //     complete: () => {
-  //       this.utils.closeLoading();
-  //     }
-  //   });
-  // }
-  
   private getAbmLocalidades(): void {
     this.utils.openLoading();
     this.aux = {
@@ -93,7 +60,7 @@ export class AbmLocalidadesDashboardComponent {
     }
     if (this.aux.codigo_postal != ''){
       this.aux.par_modo =  'R';
-      this.LocalidadesService.getParamById(JSON.stringify(this.aux)).subscribe({
+      this.LocalidadesService.getCRUD(JSON.stringify(this.aux)).subscribe({
         next:(res:any) => {
           console.log(res);
           (res.dataset.length)
@@ -123,7 +90,7 @@ export class AbmLocalidadesDashboardComponent {
     }
     else {
       this.aux.par_modo = 'C'
-      this.LocalidadesService.getParamByDesc(JSON.stringify(this.aux)).subscribe({
+      this.LocalidadesService.getCRUD(JSON.stringify(this.aux)).subscribe({
         next:(res:any) => {
           this.localidades = res.dataset as AbmLocalidades[];
           this.dataSource = new MatTableDataSource<AbmLocalidades>(this.localidades);
@@ -173,18 +140,22 @@ export class AbmLocalidadesDashboardComponent {
         visitado_auditor: AbmLocalidades?.visitado_auditor,
         zona_promocion: AbmLocalidades?.zona_promocion,
         codigo_departamento: AbmLocalidades?.codigo_departamento,
+        desc_depto: AbmLocalidades?.desc_depto,
         zona_envio: AbmLocalidades?.zona_envio,
         ingreso_ticket: AbmLocalidades?.ingreso_ticket,
         cant_habitantes: AbmLocalidades?.cant_habitantes,
         edit: true
       }
+      
     });
 
     modalNuevoAbmLocalidades.afterClosed().subscribe({
       next:(res) => {
         if (res) {
+          console.log(res);
+          
           this.utils.openLoading();
-          this.LocalidadesService.editLocalType(res).subscribe({
+          this.LocalidadesService.getCRUD(res).subscribe({
             next: () => {
               this.utils.notification("La Localidades se ha editado extiosamente", 'success')
             },
@@ -231,7 +202,6 @@ export class AbmLocalidadesDashboardComponent {
     });
   }
 
-
   public deleteLocalType(tipoLocal: AbmLocalidades): void {
     const modalConfirm = this.dialog.open(ConfirmDialogComponent, {
       data: {
@@ -243,7 +213,7 @@ export class AbmLocalidadesDashboardComponent {
     modalConfirm.afterClosed().subscribe({
       next:(res) => {
         if (res) {
-          this.LocalidadesService.deleteEstado(tipoLocal.codigo_postal).subscribe({
+          this.LocalidadesService.getCRUD(tipoLocal.codigo_postal).subscribe({
             next: (res: any) => {
               this.utils.notification("El Localidades se ha borrado exitosamente", 'success')
               this.getAbmLocalidades();

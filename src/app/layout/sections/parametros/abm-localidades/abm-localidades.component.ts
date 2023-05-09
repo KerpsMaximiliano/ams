@@ -18,7 +18,6 @@ export class AbmLocalidadesComponent {
   constructor(private LocalidadesService: LocalidadesService,
               private utils: UtilService,
               private dialog: MatDialog) {}
-
   ngOnInit(): void {
   }
 
@@ -52,7 +51,7 @@ export class AbmLocalidadesComponent {
       next:(res) => {
         if (res) {
           this.utils.openLoading();
-          this.LocalidadesService.addLocalidad(res).subscribe({
+          this.LocalidadesService.getCRUD(res).subscribe({
             next: (res: any) => {
               this.utils.notification("El Tipo de Localidades se ha creado exitosamente", 'success')
             },
@@ -66,7 +65,6 @@ export class AbmLocalidadesComponent {
             complete: () => {
               this.utils.closeLoading();
               setTimeout(() => {
-                this.handleSearch('');
               }, 300);
             }
           });

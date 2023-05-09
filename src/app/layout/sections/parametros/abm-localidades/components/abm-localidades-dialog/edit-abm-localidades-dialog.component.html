@@ -6,7 +6,7 @@
     <form class="form-datos" [formGroup]="formGroup" (ngSubmit)="confirm()" >
         <div style="overflow-y: auto">
         <div class="seeker-fields-container">
-            <h3>Código Postal</h3>
+            <h3>CÓDIGO POSTAL</h3>
             <mat-form-field class="seeker-form-field" appearance="outline">
                 <input matInput formControlName="codigo_postal"
                     required maxlength="7" minlength="4"
@@ -18,7 +18,7 @@
             </mat-form-field>
         </div>
         <div class="seeker-fields-container">
-            <h3>Subcódigo Postal</h3>
+            <h3>SUBCÓDIGO POSTAL</h3>
             <mat-form-field class="seeker-form-field" appearance="outline">
                 <input matInput formControlName="sub_codigo_postal"
                     required maxlength="2" minlength="1"
@@ -30,7 +30,7 @@
             </mat-form-field>
         </div>
         <div class="seeker-fields-container">
-            <h3>Localidad</h3>
+            <h3>LOCALIDAD</h3>
             <mat-form-field class="seeker-form-field" appearance="outline">
                 <input matInput formControlName="descripcion"
                     required maxlength="30" minlength="1"
@@ -42,7 +42,7 @@
             </mat-form-field>
         </div>
         <div class="seeker-fields-container">
-            <h3>Habitantes</h3>
+            <h3>HABITANTES</h3>
             <mat-form-field class="seeker-form-field" appearance="outline">
                 <input matInput formControlName="cant_habitantes"
                     required maxlength="8" minlength="1"
@@ -54,7 +54,7 @@
             </mat-form-field>
         </div>
         <div class="seeker-fields-container">
-            <h3>Provincia</h3>
+            <h3>PROVINCIA</h3>
             <mat-form-field appearance="outline" floatLabel="always">
                 <mat-select 
                 formControlName="letra_provincia"
@@ -68,22 +68,38 @@
                 </mat-select>
             </mat-form-field>
         </div>
-        <div class="seeker-fields-container">
+        <!-- <div class="seeker-fields-container">
             <h3>Departamento</h3>
+            <mat-form-field class="seeker-form-field" appearance="outline">
+                <input matInput 
+                [matAutocomplete]="dep"
+                [formControl]="myControldepto">
+                <mat-autocomplete #dep="matAutocomplete" [displayWith]="displayFnDep">
+                <mat-option *ngFor="let depto of deptoFiltrados | async"
+                [value]="depto"
+                (onSelectionChange)="dato(depto.codigo_departamento)"
+                >
+                    {{depto.descripcion}}
+                </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+        </div> -->
+        <div class="seeker-fields-container">
+            <h3>DEPARTAMENTO</h3>
             <mat-form-field appearance="outline" floatLabel="always">
                 <mat-select 
-                value="this.forma.controls['codigo_departamento'].value"
                 formControlName="codigo_departamento"
                 >
-                <mat-option *ngFor="let departamento of paramDepto" 
-                    [value]="departamento.codigo_departamento">
-                    {{ departamento.descripcion }}
+                <mat-option *ngFor="let depto of paramDepto" 
+                    [value]="depto.codigo_departamento"
+                    >
+                    {{ depto.descripcion }}
                 </mat-option>
                 </mat-select>
             </mat-form-field>
         </div>
         <div class="seeker-fields-container">
-            <h3>Posición</h3>
+            <h3>POSICIÓN</h3>
             <mat-form-field class="seeker-form-field" appearance="outline">
                 <input matInput formControlName="posicion_referente"
                     required maxlength="3" minlength="1" step="0.001"
@@ -96,7 +112,7 @@
             </mat-form-field>
         </div>
         <div class="seeker-fields-container">
-            <h3>Zona de Promoción</h3>
+            <h3>ZONA DE PROMICIÓN</h3>
             <mat-form-field appearance="outline" floatLabel="always">
                 <mat-select 
                 formControlName="zona_promocion"
@@ -110,7 +126,7 @@
             </mat-form-field>
         </div>
         <div class="seeker-fields-container">
-            <h3>Zona de Envío</h3>
+            <h3>ZONA DE ENVÍO</h3>
             <mat-form-field appearance="outline" floatLabel="always">
                 <mat-select 
                 formControlName="zona_envio"
@@ -124,7 +140,7 @@
             </mat-form-field>
         </div>
         <div class="seeker-fields-container">
-            <h3>Igreso de Ticket</h3>
+            <h3>INGRESO DE TICKET</h3>
             <mat-form-field class="seeker-form-field" appearance="outline">
                 <mat-select formControlName="ingreso_ticket">
                     <mat-option [value]="'S'">
@@ -137,7 +153,7 @@
             </mat-form-field>
         </div>
         <div class="seeker-fields-container">
-            <h3>Visitado por Medico Auditor</h3>
+            <h3>VISITADO POR MEDICO AUDITOR</h3>
             <mat-form-field class="seeker-form-field" appearance="outline">
                 <mat-select formControlName="visitado_auditor">
                     <mat-option [value]="'S'">
