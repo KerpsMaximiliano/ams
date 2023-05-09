@@ -1,0 +1,49 @@
+<section class="seeker-section">
+    <mat-accordion>
+    <mat-expansion-panel class="mat-elevation-z1">
+        <mat-expansion-panel-header floating>
+            <mat-panel-title>
+                Opciones de búsqueda
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <form [formGroup]="searchForm">
+            <div class="seeker-fields-container" (keyup.enter)="searchKeyUp($event)">
+                <mat-form-field class="seeker-form-field" *ngIf="provincias$ | async as provincias; else loading">
+                    <mat-label class="seeker-label">Provincia</mat-label>
+                    <mat-select formControlName="letra_provincia">
+                        <mat-option [value]="">
+                            Buscar todas
+                        </mat-option>
+                        <mat-option *ngFor="let prov of provincias.dataset" [value]="prov.codigo">
+                            {{prov.nombre_provincia}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <ng-template #loading>
+                    <div class="seeker-fields-container">
+                        <mat-form-field class="seeker-form-field">
+                            <mat-select>
+                                <mat-option>
+                                    Cargando
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </ng-template>
+                <mat-form-field class="seeker-form-field">
+                    <mat-label class="seeker-label">Nombre Departamento</mat-label>
+                    <input matInput class="seeker-input" formControlName="descripcion">
+                </mat-form-field>
+            </div>
+            <div class="buttons-container">
+                <button class="primary-button icon-button" type="button" (click)="search()">
+                <mat-icon>done</mat-icon>
+                Buscar</button>
+                <button class="primary-button icon-button" type="button" (click)="clearInputs()">
+                <mat-icon>close</mat-icon>
+                Limpiar</button>
+            </div>
+        </form>
+    </mat-expansion-panel>
+    </mat-accordion>
+</section>
