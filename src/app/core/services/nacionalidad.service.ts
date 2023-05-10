@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { TipoNacionalidad } from '../models/tipo-nacionalidad';
+import { Nacionalidad } from '../models/nacionalidad';
 import { EnvironmentService } from './environment.service';
 
 const httpOptions = {
@@ -15,28 +15,23 @@ export class NacionalidadService {
   constructor(private http:HttpClient,
     private environmentService: EnvironmentService) { }
 
-  getParamByDesc(body:string): Observable<TipoNacionalidad[]> {  
+  getParamByDesc(body:string): Observable<Nacionalidad[]> {  
     console.log(body);
       
-    return this.http.post<TipoNacionalidad[]>(`${this.environmentService.api}/nacionalidades`, body, httpOptions)
+    return this.http.post<Nacionalidad[]>(`${this.environmentService.api}/nacionalidades`, body, httpOptions)
   }
-
-  // getParamById(body:string): Observable<TipoNacionalidad[]> {    
-  //   console.log(body);
-  //   return this.http.post<TipoNacionalidad[]>(`${this.environmentService.api}/nacionalidad`, body, httpOptions)
-  // }
 
   public deleteEstado(id:number) {
     return this.http.delete(`${this.environmentService.api}/estados/${id}`);
   }
 
-  public addNacionalidad(data:TipoNacionalidad): Observable<TipoNacionalidad> {
+  public addNacionalidad(data:Nacionalidad): Observable<Nacionalidad> {
     let body = JSON.stringify(data);
-    return this.http.post<TipoNacionalidad>(`${this.environmentService.api}/abmnacionalidades`, body, httpOptions);
+    return this.http.post<Nacionalidad>(`${this.environmentService.api}/abmnacionalidades`, body, httpOptions);
   }
 
-  public editNacionalidad(data:TipoNacionalidad): Observable<TipoNacionalidad> {
+  public editNacionalidad(data:Nacionalidad): Observable<Nacionalidad> {
     let body = JSON.stringify(data);
-    return this.http.post<TipoNacionalidad>(`${this.environmentService.api}/abmnacionalidades`, body, httpOptions);
+    return this.http.post<Nacionalidad>(`${this.environmentService.api}/abmnacionalidades`, body, httpOptions);
   }
 }
