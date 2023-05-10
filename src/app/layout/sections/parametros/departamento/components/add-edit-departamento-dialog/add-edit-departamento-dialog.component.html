@@ -1,0 +1,94 @@
+<div class="dialog-title">
+    <h2>{{data.title | uppercase}}</h2>
+</div>
+<div class="dialog-content">
+    <form class="form-datos" [formGroup]="formGroup" (ngSubmit)="confirm()">
+        <div class="seeker-fields-container" *ngIf="data.par_modo == 'I'; else elseBlock">
+            <h3>Provincia</h3>
+            <mat-form-field class="seeker-form-field" *ngIf="provincias$ | async as provincias; else loading" appearance="outline">
+                <mat-select formControlName="letra_provincia">
+                    <mat-option *ngFor="let prov of provincias.dataset" [value]="prov.codigo">
+                        {{prov.nombre_provincia}}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formGroup.get('letra_provincia')?.invalid
+                        && formGroup.get('letra_provincia')?.touched">
+                            {{getErrorMessage(formGroup.get('letra_provincia'))}}
+                </mat-error>
+            </mat-form-field>
+            <ng-template #loading>
+                <div class="seeker-fields-container">
+                    <mat-form-field class="seeker-form-field" appearance="outline">
+                        <mat-select>
+                            <mat-option>
+                                Cargando
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </ng-template>
+        </div>
+        <ng-template #elseBlock>
+            <div class="seeker-fields-container">
+                <h3>Provincia</h3>
+                <mat-form-field class="seeker-form-field" appearance="outline">
+                    <input matInput formControlName="nombre_provincia"
+                        [readonly]="!data.edit">
+                </mat-form-field>
+            </div>
+        </ng-template>
+        <div class="seeker-fields-container">
+            <h3>Código Departamento</h3>
+            <mat-form-field class="seeker-form-field" appearance="outline">
+                <input matInput formControlName="codigo_departamento"
+                    required maxlength="3" minlength="1"
+                    [readonly]="!data.edit">
+                <mat-error *ngIf="formGroup.get('codigo_departamento')?.invalid
+                    && formGroup.get('codigo_departamento')?.touched">
+                        {{getErrorMessage(formGroup.get('codigo_departamento'))}}
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <div class="seeker-fields-container">
+            <h3>Departamento</h3>
+            <mat-form-field class="seeker-form-field" appearance="outline">
+            <input matInput formControlName="descripcion"
+                required maxlength="50" minlength="3"
+                [readonly]="!data.edit">
+            <mat-error *ngIf="formGroup.get('descripcion')?.invalid
+                && formGroup.get('descripcion')?.touched">
+                    {{getErrorMessage(formGroup.get('descripcion'))}}
+            </mat-error>
+            </mat-form-field>
+        </div>
+        <div class="seeker-fields-container">
+            <h3>Abreviatura</h3>
+            <mat-form-field class="seeker-form-field" appearance="outline">
+            <input matInput formControlName="descripcion_reducida"
+                required maxlength="15" minlength="3"
+                [readonly]="!data.edit">
+            <mat-error *ngIf="formGroup.get('descripcion_reducida')?.invalid
+                && formGroup.get('descripcion_reducida')?.touched">
+                    {{getErrorMessage(formGroup.get('descripcion_reducida'))}}
+            </mat-error>
+            </mat-form-field>
+        </div>
+        <div *ngIf="data.edit; else other_content" class="buttons-container">
+            <button class="primary-button icon-button" type="button" (click)="closeDialog()">
+                <mat-icon>close</mat-icon>
+                Cancelar
+            </button>
+            <button class="primary-button icon-button" type="submit" [disabled]="formGroup.invalid">
+                <mat-icon>done</mat-icon>
+                Guardar
+            </button>
+        </div>
+    
+        <ng-template #other_content>
+            <button class="primary-button icon-button right" mat-dialog-close>
+            <mat-icon>done</mat-icon>
+            Aceptar
+            </button>
+        </ng-template>
+    </form>
+</div>

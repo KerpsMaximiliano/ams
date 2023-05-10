@@ -2,27 +2,26 @@
 
     <table mat-table [dataSource]="dataSource" matSort
     (matSortChange)="announceSortChange($event)">
-
         <ng-container class="mat-row" *matNoDataRow>
             <td class="mat-cell no-data-cell" [attr.colspan]="displayedColumns.length">
             No se encontraron resultados
             </td>
         </ng-container>
         <ng-container matColumnDef="codigo_postal">
-            <th mat-header-cell *matHeaderCellDef>Codigo</th>
-            <td mat-cell *matCellDef="let param">{{param.codigo_postal}}</td>
+            <th mat-header-cell *matHeaderCellDef>Código</th>
+            <td mat-cell *matCellDef="let param" class="text-align-right">{{param.codigo_postal}}</td>
         </ng-container>
         <ng-container matColumnDef="descripcion">
             <th mat-header-cell *matHeaderCellDef>Posicion</th>
-            <td mat-cell *matCellDef="let param">{{param.descripcion}}</td>
+            <td mat-cell *matCellDef="let param" class="text-align-left">{{param.descripcion}}</td>
         </ng-container>
-        <ng-container matColumnDef="letra_provincia">
+        <!-- <ng-container matColumnDef="letra_provincia">
             <th mat-header-cell *matHeaderCellDef>Provincia</th>
-            <td mat-cell *matCellDef="let param">{{param.letra_provincia}}</td>
-        </ng-container>
+            <td mat-cell *matCellDef="let param" class="text-align-left">{{param.letra_provincia}}</td>
+        </ng-container> -->
         <ng-container matColumnDef="domicilio">
             <th mat-header-cell *matHeaderCellDef>Domicilio</th>
-            <td mat-cell *matCellDef="let param">{{param.domicilio}}</td>
+            <td mat-cell *matCellDef="let param" class="text-align-left">{{param.domicilio}}</td>
         </ng-container>
         <ng-container matColumnDef="estados">
             <th mat-header-cell *matHeaderCellDef>Estado</th>

@@ -7,22 +7,24 @@
             </mat-panel-title>
             </mat-expansion-panel-header>
             <form [formGroup]="searching">
-            <div class="seeker-fields-container">
-                    <mat-form-field appearance="outline" floatLabel="always">
-                        <mat-label>Provincia</mat-label>
-                        <mat-select #template class="flex-select"
-                        formControlName="letra_provincia">
-                        <mat-option *ngFor="let provin of paramProv" 
-                        [value]="provin.codigo">
-                        {{ provin.nombre_provincia }}
+                <div class="seeker-fields-container">
+                    <h3>Provincia</h3>
+                    <mat-form-field class="seeker-form-field" appearance="outline">
+                        <input type="text" required matInput [formControl]="myControlProv" [matAutocomplete]="prov" (keydown.enter)="search()">
+                        <mat-autocomplete #prov="matAutocomplete" [displayWith]="displayFnProv">
+                        <mat-option *ngFor="let Prov of provinciaFiltrados | async" 
+                        [value]="Prov"
+                        (onSelectionChange)="dato(Prov.codigo)"
+                        >
+                            {{Prov.nombre_provincia}}
                         </mat-option>
-                        </mat-select>
+                        </mat-autocomplete>
                     </mat-form-field>
-                <mat-form-field class="seeker-form-field">
-                <mat-label class="seeker-label" for="descripcion">Posicion</mat-label>
-                <input matInput class="seeker-input" formControlName="descripcion" (keydown.enter)="searchKeyUp($event)">
-                </mat-form-field>
-            </div>
+                    <mat-form-field class="seeker-form-field">
+                    <mat-label class="seeker-label" for="descripcion">Posicion</mat-label>
+                    <input matInput class="seeker-input" formControlName="descripcion" (keydown.enter)="search()">
+                    </mat-form-field>
+                </div>
             <div class="buttons-container">
                 <button class="primary-button icon-button" type="button" (click)="search()">
                 <mat-icon>done</mat-icon>

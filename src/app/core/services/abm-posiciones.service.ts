@@ -16,27 +16,9 @@ export class PosicionesService {
   constructor(private http:HttpClient,
     private environmentService: EnvironmentService) { }
 
-  getPosicionByDesc(body:string): Observable<AbmPosicionesResponse> {
+  getCRUD(body:string): Observable<AbmPosicionesResponse> {
     console.log(body);
     return this.http.post<AbmPosicionesResponse>(`${this.environmentService.api}/abmposiciones`, body, httpOptions);
-  }
-
-  getPosicionById(body:string): Observable<AbmPosicionesResponse> {
-    return this.http.post<AbmPosicionesResponse>(`${this.environmentService.api}/posiciones`, body, httpOptions);
-  }
-  
-  addPosicion(data:AbmPosiciones): Observable<AbmPosiciones>{
-    let body = JSON.stringify(data);
-    return this.http.post<AbmPosiciones>(`${this.environmentService.api}/abmposiciones`, body, httpOptions);
-  }
-
-  editPosicion(data:AbmPosiciones): Observable<AbmPosiciones> {
-    let body = JSON.stringify(data);
-    return this.http.post<AbmPosiciones>(`${this.environmentService.api}/abmposiciones`, body, httpOptions);
-  }
-
-  deletePosicion(id:number){
-    return this.http.delete(`${this.environmentService.api}/parametros/${id}`);
   }
 
   getProv(body:any): Observable<AbmPosicionesResponse> {
@@ -45,7 +27,12 @@ export class PosicionesService {
   }
 
   public getLocal (data:any): Observable<any> {
-    let body = JSON.stringify(data);
+    let body = (data);
     return this.http.post<any>(`${this.environmentService.api}/abmlocalidades`, body, httpOptions);
   }
+
+  public getDepart (data:any): Observable<any> {
+    let body = JSON.stringify(data);
+    return this.http.post<any>(`${this.environmentService.api}/abmdepartamentos`, body, httpOptions);
+}
 }

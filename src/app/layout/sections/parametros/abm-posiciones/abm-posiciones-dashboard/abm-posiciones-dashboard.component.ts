@@ -25,7 +25,7 @@ export class AbmPosicionesDashboardComponent {
   public displayedColumns: string[] = [
     'codigo_postal',
     'descripcion',
-    'letra_provincia',
+    // 'letra_provincia',
     'domicilio',
     'estados',
     'actions'
@@ -54,8 +54,10 @@ export class AbmPosicionesDashboardComponent {
       letra_provincia: this.searchId
     }
     let body = JSON.stringify(aux)
-    this.posicionesService.getPosicionByDesc(body).subscribe({
+    this.posicionesService.getCRUD(body).subscribe({
       next:(res:any) => {
+        console.log(res);
+        
         this.Posicion = res.dataset as AbmPosiciones[];
         this.dataSource = new MatTableDataSource<AbmPosiciones>(this.Posicion);
         this.dataSource.sort = this.sort;
@@ -109,7 +111,7 @@ export class AbmPosicionesDashboardComponent {
         if (res) {
           console.log(res);
           this.utils.openLoading();
-          this.posicionesService.editPosicion(res).subscribe({
+          this.posicionesService.getCRUD(res).subscribe({
             next: () => {
               this.utils.notification("El Documento se ha editado extiosamente", 'success')
             },
@@ -164,7 +166,7 @@ export class AbmPosicionesDashboardComponent {
     modalConfirm.afterClosed().subscribe({
       next:(res) => {
         if (res) {
-          this.posicionesService.deletePosicion(res.id).subscribe({
+          this.posicionesService.getCRUD(res.id).subscribe({
             next: (res: any) => {
               this.utils.notification("El Documento se ha borrado exitosamente", 'success')
               this.getPosicion();

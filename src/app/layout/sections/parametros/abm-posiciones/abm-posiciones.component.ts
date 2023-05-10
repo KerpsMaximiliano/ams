@@ -53,7 +53,7 @@ export class AbmPosicionesComponent {
         console.log(res);
         if (res) {
           this.utils.openLoading();
-          this.posicionesService.addPosicion(res).subscribe({
+          this.posicionesService.getCRUD(res).subscribe({
             next: (res: any) => {
               this.utils.notification("La Posicion se ha creado exitosamente", 'success')
             },

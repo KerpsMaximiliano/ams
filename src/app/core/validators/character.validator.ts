@@ -27,11 +27,38 @@ export function isNumeric(): ValidatorFn {
   };
 }
 
+export function isPercentage(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    let regex = /^((?:|0|[1-9]\d?|100)(?:\.\d{1,2})?)$/;
+    return regex.test(control.value) ?
+    null
+    : {notPercentage:true};
+  };
+}
+
 export function isAlphanumericWithSlash(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     let regex = /^[a-zA-Z0-9\/]*$/;
     return regex.test(control.value) ?
     null
     : {notAlphanumericWithSlash:true};
+  };
+}
+
+export function isAlphanumericWithPointAndSpaces(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    let regex = /^[a-zA-Z0-9.\s]+$/;
+    return regex.test(control.value) ?
+    null
+    : {notAlphanumericWithPoint:true};
+  };
+}
+
+export function notZeroValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    let regex = /^(?!0)\d+$/;
+    return regex.test(control.value) ?
+    null
+    : {notZero:true};
   };
 }
