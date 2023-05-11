@@ -13,6 +13,8 @@ td.mat-cell:first-of-type {
 .mat-column-nro_preg.mat-cell,
 .mat-column-primer_texto_preg.mat-header-cell,
 .mat-column-primer_texto_preg.mat-cell,
+.mat-column-segundo_texto_preg.mat-header-cell,
+.mat-column-segundo_texto_preg.mat-cell,
 .mat-segundo_texto_preg.mat-header-cell,
 .mat-segundo_texto_preg.mat-cell,
 .mat-column-pide_fecha.mat-header-cell,
@@ -23,6 +25,7 @@ td.mat-cell:first-of-type {
 .mat-column-actions.mat-cell {
     padding-left: 0.5vw !important;
     padding-right: 0.5vw !important;
+    word-break: break-all !important;
 }
 
 /*

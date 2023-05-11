@@ -39,7 +39,6 @@ import { AddEditObraSocialDialogComponent } from './obra-social/components/add-e
 import { ObraSocialComponent } from './obra-social/obra-social.component';
 import { ObraSocialDashboardComponent } from './obra-social/components/obra-social-dashboard/obra-social-dashboard.component';
 import { ObraSocialFilterComponent } from './obra-social/components/obra-social-filter/obra-social-filter.component';
-
 // 13 - PREGUNTAS DDJJ
 import { AddEditPreguntasDDJJDialogComponent } from './preguntas-ddjj/components/add-edit-preguntas-ddjj-dialog/add-edit-preguntas-ddjj-dialog.component';
 import { PreguntasDDJJComponent } from "./preguntas-ddjj/preguntas-ddjj.component";
