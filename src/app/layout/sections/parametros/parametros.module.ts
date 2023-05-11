@@ -15,10 +15,10 @@ import { TipoDocumentoComponent } from './tipo-documento/tipo-documento.componen
 import { TipoDocumentoDashboardComponent } from './tipo-documento/components/tipo-documento-dashboard/tipo-documento-dashboard.component';
 import { TipoDocumentoFilterComponent } from './tipo-documento/components/tipo-documento-filter/tipo-documento-filter.component';
 // 03 - NACIONALIDAD
-import { EditTipoNacionalidadDialogComponent } from './tipo-nacionalidad/components/edit-tipo-nacionalidad-dialog/edit-tipo-nacionalidad-dialog.component';
-import { TipoNacionalidadComponent } from './tipo-nacionalidad/tipo-nacionalidad.component';
-import { TipoNacionalidadDashboardComponent } from './tipo-nacionalidad/components/tipo-nacionalidad-dashboard/tipo-nacionalidad-dashboard.component';
-import { TipoNacionalidadFilterComponent } from './tipo-nacionalidad/components/tipo-nacionalidad-filter/tipo-nacionalidad-filter.component';
+import { EditNacionalidadDialogComponent } from './nacionalidad/components/edit-nacionalidad-dialog/edit-nacionalidad-dialog.component';
+import { NacionalidadComponent } from './nacionalidad/nacionalidad.component';
+import { NacionalidadDashboardComponent } from './nacionalidad/components/nacionalidad-dashboard/nacionalidad-dashboard.component';
+import { NacionalidadFilterComponent } from './nacionalidad/components/nacionalidad-filter/nacionalidad-filter.component';
 // 04 - DEPARTAMENTO
 import { AddEditDepartamentoDialogComponent } from './departamento/components/add-edit-departamento-dialog/add-edit-departamento-dialog.component';
 import { DepartamentoComponent } from './departamento/departamento.component';
@@ -61,10 +61,10 @@ import { PreguntasDDJJFilterComponent } from './preguntas-ddjj/components/pregun
     TipoDocumentoFilterComponent,
 
     // 03 - NACIONALIDAD
-    EditTipoNacionalidadDialogComponent,
-    TipoNacionalidadComponent,
-    TipoNacionalidadDashboardComponent,
-    TipoNacionalidadFilterComponent,
+    EditNacionalidadDialogComponent,
+    NacionalidadComponent,
+    NacionalidadDashboardComponent,
+    NacionalidadFilterComponent,
     
     // 04 - DEPARTAMENTO
     AddEditDepartamentoDialogComponent,

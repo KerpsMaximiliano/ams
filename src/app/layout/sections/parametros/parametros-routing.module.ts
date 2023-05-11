@@ -7,7 +7,7 @@ import { ProvinciaComponent } from './provincia/provincia.component';
 // 02 - TIPO DE DOCUMENTO
 import { TipoDocumentoComponent } from './tipo-documento/tipo-documento.component';
 // 03 - NACIONALIDAD
-import { TipoNacionalidadComponent } from './tipo-nacionalidad/tipo-nacionalidad.component';
+import { NacionalidadComponent } from './nacionalidad/nacionalidad.component';
 // 04 - DEPARTAMENTO
 import { DepartamentoComponent } from './departamento/departamento.component';
 // 08 - CONDICIONES DE IVA
@@ -29,8 +29,8 @@ const routes: Routes = [
     component: TipoDocumentoComponent
   },
   {
-    path: 'parametros/tipo-nacionalidad',
-    component: TipoNacionalidadComponent
+    path: 'parametros/nacionalidad',
+    component: NacionalidadComponent
   },
   {
     path: 'parametros/abm-departamento',

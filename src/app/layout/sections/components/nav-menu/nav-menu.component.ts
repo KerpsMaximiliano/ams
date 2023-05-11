@@ -32,8 +32,8 @@ export class NavMenuComponent {
           icon: 'keyboard_arrow_right',
         },
         {
-          title: 'Tipos de Nacionalidades',
-          url: '/parametros/tipo-nacionalidad',
+          title: 'Nacionalidades',
+          url: '/parametros/nacionalidad',
           icon: 'keyboard_arrow_right',
         },
         {
