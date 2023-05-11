@@ -8,10 +8,13 @@
           No se encontraron resultados
         </td>
       </ng-container>
-  
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>Codigo</th>
+        <td mat-cell *matCellDef="let param">{{param.tipo_de_documento}}</td>
+      </ng-container>
       <ng-container matColumnDef="tipo-documento">
         <th mat-header-cell *matHeaderCellDef>Tipo de documento</th>
-        <td mat-cell *matCellDef="let param">{{param.descripcion}} ({{param.tipo_de_documento}})</td>
+        <td mat-cell *matCellDef="let param">{{param.descripcion}}</td>
       </ng-container>
 
       <ng-container matColumnDef="abreviatura">

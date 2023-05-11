@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { isAlphanumericWithSpaces } from 'src/app/core/validators/character.validator';
+import { isAlphanumericWithSpaces, isNumeric } from 'src/app/core/validators/character.validator';
 import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
@@ -17,12 +17,21 @@ export class AddEditTipoDocumentoDialogComponent {
               @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit(): void {
+    console.log(this.data
+      );
+    
     this.setUpForm();
     if (this.data.id) this.setFormValues();
   }
 
   private setUpForm(): void {
     this.formGroup = new UntypedFormGroup({
+      id: new UntypedFormControl('',Validators.compose([
+        Validators.required,
+        Validators.minLength(1),
+        Validators.maxLength(2),
+        isNumeric
+      ])),
       tipo: new UntypedFormControl('', Validators.compose([
         Validators.required,
         Validators.minLength(3),
@@ -44,6 +53,7 @@ export class AddEditTipoDocumentoDialogComponent {
   }
 
   private setFormValues(): void {
+    this.formGroup.get('id')?.setValue(this.data.id == 99? '' : this.data.id );
     this.formGroup.get('tipo')?.setValue(this.data.tipo);
     this.formGroup.get('abreviatura')?.setValue(this.data.abreviatura);
     (this.data.cuit)

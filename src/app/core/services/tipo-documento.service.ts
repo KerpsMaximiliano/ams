@@ -17,6 +17,7 @@ export class TipoDocumentoService {
     private environmentService: EnvironmentService) { }
 
   getDocumentByDesc(body:string): Observable<TipoDocumentoResponse> {
+    console.log(body);
     return this.http.post<TipoDocumentoResponse>(`${this.environmentService.api}/tiposdedocumentos`, body, httpOptions);
   }
 

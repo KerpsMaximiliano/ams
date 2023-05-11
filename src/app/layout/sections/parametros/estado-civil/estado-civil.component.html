@@ -1,0 +1,14 @@
+<section class="browse-section">
+  <div class="section-header">
+    <h2>Estado Civil</h2>
+    <button class="new-button icon-button" (click)="nuevoEstadoCivil()">
+      <mat-icon>add</mat-icon>
+      Nuevo
+    </button>
+  </div>
+
+  <div class="section-content">
+    <app-estado-civil-filter (searchEvent)="handleSearch($event)"></app-estado-civil-filter>
+    <app-estado-civil-dashboard></app-estado-civil-dashboard>
+  </div>
+</section>
