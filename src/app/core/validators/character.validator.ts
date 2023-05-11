@@ -61,39 +61,3 @@ export function notOnlySpacesValidator(): ValidatorFn {
     return regex.test(control.value) ? null : { onlySpaces: true };
   };
 }
-
-// export function exclusiveSelects(formGroup: any): ValidatorFn {
-//   return (control: AbstractControl): ValidationErrors | null => {
-//     if (formGroup !== undefined) {
-//       console.log(formGroup.get('yes_no')?.value);
-//       console.log(formGroup.get('pide_fecha')?.value);
-
-//     }
-
-//     console.log(formGroup.get('yes_no')?.value);
-    
-    
-//     return (control.get('pide_fecha')?.value === 'S' &&
-//       control.get('yes_no')?.value === 'N') ||
-//       (control.get('pide_fecha')?.value === 'N' &&
-//         control.get('yes_no')?.value === 'S') ||
-//       (control.get('pide_fecha')?.value === 'N' &&
-//         control.get('yes_no')?.value === 'N')
-//       ?  null
-//       : { notExclusiveSelects: true };
-//   };
-// }
-
-// export function exclusiveSelects(): ValidatorFn {
-//   return (control: AbstractControl): ValidationErrors | null => {
-//     if (control.get('pide_fecha')?.value === 'S' && control.get('yes_no')?.value === 'S') {
-//       console.log(control.get('pide_fecha')?.value)
-//       console.log(control.get('yes_no')?.value)
-//       return null;
-//     } else {
-//       console.log(control.get('pide_fecha')?.value)
-//       console.log(control.get('yes_no')?.value)
-//       return { notExclusiveSelects: true };
-//     }
-//   };
-// }
