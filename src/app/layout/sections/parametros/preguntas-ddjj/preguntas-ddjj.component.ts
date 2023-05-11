@@ -43,8 +43,8 @@ export class PreguntasDDJJComponent {
           title: `CREAR PREGUNTA DE DDJJ`,
           edit: true,
           par_modo: 'I',
-          modelo_formulario: "A1",
-          nro_preg: preguntasDDJJ?.nro_preg,
+          modelo_formulario: preguntasDDJJ?.modelo_formulario,
+          nro_preg: 0,
           cantidad_lineas_resp: preguntasDDJJ?.cantidad_lineas_resp,
           pide_fecha: preguntasDDJJ?.pide_fecha,
           yes_no: preguntasDDJJ?.yes_no,
@@ -53,7 +53,6 @@ export class PreguntasDDJJComponent {
         },
       }
     );
-
     modalNuevaPreguntasDDJJ.afterClosed().subscribe({
       next: (res) => {
         if (res) {
@@ -61,14 +60,14 @@ export class PreguntasDDJJComponent {
           this.preguntasDDJJService.getPreguntasDDJJCRUD(res).subscribe({
             next: () => {
               this.utils.notification(
-                'La Pregunta de DDJJ se ha creado exitosamente',
+                'La Pregunta de DDJJ se ha creado exitosamente.',
                 'success'
               );
             },
             error: (err: any) => {
               this.utils.closeLoading();
               err.status == 0
-                ? this.utils.notification('Error de conexion', 'error')
+                ? this.utils.notification('Error de conexión.', 'error')
                 : this.utils.notification(
                     `Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`,
                     'error'
@@ -81,7 +80,7 @@ export class PreguntasDDJJComponent {
                 this.handleSearch(
                   JSON.stringify({
                     par_modo: 'C',
-                    modelo_formulario: res.modelo_formulario,
+                    modelo_formulario: '',
                   })
                 );
               }, 300);

@@ -1,8 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-
-// * Services
-import { PreguntasDDJJService } from 'src/app/core/services/preguntas-ddjj.service';
-import { UtilService } from 'src/app/core/services/util.service';
+import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-preguntas-ddjj-filter',
@@ -11,38 +7,25 @@ import { UtilService } from 'src/app/core/services/util.service';
 })
 export class PreguntasDDJJFilterComponent {
   @Output() searchEvent: EventEmitter<any> = new EventEmitter<any>();
+  @ViewChild('selectOptions') selectOptions: any;
 
-  constructor(
-    private preguntasDDJJService: PreguntasDDJJService,
-    private utils: UtilService
-  ) {}
+  isCleanButtonDisabled = true;
 
-  ngOnInit(): void {}
+  constructor() {}
 
-  models: any[] = [];
+  ngOnInit(): void {
+  }
 
-  public search(event: any, value: string): void {
-    event.preventDefault();
+  public search(): void {
+    let selectedValue = this.selectOptions?.value || '';
     let body = {
       par_modo: 'C',
-      modelo_formulario: value,
+      modelo_formulario: selectedValue,
     };
     this.searchEvent.emit(body);
   }
 
-  public clear(inputElement: HTMLInputElement) {
-    inputElement.value = '';
-  }
-
-  searchModels(): any {
-    // this.utils.openLoading();
-    this.preguntasDDJJService
-      .getPreguntasDDJJCRUD(JSON.stringify({ par_modo: 'C', modelo_formulario: '' }))
-      .subscribe((res: any) => {
-        for (let i = 0; i < res.dataset.length; i++) {
-          this.models.push(res.dataset[i]);
-        }
-        // this.utils.closeLoading();
-      });
+  public clean(): void {
+    this.selectOptions.value = '';
   }
 }

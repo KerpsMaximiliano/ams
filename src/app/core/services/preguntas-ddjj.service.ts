@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { EnvironmentService } from './environment.service';
 
 // * Interfaces
-import { PreguntasDDJJResponse } from '../models/preguntas-ddjj';
+import { PreguntasDDJJ, PreguntasDDJJResponse } from '../models/preguntas-ddjj';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -21,7 +21,9 @@ export class PreguntasDDJJService {
     private environmentService: EnvironmentService
   ) {}
 
-  getPreguntasDDJJCRUD(body: string): Observable<PreguntasDDJJResponse> {
+  getPreguntasDDJJCRUD(
+    body: string
+  ): Observable<PreguntasDDJJResponse | PreguntasDDJJ> {
     return this.http.post<PreguntasDDJJResponse>(
       `${this.environmentService.api}/abmpreguntasddjj`,
       body,

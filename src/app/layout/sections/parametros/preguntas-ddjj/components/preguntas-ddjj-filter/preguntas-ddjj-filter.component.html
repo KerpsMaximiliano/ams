@@ -1,20 +1,32 @@
 <section class="seeker-section">
   <mat-accordion>
     <mat-expansion-panel class="mat-elevation-z1">
-      <mat-expansion-panel-header floating (click)="searchModels()">
+      <mat-expansion-panel-header floating>
         <mat-panel-title> Opciones de búsqueda </mat-panel-title>
       </mat-expansion-panel-header>
 
       <form>
         <div class="seeker-fields-container">
           <mat-form-field class="seeker-form-field">
-            <mat-label class="seeker-label" for="descripcion">Seleccione la Pregunta de DDJJ</mat-label>
-            <mat-select>
-              <mat-option *ngFor="let element of models" [value]="element" #input (keydown.enter)="search($event, input.value)">
-                {{ element }}
-              </mat-option>
+            <mat-label class="seeker-label" for="modelo_formulario">
+              Seleccione un modelo
+            </mat-label>
+            <mat-select #selectOptions>
+              <mat-option [value]="'A1'"> ALTA </mat-option>
+              <mat-option [value]="'M'"> MODIFICACIÓN </mat-option>
             </mat-select>
           </mat-form-field>
+        </div>
+
+        <div class="buttons-container">
+          <button class="primary-button icon-button" type="button" (click)="search()">
+            <mat-icon>done</mat-icon>
+            Buscar
+          </button>
+          <button class="primary-button icon-button" type="button" (click)="clean()" [disabled]="!selectOptions?.value">
+            <mat-icon>close</mat-icon>
+            Limpiar
+          </button>
         </div>
       </form>
     </mat-expansion-panel>

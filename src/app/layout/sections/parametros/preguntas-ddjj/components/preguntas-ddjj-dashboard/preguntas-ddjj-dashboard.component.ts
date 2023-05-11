@@ -102,7 +102,7 @@ export class PreguntasDDJJDashboardComponent {
   }
 
   public editPreguntasDDJJ(preguntasDDJJ: PreguntasDDJJ): void {
-    const modalNuevaPreguntasDDJJ = this.dialog.open(
+    const modalEditPreguntasDDJJ = this.dialog.open(
       AddEditPreguntasDDJJDialogComponent,
       {
         data: {
@@ -120,14 +120,14 @@ export class PreguntasDDJJDashboardComponent {
       }
     );
 
-    modalNuevaPreguntasDDJJ.afterClosed().subscribe({
+    modalEditPreguntasDDJJ.afterClosed().subscribe({
       next: (res) => {
         if (res) {
           this.utils.openLoading();
           this.preguntasDDJJService.getPreguntasDDJJCRUD(res).subscribe({
             next: () => {
               this.utils.notification(
-                'La Pregunta de Declaraciones Juradas se ha editado exitosamente.', // VERIFICAR
+                'La Pregunta de Declaraciones Juradas se ha editado exitosamente.',
                 'success'
               );
             },
@@ -144,6 +144,7 @@ export class PreguntasDDJJDashboardComponent {
             complete: () => {
               this.utils.closeLoading();
               setTimeout(() => {
+                this.searchValue = JSON.stringify({par_modo: 'R', modelo_formulario: preguntasDDJJ.modelo_formulario, nro_preg: preguntasDDJJ.nro_preg });
                 this.getPreguntasDDJJ();
               }, 300);
             },
