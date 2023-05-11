@@ -53,12 +53,12 @@ export class CondicionIvaComponent {
             this.utils.openLoading();
             this.condicionIvaService.getCondicionIvaCRUD(res).subscribe({
               next: () => {
-                this.utils.notification("La Condicion IVA se ha creado exitosamente.", 'success')
+                this.utils.notification("La Condición IVA se ha creado exitosamente.", 'success')
               },
               error: (err) => {
                 this.utils.closeLoading();
                 (err.status == 0)
-                  ? this.utils.notification('Error de conexion.', 'error') 
+                  ? this.utils.notification('Error de conexión.', 'error') 
                   : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')
                   this.nuevaCondicionIVA(res)
               },
@@ -66,7 +66,7 @@ export class CondicionIvaComponent {
                 this.utils.closeLoading();
                 setTimeout(() => {
                   this.handleSearch(JSON.stringify({
-                    par_modo: "G",
+                    par_modo: "C",
                     descripcion: res.descripcion
                   }));
                 }, 300);

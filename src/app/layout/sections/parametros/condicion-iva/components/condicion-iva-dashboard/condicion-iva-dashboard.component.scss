@@ -10,7 +10,7 @@ td.mat-cell:first-of-type {
  * Espacio mínimo a ambos lados de todas las columnas.
 */
 .mat-column-codigo_de_IVA.mat-header-cell,
-.mat-column-codigo_codigo_de_IVA.mat-cell,
+.mat-column-codigo_de_IVA.mat-cell,
 .mat-column-descripcion.mat-header-cell,
 .mat-column-descripcion.mat-cell,
 .mat-column-descripcion_reducida.mat-header-cell,
@@ -68,7 +68,7 @@ td.mat-cell:first-of-type {
 
 .mat-column-descripcion.mat-header-cell,
 .mat-column-descripcion.mat-cell {
-    width: 44% !important;
+    width: 36% !important;
 }
 
 .mat-column-descripcion_reducida.mat-header-cell,

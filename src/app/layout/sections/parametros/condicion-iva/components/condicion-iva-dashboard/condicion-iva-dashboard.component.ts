@@ -70,7 +70,7 @@ export class CondicionIvaDashboardComponent {
       error:(err: any) => {
         this.utils.closeLoading();
         (err.status == 0)
-          ? this.utils.notification('Error de conexion.', 'error') 
+          ? this.utils.notification('Error de conexión.', 'error') 
           : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')
         },
       complete: () => {
@@ -90,7 +90,7 @@ export class CondicionIvaDashboardComponent {
   public editCondicionIVA(tipoCondicion: ICondicionIva): void {
     const modalNuevaCondicionIva = this.dialog.open(AddEditCondicionIvaDialogComponent, {
       data: {
-        title: `EDITAR CONDICION IVA`,
+        title: `EDITAR CONDICIÓN IVA`,
         edit: true,
         par_modo: "U",
         codigo_de_IVA: tipoCondicion.codigo_de_IVA,
@@ -106,12 +106,12 @@ export class CondicionIvaDashboardComponent {
           this.utils.openLoading();
           this.tipoCondicionService.getCondicionIvaCRUD(res).subscribe({
             next: () => {
-              this.utils.notification("La Condicion IVA se ha editado extiosamente.", 'success')
+              this.utils.notification("La Condición IVA se ha editado extiosamente.", 'success')
             },
             error: (err) => {
               this.utils.closeLoading();
               (err.status == 0)
-                ? this.utils.notification('Error de conexion', 'error') 
+                ? this.utils.notification('Error de conexión', 'error') 
                 : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')
               this.editCondicionIVA(res)
             },
@@ -119,7 +119,7 @@ export class CondicionIvaDashboardComponent {
               this.utils.closeLoading();
               setTimeout(() => {
                 this.searchValue = JSON.stringify({
-                  par_modo: "G",
+                  par_modo: "C",
                   descripcion: res.descripcion
                 })
                 this.getCondicionIva();
@@ -134,8 +134,8 @@ export class CondicionIvaDashboardComponent {
   public viewCondicionIVA(tipoCondicion: ICondicionIva): void {
     this.dialog.open(AddEditCondicionIvaDialogComponent, {
       data: {
-        title: `VER CONDICION IVA`,
-        par_modo: "G",
+        title: `VER CONDICIÓN IVA`,
+        par_modo: "C",
         edit: false,
         codigo_de_IVA: tipoCondicion.codigo_de_IVA,
         descripcion: tipoCondicion.descripcion,

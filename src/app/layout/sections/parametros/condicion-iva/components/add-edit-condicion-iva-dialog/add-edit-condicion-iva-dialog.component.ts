@@ -27,7 +27,7 @@ export class AddEditCondicionIvaDialogComponent {
     if (this.data.codigo_de_IVA !== undefined) {
       this.setFormValues();
     }
-    if (!this.data.edit && this.data.par_modo === 'G') {
+    if (!this.data.edit) {
       this.formGroup.disable();
     }
   }
@@ -51,7 +51,7 @@ export class AddEditCondicionIvaDialogComponent {
         Validators.minLength(1),
         Validators.maxLength(8),
       ])),
-      formulario_AB: new UntypedFormControl({value: '', disabled: !this.data.edit}, Validators.compose([
+      formulario_AB: new UntypedFormControl('', Validators.compose([
         Validators.required
       ]))
     })
@@ -59,23 +59,23 @@ export class AddEditCondicionIvaDialogComponent {
 
   private setFormValues(): void {
     // Codigo de iva
-    this.formGroup.get('codigo_de_IVA')?.patchValue({codigo_de_IVA: this.data.codigo_de_IVA});
+    this.formGroup.get('codigo_de_IVA')?.setValue(this.data.codigo_de_IVA);
     
     // Descripcion
     if (this.data.descripcion !== undefined) {
-      this.formGroup.get('descripcion')?.patchValue({descripcion: this.data.descripcion});
+      this.formGroup.get('descripcion')?.setValue(this.data.descripcion);
     }
     
     // Descripcion reducida
     if (this.data.descripcion_reducida !== undefined) {
-      this.formGroup.get('descripcion_reducida')?.patchValue({descripcion_reducida: this.data.descripcion_reducida});
+      this.formGroup.get('descripcion_reducida')?.setValue(this.data.descripcion_reducida);
     }
     
     // Formulario A o B
     if (this.data.formulario_AB !== undefined) {
-      this.formGroup.get('formulario_AB')?.patchValue({formulario_AB: this.data.formulario_AB})
+      this.formGroup.get('formulario_AB')?.setValue(this.data.formulario_AB)
     } else {
-      this.formGroup.get('formulario_AB')?.patchValue(null);
+      this.formGroup.get('formulario_AB')?.setValue(null);
     } 
   }
 

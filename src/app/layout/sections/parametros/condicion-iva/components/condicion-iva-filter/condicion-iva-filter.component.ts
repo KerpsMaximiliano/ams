@@ -19,7 +19,6 @@ export class CondicionIvaFilterComponent {
     event.preventDefault();
     this.body = {
       par_modo: 'C',
-      codigo: value,
       descripcion: value,
     };
     this.searchEvent.emit(this.body);
