@@ -21,39 +21,49 @@ export class NavMenuComponent {
       title: 'Parametros',
       expanded: true,
       children: [
-        {
+        { // 01 - PROVINCIA
           title: 'Provincias',
           url: '/parametros/provincia',
           icon: 'keyboard_arrow_right',
         },
-        {
+        { // 02 - TIPO DE DOCUMENTO
           title: 'Tipos de Documento',
           url: '/parametros/tipo-documento',
           icon: 'keyboard_arrow_right',
         },
-        {
+        { // 03 - NACIONALIDAD
           title: 'Nacionalidades',
           url: '/parametros/nacionalidad',
           icon: 'keyboard_arrow_right',
         },
-        {
+        { // 04 - DEPARTAMENTO
           title: 'Departamento',
           url: '/parametros/abm-departamento',
           icon: 'keyboard_arrow_right',
         },
-        {
+        { // 07 - FORMAS DE PAGO
+          title: 'Formas de Pago',
+          url: '/parametros/formas-pago',
+          icon: 'keyboard_arrow_right',
+        },
+        { // 08 - CONDICIONES DE IVA
+          title: 'Condiciones de IVA',
+          url: '/parametros/condicion-iva',
+          icon: 'keyboard_arrow_right',
+        },
+        { // 09 - ESTADO CIVIL
           title: 'Estado Civil',
           url: '/parametros/estado-civil',
           icon: 'keyboard_arrow_right',
         },
-        {
+        { // 12 - OBRA SOCIAL
           title: 'Obras Sociales',
           url: '/parametros/obra-social',
           icon: 'keyboard_arrow_right',
         },
-        {
-          title: 'Condiciones de IVA',
-          url: '/parametros/condicion-iva',
+        { // 13 - PREGUNTAS DDJJ
+          title: 'Preguntas DDJJ',
+          url: '/parametros/preguntas-ddjj',
           icon: 'keyboard_arrow_right',
         },
       ],
