@@ -135,7 +135,7 @@ export class CondicionIvaDashboardComponent {
     this.dialog.open(AddEditCondicionIvaDialogComponent, {
       data: {
         title: `VER CONDICIÓN IVA`,
-        par_modo: "C",
+        par_modo: "R",
         edit: false,
         codigo_de_IVA: tipoCondicion.codigo_de_IVA,
         descripcion: tipoCondicion.descripcion,
