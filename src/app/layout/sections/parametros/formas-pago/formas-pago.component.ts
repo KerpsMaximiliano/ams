@@ -35,7 +35,7 @@ export class FormasPagoComponent {
     this.dashboard.filter(inputValue);
   }
 
-  public nuevaFormaPago(formaPago?: FormasPago): void {
+  public nuevaFormaPago(formaPago?: IFormasPago): void {
     const modalNuevaFormaPago = this.dialog.open(
       AddEditFormasPagoDialogComponent,
       {
@@ -43,7 +43,15 @@ export class FormasPagoComponent {
           title: `CREAR FORMA DE PAGO`,
           edit: true,
           par_modo: 'I',
-          // COMPLETAR
+          forma_pago: formaPago?.forma_pago,
+          codigo: 0,
+          description: formaPago?.description,
+          solicita_datos_ad: formaPago?.solicita_datos_ad,
+          codigo_banco: formaPago?.codigo_banco,
+          trabaja_archivos: formaPago?.trabaja_archivos,
+          trabaja_rechazos: formaPago?.trabaja_rechazos,
+          nombre_tarjeta_nemot: formaPago?.nombre_tarjeta_nemot,
+          codigo_tarjeta_de_baja: '',
         },
       }
     );
@@ -52,10 +60,10 @@ export class FormasPagoComponent {
       next: (res) => {
         if (res) {
           this.utils.openLoading();
-          this.formasPagoService.getEstadoCivilCRUD(res).subscribe({
+          this.formasPagoService.getFormasPagoCRUD(res).subscribe({
             next: () => {
               this.utils.notification(
-                'La Forma de Pago se ha creado exitosamente',
+                'La Forma de Pago se ha creado exitosamente.',
                 'success'
               );
             },
@@ -74,7 +82,8 @@ export class FormasPagoComponent {
               setTimeout(() => {
                 this.handleSearch(
                   JSON.stringify({
-                    // COMPLETAR
+                    par_modo: 'C',
+                    description: '',
                   })
                 );
               }, 300);

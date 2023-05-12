@@ -28,7 +28,15 @@ export class FormasPagoDashboardComponent {
     new MatPaginator(new MatPaginatorIntl(), this.cdr);
   @ViewChild(MatTable) table!: MatTable<any>;
 
-  public displayedColumns: string[] = ['actions']; // COMPLETAR
+  public displayedColumns: string[] = [
+    'codigo',
+    'forma_pago',
+    'description',
+    'nombre_tarjeta_nemot',
+    'codigo_banco',
+    'codigo_tarjeta_de_baja',
+    'actions',
+  ];
 
   public dataSource: MatTableDataSource<IFormasPago>;
 
@@ -52,9 +60,9 @@ export class FormasPagoDashboardComponent {
     this.utils.openLoading();
     this.formasPagoService.getFormasPagoCRUD(this.searchValue).subscribe({
       next: (res: any) => {
-        (res.dataset.length)
-          ? this.formasPago = res.dataset as IFormasPago[]
-          : this.formasPago = [res.dataset];
+        res.dataset.length
+          ? (this.formasPago = res.dataset as IFormasPago[])
+          : (this.formasPago = [res.dataset]);
         this.dataSource = new MatTableDataSource<IFormasPago>(this.formasPago);
         this.dataSource.sort = this.sort;
         setTimeout(() => {
@@ -99,7 +107,16 @@ export class FormasPagoDashboardComponent {
         data: {
           title: `EDITAR FORMA DE PAGO`,
           edit: true,
-          // COMPLETAR
+          par_modo: 'U',
+          forma_pago: formaPago.forma_pago,
+          codigo: formaPago.codigo,
+          description: formaPago.description,
+          solicita_datos_ad: formaPago.solicita_datos_ad,
+          codigo_banco: formaPago.codigo_banco,
+          trabaja_archivos: formaPago.trabaja_archivos,
+          trabaja_rechazos: formaPago.trabaja_rechazos,
+          nombre_tarjeta_nemot: formaPago.nombre_tarjeta_nemot,
+          codigo_tarjeta_de_baja: formaPago.codigo_tarjeta_de_baja,
         },
       }
     );
@@ -143,13 +160,37 @@ export class FormasPagoDashboardComponent {
         title: `VER FORMA DE PAGO`,
         edit: false,
         par_modo: 'C',
-        // COMPLETAR
+        forma_pago: formaPago.forma_pago,
+        codigo: formaPago.codigo,
+        description: formaPago.description,
+        solicita_datos_ad: formaPago.solicita_datos_ad,
+        codigo_banco: formaPago.codigo_banco,
+        trabaja_archivos: formaPago.trabaja_archivos,
+        trabaja_rechazos: formaPago.trabaja_rechazos,
+        nombre_tarjeta_nemot: formaPago.nombre_tarjeta_nemot,
+        codigo_tarjeta_de_baja: formaPago.codigo_tarjeta_de_baja,
       },
     });
+    console.log(formaPago);
   }
 
   public filter(descripcion: string): void {
     this.searchValue = descripcion;
     this.getFormasPago();
+  }
+
+  public getFormaPagoDescripcion(formaPago: string): string {
+    switch (formaPago) {
+      case 'BSF':
+        return 'Débitos Automáticos';
+      case 'LNK':
+        return 'Pagos RED LINK';
+      case 'CBU':
+        return 'Transferencia Bancaria';
+      case 'TC ':
+        return 'Tarjeta Crédito';
+      default:
+        return '';
+    }
   }
 }

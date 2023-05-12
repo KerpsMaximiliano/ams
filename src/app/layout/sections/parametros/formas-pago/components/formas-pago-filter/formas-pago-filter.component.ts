@@ -15,7 +15,8 @@ export class FormasPagoFilterComponent {
   public search(event: any, value: string): void {
     event.preventDefault();
     let body = {
-      // COMPLETAR
+      par_modo: "C",
+      description: value,
     };
     this.searchEvent.emit(body);
   }
