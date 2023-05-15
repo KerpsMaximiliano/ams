@@ -47,6 +47,11 @@ export class NavMenuComponent {
           icon: 'keyboard_arrow_right',
         },
         {
+          title: 'Fuente de Ingreso',
+          url: '/parametros/fuente-ingreso',
+          icon: 'keyboard_arrow_right',
+        },
+        {
           title: 'Obras Sociales',
           url: '/parametros/obra-social',
           icon: 'keyboard_arrow_right',

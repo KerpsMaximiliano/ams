@@ -14,6 +14,8 @@ import { DepartamentoComponent } from './departamento/departamento.component';
 import { CondicionIvaComponent } from './condicion-iva/condicion-iva.component';
 // 09 - ESTADO CIVIL
 import { EstadoCivilComponent } from './estado-civil/estado-civil.component';
+// 11 - FUENTE INGRESO
+import { FuenteIngresoComponent } from './fuente-ingreso/fuente-ingreso.component'; 
 // 12 - OBRA SOCIAL
 import { ObraSocialComponent } from './obra-social/obra-social.component';
 
@@ -41,6 +43,10 @@ const routes: Routes = [
   {
     path: 'parametros/estado-civil',
     component: EstadoCivilComponent,
+  },
+  {
+    path: 'parametros/fuente-ingreso',
+    component: FuenteIngresoComponent
   },
   {
     path: 'parametros/obra-social',

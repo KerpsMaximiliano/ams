@@ -1,0 +1,43 @@
+<section>
+    <table mat-table [dataSource]="dataSource" matSort
+    (matSortChange)="announceSortChange($event)">
+      <ng-container class="mat-row" *matNoDataRow>
+        <td class="mat-cell no-data-cell" [attr.colspan]="displayedColumns.length">
+        No se encontraron resultados
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="codigo_fuente_ingreso">
+        <th mat-header-cell *matHeaderCellDef>Código</th>
+        <td mat-cell *matCellDef="let param">{{param.codigo_fuente_ingreso}}</td>
+    </ng-container>
+    <ng-container matColumnDef="descripcion">
+        <th mat-header-cell *matHeaderCellDef>Nombre Fuente de Ingreso<th>
+        <td mat-cell *matCellDef="let param">{{param.descripcion}}</td>
+    </ng-container>
+    <ng-container matColumnDef="empresa_asociada">
+        <th mat-header-cell *matHeaderCellDef>Empresa</th>
+        <td mat-cell *matCellDef="let param">{{ obtenerNombreEmpresa(param.empresa_asociada) }}</td>
+    </ng-container>
+    <ng-container matColumnDef="dia_corte">
+        <th mat-header-cell *matHeaderCellDef>Día de corte</th>
+        <td mat-cell *matCellDef="let param">{{param.dia_corte}}</td>
+    </ng-container>
+    <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Acciones</th>
+        <td mat-cell *matCellDef="let fuenteIngreso">
+        <button class="action-button" (click)="viewFuenteIngreso(fuenteIngreso)">
+            <mat-icon class="edit-icon" aria-label="false">visibility</mat-icon>
+        </button>
+        <button class="action-button" (click)="editFuenteIngreso(fuenteIngreso)">
+            <mat-icon class="delete-icon" aria-label="false">edit</mat-icon>
+        </button>
+        </td>
+    </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns:displayedColumns"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[10,20,30]"
+                showFirstLastButtons
+                aria-label="controles de página de la tabla de estados">
+    </mat-paginator>
+</section>

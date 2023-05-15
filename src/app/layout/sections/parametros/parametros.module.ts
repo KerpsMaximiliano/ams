@@ -34,6 +34,11 @@ import { AddEditEstadoCivilDialogComponent } from './estado-civil/components/add
 import { EstadoCivilComponent } from "./estado-civil/estado-civil.component";
 import { EstadoCivilDashboardComponent } from './estado-civil/components/estado-civil-dashboard/estado-civil-dashboard.component';
 import { EstadoCivilFilterComponent } from './estado-civil/components/estado-civil-filter/estado-civil-filter.component';
+// 11 - FUENTE INGRESO
+import { FuenteIngresoComponent } from './fuente-ingreso/fuente-ingreso.component';
+import { AddEditFuenteIngresoDialogComponent } from './fuente-ingreso/components/add-edit-fuente-ingreso-dialog/add-edit-fuente-ingreso-dialog.component';
+import { FuenteIngresoFilterComponent } from './fuente-ingreso/components/fuente-ingreso-filter/fuente-ingreso-filter.component';
+import { FuenteIngresoDashboardComponent } from './fuente-ingreso/components/fuente-ingreso-dashboard/fuente-ingreso-dashboard.component';
 // 12 - OBRA SOCIAL
 import { AddEditObraSocialDialogComponent } from './obra-social/components/add-edit-obra-social-dialog/add-edit-obra-social-dialog.component';
 import { ObraSocialComponent } from './obra-social/obra-social.component';
@@ -78,11 +83,18 @@ import { ObraSocialFilterComponent } from './obra-social/components/obra-social-
     EstadoCivilDashboardComponent,
     EstadoCivilFilterComponent,
 
+    // 11 - FUENTE INGRESO
+    FuenteIngresoComponent,
+    AddEditFuenteIngresoDialogComponent,
+    FuenteIngresoFilterComponent,
+    FuenteIngresoDashboardComponent,
+
     // 12 - OBRA SOCIAL
     AddEditObraSocialDialogComponent,
     ObraSocialDashboardComponent,
     ObraSocialFilterComponent,
     ObraSocialComponent,
+
   ],
   imports: [
     CommonModule,
