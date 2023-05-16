@@ -103,7 +103,7 @@ export class DepartamentoDashboardComponent {
   public editDepartamento(departamento: Departamento): void {
     const modalNuevoDepartamento = this.dialog.open(AddEditDepartamentoDialogComponent, {
       data: {
-        title: `Editar Departamento`,
+        title: `EDITAR DEPARTAMENTO`,
         par_modo: "U",
         letra_provincia: departamento.letra_provincia,
         codigo_departamento: departamento?.codigo_departamento,
@@ -146,7 +146,7 @@ export class DepartamentoDashboardComponent {
   public viewDepartamento(departamento: Departamento): void {
     this.dialog.open(AddEditDepartamentoDialogComponent, {
       data: {
-        title: `Ver Departamento`,
+        title: `VER DEPARTAMENTO`,
         id_tabla: 10,
         letra_provincia: departamento.letra_provincia,
         codigo_departamento: departamento?.codigo_departamento,

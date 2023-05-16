@@ -7,24 +7,24 @@
         </td>
     </ng-container>
     <ng-container matColumnDef="codigo">
-        <th mat-header-cell *matHeaderCellDef>Código</th>
+        <th mat-header-cell *matHeaderCellDef>Código Alt</th>
         <td mat-cell *matCellDef="let param">{{param.codigo}}</td>
     </ng-container>
     <ng-container matColumnDef="nombre_provincia">
         <th mat-header-cell *matHeaderCellDef>Provincia</th>
         <td mat-cell *matCellDef="let param">{{param.nombre_provincia}}</td>
     </ng-container>
-    <ng-container matColumnDef="codifica_altura">
-        <th mat-header-cell *matHeaderCellDef>Codifica Altura</th>
-        <td mat-cell *matCellDef="let param">{{param.codifica_altura}}</td>
-    </ng-container>
     <ng-container matColumnDef="codigo_provincia">
-        <th mat-header-cell *matHeaderCellDef>Código Alternativo</th>
+        <th mat-header-cell *matHeaderCellDef>Código Provincia</th>
         <td mat-cell *matCellDef="let param">{{param.codigo_provincia}}</td>
     </ng-container>
+    <ng-container matColumnDef="codifica_altura">
+        <th mat-header-cell *matHeaderCellDef>Codifica Altura?</th>
+        <td mat-cell *matCellDef="let param">{{param.codifica_altura}}</td>
+    </ng-container>
     <ng-container matColumnDef="flete_transportista">
-        <th mat-header-cell *matHeaderCellDef>Flete de Transportistas (%)</th>
-        <td mat-cell *matCellDef="let param">{{param.flete_transportista}} %</td>
+        <th mat-header-cell *matHeaderCellDef>% Flete</th>
+        <td mat-cell *matCellDef="let param">{{param.flete_transportista}}%</td>
     </ng-container>
     <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef>Acciones</th>

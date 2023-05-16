@@ -89,7 +89,7 @@ export class TipoDocumentoDashboardComponent {
   public editDocType(tipoDocumento: TipoDocumento): void {
     const modalNuevoTipoDocumento = this.dialog.open(AddEditTipoDocumentoDialogComponent, {
       data: {
-        title: `Editar Documento`,
+        title: `EDITAR DOCUMENTO`,
         id: tipoDocumento.tipo_de_documento,
         tipo: tipoDocumento.descripcion,
         abreviatura: tipoDocumento.descripcion_reducida,
@@ -129,7 +129,7 @@ export class TipoDocumentoDashboardComponent {
   public viewDocType(tipoDocumento: TipoDocumento): void {
     this.dialog.open(AddEditTipoDocumentoDialogComponent, {
       data: {
-        title: `Ver Documento`,
+        title: `VER DOCUMENTO`,
         id: tipoDocumento.id,
         tipo: tipoDocumento.descripcion,
         abreviatura: tipoDocumento.descripcion_reducida,
@@ -143,7 +143,7 @@ export class TipoDocumentoDashboardComponent {
   public deleteDocType(tipoDoc: TipoDocumento): void {
     const modalConfirm = this.dialog.open(ConfirmDialogComponent, {
       data: {
-        title: `Eliminar Documento`,
+        title: `ELIMINAR DOCUMENTO`,
         message: `¿Está seguro de eliminar el documento ${tipoDoc.descripcion}?`
       }
     });

@@ -83,7 +83,7 @@ export class CondicionIvaDashboardComponent {
   public editCondicionIVA(tipoCondicion: CondicionIva): void {
     const modalNuevaCondicionIva = this.dialog.open(AddEditCondicionIvaDialogComponent, {
       data: {
-        title: `Editar Condicion IVA`,
+        title: `EDITAR CONDICIÓN DE IVA`,
         par_modo: "U",
         codigo_de_IVA: tipoCondicion.codigo_de_IVA,
         descripcion: tipoCondicion.descripcion,
@@ -128,7 +128,7 @@ export class CondicionIvaDashboardComponent {
   public viewCondicionIVA(tipoCondicion: CondicionIva): void {
     this.dialog.open(AddEditCondicionIvaDialogComponent, {
       data: {
-        title: `Ver Condicion IVA`,
+        title: `VER CONDICIÓN DE IVA`,
         par_modo: "G",
         codigo_de_IVA: tipoCondicion.codigo_de_IVA,
         descripcion: tipoCondicion.descripcion,

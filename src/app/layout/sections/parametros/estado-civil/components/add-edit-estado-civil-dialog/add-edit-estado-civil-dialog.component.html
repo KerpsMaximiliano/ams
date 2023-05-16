@@ -5,7 +5,7 @@
 <div class="dialog-content">
   <form class="form-datos" [formGroup]="formGroup" (ngSubmit)="confirm()">
     <div class="seeker-fields-container">
-      <h3>CÓDIGO</h3>
+      <h3>CÓDIGO ESTADO CIVIL</h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
         <input matInput formControlName="codigo_estado_civil" required minlength="1" maxlength="1" [readonly]="!data.edit">
         <mat-error *ngIf="formGroup.get('codigo_estado_civil')?.invalid
