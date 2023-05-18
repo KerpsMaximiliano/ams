@@ -21,32 +21,32 @@ import { PreguntasDDJJComponent } from './preguntas-ddjj/preguntas-ddjj.componen
 
 const routes: Routes = [
   {
-    path: 'parametros/provincia',
-    component: ProvinciaComponent
+    path: 'parametros/provincias',
+    component: ProvinciaComponent,
   },
   {
-    path: 'parametros/tipo-documento',
-    component: TipoDocumentoComponent
+    path: 'parametros/tipos-documento',
+    component: TipoDocumentoComponent,
   },
   {
-    path: 'parametros/nacionalidad',
+    path: 'parametros/nacionalidades',
     component: NacionalidadComponent
   },
   {
-    path: 'parametros/abm-departamento',
-    component: DepartamentoComponent
+    path: 'parametros/departamentos',
+    component: DepartamentoComponent,
   },
   {
-    path: 'parametros/condicion-iva',
-    component: CondicionIvaComponent
+    path: 'parametros/condiciones-iva',
+    component: CondicionIvaComponent,
   },
   {
-    path: 'parametros/estado-civil',
+    path: 'parametros/estados-civiles',
     component: EstadoCivilComponent,
   },
   {
-    path: 'parametros/obra-social',
-    component: ObraSocialComponent
+    path: 'parametros/obras-sociales',
+    component: ObraSocialComponent,
   },
   {
     path: 'parametros/preguntas-ddjj',
@@ -56,6 +56,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class ParametrosRoutingModule { }
+export class ParametrosRoutingModule {}

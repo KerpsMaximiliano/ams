@@ -1,12 +1,14 @@
 import { Component, Inject } from '@angular/core';
 
-// * Form - Validations
+// * Form
 import {
   UntypedFormControl,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { isAlphanumericWithSpaces } from 'src/app/core/validators/character.validator';
+
+// * Validations
+import { isAlphanumericWithSpaces, isAlphanumeric } from 'src/app/core/validators/character.validator';
 
 // * Material
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -43,13 +45,14 @@ export class AddEditEstadoCivilDialogComponent {
           Validators.required,
           Validators.minLength(1),
           Validators.maxLength(1),
+          isAlphanumeric(),
         ])
       ),
       description: new UntypedFormControl(
         '',
         Validators.compose([
           Validators.required,
-          Validators.minLength(3),
+          Validators.minLength(1),
           Validators.maxLength(20),
           isAlphanumericWithSpaces(),
         ])
@@ -62,9 +65,6 @@ export class AddEditEstadoCivilDialogComponent {
       .get('codigo_estado_civil')
       ?.setValue(this.data.codigo_estado_civil);
     this.formGroup.get('description')?.setValue(this.data.description);
-
-    // this.data.codigo_estado_civil ? this.formGroup.get('codigo_estado_civil')?.setValue(this.data.codigo_estado_civil) : this.formGroup.get('codigo_estado_civil')?.setValue('');
-    // this.data.description ? this.formGroup.get('description')?.setValue(this.data.description) : this.formGroup.get('description')?.setValue('');
   }
 
   closeDialog(): void {
@@ -86,21 +86,16 @@ export class AddEditEstadoCivilDialogComponent {
     if (control.errors?.['required']) {
       return `Campo requerido`;
     } else {
+      if ((control.errors?.['notAlphanumeric'] || control.errors?.['notAlphanumericWithSpaces']) && control.value != '' && control.value != null) {
+        return `Solo se aceptan letras y números.`;
+      }
+
       if (control.errors?.['maxlength']) {
         return `No puede contener más de ${control.errors?.['maxlength'].requiredLength} caracteres`;
       }
 
       if (control.errors?.['minlength']) {
         return `Debe contener al menos ${control.errors?.['minlength'].requiredLength} caracteres`;
-      }
-
-      if (
-        (control.errors?.['notAlphanumeric'] ||
-          control.errors?.['notAlphanumericWithSpaces']) &&
-        control.value != '' &&
-        control.value != null
-      ) {
-        return `No puede contener caracteres especiales`;
       }
     }
     return '';
