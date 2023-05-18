@@ -33,7 +33,7 @@ export class NavMenuComponent {
         },
         {
           "title": "Departamento",
-          "url": "/parametros/abm-departamento",
+          "url": "/parametros/departamento",
           "icon": "keyboard_arrow_right"
         }
       ]

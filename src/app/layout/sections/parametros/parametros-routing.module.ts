@@ -13,7 +13,7 @@ const routes: Routes = [
     component: TipoNacionalidadComponent
   },
   {
-    path: 'parametros/abm-departamento',
+    path: 'parametros/departamento',
     component: DepartamentoComponent
   }
 ];
