@@ -37,8 +37,7 @@ export class CondicionIvaComponent {
     public nuevaCondicionIVA(condicionIva?: ICondicionIva): void {
       const modalNuevaCondicionIva = this.dialog.open(AddEditCondicionIvaDialogComponent, {
         data: {
-          title: `CREAR CONDICION DE IVA`,
-          edit: true,
+          title: `CREAR CONDICIÓN DE IVA`,
           par_modo: "I",
           codigoCondIva: condicionIva?.codigo_de_IVA,
           descripcion: condicionIva?.descripcion,

@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
-  selector: 'app-obra-social-filter',
-  templateUrl: './obra-social-filter.component.html',
-  styleUrls: ['./obra-social-filter.component.scss'],
+  selector: 'app-nacionalidad-filter',
+  templateUrl: './nacionalidad-filter.component.html',
+  styleUrls: ['./nacionalidad-filter.component.scss'],
 })
-export class ObraSocialFilterComponent {
+export class NacionalidadFilterComponent {
   @Output() searchEvent: EventEmitter<any> = new EventEmitter<any>();
 
   constructor() {}
@@ -15,7 +15,7 @@ export class ObraSocialFilterComponent {
   public search(event: any, value: string): void {
     event.preventDefault();
     let body = {
-      par_modo: 'C',
+      id: '',
       descripcion: value,
     };
     this.searchEvent.emit(body);

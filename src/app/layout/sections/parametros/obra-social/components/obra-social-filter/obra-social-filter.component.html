@@ -1,32 +1,30 @@
 <section class="seeker-section">
-
   <mat-accordion>
     <mat-expansion-panel class="mat-elevation-z1">
       <mat-expansion-panel-header floating>
-        <mat-panel-title>
-          Opciones de búsqueda
-        </mat-panel-title>
+        <mat-panel-title> Opciones de búsqueda </mat-panel-title>
       </mat-expansion-panel-header>
 
       <form>
         <div class="seeker-fields-container">
           <mat-form-field class="seeker-form-field">
             <mat-label class="seeker-label" for="descripcion">Descripción</mat-label>
-            <input matInput class="seeker-input" [formControl]="descripcion" (keydown.enter)="searchKeyUp($event)">
+            <input matInput class="seeker-input" (keydown.enter)="search($event, input.value)" #input />
           </mat-form-field>
         </div>
-  
+
         <div class="buttons-container">
-          <button class="primary-button icon-button" type="button" (click)="search()" [disabled]="descripcion.value.length < 1">
+          <button class="primary-button icon-button" type="button" (click)="search($event, input.value)">
             <mat-icon>done</mat-icon>
-            Buscar</button>
-          <button class="primary-button icon-button" type="button" (click)="clearInputs()" [disabled]="descripcion.value.length === 0">
+            Buscar
+          </button>
+          <button class="primary-button icon-button" type="button" (click)="clear(input)"
+            [disabled]="input.value.length === 0">
             <mat-icon>close</mat-icon>
-            Limpiar</button>
+            Limpiar
+          </button>
         </div>
       </form>
-
     </mat-expansion-panel>
   </mat-accordion>
-  
 </section>

@@ -7,7 +7,7 @@ import { ProvinciaComponent } from './provincia/provincia.component';
 // 02 - TIPO DE DOCUMENTO
 import { TipoDocumentoComponent } from './tipo-documento/tipo-documento.component';
 // 03 - NACIONALIDAD
-import { TipoNacionalidadComponent } from './tipo-nacionalidad/tipo-nacionalidad.component';
+import { NacionalidadComponent } from './nacionalidad/nacionalidad.component';
 // 04 - DEPARTAMENTO
 import { DepartamentoComponent } from './departamento/departamento.component';
 // 08 - CONDICIONES DE IVA
@@ -19,37 +19,37 @@ import { ObraSocialComponent } from './obra-social/obra-social.component';
 
 const routes: Routes = [
   {
-    path: 'parametros/provincia',
-    component: ProvinciaComponent
+    path: 'parametros/provincias',
+    component: ProvinciaComponent,
   },
   {
-    path: 'parametros/tipo-documento',
-    component: TipoDocumentoComponent
+    path: 'parametros/tipos-documento',
+    component: TipoDocumentoComponent,
   },
   {
-    path: 'parametros/tipo-nacionalidad',
-    component: TipoNacionalidadComponent
+    path: 'parametros/nacionalidades',
+    component: NacionalidadComponent
   },
   {
-    path: 'parametros/abm-departamento',
-    component: DepartamentoComponent
+    path: 'parametros/departamentos',
+    component: DepartamentoComponent,
   },
   {
-    path: 'parametros/condicion-iva',
-    component: CondicionIvaComponent
+    path: 'parametros/condiciones-iva',
+    component: CondicionIvaComponent,
   },
   {
-    path: 'parametros/estado-civil',
+    path: 'parametros/estados-civiles',
     component: EstadoCivilComponent,
   },
   {
-    path: 'parametros/obra-social',
-    component: ObraSocialComponent
+    path: 'parametros/obras-sociales',
+    component: ObraSocialComponent,
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class ParametrosRoutingModule { }
+export class ParametrosRoutingModule {}

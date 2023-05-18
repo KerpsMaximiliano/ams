@@ -1,43 +1,49 @@
-import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
+
+// * Services
+import { UtilService } from 'src/app/core/services/util.service';
+import { NacionalidadService } from 'src/app/core/services/nacionalidad.service';
+
+// * Interfaces
+import { Nacionalidad } from 'src/app/core/models/nacionalidad';
+
+// * Material
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
+
+// * Components
 import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
-import { TipoDocumento } from 'src/app/core/models/tipo-documento';
-import { UtilService } from 'src/app/core/services/util.service';
-import { AddEditTipoDocumentoDialogComponent } from '../add-edit-tipo-documento-dialog/add-edit-tipo-documento-dialog.component';
-import { TipoDocumentoService } from 'src/app/core/services/tipo-documento.service';
+import { EditNacionalidadDialogComponent } from '../edit-nacionalidad-dialog/edit-nacionalidad-dialog.component';
 
 @Component({
-  selector: 'app-tipo-documento-dashboard',
-  templateUrl: './tipo-documento-dashboard.component.html',
-  styleUrls: ['./tipo-documento-dashboard.component.scss'],
+  selector: 'app-nacionalidad-dashboard',
+  templateUrl: './nacionalidad-dashboard.component.html',
+  styleUrls: ['./nacionalidad-dashboard.component.scss'],
 })
-export class TipoDocumentoDashboardComponent {
+export class NacionalidadDashboardComponent {
   @ViewChild(MatSort) sort: MatSort = new MatSort();
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator =
     new MatPaginator(new MatPaginatorIntl(), this.cdr);
   @ViewChild(MatTable) table!: MatTable<any>;
 
   public displayedColumns: string[] = [
-    'id',
-    'tipo-documento',
-    'abreviatura',
-    'control-cuit',
+    'codigo_nacionalidad_nuevo',
+    'descripcion',
+    'codigo_sistema_anterior',
     'actions',
   ];
 
-  public dataSource: MatTableDataSource<TipoDocumento>;
+  public dataSource: MatTableDataSource<Nacionalidad>;
 
   public searchEvent: string = '';
-  public searchId: number = 0; // VERIFICAR.
-
-  public documents: TipoDocumento[] = [];
+  public searchId: number = 0;
+  public nacionalidades: Nacionalidad[] = [];
 
   constructor(
-    private tipoDocumentoService: TipoDocumentoService,
+    private nacionalidadService: NacionalidadService,
     private utils: UtilService,
     private _liveAnnouncer: LiveAnnouncer,
     private cdr: ChangeDetectorRef,
@@ -48,17 +54,19 @@ export class TipoDocumentoDashboardComponent {
     this.paginator._intl.itemsPerPageLabel = 'Elementos por página';
   }
 
-  private getTipoDocumento(): void {
+  private getNacionalidad(): void {
     this.utils.openLoading();
     let aux = {
       descripcion: this.searchEvent,
       id: this.searchId,
     };
     let body = JSON.stringify(aux);
-    this.tipoDocumentoService.getDocumentByDesc(body).subscribe({
+    this.nacionalidadService.getParamByDesc(body).subscribe({
       next: (res: any) => {
-        this.documents = res.dataset as TipoDocumento[];
-        this.dataSource = new MatTableDataSource<TipoDocumento>(this.documents);
+        this.nacionalidades = res.dataset as Nacionalidad[];
+        this.dataSource = new MatTableDataSource<Nacionalidad>(
+          this.nacionalidades
+        );
         this.dataSource.sort = this.sort;
         setTimeout(() => {
           this.dataSource.paginator = this.paginator;
@@ -95,30 +103,30 @@ export class TipoDocumentoDashboardComponent {
     }
   }
 
-  public editDocType(tipoDocumento: TipoDocumento): void {
-    const modalNuevoTipoDocumento = this.dialog.open(
-      AddEditTipoDocumentoDialogComponent,
+  public editNacType(nacionalidad: Nacionalidad): void {
+    const modalNacionalidad = this.dialog.open(
+      EditNacionalidadDialogComponent,
       {
         data: {
-          title: `Editar Documento`,
-          id: tipoDocumento.tipo_de_documento,
-          tipo: tipoDocumento.descripcion,
-          abreviatura: tipoDocumento.descripcion_reducida,
-          cuit: tipoDocumento.control_cuit,
-          tipo_documento: tipoDocumento.tipo_de_documento,
+          title: `Editar nacionalidad`,
+          par_modo: 'U',
+          id_tabla: 3,
+          codigo_nacionalidad_nuevo: nacionalidad.codigo_nacionalidad_nuevo,
+          descripcion: nacionalidad.descripcion,
+          codigo_sistema_anterior: nacionalidad.codigo_sistema_anterior,
           edit: true,
         },
       }
     );
 
-    modalNuevoTipoDocumento.afterClosed().subscribe({
+    modalNacionalidad.afterClosed().subscribe({
       next: (res) => {
         if (res) {
           this.utils.openLoading();
-          this.tipoDocumentoService.editDocument(res).subscribe({
+          this.nacionalidadService.editNacionalidad(res).subscribe({
             next: () => {
               this.utils.notification(
-                'El Documento se ha editado extiosamente',
+                'La nacionalidad se ha editado extiosamente',
                 'success'
               );
             },
@@ -130,12 +138,12 @@ export class TipoDocumentoDashboardComponent {
                     `Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`,
                     'error'
                   );
-              this.editDocType(res);
+              this.editNacType(res);
             },
             complete: () => {
               this.utils.closeLoading();
               setTimeout(() => {
-                this.getTipoDocumento();
+                this.getNacionalidad();
               }, 300);
             },
           });
@@ -144,47 +152,47 @@ export class TipoDocumentoDashboardComponent {
     });
   }
 
-  public viewDocType(tipoDocumento: TipoDocumento): void {
-    this.dialog.open(AddEditTipoDocumentoDialogComponent, {
+  public viewNacType(nacionalidad: Nacionalidad): void {
+    this.dialog.open(EditNacionalidadDialogComponent, {
       data: {
-        title: `VER DOCUMENTO`,
-        id: tipoDocumento.id,
-        tipo: tipoDocumento.descripcion,
-        abreviatura: tipoDocumento.descripcion_reducida,
-        cuit: tipoDocumento.control_cuit,
+        title: `Ver nacionalidad`,
+        id_tabla: 3,
+        codigo_nacionalidad_nuevo: nacionalidad.codigo_nacionalidad_nuevo,
+        descripcion: nacionalidad.descripcion,
+        codigo_sistema_anterior: nacionalidad.codigo_sistema_anterior,
         edit: false,
       },
     });
   }
 
-  public deleteDocType(tipoDoc: TipoDocumento): void {
+  public deleteNacType(nacionalidad: Nacionalidad): void {
     const modalConfirm = this.dialog.open(ConfirmDialogComponent, {
       data: {
-        title: `Eliminar Documento`,
-        message: `¿Está seguro de eliminar el documento ${tipoDoc.descripcion}?`,
+        title: `Eliminar la nacionalidad`,
+        message: `¿Está seguro de eliminar la nacionalidad ${nacionalidad.descripcion}?`,
       },
     });
 
     modalConfirm.afterClosed().subscribe({
       next: (res) => {
         if (res) {
-          this.tipoDocumentoService.deleteParametro(res.id).subscribe({
-            next: (res: any) => {
-              this.utils.notification(
-                'El Documento se ha borrado exitosamente',
-                'success'
-              );
-              this.getTipoDocumento();
-            },
-            error: (err) => {
-              err.status == 0
-                ? this.utils.notification('Error de conexion', 'error')
-                : this.utils.notification(
-                    `Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`,
-                    'error'
-                  );
-            },
-          });
+          this.nacionalidadService
+            .deleteEstado(nacionalidad.codigo_nacionalidad_nuevo)
+            .subscribe({
+              next: (res: any) => {
+                this.utils.notification(
+                  'La nacionalidad se ha borrado exitosamente',
+                  'success'
+                );
+                this.getNacionalidad();
+              },
+              error: (err) => {
+                this.utils.notification(
+                  `Error al eliminar la nacionalidad: ${err.message}`,
+                  'error'
+                );
+              },
+            });
         }
       },
     });
@@ -193,6 +201,6 @@ export class TipoDocumentoDashboardComponent {
   public filter(buscar: any): void {
     this.searchEvent = buscar.descripcion;
     this.searchId = buscar.id;
-    this.getTipoDocumento();
+    this.getNacionalidad();
   }
 }

@@ -85,7 +85,7 @@ export class ProvinciaDashboardComponent {
   public editProvincia(tipoProvincia: Provincia): void {
     const modalNuevaProvincia = this.dialog.open(AddEditProvinciaDialogComponent, {
       data: {
-        title: `Editar Provincia`,
+        title: `EDITAR PROVINCIA`,
         par_modo: "U",
         codigo: tipoProvincia?.codigo,
         nombre_provincia: tipoProvincia?.nombre_provincia,
@@ -127,7 +127,7 @@ export class ProvinciaDashboardComponent {
   public viewProvincia(tipoProvincia: Provincia): void {
     this.dialog.open(AddEditProvinciaDialogComponent, {
       data: {
-        title: `Ver Provincia`,
+        title: `VER PROVINCIA`,
         id_tabla: 9,
         codigo: tipoProvincia?.codigo,
         nombre_provincia: tipoProvincia?.nombre_provincia,

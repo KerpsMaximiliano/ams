@@ -29,7 +29,7 @@ export class ObraSocialComponent {
   public nuevoObraSocial(obraSocial?: ObraSocial): void {
     const modalNuevoObraSocial = this.dialog.open(AddEditObraSocialDialogComponent, {
       data: {
-        title: `Crear Obra Social`,
+        title: `CREAR OBRA SOCIAL`,
         edit: true,
         par_modo: "I",
         codigo: obraSocial?.codigo,
