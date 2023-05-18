@@ -31,7 +31,7 @@ import { CondicionIvaDashboardComponent } from './condicion-iva/components/condi
 import { CondicionIvaFilterComponent } from './condicion-iva/components/condicion-iva-filter/condicion-iva-filter.component';
 // 09 - ESTADO CIVIL
 import { AddEditEstadoCivilDialogComponent } from './estado-civil/components/add-edit-estado-civil-dialog/add-edit-estado-civil-dialog.component';
-import { EstadoCivilComponent } from "./estado-civil/estado-civil.component";
+import { EstadoCivilComponent } from './estado-civil/estado-civil.component';
 import { EstadoCivilDashboardComponent } from './estado-civil/components/estado-civil-dashboard/estado-civil-dashboard.component';
 import { EstadoCivilFilterComponent } from './estado-civil/components/estado-civil-filter/estado-civil-filter.component';
 // 12 - OBRA SOCIAL
@@ -39,6 +39,11 @@ import { AddEditObraSocialDialogComponent } from './obra-social/components/add-e
 import { ObraSocialComponent } from './obra-social/obra-social.component';
 import { ObraSocialDashboardComponent } from './obra-social/components/obra-social-dashboard/obra-social-dashboard.component';
 import { ObraSocialFilterComponent } from './obra-social/components/obra-social-filter/obra-social-filter.component';
+// 20 - PRODUCTO
+import { AddEditProductoDialogComponent } from './producto/components/add-edit-producto-dialog/add-edit-producto-dialog.component';
+import { ProductoComponent } from './producto/producto.component';
+import { ProductoDashboardComponent } from './producto/components/producto-dashboard/producto-dashboard.component';
+import { ProductoFilterComponent } from './producto/components/producto-filter/producto-filter.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +64,7 @@ import { ObraSocialFilterComponent } from './obra-social/components/obra-social-
     NacionalidadComponent,
     NacionalidadDashboardComponent,
     NacionalidadFilterComponent,
-    
+
     // 04 - DEPARTAMENTO
     AddEditDepartamentoDialogComponent,
     DepartamentoComponent,
@@ -71,7 +76,7 @@ import { ObraSocialFilterComponent } from './obra-social/components/obra-social-
     CondicionIvaComponent,
     CondicionIvaDashboardComponent,
     CondicionIvaFilterComponent,
-    
+
     // 09 - ESTADO CIVIL
     AddEditEstadoCivilDialogComponent,
     EstadoCivilComponent,
@@ -83,11 +88,13 @@ import { ObraSocialFilterComponent } from './obra-social/components/obra-social-
     ObraSocialDashboardComponent,
     ObraSocialFilterComponent,
     ObraSocialComponent,
+
+    // 20 - PRODUCTO
+    AddEditProductoDialogComponent,
+    ProductoComponent,
+    ProductoDashboardComponent,
+    ProductoFilterComponent,
   ],
-  imports: [
-    CommonModule,
-    ParametrosRoutingModule,
-    SharedModule
-  ]
+  imports: [CommonModule, ParametrosRoutingModule, SharedModule],
 })
-export class ParametrosModule { }
+export class ParametrosModule {}

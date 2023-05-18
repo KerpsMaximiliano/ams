@@ -56,6 +56,11 @@ export class NavMenuComponent {
           url: '/parametros/obras-sociales',
           icon: 'keyboard_arrow_right',
         },
+        {
+          title: 'PRODUCTOS',
+          url: '/parametros/productos',
+          icon: 'keyboard_arrow_right',
+        },
       ],
     },
   ];
