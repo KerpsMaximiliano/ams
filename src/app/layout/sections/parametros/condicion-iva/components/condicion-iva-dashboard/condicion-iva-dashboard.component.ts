@@ -92,6 +92,7 @@ export class CondicionIvaDashboardComponent {
       data: {
         title: `EDITAR CONDICIÓN DE IVA`,
         par_modo: "U",
+        edit: true,
         codigo_de_IVA: tipoCondicion.codigo_de_IVA,
         descripcion: tipoCondicion.descripcion,
         descripcion_reducida: tipoCondicion.descripcion_reducida,
@@ -135,6 +136,7 @@ export class CondicionIvaDashboardComponent {
       data: {
         title: `VER CONDICIÓN DE IVA`,
         par_modo: "R",
+        edit: false,
         codigo_de_IVA: tipoCondicion.codigo_de_IVA,
         descripcion: tipoCondicion.descripcion,
         descripcion_reducida: tipoCondicion.descripcion_reducida,

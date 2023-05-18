@@ -39,6 +39,7 @@ export class CondicionIvaComponent {
         data: {
           title: `CREAR CONDICIÓN DE IVA`,
           par_modo: "I",
+          edit: true,
           codigoCondIva: condicionIva?.codigo_de_IVA,
           descripcion: condicionIva?.descripcion,
           abreviatura: condicionIva?.descripcion_reducida,
