@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 // * Services
 import { UtilService } from 'src/app/core/services/util.service';
@@ -21,6 +22,13 @@ import { AddEditProductoDialogComponent } from '../add-edit-producto-dialog/add-
   selector: 'app-producto-dashboard',
   templateUrl: './producto-dashboard.component.html',
   styleUrls: ['./producto-dashboard.component.scss'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({height: '0px', minHeight: '0'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
 export class ProductoDashboardComponent {
   @ViewChild(MatSort) sort: MatSort = new MatSort();
@@ -28,17 +36,37 @@ export class ProductoDashboardComponent {
     new MatPaginator(new MatPaginatorIntl(), this.cdr);
   @ViewChild(MatTable) table!: MatTable<any>;
 
-  public displayedColumns: string[] = [
-    'codigo_estado_civil',
-    'description',
-    'actions',
-  ];
+  // public displayedColumns: string[] = [
+  //   'codigo_producto',
+  //   'descripcion_producto',
+  //   'tipo_producto',
+  //   'clase_producto',
+  //   'estado', // ! VERIFICAR.
+  //   'actions',
+  //   // 'descripcion_reducida',
+  //   // 'administrado_por',               // ! VERIFICAR.
+  //   // 'fuente_de_ingreso',              // ! VERIFICAR.
+  //   // 'empresa_que_factura',            // ! VERIFICAR.
+  //   // 'obra_social',                    // ! VERIFICAR.
+  // ];
+
+  columnsToDisplay = [
+    'codigo_producto',
+    'descripcion_producto',
+    'tipo_producto',
+    'clase_producto',
+    'estado', // ! VERIFICAR.
+  ]
+
+  columnsToDisplayWithExpand = [...this.columnsToDisplay, 'actions'];
+  
+  expandedElement: any | null;
 
   public dataSource: MatTableDataSource<IProducto>;
 
   public searchValue: string = '';
 
-  public estadoCivil: IProducto[] = [];
+  public producto: IProducto[] = [];
 
   constructor(
     private productoService: ProductoService,
@@ -57,9 +85,9 @@ export class ProductoDashboardComponent {
     this.productoService.getProductoCRUD(this.searchValue).subscribe({
       next: (res: any) => {
         res.dataset.length
-          ? (this.estadoCivil = res.dataset as IProducto[])
-          : (this.estadoCivil = [res.dataset]);
-        this.dataSource = new MatTableDataSource<IProducto>(this.estadoCivil);
+          ? (this.producto = res.dataset as IProducto[])
+          : (this.producto = [res.dataset]);
+        this.dataSource = new MatTableDataSource<IProducto>(this.producto);
         this.dataSource.sort = this.sort;
         setTimeout(() => {
           this.dataSource.paginator = this.paginator;
@@ -78,12 +106,13 @@ export class ProductoDashboardComponent {
         err.status == 0
           ? this.utils.notification('Error de conexión.', 'error')
           : this.utils.notification(
-              `Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`,
+              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
               'error'
             );
       },
       complete: () => {
         this.utils.closeLoading();
+        console.log(this.producto);
       },
     });
   }
@@ -122,9 +151,9 @@ export class ProductoDashboardComponent {
             error: (err) => {
               this.utils.closeLoading();
               err.status == 0
-                ? this.utils.notification('Error de conexion', 'error')
+                ? this.utils.notification('Error de conexión.', 'error')
                 : this.utils.notification(
-                    `Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`,
+                    `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
                     'error'
                   );
               this.editProducto(res);
@@ -147,6 +176,7 @@ export class ProductoDashboardComponent {
         title: `VER PRODUCTO`,
         edit: false,
         par_modo: 'C',
+        codigo_producto: producto.codigo_producto,
       },
     });
   }
@@ -154,5 +184,24 @@ export class ProductoDashboardComponent {
   public filter(descripcion: string): void {
     this.searchValue = descripcion;
     this.getProducto();
+  }
+
+  getClase(clase: string): string {
+    switch (clase) {
+      case 'S ':
+        return 'SALUD';
+      case 'L ':
+        return 'CUOTA SOCIAL';
+      case 'B ':
+        return 'SUBSIDIO';
+      case 'G ':
+        return 'SUBSIDIO QUIRURGICO';
+      case 'O ':
+        return 'SOS (EMERGENCIA)';
+      case 'V ':
+        return 'VIDA';
+      default:
+        return 'S/D';
+    }
   }
 }

@@ -23,7 +23,7 @@ export class ProductoService {
 
   getProductoCRUD(body: string): Observable<IProductoResponse> {
     return this.http.post<IProductoResponse>(
-      `${this.environmentService.api}/abmproducto`, // ! Verificar
+      `${this.environmentService.api}/abmproductos`,
       body,
       httpOptions
     );

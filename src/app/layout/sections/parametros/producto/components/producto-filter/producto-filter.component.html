@@ -8,7 +8,18 @@
       <form>
         <div class="seeker-fields-container">
           <mat-form-field class="seeker-form-field">
-            <mat-label class="seeker-label" for="descripcion">Ingrese el nombre del Producto</mat-label>
+            <mat-label class="seeker-label" for="numero_empresa_factura">
+              Seleccione una Empresa
+            </mat-label>
+            <mat-select #selectOptions>
+              <mat-option *ngFor="let empresa of empresas" [value]="empresa.descripcion">{{ empresa.descripcion }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="seeker-fields-container">
+          <mat-form-field class="seeker-form-field">
+            <mat-label class="seeker-label" for="descripcion_producto">Ingrese el Producto</mat-label>
             <input matInput class="seeker-input" (keydown.enter)="search($event , input.value)" #input />
           </mat-form-field>
         </div>
@@ -18,8 +29,7 @@
             <mat-icon>done</mat-icon>
             Buscar
           </button>
-          <button class="primary-button icon-button" type="button" (click)="clear(input)"
-            [disabled]="input.value.length === 0">
+          <button class="primary-button icon-button" type="button" (click)="clear(input)" [disabled]="input.value.length === 0" [disabled]="!selectOptions?.value">
             <mat-icon>close</mat-icon>
             Limpiar
           </button>

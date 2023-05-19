@@ -43,6 +43,15 @@ export class ProductoComponent {
           title: `CREAR PRODUCTO`,
           edit: true,
           par_modo: 'I',
+          codigo_producto: producto?.codigo_producto,
+          descripcion_producto: producto?.descripcion_producto,
+          descripcion_reducida: producto?.descripcion_reducida,
+          tipo_producto: producto?.tipo_producto,
+          administrado: producto?.administrado,
+          clase_producto: producto?.clase_producto,
+          codigo_fuente_ingreso: producto?.codigo_fuente_ingreso,
+          empresa: producto?.empresa,
+          obra_social: producto?.obra_social,
         },
       }
     );
@@ -63,7 +72,7 @@ export class ProductoComponent {
               err.status == 0
                 ? this.utils.notification('Error de conexión.', 'error')
                 : this.utils.notification(
-                    `Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`,
+                    `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
                     'error'
                   );
               this.nuevoProducto(res);
@@ -74,6 +83,7 @@ export class ProductoComponent {
                 this.handleSearch(
                   JSON.stringify({
                     par_modo: 'C',
+                    descripcion: '',
                   })
                 );
               }, 300);

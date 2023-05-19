@@ -1,0 +1,155 @@
+/*
+ * Evita un espaciado innecesario en la primer columna.
+*/
+th.mat-header-cell:first-of-type,
+td.mat-cell:first-of-type {
+    padding-left: 0px !important;
+}
+
+/*
+ * Espacio mínimo a ambos lados de todas las columnas.
+*/
+.mat-column-codigo_producto.mat-header-cell,
+.mat-column-codigo_producto.mat-cell,
+.mat-column-descripcion_producto.mat-header-cell,
+.mat-column-descripcion_producto.mat-cell,
+.mat-column-tipo_producto.mat-header-cell,
+.mat-column-tipo_producto.mat-cell,
+.mat-column-clase_producto.mat-header-cell,
+.mat-column-clase_producto.mat-cell,
+.mat-column-estado.mat-header-cell,
+.mat-column-estado.mat-cell {
+    padding-left: 0.5vw !important;
+    padding-right: 0.5vw !important;
+}
+
+/*
+ * Texto alineado a la izquierda.
+ * Producto (descripcion_producto).
+ * Tipo (tipo_producto).
+ * Clase (clase_producto).
+ * Estado (estado).                 // ! Verificar.
+*/
+.mat-column-descripcion_producto.mat-header-cell,
+.mat-column-descripcion_producto.mat-cell,
+.mat-column-tipo_producto.mat-header-cell,
+.mat-column-tipo_producto.mat-cell,
+.mat-column-clase_producto.mat-header-cell,
+.mat-column-clase_producto.mat-cell,
+.mat-column-estado.mat-header-cell,
+.mat-column-estado.mat-cell {
+    text-align: left !important;
+    padding-left: 1vw !important;
+}
+
+/*
+ * Número y fecha alineado a la derecha.
+ * Código (codigo_producto).
+*/
+.mat-column-codigo_producto.mat-header-cell,
+.mat-column-codigo_producto.mat-cell {
+    text-align: right !important;
+    padding-right: 1vw !important;
+}
+
+/*
+ * Iconos alineados al centro.
+ * Acciones (actions).
+*/
+.mat-column-actions.mat-header-cell,
+.mat-column-actions.mat-cell {
+    width: 15% !important;
+    text-align: center !important;
+}
+
+/*
+ * Ancho máximo por columna individual de todas las columnas menos las 'Acciones' (actions).
+*/
+.mat-column-codigo_producto.mat-header-cell,
+.mat-column-codigo_producto.mat-cell,
+.mat-column-tipo_producto.mat-header-cell,
+.mat-column-tipo_producto.mat-cell,
+.mat-column-estado.mat-header-cell,
+.mat-column-estado.mat-cell {
+    width: 10% !important;
+}
+
+.mat-column-descripcion_producto.mat-header-cell,
+.mat-column-descripcion_producto.mat-cell {
+    width: 35% !important;
+}
+
+.mat-column-clase_producto.mat-header-cell,
+.mat-column-clase_producto.mat-cell {
+    width: 20% !important;
+}
+
+/*
+ * Estilo de expandible.
+*/
+.detailExpand {
+    // border: #000 solid 2px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    font-size: 14px;
+}
+
+.detailExpand-container,
+.detailExpand-list {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    justify-content: center;
+    align-items: center;
+    height: 48px;
+    gap: 1vw;
+    padding: 0rem 5vw;
+    border-width: 0rem 0.1rem 0.1rem 0.1rem;
+    border-style: solid;
+    border-color: #000;
+}
+
+.detailExpand-container {
+    font-weight: 500;
+    font-size: 1rem !important;
+}
+
+.detailExpand-item__num {
+    text-align: right !important;
+    padding-left: 1vw !important;
+}
+
+.detailExpand-item__text {
+    text-align: left !important;
+    padding-right: 1vw !important;
+}
+
+.mat-column-expandedDetail.mat-cell {
+}
+
+/*
+ * Estilos propios de Material.
+*/
+tr.detailExpand-row {
+    height: 0;
+}
+
+tr.detailExpand-element:not(.detailExpanded-row):hover {
+    background: whitesmoke;
+}
+
+tr.detailExpand-element:not(.detailExpanded-row):active {
+    background: #efefef;
+}
+
+.detailExpand-element td {
+    border-bottom-width: 0;
+}
+
+.detailExpand {
+    overflow: hidden;
+    display: flex;
+}
