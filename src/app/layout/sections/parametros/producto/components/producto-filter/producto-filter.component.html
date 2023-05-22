@@ -12,7 +12,7 @@
               Seleccione una Empresa
             </mat-label>
             <mat-select #selectOptions>
-              <mat-option *ngFor="let empresa of empresas" [value]="empresa.descripcion">{{ empresa.descripcion }}</mat-option>
+              <mat-option *ngFor="let empresa of empresas" [value]="empresa.descripcion" class="hover-option">{{ empresa.descripcion }}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>

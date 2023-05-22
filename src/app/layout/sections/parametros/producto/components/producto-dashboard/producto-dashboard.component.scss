@@ -85,16 +85,18 @@ td.mat-cell:first-of-type {
 }
 
 /*
- * Estilo de expandible.
+ * Estilo del panel expandible.
 */
 .detailExpand {
-    // border: #000 solid 2px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     font-family: Roboto, "Helvetica Neue", sans-serif;
     font-size: 14px;
+    overflow: hidden;
+    display: flex;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
 }
 
 .detailExpand-container,
@@ -107,30 +109,41 @@ td.mat-cell:first-of-type {
     height: 48px;
     gap: 1vw;
     padding: 0rem 5vw;
-    border-width: 0rem 0.1rem 0.1rem 0.1rem;
-    border-style: solid;
-    border-color: #000;
 }
 
 .detailExpand-container {
     font-weight: 500;
-    font-size: 1rem !important;
+    font-size: 0.95rem !important;
 }
 
-.detailExpand-item__num {
+.num {
     text-align: right !important;
-    padding-left: 1vw !important;
-}
-
-.detailExpand-item__text {
-    text-align: left !important;
     padding-right: 1vw !important;
 }
 
-.mat-column-expandedDetail.mat-cell {
+.text {
+    text-align: left !important;
+    padding-left: 1vw !important;
 }
 
-/*
+// Modifica el color de fondo de la fila seleccionada.
+.detailExpanded-row {
+    background-color: #bbbbbb;
+    // background-color: rgba(187, 187, 187, 0.8);
+}
+
+// Anima el cambio de color de fondo de la fila seleccionada.
+.detailExpand-element {
+    transition: background-color 0.2s all;
+}
+
+// Cambia el color de fondo y el icono del mouse al pasar el mouse por encima.
+.hover-row:hover {
+    background-color: #dddddd !important;
+    cursor: pointer;
+  }
+  
+  /*
  * Estilos propios de Material.
 */
 tr.detailExpand-row {
@@ -147,9 +160,4 @@ tr.detailExpand-element:not(.detailExpanded-row):active {
 
 .detailExpand-element td {
     border-bottom-width: 0;
-}
-
-.detailExpand {
-    overflow: hidden;
-    display: flex;
 }
