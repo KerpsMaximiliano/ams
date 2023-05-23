@@ -1,6 +1,12 @@
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 
 // * Services
 import { UtilService } from 'src/app/core/services/util.service';
@@ -24,9 +30,12 @@ import { AddEditProductoDialogComponent } from '../add-edit-producto-dialog/add-
   styleUrls: ['./producto-dashboard.component.scss'],
   animations: [
     trigger('detailExpand', [
-      state('collapsed', style({height: '0px', minHeight: '0'})),
-      state('expanded', style({height: '*'})),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+      state('collapsed', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
+      transition(
+        'expanded <=> collapsed',
+        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
+      ),
     ]),
   ],
 })
@@ -36,32 +45,15 @@ export class ProductoDashboardComponent {
     new MatPaginator(new MatPaginatorIntl(), this.cdr);
   @ViewChild(MatTable) table!: MatTable<any>;
 
-  // public displayedColumns: string[] = [
-  //   'codigo_producto',
-  //   'descripcion_producto',
-  //   'tipo_producto',
-  //   'clase_producto',
-  //   'estado', // ! VERIFICAR.
-  //   'actions',
-  //   // 'descripcion_reducida',
-  //   // 'administrado_por',               // ! VERIFICAR.
-  //   // 'fuente_de_ingreso',              // ! VERIFICAR.
-  //   // 'empresa_que_factura',            // ! VERIFICAR.
-  //   // 'obra_social',                    // ! VERIFICAR.
-  // ];
-
   columnsToDisplay = [
     'codigo_producto',
     'descripcion_producto',
     'tipo_producto',
     'clase_producto',
     'estado', // ! VERIFICAR.
-  ]
-
+  ];
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'actions'];
-  
   expandedElement: any | null;
-
   public dataSource: MatTableDataSource<IProducto>;
 
   public searchValue: string = '';
@@ -73,11 +65,10 @@ export class ProductoDashboardComponent {
     private utils: UtilService,
     private _liveAnnouncer: LiveAnnouncer,
     private cdr: ChangeDetectorRef,
-    private dialog: MatDialog
-  ) {}
+    private dialog: MatDialog  ) {}
 
   ngOnInit(): void {
-    this.paginator._intl.itemsPerPageLabel = 'Elementos por página';
+    this.paginator._intl.itemsPerPageLabel = 'Elementos por página: ';
   }
 
   private getProducto(): void {
@@ -87,16 +78,26 @@ export class ProductoDashboardComponent {
         res.dataset.length
           ? (this.producto = res.dataset as IProducto[])
           : (this.producto = [res.dataset]);
+
         this.dataSource = new MatTableDataSource<IProducto>(this.producto);
         this.dataSource.sort = this.sort;
+
         setTimeout(() => {
           this.dataSource.paginator = this.paginator;
+
+          // Permite calcular la cantidad total de páginas.
+          const totalPages = Math.ceil(
+            this.producto.length / this.paginator.pageSize
+          );
+
+          this.paginator.length = totalPages;
+
           this.paginator._intl.getRangeLabel = (): string => {
             return (
               'Página ' +
               (this.paginator.pageIndex + 1) +
               ' de ' +
-              this.paginator.length
+              totalPages
             );
           };
         }, 100);
@@ -133,6 +134,15 @@ export class ProductoDashboardComponent {
           title: `EDITAR PRODUCTO`,
           edit: true,
           par_modo: 'U',
+          codigo_producto: producto.codigo_producto,
+          descripcion_producto: producto.descripcion_producto,
+          descripcion_reducida: producto.descripcion_reducida,
+          tipo_producto: producto.tipo_producto,
+          administrado: producto.administrado,
+          clase_producto: producto.clase_producto,
+          codigo_fuente_ingreso: producto.codigo_fuente_ingreso,
+          empresa: producto.empresa,
+          obra_social: producto.obra_social,
         },
       }
     );
@@ -177,6 +187,14 @@ export class ProductoDashboardComponent {
         edit: false,
         par_modo: 'C',
         codigo_producto: producto.codigo_producto,
+        descripcion_producto: producto.descripcion_producto,
+        descripcion_reducida: producto.descripcion_reducida,
+        tipo_producto: producto.tipo_producto,
+        administrado: producto.administrado,
+        clase_producto: producto.clase_producto,
+        codigo_fuente_ingreso: producto.codigo_fuente_ingreso,
+        empresa: producto.empresa,
+        obra_social: producto.obra_social,
       },
     });
   }

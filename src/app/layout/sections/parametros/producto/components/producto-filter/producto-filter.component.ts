@@ -18,6 +18,8 @@ export class ProductoFilterComponent implements OnInit {
 
   ngOnInit(): void {
     this.getEmpresas();
+    
+    
   }
 
   public getEmpresas(): void{

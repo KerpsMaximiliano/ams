@@ -1,27 +1,135 @@
 <div class="dialog-title">
-  <h2>{{ data.title | uppercase }}</h2>
+  <h2 tabindex="0">{{ data.title | uppercase }}</h2>
 </div>
 
 <div class="dialog-content">
   <form class="form-datos" [formGroup]="formGroup" (ngSubmit)="confirm()">
     <div class="seeker-fields-container">
-      <h3>CÓDIGO ESTADO CIVIL</h3>
+      <h3>CÓDIGO PRODUCTO</h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="codigo_estado_civil" required minlength="1" maxlength="1"
-          [readonly]="!data.edit">
-        <mat-error *ngIf="formGroup.get('codigo_estado_civil')?.invalid
-                && formGroup.get('codigo_estado_civil')?.touched">
-          {{getErrorMessage(formGroup.get('codigo_estado_civil'))}}
+        <input matInput formControlName="codigo_producto" />
+        <mat-error *ngIf="
+            formGroup.get('codigo_producto')?.invalid &&
+            formGroup.get('codigo_producto')?.touched
+          ">
+          {{ getErrorMessage(formGroup.get("codigo_producto")) }}
         </mat-error>
       </mat-form-field>
     </div>
 
     <div class="seeker-fields-container">
-      <h3>ESTADO CIVIL</h3>
+      <h3>PRODUCTO</h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="description" required maxlength="20" [readonly]="!data.edit">
-        <mat-error
-          *ngIf="formGroup.get('description')?.invalid && formGroup.get('description')?.touched">{{getErrorMessage(formGroup.get('description'))}}</mat-error>
+        <input matInput formControlName="descripcion_producto" />
+        <mat-error *ngIf="
+            formGroup.get('descripcion_producto')?.invalid &&
+            formGroup.get('descripcion_producto')?.touched
+          ">{{
+          getErrorMessage(formGroup.get("descripcion_producto"))
+          }}</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3>ABREVIATURA</h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <input matInput formControlName="descripcion_reducida" />
+        <mat-error *ngIf="
+            formGroup.get('descripcion_reducida')?.invalid &&
+            formGroup.get('descripcion_reducida')?.touched
+          ">{{
+          getErrorMessage(formGroup.get("descripcion_reducida"))
+          }}</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3>TIPO</h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <input matInput formControlName="tipo_producto" />
+        <mat-error *ngIf="
+            formGroup.get('tipo_producto')?.invalid &&
+            formGroup.get('tipo_producto')?.touched
+          ">{{ getErrorMessage(formGroup.get("tipo_producto")) }}</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3>ADMINISTRADO POR</h3>
+      <div class="content">
+        <mat-form-field class="seeker-form-field" appearance="outline">
+          <input matInput formControlName="administrado" />
+          <mat-error *ngIf="
+        formGroup.get('administrado')?.invalid &&
+        formGroup.get('administrado')?.touched
+        ">{{ getErrorMessage(formGroup.get("administrado")) }}</mat-error>
+        </mat-form-field>
+        <div class="icon"><mat-icon class="material-symbols-outlined">search</mat-icon></div>
+        <div class="icon"><mat-icon class="material-symbols-outlined">close</mat-icon></div>
+      </div>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3>CLASE</h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <input matInput formControlName="clase_producto" />
+        <mat-error *ngIf="
+            formGroup.get('clase_producto')?.invalid &&
+            formGroup.get('clase_producto')?.touched
+          ">{{ getErrorMessage(formGroup.get("clase_producto")) }}</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3>FUENTE DE INGRESO</h3>
+      <div class="content">
+        <mat-form-field class="seeker-form-field" appearance="outline">
+          <input matInput formControlName="codigo_fuente_ingreso" />
+          <mat-error *ngIf="
+            formGroup.get('codigo_fuente_ingreso')?.invalid &&
+            formGroup.get('codigo_fuente_ingreso')?.touched
+          ">{{
+            getErrorMessage(formGroup.get("codigo_fuente_ingreso"))
+            }}</mat-error>
+        </mat-form-field>
+        <div class="icon"><mat-icon class="material-symbols-outlined">search</mat-icon></div>
+        <div class="icon"><mat-icon class="material-symbols-outlined">close</mat-icon></div>
+      </div>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3>EMPRESA QUE FACTURA</h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <input matInput formControlName="empresa" />
+        <mat-error *ngIf="
+            formGroup.get('empresa')?.invalid &&
+            formGroup.get('empresa')?.touched
+          ">{{ getErrorMessage(formGroup.get("empresa")) }}</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3>OBRA SOCIAL</h3>
+      <div class="content">
+        <mat-form-field class="seeker-form-field" appearance="outline">
+          <input matInput formControlName="obra_social" />
+          <mat-error *ngIf="
+            formGroup.get('obra_social')?.invalid &&
+            formGroup.get('obra_social')?.touched
+          ">{{ getErrorMessage(formGroup.get("obra_social")) }}</mat-error>
+        </mat-form-field>
+        <div class="icon"><mat-icon class="material-symbols-outlined">search</mat-icon></div>
+        <div class="icon"><mat-icon class="material-symbols-outlined">close</mat-icon></div>
+      </div>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3>ESTADO</h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <input matInput formControlName="estado" />
+        <mat-error *ngIf="
+            formGroup.get('estado')?.invalid && formGroup.get('estado')?.touched
+          ">{{ getErrorMessage(formGroup.get("estado")) }}</mat-error>
       </mat-form-field>
     </div>
 
@@ -34,6 +142,31 @@
         <mat-icon>done</mat-icon>
         Guardar
       </button>
+      <button class="primary-button icon-button" type="submit" [disabled]="formGroup.invalid">
+        <mat-icon>done</mat-icon>
+        Conceptos
+      </button>
+      <button class="primary-button icon-button" type="submit" [disabled]="formGroup.invalid">
+        <mat-icon>done</mat-icon>
+        <!-- Baja/Reactivación -->
+        Baja
+      </button>
+      <button class="primary-button icon-button" type="submit" [disabled]="formGroup.invalid">
+        <mat-icon>done</mat-icon>
+        Parentescos
+      </button>
+      <button class="primary-button icon-button" type="submit" [disabled]="formGroup.invalid">
+        <mat-icon>done</mat-icon>
+        Duplicar
+      </button>
+      <button class="primary-button icon-button" type="submit" [disabled]="formGroup.invalid">
+        <mat-icon>done</mat-icon>
+        Unifica aportes
+      </button>
+      <button class="primary-button icon-button" type="submit" [disabled]="formGroup.invalid">
+        <mat-icon>done</mat-icon>
+        Otras Capitas
+      </button>
     </div>
 
     <ng-template #other_content>
@@ -43,5 +176,4 @@
       </button>
     </ng-template>
   </form>
-
 </div>
