@@ -18,11 +18,11 @@ export class TipoDocumentoService {
 
   getDocumentByDesc(body:string): Observable<TipoDocumentoResponse> {
     console.log(body);
-    return this.http.post<TipoDocumentoResponse>(`${this.environmentService.api}/tiposdedocumentos`, body, httpOptions);
+    return this.http.post<TipoDocumentoResponse>(`${this.environmentService.api}/abmtipodocumento`, body, httpOptions);
   }
 
   getDocumentById(body:string): Observable<TipoDocumentoResponse> {
-    return this.http.post<TipoDocumentoResponse>(`${this.environmentService.api}/tipodedocumento`, body, httpOptions);
+    return this.http.post<TipoDocumentoResponse>(`${this.environmentService.api}/abmtipodocumento`, body, httpOptions);
   }
   
   addDocument(data:TipoDocumento): Observable<TipoDocumento>{

@@ -18,7 +18,7 @@ export class NacionalidadService {
   getParamByDesc(body:string): Observable<Nacionalidad[]> {  
     console.log(body);
       
-    return this.http.post<Nacionalidad[]>(`${this.environmentService.api}/nacionalidades`, body, httpOptions)
+    return this.http.post<Nacionalidad[]>(`${this.environmentService.api}/abmnacionalidades`, body, httpOptions)
   }
 
   public deleteEstado(id:number) {

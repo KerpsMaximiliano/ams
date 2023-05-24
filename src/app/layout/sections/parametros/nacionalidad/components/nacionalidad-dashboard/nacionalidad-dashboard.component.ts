@@ -57,6 +57,7 @@ export class NacionalidadDashboardComponent {
   private getNacionalidad(): void {
     this.utils.openLoading();
     let aux = {
+      par_modo: 'C',
       descripcion: this.searchEvent,
       id: this.searchId,
     };

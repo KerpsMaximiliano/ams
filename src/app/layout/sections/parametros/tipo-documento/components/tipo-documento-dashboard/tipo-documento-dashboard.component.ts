@@ -51,6 +51,7 @@ export class TipoDocumentoDashboardComponent {
   private getTipoDocumento(): void {
     this.utils.openLoading();
     let aux = {
+      par_modo: 'C',
       descripcion: this.searchEvent,
       id: this.searchId,
     };
