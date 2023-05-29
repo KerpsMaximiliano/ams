@@ -57,17 +57,7 @@ export class EstadoCivilDashboardComponent {
           : this.estadoCivil = [res.dataset];
         this.dataSource = new MatTableDataSource<EstadoCivil>(this.estadoCivil);
         this.dataSource.sort = this.sort;
-        setTimeout(() => {
-          this.dataSource.paginator = this.paginator;
-          this.paginator._intl.getRangeLabel = (): string => {
-            return (
-              'Página ' +
-              (this.paginator.pageIndex + 1) +
-              ' de ' +
-              this.paginator.length
-            );
-          };
-        }, 100);
+        this.changePaginator();
       },
       error: (err: any) => {
         this.utils.closeLoading();
@@ -82,6 +72,26 @@ export class EstadoCivilDashboardComponent {
         this.utils.closeLoading();
       },
     });
+  }
+
+  public changePaginator(): any{
+    setTimeout(() => {
+      this.dataSource.paginator = this.paginator;
+      // Permite calcular la cantidad total de páginas.
+      const totalPages = Math.ceil(
+        this.estadoCivil.length / this.paginator.pageSize
+      );
+
+      this.paginator.length = totalPages;
+
+      this.paginator._intl.getRangeLabel = (): string => {
+        return (
+          'Página ' +
+          (this.paginator.pageIndex + 1) +
+          ' de ' +
+          totalPages
+        );
+    }, 100});
   }
 
   public announceSortChange(sortState: Sort): void {

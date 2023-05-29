@@ -30,7 +30,7 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
 
-  <mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons
+  <mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons [pageSize]="changePaginator()"
     aria-label="controles de página de la tabla de estados">
   </mat-paginator>
 </section>
