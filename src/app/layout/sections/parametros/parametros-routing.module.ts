@@ -10,6 +10,8 @@ import { TipoDocumentoComponent } from './tipo-documento/tipo-documento.componen
 import { NacionalidadComponent } from './nacionalidad/nacionalidad.component';
 // 04 - DEPARTAMENTO
 import { DepartamentoComponent } from './departamento/departamento.component';
+// 07 - FORMAS DE PAGO
+import { FormasPagoComponent } from "./formas-pago/formas-pago.component";
 // 08 - CONDICIONES DE IVA
 import { CondicionIvaComponent } from './condicion-iva/condicion-iva.component';
 // 09 - ESTADO CIVIL
@@ -37,8 +39,12 @@ const routes: Routes = [
     component: DepartamentoComponent,
   },
   {
-    path: 'parametros/condiciones-iva',
-    component: CondicionIvaComponent,
+    path: 'parametros/formas-pago',
+    component: FormasPagoComponent,
+  },
+  {
+    path: 'parametros/condicion-iva',
+    component: CondicionIvaComponent
   },
   {
     path: 'parametros/estados-civiles',
