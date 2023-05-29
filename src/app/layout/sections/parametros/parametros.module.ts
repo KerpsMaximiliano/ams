@@ -39,6 +39,11 @@ import { AddEditObraSocialDialogComponent } from './obra-social/components/add-e
 import { ObraSocialComponent } from './obra-social/obra-social.component';
 import { ObraSocialDashboardComponent } from './obra-social/components/obra-social-dashboard/obra-social-dashboard.component';
 import { ObraSocialFilterComponent } from './obra-social/components/obra-social-filter/obra-social-filter.component';
+// 13 - PREGUNTAS DDJJ
+import { AddEditPreguntasDDJJDialogComponent } from './preguntas-ddjj/components/add-edit-preguntas-ddjj-dialog/add-edit-preguntas-ddjj-dialog.component';
+import { PreguntasDDJJComponent } from "./preguntas-ddjj/preguntas-ddjj.component";
+import { PreguntasDDJJDashboardComponent } from './preguntas-ddjj/components/preguntas-ddjj-dashboard/preguntas-ddjj-dashboard.component';
+import { PreguntasDDJJFilterComponent } from './preguntas-ddjj/components/preguntas-ddjj-filter/preguntas-ddjj-filter.component';
 
 @NgModule({
   declarations: [
@@ -83,6 +88,12 @@ import { ObraSocialFilterComponent } from './obra-social/components/obra-social-
     ObraSocialDashboardComponent,
     ObraSocialFilterComponent,
     ObraSocialComponent,
+
+    // 13 - PREGUNTAS DDJJ
+    AddEditPreguntasDDJJDialogComponent,
+    PreguntasDDJJComponent,
+    PreguntasDDJJDashboardComponent,
+    PreguntasDDJJFilterComponent,
   ],
   imports: [
     CommonModule,

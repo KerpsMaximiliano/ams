@@ -55,6 +55,13 @@ export function notZeroValidator(): ValidatorFn {
   };
 }
 
+export function notOnlySpacesValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    let regex = /^[\S]+$/;
+    return regex.test(control.value) ? null : { onlySpaces: true };
+  };
+}
+
 export function isAlpha(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     let regex = /^[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ\s]*$/;

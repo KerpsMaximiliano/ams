@@ -21,39 +21,44 @@ export class NavMenuComponent {
       title: 'Parametros',
       expanded: true,
       children: [
-        {
-          title: 'PROVINCIAS',
-          url: '/parametros/provincias',
+        { // 01 - PROVINCIA
+          title: 'Provincias',
+          url: '/parametros/provincia',
           icon: 'keyboard_arrow_right',
         },
-        {
-          title: 'TIPOS DE DOCUMENTO',
-          url: '/parametros/tipos-documento',
+        { // 02 - TIPO DE DOCUMENTO
+          title: 'Tipos de Documento',
+          url: '/parametros/tipo-documento',
           icon: 'keyboard_arrow_right',
         },
-        {
-          title: 'NACIONALIDADES',
-          url: '/parametros/nacionalidades',
+        { // 03 - NACIONALIDAD
+          title: 'Nacionalidades',
+          url: '/parametros/nacionalidad',
           icon: 'keyboard_arrow_right',
         },
-        {
-          title: 'DEPARTAMENTOS',
-          url: '/parametros/departamentos',
+        { // 04 - DEPARTAMENTO
+          title: 'Departamento',
+          url: '/parametros/abm-departamento',
           icon: 'keyboard_arrow_right',
         },
-        {
-          title: 'CONDICIONES DE IVA',
-          url: '/parametros/condiciones-iva',
+        { // 08 - CONDICIONES DE IVA
+          title: 'Condiciones de IVA',
+          url: '/parametros/condicion-iva',
           icon: 'keyboard_arrow_right',
         },
-        {
-          title: 'ESTADOS CIVILES',
-          url: '/parametros/estados-civiles',
+        { // 09 - ESTADO CIVIL
+          title: 'Estado Civil',
+          url: '/parametros/estado-civil',
           icon: 'keyboard_arrow_right',
         },
-        {
-          title: 'OBRAS SOCIALES',
-          url: '/parametros/obras-sociales',
+        { // 12 - OBRA SOCIAL
+          title: 'Obras Sociales',
+          url: '/parametros/obra-social',
+          icon: 'keyboard_arrow_right',
+        },
+        { // 13 - PREGUNTAS DDJJ
+          title: 'Preguntas DDJJ',
+          url: '/parametros/preguntas-ddjj',
           icon: 'keyboard_arrow_right',
         },
       ],
