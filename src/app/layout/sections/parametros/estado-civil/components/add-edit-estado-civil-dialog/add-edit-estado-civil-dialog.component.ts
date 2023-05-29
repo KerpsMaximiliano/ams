@@ -39,7 +39,7 @@ export class AddEditEstadoCivilDialogComponent {
       codigo_estado_civil: new UntypedFormControl(
         {
           value: this.data.codigo_estado_civil,
-          disabled: this.data.par_modo == 'U',
+          disabled: this.data.par_modo === 'U',
         },
         Validators.compose([
           Validators.required,
