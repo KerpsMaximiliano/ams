@@ -41,6 +41,11 @@ export class NavMenuComponent {
           url: '/parametros/abm-departamento',
           icon: 'keyboard_arrow_right',
         },
+        {
+          title: 'Posicion',
+          url: '/parametros/posiciones',
+          icon: 'keyboard_arrow_right',
+        },
         { // 08 - CONDICIONES DE IVA
           title: 'Condiciones de IVA',
           url: '/parametros/condicion-iva',

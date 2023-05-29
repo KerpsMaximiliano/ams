@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../../../shared/shared.module';
 import { ParametrosRoutingModule } from './parametros-routing.module';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+
 
 // * Components
 // 01 - PROVINCIAS
@@ -15,6 +17,7 @@ import { TipoDocumentoComponent } from './tipo-documento/tipo-documento.componen
 import { TipoDocumentoDashboardComponent } from './tipo-documento/components/tipo-documento-dashboard/tipo-documento-dashboard.component';
 import { TipoDocumentoFilterComponent } from './tipo-documento/components/tipo-documento-filter/tipo-documento-filter.component';
 // 03 - NACIONALIDAD
+
 import { EditNacionalidadDialogComponent } from './nacionalidad/components/edit-nacionalidad-dialog/edit-nacionalidad-dialog.component';
 import { NacionalidadComponent } from './nacionalidad/nacionalidad.component';
 import { NacionalidadDashboardComponent } from './nacionalidad/components/nacionalidad-dashboard/nacionalidad-dashboard.component';
@@ -24,6 +27,11 @@ import { AddEditDepartamentoDialogComponent } from './departamento/components/ad
 import { DepartamentoComponent } from './departamento/departamento.component';
 import { DepartamentoDashboardComponent } from './departamento/components/departamento-dashboard/departamento-dashboard.component';
 import { DepartamentoFilterComponent } from './departamento/components/departamento-filter/departamento-filter.component';
+// 05 - POSICIONES
+import { AbmPosicionesComponent } from './abm-posiciones/abm-posiciones.component';
+import { AddEditAbmPosicionesComponent } from './abm-posiciones/add-edit-abm-posiciones/add-edit-abm-posiciones.component';
+import { AbmPosicionesFilterComponent } from './abm-posiciones/abm-posiciones-filter/abm-posiciones-filter.component';
+import { AbmPosicionesDashboardComponent } from './abm-posiciones/abm-posiciones-dashboard/abm-posiciones-dashboard.component';
 // 08 - CONDICIONES DE IVA
 import { AddEditCondicionIvaDialogComponent } from './condicion-iva/components/add-edit-condicion-iva-dialog/add-edit-condicion-iva-dialog.component';
 import { CondicionIvaComponent } from './condicion-iva/condicion-iva.component';
@@ -44,6 +52,7 @@ import { AddEditPreguntasDDJJDialogComponent } from './preguntas-ddjj/components
 import { PreguntasDDJJComponent } from "./preguntas-ddjj/preguntas-ddjj.component";
 import { PreguntasDDJJDashboardComponent } from './preguntas-ddjj/components/preguntas-ddjj-dashboard/preguntas-ddjj-dashboard.component';
 import { PreguntasDDJJFilterComponent } from './preguntas-ddjj/components/preguntas-ddjj-filter/preguntas-ddjj-filter.component';
+import { ModalLocalidadComponent } from './abm-posiciones/add-edit-abm-posiciones/modal-localidad/modal-localidad.component';
 
 @NgModule({
   declarations: [
@@ -64,12 +73,21 @@ import { PreguntasDDJJFilterComponent } from './preguntas-ddjj/components/pregun
     NacionalidadComponent,
     NacionalidadDashboardComponent,
     NacionalidadFilterComponent,
+
+    ModalLocalidadComponent,
+
     
     // 04 - DEPARTAMENTO
     AddEditDepartamentoDialogComponent,
     DepartamentoComponent,
     DepartamentoDashboardComponent,
     DepartamentoFilterComponent,
+
+    // 05 - POSICIONES
+    AbmPosicionesComponent,
+    AddEditAbmPosicionesComponent,
+    AbmPosicionesFilterComponent,
+    AbmPosicionesDashboardComponent,
 
     // 08 - CONDICIONES DE IVA
     AddEditCondicionIvaDialogComponent,
@@ -98,7 +116,8 @@ import { PreguntasDDJJFilterComponent } from './preguntas-ddjj/components/pregun
   imports: [
     CommonModule,
     ParametrosRoutingModule,
-    SharedModule
+    SharedModule,
+    MatAutocompleteModule
   ]
 })
 export class ParametrosModule { }

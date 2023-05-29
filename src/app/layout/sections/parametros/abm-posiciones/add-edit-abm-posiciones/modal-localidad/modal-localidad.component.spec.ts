@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DepartamentoComponent } from './departamento.component';
+import { ModalLocalidadComponent } from './modal-localidad.component';
 
-describe('DepartamentoComponent', () => {
-  let component: DepartamentoComponent;
-  let fixture: ComponentFixture<DepartamentoComponent>;
+describe('ModalLocalidadComponent', () => {
+  let component: ModalLocalidadComponent;
+  let fixture: ComponentFixture<ModalLocalidadComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DepartamentoComponent ]
+      declarations: [ ModalLocalidadComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(DepartamentoComponent);
+    fixture = TestBed.createComponent(ModalLocalidadComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
