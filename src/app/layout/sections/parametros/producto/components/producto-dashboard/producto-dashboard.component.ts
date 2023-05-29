@@ -65,7 +65,8 @@ export class ProductoDashboardComponent {
     private utils: UtilService,
     private _liveAnnouncer: LiveAnnouncer,
     private cdr: ChangeDetectorRef,
-    private dialog: MatDialog  ) {}
+    private dialog: MatDialog
+  ) { }
 
   ngOnInit(): void {
     this.paginator._intl.itemsPerPageLabel = 'Elementos por página: ';
@@ -94,10 +95,7 @@ export class ProductoDashboardComponent {
 
           this.paginator._intl.getRangeLabel = (): string => {
             return (
-              'Página ' +
-              (this.paginator.pageIndex + 1) +
-              ' de ' +
-              totalPages
+              'Página ' + (this.paginator.pageIndex + 1) + ' de ' + totalPages
             );
           };
         }, 100);
@@ -107,9 +105,9 @@ export class ProductoDashboardComponent {
         err.status == 0
           ? this.utils.notification('Error de conexión.', 'error')
           : this.utils.notification(
-              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
-              'error'
-            );
+            `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+            'error'
+          );
       },
       complete: () => {
         this.utils.closeLoading();
@@ -163,9 +161,9 @@ export class ProductoDashboardComponent {
               err.status == 0
                 ? this.utils.notification('Error de conexión.', 'error')
                 : this.utils.notification(
-                    `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
-                    'error'
-                  );
+                  `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+                  'error'
+                );
               this.editProducto(res);
             },
             complete: () => {
