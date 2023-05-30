@@ -23,23 +23,23 @@ import { PreguntasDDJJComponent } from './preguntas-ddjj/preguntas-ddjj.componen
 
 const routes: Routes = [
   {
-    path: 'parametros/provincias',
+    path: 'parametros/provincia',
     component: ProvinciaComponent,
   },
   {
-    path: 'parametros/tipos-documento',
+    path: 'parametros/tipo-documento',
     component: TipoDocumentoComponent,
   },
   {
-    path: 'parametros/nacionalidades',
+    path: 'parametros/nacionalidad',
     component: NacionalidadComponent
   },
   {
-    path: 'parametros/departamentos',
+    path: 'parametros/departamento',
     component: DepartamentoComponent,
   },
   {
-    path: 'parametros/posiciones',
+    path: 'parametros/posicion',
     component: AbmPosicionesComponent
   },
   {
@@ -47,11 +47,11 @@ const routes: Routes = [
     component: CondicionIvaComponent
   },
   {
-    path: 'parametros/estados-civiles',
+    path: 'parametros/estado-civil',
     component: EstadoCivilComponent,
   },
   {
-    path: 'parametros/obras-sociales',
+    path: 'parametros/obra-social',
     component: ObraSocialComponent,
   },
   {

@@ -38,12 +38,12 @@ export class NavMenuComponent {
         },
         { // 04 - DEPARTAMENTO
           title: 'Departamento',
-          url: '/parametros/abm-departamento',
+          url: '/parametros/departamento',
           icon: 'keyboard_arrow_right',
         },
         {
           title: 'Posicion',
-          url: '/parametros/posiciones',
+          url: '/parametros/posicion',
           icon: 'keyboard_arrow_right',
         },
         { // 08 - CONDICIONES DE IVA
