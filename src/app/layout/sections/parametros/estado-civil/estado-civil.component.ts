@@ -5,7 +5,7 @@ import { UtilService } from 'src/app/core/services/util.service';
 import { EstadoCivilService } from 'src/app/core/services/estado-civil.service';
 
 // * Interfaces
-import { EstadoCivil } from 'src/app/core/models/estado-civil';
+import { IEstadoCivil } from 'src/app/core/models/estado-civil.interface';
 
 // * Material
 import { MatDialog } from '@angular/material/dialog';
@@ -35,12 +35,12 @@ export class EstadoCivilComponent {
     this.dashboard.filter(inputValue);
   }
 
-  public nuevoEstadoCivil(estadoCivil?: EstadoCivil): void {
+  public nuevoEstadoCivil(estadoCivil?: IEstadoCivil): void {
     const modalNuevoEstadoCivil = this.dialog.open(
       AddEditEstadoCivilDialogComponent,
       {
         data: {
-          title: `Crear Estado Civil`,
+          title: `CREAR ESTADO CIVIL`,
           edit: true,
           par_modo: 'I',
           codigo_estado_civil: estadoCivil?.codigo_estado_civil,
@@ -56,16 +56,16 @@ export class EstadoCivilComponent {
           this.estadoCivilService.getEstadoCivilCRUD(res).subscribe({
             next: () => {
               this.utils.notification(
-                'El Estado Civil se ha creado exitosamente',
+                'El Estado Civil se ha creado exitosamente.',
                 'success'
               );
             },
             error: (err) => {
               this.utils.closeLoading();
               err.status == 0
-                ? this.utils.notification('Error de conexion', 'error')
+                ? this.utils.notification('Error de conexión.', 'error')
                 : this.utils.notification(
-                    `Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`,
+                    `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
                     'error'
                   );
               this.nuevoEstadoCivil(res);
