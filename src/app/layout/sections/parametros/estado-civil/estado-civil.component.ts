@@ -5,7 +5,7 @@ import { UtilService } from 'src/app/core/services/util.service';
 import { EstadoCivilService } from 'src/app/core/services/estado-civil.service';
 
 // * Interfaces
-import { EstadoCivil } from 'src/app/core/models/estado-civil';
+import { IEstadoCivil } from 'src/app/core/models/estado-civil.interface';
 
 // * Material
 import { MatDialog } from '@angular/material/dialog';
@@ -35,7 +35,7 @@ export class EstadoCivilComponent {
     this.dashboard.filter(inputValue);
   }
 
-  public nuevoEstadoCivil(estadoCivil?: EstadoCivil): void {
+  public nuevoEstadoCivil(estadoCivil?: IEstadoCivil): void {
     const modalNuevoEstadoCivil = this.dialog.open(
       AddEditEstadoCivilDialogComponent,
       {
