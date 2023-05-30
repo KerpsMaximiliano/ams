@@ -60,14 +60,14 @@ export class TipoDocumentoComponent {
           this.tipoDocumentoService.addDocument(body).subscribe({
             next: () => {
               this.utils.notification(
-                'El Documento se ha creado exitosamente.',
+                'El Documento se ha creado exitosamente. ',
                 'success'
               );
             },
             error: (err) => {
               this.utils.closeLoading();
               err.status == 0
-                ? this.utils.notification('Error de conexion', 'error')
+                ? this.utils.notification('Error de conexión. ', 'error')
                 : this.utils.notification(
                     `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
                     'error'
