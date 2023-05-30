@@ -33,6 +33,13 @@ import { AbmPosicionesComponent } from './abm-posiciones/abm-posiciones.componen
 import { AddEditAbmPosicionesComponent } from './abm-posiciones/add-edit-abm-posiciones/add-edit-abm-posiciones.component';
 import { AbmPosicionesFilterComponent } from './abm-posiciones/abm-posiciones-filter/abm-posiciones-filter.component';
 import { AbmPosicionesDashboardComponent } from './abm-posiciones/abm-posiciones-dashboard/abm-posiciones-dashboard.component';
+
+// 06 - LOCALIDADES
+import { EditAbmLocalidadesDialogComponent } from './abm-localidades/components/abm-localidades-dialog/edit-abm-localidades-dialog.component';
+import { AbmLocalidadesComponent } from './abm-localidades/abm-localidades.component';
+import { AbmLocalidadesDashboardComponent } from './abm-localidades/components/abm-localidades-dashboard/abm-localidades-dashboard.component';
+import { AbmLocalidadesFilterComponent } from './abm-localidades/components/abm-localidades-filter/abm-localidades-filter.component';
+
 // 08 - CONDICIONES DE IVA
 import { AddEditCondicionIvaDialogComponent } from './condicion-iva/components/add-edit-condicion-iva-dialog/add-edit-condicion-iva-dialog.component';
 import { CondicionIvaComponent } from './condicion-iva/condicion-iva.component';
@@ -89,6 +96,12 @@ import { ModalLocalidadComponent } from './abm-posiciones/add-edit-abm-posicione
     AddEditAbmPosicionesComponent,
     AbmPosicionesFilterComponent,
     AbmPosicionesDashboardComponent,
+
+    // 06 - LOCALIDADES
+    EditAbmLocalidadesDialogComponent,
+    AbmLocalidadesComponent,
+    AbmLocalidadesDashboardComponent,
+    AbmLocalidadesFilterComponent,
 
     // 08 - CONDICIONES DE IVA
     AddEditCondicionIvaDialogComponent,

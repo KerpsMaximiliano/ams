@@ -10,8 +10,13 @@ import { TipoDocumentoComponent } from './tipo-documento/tipo-documento.componen
 import { NacionalidadComponent } from './nacionalidad/nacionalidad.component';
 // 04 - DEPARTAMENTO
 import { DepartamentoComponent } from './departamento/departamento.component';
-// 04 - POSICIONES
+
+// 05 - POSICIONES
 import { AbmPosicionesComponent } from './abm-posiciones/abm-posiciones.component'; 
+
+// 06 - LOCALIDADES
+import { AbmLocalidadesComponent } from './abm-localidades/abm-localidades.component';
+
 // 08 - CONDICIONES DE IVA
 import { CondicionIvaComponent } from './condicion-iva/condicion-iva.component';
 // 09 - ESTADO CIVIL
@@ -20,6 +25,7 @@ import { EstadoCivilComponent } from './estado-civil/estado-civil.component';
 import { ObraSocialComponent } from './obra-social/obra-social.component';
 // 13 - PREGUNTAS DDJJ
 import { PreguntasDDJJComponent } from './preguntas-ddjj/preguntas-ddjj.component';
+
 
 const routes: Routes = [
   {
@@ -41,6 +47,10 @@ const routes: Routes = [
   {
     path: 'parametros/posicion',
     component: AbmPosicionesComponent
+  },
+  {
+    path: 'parametros/localidades',
+    component: AbmLocalidadesComponent
   },
   {
     path: 'parametros/condicion-iva',

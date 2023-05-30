@@ -51,6 +51,11 @@ export class NavMenuComponent {
           url: '/parametros/condicion-iva',
           icon: 'keyboard_arrow_right',
         },
+        { // 06 - LOCALIDAD
+          title: 'Localidad',
+          url: '/parametros/localidades',
+          icon: 'keyboard_arrow_right',
+        },
         { // 09 - ESTADO CIVIL
           title: 'Estado Civil',
           url: '/parametros/estado-civil',
