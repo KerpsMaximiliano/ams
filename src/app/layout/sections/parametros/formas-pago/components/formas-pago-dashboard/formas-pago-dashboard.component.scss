@@ -1,0 +1,103 @@
+/*
+ * Evita un espaciado innecesario en la primer columna.
+*/
+th.mat-header-cell:first-of-type,
+td.mat-cell:first-of-type {
+    padding-left: 0px !important;
+}
+
+/*
+ * Espacio mínimo a ambos lados de todas las columnas.
+*/
+.mat-column-codigo.mat-header-cell,
+.mat-column-codigo.mat-cell,
+.mat-column-forma_pago.mat-header-cell,
+.mat-column-forma_pago.mat-cell,
+.mat-column-description.mat-header-cell,
+.mat-column-description.mat-cell,
+.mat-column-nombre_tarjeta_nemot.mat-header-cell,
+.mat-column-nombre_tarjeta_nemot.mat-cell,
+.mat-column-codigo_banco.mat-header-cell,
+.mat-column-codigo_banco.mat-cell,
+.mat-column-codigo_tarjeta_de_baja.mat-header-cell,
+.mat-column-codigo_tarjeta_de_baja.mat-cell,
+.mat-column-actions.mat-header-cell,
+.mat-column-actions.mat-cell {
+    padding-left: 0.5vw !important;
+    padding-right: 0.5vw !important;
+}
+
+/*
+ * Texto alineado a la izquierda.
+ * Forma de pago (forma_pago).
+ * Descripción (description).
+ * Nemotecnico (nombre_tarjeta_nemot).
+ * Banco (codigo_tarjeta_de_baja).
+*/
+.mat-column-forma_pago.mat-header-cell,
+.mat-column-forma_pago.mat-cell,
+.mat-column-description.mat-header-cell,
+.mat-column-description.mat-cell,
+.mat-column-nombre_tarjeta_nemot.mat-header-cell,
+.mat-column-nombre_tarjeta_nemot.mat-cell,
+.mat-column-codigo_tarjeta_de_baja.mat-header-cell,
+.mat-column-codigo_tarjeta_de_baja.mat-cell {
+    text-align: left !important;
+    padding-left: 1vw !important;
+}
+
+/*
+ * Número y fecha alineado a la derecha.
+ * Código (codigo).
+ * Banco (codigo_banco).
+*/
+.mat-column-codigo.mat-header-cell,
+.mat-column-codigo.mat-cell,
+.mat-column-codigo_banco.mat-header-cell,
+.mat-column-codigo_banco.mat-cell {
+    text-align: right !important;
+    padding-right: 1vw !important;
+}
+
+/*
+ * Iconos alineados al centro.
+ * Acciones (actions).
+*/
+.mat-column-actions.mat-header-cell,
+.mat-column-actions.mat-cell {
+    width: 11% !important;
+    text-align: center !important;
+}
+
+/*
+ * Ancho máximo por columna individual de todas las columnas menos las 'Acciones' (actions).
+*/
+.mat-column-codigo.mat-header-cell,
+.mat-column-codigo.mat-cell {
+    width: 8% !important;
+}
+
+.mat-column-descripcion.mat-header-cell,
+.mat-column-descripcion.mat-cell {
+    width: 30% !important;
+}
+
+.mat-column-tipo_obra_social_prepaga.mat-header-cell,
+.mat-column-tipo_obra_social_prepaga.mat-cell {
+    width: 6% !important;
+}
+
+.mat-column-nro_registro.mat-header-cell,
+.mat-column-nro_registro.mat-cell {
+    width: 24% !important;
+}
+
+.mat-column-similar_SMP.mat-header-cell,
+.mat-column-similar_SMP.mat-cell {
+    width: 10% !important;
+}
+
+.mat-column-omite_R420.mat-header-cell,
+.mat-column-omite_R420.mat-cell {
+    width: 11% !important;
+}

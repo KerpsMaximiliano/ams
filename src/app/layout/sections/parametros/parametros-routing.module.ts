@@ -17,6 +17,9 @@ import { AbmPosicionesComponent } from './abm-posiciones/abm-posiciones.componen
 // 06 - LOCALIDADES
 import { AbmLocalidadesComponent } from './abm-localidades/abm-localidades.component';
 
+// 07 - FORMAS DE PAGO
+import { FormasPagoComponent } from "./formas-pago/formas-pago.component";
+
 // 08 - CONDICIONES DE IVA
 import { CondicionIvaComponent } from './condicion-iva/condicion-iva.component';
 // 09 - ESTADO CIVIL
@@ -47,6 +50,14 @@ const routes: Routes = [
   {
     path: 'parametros/posicion',
     component: AbmPosicionesComponent
+  },
+  {
+    path: 'parametros/formas-pago',
+    component: FormasPagoComponent,
+  },
+  {
+    path: 'parametros/condicion-iva',
+    component: CondicionIvaComponent
   },
   {
     path: 'parametros/localidades',

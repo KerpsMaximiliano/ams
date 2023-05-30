@@ -46,6 +46,11 @@ export class NavMenuComponent {
           url: '/parametros/posicion',
           icon: 'keyboard_arrow_right',
         },
+        { // 07 - FORMAS DE PAGO
+          title: 'Formas de Pago',
+          url: '/parametros/formas-pago',
+          icon: 'keyboard_arrow_right',
+        },
         { // 08 - CONDICIONES DE IVA
           title: 'Condiciones de IVA',
           url: '/parametros/condicion-iva',

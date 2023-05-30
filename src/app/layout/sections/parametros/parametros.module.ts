@@ -40,6 +40,12 @@ import { AbmLocalidadesComponent } from './abm-localidades/abm-localidades.compo
 import { AbmLocalidadesDashboardComponent } from './abm-localidades/components/abm-localidades-dashboard/abm-localidades-dashboard.component';
 import { AbmLocalidadesFilterComponent } from './abm-localidades/components/abm-localidades-filter/abm-localidades-filter.component';
 
+// 07 - FORMAS DE PAGO
+import { AddEditFormasPagoDialogComponent } from "./formas-pago/components/add-edit-formas-pago-dialog/add-edit-formas-pago-dialog.component";
+import { FormasPagoComponent } from "./formas-pago/formas-pago.component";
+import { FormasPagoDashboardComponent } from "./formas-pago/components/formas-pago-dashboard/formas-pago-dashboard.component";
+import { FormasPagoFilterComponent } from "./formas-pago/components/formas-pago-filter/formas-pago-filter.component";
+
 // 08 - CONDICIONES DE IVA
 import { AddEditCondicionIvaDialogComponent } from './condicion-iva/components/add-edit-condicion-iva-dialog/add-edit-condicion-iva-dialog.component';
 import { CondicionIvaComponent } from './condicion-iva/condicion-iva.component';
@@ -102,6 +108,12 @@ import { ModalLocalidadComponent } from './abm-posiciones/add-edit-abm-posicione
     AbmLocalidadesComponent,
     AbmLocalidadesDashboardComponent,
     AbmLocalidadesFilterComponent,
+
+    // 07 - FORMAS DE PAGO
+    AddEditFormasPagoDialogComponent,
+    FormasPagoComponent,
+    FormasPagoDashboardComponent,
+    FormasPagoFilterComponent,
 
     // 08 - CONDICIONES DE IVA
     AddEditCondicionIvaDialogComponent,
