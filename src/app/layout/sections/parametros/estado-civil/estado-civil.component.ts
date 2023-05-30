@@ -40,7 +40,7 @@ export class EstadoCivilComponent {
       AddEditEstadoCivilDialogComponent,
       {
         data: {
-          title: `Crear Estado Civil`,
+          title: `CREAR ESTADO CIVIL`,
           edit: true,
           par_modo: 'I',
           codigo_estado_civil: estadoCivil?.codigo_estado_civil,

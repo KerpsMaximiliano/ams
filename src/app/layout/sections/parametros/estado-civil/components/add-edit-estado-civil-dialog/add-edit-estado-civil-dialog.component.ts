@@ -84,18 +84,18 @@ export class AddEditEstadoCivilDialogComponent {
 
   getErrorMessage(control: any): string {
     if (control.errors?.['required']) {
-      return `Campo requerido`;
+      return `Campo requerido.`;
     } else {
       if ((control.errors?.['notAlphanumeric'] || control.errors?.['notAlphanumericWithSpaces']) && control.value != '' && control.value != null) {
         return `Solo se aceptan letras y números.`;
       }
 
       if (control.errors?.['maxlength']) {
-        return `No puede contener más de ${control.errors?.['maxlength'].requiredLength} caracteres`;
+        return `No puede contener más de ${control.errors?.['maxlength'].requiredLength} caracteres.`;
       }
 
       if (control.errors?.['minlength']) {
-        return `Debe contener al menos ${control.errors?.['minlength'].requiredLength} caracteres`;
+        return `Debe contener al menos ${control.errors?.['minlength'].requiredLength} caracteres.`;
       }
     }
     return '';

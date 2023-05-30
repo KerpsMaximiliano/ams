@@ -57,7 +57,18 @@ export class EstadoCivilDashboardComponent {
           : this.estadoCivil = [res.dataset];
         this.dataSource = new MatTableDataSource<EstadoCivil>(this.estadoCivil);
         this.dataSource.sort = this.sort;
-        this.changePaginator();
+        setTimeout(() => {
+          this.dataSource.paginator = this.paginator;
+          // Permite calcular la cantidad total de páginas.
+          const totalPages = Math.ceil(
+            this.estadoCivil.length / this.paginator.pageSize
+          );
+    
+          this.paginator.length = totalPages;
+    
+          this.paginator._intl.getRangeLabel = (): string => {
+            return ( 'Página ' + (this.paginator.pageIndex + 1) + ' de ' + totalPages );
+          }, 100});
       },
       error: (err: any) => {
         this.utils.closeLoading();
@@ -74,26 +85,6 @@ export class EstadoCivilDashboardComponent {
     });
   }
 
-  public changePaginator(): any{
-    setTimeout(() => {
-      this.dataSource.paginator = this.paginator;
-      // Permite calcular la cantidad total de páginas.
-      const totalPages = Math.ceil(
-        this.estadoCivil.length / this.paginator.pageSize
-      );
-
-      this.paginator.length = totalPages;
-
-      this.paginator._intl.getRangeLabel = (): string => {
-        return (
-          'Página ' +
-          (this.paginator.pageIndex + 1) +
-          ' de ' +
-          totalPages
-        );
-    }, 100});
-  }
-
   public announceSortChange(sortState: Sort): void {
     if (sortState.direction) {
       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
@@ -107,7 +98,7 @@ export class EstadoCivilDashboardComponent {
       AddEditEstadoCivilDialogComponent,
       {
         data: {
-          title: `Editar Estado Civil`,
+          title: `EDITAR ESTADO CIVIL`,
           edit: true,
           par_modo: 'U',
           codigo_estado_civil: estadoCivil.codigo_estado_civil,
@@ -123,14 +114,14 @@ export class EstadoCivilDashboardComponent {
           this.estadoCivilService.getEstadoCivilCRUD(res).subscribe({
             next: () => {
               this.utils.notification(
-                'El Estado Civil se ha editado extiosamente',
+                'El Estado Civil se ha editado extiosamente. ',
                 'success'
               );
             },
             error: (err) => {
               this.utils.closeLoading();
               err.status == 0
-                ? this.utils.notification('Error de conexion', 'error')
+                ? this.utils.notification('Error de conexión. ', 'error')
                 : this.utils.notification(
                     `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
                     'error'
@@ -152,7 +143,7 @@ export class EstadoCivilDashboardComponent {
   public viewEstadoCivil(estadoCivil: EstadoCivil): void {
     this.dialog.open(AddEditEstadoCivilDialogComponent, {
       data: {
-        title: `Ver Estado Civil`,
+        title: `VER ESTADO CIVIL`,
         edit: false,
         par_modo: 'C',
         codigo_estado_civil: estadoCivil?.codigo_estado_civil,
