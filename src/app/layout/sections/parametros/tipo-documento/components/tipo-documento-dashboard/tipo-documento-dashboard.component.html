@@ -1,51 +1,48 @@
 <section>
-  
-    <table mat-table [dataSource]="dataSource" matSort
-    (matSortChange)="announceSortChange($event)">
-  
-      <ng-container class="mat-row" *matNoDataRow>
-        <td class="mat-cell no-data-cell" [attr.colspan]="displayedColumns.length">
-          No se encontraron resultados
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef>Código Doc</th>
-        <td mat-cell *matCellDef="let param">{{param.tipo_de_documento}}</td>
-      </ng-container>
-      <ng-container matColumnDef="tipo-documento">
-        <th mat-header-cell *matHeaderCellDef>Tipo de documento</th>
-        <td mat-cell *matCellDef="let param">{{param.descripcion}}</td>
-      </ng-container>
+  <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
+    <ng-container class="mat-row" *matNoDataRow>
+      <td class="mat-cell no-data-cell" [attr.colspan]="displayedColumns.length">
+        No se encontraron resultados
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>Código</th>
+      <td mat-cell *matCellDef="let param">{{ param.tipo_de_documento }}</td>
+    </ng-container>
+    <ng-container matColumnDef="tipo-documento">
+      <th mat-header-cell *matHeaderCellDef>Tipo de documento</th>
+      <td mat-cell *matCellDef="let param">{{ param.descripcion }}</td>
+    </ng-container>
 
-      <ng-container matColumnDef="abreviatura">
-        <th mat-header-cell *matHeaderCellDef>Abreviatura</th>
-        <td mat-cell *matCellDef="let param">{{param.descripcion_reducida}}</td>
-      </ng-container>
+    <ng-container matColumnDef="abreviatura">
+      <th mat-header-cell *matHeaderCellDef>Abreviatura</th>
+      <td mat-cell *matCellDef="let param">{{ param.descripcion_reducida }}</td>
+    </ng-container>
 
-      <ng-container matColumnDef="control-cuit">
-        <th mat-header-cell *matHeaderCellDef>Control de CUIT</th>
-        <td mat-cell *matCellDef="let param">{{param.control_cuit === 'S' ? 'SI' : 'NO'}}</td>
-      </ng-container>
-  
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef>Acciones</th>
-        <td mat-cell *matCellDef="let doctype">
-          <button class="action-button" (click)="viewDocType(doctype)">
-            <mat-icon class="edit-icon" aria-label="false">visibility</mat-icon>
-          </button>
-          <button class="action-button" (click)="editDocType(doctype)">
-            <mat-icon class="delete-icon" aria-label="false">edit</mat-icon>
-          </button>
-        </td>
-      </ng-container>
-  
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns:displayedColumns"></tr>
-    </table>
-  
-    <mat-paginator [pageSizeOptions]="[10,20,30]"
-                   showFirstLastButtons
-                   aria-label="controles de página de la tabla de estados">
-    </mat-paginator>
-  </section>
-  
+    <ng-container matColumnDef="control-cuit">
+      <th mat-header-cell *matHeaderCellDef>Control de CUIT</th>
+      <td mat-cell *matCellDef="let param">
+        {{ param.control_cuit === "S" ? "SI" : "NO" }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Acciones</th>
+      <td mat-cell *matCellDef="let doctype">
+        <button class="action-button" (click)="viewDocType(doctype)">
+          <mat-icon class="edit-icon" aria-label="false"> visibility </mat-icon>
+        </button>
+        <button class="action-button" (click)="editDocType(doctype)">
+          <mat-icon class="delete-icon" aria-label="false"> edit </mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons
+    aria-label="controles de página de la tabla de estados">
+  </mat-paginator>
+</section>

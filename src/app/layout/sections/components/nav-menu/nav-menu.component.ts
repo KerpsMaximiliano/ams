@@ -38,7 +38,7 @@ export class NavMenuComponent {
         },
         { // 04 - DEPARTAMENTO
           title: 'Departamento',
-          url: '/parametros/abm-departamento',
+          url: '/parametros/departamento',
           icon: 'keyboard_arrow_right',
         },
         { // 08 - CONDICIONES DE IVA
@@ -58,7 +58,7 @@ export class NavMenuComponent {
         },
         { // 13 - PREGUNTAS DDJJ
           title: 'Preguntas DDJJ',
-          url: '/parametros/preguntas-ddjj',
+          url: '/parametros/pregunta-ddjj',
           icon: 'keyboard_arrow_right',
         },
       ],
