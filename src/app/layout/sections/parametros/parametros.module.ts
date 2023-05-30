@@ -27,6 +27,7 @@ import { AddEditDepartamentoDialogComponent } from './departamento/components/ad
 import { DepartamentoComponent } from './departamento/departamento.component';
 import { DepartamentoDashboardComponent } from './departamento/components/departamento-dashboard/departamento-dashboard.component';
 import { DepartamentoFilterComponent } from './departamento/components/departamento-filter/departamento-filter.component';
+
 // 05 - POSICIONES
 import { AbmPosicionesComponent } from './abm-posiciones/abm-posiciones.component';
 import { AddEditAbmPosicionesComponent } from './abm-posiciones/add-edit-abm-posiciones/add-edit-abm-posiciones.component';

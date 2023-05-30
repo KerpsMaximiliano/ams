@@ -8,17 +8,19 @@
         </mat-expansion-panel-header>
         <form [formGroup]="searchForm">
             <div class="seeker-fields-container" (keyup.enter)="searchKeyUp($event)">
-                <mat-form-field class="seeker-form-field" *ngIf="provincias$ | async as provincias; else loading">
-                    <mat-label class="seeker-label">Seleccione la Provincia</mat-label>
-                    <mat-select formControlName="letra_provincia">
-                        <mat-option [value]="">
-                            Buscar todas
+                <h3>Provincia</h3>
+                    <mat-form-field class="seeker-form-field" appearance="outline">
+                        <input type="text" required matInput [formControl]="myControlProv" [matAutocomplete]="prov">
+                        <mat-autocomplete #prov="matAutocomplete" [displayWith]="displayFnProv">
+                        <mat-option *ngFor="let Prov of provinciaFiltrados | async" 
+                        [value]="Prov"
+                        (onSelectionChange)="buscar(Prov.codigo)"
+                        >
+                            {{Prov.nombre_provincia}}
                         </mat-option>
-                        <mat-option *ngFor="let prov of provincias.dataset" [value]="prov.codigo">
-                            {{prov.nombre_provincia}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
+                        </mat-autocomplete>
+                    </mat-form-field>
+
                 <ng-template #loading>
                     <div class="seeker-fields-container">
                         <mat-form-field class="seeker-form-field">
@@ -36,7 +38,9 @@
                 </mat-form-field>
             </div>
             <div class="buttons-container">
-                <button class="primary-button icon-button" type="button" (click)="search()">
+                <button class="primary-button icon-button" type="button" (click)="search()" 
+                [disabled]="!(searchForm.get('letra_provincia')?.value ||
+                searchForm.get('descripcion')?.value)">
                 <mat-icon>done</mat-icon>
                 Buscar</button>
                 <button class="primary-button icon-button" type="button" (click)="clearInputs()">

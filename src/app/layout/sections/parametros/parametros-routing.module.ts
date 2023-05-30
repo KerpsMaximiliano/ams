@@ -57,7 +57,7 @@ const routes: Routes = [
   {
     path: 'parametros/preguntas-ddjj',
     component: PreguntasDDJJComponent,
-  },
+  }
 ];
 
 @NgModule({

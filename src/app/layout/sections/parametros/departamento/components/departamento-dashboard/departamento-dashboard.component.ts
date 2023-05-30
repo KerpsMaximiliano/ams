@@ -30,7 +30,6 @@ export class DepartamentoDashboardComponent {
   @ViewChild(MatTable) table!: MatTable<any>;
 
   public displayedColumns: string[] = [
-    'letra_provincia',
     'codigo_departamento',
     'departamento',
     'abreviatura',
@@ -49,7 +48,9 @@ export class DepartamentoDashboardComponent {
               private _liveAnnouncer: LiveAnnouncer,
               private cdr: ChangeDetectorRef,
               private dialog: MatDialog,
-              private provinciaService: ProvinciaService) { }
+              private provinciaService: ProvinciaService) { 
+    
+  }
 
   ngOnInit(): void {
     this.provincias$ = this.provinciaService.provinciaList;
