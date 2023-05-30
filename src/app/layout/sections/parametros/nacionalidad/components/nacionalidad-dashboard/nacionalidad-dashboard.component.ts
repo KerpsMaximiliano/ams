@@ -86,7 +86,7 @@ export class NacionalidadDashboardComponent {
         err.status == 0
           ? this.utils.notification('Error de conexion', 'error')
           : this.utils.notification(
-              `Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`,
+              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
               'error'
             );
       },
@@ -136,7 +136,7 @@ export class NacionalidadDashboardComponent {
               err.status == 0
                 ? this.utils.notification('Error de conexion', 'error')
                 : this.utils.notification(
-                    `Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`,
+                    `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
                     'error'
                   );
               this.editNacType(res);

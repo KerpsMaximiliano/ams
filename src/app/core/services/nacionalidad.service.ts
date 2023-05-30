@@ -16,8 +16,6 @@ export class NacionalidadService {
     private environmentService: EnvironmentService) { }
 
   getParamByDesc(body:string): Observable<Nacionalidad[]> {  
-    console.log(body);
-      
     return this.http.post<Nacionalidad[]>(`${this.environmentService.api}/abmnacionalidades`, body, httpOptions)
   }
 
