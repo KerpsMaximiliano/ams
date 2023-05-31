@@ -1,24 +1,35 @@
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+
+// * Services
+import { UtilService } from 'src/app/core/services/util.service';
+import { TipoDocumentoService } from 'src/app/core/services/tipo-documento.service';
+
+// * Interfaces
+import { ITipoDocumento } from 'src/app/core/models/tipo-documento.interface';
+
+// * Material
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
-import { TipoDocumento } from 'src/app/core/models/tipo-documento';
-import { UtilService } from 'src/app/core/services/util.service';
+
+// * Components
 import { AddEditTipoDocumentoDialogComponent } from '../add-edit-tipo-documento-dialog/add-edit-tipo-documento-dialog.component';
-import { TipoDocumentoService } from 'src/app/core/services/tipo-documento.service';
+import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-tipo-documento-dashboard',
   templateUrl: './tipo-documento-dashboard.component.html',
   styleUrls: ['./tipo-documento-dashboard.component.scss'],
 })
-export class TipoDocumentoDashboardComponent {
+export class TipoDocumentoDashboardComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort = new MatSort();
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator =
     new MatPaginator(new MatPaginatorIntl(), this.cdr);
+
+  // @ViewChild(MatPaginator, { static : false }) paginator!: MatPaginator;
+
   @ViewChild(MatTable) table!: MatTable<any>;
 
   public displayedColumns: string[] = [
@@ -29,12 +40,12 @@ export class TipoDocumentoDashboardComponent {
     'actions',
   ];
 
-  public dataSource: MatTableDataSource<TipoDocumento>;
+  public dataSource: MatTableDataSource<ITipoDocumento>;
 
   public searchEvent: string = '';
   public searchId: number = 0; // VERIFICAR.
 
-  public documents: TipoDocumento[] = [];
+  public documents: ITipoDocumento[] = [];
 
   constructor(
     private tipoDocumentoService: TipoDocumentoService,
@@ -45,7 +56,20 @@ export class TipoDocumentoDashboardComponent {
   ) {}
 
   ngOnInit(): void {
-    this.paginator._intl.itemsPerPageLabel = 'Elementos por página';
+    this.paginator._intl.itemsPerPageLabel = 'Elementos por página: ';
+    this.paginator._intl.nextPageLabel = 'Página siguiente.';
+    this.paginator._intl.previousPageLabel = 'Página anterior.';
+    this.paginator._intl.firstPageLabel = 'Primer página.';
+    this.paginator._intl.lastPageLabel = 'Ultima página.';
+    this.paginator._intl.getRangeLabel = (
+      page: number,
+      pageSize: number,
+      length: number
+    ): string => {
+      return length
+        ? 'Página ' + (page + 1) + ' de ' + Math.ceil(length / pageSize)
+        : 'Página 0 de 0';
+    };
   }
 
   private getTipoDocumento(): void {
@@ -58,27 +82,19 @@ export class TipoDocumentoDashboardComponent {
     let body = JSON.stringify(aux);
     this.tipoDocumentoService.getDocumentByDesc(body).subscribe({
       next: (res: any) => {
-        this.documents = res.dataset as TipoDocumento[];
-        this.dataSource = new MatTableDataSource<TipoDocumento>(this.documents);
+        this.documents = res.dataset as ITipoDocumento[];
+        this.dataSource = new MatTableDataSource<ITipoDocumento>(
+          this.documents
+        );
         this.dataSource.sort = this.sort;
-        setTimeout(() => {
-          this.dataSource.paginator = this.paginator;
-          this.paginator._intl.getRangeLabel = (): string => {
-            return (
-              'Página ' +
-              (this.paginator.pageIndex + 1) +
-              ' de ' +
-              this.paginator.length
-            );
-          };
-        }, 100);
+        this.dataSource.paginator = this.paginator;
       },
       error: (err: any) => {
         this.utils.closeLoading();
         err.status == 0
-          ? this.utils.notification('Error de conexion', 'error')
+          ? this.utils.notification('Error de conexión. ', 'error')
           : this.utils.notification(
-              `Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`,
+              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
               'error'
             );
       },
@@ -96,12 +112,12 @@ export class TipoDocumentoDashboardComponent {
     }
   }
 
-  public editDocType(tipoDocumento: TipoDocumento): void {
+  public editDocType(tipoDocumento: ITipoDocumento): void {
     const modalNuevoTipoDocumento = this.dialog.open(
       AddEditTipoDocumentoDialogComponent,
       {
         data: {
-          title: `Editar Documento`,
+          title: `EDITAR COUMENTO`,
           id: tipoDocumento.tipo_de_documento,
           tipo: tipoDocumento.descripcion,
           abreviatura: tipoDocumento.descripcion_reducida,
@@ -119,16 +135,16 @@ export class TipoDocumentoDashboardComponent {
           this.tipoDocumentoService.editDocument(res).subscribe({
             next: () => {
               this.utils.notification(
-                'El Documento se ha editado extiosamente',
+                'El Documento se ha editado extiosamente. ',
                 'success'
               );
             },
             error: (err) => {
               this.utils.closeLoading();
               err.status == 0
-                ? this.utils.notification('Error de conexion', 'error')
+                ? this.utils.notification('Error de conexión. ', 'error')
                 : this.utils.notification(
-                    `Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`,
+                    `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
                     'error'
                   );
               this.editDocType(res);
@@ -145,7 +161,7 @@ export class TipoDocumentoDashboardComponent {
     });
   }
 
-  public viewDocType(tipoDocumento: TipoDocumento): void {
+  public viewDocType(tipoDocumento: ITipoDocumento): void {
     this.dialog.open(AddEditTipoDocumentoDialogComponent, {
       data: {
         title: `VER DOCUMENTO`,
@@ -158,10 +174,10 @@ export class TipoDocumentoDashboardComponent {
     });
   }
 
-  public deleteDocType(tipoDoc: TipoDocumento): void {
+  public deleteDocType(tipoDoc: ITipoDocumento): void {
     const modalConfirm = this.dialog.open(ConfirmDialogComponent, {
       data: {
-        title: `Eliminar Documento`,
+        title: `ELIMINAR DOCUMENTO`,
         message: `¿Está seguro de eliminar el documento ${tipoDoc.descripcion}?`,
       },
     });
@@ -172,16 +188,16 @@ export class TipoDocumentoDashboardComponent {
           this.tipoDocumentoService.deleteParametro(res.id).subscribe({
             next: (res: any) => {
               this.utils.notification(
-                'El Documento se ha borrado exitosamente',
+                'El Documento se ha borrado exitosamente.',
                 'success'
               );
               this.getTipoDocumento();
             },
             error: (err) => {
               err.status == 0
-                ? this.utils.notification('Error de conexion', 'error')
+                ? this.utils.notification('Error de conexión. ', 'error')
                 : this.utils.notification(
-                    `Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`,
+                    `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
                     'error'
                   );
             },

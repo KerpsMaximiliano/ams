@@ -76,7 +76,7 @@ const routes: Routes = [
     component: ObraSocialComponent,
   },
   {
-    path: 'parametros/preguntas-ddjj',
+    path: 'parametros/pregunta-ddjj',
     component: PreguntasDDJJComponent,
   }
 ];
