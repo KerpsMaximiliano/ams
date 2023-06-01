@@ -64,7 +64,7 @@ export class CondicionIvaDashboardComponent {
         this.utils.closeLoading();
         (err.status == 0)
           ? this.utils.notification('Error de conexion', 'error') 
-          : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')
+          : this.utils.notification(`Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`, 'error')
         },
       complete: () => {
         this.utils.closeLoading();
@@ -105,14 +105,14 @@ export class CondicionIvaDashboardComponent {
               this.utils.closeLoading();
               (err.status == 0)
                 ? this.utils.notification('Error de conexion', 'error') 
-                : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')
+                : this.utils.notification(`Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`, 'error')
               this.editCondicionIVA(res)
             },
             complete: () => {
               this.utils.closeLoading();
               setTimeout(() => {
                 this.searchValue = JSON.stringify({
-                  par_modo: "G",
+                  par_modo: "C",
                   descripcion: res.descripcion
                 })
 
@@ -129,7 +129,7 @@ export class CondicionIvaDashboardComponent {
     this.dialog.open(AddEditCondicionIvaDialogComponent, {
       data: {
         title: `VER CONDICIÓN DE IVA`,
-        par_modo: "G",
+        par_modo: "C",
         codigo_de_IVA: tipoCondicion.codigo_de_IVA,
         descripcion: tipoCondicion.descripcion,
         descripcion_reducida: tipoCondicion.descripcion_reducida,
