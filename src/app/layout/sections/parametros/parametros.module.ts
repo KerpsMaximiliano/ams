@@ -17,7 +17,6 @@ import { TipoDocumentoComponent } from './tipo-documento/tipo-documento.componen
 import { TipoDocumentoDashboardComponent } from './tipo-documento/components/tipo-documento-dashboard/tipo-documento-dashboard.component';
 import { TipoDocumentoFilterComponent } from './tipo-documento/components/tipo-documento-filter/tipo-documento-filter.component';
 // 03 - NACIONALIDAD
-
 import { EditNacionalidadDialogComponent } from './nacionalidad/components/edit-nacionalidad-dialog/edit-nacionalidad-dialog.component';
 import { NacionalidadComponent } from './nacionalidad/nacionalidad.component';
 import { NacionalidadDashboardComponent } from './nacionalidad/components/nacionalidad-dashboard/nacionalidad-dashboard.component';
@@ -27,25 +26,22 @@ import { AddEditDepartamentoDialogComponent } from './departamento/components/ad
 import { DepartamentoComponent } from './departamento/departamento.component';
 import { DepartamentoDashboardComponent } from './departamento/components/departamento-dashboard/departamento-dashboard.component';
 import { DepartamentoFilterComponent } from './departamento/components/departamento-filter/departamento-filter.component';
-
 // 05 - POSICIONES
 import { AbmPosicionesComponent } from './abm-posiciones/abm-posiciones.component';
-import { AddEditAbmPosicionesComponent } from './abm-posiciones/add-edit-abm-posiciones/add-edit-abm-posiciones.component';
-import { AbmPosicionesFilterComponent } from './abm-posiciones/abm-posiciones-filter/abm-posiciones-filter.component';
 import { AbmPosicionesDashboardComponent } from './abm-posiciones/abm-posiciones-dashboard/abm-posiciones-dashboard.component';
-
+import { AbmPosicionesFilterComponent } from './abm-posiciones/abm-posiciones-filter/abm-posiciones-filter.component';
+import { AddEditAbmPosicionesComponent } from './abm-posiciones/add-edit-abm-posiciones/add-edit-abm-posiciones.component';
 // 06 - LOCALIDADES
 import { EditAbmLocalidadesDialogComponent } from './abm-localidades/components/abm-localidades-dialog/edit-abm-localidades-dialog.component';
 import { AbmLocalidadesComponent } from './abm-localidades/abm-localidades.component';
 import { AbmLocalidadesDashboardComponent } from './abm-localidades/components/abm-localidades-dashboard/abm-localidades-dashboard.component';
 import { AbmLocalidadesFilterComponent } from './abm-localidades/components/abm-localidades-filter/abm-localidades-filter.component';
-
+import { ModalLocalidadComponent } from './abm-posiciones/add-edit-abm-posiciones/modal-localidad/modal-localidad.component';
 // 07 - FORMAS DE PAGO
 import { AddEditFormasPagoDialogComponent } from "./formas-pago/components/add-edit-formas-pago-dialog/add-edit-formas-pago-dialog.component";
 import { FormasPagoComponent } from "./formas-pago/formas-pago.component";
 import { FormasPagoDashboardComponent } from "./formas-pago/components/formas-pago-dashboard/formas-pago-dashboard.component";
 import { FormasPagoFilterComponent } from "./formas-pago/components/formas-pago-filter/formas-pago-filter.component";
-
 // 08 - CONDICIONES DE IVA
 import { AddEditCondicionIvaDialogComponent } from './condicion-iva/components/add-edit-condicion-iva-dialog/add-edit-condicion-iva-dialog.component';
 import { CondicionIvaComponent } from './condicion-iva/condicion-iva.component';
@@ -66,7 +62,12 @@ import { AddEditPreguntasDDJJDialogComponent } from './preguntas-ddjj/components
 import { PreguntasDDJJComponent } from "./preguntas-ddjj/preguntas-ddjj.component";
 import { PreguntasDDJJDashboardComponent } from './preguntas-ddjj/components/preguntas-ddjj-dashboard/preguntas-ddjj-dashboard.component';
 import { PreguntasDDJJFilterComponent } from './preguntas-ddjj/components/preguntas-ddjj-filter/preguntas-ddjj-filter.component';
-import { ModalLocalidadComponent } from './abm-posiciones/add-edit-abm-posiciones/modal-localidad/modal-localidad.component';
+// 31 - ATRIBUTOS DE RELACIÓN CAPITA/PLAN
+import { AddEditAtributosRelacionCapitaPlanDialogComponent } from "./atributos-relacion-capita-plan/components/add-edit-atributos-relacion-capita-plan-dialog/add-edit-atributos-relacion-capita-plan-dialog.component";
+import { AtributosRelacionCapitaPlanComponent } from "./atributos-relacion-capita-plan/atributos-relacion-capita-plan.component";
+import { AtributosRelacionCapitaPlanDashboardComponent } from "./atributos-relacion-capita-plan/components/atributos-relacion-capita-plan-dashboard/atributos-relacion-capita-plan-dashboard.component";
+import { AtributosRelacionCapitaPlanFilterComponent } from "./atributos-relacion-capita-plan/components/atributos-relacion-capita-plan-filter/atributos-relacion-capita-plan-filter.component";
+
 
 @NgModule({
   declarations: [
@@ -138,6 +139,12 @@ import { ModalLocalidadComponent } from './abm-posiciones/add-edit-abm-posicione
     PreguntasDDJJComponent,
     PreguntasDDJJDashboardComponent,
     PreguntasDDJJFilterComponent,
+
+    // 31 - ATRIBUTOS DE RELACIÓN CAPITA/PLAN
+    AddEditAtributosRelacionCapitaPlanDialogComponent,
+    AtributosRelacionCapitaPlanComponent,
+    AtributosRelacionCapitaPlanDashboardComponent,
+    AtributosRelacionCapitaPlanFilterComponent
   ],
   imports: [
     CommonModule,

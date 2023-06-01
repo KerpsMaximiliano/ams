@@ -1,0 +1,14 @@
+<section class="browse-section">
+  <div class="section-header">
+    <h2>Atributos de Relación Capita/Plan</h2>
+    <button class="new-button icon-button" (click)="nuevosAtributosRelacionCapitaPlan()">
+      <mat-icon>add</mat-icon>
+      Nuevo
+    </button>
+  </div>
+
+  <div class="section-content">
+    <app-atributos-relacion-capita-plan-filter (searchEvent)="handleSearch($event)"></app-atributos-relacion-capita-plan-filter>
+    <app-atributos-relacion-capita-plan-dashboard></app-atributos-relacion-capita-plan-dashboard>
+  </div>
+</section>

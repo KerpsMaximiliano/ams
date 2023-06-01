@@ -41,9 +41,14 @@ export class NavMenuComponent {
           url: '/parametros/departamento',
           icon: 'keyboard_arrow_right',
         },
-        {
+        { // 05 - POSICIONES
           title: 'Posicion',
           url: '/parametros/posicion',
+          icon: 'keyboard_arrow_right',
+        },
+        { // 06 - LOCALIDAD
+          title: 'Localidad',
+          url: '/parametros/localidades',
           icon: 'keyboard_arrow_right',
         },
         { // 07 - FORMAS DE PAGO
@@ -54,11 +59,6 @@ export class NavMenuComponent {
         { // 08 - CONDICIONES DE IVA
           title: 'Condiciones de IVA',
           url: '/parametros/condicion-iva',
-          icon: 'keyboard_arrow_right',
-        },
-        { // 06 - LOCALIDAD
-          title: 'Localidad',
-          url: '/parametros/localidades',
           icon: 'keyboard_arrow_right',
         },
         { // 09 - ESTADO CIVIL
@@ -74,6 +74,11 @@ export class NavMenuComponent {
         { // 13 - PREGUNTAS DDJJ
           title: 'Preguntas DDJJ',
           url: '/parametros/pregunta-ddjj',
+          icon: 'keyboard_arrow_right',
+        },
+        { // 31 - ATRIBUTOS DE RELACIÓN CAPITA/PLAN
+          title: 'Atributos de Relación Cápita/Plan',
+          url: '/parametros/atributos-relacion-capita-plan',
           icon: 'keyboard_arrow_right',
         },
       ],

@@ -1,0 +1,6 @@
+.filter-content {
+    display: grid;
+    grid-template-columns: minmax(300px, 40%) minmax(300px, 60%);
+    justify-content: center;
+    align-items: center;
+}

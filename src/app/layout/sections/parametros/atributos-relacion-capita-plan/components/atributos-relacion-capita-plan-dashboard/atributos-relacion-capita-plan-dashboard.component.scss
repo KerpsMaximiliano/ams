@@ -1,0 +1,50 @@
+/*
+ * Evita un espaciado innecesario en la primer columna.
+*/
+th.mat-header-cell:first-of-type,
+td.mat-cell:first-of-type {
+    padding-left: 1rem !important;
+}
+
+/*
+ * Espacio mínimo a ambos lados de todas las columnas.
+*/
+.mat-column-plan_one.mat-header-cell,
+.mat-column-plan_one.mat-cell,
+.mat-column-liquidacion.mat-header-cell,
+.mat-column-liquidacion.mat-cell,
+.mat-column-plan_two.mat-header-cell,
+.mat-column-plan_two.mat-cell,
+.mat-column-actions.mat-header-cell,
+.mat-column-actions.mat-cell {
+    padding-left: 0.5vw !important;
+    padding-right: 0.5vw !important;
+    word-break: break-all !important;
+}
+
+/*
+ * Texto alineado a la izquierda.
+ * Plan (plan_one).
+ * ¿Genera liquidación? (liquidacion).
+ * Plan (plan_two).
+*/
+.mat-column-plan_one.mat-header-cell,
+.mat-column-plan_one.mat-cell,
+.mat-column-liquidacion.mat-header-cell,
+.mat-column-liquidacion.mat-cell,
+.mat-column-plan_two.mat-header-cell,
+.mat-column-plan_two.mat-cell {
+    text-align: left !important;
+    padding-left: 1vw !important;
+    width: 21%;
+}
+
+/*
+ * Iconos alineados al centro.
+ * Acciones (actions).
+*/
+.mat-column-actions.mat-header-cell,
+.mat-column-actions.mat-cell {
+    text-align: center !important;
+    width: 16%;
+}

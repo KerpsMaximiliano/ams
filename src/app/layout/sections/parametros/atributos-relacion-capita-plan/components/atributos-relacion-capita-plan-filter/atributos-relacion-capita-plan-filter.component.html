@@ -1,0 +1,62 @@
+<section class="seeker-section">
+  <mat-accordion>
+    <mat-expansion-panel class="mat-elevation-z1">
+      <mat-expansion-panel-header floating>
+        <mat-panel-title> Opciones de búsqueda </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <form>
+        <div class="filter-content">
+          <h3> Fuente de Ingreso Administradora </h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <mat-label class="seeker-label" for=""></mat-label>
+            <input matInput class="seeker-input" disabled />
+          </mat-form-field>
+        </div>
+
+        <div class="filter-content">
+          <h3> Fuente de Ingreso Subordinada </h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <mat-label class="seeker-label" for=""></mat-label>
+            <input matInput class="seeker-input" disabled />
+          </mat-form-field>
+        </div>
+
+        <div class="filter-content">
+          <h3> Producto </h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <mat-label class="seeker-label" for=""></mat-label>
+            <input matInput class="seeker-input" #input />
+          </mat-form-field>
+        </div>
+
+        <div class="filter-content">
+          <h3> Subproducto </h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <mat-label class="seeker-label" for=""></mat-label>
+            <input matInput class="seeker-input" />
+          </mat-form-field>
+        </div>
+
+        <div class="filter-content">
+          <h3> Plan </h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <mat-label class="seeker-label" for=""></mat-label>
+            <input matInput class="seeker-input" />
+          </mat-form-field>
+        </div>
+
+        <div class="buttons-container">
+          <button class="primary-button icon-button" type="button" (click)="search()" [disabled]="input.value.length === 0">
+            <mat-icon>done</mat-icon>
+            Buscar
+          </button>
+          <button class="primary-button icon-button" type="button" (click)="clean()" [disabled]="!selectOptions?.value">
+            <mat-icon>close</mat-icon>
+            Limpiar
+          </button>
+        </div>
+      </form>
+    </mat-expansion-panel>
+  </mat-accordion>
+</section>

@@ -10,16 +10,12 @@ import { TipoDocumentoComponent } from './tipo-documento/tipo-documento.componen
 import { NacionalidadComponent } from './nacionalidad/nacionalidad.component';
 // 04 - DEPARTAMENTO
 import { DepartamentoComponent } from './departamento/departamento.component';
-
 // 05 - POSICIONES
-import { AbmPosicionesComponent } from './abm-posiciones/abm-posiciones.component'; 
-
+import { AbmPosicionesComponent } from './abm-posiciones/abm-posiciones.component';
 // 06 - LOCALIDADES
 import { AbmLocalidadesComponent } from './abm-localidades/abm-localidades.component';
-
 // 07 - FORMAS DE PAGO
-import { FormasPagoComponent } from "./formas-pago/formas-pago.component";
-
+import { FormasPagoComponent } from './formas-pago/formas-pago.component';
 // 08 - CONDICIONES DE IVA
 import { CondicionIvaComponent } from './condicion-iva/condicion-iva.component';
 // 09 - ESTADO CIVIL
@@ -28,7 +24,8 @@ import { EstadoCivilComponent } from './estado-civil/estado-civil.component';
 import { ObraSocialComponent } from './obra-social/obra-social.component';
 // 13 - PREGUNTAS DDJJ
 import { PreguntasDDJJComponent } from './preguntas-ddjj/preguntas-ddjj.component';
-
+// 31 - ATRIBUTOS DE RELACIÓN CAPITA/PLAN
+import { AtributosRelacionCapitaPlanComponent } from './atributos-relacion-capita-plan/atributos-relacion-capita-plan.component';
 
 const routes: Routes = [
   {
@@ -41,7 +38,7 @@ const routes: Routes = [
   },
   {
     path: 'parametros/nacionalidad',
-    component: NacionalidadComponent
+    component: NacionalidadComponent,
   },
   {
     path: 'parametros/departamento',
@@ -49,7 +46,11 @@ const routes: Routes = [
   },
   {
     path: 'parametros/posicion',
-    component: AbmPosicionesComponent
+    component: AbmPosicionesComponent,
+  },
+  {
+    path: 'parametros/localidades',
+    component: AbmLocalidadesComponent,
   },
   {
     path: 'parametros/formas-pago',
@@ -57,15 +58,7 @@ const routes: Routes = [
   },
   {
     path: 'parametros/condicion-iva',
-    component: CondicionIvaComponent
-  },
-  {
-    path: 'parametros/localidades',
-    component: AbmLocalidadesComponent
-  },
-  {
-    path: 'parametros/condicion-iva',
-    component: CondicionIvaComponent
+    component: CondicionIvaComponent,
   },
   {
     path: 'parametros/estado-civil',
@@ -78,7 +71,11 @@ const routes: Routes = [
   {
     path: 'parametros/pregunta-ddjj',
     component: PreguntasDDJJComponent,
-  }
+  },
+  {
+    path: 'parametros/atributos-relacion-capita-plan',
+    component: AtributosRelacionCapitaPlanComponent,
+  },
 ];
 
 @NgModule({
