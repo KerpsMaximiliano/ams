@@ -70,7 +70,21 @@ export class ProductoDashboardComponent {
 
   ngOnInit(): void {
     this.paginator._intl.itemsPerPageLabel = 'Elementos por página: ';
+    this.paginator._intl.nextPageLabel = 'Página siguiente.';
+    this.paginator._intl.previousPageLabel = 'Página anterior.';
+    this.paginator._intl.firstPageLabel = 'Primer página.';
+    this.paginator._intl.lastPageLabel = 'Ultima página.';
+    this.paginator._intl.getRangeLabel = (
+      page: number,
+      pageSize: number,
+      length: number
+    ): string => {
+      return length
+        ? 'Página ' + (page + 1) + ' de ' + Math.ceil(length / pageSize)
+        : 'Página 0 de 0';
+    };
   }
+
 
   private getProducto(): void {
     this.utils.openLoading();
@@ -82,23 +96,7 @@ export class ProductoDashboardComponent {
 
         this.dataSource = new MatTableDataSource<IProducto>(this.producto);
         this.dataSource.sort = this.sort;
-
-        setTimeout(() => {
-          this.dataSource.paginator = this.paginator;
-
-          // Permite calcular la cantidad total de páginas.
-          const totalPages = Math.ceil(
-            this.producto.length / this.paginator.pageSize
-          );
-
-          this.paginator.length = totalPages;
-
-          this.paginator._intl.getRangeLabel = (): string => {
-            return (
-              'Página ' + (this.paginator.pageIndex + 1) + ' de ' + totalPages
-            );
-          };
-        }, 100);
+        this.dataSource.paginator = this.paginator;
       },
       error: (err: any) => {
         this.utils.closeLoading();
@@ -111,7 +109,6 @@ export class ProductoDashboardComponent {
       },
       complete: () => {
         this.utils.closeLoading();
-        console.log(this.producto);
       },
     });
   }
@@ -152,7 +149,7 @@ export class ProductoDashboardComponent {
           this.productoService.getProductoCRUD(res).subscribe({
             next: () => {
               this.utils.notification(
-                'El Producto se ha editado extiosamente.',
+                'El Producto se ha editado extiosamente. ',
                 'success'
               );
             },

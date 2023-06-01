@@ -142,7 +142,7 @@
         <mat-icon>done</mat-icon>
         Guardar
       </button>
-      <button class="primary-button icon-button" type="submit" [disabled]="formGroup.invalid">
+      <button class="primary-button icon-button" type="submit" [disabled]="true">
         <mat-icon>done</mat-icon>
         Conceptos
       </button>
@@ -151,22 +151,23 @@
         <!-- Baja/Reactivación -->
         Baja
       </button>
-      <button class="primary-button icon-button" type="submit" [disabled]="formGroup.invalid">
+      <button class="primary-button icon-button" type="submit" [disabled]="formGroup.invalid" (click)="routes('', { prop: '' })">
         <mat-icon>done</mat-icon>
         Parentescos
       </button>
-      <button class="primary-button icon-button" type="submit" [disabled]="formGroup.invalid">
+      <button class="primary-button icon-button" type="submit" [disabled]="true">
         <mat-icon>done</mat-icon>
         Duplicar
       </button>
-      <button class="primary-button icon-button" type="submit" [disabled]="formGroup.invalid">
+      <button class="primary-button icon-button" type="submit" [disabled]="formGroup.invalid" (click)="routes('', { prop: '' })">
         <mat-icon>done</mat-icon>
         Unifica aportes
       </button>
-      <button class="primary-button icon-button" type="submit" [disabled]="formGroup.invalid">
+      <button class="primary-button icon-button" type="submit" [disabled]="true">
         <mat-icon>done</mat-icon>
         Otras Capitas
       </button>
+      
     </div>
 
     <ng-template #other_content>
@@ -177,3 +178,6 @@
     </ng-template>
   </form>
 </div>
+
+<!-- Ejemplo: Configuración de botón que redirecciona al usuario al componente necesario. -->
+<!-- <button class="primary-button icon-button" type="button"  (click)="routes('estados-civiles', { prop: '' })" > Botón de ejemplo </button> -->

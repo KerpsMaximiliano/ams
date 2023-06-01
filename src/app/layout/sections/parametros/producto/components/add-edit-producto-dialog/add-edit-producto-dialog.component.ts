@@ -1,4 +1,5 @@
 import { Component, Inject } from '@angular/core';
+import { Router } from '@angular/router';
 
 // * Form
 import {
@@ -31,7 +32,8 @@ export class AddEditProductoDialogComponent {
 
   constructor(
     public dialogRef: MatDialogRef<ConfirmDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private router: Router
   ) {}
 
   /**
@@ -235,5 +237,19 @@ export class AddEditProductoDialogComponent {
       }
     }
     return '';
+  }
+
+  /**
+   * obj: Define las propiedades que serán enviadas.
+   * route: Ruta de destino, ejemplo: 'estado-civil'. Dicha ruta tiene que tener coincidencia con la definida en el routing.module.
+   * history.state.obj: Recupera el 'obj' enviado en el componente de destino. Ejemplo:
+   * this.obj = history.state.obj;
+   */
+  public routes(route: string, obj: any): void {
+    // Cierra el modal antes de redireccionar al usuario.
+    this.closeDialog();
+
+    // Redirecciona al usuario.
+    this.router.navigate([`/parametros/${route}`], { state: { obj } });
   }
 }
