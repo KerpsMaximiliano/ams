@@ -1,0 +1,15 @@
+<section class="browse-section">
+    <div class="section-header">
+        <h2>Localidad</h2>
+        <button class="new-button icon-button" (click)="nuevaLocalidad()">
+            <mat-icon>add</mat-icon>
+            Nuevo
+        </button>
+    </div>
+
+    <div class="section-content">
+        <app-abm-localidades-filter (searchEvent)="handleSearch($event)">
+        </app-abm-localidades-filter>
+        <app-abm-localidades-dashboard></app-abm-localidades-dashboard>
+    </div>
+</section>

@@ -30,7 +30,6 @@ export class DepartamentoDashboardComponent {
   @ViewChild(MatTable) table!: MatTable<any>;
 
   public displayedColumns: string[] = [
-    'letra_provincia',
     'codigo_departamento',
     'departamento',
     'abreviatura',
@@ -49,11 +48,20 @@ export class DepartamentoDashboardComponent {
               private _liveAnnouncer: LiveAnnouncer,
               private cdr: ChangeDetectorRef,
               private dialog: MatDialog,
-              private provinciaService: ProvinciaService) { }
+              private provinciaService: ProvinciaService) { 
+    
+  }
 
   ngOnInit(): void {
     this.provincias$ = this.provinciaService.provinciaList;
-    this.provincias$.subscribe(data => this.provinciaList = data.dataset)
+    this.provincias$.subscribe({ 
+      next:(data) => {
+        this.provinciaList = data.dataset
+      },
+      error:(err)=> {
+        this.utils.notification(`Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`, 'error')
+      },
+  })
     this.paginator._intl.itemsPerPageLabel = 'Elementos por página';
   }
 
@@ -84,7 +92,7 @@ export class DepartamentoDashboardComponent {
         this.utils.closeLoading();
         (err.status == 0)
           ? this.utils.notification('Error de conexion', 'error') 
-          : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')
+          : this.utils.notification(`Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`, 'error')
       },
       complete: () => {
         this.utils.closeLoading();
@@ -103,7 +111,7 @@ export class DepartamentoDashboardComponent {
   public editDepartamento(departamento: Departamento): void {
     const modalNuevoDepartamento = this.dialog.open(AddEditDepartamentoDialogComponent, {
       data: {
-        title: `Editar Departamento`,
+        title: `EDITAR DEPARTAMENTO`,
         par_modo: "U",
         letra_provincia: departamento.letra_provincia,
         codigo_departamento: departamento?.codigo_departamento,
@@ -126,7 +134,7 @@ export class DepartamentoDashboardComponent {
               this.utils.closeLoading();
               (err.status == 0)
                 ? this.utils.notification('Error de conexion', 'error') 
-                : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')
+                : this.utils.notification(`Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`, 'error')
               this.editDepartamento(res)
             },
             complete: () => {
@@ -146,7 +154,7 @@ export class DepartamentoDashboardComponent {
   public viewDepartamento(departamento: Departamento): void {
     this.dialog.open(AddEditDepartamentoDialogComponent, {
       data: {
-        title: `Ver Departamento`,
+        title: `VER DEPARTAMENTO`,
         id_tabla: 10,
         letra_provincia: departamento.letra_provincia,
         codigo_departamento: departamento?.codigo_departamento,

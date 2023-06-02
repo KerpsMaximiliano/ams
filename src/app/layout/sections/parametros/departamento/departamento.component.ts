@@ -32,7 +32,7 @@ export class DepartamentoComponent {
   public nuevoDepartamento(departamento?:Departamento): void {
     const modalNuevoDepartamento = this.dialog.open(AddEditDepartamentoDialogComponent, {
       data: {
-        title: `Nuevo Departamento`,
+        title: `NUEVO DEPARTAMENTO`,
         edit: true,
         letra_provincia: departamento?.letra_provincia,
         codigo_departamento: departamento?.codigo_departamento,
@@ -54,7 +54,7 @@ export class DepartamentoComponent {
               this.utils.closeLoading();
               (err.status == 0)
                 ? this.utils.notification('Error de conexion', 'error') 
-                : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')
+                : this.utils.notification(`Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`, 'error')
               this.nuevoDepartamento(res);
             },
             complete: () => {

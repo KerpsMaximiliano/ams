@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../../../shared/shared.module';
 import { ParametrosRoutingModule } from './parametros-routing.module';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+
 
 // * Components
 // 01 - PROVINCIAS
@@ -15,15 +17,35 @@ import { TipoDocumentoComponent } from './tipo-documento/tipo-documento.componen
 import { TipoDocumentoDashboardComponent } from './tipo-documento/components/tipo-documento-dashboard/tipo-documento-dashboard.component';
 import { TipoDocumentoFilterComponent } from './tipo-documento/components/tipo-documento-filter/tipo-documento-filter.component';
 // 03 - NACIONALIDAD
-import { EditTipoNacionalidadDialogComponent } from './tipo-nacionalidad/components/edit-tipo-nacionalidad-dialog/edit-tipo-nacionalidad-dialog.component';
-import { TipoNacionalidadComponent } from './tipo-nacionalidad/tipo-nacionalidad.component';
-import { TipoNacionalidadDashboardComponent } from './tipo-nacionalidad/components/tipo-nacionalidad-dashboard/tipo-nacionalidad-dashboard.component';
-import { TipoNacionalidadFilterComponent } from './tipo-nacionalidad/components/tipo-nacionalidad-filter/tipo-nacionalidad-filter.component';
+
+import { EditNacionalidadDialogComponent } from './nacionalidad/components/edit-nacionalidad-dialog/edit-nacionalidad-dialog.component';
+import { NacionalidadComponent } from './nacionalidad/nacionalidad.component';
+import { NacionalidadDashboardComponent } from './nacionalidad/components/nacionalidad-dashboard/nacionalidad-dashboard.component';
+import { NacionalidadFilterComponent } from './nacionalidad/components/nacionalidad-filter/nacionalidad-filter.component';
 // 04 - DEPARTAMENTO
 import { AddEditDepartamentoDialogComponent } from './departamento/components/add-edit-departamento-dialog/add-edit-departamento-dialog.component';
 import { DepartamentoComponent } from './departamento/departamento.component';
 import { DepartamentoDashboardComponent } from './departamento/components/departamento-dashboard/departamento-dashboard.component';
 import { DepartamentoFilterComponent } from './departamento/components/departamento-filter/departamento-filter.component';
+
+// 05 - POSICIONES
+import { AbmPosicionesComponent } from './abm-posiciones/abm-posiciones.component';
+import { AddEditAbmPosicionesComponent } from './abm-posiciones/add-edit-abm-posiciones/add-edit-abm-posiciones.component';
+import { AbmPosicionesFilterComponent } from './abm-posiciones/abm-posiciones-filter/abm-posiciones-filter.component';
+import { AbmPosicionesDashboardComponent } from './abm-posiciones/abm-posiciones-dashboard/abm-posiciones-dashboard.component';
+
+// 06 - LOCALIDADES
+import { EditAbmLocalidadesDialogComponent } from './abm-localidades/components/abm-localidades-dialog/edit-abm-localidades-dialog.component';
+import { AbmLocalidadesComponent } from './abm-localidades/abm-localidades.component';
+import { AbmLocalidadesDashboardComponent } from './abm-localidades/components/abm-localidades-dashboard/abm-localidades-dashboard.component';
+import { AbmLocalidadesFilterComponent } from './abm-localidades/components/abm-localidades-filter/abm-localidades-filter.component';
+
+// 07 - FORMAS DE PAGO
+import { AddEditFormasPagoDialogComponent } from "./formas-pago/components/add-edit-formas-pago-dialog/add-edit-formas-pago-dialog.component";
+import { FormasPagoComponent } from "./formas-pago/formas-pago.component";
+import { FormasPagoDashboardComponent } from "./formas-pago/components/formas-pago-dashboard/formas-pago-dashboard.component";
+import { FormasPagoFilterComponent } from "./formas-pago/components/formas-pago-filter/formas-pago-filter.component";
+
 // 08 - CONDICIONES DE IVA
 import { AddEditCondicionIvaDialogComponent } from './condicion-iva/components/add-edit-condicion-iva-dialog/add-edit-condicion-iva-dialog.component';
 import { CondicionIvaComponent } from './condicion-iva/condicion-iva.component';
@@ -44,6 +66,12 @@ import { AddEditObraSocialDialogComponent } from './obra-social/components/add-e
 import { ObraSocialComponent } from './obra-social/obra-social.component';
 import { ObraSocialDashboardComponent } from './obra-social/components/obra-social-dashboard/obra-social-dashboard.component';
 import { ObraSocialFilterComponent } from './obra-social/components/obra-social-filter/obra-social-filter.component';
+// 13 - PREGUNTAS DDJJ
+import { AddEditPreguntasDDJJDialogComponent } from './preguntas-ddjj/components/add-edit-preguntas-ddjj-dialog/add-edit-preguntas-ddjj-dialog.component';
+import { PreguntasDDJJComponent } from "./preguntas-ddjj/preguntas-ddjj.component";
+import { PreguntasDDJJDashboardComponent } from './preguntas-ddjj/components/preguntas-ddjj-dashboard/preguntas-ddjj-dashboard.component';
+import { PreguntasDDJJFilterComponent } from './preguntas-ddjj/components/preguntas-ddjj-filter/preguntas-ddjj-filter.component';
+import { ModalLocalidadComponent } from './abm-posiciones/add-edit-abm-posiciones/modal-localidad/modal-localidad.component';
 
 @NgModule({
   declarations: [
@@ -60,16 +88,37 @@ import { ObraSocialFilterComponent } from './obra-social/components/obra-social-
     TipoDocumentoFilterComponent,
 
     // 03 - NACIONALIDAD
-    EditTipoNacionalidadDialogComponent,
-    TipoNacionalidadComponent,
-    TipoNacionalidadDashboardComponent,
-    TipoNacionalidadFilterComponent,
+    EditNacionalidadDialogComponent,
+    NacionalidadComponent,
+    NacionalidadDashboardComponent,
+    NacionalidadFilterComponent,
+
+    ModalLocalidadComponent,
+
     
     // 04 - DEPARTAMENTO
     AddEditDepartamentoDialogComponent,
     DepartamentoComponent,
     DepartamentoDashboardComponent,
     DepartamentoFilterComponent,
+
+    // 05 - POSICIONES
+    AbmPosicionesComponent,
+    AddEditAbmPosicionesComponent,
+    AbmPosicionesFilterComponent,
+    AbmPosicionesDashboardComponent,
+
+    // 06 - LOCALIDADES
+    EditAbmLocalidadesDialogComponent,
+    AbmLocalidadesComponent,
+    AbmLocalidadesDashboardComponent,
+    AbmLocalidadesFilterComponent,
+
+    // 07 - FORMAS DE PAGO
+    AddEditFormasPagoDialogComponent,
+    FormasPagoComponent,
+    FormasPagoDashboardComponent,
+    FormasPagoFilterComponent,
 
     // 08 - CONDICIONES DE IVA
     AddEditCondicionIvaDialogComponent,
@@ -95,11 +144,17 @@ import { ObraSocialFilterComponent } from './obra-social/components/obra-social-
     ObraSocialFilterComponent,
     ObraSocialComponent,
 
+    // 13 - PREGUNTAS DDJJ
+    AddEditPreguntasDDJJDialogComponent,
+    PreguntasDDJJComponent,
+    PreguntasDDJJDashboardComponent,
+    PreguntasDDJJFilterComponent,
   ],
   imports: [
     CommonModule,
     ParametrosRoutingModule,
-    SharedModule
+    SharedModule,
+    MatAutocompleteModule
   ]
 })
 export class ParametrosModule { }

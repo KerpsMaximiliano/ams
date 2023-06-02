@@ -21,44 +21,64 @@ export class NavMenuComponent {
       title: 'Parametros',
       expanded: true,
       children: [
-        {
+        { // 01 - PROVINCIA
           title: 'Provincias',
           url: '/parametros/provincia',
           icon: 'keyboard_arrow_right',
         },
-        {
+        { // 02 - TIPO DE DOCUMENTO
           title: 'Tipos de Documento',
           url: '/parametros/tipo-documento',
           icon: 'keyboard_arrow_right',
         },
-        {
-          title: 'Tipos de Nacionalidades',
-          url: '/parametros/tipo-nacionalidad',
+        { // 03 - NACIONALIDAD
+          title: 'Nacionalidades',
+          url: '/parametros/nacionalidad',
           icon: 'keyboard_arrow_right',
         },
-        {
+        { // 04 - DEPARTAMENTO
           title: 'Departamento',
-          url: '/parametros/abm-departamento',
+          url: '/parametros/departamento',
           icon: 'keyboard_arrow_right',
         },
         {
+          title: 'Posicion',
+          url: '/parametros/posicion',
+          icon: 'keyboard_arrow_right',
+        },
+        { // 07 - FORMAS DE PAGO
+          title: 'Formas de Pago',
+          url: '/parametros/formas-pago',
+          icon: 'keyboard_arrow_right',
+        },
+        { // 08 - CONDICIONES DE IVA
+          title: 'Condiciones de IVA',
+          url: '/parametros/condicion-iva',
+          icon: 'keyboard_arrow_right',
+        },
+        { // 06 - LOCALIDAD
+          title: 'Localidad',
+          url: '/parametros/localidades',
+          icon: 'keyboard_arrow_right',
+        },
+        { // 09 - ESTADO CIVIL
           title: 'Estado Civil',
           url: '/parametros/estado-civil',
           icon: 'keyboard_arrow_right',
         },
-        {
+        { // 11 - FUENTE DE INGRESO
           title: 'Fuente de Ingreso',
           url: '/parametros/fuente-ingreso',
           icon: 'keyboard_arrow_right',
         },
-        {
+        { // 12 - OBRA SOCIAL
           title: 'Obras Sociales',
           url: '/parametros/obra-social',
           icon: 'keyboard_arrow_right',
         },
-        {
-          title: 'Condiciones de IVA',
-          url: '/parametros/condicion-iva',
+        { // 13 - PREGUNTAS DDJJ
+          title: 'Preguntas DDJJ',
+          url: '/parametros/pregunta-ddjj',
           icon: 'keyboard_arrow_right',
         },
       ],

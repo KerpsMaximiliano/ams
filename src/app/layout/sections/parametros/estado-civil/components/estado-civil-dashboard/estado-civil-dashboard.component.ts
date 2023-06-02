@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 
 // * Services
@@ -6,7 +6,7 @@ import { UtilService } from 'src/app/core/services/util.service';
 import { EstadoCivilService } from 'src/app/core/services/estado-civil.service';
 
 // * Interfaces
-import { EstadoCivil } from 'src/app/core/models/estado-civil';
+import { IEstadoCivil } from 'src/app/core/models/estado-civil.interface';
 
 // * Material
 import { MatDialog } from '@angular/material/dialog';
@@ -22,19 +22,23 @@ import { AddEditEstadoCivilDialogComponent } from '../add-edit-estado-civil-dial
   templateUrl: './estado-civil-dashboard.component.html',
   styleUrls: ['./estado-civil-dashboard.component.scss'],
 })
-export class EstadoCivilDashboardComponent {
+export class EstadoCivilDashboardComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort = new MatSort();
+  @ViewChild(MatTable) table!: MatTable<any>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator =
     new MatPaginator(new MatPaginatorIntl(), this.cdr);
-  @ViewChild(MatTable) table!: MatTable<any>;
 
-  public displayedColumns: string[] = ['codigo_estado_civil', 'description', 'actions'];
+  public displayedColumns: string[] = [
+    'codigo_estado_civil',
+    'description',
+    'actions',
+  ];
 
-  public dataSource: MatTableDataSource<EstadoCivil>;
+  public dataSource: MatTableDataSource<IEstadoCivil>;
 
   public searchValue: string = '';
 
-  public estadoCivil: EstadoCivil[] = [];
+  public estadoCivil: IEstadoCivil[] = [];
 
   constructor(
     private estadoCivilService: EstadoCivilService,
@@ -45,36 +49,42 @@ export class EstadoCivilDashboardComponent {
   ) {}
 
   ngOnInit(): void {
-    this.paginator._intl.itemsPerPageLabel = 'Elementos por página';
+    this.paginator._intl.itemsPerPageLabel = 'Elementos por página: ';
+    this.paginator._intl.nextPageLabel = 'Página siguiente.';
+    this.paginator._intl.previousPageLabel = 'Página anterior.';
+    this.paginator._intl.firstPageLabel = 'Primer página.';
+    this.paginator._intl.lastPageLabel = 'Ultima página.';
+    this.paginator._intl.getRangeLabel = (
+      page: number,
+      pageSize: number,
+      length: number
+    ): string => {
+      return length
+        ? 'Página ' + (page + 1) + ' de ' + Math.ceil(length / pageSize)
+        : 'Página 0 de 0';
+    };
   }
 
   private getEstadoCivil(): void {
     this.utils.openLoading();
     this.estadoCivilService.getEstadoCivilCRUD(this.searchValue).subscribe({
       next: (res: any) => {
-        (res.dataset.length)
-          ? this.estadoCivil = res.dataset as EstadoCivil[]
-          : this.estadoCivil = [res.dataset];
-        this.dataSource = new MatTableDataSource<EstadoCivil>(this.estadoCivil);
+        res.dataset.length
+          ? (this.estadoCivil = res.dataset as IEstadoCivil[])
+          : (this.estadoCivil = [res.dataset]);
+
+        this.dataSource = new MatTableDataSource<IEstadoCivil>(
+          this.estadoCivil
+        );
         this.dataSource.sort = this.sort;
-        setTimeout(() => {
-          this.dataSource.paginator = this.paginator;
-          this.paginator._intl.getRangeLabel = (): string => {
-            return (
-              'Página ' +
-              (this.paginator.pageIndex + 1) +
-              ' de ' +
-              this.paginator.length
-            );
-          };
-        }, 100);
+        this.dataSource.paginator = this.paginator;
       },
       error: (err: any) => {
         this.utils.closeLoading();
         err.status == 0
-          ? this.utils.notification('Error de conexion', 'error')
+          ? this.utils.notification('Error de conexión. ', 'error')
           : this.utils.notification(
-              `Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`,
+              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
               'error'
             );
       },
@@ -92,12 +102,12 @@ export class EstadoCivilDashboardComponent {
     }
   }
 
-  public editEstadoCivil(estadoCivil: EstadoCivil): void {
+  public editEstadoCivil(estadoCivil: IEstadoCivil): void {
     const modalNuevoEstadoCivil = this.dialog.open(
       AddEditEstadoCivilDialogComponent,
       {
         data: {
-          title: `Editar Estado Civil`,
+          title: `EDITAR ESTADO CIVIL`,
           edit: true,
           par_modo: 'U',
           codigo_estado_civil: estadoCivil.codigo_estado_civil,
@@ -113,16 +123,16 @@ export class EstadoCivilDashboardComponent {
           this.estadoCivilService.getEstadoCivilCRUD(res).subscribe({
             next: () => {
               this.utils.notification(
-                'El Estado Civil se ha editado extiosamente',
+                'El Estado Civil se ha editado extiosamente. ',
                 'success'
               );
             },
             error: (err) => {
               this.utils.closeLoading();
               err.status == 0
-                ? this.utils.notification('Error de conexion', 'error')
+                ? this.utils.notification('Error de conexión. ', 'error')
                 : this.utils.notification(
-                    `Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`,
+                    `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
                     'error'
                   );
               this.editEstadoCivil(res);
@@ -139,10 +149,10 @@ export class EstadoCivilDashboardComponent {
     });
   }
 
-  public viewEstadoCivil(estadoCivil: EstadoCivil): void {
+  public viewEstadoCivil(estadoCivil: IEstadoCivil): void {
     this.dialog.open(AddEditEstadoCivilDialogComponent, {
       data: {
-        title: `Ver Estado Civil`,
+        title: `VER ESTADO CIVIL`,
         edit: false,
         par_modo: 'C',
         codigo_estado_civil: estadoCivil?.codigo_estado_civil,

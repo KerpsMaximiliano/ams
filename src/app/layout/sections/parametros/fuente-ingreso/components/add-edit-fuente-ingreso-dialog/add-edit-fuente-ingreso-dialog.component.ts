@@ -92,7 +92,7 @@ export class AddEditFuenteIngresoDialogComponent {
         console.log(err);
         (err.status == 0)
           ? this.utils.notification('Error de conexion', 'error') 
-          : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')
+          : this.utils.notification(`Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`, 'error')
       }
     })
   }
@@ -112,7 +112,7 @@ export class AddEditFuenteIngresoDialogComponent {
         console.log(err);
         (err.status == 0)
           ? this.utils.notification('Error de conexion', 'error') 
-          : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')
+          : this.utils.notification(`Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`, 'error')
       }
     })
   }

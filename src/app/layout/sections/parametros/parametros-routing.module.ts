@@ -7,9 +7,19 @@ import { ProvinciaComponent } from './provincia/provincia.component';
 // 02 - TIPO DE DOCUMENTO
 import { TipoDocumentoComponent } from './tipo-documento/tipo-documento.component';
 // 03 - NACIONALIDAD
-import { TipoNacionalidadComponent } from './tipo-nacionalidad/tipo-nacionalidad.component';
+import { NacionalidadComponent } from './nacionalidad/nacionalidad.component';
 // 04 - DEPARTAMENTO
 import { DepartamentoComponent } from './departamento/departamento.component';
+
+// 05 - POSICIONES
+import { AbmPosicionesComponent } from './abm-posiciones/abm-posiciones.component'; 
+
+// 06 - LOCALIDADES
+import { AbmLocalidadesComponent } from './abm-localidades/abm-localidades.component';
+
+// 07 - FORMAS DE PAGO
+import { FormasPagoComponent } from "./formas-pago/formas-pago.component";
+
 // 08 - CONDICIONES DE IVA
 import { CondicionIvaComponent } from './condicion-iva/condicion-iva.component';
 // 09 - ESTADO CIVIL
@@ -18,23 +28,42 @@ import { EstadoCivilComponent } from './estado-civil/estado-civil.component';
 import { FuenteIngresoComponent } from './fuente-ingreso/fuente-ingreso.component'; 
 // 12 - OBRA SOCIAL
 import { ObraSocialComponent } from './obra-social/obra-social.component';
+// 13 - PREGUNTAS DDJJ
+import { PreguntasDDJJComponent } from './preguntas-ddjj/preguntas-ddjj.component';
+
 
 const routes: Routes = [
   {
     path: 'parametros/provincia',
-    component: ProvinciaComponent
+    component: ProvinciaComponent,
   },
   {
     path: 'parametros/tipo-documento',
-    component: TipoDocumentoComponent
+    component: TipoDocumentoComponent,
   },
   {
-    path: 'parametros/tipo-nacionalidad',
-    component: TipoNacionalidadComponent
+    path: 'parametros/nacionalidad',
+    component: NacionalidadComponent
   },
   {
-    path: 'parametros/abm-departamento',
-    component: DepartamentoComponent
+    path: 'parametros/departamento',
+    component: DepartamentoComponent,
+  },
+  {
+    path: 'parametros/posicion',
+    component: AbmPosicionesComponent
+  },
+  {
+    path: 'parametros/formas-pago',
+    component: FormasPagoComponent,
+  },
+  {
+    path: 'parametros/condicion-iva',
+    component: CondicionIvaComponent
+  },
+  {
+    path: 'parametros/localidades',
+    component: AbmLocalidadesComponent
   },
   {
     path: 'parametros/condicion-iva',
@@ -50,12 +79,16 @@ const routes: Routes = [
   },
   {
     path: 'parametros/obra-social',
-    component: ObraSocialComponent
+    component: ObraSocialComponent,
   },
+  {
+    path: 'parametros/pregunta-ddjj',
+    component: PreguntasDDJJComponent,
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class ParametrosRoutingModule { }
+export class ParametrosRoutingModule {}

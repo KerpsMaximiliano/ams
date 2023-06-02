@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EditTipoProvinciaDialogComponent } from './add-edit-provincia-dialog.component';
+import { AddEditProvinciaDialogComponent } from './add-edit-provincia-dialog.component';
 
-describe('EditTipoProvinciaDialogComponent', () => {
-  let component: EditTipoProvinciaDialogComponent;
-  let fixture: ComponentFixture<EditTipoProvinciaDialogComponent>;
+describe('AddEditProvinciaDialogComponent', () => {
+  let component: AddEditProvinciaDialogComponent;
+  let fixture: ComponentFixture<AddEditProvinciaDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EditTipoProvinciaDialogComponent ]
+      declarations: [ AddEditProvinciaDialogComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(EditTipoProvinciaDialogComponent);
+    fixture = TestBed.createComponent(AddEditProvinciaDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -7,7 +7,7 @@
     <form class="form-datos" [formGroup]="formGroup" (ngSubmit)="confirm()">
 
       <div class="seeker-fields-container">
-        <h3>CODIGO</h3>
+        <h3>CÓDIGO OBRA SOCIAL</h3>
         <mat-form-field class="seeker-form-field" appearance="outline">
           <input matInput formControlName="codigo" required maxlength="5" minlength="1" [readonly]="!data.edit">
           <mat-error *ngIf="formGroup.get('codigo')?.invalid && formGroup.get('codigo')?.touched">{{getErrorMessage(formGroup.get('codigo'))}}</mat-error>
@@ -40,10 +40,10 @@
         <mat-form-field class="seeker-form-field" appearance="outline" >
           <mat-select formControlName="tipoFechaPatologia" [required]="formGroup.get('proponeFechaPatologia')?.value == 'S'">
             <mat-option [value]="'FI'" [disabled]="formGroup.get('proponeFechaPatologia')?.value != 'S'">
-              Fecha de ingreso al servicio
+              FECHA DE INGRESO AL SERVICIO
             </mat-option>
             <mat-option [value]="'FS'" [disabled]="formGroup.get('proponeFechaPatologia')?.value != 'S'">
-              Fecha de subscripción
+              FECHA DE SUBSCRIPCIÓN
             </mat-option>
           </mat-select>
           <mat-error *ngIf="formGroup.get('tipoFechaPatologia')?.invalid && formGroup.get('tipoFechaPatologia')?.touched">{{getErrorMessage(formGroup.get('tipoFechaPatologia'))}}</mat-error>

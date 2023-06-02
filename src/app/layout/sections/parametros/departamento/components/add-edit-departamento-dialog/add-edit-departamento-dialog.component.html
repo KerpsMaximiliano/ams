@@ -4,7 +4,7 @@
 <div class="dialog-content">
     <form class="form-datos" [formGroup]="formGroup" (ngSubmit)="confirm()">
         <div class="seeker-fields-container" *ngIf="data.par_modo == 'I'; else elseBlock">
-            <h3>Provincia</h3>
+            <h3>PROVINCIA</h3>
             <mat-form-field class="seeker-form-field" *ngIf="provincias$ | async as provincias; else loading" appearance="outline">
                 <mat-select formControlName="letra_provincia">
                     <mat-option *ngFor="let prov of provincias.dataset" [value]="prov.codigo">
@@ -30,7 +30,7 @@
         </div>
         <ng-template #elseBlock>
             <div class="seeker-fields-container">
-                <h3>Provincia</h3>
+                <h3>PROVINCIA</h3>
                 <mat-form-field class="seeker-form-field" appearance="outline">
                     <input matInput formControlName="nombre_provincia"
                         [readonly]="!data.edit">
@@ -38,7 +38,7 @@
             </div>
         </ng-template>
         <div class="seeker-fields-container">
-            <h3>Código Departamento</h3>
+            <h3>CÓDIGO DPT</h3>
             <mat-form-field class="seeker-form-field" appearance="outline">
                 <input matInput formControlName="codigo_departamento"
                     required maxlength="3" minlength="1"
@@ -50,7 +50,7 @@
             </mat-form-field>
         </div>
         <div class="seeker-fields-container">
-            <h3>Departamento</h3>
+            <h3>DEPARTAMENTO</h3>
             <mat-form-field class="seeker-form-field" appearance="outline">
             <input matInput formControlName="descripcion"
                 required maxlength="50" minlength="3"
@@ -62,7 +62,7 @@
             </mat-form-field>
         </div>
         <div class="seeker-fields-container">
-            <h3>Abreviatura</h3>
+            <h3>ABREVIATURA</h3>
             <mat-form-field class="seeker-form-field" appearance="outline">
             <input matInput formControlName="descripcion_reducida"
                 required maxlength="15" minlength="3"

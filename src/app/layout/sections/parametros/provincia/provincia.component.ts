@@ -29,7 +29,7 @@ export class ProvinciaComponent {
   public nuevaProvincia(tipoProvincia?:Provincia): void {
     const modalNuevaProvincia = this.dialog.open(AddEditProvinciaDialogComponent, {
       data: {
-        title: `Nuevo Tipo de Provincia`,
+        title: `CREAR PROVINCIA`,
         edit: true,
         codigo: tipoProvincia?.codigo,
         nombre_provincia: tipoProvincia?.nombre_provincia,
@@ -46,13 +46,13 @@ export class ProvinciaComponent {
           this.utils.openLoading();
           this.provinciaService.provinciaCRUD(res).subscribe({
             next: () => {
-              this.utils.notification("El Tipo de Provincia se ha creado exitosamente", 'success')
+              this.utils.notification("La Provincia se ha creado exitosamente", 'success')
             },
             error: (err:any) => {
               this.utils.closeLoading();
               (err.status == 0)
                 ? this.utils.notification('Error de conexion', 'error') 
-                : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')
+                : this.utils.notification(`Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`, 'error')
               this.nuevaProvincia(res);
             },
             complete: () => {

@@ -66,7 +66,7 @@ export class ProvinciaDashboardComponent {
         this.utils.closeLoading();
         (err.status == 0)
           ? this.utils.notification('Error de conexion', 'error') 
-          : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')
+          : this.utils.notification(`Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`, 'error')
       },
       complete: () => {
         this.utils.closeLoading();
@@ -85,7 +85,7 @@ export class ProvinciaDashboardComponent {
   public editProvincia(tipoProvincia: Provincia): void {
     const modalNuevaProvincia = this.dialog.open(AddEditProvinciaDialogComponent, {
       data: {
-        title: `Editar Provincia`,
+        title: `EDITAR PROVINCIA`,
         par_modo: "U",
         codigo: tipoProvincia?.codigo,
         nombre_provincia: tipoProvincia?.nombre_provincia,
@@ -108,7 +108,7 @@ export class ProvinciaDashboardComponent {
               this.utils.closeLoading();
               (err.status == 0)
                 ? this.utils.notification('Error de conexion', 'error') 
-                : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')
+                : this.utils.notification(`Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`, 'error')
               this.editProvincia(res)
             },
             complete: () => {
@@ -127,7 +127,7 @@ export class ProvinciaDashboardComponent {
   public viewProvincia(tipoProvincia: Provincia): void {
     this.dialog.open(AddEditProvinciaDialogComponent, {
       data: {
-        title: `Ver Provincia`,
+        title: `VER PROVINCIA`,
         id_tabla: 9,
         codigo: tipoProvincia?.codigo,
         nombre_provincia: tipoProvincia?.nombre_provincia,

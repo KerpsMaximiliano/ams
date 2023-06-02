@@ -1,3 +1,80 @@
-table .mat-cell.mat-column-description {
+/*
+ * Evita un espaciado innecesario en la primer columna.
+*/
+th.mat-header-cell:first-of-type,
+td.mat-cell:first-of-type {
+    padding-left: 0px !important;
+}
+
+/*
+ * Espacio mínimo a ambos lados de todas las columnas.
+*/
+.mat-column-id.mat-header-cell,
+.mat-column-id.mat-cell,
+.mat-column-tipo-documento.mat-header-cell,
+.mat-column-tipo-documento.mat-cell,
+.mat-column-abreviatura.mat-header-cell,
+.mat-column-abreviatura.mat-cell,
+.mat-column-control-cuit.mat-header-cell,
+.mat-column-control-cuit.mat-cell,
+.mat-column-actions.mat-header-cell,
+.mat-column-actions.mat-cell {
+    padding-left: 0.5vw !important;
+    padding-right: 0.5vw !important;
+    word-break: break-all !important;
+}
+
+/*
+ * Texto alineado a la izquierda.
+ * Tipo de documento (tipo-documento).
+ * Abreviatura (abreviatura).
+ * Control de CUIT (control-cuit).
+*/
+.mat-column-tipo-documento.mat-header-cell,
+.mat-column-tipo-documento.mat-cell,
+.mat-column-abreviatura.mat-header-cell,
+.mat-column-abreviatura.mat-cell,
+.mat-column-control-cuit.mat-header-cell,
+.mat-column-control-cuit.mat-cell {
     text-align: left !important;
+    padding-left: 1vw !important;
+}
+
+/*
+ * Número y fecha alineado a la derecha.
+ * Código (id).
+*/
+.mat-column-id.mat-header-cell,
+.mat-column-id.mat-cell {
+    width: 10% !important;
+    text-align: right !important;
+    padding-right: 1vw !important;
+}
+
+/*
+ * Iconos alineados al centro.
+ * Acciones (actions).
+*/
+.mat-column-actions.mat-header-cell,
+.mat-column-actions.mat-cell {
+    text-align: center !important;
+}
+
+/*
+ * Ancho máximo por columna individual de todas las columnas menos el 'Código' (nro_preg) y las 'Acciones' (actions).
+*/
+.mat-column-tipo-documento.mat-header-cell,
+.mat-column-tipo-documento.mat-cell {
+    width: 40% !important;
+}
+
+.mat-column-id.mat-header-cell,
+.mat-column-id.mat-cell,
+.mat-column-control-cuit.mat-header-cell,
+.mat-column-control-cuit.mat-cell,
+.mat-column-actions.mat-header-cell,
+.mat-column-actions.mat-cell 
+.mat-column-yes_no.mat-header-cell,
+.mat-column-yes_no.mat-cell {
+    width: 15% !important;
 }

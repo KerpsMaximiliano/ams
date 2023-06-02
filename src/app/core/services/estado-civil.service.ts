@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { EnvironmentService } from './environment.service';
 
 // * Interfaces
-import { EstadoCivilResponse } from '../models/estado-civil';
+import { IEstadoCivilResponse } from '../models/estado-civil.interface';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -21,8 +21,8 @@ export class EstadoCivilService {
     private environmentService: EnvironmentService
   ) {}
 
-  getEstadoCivilCRUD(body: string): Observable<EstadoCivilResponse> {
-    return this.http.post<EstadoCivilResponse>(
+  getEstadoCivilCRUD(body: string): Observable<IEstadoCivilResponse> {
+    return this.http.post<IEstadoCivilResponse>(
       `${this.environmentService.api}/abmestadocivil`,
       body,
       httpOptions
