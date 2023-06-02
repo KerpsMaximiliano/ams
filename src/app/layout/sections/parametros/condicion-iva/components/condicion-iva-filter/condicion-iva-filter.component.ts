@@ -13,26 +13,18 @@ export class CondicionIvaFilterComponent {
   public descripcion = new UntypedFormControl('');
   constructor() { }
   
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
-  public search(): void {
+  public search(event: any, value: string): void {
+    event.preventDefault();
     this.body = {
-      par_modo: "G",
-      descripcion: this.descripcion.value
+      par_modo: 'C',
+      descripcion: value,
     };
-    this.searchEvent.emit(this.body)
-
+    this.searchEvent.emit(this.body);
   }
 
-  public searchKeyUp(e:any): void {
-    e.preventDefault();
-    if(this.descripcion.value.length > 2 ) {
-      this.searchEvent.emit(this.descripcion.value)
-    }
-  }
-
-  public clearInputs(): void {
-    this.descripcion.setValue("");
+  public clear(inputElement: HTMLInputElement) {
+    inputElement.value = '';
   }
 }
