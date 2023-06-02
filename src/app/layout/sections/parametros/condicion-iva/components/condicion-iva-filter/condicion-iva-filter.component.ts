@@ -10,7 +10,6 @@ export class CondicionIvaFilterComponent {
   body: string | any;
   @Output() searchEvent: EventEmitter<string> = new EventEmitter<string>();
 
-  public descripcion = new UntypedFormControl('');
   constructor() { }
   
   ngOnInit(): void {}
@@ -18,8 +17,8 @@ export class CondicionIvaFilterComponent {
   public search(event: any, value: string): void {
     event.preventDefault();
     this.body = {
-      par_modo: 'C',
-      descripcion: value,
+      par_modo: "C",
+      descripcion: value
     };
     this.searchEvent.emit(this.body);
   }
