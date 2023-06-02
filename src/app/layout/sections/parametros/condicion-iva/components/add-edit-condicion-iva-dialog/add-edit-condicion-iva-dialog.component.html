@@ -9,7 +9,7 @@
       <div class="seeker-fields-container">
         <h3>CÓDIGO CONDICIÓN DE IVA</h3>
         <mat-form-field class="seeker-form-field" appearance="outline">
-          <input matInput formControlName="codigo_de_IVA" required maxlength="2" minlength="1" [readonly]="!data.edit">
+          <input matInput formControlName="codigo_de_IVA" required maxlength="2" minlength="1" [disabled]="!data.edit">
           <mat-error *ngIf="formGroup.get('codigo_de_IVA')?.invalid && formGroup.get('codigo_de_IVA')?.touched">{{getErrorMessage(formGroup.get('codigo_de_IVA'))}}</mat-error>
         </mat-form-field>
       </div>
@@ -17,7 +17,7 @@
       <div class="seeker-fields-container">
         <h3>CONDICIÓN DE IVA</h3>
         <mat-form-field class="seeker-form-field" appearance="outline">
-          <input matInput formControlName="descripcion" required maxlength="20" minlength="3" [readonly]="!data.edit">
+          <input matInput formControlName="descripcion" required maxlength="20" minlength="3" [disabled]="!data.edit">
           <mat-error *ngIf="formGroup.get('descripcion')?.invalid && formGroup.get('descripcion')?.touched">{{getErrorMessage(formGroup.get('descripcion'))}}</mat-error>
         </mat-form-field>
       </div>
@@ -25,7 +25,7 @@
       <div class="seeker-fields-container">
         <h3>ABREVIATURA</h3>
         <mat-form-field class="seeker-form-field" appearance="outline">
-          <input matInput formControlName="descripcion_reducida" required maxlength="8" minlength="1" [readonly]="!data.edit">
+          <input matInput formControlName="descripcion_reducida" required maxlength="8" minlength="1" [disabled]="!data.edit">
           <mat-error *ngIf="formGroup.get('descripcion_reducida')?.invalid && formGroup.get('descripcion_reducida')?.touched">{{getErrorMessage(formGroup.get('descripcion_reducida'))}}</mat-error>
         </mat-form-field>
       </div>
@@ -33,7 +33,7 @@
       <div class="seeker-fields-container">
         <h3>FORMULARIO</h3>
         <mat-form-field class="seeker-form-field" appearance="outline">
-          <mat-select formControlName="formulario_AB">
+          <mat-select formControlName="formulario_AB" required [disabled]="!data.edit">
             <mat-option [value]="'A'">
               A
             </mat-option>

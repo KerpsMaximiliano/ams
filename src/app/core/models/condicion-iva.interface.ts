@@ -1,6 +1,6 @@
 import { Response } from "./response";
 
-export interface CondicionIva {
+export interface ICondicionIva {
     par_modo: string,
     id: number;
     descripcion: string;
@@ -9,4 +9,4 @@ export interface CondicionIva {
     codigo_de_IVA: string;
 }
 
-export type CondicionIvaResponse = Response<CondicionIva[]>;
+export type CondicionIvaResponse = Response<ICondicionIva[]>;

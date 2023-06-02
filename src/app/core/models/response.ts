@@ -1,6 +1,6 @@
 export interface Response<Data> {
     dataset: Data,
-    returnset: {
+    estado: {
         Mensaje: string,
         Codigo: number
     }    
