@@ -3,7 +3,7 @@
 */
 th.mat-header-cell:first-of-type,
 td.mat-cell:first-of-type {
-    padding-left: 0px !important;
+  padding-left: 0px !important;
 }
 
 /*
@@ -19,9 +19,9 @@ td.mat-cell:first-of-type {
 .mat-column-control-cuit.mat-cell,
 .mat-column-actions.mat-header-cell,
 .mat-column-actions.mat-cell {
-    padding-left: 0.5vw !important;
-    padding-right: 0.5vw !important;
-    word-break: break-all !important;
+  padding-left: 0.5vw !important;
+  padding-right: 0.5vw !important;
+  word-break: break-all !important;
 }
 
 /*
@@ -36,8 +36,8 @@ td.mat-cell:first-of-type {
 .mat-column-abreviatura.mat-cell,
 .mat-column-control-cuit.mat-header-cell,
 .mat-column-control-cuit.mat-cell {
-    text-align: left !important;
-    padding-left: 1vw !important;
+  text-align: left !important;
+  padding-left: 1vw !important;
 }
 
 /*
@@ -46,9 +46,9 @@ td.mat-cell:first-of-type {
 */
 .mat-column-id.mat-header-cell,
 .mat-column-id.mat-cell {
-    width: 10% !important;
-    text-align: right !important;
-    padding-right: 1vw !important;
+  width: 10% !important;
+  text-align: right !important;
+  padding-right: 1vw !important;
 }
 
 /*
@@ -57,7 +57,7 @@ td.mat-cell:first-of-type {
 */
 .mat-column-actions.mat-header-cell,
 .mat-column-actions.mat-cell {
-    text-align: center !important;
+  text-align: center !important;
 }
 
 /*
@@ -65,7 +65,7 @@ td.mat-cell:first-of-type {
 */
 .mat-column-tipo-documento.mat-header-cell,
 .mat-column-tipo-documento.mat-cell {
-    width: 40% !important;
+  width: 40% !important;
 }
 
 .mat-column-id.mat-header-cell,
@@ -73,8 +73,7 @@ td.mat-cell:first-of-type {
 .mat-column-control-cuit.mat-header-cell,
 .mat-column-control-cuit.mat-cell,
 .mat-column-actions.mat-header-cell,
-.mat-column-actions.mat-cell 
-.mat-column-yes_no.mat-header-cell,
+.mat-column-actions.mat-cell .mat-column-yes_no.mat-header-cell,
 .mat-column-yes_no.mat-cell {
-    width: 15% !important;
+  width: 15% !important;
 }

@@ -16,7 +16,6 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
 
 // * Components
 import { AddEditTipoDocumentoDialogComponent } from '../add-edit-tipo-documento-dialog/add-edit-tipo-documento-dialog.component';
-import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-tipo-documento-dashboard',
@@ -28,10 +27,11 @@ export class TipoDocumentoDashboardComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator =
     new MatPaginator(new MatPaginatorIntl(), this.cdr);
 
-  // @ViewChild(MatPaginator, { static : false }) paginator!: MatPaginator;
-
   @ViewChild(MatTable) table!: MatTable<any>;
 
+  public searchEvent: string = '';
+  public searchId: number = 0; // VERIFICAR.
+  public documents: ITipoDocumento[] = [];
   public displayedColumns: string[] = [
     'id',
     'tipo-documento',
@@ -39,13 +39,7 @@ export class TipoDocumentoDashboardComponent implements OnInit {
     'control-cuit',
     'actions',
   ];
-
   public dataSource: MatTableDataSource<ITipoDocumento>;
-
-  public searchEvent: string = '';
-  public searchId: number = 0; // VERIFICAR.
-
-  public documents: ITipoDocumento[] = [];
 
   constructor(
     private tipoDocumentoService: TipoDocumentoService,
@@ -80,7 +74,7 @@ export class TipoDocumentoDashboardComponent implements OnInit {
       id: this.searchId,
     };
     let body = JSON.stringify(aux);
-    this.tipoDocumentoService.getDocumentByDesc(body).subscribe({
+    this.tipoDocumentoService.CRUD(body).subscribe({
       next: (res: any) => {
         this.documents = res.dataset as ITipoDocumento[];
         this.dataSource = new MatTableDataSource<ITipoDocumento>(
@@ -112,18 +106,18 @@ export class TipoDocumentoDashboardComponent implements OnInit {
     }
   }
 
-  public editDocType(tipoDocumento: ITipoDocumento): void {
+  public editTipoDocumento(tipoDocumento: ITipoDocumento): void {
     const modalNuevoTipoDocumento = this.dialog.open(
       AddEditTipoDocumentoDialogComponent,
       {
         data: {
           title: `EDITAR COUMENTO`,
+          edit: true,
           id: tipoDocumento.tipo_de_documento,
           tipo: tipoDocumento.descripcion,
           abreviatura: tipoDocumento.descripcion_reducida,
           cuit: tipoDocumento.control_cuit,
           tipo_documento: tipoDocumento.tipo_de_documento,
-          edit: true,
         },
       }
     );
@@ -132,7 +126,7 @@ export class TipoDocumentoDashboardComponent implements OnInit {
       next: (res) => {
         if (res) {
           this.utils.openLoading();
-          this.tipoDocumentoService.editDocument(res).subscribe({
+          this.tipoDocumentoService.CRUD(res).subscribe({
             next: () => {
               this.utils.notification(
                 'El Documento se ha editado extiosamente. ',
@@ -147,7 +141,7 @@ export class TipoDocumentoDashboardComponent implements OnInit {
                     `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
                     'error'
                   );
-              this.editDocType(res);
+              this.editTipoDocumento(res);
             },
             complete: () => {
               this.utils.closeLoading();
@@ -161,55 +155,22 @@ export class TipoDocumentoDashboardComponent implements OnInit {
     });
   }
 
-  public viewDocType(tipoDocumento: ITipoDocumento): void {
+  public viewTipoDocumento(tipoDocumento: ITipoDocumento): void {
     this.dialog.open(AddEditTipoDocumentoDialogComponent, {
       data: {
         title: `VER DOCUMENTO`,
+        edit: false,
         id: tipoDocumento.id,
         tipo: tipoDocumento.descripcion,
         abreviatura: tipoDocumento.descripcion_reducida,
         cuit: tipoDocumento.control_cuit,
-        edit: false,
-      },
-    });
-  }
-
-  public deleteDocType(tipoDoc: ITipoDocumento): void {
-    const modalConfirm = this.dialog.open(ConfirmDialogComponent, {
-      data: {
-        title: `ELIMINAR DOCUMENTO`,
-        message: `¿Está seguro de eliminar el documento ${tipoDoc.descripcion}?`,
-      },
-    });
-
-    modalConfirm.afterClosed().subscribe({
-      next: (res) => {
-        if (res) {
-          this.tipoDocumentoService.deleteParametro(res.id).subscribe({
-            next: (res: any) => {
-              this.utils.notification(
-                'El Documento se ha borrado exitosamente.',
-                'success'
-              );
-              this.getTipoDocumento();
-            },
-            error: (err) => {
-              err.status == 0
-                ? this.utils.notification('Error de conexión. ', 'error')
-                : this.utils.notification(
-                    `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
-                    'error'
-                  );
-            },
-          });
-        }
       },
     });
   }
 
   public filter(buscar: any): void {
-    this.searchEvent = buscar.descripcion;
     this.searchId = buscar.id;
+    this.searchEvent = buscar.descripcion;
     this.getTipoDocumento();
   }
 }

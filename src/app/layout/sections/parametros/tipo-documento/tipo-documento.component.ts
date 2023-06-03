@@ -40,9 +40,9 @@ export class TipoDocumentoComponent {
       AddEditTipoDocumentoDialogComponent,
       {
         data: {
-          id: 99,
           title: `CREAR TIPO DE DOCUMENTO`,
           edit: true,
+          id: 99,
           tipo: tipoDocumento?.descripcion,
           abreviatura: tipoDocumento?.descripcion_reducida,
           cuit: tipoDocumento?.control_cuit,
@@ -57,7 +57,7 @@ export class TipoDocumentoComponent {
           let body = res;
           delete body['id'];
           this.utils.openLoading();
-          this.tipoDocumentoService.addDocument(body).subscribe({
+          this.tipoDocumentoService.CRUD(body).subscribe({
             next: () => {
               this.utils.notification(
                 'El Documento se ha creado exitosamente. ',

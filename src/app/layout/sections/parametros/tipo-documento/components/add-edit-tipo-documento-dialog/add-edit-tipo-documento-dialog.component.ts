@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 
-// * Form
+// * Forms
 import {
   UntypedFormControl,
   UntypedFormGroup,
@@ -33,8 +33,6 @@ export class AddEditTipoDocumentoDialogComponent {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.data);
-
     this.setUpForm();
     if (this.data.id) this.setFormValues();
   }

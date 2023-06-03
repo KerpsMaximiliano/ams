@@ -1,69 +1,65 @@
 <div class="dialog-title">
-    <h2>{{data.title | uppercase}}</h2>
+  <h2>{{data.title | uppercase}}</h2>
 </div>
 
 <div class="dialog-content">
-
-    <form class="form-datos" [formGroup]="formGroup" (ngSubmit)="confirm()">
-      <div class="seeker-fields-container">
-        <h3>CÓDIGO DE DOCUMENTO</h3>
-        <mat-form-field class="seeker-form-field" appearance="outline">
-            <input matInput formControlName="id"
-                required maxlength="2" minlength="1"
-                [readonly]="data.id != 99">
-            <mat-error *ngIf="formGroup.get('id')?.invalid
-                && formGroup.get('id')?.touched">
-                    {{getErrorMessage(formGroup.get('id'))}}
-            </mat-error>
-        </mat-form-field>
+  <form class="form-datos" [formGroup]="formGroup" (ngSubmit)="confirm()">
+    <div class="seeker-fields-container">
+      <h3> CÓDIGO DE DOCUMENTO </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <input matInput formControlName="id" required minlength="1" maxlength="2" [readonly]="data.id != 99">
+        <mat-error *ngIf="formGroup.get('id')?.invalid && formGroup.get('id')?.touched">
+          {{ getErrorMessage(formGroup.get('id')) }}
+        </mat-error>
+      </mat-form-field>
     </div>
-      <div class="seeker-fields-container">
-        <h3>TIPO DE DOCUMENTO</h3>
-        <mat-form-field class="seeker-form-field" appearance="outline">
-          <input matInput formControlName="tipo" required maxlength="20" minlength="3" [readonly]="!data.edit">
-          <mat-error *ngIf="formGroup.get('tipo')?.invalid && formGroup.get('tipo')?.touched">{{getErrorMessage(formGroup.get('tipo'))}}</mat-error>
-        </mat-form-field>
-      </div>
 
-      <div class="seeker-fields-container">
-        <h3>ABREVIATURA</h3>
-        <mat-form-field class="seeker-form-field" appearance="outline">
-          <input matInput formControlName="abreviatura" required maxlength="3" minlength="1" [readonly]="!data.edit">
-          <mat-error *ngIf="formGroup.get('abreviatura')?.invalid && formGroup.get('abreviatura')?.touched">{{getErrorMessage(formGroup.get('abreviatura'))}}</mat-error>
-        </mat-form-field>
-      </div>
+    <div class="seeker-fields-container">
+      <h3> TIPO DE DOCUMENTO </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <input matInput formControlName="tipo" required minlength="3" maxlength="20" [readonly]="!data.edit">
+        <mat-error *ngIf="formGroup.get('tipo')?.invalid && formGroup.get('tipo')?.touched">
+          {{ getErrorMessage(formGroup.get('tipo')) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
 
-      <div class="seeker-fields-container">
-        <h3>CONTROL DE CUIT</h3>
-        <mat-form-field class="seeker-form-field" appearance="outline">
-          <mat-select formControlName="cuit">
-            <mat-option [value]="'S'">
-              SI
-            </mat-option>
-            <mat-option [value]="'N'">
-              NO
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
+    <div class="seeker-fields-container">
+      <h3> ABREVIATURA </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <input matInput formControlName="abreviatura" required minlength="1" maxlength="3" [readonly]="!data.edit">
+        <mat-error *ngIf="formGroup.get('abreviatura')?.invalid && formGroup.get('abreviatura')?.touched">
+          {{ getErrorMessage(formGroup.get('abreviatura')) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
 
-      <div *ngIf="data.edit; else other_content" class="buttons-container">
-        <button class="primary-button icon-button" type="button" (click)="closeDialog()">
-          <mat-icon>close</mat-icon>
-          Cancelar
-        </button>
-        <button class="primary-button icon-button" type="submit" [disabled]="formGroup.invalid">
-          <mat-icon>done</mat-icon>
-          Guardar
-        </button>
-      </div>
+    <div class="seeker-fields-container">
+      <h3> CONTROL DE CUIT </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <mat-select formControlName="cuit">
+          <mat-option [value]="'S'"> SI </mat-option>
+          <mat-option [value]="'N'"> NO </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
 
-      <ng-template #other_content>
-        <button class="primary-button icon-button" mat-dialog-close>
-          <mat-icon>done</mat-icon>
-          Aceptar
-        </button>
-      </ng-template>
-    </form>
+    <div *ngIf="data.edit; else other_content" class="buttons-container">
+      <button class="primary-button icon-button" type="button" (click)="closeDialog()">
+        <mat-icon> close </mat-icon>
+        Cancelar
+      </button>
+      <button class="primary-button icon-button" type="submit" [disabled]="formGroup.invalid">
+        <mat-icon> done </mat-icon>
+        Guardar
+      </button>
+    </div>
 
+    <ng-template #other_content>
+      <button class="primary-button icon-button" mat-dialog-close>
+        <mat-icon> done </mat-icon>
+        Aceptar
+      </button>
+    </ng-template>
+  </form>
 </div>

@@ -13,6 +13,7 @@
         </mat-error>
       </mat-form-field>
     </div>
+
     <div class="seeker-fields-container">
       <h3> PROVINCIA </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
@@ -23,6 +24,7 @@
         </mat-error>
       </mat-form-field>
     </div>
+
     <div class="seeker-fields-container">
       <h3> CÓDIGO ALTERNATIVO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
@@ -32,6 +34,7 @@
         </mat-error>
       </mat-form-field>
     </div>
+
     <div class="seeker-fields-container">
       <h3> ¿CODIFICA ALTURA Y CALLES? </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
@@ -41,6 +44,7 @@
         </mat-select>
       </mat-form-field>
     </div>
+
     <div class="seeker-fields-container">
       <h3> PORCENTAJE DE FLETE A TRANSPORTISTA </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
@@ -52,6 +56,7 @@
         </mat-error>
       </mat-form-field>
     </div>
+
     <div *ngIf="data.edit; else other_content" class="buttons-container">
       <button class="primary-button icon-button" type="button" (click)="closeDialog()">
         <mat-icon>close</mat-icon>
@@ -62,6 +67,7 @@
         Guardar
       </button>
     </div>
+
     <ng-template #other_content>
       <button class="primary-button icon-button right" mat-dialog-close>
         <mat-icon>done</mat-icon>

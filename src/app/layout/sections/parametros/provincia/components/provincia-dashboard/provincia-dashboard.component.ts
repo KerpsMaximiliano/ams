@@ -28,6 +28,8 @@ export class ProvinciaDashboardComponent {
     new MatPaginator(new MatPaginatorIntl(), this.cdr);
   @ViewChild(MatTable) table!: MatTable<any>;
 
+  public searchText: string;
+  public provincia: IProvincia[] = [];
   public displayedColumns: string[] = [
     'codigo',
     'nombre_provincia',
@@ -36,10 +38,7 @@ export class ProvinciaDashboardComponent {
     'flete_transportista',
     'actions',
   ];
-
-  public provincia: IProvincia[] = [];
   public dataSource: MatTableDataSource<IProvincia>;
-  public searchText: string;
 
   constructor(
     private provinciaService: ProvinciaService,

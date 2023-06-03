@@ -4,6 +4,7 @@
       <mat-expansion-panel-header floating>
         <mat-panel-title>Opciones de búsqueda</mat-panel-title>
       </mat-expansion-panel-header>
+
       <form>
         <div class="seeker-fields-container">
           <mat-form-field class="seeker-form-field">
@@ -11,6 +12,7 @@
             <input matInput class="seeker-input" [formControl]="nombre_provincia" (keydown.enter)="searchKeyUp($event)">
           </mat-form-field>
         </div>
+
         <div class="buttons-container">
           <button class="primary-button icon-button" type="button" (click)="search()">
             <mat-icon>done</mat-icon>
