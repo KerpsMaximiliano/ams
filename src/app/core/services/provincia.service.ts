@@ -1,8 +1,12 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { IProvincia, IProvinciaResponse } from '../models/provincia.interface';
+
+// * Services
 import { EnvironmentService } from './environment.service';
+
+// * Interfaces
+import { IProvinciaResponse } from '../models/provincia.interface';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -13,7 +17,7 @@ const httpOptions = {
 export class ProvinciaService {
   URL: string = '/abmprovincias';
   get provinciaList(): any {
-    return this.provinciaCRUD(
+    return this.CRUD(
       JSON.stringify({
         par_modo: 'C',
         nombre_provincia: '',
@@ -26,8 +30,8 @@ export class ProvinciaService {
     private environmentService: EnvironmentService
   ) {}
 
-  provinciaCRUD(body: string): Observable<IProvinciaResponse | IProvincia> {
-    return this.http.post<IProvinciaResponse | IProvincia>(
+  CRUD(body: string): Observable<IProvinciaResponse> {
+    return this.http.post<IProvinciaResponse>(
       `${this.environmentService.api}` + this.URL,
       body,
       httpOptions

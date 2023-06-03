@@ -52,7 +52,7 @@ export class ObraSocialComponent {
         if (res) {
           console.log(res);
           this.utils.openLoading();
-          this.obraSocialService.getObraSocialCRUD(res).subscribe({
+          this.obraSocialService.CRUD(res).subscribe({
             next: () => {
               this.utils.notification(
                 'La Obra Social se ha creado exitosamente',

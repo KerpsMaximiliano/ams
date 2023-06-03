@@ -1,11 +1,12 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+
+// * Services
 import { EnvironmentService } from './environment.service';
-import {
-  IDepartamento,
-  IDepartamentoResponse,
-} from '../models/departamento.interface';
+
+// * Interfaces
+import { IDepartamentoResponse } from '../models/departamento.interface';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -22,9 +23,7 @@ export class DepartamentoService {
     private environmentService: EnvironmentService
   ) {}
 
-  departamentoCRUD(
-    body: string
-  ): Observable<IDepartamentoResponse | IDepartamento> {
+  CRUD(body: string): Observable<IDepartamentoResponse> {
     return this.http.post<IDepartamentoResponse>(
       `${this.environmentService.api}` + this.URL,
       body,

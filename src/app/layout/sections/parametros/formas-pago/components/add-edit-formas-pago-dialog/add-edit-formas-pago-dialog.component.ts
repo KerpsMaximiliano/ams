@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 
 // * Services
-import { FormasPagoService } from 'src/app/core/services/formas-pago.service';
+import { FormaPagoService } from 'src/app/core/services/forma-pago.service';
 
 // * Form - Validations
 import {
@@ -38,7 +38,7 @@ export class AddEditFormasPagoDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<ConfirmDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private formaPagoService: FormasPagoService
+    private formaPagoService: FormaPagoService
   ) {}
 
   ngOnInit(): void {

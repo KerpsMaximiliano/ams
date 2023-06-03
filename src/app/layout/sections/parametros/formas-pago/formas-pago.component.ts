@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 
 // * Services
 import { UtilService } from 'src/app/core/services/util.service';
-import { FormasPagoService } from 'src/app/core/services/formas-pago.service';
+import { FormaPagoService } from 'src/app/core/services/forma-pago.service';
 
 // * Interfaces
 import { IFormaPago } from 'src/app/core/models/formas-pago.interface';
@@ -24,7 +24,7 @@ export class FormasPagoComponent {
   dashboard: FormasPagoDashboardComponent;
 
   constructor(
-    private formasPagoService: FormasPagoService,
+    private formasPagoService: FormaPagoService,
     private utils: UtilService,
     private dialog: MatDialog
   ) {}

@@ -53,7 +53,7 @@ export class EstadoCivilComponent {
       next: (res) => {
         if (res) {
           this.utils.openLoading();
-          this.estadoCivilService.getEstadoCivilCRUD(res).subscribe({
+          this.estadoCivilService.CRUD(res).subscribe({
             next: () => {
               this.utils.notification(
                 'El Estado Civil se ha creado exitosamente.',

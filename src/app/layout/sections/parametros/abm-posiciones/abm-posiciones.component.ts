@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 
 // * SERVICES
 import { UtilService } from 'src/app/core/services/util.service';
-import { PosicionesService } from 'src/app/core/services/abm-posiciones.service';
+import { PosicionService } from 'src/app/core/services/posicion.service';
 
 // * MATERIAL
 import { MatDialog } from '@angular/material/dialog';
@@ -22,7 +22,7 @@ export class AbmPosicionesComponent {
   dashboard: AbmPosicionesDashboardComponent;
 
   constructor(
-    private posicionesService: PosicionesService,
+    private posicionesService: PosicionService,
     private utils: UtilService,
     private dialog: MatDialog
   ) {}
@@ -55,7 +55,7 @@ export class AbmPosicionesComponent {
         console.log(res);
         if (res) {
           this.utils.openLoading();
-          this.posicionesService.getCRUD(res).subscribe({
+          this.posicionesService.CRUD(res).subscribe({
             next: (res: any) => {
               this.utils.notification(
                 'La Posicion se ha creado exitosamente',

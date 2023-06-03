@@ -1,5 +1,5 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 // * Services
@@ -15,7 +15,7 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root',
 })
-export class FormasPagoService {
+export class FormaPagoService {
   constructor(
     private http: HttpClient,
     private environmentService: EnvironmentService

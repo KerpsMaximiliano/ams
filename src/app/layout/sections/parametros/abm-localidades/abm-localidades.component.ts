@@ -3,7 +3,7 @@ import { Component, ViewChild } from '@angular/core';
 import { UtilService } from 'src/app/core/services/util.service';
 import { AbmLocalidadesDashboardComponent } from './components/abm-localidades-dashboard/abm-localidades-dashboard.component';
 import { EditAbmLocalidadesDialogComponent } from './components/abm-localidades-dialog/edit-abm-localidades-dialog.component';
-import { LocalidadesService } from 'src/app/core/services/abm-localidades.service';
+import { LocalidadService } from 'src/app/core/services/localidad.service';
 import { ILocalidad } from 'src/app/core/models/localidad.interface';
 
 @Component({
@@ -16,7 +16,7 @@ export class AbmLocalidadesComponent {
   dashboard: AbmLocalidadesDashboardComponent;
 
   constructor(
-    private LocalidadesService: LocalidadesService,
+    private LocalidadesService: LocalidadService,
     private utils: UtilService,
     private dialog: MatDialog
   ) {}
@@ -55,7 +55,7 @@ export class AbmLocalidadesComponent {
       next: (res) => {
         if (res) {
           this.utils.openLoading();
-          this.LocalidadesService.getCRUD(res).subscribe({
+          this.LocalidadesService.CRUD(res).subscribe({
             next: (res: any) => {
               this.utils.notification(
                 'El Tipo de Localidades se ha creado exitosamente',

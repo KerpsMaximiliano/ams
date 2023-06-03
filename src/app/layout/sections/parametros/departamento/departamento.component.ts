@@ -57,7 +57,7 @@ export class DepartamentoComponent {
       next: (res) => {
         if (res) {
           this.utils.openLoading();
-          this.departamentoService.departamentoCRUD(res).subscribe({
+          this.departamentoService.CRUD(res).subscribe({
             next: (res: any) => {
               this.utils.notification(
                 'El Departamento se ha creado exitosamente',

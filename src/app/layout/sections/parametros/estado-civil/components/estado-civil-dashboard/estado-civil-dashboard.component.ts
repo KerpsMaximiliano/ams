@@ -67,7 +67,7 @@ export class EstadoCivilDashboardComponent implements OnInit {
 
   private getEstadoCivil(): void {
     this.utils.openLoading();
-    this.estadoCivilService.getEstadoCivilCRUD(this.searchValue).subscribe({
+    this.estadoCivilService.CRUD(this.searchValue).subscribe({
       next: (res: any) => {
         res.dataset.length
           ? (this.estadoCivil = res.dataset as IEstadoCivil[])
@@ -120,7 +120,7 @@ export class EstadoCivilDashboardComponent implements OnInit {
       next: (res) => {
         if (res) {
           this.utils.openLoading();
-          this.estadoCivilService.getEstadoCivilCRUD(res).subscribe({
+          this.estadoCivilService.CRUD(res).subscribe({
             next: () => {
               this.utils.notification(
                 'El Estado Civil se ha editado extiosamente. ',

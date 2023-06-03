@@ -1,15 +1,12 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 // * Services
 import { EnvironmentService } from './environment.service';
 
 // * Interfaces
-import {
-  IPreguntasDDJJ,
-  IPreguntasDDJJResponse,
-} from '../models/preguntas-ddjj.interface';
+import { IPreguntaDDJJResponse } from '../models/pregunta-ddjj.interface';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -18,16 +15,14 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root',
 })
-export class PreguntasDDJJService {
+export class PreguntaDDJJService {
   constructor(
     private http: HttpClient,
     private environmentService: EnvironmentService
   ) {}
 
-  getPreguntasDDJJCRUD(
-    body: string
-  ): Observable<IPreguntasDDJJResponse | IPreguntasDDJJ> {
-    return this.http.post<IPreguntasDDJJResponse>(
+  CRUD(body: string): Observable<IPreguntaDDJJResponse> {
+    return this.http.post<IPreguntaDDJJResponse>(
       `${this.environmentService.api}/abmpreguntasddjj`,
       body,
       httpOptions

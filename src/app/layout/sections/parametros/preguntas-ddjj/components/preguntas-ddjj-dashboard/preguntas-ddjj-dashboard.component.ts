@@ -3,10 +3,10 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 
 // * Services
 import { UtilService } from 'src/app/core/services/util.service';
-import { PreguntasDDJJService } from 'src/app/core/services/preguntas-ddjj.service';
+import { PreguntaDDJJService } from 'src/app/core/services/pregunta-ddjj.service';
 
 // * Interfaces
-import { IPreguntasDDJJ } from 'src/app/core/models/preguntas-ddjj.interface';
+import { IPreguntaDDJJ } from 'src/app/core/models/pregunta-ddjj.interface';
 
 // * Material
 import { MatDialog } from '@angular/material/dialog';
@@ -37,14 +37,14 @@ export class PreguntasDDJJDashboardComponent {
     'actions',
   ];
 
-  public dataSource: MatTableDataSource<IPreguntasDDJJ>;
+  public dataSource: MatTableDataSource<IPreguntaDDJJ>;
 
   public searchValue: string = '';
 
-  public preguntasDDJJ: IPreguntasDDJJ[] = [];
+  public preguntasDDJJ: IPreguntaDDJJ[] = [];
 
   constructor(
-    private preguntasDDJJService: PreguntasDDJJService,
+    private preguntasDDJJService: PreguntaDDJJService,
     private utils: UtilService,
     private _liveAnnouncer: LiveAnnouncer,
     private cdr: ChangeDetectorRef,
@@ -57,12 +57,12 @@ export class PreguntasDDJJDashboardComponent {
 
   private getPreguntasDDJJ(): void {
     this.utils.openLoading();
-    this.preguntasDDJJService.getPreguntasDDJJCRUD(this.searchValue).subscribe({
+    this.preguntasDDJJService.CRUD(this.searchValue).subscribe({
       next: (res: any) => {
         res.dataset.length
-          ? (this.preguntasDDJJ = res.dataset as IPreguntasDDJJ[])
+          ? (this.preguntasDDJJ = res.dataset as IPreguntaDDJJ[])
           : (this.preguntasDDJJ = [res.dataset]);
-        this.dataSource = new MatTableDataSource<IPreguntasDDJJ>(
+        this.dataSource = new MatTableDataSource<IPreguntaDDJJ>(
           this.preguntasDDJJ
         );
         this.dataSource.sort = this.sort;
@@ -101,7 +101,7 @@ export class PreguntasDDJJDashboardComponent {
     }
   }
 
-  public editPreguntasDDJJ(preguntasDDJJ: IPreguntasDDJJ): void {
+  public editPreguntasDDJJ(preguntasDDJJ: IPreguntaDDJJ): void {
     const modalEditPreguntasDDJJ = this.dialog.open(
       AddEditPreguntasDDJJDialogComponent,
       {
@@ -124,7 +124,7 @@ export class PreguntasDDJJDashboardComponent {
       next: (res) => {
         if (res) {
           this.utils.openLoading();
-          this.preguntasDDJJService.getPreguntasDDJJCRUD(res).subscribe({
+          this.preguntasDDJJService.CRUD(res).subscribe({
             next: () => {
               this.utils.notification(
                 'La Pregunta de Declaraciones Juradas se ha editado exitosamente.',
@@ -158,7 +158,7 @@ export class PreguntasDDJJDashboardComponent {
     });
   }
 
-  public viewPreguntasDDJJ(preguntasDDJJ: IPreguntasDDJJ): void {
+  public viewPreguntasDDJJ(preguntasDDJJ: IPreguntaDDJJ): void {
     this.dialog.open(AddEditPreguntasDDJJDialogComponent, {
       data: {
         title: `VER PREGUNTA DE DECLARACIONES JURADAS`,

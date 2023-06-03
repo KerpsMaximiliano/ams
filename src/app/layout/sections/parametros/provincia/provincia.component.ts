@@ -48,7 +48,7 @@ export class ProvinciaComponent {
       next: (res) => {
         if (res) {
           this.utils.openLoading();
-          this.provinciaService.provinciaCRUD(res).subscribe({
+          this.provinciaService.CRUD(res).subscribe({
             next: () => {
               this.utils.notification(
                 'La Provincia se ha creado exitosamente',

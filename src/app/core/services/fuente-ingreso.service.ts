@@ -1,11 +1,12 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+
+// * Services
 import { EnvironmentService } from './environment.service';
-import {
-  IFuenteIngreso,
-  IFuenteIngresoResponse,
-} from '../models/fuente-ingreso.interface';
+
+// * Interfaces
+import { IFuenteIngresoResponse } from '../models/fuente-ingreso.interface';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -20,8 +21,8 @@ export class FuenteIngresoService {
     private environmentService: EnvironmentService
   ) {}
 
-  fuenteIngresoCRUD(body: string): Observable<IFuenteIngreso> {
-    return this.http.post<IFuenteIngreso>(
+  fuenteIngresoCRUD(body: string): Observable<IFuenteIngresoResponse> {
+    return this.http.post<IFuenteIngresoResponse>(
       `${this.environmentService.api}/abmfuenteingresos`,
       body,
       httpOptions

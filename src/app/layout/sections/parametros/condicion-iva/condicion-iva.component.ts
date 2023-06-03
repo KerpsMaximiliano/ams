@@ -17,63 +17,75 @@ import { CondicionIvaDashboardComponent } from './components/condicion-iva-dashb
 @Component({
   selector: 'app-condicion-iva-documento',
   templateUrl: './condicion-iva.component.html',
-  styleUrls: ['./condicion-iva.component.scss']
+  styleUrls: ['./condicion-iva.component.scss'],
 })
 export class CondicionIvaComponent {
+  @ViewChild(CondicionIvaDashboardComponent)
+  dashboard: CondicionIvaDashboardComponent;
 
-  @ViewChild(CondicionIvaDashboardComponent) dashboard: CondicionIvaDashboardComponent;
-
-  constructor(private condicionIvaService: CondicionIvaService,
+  constructor(
+    private condicionIvaService: CondicionIvaService,
     private utils: UtilService,
-    private dialog: MatDialog) { }
+    private dialog: MatDialog
+  ) {}
 
-    ngOnInit(): void {
-    }
-  
-    public handleSearch(inputValue: any): void {
-      this.dashboard.filter(inputValue);
-    }
-  
-    public nuevaCondicionIVA(condicionIva?: ICondicionIva): void {
-      const modalNuevaCondicionIva = this.dialog.open(AddEditCondicionIvaDialogComponent, {
+  ngOnInit(): void {}
+
+  public handleSearch(inputValue: any): void {
+    this.dashboard.filter(inputValue);
+  }
+
+  public nuevaCondicionIVA(condicionIva?: ICondicionIva): void {
+    const modalNuevaCondicionIva = this.dialog.open(
+      AddEditCondicionIvaDialogComponent,
+      {
         data: {
           title: `CREAR CONDICIÓN DE IVA`,
-          par_modo: "I",
+          par_modo: 'I',
           edit: true,
           codigoCondIva: condicionIva?.codigo_de_IVA,
           descripcion: condicionIva?.descripcion,
           abreviatura: condicionIva?.descripcion_reducida,
           formulario: condicionIva?.formulario_AB,
+        },
+      }
+    );
+
+    modalNuevaCondicionIva.afterClosed().subscribe({
+      next: (res) => {
+        if (res) {
+          this.utils.openLoading();
+          this.condicionIvaService.CRUD(res).subscribe({
+            next: () => {
+              this.utils.notification(
+                'La Condición IVA se ha creado exitosamente.',
+                'success'
+              );
+            },
+            error: (err) => {
+              this.utils.closeLoading();
+              err.status == 0
+                ? this.utils.notification('Error de conexion', 'error')
+                : this.utils.notification(
+                    `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+                    'error'
+                  );
+              this.nuevaCondicionIVA(res);
+            },
+            complete: () => {
+              this.utils.closeLoading();
+              setTimeout(() => {
+                this.handleSearch(
+                  JSON.stringify({
+                    par_modo: 'C',
+                    descripcion: res.descripcion,
+                  })
+                );
+              }, 300);
+            },
+          });
         }
-      });
-  
-      modalNuevaCondicionIva.afterClosed().subscribe({
-        next:(res) => {
-          if (res) {
-            this.utils.openLoading();
-            this.condicionIvaService.getCondicionIvaCRUD(res).subscribe({
-              next: () => {
-                this.utils.notification("La Condición IVA se ha creado exitosamente.", 'success')
-              },
-              error: (err) => {
-                this.utils.closeLoading();
-                (err.status == 0)
-                  ? this.utils.notification('Error de conexion', 'error') 
-                  : this.utils.notification(`Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`, 'error')
-                  this.nuevaCondicionIVA(res)
-              },
-              complete: () => {
-                this.utils.closeLoading();
-                setTimeout(() => {
-                  this.handleSearch(JSON.stringify({
-                    par_modo: "C",
-                    descripcion: res.descripcion
-                  }));
-                }, 300);
-              }
-            });
-          }
-        }
-      })
-    }
+      },
+    });
   }
+}

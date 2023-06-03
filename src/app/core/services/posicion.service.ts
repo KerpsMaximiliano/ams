@@ -1,8 +1,12 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { IPosicion, IPosicionesResponse } from '../models/posicion.interface';
+
+// * Services
 import { EnvironmentService } from './environment.service';
+
+// * Interfaces
+import { IPosicionesResponse } from '../models/posicion.interface';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -11,13 +15,13 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root',
 })
-export class PosicionesService {
+export class PosicionService {
   constructor(
     private http: HttpClient,
     private environmentService: EnvironmentService
   ) {}
 
-  getCRUD(body: string): Observable<IPosicionesResponse> {
+  CRUD(body: string): Observable<IPosicionesResponse> {
     console.log(body);
     return this.http.post<IPosicionesResponse>(
       `${this.environmentService.api}/abmposiciones`,

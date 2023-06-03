@@ -1,8 +1,12 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { INacionalidad } from '../models/nacionalidad.interface';
+
+// * Services
 import { EnvironmentService } from './environment.service';
+
+// * Interfaces
+import { INacionalidad } from '../models/nacionalidad.interface';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),

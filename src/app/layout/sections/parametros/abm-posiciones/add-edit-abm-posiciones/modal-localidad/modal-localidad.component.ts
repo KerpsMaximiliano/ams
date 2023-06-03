@@ -1,26 +1,31 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { ChangeDetectorRef, Component, Inject, ViewChild } from '@angular/core';
-import { FormControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  FormControl,
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { map, Observable, startWith } from 'rxjs';
-import { PosicionesService } from 'src/app/core/services/abm-posiciones.service';
+import { PosicionService } from 'src/app/core/services/posicion.service';
 import { UtilService } from 'src/app/core/services/util.service';
 import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-modal-localidad',
   templateUrl: './modal-localidad.component.html',
-  styleUrls: ['./modal-localidad.component.scss']
+  styleUrls: ['./modal-localidad.component.scss'],
 })
 export class ModalLocalidadComponent {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator =
-  new MatPaginator(new MatPaginatorIntl(), this.cdr);
+    new MatPaginator(new MatPaginatorIntl(), this.cdr);
   formGroup: any;
 
-  paramDepto:[]| any;
-  paramProv:[]| any;
+  paramDepto: [] | any;
+  paramProv: [] | any;
   selection = [];
   myControlProv = new UntypedFormControl('');
   provinciaFiltrados: Observable<any[]>;
@@ -32,7 +37,7 @@ export class ModalLocalidadComponent {
   public displayedColumns: string[] = [
     'codigo_postal',
     'descripcion',
-    'actions'
+    'actions',
   ];
   aux: any;
   block: boolean = false;
@@ -40,39 +45,47 @@ export class ModalLocalidadComponent {
   constructor(
     private utils: UtilService,
     private dialogRefLocal: MatDialogRef<ConfirmDialogComponent>,
-    private posicionesService: PosicionesService,
+    private posicionesService: PosicionService,
     private cdr: ChangeDetectorRef,
     @Inject(MAT_DIALOG_DATA) public data: any
-    ){
-    this.setUpForm()
+  ) {
+    this.setUpForm();
   }
 
-  ngOnInit (){
+  ngOnInit() {
     let bodyprov = {
       par_modo: 'C',
-      nombre_provincia:''
-    }
+      nombre_provincia: '',
+    };
     this.utils.openLoading();
     this.posicionesService.getProv(bodyprov).subscribe({
-      next:(res) => {
-        this.paramProv = res.dataset
+      next: (res) => {
+        this.paramProv = res.dataset;
         this.utils.closeLoading();
       },
-      error:(err) => {
-        this.utils.closeLoading
+      error: (err) => {
+        this.utils.closeLoading;
         console.log(err);
-        (err.status == 0)
-          ? this.utils.notification('Error de conexion', 'error') 
-          : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')
-      }
-    })
+        err.status == 0
+          ? this.utils.notification('Error de conexion', 'error')
+          : this.utils.notification(
+              `Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`,
+              'error'
+            );
+      },
+    });
     this.provinciaFiltrados = this.myControlProv.valueChanges.pipe(
       startWith(''),
-      map((valueProv: { nombre_provincia: any; }) => {
-        const nameProv = typeof valueProv === 'string' ? valueProv : valueProv?.nombre_provincia;
-        return nameProv ? this._filterProv(nameProv as string) : this.paramProv?.nombre_provincia;
-      }),
-    )
+      map((valueProv: { nombre_provincia: any }) => {
+        const nameProv =
+          typeof valueProv === 'string'
+            ? valueProv
+            : valueProv?.nombre_provincia;
+        return nameProv
+          ? this._filterProv(nameProv as string)
+          : this.paramProv?.nombre_provincia;
+      })
+    );
   }
 
   displayFnProv(prov: any): string {
@@ -81,41 +94,48 @@ export class ModalLocalidadComponent {
 
   private _filterProv(nameProv: string): any[] {
     const filterValueProv = nameProv.toLowerCase();
-    return this.paramProv.filter((prov:any) => prov.nombre_provincia.toLowerCase().includes(filterValueProv));
+    return this.paramProv.filter((prov: any) =>
+      prov.nombre_provincia.toLowerCase().includes(filterValueProv)
+    );
   }
 
-  buscar(letra_provincia:string){ 
+  buscar(letra_provincia: string) {
     this.formGroup.get('letra_provincia')?.setValue(letra_provincia),
-    console.log(letra_provincia);
+      console.log(letra_provincia);
     let bodydep = {
       par_modo: 'C',
-      descripcion:'',
-      letra_provincia:letra_provincia
-    }
+      descripcion: '',
+      letra_provincia: letra_provincia,
+    };
     this.utils.openLoading();
     this.posicionesService.getDepart(bodydep).subscribe({
-      next:(res) => {this.paramDepto = res.dataset
-        
+      next: (res) => {
+        this.paramDepto = res.dataset;
       },
-      error:(err) => {
+      error: (err) => {
         console.log(err);
-        (err.status == 0)
-          ? this.utils.notification('Error de conexion', 'error') 
-          : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')
+        err.status == 0
+          ? this.utils.notification('Error de conexion', 'error')
+          : this.utils.notification(
+              `Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`,
+              'error'
+            );
       },
       complete: () => {
         this.utils.closeLoading();
-        setTimeout(() => {
-        }, 300);
-      }
-    })
+        setTimeout(() => {}, 300);
+      },
+    });
     this.deptoFiltrados = this.myControldepto.valueChanges.pipe(
       startWith(''),
-      map(valueDep => {
-        const nameDepto = typeof valueDep === 'string' ? valueDep : valueDep?.descripcion;
-        return nameDepto ? this._filterDep(nameDepto as string) : this.paramDepto?.descripcion;
-      }),
-    )
+      map((valueDep) => {
+        const nameDepto =
+          typeof valueDep === 'string' ? valueDep : valueDep?.descripcion;
+        return nameDepto
+          ? this._filterDep(nameDepto as string)
+          : this.paramDepto?.descripcion;
+      })
+    );
   }
 
   displayFnDep(depto: any): string {
@@ -124,7 +144,9 @@ export class ModalLocalidadComponent {
 
   private _filterDep(nameDepto: string): any[] {
     const filterValueDepto = nameDepto.toLowerCase();
-    return this.paramDepto.filter((filtroDep:any) => filtroDep.descripcion.toLowerCase().includes(filterValueDepto));
+    return this.paramDepto.filter((filtroDep: any) =>
+      filtroDep.descripcion.toLowerCase().includes(filterValueDepto)
+    );
   }
 
   dato(codigo: string) {
@@ -136,16 +158,20 @@ export class ModalLocalidadComponent {
   // }
 
   onCheckboxChange(row: any) {
-    if (this.selection.length < 1){
+    if (this.selection.length < 1) {
       if (row) {
-        console.log(`Se ha marcado la casilla de la fila ${row.codigo_departamento}`);
+        console.log(
+          `Se ha marcado la casilla de la fila ${row.codigo_departamento}`
+        );
         this.selection = row;
         this.block = true;
-      } else{
-        console.log(`Se ha desmarcado la casilla de la fila ${row.codigo_departamento}`);
+      } else {
+        console.log(
+          `Se ha desmarcado la casilla de la fila ${row.codigo_departamento}`
+        );
       }
     } else {
-      this.selection=[];
+      this.selection = [];
       this.block = false;
       console.log(`Casilla de la fila ${row.codigo_departamento}`);
     }
@@ -153,81 +179,105 @@ export class ModalLocalidadComponent {
 
   private setUpForm(): void {
     this.formGroup = new UntypedFormGroup({
-      "codigo_postal": new FormControl(''),
-      "letra_provincia": new FormControl(''),
-      "codigo_departamento": new FormControl(''),
-      "descripcion": new FormControl('')
-    })
+      codigo_postal: new FormControl(''),
+      letra_provincia: new FormControl(''),
+      codigo_departamento: new FormControl(''),
+      descripcion: new FormControl(''),
+    });
   }
 
   closeDialog() {
     this.dialogRefLocal.close(false);
   }
 
-  search(){
+  search() {
     this.utils.openLoading();
     this.aux = {
       letra_provincia: this.formGroup.get('letra_provincia')?.value,
-    }
-    if (!(this.formGroup.get('codigo_postal')?.value == null || this.formGroup.get('codigo_postal')?.value == '') ){
-      this.aux.codigo_postal = parseInt(this.formGroup.get('codigo_postal')?.value)
-      this.aux.par_modo =  'R';
-      this.posicionesService.getCRUD(JSON.stringify(this.aux)).subscribe({
-        next:(res:any) => {
+    };
+    if (
+      !(
+        this.formGroup.get('codigo_postal')?.value == null ||
+        this.formGroup.get('codigo_postal')?.value == ''
+      )
+    ) {
+      this.aux.codigo_postal = parseInt(
+        this.formGroup.get('codigo_postal')?.value
+      );
+      this.aux.par_modo = 'R';
+      this.posicionesService.CRUD(JSON.stringify(this.aux)).subscribe({
+        next: (res: any) => {
           console.log(res);
-          (res.dataset.length)
-          ? this.localidad = res.dataset 
-          : this.localidad = [res.dataset];
+          res.dataset.length
+            ? (this.localidad = res.dataset)
+            : (this.localidad = [res.dataset]);
           this.dataSource = new MatTableDataSource<any>(this.localidad);
           setTimeout(() => {
             this.dataSource.paginator = this.paginator;
             this.paginator._intl.getRangeLabel = (): string => {
-              return "Página " +  (this.paginator.pageIndex + 1) + " de " +  this.paginator.length
-            }
-          }, 100)
+              return (
+                'Página ' +
+                (this.paginator.pageIndex + 1) +
+                ' de ' +
+                this.paginator.length
+              );
+            };
+          }, 100);
         },
-        error:(err: any) => {
+        error: (err: any) => {
           this.utils.closeLoading();
-          (err.status == 0)
-          ? this.utils.notification('Error de conexion', 'error') 
-          : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')
-        },
-        complete: () => {
-          this.utils.closeLoading();
-        }
-      });
-    }
-    else {
-      this.aux.par_modo = 'C'
-      this.aux.codigo_departamento = this.formGroup.get('codigo_departamento')?.value,
-      this.aux.descripcion = this.formGroup.get('descripcion')?.value,
-      this.posicionesService.getCRUD(JSON.stringify(this.aux)).subscribe({
-        next:(res:any) => {
-          console.log(res);
-          
-          this.localidad = res.dataset;
-          this.dataSource = new MatTableDataSource<any>(this.localidad);
-          setTimeout(() => {
-            this.dataSource.paginator = this.paginator;
-            this.paginator._intl.getRangeLabel = (): string => {
-              return "Página " +  (this.paginator.pageIndex + 1) + " de " +  this.paginator.length
-            }
-          }, 100)
-        },
-        error:(err: any) => {
-          this.utils.closeLoading();
-          (err.status == 0)
-            ? this.utils.notification('Error de conexion', 'error') 
-            : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')
+          err.status == 0
+            ? this.utils.notification('Error de conexion', 'error')
+            : this.utils.notification(
+                `Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`,
+                'error'
+              );
         },
         complete: () => {
           this.utils.closeLoading();
-        }
+        },
       });
+    } else {
+      this.aux.par_modo = 'C';
+      (this.aux.codigo_departamento = this.formGroup.get(
+        'codigo_departamento'
+      )?.value),
+        (this.aux.descripcion = this.formGroup.get('descripcion')?.value),
+        this.posicionesService.CRUD(JSON.stringify(this.aux)).subscribe({
+          next: (res: any) => {
+            console.log(res);
+
+            this.localidad = res.dataset;
+            this.dataSource = new MatTableDataSource<any>(this.localidad);
+            setTimeout(() => {
+              this.dataSource.paginator = this.paginator;
+              this.paginator._intl.getRangeLabel = (): string => {
+                return (
+                  'Página ' +
+                  (this.paginator.pageIndex + 1) +
+                  ' de ' +
+                  this.paginator.length
+                );
+              };
+            }, 100);
+          },
+          error: (err: any) => {
+            this.utils.closeLoading();
+            err.status == 0
+              ? this.utils.notification('Error de conexion', 'error')
+              : this.utils.notification(
+                  `Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`,
+                  'error'
+                );
+          },
+          complete: () => {
+            this.utils.closeLoading();
+          },
+        });
     }
   }
 
-  public clearInputs(){
+  public clearInputs() {
     this.formGroup.get('descripcion').setValue('');
     this.formGroup.get('letra_provincia').setValue('');
     this.formGroup.get('codigo_departamento').setValue('');
@@ -236,22 +286,27 @@ export class ModalLocalidadComponent {
 
   confirm(): void {
     this.dialogRefLocal.close({
-      datos: this.selection
-    })
+      datos: this.selection,
+    });
   }
 
   getErrorMessage(control: any): string {
     if (control.errors?.['required']) {
-      return `Campo requerido`
+      return `Campo requerido`;
     } else {
       if (control.errors?.['maxlength']) {
-        return `No puede contener más de ${control.errors?.['maxlength'].requiredLength} caracteres`
+        return `No puede contener más de ${control.errors?.['maxlength'].requiredLength} caracteres`;
       }
       if (control.errors?.['minlength']) {
-        return `Debe contener al menos ${control.errors?.['minlength'].requiredLength} caracteres`
+        return `Debe contener al menos ${control.errors?.['minlength'].requiredLength} caracteres`;
       }
-      if ((control.errors?.['notAlphanumeric'] || control.errors?.['notAlphanumericWithSpaces']) && control.value != '' && control.value != null) {
-        return `No puede contener caracteres especiales`
+      if (
+        (control.errors?.['notAlphanumeric'] ||
+          control.errors?.['notAlphanumericWithSpaces']) &&
+        control.value != '' &&
+        control.value != null
+      ) {
+        return `No puede contener caracteres especiales`;
       }
     }
     return '';

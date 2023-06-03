@@ -1,18 +1,20 @@
 import { Injectable } from '@angular/core';
+
+// * Material
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+
+// * Components
 import { LoaderComponent } from 'src/app/shared/loader/loader.component';
 import { ErrorComponent } from 'src/app/shared/snackbar/error/error.component';
 import { InformationComponent } from 'src/app/shared/snackbar/information/information.component';
 import { SuccessComponent } from 'src/app/shared/snackbar/success/success.component';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UtilService {
-
-  constructor(private snackBar: MatSnackBar,
-              private matDialog: MatDialog) {}
+  constructor(private snackBar: MatSnackBar, private matDialog: MatDialog) {}
 
   dialogRef: MatDialogRef<LoaderComponent>;
 
@@ -42,20 +44,19 @@ export class UtilService {
   }
 
   openLoading(message: string = 'Cargando...') {
-		this.dialogRef = this.matDialog.open(LoaderComponent, {
-			disableClose: true,
-		});
-		this.dialogRef.componentInstance.title = message;
-		this.dialogRef.updateSize('200px');
-		return this.dialogRef.afterClosed();
-	}
+    this.dialogRef = this.matDialog.open(LoaderComponent, {
+      disableClose: true,
+    });
+    this.dialogRef.componentInstance.title = message;
+    this.dialogRef.updateSize('200px');
+    return this.dialogRef.afterClosed();
+  }
 
   closeLoading(time?: number) {
-		setTimeout(() => {
-			if (this.dialogRef) {
-				this.dialogRef.close();
-			}
-		}, time ?? 0);
-	}
-
+    setTimeout(() => {
+      if (this.dialogRef) {
+        this.dialogRef.close();
+      }
+    }, time ?? 0);
+  }
 }

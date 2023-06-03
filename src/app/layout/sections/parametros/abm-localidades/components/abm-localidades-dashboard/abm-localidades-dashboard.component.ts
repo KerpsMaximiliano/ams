@@ -6,7 +6,7 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
 import { ILocalidad } from 'src/app/core/models/localidad.interface';
-import { LocalidadesService } from 'src/app/core/services/abm-localidades.service';
+import { LocalidadService } from 'src/app/core/services/localidad.service';
 import { UtilService } from 'src/app/core/services/util.service';
 import { EditAbmLocalidadesDialogComponent } from '../abm-localidades-dialog/edit-abm-localidades-dialog.component';
 @Component({
@@ -40,7 +40,7 @@ export class AbmLocalidadesDashboardComponent {
   aux: any;
 
   constructor(
-    private LocalidadesService: LocalidadesService,
+    private LocalidadesService: LocalidadService,
     private utils: UtilService,
     private _liveAnnouncer: LiveAnnouncer,
     private cdr: ChangeDetectorRef,
@@ -61,7 +61,7 @@ export class AbmLocalidadesDashboardComponent {
     };
     if (this.aux.codigo_postal != '') {
       this.aux.par_modo = 'R';
-      this.LocalidadesService.getCRUD(JSON.stringify(this.aux)).subscribe({
+      this.LocalidadesService.CRUD(JSON.stringify(this.aux)).subscribe({
         next: (res: any) => {
           console.log(res);
           res.dataset.length
@@ -100,7 +100,7 @@ export class AbmLocalidadesDashboardComponent {
       });
     } else {
       this.aux.par_modo = 'C';
-      this.LocalidadesService.getCRUD(JSON.stringify(this.aux)).subscribe({
+      this.LocalidadesService.CRUD(JSON.stringify(this.aux)).subscribe({
         next: (res: any) => {
           this.localidades = res.dataset as ILocalidad[];
           this.dataSource = new MatTableDataSource<ILocalidad>(
@@ -177,7 +177,7 @@ export class AbmLocalidadesDashboardComponent {
           console.log(res);
 
           this.utils.openLoading();
-          this.LocalidadesService.getCRUD(res).subscribe({
+          this.LocalidadesService.CRUD(res).subscribe({
             next: () => {
               this.utils.notification(
                 'La Localidades se ha editado extiosamente',
@@ -241,7 +241,7 @@ export class AbmLocalidadesDashboardComponent {
     modalConfirm.afterClosed().subscribe({
       next: (res) => {
         if (res) {
-          this.LocalidadesService.getCRUD(tipoLocal.codigo_postal).subscribe({
+          this.LocalidadesService.CRUD(tipoLocal.codigo_postal).subscribe({
             next: (res: any) => {
               this.utils.notification(
                 'El Localidades se ha borrado exitosamente',

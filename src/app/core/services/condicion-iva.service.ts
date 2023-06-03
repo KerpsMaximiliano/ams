@@ -1,8 +1,12 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ICondicionIvaResponse } from '../models/condicion-iva.interface';
+
+// * Services
 import { EnvironmentService } from './environment.service';
+
+// * Interfaces
+import { ICondicionIvaResponse } from '../models/condicion-iva.interface';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -17,7 +21,7 @@ export class CondicionIvaService {
     private environmentService: EnvironmentService
   ) {}
 
-  getCondicionIvaCRUD(body: string): Observable<ICondicionIvaResponse> {
+  CRUD(body: string): Observable<ICondicionIvaResponse> {
     return this.http.post<ICondicionIvaResponse>(
       `${this.environmentService.api}/abmcondicioniva`,
       body,

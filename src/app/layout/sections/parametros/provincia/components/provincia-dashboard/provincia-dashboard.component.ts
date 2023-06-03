@@ -51,7 +51,7 @@ export class ProvinciaDashboardComponent {
       par_modo: 'C',
       nombre_provincia: this.searchText,
     });
-    this.provinciaService.provinciaCRUD(body).subscribe({
+    this.provinciaService.CRUD(body).subscribe({
       next: (res: any) => {
         this.provincia = res.dataset as IProvincia[];
         this.dataSource = new MatTableDataSource<IProvincia>(this.provincia);
@@ -112,7 +112,7 @@ export class ProvinciaDashboardComponent {
       next: (res) => {
         if (res) {
           this.utils.openLoading();
-          this.provinciaService.provinciaCRUD(res).subscribe({
+          this.provinciaService.CRUD(res).subscribe({
             next: () => {
               this.utils.notification(
                 'La Provincia se ha editado extiosamente',

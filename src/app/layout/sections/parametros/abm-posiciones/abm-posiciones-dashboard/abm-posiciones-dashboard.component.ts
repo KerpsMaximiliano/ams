@@ -5,7 +5,7 @@ import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { IPosicion } from 'src/app/core/models/posicion.interface';
-import { PosicionesService } from 'src/app/core/services/abm-posiciones.service';
+import { PosicionService } from 'src/app/core/services/posicion.service';
 import { UtilService } from 'src/app/core/services/util.service';
 import { ConfirmDialogComponent } from '../../../components/confirm-dialog/confirm-dialog.component';
 import { AddEditAbmPosicionesComponent } from '../add-edit-abm-posiciones/add-edit-abm-posiciones.component';
@@ -37,7 +37,7 @@ export class AbmPosicionesDashboardComponent {
   public Posicion: IPosicion[] = [];
 
   constructor(
-    private posicionesService: PosicionesService,
+    private posicionesService: PosicionService,
     private utils: UtilService,
     private _liveAnnouncer: LiveAnnouncer,
     private cdr: ChangeDetectorRef,
@@ -56,7 +56,7 @@ export class AbmPosicionesDashboardComponent {
       letra_provincia: this.searchId,
     };
     let body = JSON.stringify(aux);
-    this.posicionesService.getCRUD(body).subscribe({
+    this.posicionesService.CRUD(body).subscribe({
       next: (res: any) => {
         console.log(res);
 
@@ -121,7 +121,7 @@ export class AbmPosicionesDashboardComponent {
         if (res) {
           console.log(res);
           this.utils.openLoading();
-          this.posicionesService.getCRUD(res).subscribe({
+          this.posicionesService.CRUD(res).subscribe({
             next: () => {
               this.utils.notification(
                 'El Documento se ha editado extiosamente',
@@ -181,7 +181,7 @@ export class AbmPosicionesDashboardComponent {
     modalConfirm.afterClosed().subscribe({
       next: (res) => {
         if (res) {
-          this.posicionesService.getCRUD(res.id).subscribe({
+          this.posicionesService.CRUD(res.id).subscribe({
             next: (res: any) => {
               this.utils.notification(
                 'El Documento se ha borrado exitosamente',

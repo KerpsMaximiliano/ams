@@ -54,7 +54,7 @@ export class ObraSocialDashboardComponent {
 
   private getobraSocial(): void {
     this.utils.openLoading();
-    this.obraSocialService.getObraSocialCRUD(this.searchValue).subscribe({
+    this.obraSocialService.CRUD(this.searchValue).subscribe({
       next: (res: any) => {
         res.dataset.length
           ? (this.obrasSociales = res.dataset as IObraSocial[])
@@ -122,7 +122,7 @@ export class ObraSocialDashboardComponent {
       next: (res) => {
         if (res) {
           this.utils.openLoading();
-          this.obraSocialService.getObraSocialCRUD(res).subscribe({
+          this.obraSocialService.CRUD(res).subscribe({
             next: () => {
               this.utils.notification(
                 'La Obra Social se ha editado extiosamente',

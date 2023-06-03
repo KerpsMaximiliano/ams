@@ -2,10 +2,10 @@ import { Component, ViewChild } from '@angular/core';
 
 // * Services
 import { UtilService } from 'src/app/core/services/util.service';
-import { PreguntasDDJJService } from 'src/app/core/services/preguntas-ddjj.service';
+import { PreguntaDDJJService } from 'src/app/core/services/pregunta-ddjj.service';
 
 // * Interfaces
-import { IPreguntasDDJJ } from 'src/app/core/models/preguntas-ddjj.interface';
+import { IPreguntaDDJJ } from 'src/app/core/models/pregunta-ddjj.interface';
 
 // * Material
 import { MatDialog } from '@angular/material/dialog';
@@ -24,7 +24,7 @@ export class PreguntasDDJJComponent {
   dashboard: PreguntasDDJJDashboardComponent;
 
   constructor(
-    private preguntasDDJJService: PreguntasDDJJService,
+    private preguntasDDJJService: PreguntaDDJJService,
     private utils: UtilService,
     private dialog: MatDialog
   ) {}
@@ -35,7 +35,7 @@ export class PreguntasDDJJComponent {
     this.dashboard.filter(inputValue);
   }
 
-  public nuevaPreguntasDDJJ(preguntasDDJJ?: IPreguntasDDJJ): void {
+  public nuevaPreguntasDDJJ(preguntasDDJJ?: IPreguntaDDJJ): void {
     const modalNuevaPreguntasDDJJ = this.dialog.open(
       AddEditPreguntasDDJJDialogComponent,
       {
@@ -57,7 +57,7 @@ export class PreguntasDDJJComponent {
       next: (res) => {
         if (res) {
           this.utils.openLoading();
-          this.preguntasDDJJService.getPreguntasDDJJCRUD(res).subscribe({
+          this.preguntasDDJJService.CRUD(res).subscribe({
             next: () => {
               this.utils.notification(
                 'La Pregunta de DDJJ se ha creado exitosamente.',

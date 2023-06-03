@@ -79,7 +79,7 @@ export class DepartamentoDashboardComponent {
       descripcion: this.searchValue.descripcion,
       descripcion_reducida: '',
     };
-    this.departamentoService.departamentoCRUD(JSON.stringify(body)).subscribe({
+    this.departamentoService.CRUD(JSON.stringify(body)).subscribe({
       next: (res: any) => {
         res.dataset.length
           ? (this.departamentos = res.dataset as IDepartamento[])
@@ -146,7 +146,7 @@ export class DepartamentoDashboardComponent {
       next: (res) => {
         if (res) {
           this.utils.openLoading();
-          this.departamentoService.departamentoCRUD(res).subscribe({
+          this.departamentoService.CRUD(res).subscribe({
             next: () => {
               this.utils.notification(
                 'El Departamento se ha editado extiosamente',

@@ -1,8 +1,12 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ILocalidad } from '../models/localidad.interface';
+
+// * Services
 import { EnvironmentService } from './environment.service';
+
+// * Interfaces
+import { ILocalidad } from '../models/localidad.interface';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -10,13 +14,13 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root',
 })
-export class LocalidadesService {
+export class LocalidadService {
   constructor(
     private http: HttpClient,
     private environmentService: EnvironmentService
   ) {}
 
-  getCRUD(body: string | number): Observable<ILocalidad[]> {
+  CRUD(body: string | number): Observable<ILocalidad[]> {
     console.log(body);
     return this.http.post<ILocalidad[]>(
       `${this.environmentService.api}/abmlocalidades`,

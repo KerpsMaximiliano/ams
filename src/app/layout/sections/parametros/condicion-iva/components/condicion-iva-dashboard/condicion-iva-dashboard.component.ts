@@ -20,10 +20,9 @@ import { AddEditCondicionIvaDialogComponent } from '../add-edit-condicion-iva-di
 @Component({
   selector: 'app-condicion-iva-dashboard',
   templateUrl: './condicion-iva-dashboard.component.html',
-  styleUrls: ['./condicion-iva-dashboard.component.scss']
+  styleUrls: ['./condicion-iva-dashboard.component.scss'],
 })
 export class CondicionIvaDashboardComponent {
-
   @ViewChild(MatSort) sort: MatSort = new MatSort();
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator =
     new MatPaginator(new MatPaginatorIntl(), this.cdr);
@@ -34,7 +33,7 @@ export class CondicionIvaDashboardComponent {
     'descripcion',
     'descripcion_reducida',
     'formulario_AB',
-    'actions'
+    'actions',
   ];
 
   public dataSource: MatTableDataSource<ICondicionIva>;
@@ -43,11 +42,13 @@ export class CondicionIvaDashboardComponent {
 
   public documents: ICondicionIva[] = [];
 
-  constructor(private tipoCondicionService: CondicionIvaService,
-              private utils: UtilService,
-              private _liveAnnouncer: LiveAnnouncer,
-              private cdr: ChangeDetectorRef,
-              private dialog: MatDialog) { }
+  constructor(
+    private tipoCondicionService: CondicionIvaService,
+    private utils: UtilService,
+    private _liveAnnouncer: LiveAnnouncer,
+    private cdr: ChangeDetectorRef,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.paginator._intl.itemsPerPageLabel = 'Elementos por página';
@@ -55,27 +56,35 @@ export class CondicionIvaDashboardComponent {
 
   private getCondicionIva(): void {
     this.utils.openLoading();
-    this.tipoCondicionService.getCondicionIvaCRUD(this.searchValue).subscribe({
-      next:(res:any) => {
+    this.tipoCondicionService.CRUD(this.searchValue).subscribe({
+      next: (res: any) => {
         this.documents = res.dataset as ICondicionIva[];
         this.dataSource = new MatTableDataSource<ICondicionIva>(this.documents);
         this.dataSource.sort = this.sort;
         setTimeout(() => {
           this.dataSource.paginator = this.paginator;
           this.paginator._intl.getRangeLabel = (): string => {
-            return "Página " +  (this.paginator.pageIndex + 1) + " de " +  this.paginator.length
-          }
-        }, 100)
+            return (
+              'Página ' +
+              (this.paginator.pageIndex + 1) +
+              ' de ' +
+              this.paginator.length
+            );
+          };
+        }, 100);
       },
-      error:(err: any) => {
+      error: (err: any) => {
         this.utils.closeLoading();
-        (err.status == 0)
-          ? this.utils.notification('Error de conexion', 'error') 
-          : this.utils.notification(`Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`, 'error')
-        },
+        err.status == 0
+          ? this.utils.notification('Error de conexion', 'error')
+          : this.utils.notification(
+              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+              'error'
+            );
+      },
       complete: () => {
         this.utils.closeLoading();
-      }
+      },
     });
   }
 
@@ -88,46 +97,55 @@ export class CondicionIvaDashboardComponent {
   }
 
   public editCondicionIVA(tipoCondicion: ICondicionIva): void {
-    const modalNuevaCondicionIva = this.dialog.open(AddEditCondicionIvaDialogComponent, {
-      data: {
-        title: `EDITAR CONDICIÓN DE IVA`,
-        par_modo: "U",
-        edit: true,
-        codigo_de_IVA: tipoCondicion.codigo_de_IVA,
-        descripcion: tipoCondicion.descripcion,
-        descripcion_reducida: tipoCondicion.descripcion_reducida,
-        formulario_AB: tipoCondicion.formulario_AB,
+    const modalNuevaCondicionIva = this.dialog.open(
+      AddEditCondicionIvaDialogComponent,
+      {
+        data: {
+          title: `EDITAR CONDICIÓN DE IVA`,
+          par_modo: 'U',
+          edit: true,
+          codigo_de_IVA: tipoCondicion.codigo_de_IVA,
+          descripcion: tipoCondicion.descripcion,
+          descripcion_reducida: tipoCondicion.descripcion_reducida,
+          formulario_AB: tipoCondicion.formulario_AB,
+        },
       }
-    });
+    );
 
     modalNuevaCondicionIva.afterClosed().subscribe({
-      next:(res) => {
+      next: (res) => {
         if (res) {
           this.utils.openLoading();
-          this.tipoCondicionService.getCondicionIvaCRUD(res).subscribe({
+          this.tipoCondicionService.CRUD(res).subscribe({
             next: () => {
-              this.utils.notification("La Condición IVA se ha editado extiosamente.", 'success')
+              this.utils.notification(
+                'La Condición IVA se ha editado extiosamente.',
+                'success'
+              );
             },
             error: (err) => {
               this.utils.closeLoading();
-              (err.status == 0)
-                ? this.utils.notification('Error de conexion', 'error') 
-                : this.utils.notification(`Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`, 'error')
-              this.editCondicionIVA(res)
+              err.status == 0
+                ? this.utils.notification('Error de conexion', 'error')
+                : this.utils.notification(
+                    `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+                    'error'
+                  );
+              this.editCondicionIVA(res);
             },
             complete: () => {
               this.utils.closeLoading();
               setTimeout(() => {
                 this.searchValue = JSON.stringify({
-                  par_modo: "C",
-                  descripcion: res.descripcion
-                })
+                  par_modo: 'C',
+                  descripcion: res.descripcion,
+                });
                 this.getCondicionIva();
               }, 300);
-            }
+            },
           });
         }
-      }
+      },
     });
   }
 
@@ -135,18 +153,17 @@ export class CondicionIvaDashboardComponent {
     this.dialog.open(AddEditCondicionIvaDialogComponent, {
       data: {
         title: `VER CONDICIÓN DE IVA`,
-        par_modo: "C",
+        par_modo: 'C',
         codigo_de_IVA: tipoCondicion.codigo_de_IVA,
         descripcion: tipoCondicion.descripcion,
         descripcion_reducida: tipoCondicion.descripcion_reducida,
         formulario_AB: tipoCondicion.formulario_AB,
-      }
+      },
     });
   }
 
-  public filter(buscar: string):void {
+  public filter(buscar: string): void {
     this.searchValue = buscar;
-      this.getCondicionIva()
+    this.getCondicionIva();
   }
-
 }
