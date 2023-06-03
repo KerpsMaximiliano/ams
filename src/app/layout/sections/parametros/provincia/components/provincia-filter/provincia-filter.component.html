@@ -1,31 +1,27 @@
 <section class="seeker-section">
-    <mat-accordion>
+  <mat-accordion>
     <mat-expansion-panel class="mat-elevation-z1">
-        <mat-expansion-panel-header floating>
-            <mat-panel-title>
-                Opciones de búsqueda
-            </mat-panel-title>
-        </mat-expansion-panel-header>
-        <form>
-            <div class="seeker-fields-container">
-                <mat-form-field class="seeker-form-field">
-                <mat-label class="seeker-label"
-                >Descripción de la Provincia</mat-label>
-                <input  matInput
-                class="seeker-input"
-                [formControl]="nombre_provincia"
-                (keydown.enter)="searchKeyUp($event)">
-                </mat-form-field>
-            </div>
-            <div class="buttons-container">
-                <button class="primary-button icon-button" type="button" (click)="search()">
-                <mat-icon>done</mat-icon>
-                Buscar</button>
-                <button class="primary-button icon-button" type="button" (click)="clearInputs()">
-                <mat-icon>close</mat-icon>
-                Limpiar</button>
-            </div>
-        </form>
+      <mat-expansion-panel-header floating>
+        <mat-panel-title>Opciones de búsqueda</mat-panel-title>
+      </mat-expansion-panel-header>
+      <form>
+        <div class="seeker-fields-container">
+          <mat-form-field class="seeker-form-field">
+            <mat-label class="seeker-label">Descripción de la Provincia</mat-label>
+            <input matInput class="seeker-input" [formControl]="nombre_provincia" (keydown.enter)="searchKeyUp($event)">
+          </mat-form-field>
+        </div>
+        <div class="buttons-container">
+          <button class="primary-button icon-button" type="button" (click)="search()">
+            <mat-icon>done</mat-icon>
+            Buscar
+          </button>
+          <button class="primary-button icon-button" type="button" (click)="clearInputs()">
+            <mat-icon>close</mat-icon>
+            Limpiar
+          </button>
+        </div>
+      </form>
     </mat-expansion-panel>
-    </mat-accordion>
+  </mat-accordion>
 </section>

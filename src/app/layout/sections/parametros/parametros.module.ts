@@ -10,7 +10,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 // * Components
 // 01 - PROVINCIAS
-import { AddEditProvinciaDialogComponent } from './provincia/components/edit-provincia-dialog/add-edit-provincia-dialog.component';
+import { AddEditProvinciaDialogComponent } from './provincia/components/add-edit-provincia-dialog/add-edit-provincia-dialog.component';
 import { ProvinciaComponent } from './provincia/provincia.component';
 import { ProvinciaDashboardComponent } from './provincia/components/provincia-dashboard/provincia-dashboard.component';
 import { ProvinciaFilterComponent } from './provincia/components/provincia-filter/provincia-filter.component';

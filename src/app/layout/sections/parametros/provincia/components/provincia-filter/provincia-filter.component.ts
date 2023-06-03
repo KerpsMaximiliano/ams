@@ -4,28 +4,26 @@ import { FormControl } from '@angular/forms';
 @Component({
   selector: 'app-provincia-filter',
   templateUrl: './provincia-filter.component.html',
-  styleUrls: ['./provincia-filter.component.scss']
+  styleUrls: ['./provincia-filter.component.scss'],
 })
 export class ProvinciaFilterComponent {
-
   @Output() searchEvent: EventEmitter<any> = new EventEmitter<any>();
-  nombre_provincia = new FormControl('');  
+  nombre_provincia = new FormControl('');
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  public search() {
+    this.searchEvent.emit(this.nombre_provincia.value);
   }
 
-  public search(){
-    this.searchEvent.emit(this.nombre_provincia.value)
-  }
-
-  public clearInputs(){
+  public clearInputs() {
     this.nombre_provincia.setValue('');
   }
 
-  public searchKeyUp(e:any): void {
+  public searchKeyUp(e: any): void {
     e.preventDefault();
-    this.searchEvent.emit(this.nombre_provincia.value)
+    this.searchEvent.emit(this.nombre_provincia.value);
   }
 }

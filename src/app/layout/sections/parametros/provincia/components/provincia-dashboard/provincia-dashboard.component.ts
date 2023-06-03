@@ -1,13 +1,21 @@
-import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
+
+// * Services
+import { UtilService } from 'src/app/core/services/util.service';
+import { ProvinciaService } from 'src/app/core/services/provincia.service';
+
+// * Interfaces
+import { IProvincia } from 'src/app/core/models/provincia.interface';
+
+// * Material
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { IProvincia } from 'src/app/core/models/provincia.interface';
-import { ProvinciaService } from 'src/app/core/services/provincia.service';
-import { UtilService } from 'src/app/core/services/util.service';
-import { AddEditProvinciaDialogComponent } from '../edit-provincia-dialog/add-edit-provincia-dialog.component';
+
+// * Components
+import { AddEditProvinciaDialogComponent } from '../add-edit-provincia-dialog/add-edit-provincia-dialog.component';
 
 @Component({
   selector: 'app-provincia-dashboard',
@@ -29,9 +37,9 @@ export class ProvinciaDashboardComponent {
     'actions',
   ];
 
+  public provincia: IProvincia[] = [];
   public dataSource: MatTableDataSource<IProvincia>;
   public searchText: string;
-  public provincia: IProvincia[] = [];
 
   constructor(
     private provinciaService: ProvinciaService,
@@ -42,7 +50,20 @@ export class ProvinciaDashboardComponent {
   ) {}
 
   ngOnInit(): void {
-    this.paginator._intl.itemsPerPageLabel = 'Elementos por página';
+    this.paginator._intl.itemsPerPageLabel = 'Elementos por página: ';
+    this.paginator._intl.nextPageLabel = 'Página siguiente.';
+    this.paginator._intl.previousPageLabel = 'Página anterior.';
+    this.paginator._intl.firstPageLabel = 'Primer página.';
+    this.paginator._intl.lastPageLabel = 'Ultima página.';
+    this.paginator._intl.getRangeLabel = (
+      page: number,
+      pageSize: number,
+      length: number
+    ): string => {
+      return length
+        ? 'Página ' + (page + 1) + ' de ' + Math.ceil(length / pageSize)
+        : 'Página 0 de 0';
+    };
   }
 
   private getProvincia(): void {
@@ -56,24 +77,14 @@ export class ProvinciaDashboardComponent {
         this.provincia = res.dataset as IProvincia[];
         this.dataSource = new MatTableDataSource<IProvincia>(this.provincia);
         this.dataSource.sort = this.sort;
-        setTimeout(() => {
-          this.dataSource.paginator = this.paginator;
-          this.paginator._intl.getRangeLabel = (): string => {
-            return (
-              'Página ' +
-              (this.paginator.pageIndex + 1) +
-              ' de ' +
-              this.paginator.length
-            );
-          };
-        }, 100);
+        this.dataSource.paginator = this.paginator;
       },
       error: (err: any) => {
         this.utils.closeLoading();
         err.status == 0
-          ? this.utils.notification('Error de conexion', 'error')
+          ? this.utils.notification('Error de conexión. ', 'error')
           : this.utils.notification(
-              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}. `,
               'error'
             );
       },
@@ -91,19 +102,19 @@ export class ProvinciaDashboardComponent {
     }
   }
 
-  public editProvincia(tipoProvincia: IProvincia): void {
+  public editProvincia(provincia: IProvincia): void {
     const modalNuevaProvincia = this.dialog.open(
       AddEditProvinciaDialogComponent,
       {
         data: {
           title: `EDITAR PROVINCIA`,
-          par_modo: 'U',
-          codigo: tipoProvincia?.codigo,
-          nombre_provincia: tipoProvincia?.nombre_provincia,
-          codifica_altura: tipoProvincia?.codifica_altura,
-          codigo_provincia: tipoProvincia?.codigo_provincia,
-          flete_transportista: tipoProvincia?.flete_transportista,
           edit: true,
+          par_modo: 'U',
+          codigo: provincia?.codigo,
+          nombre_provincia: provincia?.nombre_provincia,
+          codifica_altura: provincia?.codifica_altura,
+          codigo_provincia: provincia?.codigo_provincia,
+          flete_transportista: provincia?.flete_transportista,
         },
       }
     );
@@ -115,14 +126,14 @@ export class ProvinciaDashboardComponent {
           this.provinciaService.CRUD(res).subscribe({
             next: () => {
               this.utils.notification(
-                'La Provincia se ha editado extiosamente',
+                'La Provincia se ha editado extiosamente. ',
                 'success'
               );
             },
             error: (err) => {
               this.utils.closeLoading();
               err.status == 0
-                ? this.utils.notification('Error de conexion', 'error')
+                ? this.utils.notification('Error de conexión. ', 'error')
                 : this.utils.notification(
                     `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
                     'error'
@@ -142,17 +153,17 @@ export class ProvinciaDashboardComponent {
     });
   }
 
-  public viewProvincia(tipoProvincia: IProvincia): void {
+  public viewProvincia(provincia: IProvincia): void {
     this.dialog.open(AddEditProvinciaDialogComponent, {
       data: {
         title: `VER PROVINCIA`,
-        id_tabla: 9,
-        codigo: tipoProvincia?.codigo,
-        nombre_provincia: tipoProvincia?.nombre_provincia,
-        codifica_altura: tipoProvincia?.codifica_altura,
-        codigo_provincia: tipoProvincia?.codigo_provincia,
-        flete_transportista: tipoProvincia?.flete_transportista,
         edit: false,
+        id_tabla: 9,
+        codigo: provincia?.codigo,
+        nombre_provincia: provincia?.nombre_provincia,
+        codifica_altura: provincia?.codifica_altura,
+        codigo_provincia: provincia?.codigo_provincia,
+        flete_transportista: provincia?.flete_transportista,
       },
     });
   }

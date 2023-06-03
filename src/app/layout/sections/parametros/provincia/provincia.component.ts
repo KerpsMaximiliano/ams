@@ -1,10 +1,18 @@
-import { MatDialog } from '@angular/material/dialog';
 import { Component, ViewChild } from '@angular/core';
+
+// * Services
 import { UtilService } from 'src/app/core/services/util.service';
-import { ProvinciaDashboardComponent } from './components/provincia-dashboard/provincia-dashboard.component';
-import { AddEditProvinciaDialogComponent } from './components/edit-provincia-dialog/add-edit-provincia-dialog.component';
 import { ProvinciaService } from 'src/app/core/services/provincia.service';
+
+// * Interfaces
 import { IProvincia } from 'src/app/core/models/provincia.interface';
+
+// * Material
+import { MatDialog } from '@angular/material/dialog';
+
+// * Component
+import { AddEditProvinciaDialogComponent } from './components/add-edit-provincia-dialog/add-edit-provincia-dialog.component';
+import { ProvinciaDashboardComponent } from './components/provincia-dashboard/provincia-dashboard.component';
 
 @Component({
   selector: 'app-provincia',
@@ -27,19 +35,19 @@ export class ProvinciaComponent {
     this.dashboard.filter(inputValue);
   }
 
-  public nuevaProvincia(tipoProvincia?: IProvincia): void {
+  public nuevaProvincia(provincia?: IProvincia): void {
     const modalNuevaProvincia = this.dialog.open(
       AddEditProvinciaDialogComponent,
       {
         data: {
           title: `CREAR PROVINCIA`,
           edit: true,
-          codigo: tipoProvincia?.codigo,
-          nombre_provincia: tipoProvincia?.nombre_provincia,
-          codifica_altura: tipoProvincia?.codifica_altura,
-          codigo_provincia: tipoProvincia?.codigo_provincia,
-          flete_transportista: tipoProvincia?.flete_transportista,
           par_modo: 'I',
+          codigo: provincia?.codigo,
+          nombre_provincia: provincia?.nombre_provincia,
+          codifica_altura: provincia?.codifica_altura,
+          codigo_provincia: provincia?.codigo_provincia,
+          flete_transportista: provincia?.flete_transportista,
         },
       }
     );
@@ -51,14 +59,14 @@ export class ProvinciaComponent {
           this.provinciaService.CRUD(res).subscribe({
             next: () => {
               this.utils.notification(
-                'La Provincia se ha creado exitosamente',
+                'La Provincia se ha creado exitosamente. ',
                 'success'
               );
             },
             error: (err: any) => {
               this.utils.closeLoading();
               err.status == 0
-                ? this.utils.notification('Error de conexion', 'error')
+                ? this.utils.notification('Error de conexión. ', 'error')
                 : this.utils.notification(
                     `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
                     'error'
