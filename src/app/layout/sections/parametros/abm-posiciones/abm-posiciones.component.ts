@@ -8,30 +8,32 @@ import { PosicionesService } from 'src/app/core/services/abm-posiciones.service'
 import { MatDialog } from '@angular/material/dialog';
 
 // * COMPONENTS
-import { AbmPosiciones } from 'src/app/core/models/abm-posiciones';
+import { IPosicion } from 'src/app/core/models/posicion.interface';
 import { AddEditAbmPosicionesComponent } from './add-edit-abm-posiciones/add-edit-abm-posiciones.component';
 import { AbmPosicionesDashboardComponent } from './abm-posiciones-dashboard/abm-posiciones-dashboard.component';
 
 @Component({
   selector: 'app-abm-posiciones',
   templateUrl: './abm-posiciones.component.html',
-  styleUrls: ['./abm-posiciones.component.scss']
+  styleUrls: ['./abm-posiciones.component.scss'],
 })
 export class AbmPosicionesComponent {
-  @ViewChild(AbmPosicionesDashboardComponent) dashboard: AbmPosicionesDashboardComponent;
+  @ViewChild(AbmPosicionesDashboardComponent)
+  dashboard: AbmPosicionesDashboardComponent;
 
-  constructor(private posicionesService: PosicionesService,
+  constructor(
+    private posicionesService: PosicionesService,
     private utils: UtilService,
-    private dialog: MatDialog) { }
+    private dialog: MatDialog
+  ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   public handleSearch(inputValue: any): void {
     this.dashboard.filter(inputValue);
   }
 
-  public nuevaPosicion(posiciones?: AbmPosiciones): void {
+  public nuevaPosicion(posiciones?: IPosicion): void {
     const modalNuevaPosicion = this.dialog.open(AddEditAbmPosicionesComponent, {
       data: {
         title: `Nueva Posicion`,
@@ -45,7 +47,7 @@ export class AbmPosicionesComponent {
         yes_no: posiciones?.yes_no,
         fecha_vigencia: posiciones?.fecha_vigencia,
         letra_provincia: posiciones?.letra_provincia,
-      }
+      },
     });
 
     modalNuevaPosicion.afterClosed().subscribe({
@@ -55,13 +57,19 @@ export class AbmPosicionesComponent {
           this.utils.openLoading();
           this.posicionesService.getCRUD(res).subscribe({
             next: (res: any) => {
-              this.utils.notification("La Posicion se ha creado exitosamente", 'success')
+              this.utils.notification(
+                'La Posicion se ha creado exitosamente',
+                'success'
+              );
             },
             error: (err) => {
               this.utils.closeLoading();
-              (err.status == 0)
+              err.status == 0
                 ? this.utils.notification('Error de conexion', 'error')
-                : this.utils.notification(`Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`, 'error')
+                : this.utils.notification(
+                    `Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`,
+                    'error'
+                  );
               this.nuevaPosicion(res);
             },
             complete: () => {
@@ -69,10 +77,10 @@ export class AbmPosicionesComponent {
               setTimeout(() => {
                 this.handleSearch('');
               }, 300);
-            }
+            },
           });
         }
-      }
-    })
+      },
+    });
   }
 }

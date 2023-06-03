@@ -6,7 +6,7 @@ import { UtilService } from 'src/app/core/services/util.service';
 import { PreguntasDDJJService } from 'src/app/core/services/preguntas-ddjj.service';
 
 // * Interfaces
-import { PreguntasDDJJ } from 'src/app/core/models/preguntas-ddjj';
+import { IPreguntasDDJJ } from 'src/app/core/models/preguntas-ddjj.interface';
 
 // * Material
 import { MatDialog } from '@angular/material/dialog';
@@ -37,11 +37,11 @@ export class PreguntasDDJJDashboardComponent {
     'actions',
   ];
 
-  public dataSource: MatTableDataSource<PreguntasDDJJ>;
+  public dataSource: MatTableDataSource<IPreguntasDDJJ>;
 
   public searchValue: string = '';
 
-  public preguntasDDJJ: PreguntasDDJJ[] = [];
+  public preguntasDDJJ: IPreguntasDDJJ[] = [];
 
   constructor(
     private preguntasDDJJService: PreguntasDDJJService,
@@ -60,9 +60,9 @@ export class PreguntasDDJJDashboardComponent {
     this.preguntasDDJJService.getPreguntasDDJJCRUD(this.searchValue).subscribe({
       next: (res: any) => {
         res.dataset.length
-          ? (this.preguntasDDJJ = res.dataset as PreguntasDDJJ[])
+          ? (this.preguntasDDJJ = res.dataset as IPreguntasDDJJ[])
           : (this.preguntasDDJJ = [res.dataset]);
-        this.dataSource = new MatTableDataSource<PreguntasDDJJ>(
+        this.dataSource = new MatTableDataSource<IPreguntasDDJJ>(
           this.preguntasDDJJ
         );
         this.dataSource.sort = this.sort;
@@ -101,7 +101,7 @@ export class PreguntasDDJJDashboardComponent {
     }
   }
 
-  public editPreguntasDDJJ(preguntasDDJJ: PreguntasDDJJ): void {
+  public editPreguntasDDJJ(preguntasDDJJ: IPreguntasDDJJ): void {
     const modalEditPreguntasDDJJ = this.dialog.open(
       AddEditPreguntasDDJJDialogComponent,
       {
@@ -144,7 +144,11 @@ export class PreguntasDDJJDashboardComponent {
             complete: () => {
               this.utils.closeLoading();
               setTimeout(() => {
-                this.searchValue = JSON.stringify({par_modo: 'R', modelo_formulario: preguntasDDJJ.modelo_formulario, nro_preg: preguntasDDJJ.nro_preg });
+                this.searchValue = JSON.stringify({
+                  par_modo: 'R',
+                  modelo_formulario: preguntasDDJJ.modelo_formulario,
+                  nro_preg: preguntasDDJJ.nro_preg,
+                });
                 this.getPreguntasDDJJ();
               }, 300);
             },
@@ -154,7 +158,7 @@ export class PreguntasDDJJDashboardComponent {
     });
   }
 
-  public viewPreguntasDDJJ(preguntasDDJJ: PreguntasDDJJ): void {
+  public viewPreguntasDDJJ(preguntasDDJJ: IPreguntasDDJJ): void {
     this.dialog.open(AddEditPreguntasDDJJDialogComponent, {
       data: {
         title: `VER PREGUNTA DE DECLARACIONES JURADAS`,

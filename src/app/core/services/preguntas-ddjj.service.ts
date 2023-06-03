@@ -6,7 +6,10 @@ import { Observable } from 'rxjs';
 import { EnvironmentService } from './environment.service';
 
 // * Interfaces
-import { PreguntasDDJJ, PreguntasDDJJResponse } from '../models/preguntas-ddjj';
+import {
+  IPreguntasDDJJ,
+  IPreguntasDDJJResponse,
+} from '../models/preguntas-ddjj.interface';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -23,8 +26,8 @@ export class PreguntasDDJJService {
 
   getPreguntasDDJJCRUD(
     body: string
-  ): Observable<PreguntasDDJJResponse | PreguntasDDJJ> {
-    return this.http.post<PreguntasDDJJResponse>(
+  ): Observable<IPreguntasDDJJResponse | IPreguntasDDJJ> {
+    return this.http.post<IPreguntasDDJJResponse>(
       `${this.environmentService.api}/abmpreguntasddjj`,
       body,
       httpOptions

@@ -1,6 +1,6 @@
-import { Response } from './response';
+import { IResponse } from './response.interface';
 
-export interface IFormasPago {
+export interface IFormaPago {
   par_modo: string;
   forma_pago: string;
   codigo: number;
@@ -13,4 +13,4 @@ export interface IFormasPago {
   codigo_tarjeta_de_baja: string;
 }
 
-export type IFormasPagoResponse = Response<IFormasPago[]>;
+export type IFormaPagoResponse = IResponse<IFormaPago[]>;

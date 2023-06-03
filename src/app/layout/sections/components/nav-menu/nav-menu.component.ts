@@ -1,6 +1,9 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { MenuItem, MenuChildren } from 'src/app/core/models/menuItem';
+import {
+  IMenuItem,
+  IMenuChildren,
+} from 'src/app/core/models/menuItem.interface';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { LayoutService } from 'src/app/core/services/layout.service';
 
@@ -16,27 +19,31 @@ export class NavMenuComponent {
   public sViewport: boolean = true;
   public opened: boolean = true;
 
-  public sections: MenuItem[] = [
+  public sections: IMenuItem[] = [
     {
       title: 'Parametros',
       expanded: true,
       children: [
-        { // 01 - PROVINCIA
+        {
+          // 01 - PROVINCIA
           title: 'Provincias',
           url: '/parametros/provincia',
           icon: 'keyboard_arrow_right',
         },
-        { // 02 - TIPO DE DOCUMENTO
+        {
+          // 02 - TIPO DE DOCUMENTO
           title: 'Tipos de Documento',
           url: '/parametros/tipo-documento',
           icon: 'keyboard_arrow_right',
         },
-        { // 03 - NACIONALIDAD
+        {
+          // 03 - NACIONALIDAD
           title: 'Nacionalidades',
           url: '/parametros/nacionalidad',
           icon: 'keyboard_arrow_right',
         },
-        { // 04 - DEPARTAMENTO
+        {
+          // 04 - DEPARTAMENTO
           title: 'Departamento',
           url: '/parametros/departamento',
           icon: 'keyboard_arrow_right',
@@ -46,37 +53,44 @@ export class NavMenuComponent {
           url: '/parametros/posicion',
           icon: 'keyboard_arrow_right',
         },
-        { // 07 - FORMAS DE PAGO
+        {
+          // 07 - FORMAS DE PAGO
           title: 'Formas de Pago',
           url: '/parametros/formas-pago',
           icon: 'keyboard_arrow_right',
         },
-        { // 08 - CONDICIONES DE IVA
+        {
+          // 08 - CONDICIONES DE IVA
           title: 'Condiciones de IVA',
           url: '/parametros/condicion-iva',
           icon: 'keyboard_arrow_right',
         },
-        { // 06 - LOCALIDAD
+        {
+          // 06 - LOCALIDAD
           title: 'Localidad',
           url: '/parametros/localidades',
           icon: 'keyboard_arrow_right',
         },
-        { // 09 - ESTADO CIVIL
+        {
+          // 09 - ESTADO CIVIL
           title: 'Estado Civil',
           url: '/parametros/estado-civil',
           icon: 'keyboard_arrow_right',
         },
-        { // 11 - FUENTE DE INGRESO
+        {
+          // 11 - FUENTE DE INGRESO
           title: 'Fuente de Ingreso',
           url: '/parametros/fuente-ingreso',
           icon: 'keyboard_arrow_right',
         },
-        { // 12 - OBRA SOCIAL
+        {
+          // 12 - OBRA SOCIAL
           title: 'Obras Sociales',
           url: '/parametros/obra-social',
           icon: 'keyboard_arrow_right',
         },
-        { // 13 - PREGUNTAS DDJJ
+        {
+          // 13 - PREGUNTAS DDJJ
           title: 'Preguntas DDJJ',
           url: '/parametros/pregunta-ddjj',
           icon: 'keyboard_arrow_right',
@@ -100,11 +114,11 @@ export class NavMenuComponent {
     this.service.navHidden.subscribe((value) => (this.opened = !this.opened));
   }
 
-  navigate(url: string, section: MenuItem) {
+  navigate(url: string, section: IMenuItem) {
     this.router.navigateByUrl(url);
   }
 
-  isActive(page: MenuChildren) {
+  isActive(page: IMenuChildren) {
     return this.router.url === page.url;
   }
 }

@@ -5,7 +5,7 @@ import { UtilService } from 'src/app/core/services/util.service';
 import { FormasPagoService } from 'src/app/core/services/formas-pago.service';
 
 // * Interfaces
-import { IFormasPago } from 'src/app/core/models/formas-pago.interface';
+import { IFormaPago } from 'src/app/core/models/formas-pago.interface';
 
 // * Material
 import { MatDialog } from '@angular/material/dialog';
@@ -35,7 +35,7 @@ export class FormasPagoComponent {
     this.dashboard.filter(inputValue);
   }
 
-  public nuevaFormaPago(formaPago?: IFormasPago): void {
+  public nuevaFormaPago(formaPago?: IFormaPago): void {
     const modalNuevaFormaPago = this.dialog.open(
       AddEditFormasPagoDialogComponent,
       {

@@ -5,7 +5,7 @@ import { UtilService } from 'src/app/core/services/util.service';
 import { PreguntasDDJJService } from 'src/app/core/services/preguntas-ddjj.service';
 
 // * Interfaces
-import { PreguntasDDJJ } from 'src/app/core/models/preguntas-ddjj';
+import { IPreguntasDDJJ } from 'src/app/core/models/preguntas-ddjj.interface';
 
 // * Material
 import { MatDialog } from '@angular/material/dialog';
@@ -35,7 +35,7 @@ export class PreguntasDDJJComponent {
     this.dashboard.filter(inputValue);
   }
 
-  public nuevaPreguntasDDJJ(preguntasDDJJ?: PreguntasDDJJ): void {
+  public nuevaPreguntasDDJJ(preguntasDDJJ?: IPreguntasDDJJ): void {
     const modalNuevaPreguntasDDJJ = this.dialog.open(
       AddEditPreguntasDDJJDialogComponent,
       {

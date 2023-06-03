@@ -1,7 +1,7 @@
-import { IEnvironment } from 'src/app/core/models/environment';
+import { IEnvironment } from 'src/app/core/models/environment.interface';
 
 export const environment: IEnvironment = {
   production: true,
-  api: "http://devplanesapisvc.ams.red/api",
-  baseUrlKeycloak: "http://172.22.111.117:8080",
+  api: 'http://devplanesapisvc.ams.red/api',
+  baseUrlKeycloak: 'http://172.22.111.117:8080',
 };

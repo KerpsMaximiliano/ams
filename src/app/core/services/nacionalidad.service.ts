@@ -1,35 +1,48 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Nacionalidad } from '../models/nacionalidad';
+import { INacionalidad } from '../models/nacionalidad.interface';
 import { EnvironmentService } from './environment.service';
 
 const httpOptions = {
-  headers: new HttpHeaders({'Content-Type': 'application/json'})
-}
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+};
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class NacionalidadService {
+  constructor(
+    private http: HttpClient,
+    private environmentService: EnvironmentService
+  ) {}
 
-  constructor(private http:HttpClient,
-    private environmentService: EnvironmentService) { }
-
-  getParamByDesc(body:string): Observable<Nacionalidad[]> {  
-    return this.http.post<Nacionalidad[]>(`${this.environmentService.api}/abmnacionalidades`, body, httpOptions)
+  getParamByDesc(body: string): Observable<INacionalidad[]> {
+    return this.http.post<INacionalidad[]>(
+      `${this.environmentService.api}/abmnacionalidades`,
+      body,
+      httpOptions
+    );
   }
 
-  public deleteEstado(id:number) {
+  public deleteEstado(id: number) {
     return this.http.delete(`${this.environmentService.api}/estados/${id}`);
   }
 
-  public addNacionalidad(data:Nacionalidad): Observable<Nacionalidad> {
+  public addNacionalidad(data: INacionalidad): Observable<INacionalidad> {
     let body = JSON.stringify(data);
-    return this.http.post<Nacionalidad>(`${this.environmentService.api}/abmnacionalidades`, body, httpOptions);
+    return this.http.post<INacionalidad>(
+      `${this.environmentService.api}/abmnacionalidades`,
+      body,
+      httpOptions
+    );
   }
 
-  public editNacionalidad(data:Nacionalidad): Observable<Nacionalidad> {
+  public editNacionalidad(data: INacionalidad): Observable<INacionalidad> {
     let body = JSON.stringify(data);
-    return this.http.post<Nacionalidad>(`${this.environmentService.api}/abmnacionalidades`, body, httpOptions);
+    return this.http.post<INacionalidad>(
+      `${this.environmentService.api}/abmnacionalidades`,
+      body,
+      httpOptions
+    );
   }
 }

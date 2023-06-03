@@ -6,7 +6,7 @@ import { UtilService } from 'src/app/core/services/util.service';
 import { NacionalidadService } from 'src/app/core/services/nacionalidad.service';
 
 // * Interfaces
-import { Nacionalidad } from 'src/app/core/models/nacionalidad';
+import { INacionalidad } from 'src/app/core/models/nacionalidad.interface';
 
 // * Material
 import { MatDialog } from '@angular/material/dialog';
@@ -36,11 +36,11 @@ export class NacionalidadDashboardComponent {
     'actions',
   ];
 
-  public dataSource: MatTableDataSource<Nacionalidad>;
+  public dataSource: MatTableDataSource<INacionalidad>;
 
   public searchEvent: string = '';
   public searchId: number = 0;
-  public nacionalidades: Nacionalidad[] = [];
+  public nacionalidades: INacionalidad[] = [];
 
   constructor(
     private nacionalidadService: NacionalidadService,
@@ -64,8 +64,8 @@ export class NacionalidadDashboardComponent {
     let body = JSON.stringify(aux);
     this.nacionalidadService.getParamByDesc(body).subscribe({
       next: (res: any) => {
-        this.nacionalidades = res.dataset as Nacionalidad[];
-        this.dataSource = new MatTableDataSource<Nacionalidad>(
+        this.nacionalidades = res.dataset as INacionalidad[];
+        this.dataSource = new MatTableDataSource<INacionalidad>(
           this.nacionalidades
         );
         this.dataSource.sort = this.sort;
@@ -104,7 +104,7 @@ export class NacionalidadDashboardComponent {
     }
   }
 
-  public editNacType(nacionalidad: Nacionalidad): void {
+  public editNacType(nacionalidad: INacionalidad): void {
     const modalNacionalidad = this.dialog.open(
       EditNacionalidadDialogComponent,
       {
@@ -153,7 +153,7 @@ export class NacionalidadDashboardComponent {
     });
   }
 
-  public viewNacType(nacionalidad: Nacionalidad): void {
+  public viewNacType(nacionalidad: INacionalidad): void {
     this.dialog.open(EditNacionalidadDialogComponent, {
       data: {
         title: `Ver nacionalidad`,
@@ -166,7 +166,7 @@ export class NacionalidadDashboardComponent {
     });
   }
 
-  public deleteNacType(nacionalidad: Nacionalidad): void {
+  public deleteNacType(nacionalidad: INacionalidad): void {
     const modalConfirm = this.dialog.open(ConfirmDialogComponent, {
       data: {
         title: `Eliminar la nacionalidad`,

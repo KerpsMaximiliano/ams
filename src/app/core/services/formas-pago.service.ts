@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { EnvironmentService } from './environment.service';
 
 // * Interfaces
-import { IFormasPagoResponse } from '../models/formas-pago.interface';
+import { IFormaPagoResponse } from '../models/formas-pago.interface';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -21,8 +21,8 @@ export class FormasPagoService {
     private environmentService: EnvironmentService
   ) {}
 
-  getFormasPagoCRUD(body: string): Observable<IFormasPagoResponse> {
-    return this.http.post<IFormasPagoResponse>(
+  getFormasPagoCRUD(body: string): Observable<IFormaPagoResponse> {
+    return this.http.post<IFormaPagoResponse>(
       `${this.environmentService.api}/abmtarjetacredito`,
       body,
       httpOptions

@@ -6,7 +6,7 @@ import { UtilService } from 'src/app/core/services/util.service';
 import { FormasPagoService } from 'src/app/core/services/formas-pago.service';
 
 // * Interfaces
-import { IFormasPago } from 'src/app/core/models/formas-pago.interface';
+import { IFormaPago } from 'src/app/core/models/formas-pago.interface';
 
 // * Material
 import { MatDialog } from '@angular/material/dialog';
@@ -38,11 +38,11 @@ export class FormasPagoDashboardComponent {
     'actions',
   ];
 
-  public dataSource: MatTableDataSource<IFormasPago>;
+  public dataSource: MatTableDataSource<IFormaPago>;
 
   public searchValue: string = '';
 
-  public formasPago: IFormasPago[] = [];
+  public formasPago: IFormaPago[] = [];
 
   constructor(
     private formasPagoService: FormasPagoService,
@@ -61,9 +61,9 @@ export class FormasPagoDashboardComponent {
     this.formasPagoService.getFormasPagoCRUD(this.searchValue).subscribe({
       next: (res: any) => {
         res.dataset.length
-          ? (this.formasPago = res.dataset as IFormasPago[])
+          ? (this.formasPago = res.dataset as IFormaPago[])
           : (this.formasPago = [res.dataset]);
-        this.dataSource = new MatTableDataSource<IFormasPago>(this.formasPago);
+        this.dataSource = new MatTableDataSource<IFormaPago>(this.formasPago);
         this.dataSource.sort = this.sort;
         setTimeout(() => {
           this.dataSource.paginator = this.paginator;
@@ -100,7 +100,7 @@ export class FormasPagoDashboardComponent {
     }
   }
 
-  public editFormaPago(formaPago: IFormasPago): void {
+  public editFormaPago(formaPago: IFormaPago): void {
     const modalEditFormaPago = this.dialog.open(
       AddEditFormasPagoDialogComponent,
       {
@@ -154,7 +154,7 @@ export class FormasPagoDashboardComponent {
     });
   }
 
-  public viewFormaPago(formaPago: IFormasPago): void {
+  public viewFormaPago(formaPago: IFormaPago): void {
     this.dialog.open(AddEditFormasPagoDialogComponent, {
       data: {
         title: `VER FORMA DE PAGO`,

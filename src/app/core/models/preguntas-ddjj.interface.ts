@@ -1,6 +1,6 @@
-import { Response } from './response';
+import { IResponse } from './response.interface';
 
-export interface PreguntasDDJJ {
+export interface IPreguntasDDJJ {
   par_modo: string;
   modelo_formulario: string;
   nro_preg: number;
@@ -11,4 +11,4 @@ export interface PreguntasDDJJ {
   segundo_texto_preg: string;
 }
 
-export type PreguntasDDJJResponse = Response<PreguntasDDJJ[]>;
+export type IPreguntasDDJJResponse = IResponse<IPreguntasDDJJ[]>;

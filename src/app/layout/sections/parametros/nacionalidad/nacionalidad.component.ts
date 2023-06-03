@@ -5,7 +5,7 @@ import { UtilService } from 'src/app/core/services/util.service';
 import { NacionalidadService } from 'src/app/core/services/nacionalidad.service';
 
 // * Interfaces
-import { Nacionalidad } from 'src/app/core/models/nacionalidad';
+import { INacionalidad } from 'src/app/core/models/nacionalidad.interface';
 
 // * Material
 import { MatDialog } from '@angular/material/dialog';
@@ -35,7 +35,7 @@ export class NacionalidadComponent {
     this.dashboard.filter(inputValue);
   }
 
-  public nuevaNacionalidad(nacionalidad?: Nacionalidad): void {
+  public nuevaNacionalidad(nacionalidad?: INacionalidad): void {
     const modalNuevaNacionalidad = this.dialog.open(
       EditNacionalidadDialogComponent,
       {
