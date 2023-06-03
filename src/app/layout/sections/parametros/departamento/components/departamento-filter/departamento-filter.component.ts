@@ -1,12 +1,18 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormControl, FormGroup, UntypedFormControl } from '@angular/forms';
 import { map, Observable, startWith } from 'rxjs';
+
+// * Forms
+import { FormControl, FormGroup, UntypedFormControl } from '@angular/forms';
+
+// * Services
+import { UtilService } from 'src/app/core/services/util.service';
+import { ProvinciaService } from 'src/app/core/services/provincia.service';
+
+// * Interfaces
 import {
   IProvincia,
   IProvinciaResponse,
 } from 'src/app/core/models/provincia.interface';
-import { ProvinciaService } from 'src/app/core/services/provincia.service';
-import { UtilService } from 'src/app/core/services/util.service';
 
 @Component({
   selector: 'app-departamento-filter',
@@ -16,14 +22,13 @@ import { UtilService } from 'src/app/core/services/util.service';
 export class DepartamentoFilterComponent {
   @Input() provincias$: Observable<IProvinciaResponse>;
   @Output() searchEvent: EventEmitter<any> = new EventEmitter<any>();
+
   searchForm = new FormGroup({
     letra_provincia: new FormControl(''),
     descripcion: new FormControl(''),
   });
   myControlProv = new UntypedFormControl('');
   provinciaFiltrados: Observable<IProvinciaResponse[]> | any;
-  // paramProv: any;
-
   paramProv: [] | any;
 
   constructor(
@@ -37,16 +42,14 @@ export class DepartamentoFilterComponent {
         this.paramProv = res?.dataset;
       },
       error: (err: any) => {
-        console.log(err);
         err.status == 0
-          ? this.utils.notification('Error de conexion', 'error')
+          ? this.utils.notification('Error de conexión. ', 'error')
           : this.utils.notification(
               `Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`,
               'error'
             );
       },
     });
-    console.log(this.paramProv);
     this.provinciaFiltrados = this.myControlProv.valueChanges.pipe(
       startWith(''),
       map((valueProv) => {

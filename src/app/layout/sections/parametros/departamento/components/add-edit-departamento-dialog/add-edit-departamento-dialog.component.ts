@@ -1,14 +1,26 @@
 import { Component, Inject } from '@angular/core';
+import { Observable } from 'rxjs';
+
+// * Services
+import { ProvinciaService } from 'src/app/core/services/provincia.service';
+
+// * Interfaces
+import { IProvinciaResponse } from 'src/app/core/models/provincia.interface';
+
+// * Material
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+
+// * Forms
 import {
   UntypedFormControl,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Observable } from 'rxjs';
-import { IProvinciaResponse } from 'src/app/core/models/provincia.interface';
-import { ProvinciaService } from 'src/app/core/services/provincia.service';
+
+// * Validations
 import { isAlphanumericWithSpaces } from 'src/app/core/validators/character.validator';
+
+// * Components
 import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
 
 @Component({

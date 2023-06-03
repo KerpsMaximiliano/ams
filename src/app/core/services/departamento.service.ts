@@ -16,8 +16,6 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class DepartamentoService {
-  URL: string = '/abmdepartamentos';
-
   constructor(
     private http: HttpClient,
     private environmentService: EnvironmentService
@@ -25,7 +23,7 @@ export class DepartamentoService {
 
   CRUD(body: string): Observable<IDepartamentoResponse> {
     return this.http.post<IDepartamentoResponse>(
-      `${this.environmentService.api}` + this.URL,
+      `${this.environmentService.api}/abmdepartamentos`,
       body,
       httpOptions
     );

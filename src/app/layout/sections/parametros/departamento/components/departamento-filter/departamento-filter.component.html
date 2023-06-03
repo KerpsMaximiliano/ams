@@ -1,53 +1,51 @@
 <section class="seeker-section">
-    <mat-accordion>
+  <mat-accordion>
     <mat-expansion-panel class="mat-elevation-z1">
-        <mat-expansion-panel-header floating>
-            <mat-panel-title>
-                Opciones de búsqueda
-            </mat-panel-title>
-        </mat-expansion-panel-header>
-        <form [formGroup]="searchForm">
-            <div class="seeker-fields-container" (keyup.enter)="searchKeyUp($event)">
-                <h3>Provincia</h3>
-                    <mat-form-field class="seeker-form-field" appearance="outline">
-                        <input type="text" required matInput [formControl]="myControlProv" [matAutocomplete]="prov">
-                        <mat-autocomplete #prov="matAutocomplete" [displayWith]="displayFnProv">
-                        <mat-option *ngFor="let Prov of provinciaFiltrados | async" 
-                        [value]="Prov"
-                        (onSelectionChange)="buscar(Prov.codigo)"
-                        >
-                            {{Prov.nombre_provincia}}
-                        </mat-option>
-                        </mat-autocomplete>
-                    </mat-form-field>
+      <mat-expansion-panel-header floating>
+        <mat-panel-title> Opciones de búsqueda </mat-panel-title>
+      </mat-expansion-panel-header>
 
-                <ng-template #loading>
-                    <div class="seeker-fields-container">
-                        <mat-form-field class="seeker-form-field">
-                            <mat-select>
-                                <mat-option>
-                                    Cargando
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                </ng-template>
-                <mat-form-field class="seeker-form-field">
-                    <mat-label class="seeker-label">Ingrese el Departamento</mat-label>
-                    <input matInput class="seeker-input" formControlName="descripcion">
-                </mat-form-field>
+      <form [formGroup]="searchForm">
+        <div class="seeker-fields-container" (keyup.enter)="searchKeyUp($event)">
+          <h3> Provincia </h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <input type="text" required matInput [formControl]="myControlProv" [matAutocomplete]="prov">
+            <mat-autocomplete #prov="matAutocomplete" [displayWith]="displayFnProv">
+              <mat-option *ngFor="let Prov of provinciaFiltrados | async" [value]="Prov"
+                (onSelectionChange)="buscar(Prov.codigo)">
+                {{ Prov.nombre_provincia }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+          <ng-template #loading>
+            <div class="seeker-fields-container">
+              <mat-form-field class="seeker-form-field">
+                <mat-select>
+                  <mat-option> Cargando </mat-option>
+                </mat-select>
+              </mat-form-field>
             </div>
-            <div class="buttons-container">
-                <button class="primary-button icon-button" type="button" (click)="search()" 
-                [disabled]="!(searchForm.get('letra_provincia')?.value ||
-                searchForm.get('descripcion')?.value)">
-                <mat-icon>done</mat-icon>
-                Buscar</button>
-                <button class="primary-button icon-button" type="button" (click)="clearInputs()">
-                <mat-icon>close</mat-icon>
-                Limpiar</button>
-            </div>
-        </form>
+          </ng-template>
+
+          <mat-form-field class="seeker-form-field">
+            <mat-label class="seeker-label"> Ingrese el departamento </mat-label>
+            <input matInput class="seeker-input" formControlName="descripcion">
+          </mat-form-field>
+        </div>
+
+        <div class="buttons-container">
+          <button class="primary-button icon-button" type="button" (click)="search()"
+            [disabled]="!(searchForm.get('letra_provincia')?.value || searchForm.get('descripcion')?.value)">
+            <mat-icon> done </mat-icon>
+            Buscar
+          </button>
+          <button class="primary-button icon-button" type="button" (click)="clearInputs()">
+            <mat-icon> close </mat-icon>
+            Limpiar
+          </button>
+        </div>
+      </form>
     </mat-expansion-panel>
-    </mat-accordion>
+  </mat-accordion>
 </section>

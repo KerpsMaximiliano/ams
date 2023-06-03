@@ -1,19 +1,27 @@
-import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
-import { MatSort, Sort } from '@angular/material/sort';
-import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { IDepartamento } from 'src/app/core/models/departamento.interface';
-import { DepartamentoService } from 'src/app/core/services/departamento.service';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { Observable } from 'rxjs';
+
+// * Services
 import { UtilService } from 'src/app/core/services/util.service';
-import { AddEditDepartamentoDialogComponent } from '../add-edit-departamento-dialog/add-edit-departamento-dialog.component';
+import { DepartamentoService } from 'src/app/core/services/departamento.service';
+import { ProvinciaService } from 'src/app/core/services/provincia.service';
+
+// * Interfaces
+import { IDepartamento } from 'src/app/core/models/departamento.interface';
 import {
   IProvincia,
   IProvinciaResponse,
 } from 'src/app/core/models/provincia.interface';
-import { Observable } from 'rxjs';
-import { ProvinciaService } from 'src/app/core/services/provincia.service';
+
+// * Material
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
+import { MatSort, Sort } from '@angular/material/sort';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
+
+// * Components
+import { AddEditDepartamentoDialogComponent } from '../add-edit-departamento-dialog/add-edit-departamento-dialog.component';
 
 export interface searchValue {
   descripcion: Number;
@@ -31,27 +39,25 @@ export class DepartamentoDashboardComponent {
     new MatPaginator(new MatPaginatorIntl(), this.cdr);
   @ViewChild(MatTable) table!: MatTable<any>;
 
+  public searchValue: searchValue;
+  provinciaList: IProvincia[];
+  public departamentos: IDepartamento[] = [];
+  provincias$: Observable<IProvinciaResponse>;
   public displayedColumns: string[] = [
     'codigo_departamento',
     'departamento',
     'abreviatura',
     'actions',
   ];
-
   public dataSource: MatTableDataSource<IDepartamento>;
-  provincias$: Observable<IProvinciaResponse>;
-  provinciaList: IProvincia[];
-
-  public searchValue: searchValue;
-  public departamentos: IDepartamento[] = [];
 
   constructor(
-    private departamentoService: DepartamentoService,
     private utils: UtilService,
     private _liveAnnouncer: LiveAnnouncer,
     private cdr: ChangeDetectorRef,
     private dialog: MatDialog,
-    private provinciaService: ProvinciaService
+    private provinciaService: ProvinciaService,
+    private departamentoService: DepartamentoService
   ) {}
 
   ngOnInit(): void {
@@ -67,7 +73,20 @@ export class DepartamentoDashboardComponent {
         );
       },
     });
-    this.paginator._intl.itemsPerPageLabel = 'Elementos por página';
+    this.paginator._intl.itemsPerPageLabel = 'Elementos por página: ';
+    this.paginator._intl.nextPageLabel = 'Página siguiente.';
+    this.paginator._intl.previousPageLabel = 'Página anterior.';
+    this.paginator._intl.firstPageLabel = 'Primer página.';
+    this.paginator._intl.lastPageLabel = 'Ultima página.';
+    this.paginator._intl.getRangeLabel = (
+      page: number,
+      pageSize: number,
+      length: number
+    ): string => {
+      return length
+        ? 'Página ' + (page + 1) + ' de ' + Math.ceil(length / pageSize)
+        : 'Página 0 de 0';
+    };
   }
 
   private getDepartamento(): void {
@@ -88,22 +107,12 @@ export class DepartamentoDashboardComponent {
           this.departamentos
         );
         this.dataSource.sort = this.sort;
-        setTimeout(() => {
-          this.dataSource.paginator = this.paginator;
-          this.paginator._intl.getRangeLabel = (): string => {
-            return (
-              'Página ' +
-              (this.paginator.pageIndex + 1) +
-              ' de ' +
-              this.paginator.length
-            );
-          };
-        }, 100);
+        this.dataSource.paginator = this.paginator;
       },
       error: (err: any) => {
         this.utils.closeLoading();
         err.status == 0
-          ? this.utils.notification('Error de conexion', 'error')
+          ? this.utils.notification('Error de conexión. ', 'error')
           : this.utils.notification(
               `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
               'error'
@@ -129,12 +138,12 @@ export class DepartamentoDashboardComponent {
       {
         data: {
           title: `EDITAR DEPARTAMENTO`,
+          edit: true,
           par_modo: 'U',
           letra_provincia: departamento.letra_provincia,
           codigo_departamento: departamento?.codigo_departamento,
           descripcion: departamento?.descripcion,
           descripcion_reducida: departamento?.descripcion_reducida,
-          edit: true,
           nombre_provincia: this.provinciaList.find(
             (provincia) => provincia.codigo
           )?.nombre_provincia,
@@ -149,14 +158,14 @@ export class DepartamentoDashboardComponent {
           this.departamentoService.CRUD(res).subscribe({
             next: () => {
               this.utils.notification(
-                'El Departamento se ha editado extiosamente',
+                'El departamento se ha editado extiosamente. ',
                 'success'
               );
             },
             error: (err) => {
               this.utils.closeLoading();
               err.status == 0
-                ? this.utils.notification('Error de conexion', 'error')
+                ? this.utils.notification('Error de conexión. ', 'error')
                 : this.utils.notification(
                     `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
                     'error'
@@ -181,12 +190,12 @@ export class DepartamentoDashboardComponent {
     this.dialog.open(AddEditDepartamentoDialogComponent, {
       data: {
         title: `VER DEPARTAMENTO`,
+        edit: false,
         id_tabla: 10,
         letra_provincia: departamento.letra_provincia,
         codigo_departamento: departamento?.codigo_departamento,
         descripcion: departamento?.descripcion,
         descripcion_reducida: departamento?.descripcion_reducida,
-        edit: false,
         nombre_provincia: this.provinciaList.find(
           (provincia) => provincia.codigo
         )?.nombre_provincia,

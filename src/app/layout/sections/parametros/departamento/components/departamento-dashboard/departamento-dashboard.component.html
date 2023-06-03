@@ -1,39 +1,41 @@
 <section>
-    <table mat-table [dataSource]="dataSource" matSort
-    (matSortChange)="announceSortChange($event)">
-      <ng-container class="mat-row" *matNoDataRow>
-        <td class="mat-cell no-data-cell" [attr.colspan]="displayedColumns.length">
-        No se encontraron resultados
-        </td>
+  <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
+    <ng-container class="mat-row" *matNoDataRow>
+      <td class="mat-cell no-data-cell" [attr.colspan]="displayedColumns.length"> No se encontraron resultados </td>
     </ng-container>
+
     <ng-container matColumnDef="codigo_departamento">
-        <th mat-header-cell *matHeaderCellDef>Código Dpt</th>
-        <td mat-cell *matCellDef="let param">{{param.codigo_departamento}}</td>
+      <th mat-header-cell *matHeaderCellDef> Código </th>
+      <td mat-cell *matCellDef="let param"> {{ param.codigo_departamento }} </td>
     </ng-container>
+
     <ng-container matColumnDef="departamento">
-        <th mat-header-cell *matHeaderCellDef>Departamento</th>
-        <td mat-cell *matCellDef="let param">{{param.descripcion}}</td>
+      <th mat-header-cell *matHeaderCellDef> Departamento </th>
+      <td mat-cell *matCellDef="let param"> {{ param.descripcion }} </td>
     </ng-container>
+
     <ng-container matColumnDef="abreviatura">
-        <th mat-header-cell *matHeaderCellDef>Abreviatura</th>
-        <td mat-cell *matCellDef="let param">{{param.descripcion_reducida}}</td>
+      <th mat-header-cell *matHeaderCellDef> Abreviatura </th>
+      <td mat-cell *matCellDef="let param"> {{ param.descripcion_reducida }} </td>
     </ng-container>
+
     <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef>Acciones</th>
-        <td mat-cell *matCellDef="let departamento">
+      <th mat-header-cell *matHeaderCellDef> Acciones </th>
+      <td mat-cell *matCellDef="let departamento">
         <button class="action-button" (click)="viewDepartamento(departamento)">
-            <mat-icon class="edit-icon" aria-label="false">visibility</mat-icon>
+          <mat-icon class="edit-icon" aria-label="false"> visibility </mat-icon>
         </button>
         <button class="action-button" (click)="editDepartamento(departamento)">
-            <mat-icon class="delete-icon" aria-label="false">edit</mat-icon>
+          <mat-icon class="delete-icon" aria-label="false"> edit </mat-icon>
         </button>
-        </td>
+      </td>
     </ng-container>
-      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-      <tr mat-row *matRowDef="let row; columns:displayedColumns"></tr>
-    </table>
-    <mat-paginator [pageSizeOptions]="[10,20,30]"
-                showFirstLastButtons
-                aria-label="controles de página de la tabla de estados">
-    </mat-paginator>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns:displayedColumns"></tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[10, 20, 30]" [pageSize]="10" showFirstLastButtons
+    aria-label="Controles de paginación.">
+  </mat-paginator>
 </section>
