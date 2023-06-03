@@ -1,11 +1,15 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
+
+// * Services
+import { AuthService } from 'src/app/core/services/auth.service';
+import { LayoutService } from 'src/app/core/services/layout.service';
+
+// * Interfaces
 import {
   IMenuItem,
   IMenuChildren,
 } from 'src/app/core/models/menuItem.interface';
-import { AuthService } from 'src/app/core/services/auth.service';
-import { LayoutService } from 'src/app/core/services/layout.service';
 
 @Component({
   selector: 'app-nav-menu',
@@ -25,32 +29,39 @@ export class NavMenuComponent {
       expanded: true,
       children: [
         {
-          // 01 - PROVINCIA
+          // 01 - PROVINCIAS
           title: 'Provincias',
-          url: '/parametros/provincia',
+          url: '/parametros/provincias',
           icon: 'keyboard_arrow_right',
         },
         {
-          // 02 - TIPO DE DOCUMENTO
+          // 02 - TIPOS DE DOCUMENTO
           title: 'Tipos de Documento',
-          url: '/parametros/tipo-documento',
+          url: '/parametros/tipos-documento',
           icon: 'keyboard_arrow_right',
         },
         {
-          // 03 - NACIONALIDAD
+          // 03 - NACIONALIDADES
           title: 'Nacionalidades',
-          url: '/parametros/nacionalidad',
+          url: '/parametros/nacionalidades',
           icon: 'keyboard_arrow_right',
         },
         {
-          // 04 - DEPARTAMENTO
-          title: 'Departamento',
-          url: '/parametros/departamento',
+          // 04 - DEPARTAMENTOS
+          title: 'Departamentos',
+          url: '/parametros/departamentos',
           icon: 'keyboard_arrow_right',
         },
         {
-          title: 'Posicion',
-          url: '/parametros/posicion',
+          // 05 - POSICIONES
+          title: 'Posiciones',
+          url: '/parametros/posiciones',
+          icon: 'keyboard_arrow_right',
+        },
+        {
+          // 06 - LOCALIDADES
+          title: 'Localidades',
+          url: '/parametros/localidades',
           icon: 'keyboard_arrow_right',
         },
         {
@@ -62,37 +73,31 @@ export class NavMenuComponent {
         {
           // 08 - CONDICIONES DE IVA
           title: 'Condiciones de IVA',
-          url: '/parametros/condicion-iva',
+          url: '/parametros/condiciones-iva',
           icon: 'keyboard_arrow_right',
         },
         {
-          // 06 - LOCALIDAD
-          title: 'Localidad',
-          url: '/parametros/localidades',
+          // 09 - ESTADOS CIVILES
+          title: 'Estados Civiles',
+          url: '/parametros/estados-civiles',
           icon: 'keyboard_arrow_right',
         },
         {
-          // 09 - ESTADO CIVIL
-          title: 'Estado Civil',
-          url: '/parametros/estado-civil',
+          // 11 - FUENTES DE INGRESO
+          title: 'Fuentes de Ingreso',
+          url: '/parametros/fuentes-ingreso',
           icon: 'keyboard_arrow_right',
         },
         {
-          // 11 - FUENTE DE INGRESO
-          title: 'Fuente de Ingreso',
-          url: '/parametros/fuente-ingreso',
-          icon: 'keyboard_arrow_right',
-        },
-        {
-          // 12 - OBRA SOCIAL
+          // 12 - OBRAS SOCIALES
           title: 'Obras Sociales',
-          url: '/parametros/obra-social',
+          url: '/parametros/obras-sociales',
           icon: 'keyboard_arrow_right',
         },
         {
-          // 13 - PREGUNTAS DDJJ
-          title: 'Preguntas DDJJ',
-          url: '/parametros/pregunta-ddjj',
+          // 13 - PREGUNTAS DE DECLARACIONES JURADAS
+          title: 'Preguntas de Declaraciones Juradas',
+          url: '/parametros/preguntas-ddjj',
           icon: 'keyboard_arrow_right',
         },
       ],

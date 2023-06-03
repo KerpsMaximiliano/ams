@@ -136,7 +136,7 @@ export class DepartamentoDashboardComponent {
           descripcion_reducida: departamento?.descripcion_reducida,
           edit: true,
           nombre_provincia: this.provinciaList.find(
-            (provincia) => provincia.codigo == departamento?.letra_provincia
+            (provincia) => provincia.codigo
           )?.nombre_provincia,
         },
       }
@@ -188,7 +188,7 @@ export class DepartamentoDashboardComponent {
         descripcion_reducida: departamento?.descripcion_reducida,
         edit: false,
         nombre_provincia: this.provinciaList.find(
-          (provincia) => provincia.codigo == departamento?.letra_provincia
+          (provincia) => provincia.codigo
         )?.nombre_provincia,
       },
     });
