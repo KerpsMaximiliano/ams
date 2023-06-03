@@ -1,5 +1,5 @@
 <div class="dialog-title">
-  <h2>{{data.title | uppercase}}</h2>
+  <h2> {{ data.title | uppercase }} </h2>
 </div>
 
 <div class="dialog-content">
@@ -59,18 +59,18 @@
 
     <div *ngIf="data.edit; else other_content" class="buttons-container">
       <button class="primary-button icon-button" type="button" (click)="closeDialog()">
-        <mat-icon>close</mat-icon>
+        <mat-icon> close </mat-icon>
         Cancelar
       </button>
       <button class="primary-button icon-button" type="submit" [disabled]="formGroup.invalid">
-        <mat-icon>done</mat-icon>
+        <mat-icon> done </mat-icon>
         Guardar
       </button>
     </div>
 
     <ng-template #other_content>
       <button class="primary-button icon-button right" mat-dialog-close>
-        <mat-icon>done</mat-icon>
+        <mat-icon> done </mat-icon>
         Aceptar
       </button>
     </ng-template>

@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { EnvironmentService } from './environment.service';
 
 // * Interfaces
-import { IPosicionesResponse } from '../models/posicion.interface';
+import { IPosicionResponse } from '../models/posicion.interface';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -21,18 +21,18 @@ export class PosicionService {
     private environmentService: EnvironmentService
   ) {}
 
-  CRUD(body: string): Observable<IPosicionesResponse> {
+  CRUD(body: string): Observable<IPosicionResponse> {
     console.log(body);
-    return this.http.post<IPosicionesResponse>(
+    return this.http.post<IPosicionResponse>(
       `${this.environmentService.api}/abmposiciones`,
       body,
       httpOptions
     );
   }
 
-  getProv(body: any): Observable<IPosicionesResponse> {
+  getProv(body: any): Observable<IPosicionResponse> {
     console.log(body);
-    return this.http.post<IPosicionesResponse>(
+    return this.http.post<IPosicionResponse>(
       `${this.environmentService.api}/abmprovincias`,
       body,
       httpOptions

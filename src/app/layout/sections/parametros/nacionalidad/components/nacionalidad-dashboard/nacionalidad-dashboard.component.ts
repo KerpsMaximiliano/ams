@@ -15,8 +15,7 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 
 // * Components
-import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
-import { EditNacionalidadDialogComponent } from '../edit-nacionalidad-dialog/edit-nacionalidad-dialog.component';
+import { AddEditNacionalidadDialogComponent } from '../add-edit-nacionalidad-dialog/add-edit-nacionalidad-dialog.component';
 
 @Component({
   selector: 'app-nacionalidad-dashboard',
@@ -29,6 +28,9 @@ export class NacionalidadDashboardComponent {
     new MatPaginator(new MatPaginatorIntl(), this.cdr);
   @ViewChild(MatTable) table!: MatTable<any>;
 
+  public searchId: number = 0;
+  public searchEvent: string = '';
+  public nacionalidades: INacionalidad[] = [];
   public displayedColumns: string[] = [
     'codigo_nacionalidad_nuevo',
     'descripcion',
@@ -37,10 +39,6 @@ export class NacionalidadDashboardComponent {
   ];
 
   public dataSource: MatTableDataSource<INacionalidad>;
-
-  public searchEvent: string = '';
-  public searchId: number = 0;
-  public nacionalidades: INacionalidad[] = [];
 
   constructor(
     private nacionalidadService: NacionalidadService,
@@ -51,40 +49,43 @@ export class NacionalidadDashboardComponent {
   ) {}
 
   ngOnInit(): void {
-    this.paginator._intl.itemsPerPageLabel = 'Elementos por página';
+    this.paginator._intl.itemsPerPageLabel = 'Elementos por página: ';
+    this.paginator._intl.nextPageLabel = 'Página siguiente.';
+    this.paginator._intl.previousPageLabel = 'Página anterior.';
+    this.paginator._intl.firstPageLabel = 'Primer página.';
+    this.paginator._intl.lastPageLabel = 'Ultima página.';
+    this.paginator._intl.getRangeLabel = (
+      page: number,
+      pageSize: number,
+      length: number
+    ): string => {
+      return length
+        ? 'Página ' + (page + 1) + ' de ' + Math.ceil(length / pageSize)
+        : 'Página 0 de 0';
+    };
   }
 
   private getNacionalidad(): void {
     this.utils.openLoading();
     let aux = {
       par_modo: 'C',
-      descripcion: this.searchEvent,
       id: this.searchId,
+      descripcion: this.searchEvent,
     };
     let body = JSON.stringify(aux);
-    this.nacionalidadService.getParamByDesc(body).subscribe({
+    this.nacionalidadService.CRUD(body).subscribe({
       next: (res: any) => {
         this.nacionalidades = res.dataset as INacionalidad[];
         this.dataSource = new MatTableDataSource<INacionalidad>(
           this.nacionalidades
         );
         this.dataSource.sort = this.sort;
-        setTimeout(() => {
-          this.dataSource.paginator = this.paginator;
-          this.paginator._intl.getRangeLabel = (): string => {
-            return (
-              'Página ' +
-              (this.paginator.pageIndex + 1) +
-              ' de ' +
-              this.paginator.length
-            );
-          };
-        }, 100);
+        this.dataSource.paginator = this.paginator;
       },
       error: (err: any) => {
         this.utils.closeLoading();
         err.status == 0
-          ? this.utils.notification('Error de conexion', 'error')
+          ? this.utils.notification('Error de conexión. ', 'error')
           : this.utils.notification(
               `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
               'error'
@@ -104,18 +105,18 @@ export class NacionalidadDashboardComponent {
     }
   }
 
-  public editNacType(nacionalidad: INacionalidad): void {
+  public editNacionalidad(nacionalidad: INacionalidad): void {
     const modalNacionalidad = this.dialog.open(
-      EditNacionalidadDialogComponent,
+      AddEditNacionalidadDialogComponent,
       {
         data: {
-          title: `Editar nacionalidad`,
+          title: `EDITAR NACIONALIDAD`,
+          edit: true,
           par_modo: 'U',
           id_tabla: 3,
           codigo_nacionalidad_nuevo: nacionalidad.codigo_nacionalidad_nuevo,
           descripcion: nacionalidad.descripcion,
           codigo_sistema_anterior: nacionalidad.codigo_sistema_anterior,
-          edit: true,
         },
       }
     );
@@ -124,22 +125,22 @@ export class NacionalidadDashboardComponent {
       next: (res) => {
         if (res) {
           this.utils.openLoading();
-          this.nacionalidadService.editNacionalidad(res).subscribe({
+          this.nacionalidadService.CRUD(res).subscribe({
             next: () => {
               this.utils.notification(
-                'La nacionalidad se ha editado extiosamente',
+                'La nacionalidad se ha editado extiosamente. ',
                 'success'
               );
             },
             error: (err) => {
               this.utils.closeLoading();
               err.status == 0
-                ? this.utils.notification('Error de conexion', 'error')
+                ? this.utils.notification('Error de conexión. ', 'error')
                 : this.utils.notification(
                     `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
                     'error'
                   );
-              this.editNacType(res);
+              this.editNacionalidad(res);
             },
             complete: () => {
               this.utils.closeLoading();
@@ -153,55 +154,22 @@ export class NacionalidadDashboardComponent {
     });
   }
 
-  public viewNacType(nacionalidad: INacionalidad): void {
-    this.dialog.open(EditNacionalidadDialogComponent, {
+  public viewNacionalidad(nacionalidad: INacionalidad): void {
+    this.dialog.open(AddEditNacionalidadDialogComponent, {
       data: {
-        title: `Ver nacionalidad`,
+        title: `VER NACIONALIDAD`,
+        edit: false,
         id_tabla: 3,
         codigo_nacionalidad_nuevo: nacionalidad.codigo_nacionalidad_nuevo,
         descripcion: nacionalidad.descripcion,
         codigo_sistema_anterior: nacionalidad.codigo_sistema_anterior,
-        edit: false,
-      },
-    });
-  }
-
-  public deleteNacType(nacionalidad: INacionalidad): void {
-    const modalConfirm = this.dialog.open(ConfirmDialogComponent, {
-      data: {
-        title: `Eliminar la nacionalidad`,
-        message: `¿Está seguro de eliminar la nacionalidad ${nacionalidad.descripcion}?`,
-      },
-    });
-
-    modalConfirm.afterClosed().subscribe({
-      next: (res) => {
-        if (res) {
-          this.nacionalidadService
-            .deleteEstado(nacionalidad.codigo_nacionalidad_nuevo)
-            .subscribe({
-              next: (res: any) => {
-                this.utils.notification(
-                  'La nacionalidad se ha borrado exitosamente',
-                  'success'
-                );
-                this.getNacionalidad();
-              },
-              error: (err) => {
-                this.utils.notification(
-                  `Error al eliminar la nacionalidad: ${err.message}`,
-                  'error'
-                );
-              },
-            });
-        }
       },
     });
   }
 
   public filter(buscar: any): void {
-    this.searchEvent = buscar.descripcion;
     this.searchId = buscar.id;
+    this.searchEvent = buscar.descripcion;
     this.getNacionalidad();
   }
 }

@@ -20,7 +20,7 @@ import { TipoDocumentoComponent } from './tipo-documento/tipo-documento.componen
 import { TipoDocumentoDashboardComponent } from './tipo-documento/components/tipo-documento-dashboard/tipo-documento-dashboard.component';
 import { TipoDocumentoFilterComponent } from './tipo-documento/components/tipo-documento-filter/tipo-documento-filter.component';
 // 03 - NACIONALIDADES
-import { EditNacionalidadDialogComponent } from './nacionalidad/components/edit-nacionalidad-dialog/edit-nacionalidad-dialog.component';
+import { AddEditNacionalidadDialogComponent } from './nacionalidad/components/add-edit-nacionalidad-dialog/add-edit-nacionalidad-dialog.component';
 import { NacionalidadComponent } from './nacionalidad/nacionalidad.component';
 import { NacionalidadDashboardComponent } from './nacionalidad/components/nacionalidad-dashboard/nacionalidad-dashboard.component';
 import { NacionalidadFilterComponent } from './nacionalidad/components/nacionalidad-filter/nacionalidad-filter.component';
@@ -85,7 +85,7 @@ import { ModalLocalidadComponent } from './abm-posiciones/add-edit-abm-posicione
     TipoDocumentoDashboardComponent,
     TipoDocumentoFilterComponent,
     // 03 - NACIONALIDADES
-    EditNacionalidadDialogComponent,
+    AddEditNacionalidadDialogComponent,
     NacionalidadComponent,
     NacionalidadDashboardComponent,
     NacionalidadFilterComponent,

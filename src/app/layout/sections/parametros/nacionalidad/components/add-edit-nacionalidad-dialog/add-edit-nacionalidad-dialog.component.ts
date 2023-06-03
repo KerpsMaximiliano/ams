@@ -15,11 +15,11 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
-  selector: 'app-edit-nacionalidad-dialog',
-  templateUrl: './edit-nacionalidad-dialog.component.html',
-  styleUrls: ['./edit-nacionalidad-dialog.component.scss'],
+  selector: 'app-add-edit-nacionalidad-dialog',
+  templateUrl: './add-edit-nacionalidad-dialog.component.html',
+  styleUrls: ['./add-edit-nacionalidad-dialog.component.scss'],
 })
-export class EditNacionalidadDialogComponent {
+export class AddEditNacionalidadDialogComponent {
   public formGroup: UntypedFormGroup;
 
   constructor(
@@ -39,7 +39,7 @@ export class EditNacionalidadDialogComponent {
           value: '',
           disabled:
             this.data.codigo_nacionalidad_nuevo &&
-            this.data.title === 'Editar Nacionalidad',
+            this.data.title === 'EDITAR NACIONALIDAD',
         },
         Validators.compose([
           Validators.maxLength(3),

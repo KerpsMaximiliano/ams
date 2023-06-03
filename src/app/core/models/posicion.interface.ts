@@ -13,4 +13,4 @@ export interface IPosicion {
   letra_provincia: string;
 }
 
-export type IPosicionesResponse = IResponse<IPosicion[]>;
+export type IPosicionResponse = IResponse<IPosicion[]>;

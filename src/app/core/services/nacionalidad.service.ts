@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { EnvironmentService } from './environment.service';
 
 // * Interfaces
-import { INacionalidad } from '../models/nacionalidad.interface';
+import { INacionalidadResponse } from '../models/nacionalidad.interface';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -20,30 +20,8 @@ export class NacionalidadService {
     private environmentService: EnvironmentService
   ) {}
 
-  getParamByDesc(body: string): Observable<INacionalidad[]> {
-    return this.http.post<INacionalidad[]>(
-      `${this.environmentService.api}/abmnacionalidades`,
-      body,
-      httpOptions
-    );
-  }
-
-  public deleteEstado(id: number) {
-    return this.http.delete(`${this.environmentService.api}/estados/${id}`);
-  }
-
-  public addNacionalidad(data: INacionalidad): Observable<INacionalidad> {
-    let body = JSON.stringify(data);
-    return this.http.post<INacionalidad>(
-      `${this.environmentService.api}/abmnacionalidades`,
-      body,
-      httpOptions
-    );
-  }
-
-  public editNacionalidad(data: INacionalidad): Observable<INacionalidad> {
-    let body = JSON.stringify(data);
-    return this.http.post<INacionalidad>(
+  CRUD(body: string): Observable<INacionalidadResponse> {
+    return this.http.post<INacionalidadResponse>(
       `${this.environmentService.api}/abmnacionalidades`,
       body,
       httpOptions

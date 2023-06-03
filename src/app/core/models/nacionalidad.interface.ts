@@ -7,4 +7,4 @@ export interface INacionalidad {
   codigo_sistema_anterior: number;
 }
 
-export type ILocalidadResponse = IResponse<INacionalidad[]>;
+export type INacionalidadResponse = IResponse<INacionalidad[]>;
