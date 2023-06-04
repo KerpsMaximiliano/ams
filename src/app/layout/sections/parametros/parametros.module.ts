@@ -54,6 +54,11 @@ import { AddEditEstadoCivilDialogComponent } from './estado-civil/components/add
 import { EstadoCivilComponent } from './estado-civil/estado-civil.component';
 import { EstadoCivilDashboardComponent } from './estado-civil/components/estado-civil-dashboard/estado-civil-dashboard.component';
 import { EstadoCivilFilterComponent } from './estado-civil/components/estado-civil-filter/estado-civil-filter.component';
+// 10 - MOTIVOS DE MOVIMIENTOS
+import { AddEditMotivoMovimientoDialogComponent } from './motivo-movimiento/components/add-edit-motivo-movimiento-dialog/add-edit-motivo-movimiento-dialog.component';
+import { MotivoMovimientoComponent } from './motivo-movimiento/motivo-movimiento.component';
+import { MotivoMovimientoDashboardComponent } from './motivo-movimiento/components/motivo-movimiento-dashboard/motivo-movimiento-dashboard.component';
+import { MotivoMovimientoFilterComponent } from './motivo-movimiento/components/motivo-movimiento-filter/motivo-movimiento-filter.component';
 // 11 - FUENTES INGRESO
 import { FuenteIngresoComponent } from './fuente-ingreso/fuente-ingreso.component';
 import { AddEditFuenteIngresoDialogComponent } from './fuente-ingreso/components/add-edit-fuente-ingreso-dialog/add-edit-fuente-ingreso-dialog.component';
@@ -119,6 +124,11 @@ import { ModalLocalidadComponent } from './posicion/add-edit-posicion-dialog/mod
     EstadoCivilComponent,
     EstadoCivilDashboardComponent,
     EstadoCivilFilterComponent,
+    // 10 - MOTIVOS DE MOVIMIENTOS
+    AddEditMotivoMovimientoDialogComponent,
+    MotivoMovimientoComponent,
+    MotivoMovimientoDashboardComponent,
+    MotivoMovimientoFilterComponent,
     // 11 - FUENTES INGRESO
     FuenteIngresoComponent,
     AddEditFuenteIngresoDialogComponent,

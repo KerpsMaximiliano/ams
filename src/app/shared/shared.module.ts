@@ -25,18 +25,16 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 
+// import { MatDatepickerModule } from '@angular/material/datepicker';
 
 @NgModule({
   declarations: [
     SuccessComponent,
     ErrorComponent,
     InformationComponent,
-    LoaderComponent
+    LoaderComponent,
   ],
-  imports: [
-    CommonModule,
-    MatProgressSpinnerModule
-  ],
+  imports: [CommonModule, MatProgressSpinnerModule],
   exports: [
     MatToolbarModule,
     MatMenuModule,
@@ -54,7 +52,8 @@ import { MatSelectModule } from '@angular/material/select';
     MatSortModule,
     MatDialogModule,
     MatSnackBarModule,
-    MatSelectModule 
-  ]
+    MatSelectModule,
+    // MatDatepickerModule,
+  ],
 })
-export class SharedModule { }
+export class SharedModule {}

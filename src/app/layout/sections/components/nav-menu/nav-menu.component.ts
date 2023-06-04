@@ -83,6 +83,12 @@ export class NavMenuComponent {
           icon: 'keyboard_arrow_right',
         },
         {
+          // 10 - MOTIVOS DE MOVIMIENTOS
+          title: 'Motivos de movimientos',
+          url: '/parametros/motivos-movimientos',
+          icon: 'keyboard_arrow_right',
+        },
+        {
           // 11 - FUENTES DE INGRESO
           title: 'Fuentes de ingreso',
           url: '/parametros/fuentes-ingreso',

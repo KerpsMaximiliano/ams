@@ -20,6 +20,8 @@ import { FormaPagoComponent } from './forma-pago/forma-pago.component';
 import { CondicionIvaComponent } from './condicion-iva/condicion-iva.component';
 // 09 - ESTADOS CIVILES
 import { EstadoCivilComponent } from './estado-civil/estado-civil.component';
+// 10 - MOTIVOS DE MOVIMIENTO
+import { MotivoMovimientoComponent } from './motivo-movimiento/motivo-movimiento.component';
 // 11 - FUENTES INGRESO
 import { FuenteIngresoComponent } from './fuente-ingreso/fuente-ingreso.component';
 // 12 - OBRAS SOCIALES
@@ -63,6 +65,10 @@ const routes: Routes = [
   {
     path: 'parametros/estados-civiles',
     component: EstadoCivilComponent,
+  },
+  {
+    path: 'parametros/motivos-movimientos',
+    component: MotivoMovimientoComponent,
   },
   {
     path: 'parametros/fuentes-ingreso',

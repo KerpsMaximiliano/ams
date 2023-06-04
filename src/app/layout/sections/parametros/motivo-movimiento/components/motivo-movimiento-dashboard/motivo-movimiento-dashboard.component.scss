@@ -1,0 +1,103 @@
+/*
+ * Evita un espaciado innecesario en la primer columna.
+*/
+th.mat-header-cell:first-of-type,
+td.mat-cell:first-of-type {
+  padding-left: 0px !important;
+}
+
+/*
+ * Espacio mínimo a ambos lados de todas las columnas.
+*/
+.mat-column-id_motivo.mat-header-cell,
+.mat-column-id_motivo.mat-cell,
+.mat-column-descripcion.mat-header-cell,
+.mat-column-descripcion.mat-cell,
+.mat-column-tipo_motivo.mat-header-cell,
+.mat-column-tipo_motivo.mat-cell,
+.mat-column-datos_adic_SN.mat-header-cell,
+.mat-column-datos_adic_SN.mat-cell,
+.mat-column-fecha_inicio_vigencia.mat-header-cell,
+.mat-column-fecha_inicio_vigencia.mat-cell,
+.mat-column-estado.mat-header-cell,
+.mat-column-estado.mat-cell,
+.mat-column-actions.mat-header-cell,
+.mat-column-actions.mat-cell {
+  padding-left: 0.5vw !important;
+  padding-right: 0.5vw !important;
+}
+
+/*
+ * Texto alineado a la izquierda.
+ * Tipo de movimiento (tipo_motivo).
+ * Motivo (descripcion).
+ * ¿Datos Adicionales? (datos_adic_SN)
+ * Estado (estado)
+*/
+.mat-column-tipo_motivo.mat-header-cell,
+.mat-column-tipo_motivo.mat-cell,
+.mat-column-descripcion.mat-header-cell,
+.mat-column-descripcion.mat-cell,
+.mat-column-datos_adic_SN.mat-header-cell,
+.mat-column-datos_adic_SN.mat-cell,
+.mat-column-estado.mat-header-cell,
+.mat-column-estado.mat-cell {
+  text-align: left !important;
+  padding-left: 1vw !important;
+}
+
+/*
+ * Número y fecha alineado a la derecha.
+ * Código MM (id_motivo).
+ * Fecha inicio vigencia (fecha_inicio_vigencia).
+*/
+.mat-column-id_motivo.mat-header-cell,
+.mat-column-id_motivo.mat-cell,
+.mat-column-fecha_inicio_vigencia.mat-header-cell,
+.mat-column-fecha_inicio_vigencia.mat-cell {
+  text-align: right !important;
+  padding-right: 1vw !important;
+}
+
+/*
+ * Iconos alineados al centro.
+ * Acciones (actions).
+*/
+.mat-column-actions.mat-header-cell,
+.mat-column-actions.mat-cell {
+  width: 11% !important;
+  text-align: center !important;
+}
+
+/*
+ * Ancho máximo por columna individual de todas las columnas menos las 'Acciones' (actions).
+ */
+.mat-column-id_motivo.mat-header-cell,
+.mat-column-id_motivo.mat-cell {
+  width: 9% !important;
+}
+
+.mat-column-descripcion.mat-header-cell,
+.mat-column-descripcion.mat-cell {
+  width: 23% !important;
+}
+
+.mat-column-tipo_motivo.mat-header-cell,
+.mat-column-tipo_motivo.mat-cell {
+  width: 17% !important;
+}
+
+.mat-column-datos_adic_SN.mat-cell.mat-header-cell,
+.mat-column-datos_adic_SN.mat-cell {
+  width: 18% !important;
+}
+
+.mat-column-fecha_inicio_vigencia.mat-header-cell,
+.mat-column-fecha_inicio_vigencia.mat-cell {
+  width: 14% !important;
+}
+
+.mat-column-estado.mat-header-cell,
+.mat-column-estado.mat-cell {
+  width: 8% !important;
+}

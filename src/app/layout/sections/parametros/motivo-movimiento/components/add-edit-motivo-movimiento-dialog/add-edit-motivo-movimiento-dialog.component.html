@@ -1,0 +1,102 @@
+<div class="dialog-title">
+  <h2> {{ data.title | uppercase }} </h2>
+</div>
+
+<div class="dialog-content">
+  <form class="form-datos" [formGroup]="formGroup" (ngSubmit)="confirm()">
+    <div class="seeker-fields-container">
+      <h3> TIPO DE MOVIMIENTO </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <mat-select formControlName="tipo_motivo">
+          <mat-option [value]="'A'"> A-ALTA </mat-option>
+          <mat-option [value]="'B'"> B-BAJA </mat-option>
+          <mat-option [value]="'S'"> S-SUSPENSIÓN </mat-option>
+          <mat-option [value]="'O'"> O-OSP </mat-option>
+        </mat-select>
+        <mat-error *ngIf="formGroup.get('tipo_motivo')?.invalid && formGroup.get('tipo_motivo')?.touched">
+          {{ getErrorMessage(formGroup.get('tipo_motivo')) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3> CÓDIGO DE MOTIVO </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <input matInput [disabled]="this.data.par_modo !== 'I'" formControlName="id_motivo">
+        <mat-error *ngIf="formGroup.get('id_motivo')?.invalid && formGroup.get('id_motivo')?.touched">
+          {{ getErrorMessage(formGroup.get('id_motivo')) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3> MOTIVO </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <input matInput formControlName="descripcion" required minlength="1" maxlength="30" [disabled]="!data.edit">
+        <mat-error *ngIf="formGroup.get('descripcion')?.invalid && formGroup.get('descripcion')?.touched">
+          {{ getErrorMessage(formGroup.get('descripcion')) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3> VIGENCIA DESDE </h3>
+      <div>
+        <mat-form-field class="seeker-form-field" appearance="outline">
+          <!-- <input min="1990-01-01" [max]="fecha_hoy" value="2022/15/05" matInput [matDatepicker]="picker"
+            formControlName="fecha_inicio_vigencia"> -->
+          <input formControlName="fecha_inicio_vigencia">
+          <mat-error
+            *ngIf="formGroup.get('fecha_inicio_vigencia')?.invalid && formGroup.get('fecha_inicio_vigencia')?.touched">
+            {{ getErrorMessage(formGroup.get('fecha_inicio_vigencia')) }}
+          </mat-error>
+        </mat-form-field>
+        <!-- <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker> -->
+      </div>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3> ¿DATOS ADICIONALES? </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <mat-select formControlName="datos_adic_SN">
+          <mat-option [value]="'S'" [disabled]="!data.edit"> SI </mat-option>
+          <mat-option [value]="'N'"> NO </mat-option>
+        </mat-select>
+        <mat-error *ngIf="formGroup.get('datos_adic_SN')?.invalid && formGroup.get('datos_adic_SN')?.touched">
+          {{ getErrorMessage(formGroup.get('datos_adic_SN')) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container" *ngIf="data.par_modo !== 'I'">
+      <h3> ESTADO </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <input [value]="data.fecha_fin_vigencia === 0 ? 'Activo' : 'Baja'" matInput [disabled]="true">
+      </mat-form-field>
+    </div>
+
+    <div *ngIf="data.edit; else other_content" class="buttons-container">
+      <button class="primary-button icon-button" type="button" (click)="closeDialog()">
+        <mat-icon> close </mat-icon>
+        Cancelar
+      </button>
+      <button class="primary-button icon-button" (click)="darseBaja()"
+        *ngIf="this.data.fecha_fin_vigencia === 0 && this.data.par_modo === 'U'">
+        <mat-icon> close </mat-icon>
+        Baja
+      </button>
+      <button class="primary-button icon-button" type="submit" [disabled]="formGroup.invalid">
+        <mat-icon> done </mat-icon>
+        Guardar
+      </button>
+    </div>
+
+    <ng-template #other_content>
+      <button class="primary-button icon-button" mat-dialog-close>
+        <mat-icon> done </mat-icon>
+        Aceptar
+      </button>
+    </ng-template>
+  </form>
+</div>

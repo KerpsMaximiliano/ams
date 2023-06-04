@@ -1,0 +1,44 @@
+<section class="seeker-section">
+  <mat-accordion>
+    <mat-expansion-panel class="mat-elevation-z1">
+      <mat-expansion-panel-header floating>
+        <mat-panel-title> Opciones de búsqueda </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <form>
+        <div class="seeker-fields-container">
+          <!-- <mat-form-field class="seeker-form-field">
+            <mat-label class="seeker-label" for="tipo_motivo"> Seleccione el tipo de movimiento</mat-label>
+            <mat-select [formControl]="tipo_motivo">
+              <mat-option *ngFor="let element of tipoMovimiento" [value]="element"
+                (keydown.enter)="search($event, input.value)">
+                {{ element }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field> -->
+        </div>
+
+        <div class="seeker-fields-container">
+          <mat-form-field class="seeker-form-field">
+            <mat-label class="seeker-label" for="descripcion">Ingrese el motivo de movimiento</mat-label>
+            <input matInput class="seeker-input" [formControl]="descripcion"
+              (keydown.enter)="search($event, input.value)" #input>
+          </mat-form-field>
+        </div>
+
+        <div class="buttons-container">
+          <button class="primary-button icon-button" type="button" (click)="search($event, input.value)"
+            [disabled]="tipo_motivo.value === ''">
+            <mat-icon> done </mat-icon>
+            Buscar
+          </button>
+          <button class="primary-button icon-button" type="button" (click)="clear(input)"
+            [disabled]="descripcion.value.length === 0" [disabled]="tipo_motivo.value.length === 0">
+            <mat-icon> close </mat-icon>
+            Limpiar
+          </button>
+        </div>
+      </form>
+    </mat-expansion-panel>
+  </mat-accordion>
+</section>
