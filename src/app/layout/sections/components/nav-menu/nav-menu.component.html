@@ -1,28 +1,22 @@
 <mat-sidenav-container>
+  <mat-sidenav #snav fixedInViewport role="navigation" [opened]="opened" [mode]="sViewport ? 'over' : 'side'">
+    <mat-nav-list class="nav-menu">
+      <ng-container *ngFor="let section of sections">
+        <a mat-list-item [ngClass]="{ 'expanded': section.expanded }" (click)="section.expanded = !section.expanded">
+          <p class="section-title"> {{ section.title | uppercase }} </p>
+          <mat-icon class="nav-dropdown-icon" [class.expandido]="section.expanded"> keyboard_arrow_down </mat-icon>
+        </a>
 
-    <mat-sidenav #snav fixedInViewport
-        role="navigation" [opened]="opened" [mode]="sViewport ? 'over' : 'side'">
-
-        <mat-nav-list class="nav-menu">
-
-            <ng-container *ngFor="let section of sections">
-				<a mat-list-item [ngClass]="{ 'expanded': section.expanded }" (click)="section.expanded = !section.expanded">
-					<p class="section-title">{{ section.title | uppercase }}</p>
-					<mat-icon class="nav-dropdown-icon" [class.expandido]="section.expanded">keyboard_arrow_down</mat-icon>
-				</a>
-				<ng-container *ngFor="let link of section.children">
-					<ng-container *ngIf="(currentRoute == link.url) || section.expanded">
-						<a class="subnav" (click)="navigate(link.url, section)" mat-list-item [ngClass]="{ 'active': isActive(link) }">
-							<mat-icon *ngIf="link.icon">{{ link.icon }}</mat-icon>
-							<span>{{ link.title | titlecase }}</span>
-						</a>
-					</ng-container>
-				</ng-container>
-			</ng-container>
-
-        </mat-nav-list>
-
-    </mat-sidenav>
-
+        <ng-container *ngFor="let link of section.children">
+          <ng-container *ngIf=" (currentRoute == link.url) || section.expanded ">
+            <a class="subnav" (click)="navigate(link.url, section)" mat-list-item
+              [ngClass]="{ 'active': isActive(link) }">
+              <mat-icon *ngIf="link.icon"> {{ link.icon }} </mat-icon>
+              <span> {{ link.title }} </span>
+            </a>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+    </mat-nav-list>
+  </mat-sidenav>
 </mat-sidenav-container>
-

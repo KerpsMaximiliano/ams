@@ -3,7 +3,7 @@
 */
 th.mat-header-cell:first-of-type,
 td.mat-cell:first-of-type {
-    padding-left: 0px !important;
+  padding-left: 0px !important;
 }
 
 /*
@@ -19,8 +19,8 @@ td.mat-cell:first-of-type {
 .mat-column-formulario_AB.mat-cell,
 .mat-column-actions.mat-header-cell,
 .mat-column-actions.mat-cell {
-    padding-left: 0.5vw !important;
-    padding-right: 0.5vw !important;
+  padding-left: 0.5vw !important;
+  padding-right: 0.5vw !important;
 }
 
 /*
@@ -34,9 +34,9 @@ td.mat-cell:first-of-type {
 .mat-column-descripcion_reducida.mat-header-cell,
 .mat-column-descripcion_reducida.mat-cell,
 .mat-column-formulario_AB.mat-header-cell,
-.mat-column-formulario_AB.mat-cell{
-    text-align: left !important;
-    padding-left: 1vw !important;
+.mat-column-formulario_AB.mat-cell {
+  text-align: left !important;
+  padding-left: 1vw !important;
 }
 
 /*
@@ -44,8 +44,8 @@ td.mat-cell:first-of-type {
 */
 .mat-column-codigo_de_IVA.mat-header-cell,
 .mat-column-codigo_de_IVA.mat-cell {
-    text-align: right !important;
-    padding-right: 1vw !important;
+  text-align: right !important;
+  padding-right: 1vw !important;
 }
 
 /*
@@ -54,8 +54,8 @@ td.mat-cell:first-of-type {
 */
 .mat-column-actions.mat-header-cell,
 .mat-column-actions.mat-cell {
-    width: 11% !important;
-    text-align: center !important;
+  width: 11% !important;
+  text-align: center !important;
 }
 
 /*
@@ -63,20 +63,20 @@ td.mat-cell:first-of-type {
 */
 .mat-column-codigo_de_IVA.mat-header-cell,
 .mat-column-codigo_de_IVA.mat-cell {
-    width: 16% !important;
+  width: 16% !important;
 }
 
 .mat-column-descripcion.mat-header-cell,
 .mat-column-descripcion.mat-cell {
-    width: 36% !important;
+  width: 36% !important;
 }
 
 .mat-column-descripcion_reducida.mat-header-cell,
 .mat-column-descripcion_reducida.mat-cell {
-    width: 22% !important;
+  width: 22% !important;
 }
 
 .mat-column-formulario_AB.mat-header-cell,
 .mat-column-formulario_AB.mat-cell {
-    width: 15% !important;
+  width: 15% !important;
 }

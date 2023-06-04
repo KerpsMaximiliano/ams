@@ -41,8 +41,8 @@ export class CondicionIvaComponent {
       {
         data: {
           title: `CREAR CONDICIÓN DE IVA`,
-          par_modo: 'I',
           edit: true,
+          par_modo: 'I',
           codigoCondIva: condicionIva?.codigo_de_IVA,
           descripcion: condicionIva?.descripcion,
           abreviatura: condicionIva?.descripcion_reducida,
@@ -58,16 +58,16 @@ export class CondicionIvaComponent {
           this.condicionIvaService.CRUD(res).subscribe({
             next: () => {
               this.utils.notification(
-                'La Condición IVA se ha creado exitosamente.',
+                'La condición de iva se ha creado exitosamente. ',
                 'success'
               );
             },
             error: (err) => {
               this.utils.closeLoading();
               err.status == 0
-                ? this.utils.notification('Error de conexion', 'error')
+                ? this.utils.notification('Error de conexión. ', 'error')
                 : this.utils.notification(
-                    `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+                    `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}. `,
                     'error'
                   );
               this.nuevaCondicionIVA(res);

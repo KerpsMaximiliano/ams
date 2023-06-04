@@ -36,7 +36,7 @@ export class NavMenuComponent {
         },
         {
           // 02 - TIPOS DE DOCUMENTO
-          title: 'Tipos de Documento',
+          title: 'Tipos de documento',
           url: '/parametros/tipos-documento',
           icon: 'keyboard_arrow_right',
         },
@@ -66,7 +66,7 @@ export class NavMenuComponent {
         },
         {
           // 07 - FORMAS DE PAGO
-          title: 'Formas de Pago',
+          title: 'Formas de pago',
           url: '/parametros/formas-pago',
           icon: 'keyboard_arrow_right',
         },
@@ -78,25 +78,25 @@ export class NavMenuComponent {
         },
         {
           // 09 - ESTADOS CIVILES
-          title: 'Estados Civiles',
+          title: 'Estados civiles',
           url: '/parametros/estados-civiles',
           icon: 'keyboard_arrow_right',
         },
         {
           // 11 - FUENTES DE INGRESO
-          title: 'Fuentes de Ingreso',
+          title: 'Fuentes de ingreso',
           url: '/parametros/fuentes-ingreso',
           icon: 'keyboard_arrow_right',
         },
         {
           // 12 - OBRAS SOCIALES
-          title: 'Obras Sociales',
+          title: 'Obras sociales',
           url: '/parametros/obras-sociales',
           icon: 'keyboard_arrow_right',
         },
         {
           // 13 - PREGUNTAS DE DECLARACIONES JURADAS
-          title: 'Preguntas de Declaraciones Juradas',
+          title: 'Preguntas de declaraciones juradas',
           url: '/parametros/preguntas-ddjj',
           icon: 'keyboard_arrow_right',
         },
