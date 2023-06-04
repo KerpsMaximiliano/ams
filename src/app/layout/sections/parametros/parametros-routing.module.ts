@@ -27,7 +27,7 @@ import { FuenteIngresoComponent } from './fuente-ingreso/fuente-ingreso.componen
 // 12 - OBRAS SOCIALES
 import { ObraSocialComponent } from './obra-social/obra-social.component';
 // 13 - PREGUNTAS DE DECLARACIONES JURADS
-import { PreguntasDDJJComponent } from './preguntas-ddjj/preguntas-ddjj.component';
+import { PreguntaDDJJComponent } from './pregunta-ddjj/pregunta-ddjj.component';
 
 const routes: Routes = [
   {
@@ -80,7 +80,7 @@ const routes: Routes = [
   },
   {
     path: 'parametros/preguntas-ddjj',
-    component: PreguntasDDJJComponent,
+    component: PreguntaDDJJComponent,
   },
 ];
 

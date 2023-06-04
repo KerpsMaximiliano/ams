@@ -3,7 +3,7 @@
 */
 th.mat-header-cell:first-of-type,
 td.mat-cell:first-of-type {
-    padding-left: 0px !important;
+  padding-left: 0px !important;
 }
 
 /*
@@ -23,9 +23,9 @@ td.mat-cell:first-of-type {
 .mat-column-yes_no.mat-cell,
 .mat-column-actions.mat-header-cell,
 .mat-column-actions.mat-cell {
-    padding-left: 0.5vw !important;
-    padding-right: 0.5vw !important;
-    word-break: break-all !important;
+  padding-left: 0.5vw !important;
+  padding-right: 0.5vw !important;
+  word-break: break-all !important;
 }
 
 /*
@@ -43,8 +43,8 @@ td.mat-cell:first-of-type {
 .mat-column-pide_fecha.mat-cell,
 .mat-column-yes_no.mat-header-cell,
 .mat-column-yes_no.mat-cell {
-    text-align: left !important;
-    padding-left: 1vw !important;
+  text-align: left !important;
+  padding-left: 1vw !important;
 }
 
 /*
@@ -53,9 +53,9 @@ td.mat-cell:first-of-type {
 */
 .mat-column-nro_preg.mat-header-cell,
 .mat-column-nro_preg.mat-cell {
-    width: 10% !important;
-    text-align: right !important;
-    padding-right: 1vw !important;
+  width: 10% !important;
+  text-align: right !important;
+  padding-right: 1vw !important;
 }
 
 /*
@@ -64,7 +64,7 @@ td.mat-cell:first-of-type {
 */
 .mat-column-actions.mat-header-cell,
 .mat-column-actions.mat-cell {
-    text-align: center !important;
+  text-align: center !important;
 }
 
 /*
@@ -74,7 +74,7 @@ td.mat-cell:first-of-type {
 .mat-column-primer_texto_preg.mat-cell,
 .mat-column-segundo_texto_preg.mat-header-cell,
 .mat-column-segundo_texto_preg.mat-cell {
-    width: 30% !important;
+  width: 30% !important;
 }
 
 .mat-column-actions.mat-header-cell,
@@ -83,5 +83,5 @@ td.mat-cell:first-of-type {
 .mat-column-pide_fecha.mat-cell,
 .mat-column-yes_no.mat-header-cell,
 .mat-column-yes_no.mat-cell {
-    width: 10% !important;
+  width: 10% !important;
 }

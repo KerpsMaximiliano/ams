@@ -2,19 +2,19 @@
  * MODAL: Tamaño.
 */
 .dialog-content {
-    min-height: 400px !important;
-    height: 100% !important;
-    max-height: 75vh !important;
-    min-width: 600px !important;
-    width: 100% !important;
-    max-width: 70vw !important;
+  min-height: 400px !important;
+  height: 100% !important;
+  max-height: 75vh !important;
+  min-width: 600px !important;
+  width: 100% !important;
+  max-width: 70vw !important;
 }
 
 /*
  * MODAL: Espacios.
 */
 .form-datos {
-    padding: 0rem 1rem 2rem 1rem !important;
+  padding: 0rem 1rem 2rem 1rem !important;
 }
 
 /*
@@ -28,6 +28,6 @@
 ::ng-deep .mat-form-field-disabled .mat-input-element,
 ::ng-deep .mat-form-field-disabled .mat-select-value,
 .mat-form-field-disabled {
-    color: #635f5f !important;
-    user-select: text !important;
+  color: #635f5f !important;
+  user-select: text !important;
 }

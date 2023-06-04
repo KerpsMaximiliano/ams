@@ -16,14 +16,13 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 // * Components
 import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
-import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'app-add-edit-preguntas-ddjj-dialog',
-  templateUrl: './add-edit-preguntas-ddjj-dialog.component.html',
-  styleUrls: ['./add-edit-preguntas-ddjj-dialog.component.scss'],
+  selector: 'app-add-edit-pregunta-ddjj-dialog',
+  templateUrl: './add-edit-pregunta-ddjj-dialog.component.html',
+  styleUrls: ['./add-edit-pregunta-ddjj-dialog.component.scss'],
 })
-export class AddEditPreguntasDDJJDialogComponent {
+export class AddEditPreguntaDDJJDialogComponent {
   public formGroup: UntypedFormGroup;
 
   constructor(

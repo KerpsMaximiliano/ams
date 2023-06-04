@@ -15,19 +15,21 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 
 // * Components
-import { AddEditPreguntasDDJJDialogComponent } from '../add-edit-preguntas-ddjj-dialog/add-edit-preguntas-ddjj-dialog.component';
+import { AddEditPreguntaDDJJDialogComponent } from '../add-edit-pregunta-ddjj-dialog/add-edit-pregunta-ddjj-dialog.component';
 
 @Component({
-  selector: 'app-preguntas-ddjj-dashboard',
-  templateUrl: './preguntas-ddjj-dashboard.component.html',
-  styleUrls: ['./preguntas-ddjj-dashboard.component.scss'],
+  selector: 'app-pregunta-ddjj-dashboard',
+  templateUrl: './pregunta-ddjj-dashboard.component.html',
+  styleUrls: ['./pregunta-ddjj-dashboard.component.scss'],
 })
-export class PreguntasDDJJDashboardComponent {
+export class PreguntaDDJJDashboardComponent {
   @ViewChild(MatSort) sort: MatSort = new MatSort();
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator =
     new MatPaginator(new MatPaginatorIntl(), this.cdr);
   @ViewChild(MatTable) table!: MatTable<any>;
 
+  public searchValue: string = '';
+  public preguntasDDJJ: IPreguntaDDJJ[] = [];
   public displayedColumns: string[] = [
     'nro_preg',
     'primer_texto_preg',
@@ -36,28 +38,36 @@ export class PreguntasDDJJDashboardComponent {
     'yes_no',
     'actions',
   ];
-
   public dataSource: MatTableDataSource<IPreguntaDDJJ>;
 
-  public searchValue: string = '';
-
-  public preguntasDDJJ: IPreguntaDDJJ[] = [];
-
   constructor(
-    private preguntasDDJJService: PreguntaDDJJService,
     private utils: UtilService,
     private _liveAnnouncer: LiveAnnouncer,
     private cdr: ChangeDetectorRef,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private preguntaDDJJService: PreguntaDDJJService
   ) {}
 
   ngOnInit(): void {
-    this.paginator._intl.itemsPerPageLabel = 'Elementos por página';
+    this.paginator._intl.itemsPerPageLabel = 'Elementos por página: ';
+    this.paginator._intl.nextPageLabel = 'Página siguiente.';
+    this.paginator._intl.previousPageLabel = 'Página anterior.';
+    this.paginator._intl.firstPageLabel = 'Primer página.';
+    this.paginator._intl.lastPageLabel = 'Ultima página.';
+    this.paginator._intl.getRangeLabel = (
+      page: number,
+      pageSize: number,
+      length: number
+    ): string => {
+      return length
+        ? 'Página ' + (page + 1) + ' de ' + Math.ceil(length / pageSize)
+        : 'Página 0 de 0';
+    };
   }
 
-  private getPreguntasDDJJ(): void {
+  private getPreguntaDDJJ(): void {
     this.utils.openLoading();
-    this.preguntasDDJJService.CRUD(this.searchValue).subscribe({
+    this.preguntaDDJJService.CRUD(this.searchValue).subscribe({
       next: (res: any) => {
         res.dataset.length
           ? (this.preguntasDDJJ = res.dataset as IPreguntaDDJJ[])
@@ -66,24 +76,14 @@ export class PreguntasDDJJDashboardComponent {
           this.preguntasDDJJ
         );
         this.dataSource.sort = this.sort;
-        setTimeout(() => {
-          this.dataSource.paginator = this.paginator;
-          this.paginator._intl.getRangeLabel = (): string => {
-            return (
-              'Página ' +
-              (this.paginator.pageIndex + 1) +
-              ' de ' +
-              this.paginator.length
-            );
-          };
-        }, 100);
+        this.dataSource.paginator = this.paginator;
       },
       error: (err: any) => {
         this.utils.closeLoading();
         err.status == 0
-          ? this.utils.notification('Error de conexion', 'error')
+          ? this.utils.notification('Error de conexión. ', 'error')
           : this.utils.notification(
-              `Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`,
+              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}. `,
               'error'
             );
       },
@@ -101,21 +101,21 @@ export class PreguntasDDJJDashboardComponent {
     }
   }
 
-  public editPreguntasDDJJ(preguntasDDJJ: IPreguntaDDJJ): void {
+  public editPreguntaDDJJ(preguntaDDJJ: IPreguntaDDJJ): void {
     const modalEditPreguntasDDJJ = this.dialog.open(
-      AddEditPreguntasDDJJDialogComponent,
+      AddEditPreguntaDDJJDialogComponent,
       {
         data: {
           title: `EDITAR PREGUNTA DE DECLARACIONES JURADAS`,
           edit: true,
           par_modo: 'U',
-          modelo_formulario: preguntasDDJJ.modelo_formulario,
-          nro_preg: preguntasDDJJ.nro_preg,
-          cantidad_lineas_resp: preguntasDDJJ.cantidad_lineas_resp,
-          pide_fecha: preguntasDDJJ.pide_fecha,
-          yes_no: preguntasDDJJ.yes_no,
-          primer_texto_preg: preguntasDDJJ.primer_texto_preg,
-          segundo_texto_preg: preguntasDDJJ.segundo_texto_preg,
+          modelo_formulario: preguntaDDJJ.modelo_formulario,
+          nro_preg: preguntaDDJJ.nro_preg,
+          cantidad_lineas_resp: preguntaDDJJ.cantidad_lineas_resp,
+          pide_fecha: preguntaDDJJ.pide_fecha,
+          yes_no: preguntaDDJJ.yes_no,
+          primer_texto_preg: preguntaDDJJ.primer_texto_preg,
+          segundo_texto_preg: preguntaDDJJ.segundo_texto_preg,
         },
       }
     );
@@ -124,32 +124,32 @@ export class PreguntasDDJJDashboardComponent {
       next: (res) => {
         if (res) {
           this.utils.openLoading();
-          this.preguntasDDJJService.CRUD(res).subscribe({
+          this.preguntaDDJJService.CRUD(res).subscribe({
             next: () => {
               this.utils.notification(
-                'La Pregunta de Declaraciones Juradas se ha editado exitosamente.',
+                'La pregunta de declaraciones juradas se ha editado exitosamente. ',
                 'success'
               );
             },
             error: (err: any) => {
               this.utils.closeLoading();
               err.status == 0
-                ? this.utils.notification('Error de conexion', 'error')
+                ? this.utils.notification('Error de conexión. ', 'error')
                 : this.utils.notification(
-                    `Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`,
+                    `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
                     'error'
                   );
-              this.editPreguntasDDJJ(res);
+              this.editPreguntaDDJJ(res);
             },
             complete: () => {
               this.utils.closeLoading();
               setTimeout(() => {
                 this.searchValue = JSON.stringify({
                   par_modo: 'R',
-                  modelo_formulario: preguntasDDJJ.modelo_formulario,
-                  nro_preg: preguntasDDJJ.nro_preg,
+                  modelo_formulario: preguntaDDJJ.modelo_formulario,
+                  nro_preg: preguntaDDJJ.nro_preg,
                 });
-                this.getPreguntasDDJJ();
+                this.getPreguntaDDJJ();
               }, 300);
             },
           });
@@ -158,25 +158,25 @@ export class PreguntasDDJJDashboardComponent {
     });
   }
 
-  public viewPreguntasDDJJ(preguntasDDJJ: IPreguntaDDJJ): void {
-    this.dialog.open(AddEditPreguntasDDJJDialogComponent, {
+  public viewPreguntaDDJJ(preguntaDDJJ: IPreguntaDDJJ): void {
+    this.dialog.open(AddEditPreguntaDDJJDialogComponent, {
       data: {
         title: `VER PREGUNTA DE DECLARACIONES JURADAS`,
         edit: false,
         par_modo: 'C',
-        modelo_formulario: preguntasDDJJ?.modelo_formulario,
-        nro_preg: preguntasDDJJ?.nro_preg,
-        cantidad_lineas_resp: preguntasDDJJ?.cantidad_lineas_resp,
-        pide_fecha: preguntasDDJJ?.pide_fecha,
-        yes_no: preguntasDDJJ?.yes_no,
-        primer_texto_preg: preguntasDDJJ?.primer_texto_preg,
-        segundo_texto_preg: preguntasDDJJ?.segundo_texto_preg,
+        modelo_formulario: preguntaDDJJ?.modelo_formulario,
+        nro_preg: preguntaDDJJ?.nro_preg,
+        cantidad_lineas_resp: preguntaDDJJ?.cantidad_lineas_resp,
+        pide_fecha: preguntaDDJJ?.pide_fecha,
+        yes_no: preguntaDDJJ?.yes_no,
+        primer_texto_preg: preguntaDDJJ?.primer_texto_preg,
+        segundo_texto_preg: preguntaDDJJ?.segundo_texto_preg,
       },
     });
   }
 
   public filter(descripcion: string): void {
     this.searchValue = descripcion;
-    this.getPreguntasDDJJ();
+    this.getPreguntaDDJJ();
   }
 }

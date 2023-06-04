@@ -70,10 +70,10 @@ import { ObraSocialComponent } from './obra-social/obra-social.component';
 import { ObraSocialDashboardComponent } from './obra-social/components/obra-social-dashboard/obra-social-dashboard.component';
 import { ObraSocialFilterComponent } from './obra-social/components/obra-social-filter/obra-social-filter.component';
 // 13 - PREGUNTAS DE DECLARACIONES JURADAS
-import { AddEditPreguntasDDJJDialogComponent } from './preguntas-ddjj/components/add-edit-preguntas-ddjj-dialog/add-edit-preguntas-ddjj-dialog.component';
-import { PreguntasDDJJComponent } from './preguntas-ddjj/preguntas-ddjj.component';
-import { PreguntasDDJJDashboardComponent } from './preguntas-ddjj/components/preguntas-ddjj-dashboard/preguntas-ddjj-dashboard.component';
-import { PreguntasDDJJFilterComponent } from './preguntas-ddjj/components/preguntas-ddjj-filter/preguntas-ddjj-filter.component';
+import { AddEditPreguntaDDJJDialogComponent } from './pregunta-ddjj/components/add-edit-pregunta-ddjj-dialog/add-edit-pregunta-ddjj-dialog.component';
+import { PreguntaDDJJComponent } from './pregunta-ddjj/pregunta-ddjj.component';
+import { PreguntaDDJJDashboardComponent } from './pregunta-ddjj/components/pregunta-ddjj-dashboard/pregunta-ddjj-dashboard.component';
+import { PreguntaDDJJFilterComponent } from './pregunta-ddjj/components/pregunta-ddjj-filter/pregunta-ddjj-filter.component';
 
 import { ModalLocalidadComponent } from './posicion/add-edit-posicion-dialog/modal-localidad/modal-localidad.component';
 
@@ -140,10 +140,10 @@ import { ModalLocalidadComponent } from './posicion/add-edit-posicion-dialog/mod
     ObraSocialFilterComponent,
     ObraSocialComponent,
     // 13 - PREGUNTAS DE DECLARACIONES JURADAS
-    AddEditPreguntasDDJJDialogComponent,
-    PreguntasDDJJComponent,
-    PreguntasDDJJDashboardComponent,
-    PreguntasDDJJFilterComponent,
+    AddEditPreguntaDDJJDialogComponent,
+    PreguntaDDJJComponent,
+    PreguntaDDJJDashboardComponent,
+    PreguntaDDJJFilterComponent,
 
     ModalLocalidadComponent,
   ],

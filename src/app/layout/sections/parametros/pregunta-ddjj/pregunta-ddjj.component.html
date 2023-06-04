@@ -1,0 +1,14 @@
+<section class="browse-section">
+  <div class="section-header">
+    <h2> Preguntas de declaraciones juradas </h2>
+    <button class="new-button icon-button" (click)="nuevaPreguntaDDJJ()">
+      <mat-icon> add </mat-icon>
+      Nuevo
+    </button>
+  </div>
+
+  <div class="section-content">
+    <app-pregunta-ddjj-filter (searchEvent)="handleSearch($event)"></app-pregunta-ddjj-filter>
+    <app-pregunta-ddjj-dashboard></app-pregunta-ddjj-dashboard>
+  </div>
+</section>

@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 
 @Component({
-  selector: 'app-preguntas-ddjj-filter',
-  templateUrl: './preguntas-ddjj-filter.component.html',
-  styleUrls: ['./preguntas-ddjj-filter.component.scss'],
+  selector: 'app-pregunta-ddjj-filter',
+  templateUrl: './pregunta-ddjj-filter.component.html',
+  styleUrls: ['./pregunta-ddjj-filter.component.scss'],
 })
-export class PreguntasDDJJFilterComponent {
+export class PreguntaDDJJFilterComponent {
   @Output() searchEvent: EventEmitter<any> = new EventEmitter<any>();
   @ViewChild('selectOptions') selectOptions: any;
 
@@ -13,8 +13,7 @@ export class PreguntasDDJJFilterComponent {
 
   constructor() {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   public search(): void {
     let selectedValue = this.selectOptions?.value || '';
