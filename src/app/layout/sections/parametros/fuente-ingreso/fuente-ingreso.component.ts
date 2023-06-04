@@ -1,12 +1,20 @@
 import { Component, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
+
+// * Services
+import { UtilService } from 'src/app/core/services/util.service';
+import { FuenteIngresoService } from 'src/app/core/services/fuente-ingreso.service';
+
+// * Interfaces
 import {
   IFuenteIngreso,
   IFuenteIngresoResponse,
 } from 'src/app/core/models/fuente-ingreso.interface';
-import { FuenteIngresoService } from 'src/app/core/services/fuente-ingreso.service';
-import { UtilService } from 'src/app/core/services/util.service';
+
+// * Material
+import { MatDialog } from '@angular/material/dialog';
+
+// * Components
 import { AddEditFuenteIngresoDialogComponent } from './components/add-edit-fuente-ingreso-dialog/add-edit-fuente-ingreso-dialog.component';
 import {
   FuenteIngresoDashboardComponent,
@@ -25,9 +33,9 @@ export class FuenteIngresoComponent {
   empresas$: Observable<any>;
 
   constructor(
-    private fuenteIngresoService: FuenteIngresoService,
     private utils: UtilService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private fuenteIngresoService: FuenteIngresoService
   ) {}
 
   ngOnInit(): void {}
@@ -41,7 +49,7 @@ export class FuenteIngresoComponent {
       AddEditFuenteIngresoDialogComponent,
       {
         data: {
-          title: `Nueva Fuente de Ingreso`,
+          title: `NUEVA FUENTE DE INGRESO`,
           edit: true,
           par_modo: 'I',
           codigo_fuente_ingreso: fuenteIngreso?.codigo_fuente_ingreso,
@@ -84,22 +92,18 @@ export class FuenteIngresoComponent {
     modalNuevoFuenteIngreso.afterClosed().subscribe({
       next: (res) => {
         if (res) {
-          console.log(res);
-
           this.utils.openLoading();
-          this.fuenteIngresoService.fuenteIngresoCRUD(res).subscribe({
-            next: (res) => {
+          this.fuenteIngresoService.CRUD(res).subscribe({
+            next: (res: any) => {
               this.utils.notification(
-                'La Fuente Ingreso se ha creado exitosamente',
+                'La fuente de ingreso se ha creado exitosamente. ',
                 'success'
               );
             },
-            error: (err) => {
+            error: (err: any) => {
               this.utils.closeLoading();
-              console.log(err);
-
               err.status == 0
-                ? this.utils.notification('Error de conexion', 'error')
+                ? this.utils.notification('Error de conexión. ', 'error')
                 : this.utils.notification(
                     `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
                     'error'

@@ -21,7 +21,7 @@ export class FuenteIngresoService {
     private environmentService: EnvironmentService
   ) {}
 
-  fuenteIngresoCRUD(body: string): Observable<IFuenteIngresoResponse> {
+  CRUD(body: string): Observable<IFuenteIngresoResponse> {
     return this.http.post<IFuenteIngresoResponse>(
       `${this.environmentService.api}/abmfuenteingresos`,
       body,

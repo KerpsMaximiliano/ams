@@ -1,16 +1,20 @@
-import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
+
+// * Services
+import { UtilService } from 'src/app/core/services/util.service';
+import { FuenteIngresoService } from 'src/app/core/services/fuente-ingreso.service';
+
+// * Interfaces
+import { IFuenteIngreso } from 'src/app/core/models/fuente-ingreso.interface';
+
+// * Material
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
-import {
-  MatTable,
-  MatTableDataSource,
-  MatTableModule,
-} from '@angular/material/table';
-import { IFuenteIngreso } from 'src/app/core/models/fuente-ingreso.interface';
-import { FuenteIngresoService } from 'src/app/core/services/fuente-ingreso.service';
-import { UtilService } from 'src/app/core/services/util.service';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
+
+// * Components
 import { AddEditFuenteIngresoDialogComponent } from '../add-edit-fuente-ingreso-dialog/add-edit-fuente-ingreso-dialog.component';
 
 export interface searchValue {
@@ -43,33 +47,44 @@ export class FuenteIngresoDashboardComponent {
   listEmpresas: any[];
 
   constructor(
-    private fuentesIngresoService: FuenteIngresoService,
     private utils: UtilService,
     private _liveAnnouncer: LiveAnnouncer,
     private cdr: ChangeDetectorRef,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private fuentesIngresoService: FuenteIngresoService
   ) {}
 
   ngOnInit() {
     let body = {
       par_modo: 'E',
     };
-    this.fuentesIngresoService
-      .fuenteIngresoCRUD(JSON.stringify(body))
-      .subscribe({
-        next: (res: any) => {
-          this.listEmpresas = res.dataset;
-        },
-        error: (err: any) => {
-          console.log(err);
-          err.status == 0
-            ? this.utils.notification('Error de conexion', 'error')
-            : this.utils.notification(
-                `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
-                'error'
-              );
-        },
-      });
+    this.fuentesIngresoService.CRUD(JSON.stringify(body)).subscribe({
+      next: (res: any) => {
+        this.listEmpresas = res.dataset;
+      },
+      error: (err: any) => {
+        err.status == 0
+          ? this.utils.notification('Error de conexión. ', 'error')
+          : this.utils.notification(
+              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}. `,
+              'error'
+            );
+      },
+    });
+    this.paginator._intl.itemsPerPageLabel = 'Elementos por página: ';
+    this.paginator._intl.nextPageLabel = 'Página siguiente.';
+    this.paginator._intl.previousPageLabel = 'Página anterior.';
+    this.paginator._intl.firstPageLabel = 'Primer página.';
+    this.paginator._intl.lastPageLabel = 'Ultima página.';
+    this.paginator._intl.getRangeLabel = (
+      page: number,
+      pageSize: number,
+      length: number
+    ): string => {
+      return length
+        ? 'Página ' + (page + 1) + ' de ' + Math.ceil(length / pageSize)
+        : 'Página 0 de 0';
+    };
   }
 
   obtenerNombreEmpresa(id: number): string {
@@ -84,43 +99,30 @@ export class FuenteIngresoDashboardComponent {
       descripcion: this.searchValue.descripcion,
       desc_empresa: this.searchValue.empresa_asociada,
     };
-    this.fuentesIngresoService
-      .fuenteIngresoCRUD(JSON.stringify(body))
-      .subscribe({
-        next: (res: any) => {
-          res.dataset.length
-            ? (this.fuenteIngresos = res.dataset as IFuenteIngreso[])
-            : (this.fuenteIngresos = [res.dataset]);
-          this.dataSource = new MatTableDataSource<IFuenteIngreso>(
-            this.fuenteIngresos
-          );
-          this.dataSource.sort = this.sort;
-          setTimeout(() => {
-            this.dataSource.paginator = this.paginator;
-            this.paginator._intl.getRangeLabel = (): string => {
-              return (
-                'Página ' +
-                (this.paginator.pageIndex + 1) +
-                ' de ' +
-                this.paginator.length
-              );
-            };
-          }, 100);
-        },
-        error: (err: any) => {
-          console.log(err);
-          this.utils.closeLoading();
-          err.status == 0
-            ? this.utils.notification('Error de conexion', 'error')
-            : this.utils.notification(
-                `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
-                'error'
-              );
-        },
-        complete: () => {
-          this.utils.closeLoading();
-        },
-      });
+    this.fuentesIngresoService.CRUD(JSON.stringify(body)).subscribe({
+      next: (res: any) => {
+        res.dataset.length
+          ? (this.fuenteIngresos = res.dataset as IFuenteIngreso[])
+          : (this.fuenteIngresos = [res.dataset]);
+        this.dataSource = new MatTableDataSource<IFuenteIngreso>(
+          this.fuenteIngresos
+        );
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+      },
+      error: (err: any) => {
+        this.utils.closeLoading();
+        err.status == 0
+          ? this.utils.notification('Error de conexión. ', 'error')
+          : this.utils.notification(
+              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}. `,
+              'error'
+            );
+      },
+      complete: () => {
+        this.utils.closeLoading();
+      },
+    });
   }
 
   public announceSortChange(sortState: Sort): void {
@@ -136,9 +138,9 @@ export class FuenteIngresoDashboardComponent {
       AddEditFuenteIngresoDialogComponent,
       {
         data: {
-          title: `Editar Fuente de Ingreso`,
-          par_modo: 'U',
+          title: `EDITAR FUENTE DE INGRESO`,
           edit: true,
+          par_modo: 'U',
           codigo_fuente_ingreso: fuenteIngreso?.codigo_fuente_ingreso,
           tipo_fuente: fuenteIngreso?.tipo_fuente,
           codigo_fuente_admin: fuenteIngreso?.codigo_fuente_admin,
@@ -180,24 +182,20 @@ export class FuenteIngresoDashboardComponent {
     modalNuevoFuenteIngreso.afterClosed().subscribe({
       next: (res) => {
         if (res) {
-          console.log(res);
-
           this.utils.openLoading();
-          this.fuentesIngresoService.fuenteIngresoCRUD(res).subscribe({
+          this.fuentesIngresoService.CRUD(res).subscribe({
             next: () => {
               this.utils.notification(
-                'El FuenteIngreso se ha editado extiosamente',
+                'La fuente de ingreso se ha editado extiosamente. ',
                 'success'
               );
             },
             error: (err: any) => {
-              console.log(err);
-
               this.utils.closeLoading();
               err.status == 0
-                ? this.utils.notification('Error de conexion', 'error')
+                ? this.utils.notification('Error de conexión. ', 'error')
                 : this.utils.notification(
-                    `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+                    `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}. `,
                     'error'
                   );
               this.editFuenteIngreso(res);
@@ -215,7 +213,7 @@ export class FuenteIngresoDashboardComponent {
   public viewFuenteIngreso(fuenteIngreso: IFuenteIngreso): void {
     this.dialog.open(AddEditFuenteIngresoDialogComponent, {
       data: {
-        title: `Ver Fuente de Ingreso`,
+        title: `VER FUENTE DE INGRESO`,
         edit: false,
         codigo_fuente_ingreso: fuenteIngreso?.codigo_fuente_ingreso,
         tipo_fuente: fuenteIngreso?.tipo_fuente,

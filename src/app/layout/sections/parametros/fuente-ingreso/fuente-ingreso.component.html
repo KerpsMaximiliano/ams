@@ -1,14 +1,15 @@
 <section class="browse-section">
-    <div class="section-header">
-    <h2>Fuente de Ingresos</h2>
-        <button class="new-button icon-button" (click)="nuevaFuenteIngreso()">
-            <mat-icon>add</mat-icon>
-            Nuevo
-        </button>
-    </div>
-    <div class="section-content">
-        <app-fuente-ingreso-filter (searchEvent)="handleSearch($event)">
-        </app-fuente-ingreso-filter>
-        <app-fuente-ingreso-dashboard></app-fuente-ingreso-dashboard>
-    </div>
+  <div class="section-header">
+    <h2> Fuente de ingresos </h2>
+    <button class="new-button icon-button" (click)="nuevaFuenteIngreso()">
+      <mat-icon> add </mat-icon>
+      Nuevo
+    </button>
+  </div>
+
+  <div class="section-content">
+    <app-fuente-ingreso-filter (searchEvent)="handleSearch($event)">
+    </app-fuente-ingreso-filter>
+    <app-fuente-ingreso-dashboard></app-fuente-ingreso-dashboard>
+  </div>
 </section>

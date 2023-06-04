@@ -1,558 +1,381 @@
 <div class="dialog-title">
-    <h2>{{data.title | uppercase}}</h2>
+  <h2> {{ data.title | uppercase}} </h2>
 </div>
+
 <div class="dialog-content">
-    <form class="form-datos" [formGroup]="formGroup" (ngSubmit)="confirm()"
-    style="overflow-y: auto;"
-    >
-        <div class="seeker-fields-container">
-            <h3>CÓDIGO</h3>
-            <mat-form-field class="seeker-form-field" appearance="outline">
-                <input matInput formControlName="codigo_fuente_ingreso"
-                [readonly]="!data.edit" maxlength="5">
-                <mat-error *ngIf="formGroup.get('codigo_fuente_ingreso')?.invalid
-                    && formGroup.get('codigo_fuente_ingreso')?.touched">
-                        {{getErrorMessage(formGroup.get('codigo_fuente_ingreso'))}}
-                </mat-error>
-            </mat-form-field>
-        </div>
-        <div class="seeker-fields-container">
-            <h3>DESCRIPCION</h3>
-            <mat-form-field class="seeker-form-field" appearance="outline">
-                <input matInput formControlName="descripcion"
-                    required maxlength="20"
-                    [readonly]="!data.edit">
-                <mat-error *ngIf="formGroup.get('descripcion')?.invalid
-                    && formGroup.get('descripcion')?.touched">
-                        {{getErrorMessage(formGroup.get('descripcion'))}}
-                </mat-error>
-            </mat-form-field>
-        </div>
-        <div class="seeker-fields-container">
-            <h3>ABREVIATURA</h3>
-            <mat-form-field class="seeker-form-field" appearance="outline">
-                <input matInput formControlName="descripcion_reducida"
-                    required maxlength="5"
-                    [readonly]="!data.edit">
-                <mat-error *ngIf="formGroup.get('descripcion_reducida')?.invalid
-                    && formGroup.get('descripcion_reducida')?.touched">
-                        {{getErrorMessage(formGroup.get('descripcion_reducida'))}}
-                </mat-error>
-            </mat-form-field>
-        </div>
-        <div class="seeker-fields-container">
-            <h3>TIPO</h3>
-            <mat-form-field class="seeker-form-field" appearance="outline">
-                    <mat-select formControlName="tipo_fuente"
-                        required>
-                        <mat-option [value]="'A'">
-                            ADMINISTRADORA
-                        </mat-option>
-                        <mat-option [value]="'M'">
-                            MIXTO
-                        </mat-option>
-                        <mat-option [value]="'S'">
-                            SUBORDINADA
-                        </mat-option>
-                        </mat-select>
-                    <mat-error *ngIf="formGroup.get('tipo_fuente')?.invalid
-                        && formGroup.get('tipo_fuente')?.touched">
-                            {{getErrorMessage(formGroup.get('tipo_fuente'))}}
-                    </mat-error>
-                
-            </mat-form-field>
-        </div>
-        <div class="seeker-fields-container" *ngIf="formGroup.get('tipo_fuente')?.value != 'A'">
-            <h3>F. DE INGRESO ADMINISTRADORA</h3>
-            <mat-form-field class="seeker-form-field" appearance="outline">
-                <input matInput formControlName="codigo_fuente_admin"
-                    required maxlength="3"
-                    [readonly]="!data.edit">
-                <mat-error *ngIf="formGroup.get('codigo_fuente_admin')?.invalid
-                    && formGroup.get('codigo_fuente_admin')?.touched">
-                        {{getErrorMessage(formGroup.get('codigo_fuente_admin'))}}
-                </mat-error>
-            </mat-form-field>
-        </div>
-        <div class="seeker-fields-container">
-            <h3>EMPRESA QUE FACTURA</h3>
-            <mat-form-field class="seeker-form-field" appearance="outline">
-                    <mat-select formControlName="empresa_asociada"
-                        required >
-                        <mat-option *ngFor="let empresa of listEmpresas" 
-                        (onSelectionChange)="cargaReferencia(empresa.id_empresa)"
-                        [value]="empresa.id_empresa">
-                            {{empresa.descripcion}}
-                        </mat-option>
-                    </mat-select>
-                <mat-error *ngIf="formGroup.get('empresa_asociada')?.invalid
-                    && formGroup.get('empresa_asociada')?.touched">
-                        {{getErrorMessage(formGroup.get('empresa_asociada'))}}
-                </mat-error>
-            </mat-form-field>
-        </div>
-        <div class="seeker-fields-container">
-            <h3>SOLICITA REF. CONTABLE</h3>
-            <mat-form-field class="seeker-form-field" appearance="outline">
-                <mat-select formControlName="solicita_ref"
-                    required>
-                    <mat-option [value]="'S'">
-                        SI
-                    </mat-option>
-                    <mat-option [value]="'N'">
-                        NO
-                    </mat-option>
-                </mat-select>
-                <mat-error *ngIf="formGroup.get('solicita_ref')?.invalid
-                    && formGroup.get('solicita_ref')?.touched">
-                        {{getErrorMessage(formGroup.get('solicita_ref'))}}
-                </mat-error>
-            </mat-form-field>
-        </div>
-        <div class="seeker-fields-container">
-            <h3>DIA DE CORTE</h3>
-            <mat-form-field class="seeker-form-field" appearance="outline">
-                    <mat-select formControlName="dia_corte"
-                    required>
-                    <mat-option *ngFor="let dia of dias" 
-                    [value]="dia.d">
-                        {{dia.dia}}
-                    </mat-option>
-                </mat-select>
-                <mat-error *ngIf="formGroup.get('dia_corte')?.invalid
-                    && formGroup.get('dia_corte')?.touched">
-                        {{getErrorMessage(formGroup.get('dia_corte'))}}
-                </mat-error>
-            </mat-form-field>
-        </div>
-        <div class="seeker-fields-container">
-            <h3>CONTROLA DD JJ</h3>
-            <mat-form-field class="seeker-form-field" appearance="outline">
-                <mat-select formControlName="controla_dec_jur"
-                    required>
-                    <mat-option [value]="'S'">
-                        SI
-                    </mat-option>
-                    <mat-option [value]="'N'">
-                        NO
-                    </mat-option>
-                    </mat-select>
-                <mat-error *ngIf="formGroup.get('controla_dec_jur')?.invalid
-                    && formGroup.get('controla_dec_jur')?.touched">
-                        {{getErrorMessage(formGroup.get('controla_dec_jur'))}}
-                </mat-error>
-            </mat-form-field>
-        </div>
-        <div class="seeker-fields-container">
-            <h3>CONCEPTO APORTE</h3>
-            <mat-form-field class="seeker-form-field" appearance="outline">
-                    <mat-select formControlName="concepto_aporte"
-                    required>
-                    <mat-option *ngFor="let concepto of listConceptos" 
-                    [value]="concepto.id_concepto">
-                        {{concepto.descripcion}}
-                    </mat-option>
-                </mat-select>
-                <mat-error *ngIf="formGroup.get('concepto_aporte')?.invalid
-                    && formGroup.get('concepto_aporte')?.touched">
-                        {{getErrorMessage(formGroup.get('concepto_aporte'))}}
-                </mat-error>
-            </mat-form-field>
-        </div>
-        <div class="seeker-fields-container">
-            <h3>CONCEPTO ARANCEL</h3>
-            <mat-form-field class="seeker-form-field" appearance="outline">
-                    <mat-select formControlName="concepto_arancel"
-                    required>
-                    <mat-option *ngFor="let concepto of listConceptos" 
-                    [value]="concepto.id_concepto">
-                        {{concepto.descripcion}}
-                    </mat-option>
-                </mat-select>
-                <mat-error *ngIf="formGroup.get('concepto_arancel')?.invalid
-                    && formGroup.get('concepto_arancel')?.touched">
-                        {{getErrorMessage(formGroup.get('concepto_arancel'))}}
-                </mat-error>
-            </mat-form-field>
-        </div>
-        <div class="seeker-fields-container">
-            <h3>CONDICIÓN DE VENTA</h3>
-            <mat-form-field class="seeker-form-field" appearance="outline">
-                <mat-select formControlName="condicion_venta"
-                    required>
-                    <mat-option *ngFor="let conVenta of listCondicionV" 
-                    [value]="conVenta.id_condicion">
-                        {{conVenta.descripcion}}
-                    </mat-option>
-                </mat-select>
-                <mat-error *ngIf="formGroup.get('condicion_venta')?.invalid
-                    && formGroup.get('condicion_venta')?.touched">
-                        {{getErrorMessage(formGroup.get('condicion_venta'))}}
-                </mat-error>
-            </mat-form-field>
-        </div>
-        <div class="seeker-fields-container">
-            <h3>REFERENCIA CONTABLE</h3>
-            <mat-form-field class="seeker-form-field" appearance="outline">
-                <mat-select formControlName="ref_contable_asociada"
-                    required>
-                    <mat-option *ngFor="let referencia of listReferencia" 
-                    [value]="referencia.id_referencia_contable">
-                        {{referencia.descripcion}}
-                    </mat-option>
-                </mat-select>
-                <mat-error *ngIf="formGroup.get('ref_contable_asociada')?.invalid
-                    && formGroup.get('ref_contable_asociada')?.touched">
-                        {{getErrorMessage(formGroup.get('ref_contable_asociada'))}}
-                </mat-error>
-            </mat-form-field>
-        </div>
-        <div class="seeker-fields-container">
-            <h3>COMPROBANTE A GENERAR</h3>
-            <mat-form-field class="seeker-form-field" appearance="outline">
-                <mat-select formControlName="comprobante_general"
-                    required>
-                    <mat-option *ngFor="let comprobante of listComprobantes" 
-                    [value]="comprobante.id_comprobante">
-                        {{comprobante.descripcion}}
-                    </mat-option>
-                </mat-select>
-                <mat-error *ngIf="formGroup.get('comprobante_general')?.invalid
-                    && formGroup.get('comprobante_general')?.touched">
-                        {{getErrorMessage(formGroup.get('comprobante_general'))}}
-                </mat-error>
-            </mat-form-field>
-        </div>
-        <div class="seeker-fields-container">
-            <h3>TALONARIO</h3>
-            <mat-form-field class="seeker-form-field" appearance="outline">
-                <mat-select formControlName="talonario"
-                    required>
-                    <mat-option *ngFor="let talonario of listTalonarios" 
-                    [value]="talonario.id_talonario">
-                        {{talonario.numero}}
-                    </mat-option>
-                </mat-select>
-            <mat-error *ngIf="formGroup.get('talonario')?.invalid
-                && formGroup.get('talonario')?.touched">
-                    {{getErrorMessage(formGroup.get('talonario'))}}
-            </mat-error>
-            </mat-form-field>
-        </div>
-        <div class="seeker-fields-container">
-            <h3>CONDICIÓN DE VENTA VENC</h3>
-            <mat-form-field class="seeker-form-field" appearance="outline">
-                <mat-select formControlName="condicion_venta_venc"
-                    required>
-                    <mat-option *ngFor="let conVenta of listCondicionV" 
-                    [value]="conVenta.id_condicion">
-                        {{conVenta.descripcion}}
-                    </mat-option>
-                </mat-select>
-            <mat-error *ngIf="formGroup.get('condicion_venta_venc')?.invalid
-                && formGroup.get('condicion_venta_venc')?.touched">
-                    {{getErrorMessage(formGroup.get('condicion_venta_venc'))}}
-            </mat-error>
-            </mat-form-field>
-        </div>
-        <div class="seeker-fields-container">
-            <h3>CONDICIÓN DE VENTA VENC 2M</h3>
-            <mat-form-field class="seeker-form-field" appearance="outline">
-                <mat-select formControlName="condicion_venta_dos_venc"
-                    required>
-                    <mat-option *ngFor="let conVenta of listCondicionV" 
-                    [value]="conVenta.id_condicion">
-                        {{conVenta.descripcion}}
-                    </mat-option>
-                </mat-select>
-            <mat-error *ngIf="formGroup.get('condicion_venta_dos_venc')?.invalid
-                && formGroup.get('condicion_venta_dos_venc')?.touched">
-                    {{getErrorMessage(formGroup.get('condicion_venta_dos_venc'))}}
-            </mat-error>
-            </mat-form-field>
-        </div>
-        <div class="seeker-fields-container">
-            <h3>LIQUIDA PUNITORIO</h3>
-            <mat-form-field class="seeker-form-field" appearance="outline">
-            <mat-select formControlName="liquida_punitorio"
-                required>
-                <mat-option [value]="'S'">
-                    SI
-                </mat-option>
-                <mat-option [value]="'N'">
-                    NO
-                </mat-option>
-                </mat-select>
-            <mat-error *ngIf="formGroup.get('liquida_punitorio')?.invalid
-                && formGroup.get('liquida_punitorio')?.touched">
-                    {{getErrorMessage(formGroup.get('liquida_punitorio'))}}
-            </mat-error>
-            </mat-form-field>
-        </div>
-        <div class="seeker-fields-container">
-            <h3>LIQUIDA REINTEGRO</h3>
-            <mat-form-field class="seeker-form-field" appearance="outline">
-            <mat-select formControlName="liquida_reintegro"
-                required>
-                <mat-option [value]="'S'">
-                    SI
-                </mat-option>
-                <mat-option [value]="'N'">
-                    NO
-                </mat-option>
-                </mat-select>
-            <mat-error *ngIf="formGroup.get('liquida_reintegro')?.invalid
-                && formGroup.get('liquida_reintegro')?.touched">
-                    {{getErrorMessage(formGroup.get('liquida_reintegro'))}}
-            </mat-error>
-            </mat-form-field>
-        </div>
-        <div class="seeker-fields-container">
-            <h3>LIQUIDA PLANES MIX</h3>
-            <mat-form-field class="seeker-form-field" appearance="outline">
-            <mat-select formControlName="liquida_planes_mix"
-                required>
-                <mat-option [value]="'S'">
-                    SI
-                </mat-option>
-                <mat-option [value]="'N'">
-                    NO
-                </mat-option>
-                </mat-select>
-            <mat-error *ngIf="formGroup.get('liquida_planes_mix')?.invalid
-                && formGroup.get('liquida_planes_mix')?.touched">
-                    {{getErrorMessage(formGroup.get('liquida_planes_mix'))}}
-            </mat-error>
-            </mat-form-field>
-        </div>
-        <div class="seeker-fields-container">
-            <h3>LIQUIDA PLANES MONOTRIBUTO</h3>
-            <mat-form-field class="seeker-form-field" appearance="outline">
-            <mat-select formControlName="liquida_planes_monotributo"
-                required>
-                <mat-option [value]="'S'">
-                    SI
-                </mat-option>
-                <mat-option [value]="'N'">
-                    NO
-                </mat-option>
-                </mat-select>
-            <mat-error *ngIf="formGroup.get('liquida_planes_monotributo')?.invalid
-                && formGroup.get('liquida_planes_monotributo')?.touched">
-                    {{getErrorMessage(formGroup.get('liquida_planes_monotributo'))}}
-            </mat-error>
-            </mat-form-field>
-        </div>
-        <div class="seeker-fields-container">
-            <h3>AGRUPA POR ENTIDADES</h3>
-            <mat-form-field class="seeker-form-field" appearance="outline">
-            <mat-select formControlName="agrupa_entidades"
-                required>
-                <mat-option [value]="'S'">
-                    SI
-                </mat-option>
-                <mat-option [value]="'N'">
-                    NO
-                </mat-option>
-                </mat-select>
-            <mat-error *ngIf="formGroup.get('agrupa_entidades')?.invalid
-                && formGroup.get('agrupa_entidades')?.touched">
-                    {{getErrorMessage(formGroup.get('agrupa_entidades'))}}
-            </mat-error>
-            </mat-form-field>
-        </div>
-        <div class="seeker-fields-container">
-            <h3>APORTE ADICIONAL</h3>
-            <mat-form-field class="seeker-form-field" appearance="outline">
-                <mat-select formControlName="aporte_adicional"
-                    required>
-                    <mat-option [value]="'S'">
-                        SI
-                    </mat-option>
-                    <mat-option [value]="'N'">
-                        NO
-                    </mat-option>
-                    </mat-select>
-                <mat-error *ngIf="formGroup.get('aporte_adicional')?.invalid
-                    && formGroup.get('aporte_adicional')?.touched">
-                        {{getErrorMessage(formGroup.get('aporte_adicional'))}}
-                </mat-error>
-            </mat-form-field>
-        </div>
-        <div *ngIf="formGroup.get('aporte_adicional')?.value == 'S'">
-        <div class="seeker-fields-container" >
-            <h3>FUENTE APORTE ADICIONAL</h3>
-            <mat-form-field class="seeker-form-field" appearance="outline">
-                <!-- <input matInput formControlName="fuente_aporte_adicional"
-                    required maxlength="5"
-                    [readonly]="!data.edit"> -->
-                    <mat-select formControlName="fuente_aporte_adicional">
-                    <mat-option *ngFor="let concepto of listConceptos" 
-                    [value]="concepto.id_concepto">
-                        {{concepto.descripcion}}
-                    </mat-option>
-                </mat-select>
-                <mat-error *ngIf="formGroup.get('fuente_aporte_adicional')?.invalid
-                    && formGroup.get('fuente_aporte_adicional')?.touched">
-                        {{getErrorMessage(formGroup.get('fuente_aporte_adicional'))}}
-                </mat-error>
-            </mat-form-field>
-        </div>
-        <div class="seeker-fields-container">
-            <h3>CONC APORTE ADIC</h3>
-            <mat-form-field class="seeker-form-field" appearance="outline">
-                <!-- <input matInput formControlName="concepto_aporte_adicional"
-                    required maxlength="5"
-                    [readonly]="!data.edit"> -->
-                    <mat-select formControlName="concepto_aporte_adicional">
-                    <mat-option *ngFor="let concepto of listConceptos" 
-                    [value]="concepto.id_concepto">
-                        {{concepto.descripcion}}
-                    </mat-option>
-                </mat-select>
-                <mat-error *ngIf="formGroup.get('concepto_aporte_adicional')?.invalid
-                    && formGroup.get('concepto_aporte_adicional')?.touched">
-                        {{getErrorMessage(formGroup.get('concepto_aporte_adicional'))}}
-                </mat-error>
-            </mat-form-field>
-        </div>
-        <div class="seeker-fields-container">
-            <h3>CONC APORTE ADIC DEC</h3>
-            <mat-form-field class="seeker-form-field" appearance="outline">
-            <!-- <input matInput formControlName="condicion_aporte_adic_dec"
-                required maxlength="5"
-                [readonly]="!data.edit"> -->
-                <mat-select formControlName="condicion_aporte_adic_dec">
-                <mat-option *ngFor="let concepto of listConceptos" 
-                [value]="concepto.id_concepto">
-                    {{concepto.descripcion}}
-                </mat-option>
-            </mat-select>
-            <mat-error *ngIf="formGroup.get('condicion_aporte_adic_dec')?.invalid
-                && formGroup.get('condicion_aporte_adic_dec')?.touched">
-                    {{getErrorMessage(formGroup.get('condicion_aporte_adic_dec'))}}
-            </mat-error>
-            </mat-form-field>
-        </div>
+  <form class="form-datos" [formGroup]="formGroup" (ngSubmit)="confirm()" style="overflow-y: auto;">
+    <div class="seeker-fields-container">
+      <h3> CÓDIGO </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <input matInput formControlName="codigo_fuente_ingreso" [readonly]="!data.edit" maxlength="5">
+        <mat-error
+          *ngIf="formGroup.get('codigo_fuente_ingreso')?.invalid && formGroup.get('codigo_fuente_ingreso')?.touched">
+          {{ getErrorMessage(formGroup.get('codigo_fuente_ingreso')) }}
+        </mat-error>
+      </mat-form-field>
     </div>
 
-        
-        <!-- <div class="seeker-fields-container">
-            <h3>nro_solicitud</h3>
-            <mat-form-field class="seeker-form-field" appearance="outline">
-                <input matInput formControlName="nro_solicitud"
-                    required maxlength="3"
-                    [readonly]="!data.edit">
-                <mat-error *ngIf="formGroup.get('nro_solicitud')?.invalid
-                    && formGroup.get('nro_solicitud')?.touched">
-                        {{getErrorMessage(formGroup.get('nro_solicitud'))}}
-                </mat-error>
-            </mat-form-field>
-        </div>
-        <div class="seeker-fields-container">
-            <h3>fecha_ultima_liquidacion</h3>
-            <mat-form-field class="seeker-form-field" appearance="outline">
-                <input matInput formControlName="fecha_ultima_liquidacion"
-                    required maxlength="8"
-                    [readonly]="!data.edit">
-                <mat-error *ngIf="formGroup.get('fecha_ultima_liquidacion')?.invalid
-                    && formGroup.get('fecha_ultima_liquidacion')?.touched">
-                        {{getErrorMessage(formGroup.get('fecha_ultima_liquidacion'))}}
-                </mat-error>
-            </mat-form-field>
-        </div>
-        <div class="seeker-fields-container">
-            <h3>sub_prog_calc</h3>
-            <mat-form-field class="seeker-form-field" appearance="outline">
-                <input matInput formControlName="sub_prog_calc"
-                    required maxlength="10"
-                    [readonly]="!data.edit">
-                <mat-error *ngIf="formGroup.get('sub_prog_calc')?.invalid
-                    && formGroup.get('sub_prog_calc')?.touched">
-                        {{getErrorMessage(formGroup.get('sub_prog_calc'))}}
-                </mat-error>
-            </mat-form-field>
-        </div>
-        <div class="seeker-fields-container">
-            <h3>grupo_familiar_imprimir</h3>
-            <mat-form-field class="seeker-form-field" appearance="outline">
-            <input matInput formControlName="grupo_familiar_imprimir"
-                required maxlength="2"
-                [readonly]="!data.edit">
-            <mat-error *ngIf="formGroup.get('grupo_familiar_imprimir')?.invalid
-                && formGroup.get('grupo_familiar_imprimir')?.touched">
-                    {{getErrorMessage(formGroup.get('grupo_familiar_imprimir'))}}
-            </mat-error>
-            </mat-form-field>
-        </div>
-        <div class="seeker-fields-container">
-            <h3>numeracion_auto</h3>
-            <mat-form-field class="seeker-form-field" appearance="outline">
-            <input matInput formControlName="numeracion_auto"
-                required maxlength="15"
-                [readonly]="!data.edit">
-            <mat-error *ngIf="formGroup.get('numeracion_auto')?.invalid
-                && formGroup.get('numeracion_auto')?.touched">
-                    {{getErrorMessage(formGroup.get('numeracion_auto'))}}
-            </mat-error>
-            </mat-form-field>
-        </div>
-        <div class="seeker-fields-container">
-            <h3>selecciona_productos_liq</h3>
-            <mat-form-field class="seeker-form-field" appearance="outline">
-            <input matInput formControlName="selecciona_productos_liq"
-                required maxlength="15"
-                [readonly]="!data.edit">
-            <mat-error *ngIf="formGroup.get('selecciona_productos_liq')?.invalid
-                && formGroup.get('selecciona_productos_liq')?.touched">
-                    {{getErrorMessage(formGroup.get('selecciona_productos_liq'))}}
-            </mat-error>
-            </mat-form-field>
-        </div>
-        <div class="seeker-fields-container">
-            <h3>agrupador_capita</h3>
-            <mat-form-field class="seeker-form-field" appearance="outline">
-            <input matInput formControlName="agrupador_capita"
-                required maxlength="5"
-                [readonly]="!data.edit">
-            <mat-error *ngIf="formGroup.get('agrupador_capita')?.invalid
-                && formGroup.get('agrupador_capita')?.touched">
-                    {{getErrorMessage(formGroup.get('agrupador_capita'))}}
-            </mat-error>
-            </mat-form-field>
-        </div>
-        <div class="seeker-fields-container">
-            <h3>liquidacion_mensual</h3>
-            <mat-form-field class="seeker-form-field" appearance="outline">
-            <input matInput formControlName="liquidacion_mensual"
-                required maxlength="15"
-                [readonly]="!data.edit">
-            <mat-error *ngIf="formGroup.get('liquidacion_mensual')?.invalid
-                && formGroup.get('liquidacion_mensual')?.touched">
-                    {{getErrorMessage(formGroup.get('liquidacion_mensual'))}}
-            </mat-error>
-            </mat-form-field>
-        </div> -->
-        <div *ngIf="data.edit; else other_content" class="buttons-container">
-            <button class="primary-button icon-button" type="button" (click)="closeDialog()">
-                <mat-icon>close</mat-icon>
-                Cancelar
-            </button>
-            <button class="primary-button icon-button" type="submit" [disabled]="formGroup.invalid">
-                <mat-icon>done</mat-icon>
-                Guardar
-            </button>
-            <button class="primary-button icon-button" (click)="unificar()" [disabled]="formGroup.invalid">
-                <mat-icon>done</mat-icon>
-                Unificar Aportes
-            </button>
-        </div>
-    
-        <ng-template #other_content>
-            <button class="primary-button icon-button right" mat-dialog-close>
-            <mat-icon>done</mat-icon>
-            Aceptar
-            </button>
-        </ng-template>
-    </form>
+    <div class="seeker-fields-container">
+      <h3> DESCRIPCION </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <input matInput formControlName="descripcion" required maxlength="20" [readonly]="!data.edit">
+        <mat-error *ngIf="formGroup.get('descripcion')?.invalid && formGroup.get('descripcion')?.touched">
+          {{ getErrorMessage(formGroup.get('descripcion')) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3> ABREVIATURA </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <input matInput formControlName="descripcion_reducida" required maxlength="5" [readonly]="!data.edit">
+        <mat-error
+          *ngIf="formGroup.get('descripcion_reducida')?.invalid && formGroup.get('descripcion_reducida')?.touched">
+          {{ getErrorMessage(formGroup.get('descripcion_reducida')) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3> TIPO </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <mat-select formControlName="tipo_fuente" required>
+          <mat-option [value]="'A'"> ADMINISTRADORA </mat-option>
+          <mat-option [value]="'M'"> MIXTO </mat-option>
+          <mat-option [value]="'S'"> SUBORDINADA </mat-option>
+        </mat-select>
+        <mat-error *ngIf="formGroup.get('tipo_fuente')?.invalid && formGroup.get('tipo_fuente')?.touched">
+          {{ getErrorMessage(formGroup.get('tipo_fuente')) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container" *ngIf="formGroup.get('tipo_fuente')?.value != 'A'">
+      <h3> F. DE INGRESO ADMINISTRADORA </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <input matInput formControlName="codigo_fuente_admin" required maxlength="3" [readonly]="!data.edit">
+        <mat-error
+          *ngIf="formGroup.get('codigo_fuente_admin')?.invalid && formGroup.get('codigo_fuente_admin')?.touched">
+          {{ getErrorMessage(formGroup.get('codigo_fuente_admin')) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3> EMPRESA QUE FACTURA </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <mat-select formControlName="empresa_asociada" required>
+          <mat-option *ngFor="let empresa of listEmpresas" (onSelectionChange)="cargaReferencia(empresa.id_empresa)"
+            [value]="empresa.id_empresa">
+            {{ empresa.descripcion }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="formGroup.get('empresa_asociada')?.invalid && formGroup.get('empresa_asociada')?.touched">
+          {{ getErrorMessage(formGroup.get('empresa_asociada')) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3> SOLICITA REF. CONTABLE </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <mat-select formControlName="solicita_ref" required>
+          <mat-option [value]="'S'"> SI </mat-option>
+          <mat-option [value]="'N'"> NO </mat-option>
+        </mat-select>
+        <mat-error *ngIf="formGroup.get('solicita_ref')?.invalid && formGroup.get('solicita_ref')?.touched">
+          {{ getErrorMessage(formGroup.get('solicita_ref')) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3> DIA DE CORTE </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <mat-select formControlName="dia_corte" required>
+          <mat-option *ngFor="let dia of dias" [value]="dia.d"> {{ dia.dia }} </mat-option>
+        </mat-select>
+        <mat-error *ngIf="formGroup.get('dia_corte')?.invalid && formGroup.get('dia_corte')?.touched">
+          {{ getErrorMessage(formGroup.get('dia_corte')) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3> CONTROLA DD JJ </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <mat-select formControlName="controla_dec_jur" required>
+          <mat-option [value]="'S'"> SI </mat-option>
+          <mat-option [value]="'N'"> NO </mat-option>
+        </mat-select>
+        <mat-error *ngIf="formGroup.get('controla_dec_jur')?.invalid && formGroup.get('controla_dec_jur')?.touched">
+          {{ getErrorMessage(formGroup.get('controla_dec_jur')) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3> CONCEPTO APORTE </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <mat-select formControlName="concepto_aporte" required>
+          <mat-option *ngFor="let concepto of listConceptos" [value]="concepto.id_concepto">
+            {{ concepto.descripcion }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="formGroup.get('concepto_aporte')?.invalid && formGroup.get('concepto_aporte')?.touched">
+          {{ getErrorMessage(formGroup.get('concepto_aporte')) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3> CONCEPTO ARANCEL </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <mat-select formControlName="concepto_arancel" required>
+          <mat-option *ngFor="let concepto of listConceptos" [value]="concepto.id_concepto">
+            {{ concepto.descripcion }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="formGroup.get('concepto_arancel')?.invalid && formGroup.get('concepto_arancel')?.touched">
+          {{ getErrorMessage(formGroup.get('concepto_arancel')) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3> CONDICIÓN DE VENTA </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <mat-select formControlName="condicion_venta" required>
+          <mat-option *ngFor="let conVenta of listCondicionV" [value]="conVenta.id_condicion">
+            {{ conVenta.descripcion }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="formGroup.get('condicion_venta')?.invalid && formGroup.get('condicion_venta')?.touched">
+          {{ getErrorMessage(formGroup.get('condicion_venta')) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3> REFERENCIA CONTABLE </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <mat-select formControlName="ref_contable_asociada" required>
+          <mat-option *ngFor="let referencia of listReferencia" [value]="referencia.id_referencia_contable">
+            {{ referencia.descripcion }}
+          </mat-option>
+        </mat-select>
+        <mat-error
+          *ngIf="formGroup.get('ref_contable_asociada')?.invalid && formGroup.get('ref_contable_asociada')?.touched">
+          {{ getErrorMessage(formGroup.get('ref_contable_asociada')) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3> COMPROBANTE A GENERAR </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <mat-select formControlName="comprobante_general" required>
+          <mat-option *ngFor="let comprobante of listComprobantes" [value]="comprobante.id_comprobante">
+            {{ comprobante.descripcion }}
+          </mat-option>
+        </mat-select>
+        <mat-error
+          *ngIf="formGroup.get('comprobante_general')?.invalid && formGroup.get('comprobante_general')?.touched">
+          {{ getErrorMessage(formGroup.get('comprobante_general')) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3> TALONARIO </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <mat-select formControlName="talonario" required>
+          <mat-option *ngFor="let talonario of listTalonarios" [value]="talonario.id_talonario">
+            {{ talonario.numero }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="formGroup.get('talonario')?.invalid && formGroup.get('talonario')?.touched">
+          {{ getErrorMessage(formGroup.get('talonario')) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3> CONDICIÓN DE VENTA VENC </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <mat-select formControlName="condicion_venta_venc" required>
+          <mat-option *ngFor="let conVenta of listCondicionV" [value]="conVenta.id_condicion">
+            {{ conVenta.descripcion }}
+          </mat-option>
+        </mat-select>
+        <mat-error
+          *ngIf="formGroup.get('condicion_venta_venc')?.invalid && formGroup.get('condicion_venta_venc')?.touched">
+          {{ getErrorMessage(formGroup.get('condicion_venta_venc')) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3> CONDICIÓN DE VENTA VENC 2M </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <mat-select formControlName="condicion_venta_dos_venc" required>
+          <mat-option *ngFor="let conVenta of listCondicionV" [value]="conVenta.id_condicion">
+            {{ conVenta.descripcion }}
+          </mat-option>
+        </mat-select>
+        <mat-error
+          *ngIf="formGroup.get('condicion_venta_dos_venc')?.invalid && formGroup.get('condicion_venta_dos_venc')?.touched">
+          {{ getErrorMessage(formGroup.get('condicion_venta_dos_venc')) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3> LIQUIDA PUNITORIO </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <mat-select formControlName="liquida_punitorio" required>
+          <mat-option [value]="'S'"> SI </mat-option>
+          <mat-option [value]="'N'"> NO </mat-option>
+        </mat-select>
+        <mat-error *ngIf="formGroup.get('liquida_punitorio')?.invalid && formGroup.get('liquida_punitorio')?.touched">
+          {{ getErrorMessage(formGroup.get('liquida_punitorio')) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3> LIQUIDA REINTEGRO </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <mat-select formControlName="liquida_reintegro" required>
+          <mat-option [value]="'S'"> SI </mat-option>
+          <mat-option [value]="'N'"> NO </mat-option>
+        </mat-select>
+        <mat-error *ngIf="formGroup.get('liquida_reintegro')?.invalid && formGroup.get('liquida_reintegro')?.touched">
+          {{ getErrorMessage(formGroup.get('liquida_reintegro')) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3> LIQUIDA PLANES MIX </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <mat-select formControlName="liquida_planes_mix" required>
+          <mat-option [value]="'S'"> SI </mat-option>
+          <mat-option [value]="'N'"> NO </mat-option>
+        </mat-select>
+        <mat-error *ngIf="formGroup.get('liquida_planes_mix')?.invalid && formGroup.get('liquida_planes_mix')?.touched">
+          {{ getErrorMessage(formGroup.get('liquida_planes_mix')) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3> LIQUIDA PLANES MONOTRIBUTO </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <mat-select formControlName="liquida_planes_monotributo" required>
+          <mat-option [value]="'S'"> SI </mat-option>
+          <mat-option [value]="'N'"> NO </mat-option>
+        </mat-select>
+        <mat-error
+          *ngIf="formGroup.get('liquida_planes_monotributo')?.invalid && formGroup.get('liquida_planes_monotributo')?.touched">
+          {{ getErrorMessage(formGroup.get('liquida_planes_monotributo')) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3> AGRUPA POR ENTIDADES </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <mat-select formControlName="agrupa_entidades" required>
+          <mat-option [value]="'S'"> SI </mat-option>
+          <mat-option [value]="'N'"> NO </mat-option>
+        </mat-select>
+        <mat-error *ngIf="formGroup.get('agrupa_entidades')?.invalid && formGroup.get('agrupa_entidades')?.touched">
+          {{ getErrorMessage(formGroup.get('agrupa_entidades')) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3> APORTE ADICIONAL </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <mat-select formControlName="aporte_adicional" required>
+          <mat-option [value]="'S'"> SI </mat-option>
+          <mat-option [value]="'N'"> NO </mat-option>
+        </mat-select>
+        <mat-error *ngIf="formGroup.get('aporte_adicional')?.invalid && formGroup.get('aporte_adicional')?.touched">
+          {{ getErrorMessage(formGroup.get('aporte_adicional')) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div *ngIf="formGroup.get('aporte_adicional')?.value == 'S'">
+      <div class="seeker-fields-container">
+        <h3> FUENTE APORTE ADICIONAL </h3>
+        <mat-form-field class="seeker-form-field" appearance="outline">
+          <mat-select formControlName="fuente_aporte_adicional">
+            <mat-option *ngFor="let concepto of listConceptos" [value]="concepto.id_concepto">
+              {{ concepto.descripcion }}
+            </mat-option>
+          </mat-select>
+          <mat-error
+            *ngIf="formGroup.get('fuente_aporte_adicional')?.invalid && formGroup.get('fuente_aporte_adicional')?.touched">
+            {{ getErrorMessage(formGroup.get('fuente_aporte_adicional')) }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="seeker-fields-container">
+        <h3> CONC APORTE ADIC </h3>
+        <mat-form-field class="seeker-form-field" appearance="outline">
+          <mat-select formControlName="concepto_aporte_adicional">
+            <mat-option *ngFor="let concepto of listConceptos" [value]="concepto.id_concepto">
+              {{ concepto.descripcion }}
+            </mat-option>
+          </mat-select>
+          <mat-error
+            *ngIf="formGroup.get('concepto_aporte_adicional')?.invalid && formGroup.get('concepto_aporte_adicional')?.touched">
+            {{ getErrorMessage(formGroup.get('concepto_aporte_adicional')) }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="seeker-fields-container">
+        <h3> CONC APORTE ADIC DEC </h3>
+        <mat-form-field class="seeker-form-field" appearance="outline">
+          <mat-select formControlName="condicion_aporte_adic_dec">
+            <mat-option *ngFor="let concepto of listConceptos" [value]="concepto.id_concepto">
+              {{ concepto.descripcion }}
+            </mat-option>
+          </mat-select>
+          <mat-error
+            *ngIf="formGroup.get('condicion_aporte_adic_dec')?.invalid && formGroup.get('condicion_aporte_adic_dec')?.touched">
+            {{ getErrorMessage(formGroup.get('condicion_aporte_adic_dec')) }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div *ngIf="data.edit; else other_content" class="buttons-container">
+      <button class="primary-button icon-button" type="button" (click)="closeDialog()">
+        <mat-icon> close </mat-icon>
+        Cancelar
+      </button>
+      <button class="primary-button icon-button" type="submit" [disabled]="formGroup.invalid">
+        <mat-icon> done </mat-icon>
+        Guardar
+      </button>
+      <button class="primary-button icon-button" (click)="unificar()" [disabled]="formGroup.invalid">
+        <mat-icon> done </mat-icon>
+        Unificar Aportes
+      </button>
+    </div>
+
+    <ng-template #other_content>
+      <button class="primary-button icon-button right" mat-dialog-close>
+        <mat-icon> done </mat-icon>
+        Aceptar
+      </button>
+    </ng-template>
+  </form>
 </div>
