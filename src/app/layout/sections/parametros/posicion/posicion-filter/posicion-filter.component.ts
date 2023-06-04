@@ -1,25 +1,30 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { FormControl, FormGroup, UntypedFormControl } from '@angular/forms';
 import { map, Observable, startWith } from 'rxjs';
+
+// * Services
 import { PosicionService } from 'src/app/core/services/posicion.service';
-import { isNumeric } from 'src/app/core/validators/character.validator';
+
+// * Forms
+import { FormControl, FormGroup, UntypedFormControl } from '@angular/forms';
 
 @Component({
-  selector: 'app-abm-posiciones-filter',
-  templateUrl: './abm-posiciones-filter.component.html',
-  styleUrls: ['./abm-posiciones-filter.component.scss'],
+  selector: 'app-posicion-filter',
+  templateUrl: './posicion-filter.component.html',
+  styleUrls: ['./posicion-filter.component.scss'],
 })
-export class AbmPosicionesFilterComponent {
+export class PosicionFilterComponent {
   @Output() searchEvent: EventEmitter<any> = new EventEmitter<any>();
 
   searching = new FormGroup({
     letra_provincia: new FormControl(),
     descripcion: new FormControl(''),
   });
-  utils: any;
   paramProv: any;
-  myControlProv = new UntypedFormControl('');
   provinciaFiltrados: Observable<any[]>;
+  myControlProv = new UntypedFormControl('');
+
+  utils: any;
+
   constructor(private posicionesService: PosicionService) {}
 
   ngOnInit(): void {
@@ -30,14 +35,12 @@ export class AbmPosicionesFilterComponent {
     this.posicionesService.getProv(bodyprov).subscribe({
       next: (res) => {
         this.paramProv = res.dataset;
-        console.log(res);
       },
       error: (err) => {
-        console.log(err);
         err.status == 0
-          ? this.utils.notification('Error de conexion', 'error')
+          ? this.utils.notification('Error de conexión. ', 'error')
           : this.utils.notification(
-              `Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`,
+              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
               'error'
             );
       },

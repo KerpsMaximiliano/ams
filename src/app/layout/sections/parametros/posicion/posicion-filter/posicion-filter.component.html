@@ -1,0 +1,41 @@
+<section class="seeker-section">
+  <mat-accordion>
+    <mat-expansion-panel class="mat-elevation-z1">
+      <mat-expansion-panel-header floating>
+        <mat-panel-title> Opciones de búsqueda </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <form [formGroup]="searching">
+        <div class="seeker-fields-container">
+          <h3> Provincia </h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <input type="text" matInput [formControl]="myControlProv" [matAutocomplete]="prov" required
+              (keydown.enter)="search()">
+            <mat-autocomplete #prov="matAutocomplete" [displayWith]="displayFnProv">
+              <mat-option *ngFor="let Prov of provinciaFiltrados | async" [value]="Prov"
+                (onSelectionChange)="dato(Prov.codigo)">
+                {{ Prov.nombre_provincia }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+          <mat-form-field class="seeker-form-field">
+            <mat-label class="seeker-label" for="descripcion"> Posición </mat-label>
+            <input matInput class="seeker-input" formControlName="descripcion" (keydown.enter)="search()">
+          </mat-form-field>
+        </div>
+
+        <div class="buttons-container">
+          <button class="primary-button icon-button" type="button" (click)="search()">
+            <mat-icon> done </mat-icon>
+            Buscar
+          </button>
+          <button class="primary-button icon-button" type="button" (click)="clearInputs()">
+            <mat-icon> close </mat-icon>
+            Limpiar
+          </button>
+        </div>
+      </form>
+    </mat-expansion-panel>
+  </mat-accordion>
+</section>

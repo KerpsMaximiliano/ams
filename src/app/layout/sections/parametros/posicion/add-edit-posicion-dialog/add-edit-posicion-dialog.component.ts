@@ -1,31 +1,35 @@
 import { Component, Inject } from '@angular/core';
+
+// * Forms
 import {
   UntypedFormControl,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
+
+// * Material
 import {
   MatDialogRef,
   MAT_DIALOG_DATA,
-  MatDialogModule,
   MatDialog,
 } from '@angular/material/dialog';
+
+// * Validations
 import {
   isAlphanumericWithSpaces,
   isNumeric,
 } from 'src/app/core/validators/character.validator';
+
+// * Components
 import { ConfirmDialogComponent } from '../../../components/confirm-dialog/confirm-dialog.component';
-import { PosicionService } from 'src/app/core/services/posicion.service';
-import { UtilService } from 'src/app/core/services/util.service';
 import { ModalLocalidadComponent } from './modal-localidad/modal-localidad.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @Component({
-  selector: 'app-add-edit-abm-posiciones',
-  templateUrl: './add-edit-abm-posiciones.component.html',
-  styleUrls: ['./add-edit-abm-posiciones.component.scss'],
+  selector: 'app-add-edit-posicion-dialog',
+  templateUrl: './add-edit-posicion-dialog.component.html',
+  styleUrls: ['./add-edit-posicion-dialog.component.scss'],
 })
-export class AddEditAbmPosicionesComponent {
+export class AddEditPosicionDialogComponent {
   public formGroup: UntypedFormGroup;
   vigencia: boolean = false;
   fecha_hoy: Date = new Date();
@@ -35,10 +39,9 @@ export class AddEditAbmPosicionesComponent {
   searchCodePost: any;
   dataSource: any;
   localidad: any;
+
   constructor(
     public dialogRef: MatDialogRef<ConfirmDialogComponent>,
-    private utils: UtilService,
-    private posicionesService: PosicionService,
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
@@ -59,7 +62,7 @@ export class AddEditAbmPosicionesComponent {
   getLocalidad() {
     const modalSearchLocal = this.dialog.open(ModalLocalidadComponent, {
       data: {
-        title: `Seleccionar Localidad`,
+        title: `SELECCIONAR LOCALIDAD`,
         par_modo: 'C',
       },
     });
@@ -81,9 +84,7 @@ export class AddEditAbmPosicionesComponent {
             ?.setValue(this.localidad.letra_provincia);
         }
       },
-      error: (err) => {
-        console.log(err);
-      },
+      error: (err) => {},
     });
   }
 
@@ -93,7 +94,7 @@ export class AddEditAbmPosicionesComponent {
         {
           value: '',
           disabled:
-            this.data.codigo_posicion && this.data.title === 'Editar Posicion',
+            this.data.codigo_posicion && this.data.title === 'EDITAR POSICIÓN',
         },
         Validators.compose([
           Validators.required,
@@ -156,12 +157,10 @@ export class AddEditAbmPosicionesComponent {
   }
 
   closeDialog(): void {
-    console.log(this.formGroup);
     this.dialogRef.close(false);
   }
 
   public confirm(): void {
-    // this.formGroup.markAllAsTouched();
     if (this.formGroup.valid) {
       this.data.codigo_posicion
         ? this.dialogRef.close({

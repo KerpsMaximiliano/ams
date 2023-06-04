@@ -3,15 +3,13 @@
 .mat-column-domicilio.mat-header-cell,
 .mat-column-domicilio.mat-cell,
 .mat-column-estados.mat-header-cell,
-.mat-column-estados.mat-cell
-{
-    text-align: left !important;
-    padding-left: 1vw !important;
+.mat-column-estados.mat-cell {
+  text-align: left !important;
+  padding-left: 1vw !important;
 }
 
 .mat-column-codigo_postal.mat-header-cell,
-.mat-column-codigo_postal.mat-cell
-{
-    text-align: right !important;
-    padding-right: 1vw !important;
+.mat-column-codigo_postal.mat-cell {
+  text-align: right !important;
+  padding-right: 1vw !important;
 }

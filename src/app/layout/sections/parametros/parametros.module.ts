@@ -30,10 +30,10 @@ import { DepartamentoComponent } from './departamento/departamento.component';
 import { DepartamentoDashboardComponent } from './departamento/components/departamento-dashboard/departamento-dashboard.component';
 import { DepartamentoFilterComponent } from './departamento/components/departamento-filter/departamento-filter.component';
 // 05 - POSICIONES
-import { AbmPosicionesComponent } from './abm-posiciones/abm-posiciones.component';
-import { AddEditAbmPosicionesComponent } from './abm-posiciones/add-edit-abm-posiciones/add-edit-abm-posiciones.component';
-import { AbmPosicionesFilterComponent } from './abm-posiciones/abm-posiciones-filter/abm-posiciones-filter.component';
-import { AbmPosicionesDashboardComponent } from './abm-posiciones/abm-posiciones-dashboard/abm-posiciones-dashboard.component';
+import { PosicionComponent } from './posicion/posicion.component';
+import { AddEditPosicionDialogComponent } from './posicion/add-edit-posicion-dialog/add-edit-posicion-dialog.component';
+import { PosicionFilterComponent } from './posicion/posicion-filter/posicion-filter.component';
+import { PosicionDashboardComponent } from './posicion/posicion-dashboard/posicion-dashboard.component';
 // 06 - LOCALIDADES
 import { EditAbmLocalidadesDialogComponent } from './abm-localidades/components/abm-localidades-dialog/edit-abm-localidades-dialog.component';
 import { AbmLocalidadesComponent } from './abm-localidades/abm-localidades.component';
@@ -70,7 +70,7 @@ import { PreguntasDDJJComponent } from './preguntas-ddjj/preguntas-ddjj.componen
 import { PreguntasDDJJDashboardComponent } from './preguntas-ddjj/components/preguntas-ddjj-dashboard/preguntas-ddjj-dashboard.component';
 import { PreguntasDDJJFilterComponent } from './preguntas-ddjj/components/preguntas-ddjj-filter/preguntas-ddjj-filter.component';
 
-import { ModalLocalidadComponent } from './abm-posiciones/add-edit-abm-posiciones/modal-localidad/modal-localidad.component';
+import { ModalLocalidadComponent } from './posicion/add-edit-posicion-dialog/modal-localidad/modal-localidad.component';
 
 @NgModule({
   declarations: [
@@ -95,10 +95,10 @@ import { ModalLocalidadComponent } from './abm-posiciones/add-edit-abm-posicione
     DepartamentoDashboardComponent,
     DepartamentoFilterComponent,
     // 05 - POSICIONES
-    AbmPosicionesComponent,
-    AddEditAbmPosicionesComponent,
-    AbmPosicionesFilterComponent,
-    AbmPosicionesDashboardComponent,
+    AddEditPosicionDialogComponent,
+    PosicionComponent,
+    PosicionFilterComponent,
+    PosicionDashboardComponent,
     // 06 - LOCALIDADES
     EditAbmLocalidadesDialogComponent,
     AbmLocalidadesComponent,
