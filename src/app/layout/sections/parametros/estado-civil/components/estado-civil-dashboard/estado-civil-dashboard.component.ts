@@ -28,24 +28,21 @@ export class EstadoCivilDashboardComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator =
     new MatPaginator(new MatPaginatorIntl(), this.cdr);
 
+  public searchValue: string = '';
+  public estadoCivil: IEstadoCivil[] = [];
   public displayedColumns: string[] = [
     'codigo_estado_civil',
     'description',
     'actions',
   ];
-
   public dataSource: MatTableDataSource<IEstadoCivil>;
 
-  public searchValue: string = '';
-
-  public estadoCivil: IEstadoCivil[] = [];
-
   constructor(
-    private estadoCivilService: EstadoCivilService,
     private utils: UtilService,
     private _liveAnnouncer: LiveAnnouncer,
     private cdr: ChangeDetectorRef,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private estadoCivilService: EstadoCivilService
   ) {}
 
   ngOnInit(): void {
@@ -132,7 +129,7 @@ export class EstadoCivilDashboardComponent implements OnInit {
               err.status == 0
                 ? this.utils.notification('Error de conexión. ', 'error')
                 : this.utils.notification(
-                    `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+                    `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}. `,
                     'error'
                   );
               this.editEstadoCivil(res);

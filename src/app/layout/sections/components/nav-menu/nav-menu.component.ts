@@ -96,7 +96,7 @@ export class NavMenuComponent {
         },
         {
           // 13 - PREGUNTAS DE DECLARACIONES JURADAS
-          title: 'Preguntas de declaraciones juradas',
+          title: 'Preguntas de DDJJ',
           url: '/parametros/preguntas-ddjj',
           icon: 'keyboard_arrow_right',
         },

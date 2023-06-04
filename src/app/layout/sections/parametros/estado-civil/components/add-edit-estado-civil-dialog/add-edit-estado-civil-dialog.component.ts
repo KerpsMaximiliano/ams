@@ -7,11 +7,14 @@ import {
   Validators,
 } from '@angular/forms';
 
-// * Validations
-import { isAlphanumericWithSpaces, isAlphanumeric } from 'src/app/core/validators/character.validator';
-
 // * Material
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+
+// * Validations
+import {
+  isAlphanumericWithSpaces,
+  isAlphanumeric,
+} from 'src/app/core/validators/character.validator';
 
 // * Components
 import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
@@ -86,7 +89,12 @@ export class AddEditEstadoCivilDialogComponent {
     if (control.errors?.['required']) {
       return `Campo requerido.`;
     } else {
-      if ((control.errors?.['notAlphanumeric'] || control.errors?.['notAlphanumericWithSpaces']) && control.value != '' && control.value != null) {
+      if (
+        (control.errors?.['notAlphanumeric'] ||
+          control.errors?.['notAlphanumericWithSpaces']) &&
+        control.value != '' &&
+        control.value != null
+      ) {
         return `Solo se aceptan letras y números.`;
       }
 

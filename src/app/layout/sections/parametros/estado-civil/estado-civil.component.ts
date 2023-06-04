@@ -56,14 +56,14 @@ export class EstadoCivilComponent {
           this.estadoCivilService.CRUD(res).subscribe({
             next: () => {
               this.utils.notification(
-                'El Estado Civil se ha creado exitosamente.',
+                'El estado civil se ha creado exitosamente. ',
                 'success'
               );
             },
             error: (err) => {
               this.utils.closeLoading();
               err.status == 0
-                ? this.utils.notification('Error de conexión.', 'error')
+                ? this.utils.notification('Error de conexión. ', 'error')
                 : this.utils.notification(
                     `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
                     'error'

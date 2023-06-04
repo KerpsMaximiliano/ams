@@ -8,18 +8,19 @@
       <form>
         <div class="seeker-fields-container">
           <mat-form-field class="seeker-form-field">
-            <mat-label class="seeker-label" for="descripcion"> Ingrese el Estado Civil </mat-label>
+            <mat-label class="seeker-label" for="descripcion"> Ingrese el estado civil </mat-label>
             <input matInput class="seeker-input" (keydown.enter)="search($event , input.value)" #input maxlength="20" />
           </mat-form-field>
         </div>
 
         <div class="buttons-container">
-          <button class="primary-button icon-button" type="button" (click)="search($event, input.value)" >
-            <mat-icon>done</mat-icon>
+          <button class="primary-button icon-button" type="button" (click)="search($event, input.value)">
+            <mat-icon> done </mat-icon>
             Buscar
           </button>
-          <button class="primary-button icon-button" type="button" (click)="clear(input)" [disabled]="input.value.length === 0">
-            <mat-icon>close</mat-icon>
+          <button class="primary-button icon-button" type="button" (click)="clear(input)"
+            [disabled]="input.value.length === 0">
+            <mat-icon> close </mat-icon>
             Limpiar
           </button>
         </div>
