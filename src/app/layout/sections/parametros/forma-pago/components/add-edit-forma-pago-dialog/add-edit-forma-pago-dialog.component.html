@@ -1,132 +1,145 @@
 <div class="dialog-title" tabindex="0">
-  <h2>{{ data.title | uppercase }}</h2>
+  <h2> {{ data.title | uppercase }} </h2>
 </div>
 
 <div class="dialog-content">
   <form class="form-datos" [formGroup]="formGroup" (ngSubmit)="confirm()">
 
     <div class="seeker-fields-container">
-      <h3>CÓDIGO</h3>
+      <h3> CÓDIGO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
         <input matInput formControlName="codigo">
-        <mat-error
-          *ngIf="formGroup.get('codigo')?.invalid && formGroup.get('codigo')?.touched">{{getErrorMessage(formGroup.get('codigo'))}}</mat-error>
+        <mat-error *ngIf="formGroup.get('codigo')?.invalid && formGroup.get('codigo')?.touched">
+          {{ getErrorMessage(formGroup.get('codigo')) }}
+        </mat-error>
       </mat-form-field>
     </div>
 
     <div class="seeker-fields-container">
-      <h3>FORMA DE PAGO</h3>
+      <h3> FORMA DE PAGO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
         <mat-select formControlName="forma_pago">
           <mat-option [value]="'BSF'" (click)="onChange()"> BSF - Débitos Automáticos NBSF </mat-option>
           <mat-option [value]="'LNK'" (click)="onChange()"> LNK - Pagos RED LINK </mat-option>
           <mat-option [value]="'CBU'" (click)="onChange()"> CBU - Transferencias a distintos bancos </mat-option>
-          <mat-option [value]="'TC'"  (click)="onChange()"> TC  - Tarjetas de crédito a configurar </mat-option>
+          <mat-option [value]="'TC'" (click)="onChange()"> TC - Tarjetas de crédito a configurar </mat-option>
         </mat-select>
-        <mat-error
-          *ngIf="formGroup.get('forma_pago')?.invalid && formGroup.get('forma_pago')?.touched">{{getErrorMessage(formGroup.get('forma_pago'))}}</mat-error>
-      </mat-form-field>
-    </div>
-    
-    <div class="seeker-fields-container">
-      <h3>DESCRIPCIÓN</h3>
-      <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="description">
-        <mat-error
-          *ngIf="formGroup.get('description')?.invalid && formGroup.get('description')?.touched">{{getErrorMessage(formGroup.get('description'))}}</mat-error>
+        <mat-error *ngIf="formGroup.get('forma_pago')?.invalid && formGroup.get('forma_pago')?.touched">
+          {{ getErrorMessage(formGroup.get('forma_pago')) }}
+        </mat-error>
       </mat-form-field>
     </div>
 
     <div class="seeker-fields-container">
-      <h3>NEMOTÉCNICO</h3>
+      <h3> DESCRIPCIÓN </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <input matInput formControlName="description">
+        <mat-error *ngIf="formGroup.get('description')?.invalid && formGroup.get('description')?.touched">
+          {{ getErrorMessage(formGroup.get('description')) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3> NEMOTÉCNICO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
         <input matInput formControlName="nombre_tarjeta_nemot">
         <mat-error
-          *ngIf="formGroup.get('nombre_tarjeta_nemot')?.invalid && formGroup.get('nombre_tarjeta_nemot')?.touched">{{getErrorMessage(formGroup.get('nombre_tarjeta_nemot'))}}</mat-error>
+          *ngIf="formGroup.get('nombre_tarjeta_nemot')?.invalid && formGroup.get('nombre_tarjeta_nemot')?.touched">
+          {{ getErrorMessage(formGroup.get('nombre_tarjeta_nemot')) }}
+        </mat-error>
       </mat-form-field>
     </div>
 
     <div class="seeker-fields-container">
-      <h3>BANCO</h3>
+      <h3> BANCO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
         <mat-select formControlName="codigo_banco">
-          <mat-option [value]="330"> Nuevo Banco de Santa Fe  </mat-option>
+          <mat-option [value]="330"> Nuevo Banco de Santa Fe </mat-option>
           <mat-option [value]="815"> Pagos RED LINK </mat-option>
           <mat-option [value]="0"> Tarjeta de Crédito </mat-option>
           <div *ngFor="let bank of banks">
-            <mat-option [value]="bank.codigo">{{ bank.description }}</mat-option>
+            <mat-option [value]="bank.codigo"> {{ bank.description }} </mat-option>
           </div>
         </mat-select>
-        <mat-error *ngIf="formGroup.get('codigo_banco')?.invalid && formGroup.get('codigo_banco')?.touched">{{ getErrorMessage(formGroup.get('codigo_banco')) }}</mat-error>
+        <mat-error *ngIf="formGroup.get('codigo_banco')?.invalid && formGroup.get('codigo_banco')?.touched">
+          {{ getErrorMessage(formGroup.get('codigo_banco')) }}
+        </mat-error>
       </mat-form-field>
     </div>
 
     <div class="seeker-fields-container">
-      <h3>¿TRABAJA CON ARCHIVOS?</h3>
+      <h3> ¿TRABAJA CON ARCHIVOS? </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
         <mat-select formControlName="trabaja_archivos">
           <mat-option [value]="'S'"> SI </mat-option>
           <mat-option [value]="'N'"> NO </mat-option>
         </mat-select>
-        <mat-error
-          *ngIf="formGroup.get('trabaja_archivos')?.invalid && formGroup.get('trabaja_archivos')?.touched">{{getErrorMessage(formGroup.get('trabaja_archivos'))}}</mat-error>
+        <mat-error *ngIf="formGroup.get('trabaja_archivos')?.invalid && formGroup.get('trabaja_archivos')?.touched">
+          {{ getErrorMessage(formGroup.get('trabaja_archivos')) }}
+        </mat-error>
       </mat-form-field>
     </div>
 
     <div class="seeker-fields-container">
-      <h3>¿TRABAJA CON RECHAZOS?</h3>
+      <h3> ¿TRABAJA CON RECHAZOS? </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
         <mat-select formControlName="trabaja_rechazos">
           <mat-option [value]="'S'"> SI </mat-option>
           <mat-option [value]="'N'"> NO </mat-option>
         </mat-select>
-        <mat-error
-          *ngIf="formGroup.get('trabaja_rechazos')?.invalid && formGroup.get('trabaja_rechazos')?.touched">{{getErrorMessage(formGroup.get('trabaja_rechazos'))}}</mat-error>
+        <mat-error *ngIf="formGroup.get('trabaja_rechazos')?.invalid && formGroup.get('trabaja_rechazos')?.touched">
+          {{ getErrorMessage(formGroup.get('trabaja_rechazos')) }}
+        </mat-error>
       </mat-form-field>
     </div>
 
     <div class="seeker-fields-container">
-      <h3>¿SOLICITA DATOS ADICIONALES?</h3>
+      <h3> ¿SOLICITA DATOS ADICIONALES? </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
         <mat-select formControlName="solicita_datos_ad">
           <mat-option [value]="'S'"> SI </mat-option>
           <mat-option [value]="'N'"> NO </mat-option>
         </mat-select>
-        <mat-error
-          *ngIf="formGroup.get('solicita_datos_ad')?.invalid && formGroup.get('solicita_datos_ad')?.touched">{{getErrorMessage(formGroup.get('solicita_datos_ad'))}}</mat-error>
+        <mat-error *ngIf="formGroup.get('solicita_datos_ad')?.invalid && formGroup.get('solicita_datos_ad')?.touched">
+          {{ getErrorMessage(formGroup.get('solicita_datos_ad')) }}
+        </mat-error>
       </mat-form-field>
     </div>
 
     <div class="seeker-fields-container">
-      <h3>ESTADO</h3>
+      <h3> ESTADO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
         <input matInput formControlName="codigo_tarjeta_de_baja">
         <mat-error
-          *ngIf="formGroup.get('codigo_tarjeta_de_baja')?.invalid && formGroup.get('codigo_tarjeta_de_baja')?.touched">{{getErrorMessage(formGroup.get('codigo_tarjeta_de_baja'))}}</mat-error>
+          *ngIf="formGroup.get('codigo_tarjeta_de_baja')?.invalid && formGroup.get('codigo_tarjeta_de_baja')?.touched">
+          {{ getErrorMessage(formGroup.get('codigo_tarjeta_de_baja')) }}
+        </mat-error>
       </mat-form-field>
     </div>
 
     <div *ngIf="data.edit; else other_content" class="buttons-container">
       <button class="primary-button icon-button" type="button" (click)="closeDialog()">
-        <mat-icon>close</mat-icon>
+        <mat-icon> close </mat-icon>
         Cancelar
       </button>
-      <button type="submit" *ngIf="data.edit && this.formGroup.get('codigo_tarjeta_de_baja')?.value === 'S'" class="primary-button icon-button" [disabled]="formGroup.invalid" (click)="changeStatus()">
-        <mat-icon>done</mat-icon>
+      <button type="submit" *ngIf="data.edit && this.formGroup.get('codigo_tarjeta_de_baja')?.value === 'S'"
+        class="primary-button icon-button" [disabled]="formGroup.invalid" (click)="changeStatus()">
+        <mat-icon> done </mat-icon>
         Baja
       </button>
+
       <button class="primary-button icon-button" type="submit" [disabled]="formGroup.invalid">
-        <mat-icon>done</mat-icon>
+        <mat-icon> done </mat-icon>
         Guardar
       </button>
     </div>
 
     <ng-template #other_content>
       <button class="primary-button icon-button" mat-dialog-close>
-        <mat-icon>done</mat-icon>
+        <mat-icon> done </mat-icon>
         Aceptar
       </button>
     </ng-template>
   </form>
-
 </div>

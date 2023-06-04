@@ -1,14 +1,14 @@
 <section class="browse-section">
   <div class="section-header">
-    <h2>Formas de Pago</h2>
+    <h2> Formas de pago </h2>
     <button class="new-button icon-button" (click)="nuevaFormaPago()">
-      <mat-icon>add</mat-icon>
+      <mat-icon> add </mat-icon>
       Nuevo
     </button>
   </div>
 
   <div class="section-content">
-    <app-formas-pago-filter (searchEvent)="handleSearch($event)"></app-formas-pago-filter>
-    <app-formas-pago-dashboard></app-formas-pago-dashboard>
+    <app-forma-pago-filter (searchEvent)="handleSearch($event)"></app-forma-pago-filter>
+    <app-forma-pago-dashboard></app-forma-pago-dashboard>
   </div>
 </section>

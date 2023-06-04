@@ -15,7 +15,7 @@ import { PosicionComponent } from './posicion/posicion.component';
 // 06 - LOCALIDADES
 import { LocalidadComponent } from './localidad/localidad.component';
 // 07 - FORMAS DE PAGO
-import { FormasPagoComponent } from './formas-pago/formas-pago.component';
+import { FormaPagoComponent } from './forma-pago/forma-pago.component';
 // 08 - CONDICIONES DE IVA
 import { CondicionIvaComponent } from './condicion-iva/condicion-iva.component';
 // 09 - ESTADOS CIVILES
@@ -54,7 +54,7 @@ const routes: Routes = [
   },
   {
     path: 'parametros/formas-pago',
-    component: FormasPagoComponent,
+    component: FormaPagoComponent,
   },
   {
     path: 'parametros/condiciones-iva',

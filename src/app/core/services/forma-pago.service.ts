@@ -21,7 +21,7 @@ export class FormaPagoService {
     private environmentService: EnvironmentService
   ) {}
 
-  getFormasPagoCRUD(body: string): Observable<IFormaPagoResponse> {
+  CRUD(body: string): Observable<IFormaPagoResponse> {
     return this.http.post<IFormaPagoResponse>(
       `${this.environmentService.api}/abmtarjetacredito`,
       body,

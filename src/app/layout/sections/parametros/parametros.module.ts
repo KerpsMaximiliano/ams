@@ -40,10 +40,10 @@ import { LocalidadComponent } from './localidad/localidad.component';
 import { LocalidadDashboardComponent } from './localidad/components/localidad-dashboard/localidad-dashboard.component';
 import { LocalidadFilterComponent } from './localidad/components/localidad-filter/localidad-filter.component';
 // 07 - FORMAS DE PAGO
-import { AddEditFormasPagoDialogComponent } from './formas-pago/components/add-edit-formas-pago-dialog/add-edit-formas-pago-dialog.component';
-import { FormasPagoComponent } from './formas-pago/formas-pago.component';
-import { FormasPagoDashboardComponent } from './formas-pago/components/formas-pago-dashboard/formas-pago-dashboard.component';
-import { FormasPagoFilterComponent } from './formas-pago/components/formas-pago-filter/formas-pago-filter.component';
+import { AddEditFormaPagoDialogComponent } from './forma-pago/components/add-edit-forma-pago-dialog/add-edit-forma-pago-dialog.component';
+import { FormaPagoComponent } from './forma-pago/forma-pago.component';
+import { FormaPagoDashboardComponent } from './forma-pago/components/forma-pago-dashboard/forma-pago-dashboard.component';
+import { FormaPagoFilterComponent } from './forma-pago/components/forma-pago-filter/forma-pago-filter.component';
 // 08 - CONDICIONES DE IVA
 import { AddEditCondicionIvaDialogComponent } from './condicion-iva/components/add-edit-condicion-iva-dialog/add-edit-condicion-iva-dialog.component';
 import { CondicionIvaComponent } from './condicion-iva/condicion-iva.component';
@@ -105,10 +105,10 @@ import { ModalLocalidadComponent } from './posicion/add-edit-posicion-dialog/mod
     LocalidadDashboardComponent,
     LocalidadFilterComponent,
     // 07 - FORMAS DE PAGO
-    AddEditFormasPagoDialogComponent,
-    FormasPagoComponent,
-    FormasPagoDashboardComponent,
-    FormasPagoFilterComponent,
+    AddEditFormaPagoDialogComponent,
+    FormaPagoComponent,
+    FormaPagoDashboardComponent,
+    FormaPagoFilterComponent,
     // 08 - CONDICIONES DE IVA
     AddEditCondicionIvaDialogComponent,
     CondicionIvaComponent,

@@ -15,19 +15,21 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 
 // * Components
-import { AddEditFormasPagoDialogComponent } from '../add-edit-formas-pago-dialog/add-edit-formas-pago-dialog.component';
+import { AddEditFormaPagoDialogComponent } from '../add-edit-forma-pago-dialog/add-edit-forma-pago-dialog.component';
 
 @Component({
-  selector: 'app-formas-pago-dashboard',
-  templateUrl: './formas-pago-dashboard.component.html',
-  styleUrls: ['./formas-pago-dashboard.component.scss'],
+  selector: 'app-forma-pago-dashboard',
+  templateUrl: './forma-pago-dashboard.component.html',
+  styleUrls: ['./forma-pago-dashboard.component.scss'],
 })
-export class FormasPagoDashboardComponent {
+export class FormaPagoDashboardComponent {
   @ViewChild(MatSort) sort: MatSort = new MatSort();
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator =
     new MatPaginator(new MatPaginatorIntl(), this.cdr);
   @ViewChild(MatTable) table!: MatTable<any>;
 
+  public searchValue: string = '';
+  public formasPago: IFormaPago[] = [];
   public displayedColumns: string[] = [
     'codigo',
     'forma_pago',
@@ -37,52 +39,50 @@ export class FormasPagoDashboardComponent {
     'codigo_tarjeta_de_baja',
     'actions',
   ];
-
   public dataSource: MatTableDataSource<IFormaPago>;
 
-  public searchValue: string = '';
-
-  public formasPago: IFormaPago[] = [];
-
   constructor(
-    private formasPagoService: FormaPagoService,
     private utils: UtilService,
     private _liveAnnouncer: LiveAnnouncer,
     private cdr: ChangeDetectorRef,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private formaPagoService: FormaPagoService
   ) {}
 
   ngOnInit(): void {
-    this.paginator._intl.itemsPerPageLabel = 'Elementos por página';
+    this.paginator._intl.itemsPerPageLabel = 'Elementos por página: ';
+    this.paginator._intl.nextPageLabel = 'Página siguiente.';
+    this.paginator._intl.previousPageLabel = 'Página anterior.';
+    this.paginator._intl.firstPageLabel = 'Primer página.';
+    this.paginator._intl.lastPageLabel = 'Ultima página.';
+    this.paginator._intl.getRangeLabel = (
+      page: number,
+      pageSize: number,
+      length: number
+    ): string => {
+      return length
+        ? 'Página ' + (page + 1) + ' de ' + Math.ceil(length / pageSize)
+        : 'Página 0 de 0';
+    };
   }
 
-  private getFormasPago(): void {
+  private getFormaPago(): void {
     this.utils.openLoading();
-    this.formasPagoService.getFormasPagoCRUD(this.searchValue).subscribe({
+    this.formaPagoService.CRUD(this.searchValue).subscribe({
       next: (res: any) => {
         res.dataset.length
           ? (this.formasPago = res.dataset as IFormaPago[])
           : (this.formasPago = [res.dataset]);
         this.dataSource = new MatTableDataSource<IFormaPago>(this.formasPago);
         this.dataSource.sort = this.sort;
-        setTimeout(() => {
-          this.dataSource.paginator = this.paginator;
-          this.paginator._intl.getRangeLabel = (): string => {
-            return (
-              'Página ' +
-              (this.paginator.pageIndex + 1) +
-              ' de ' +
-              this.paginator.length
-            );
-          };
-        }, 100);
+        this.dataSource.paginator = this.paginator;
       },
       error: (err: any) => {
         this.utils.closeLoading();
         err.status == 0
-          ? this.utils.notification('Error de conexión.', 'error')
+          ? this.utils.notification('Error de conexión. ', 'error')
           : this.utils.notification(
-              `Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`,
+              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}. `,
               'error'
             );
       },
@@ -102,7 +102,7 @@ export class FormasPagoDashboardComponent {
 
   public editFormaPago(formaPago: IFormaPago): void {
     const modalEditFormaPago = this.dialog.open(
-      AddEditFormasPagoDialogComponent,
+      AddEditFormaPagoDialogComponent,
       {
         data: {
           title: `EDITAR FORMA DE PAGO`,
@@ -125,19 +125,19 @@ export class FormasPagoDashboardComponent {
       next: (res) => {
         if (res) {
           this.utils.openLoading();
-          this.formasPagoService.getFormasPagoCRUD(res).subscribe({
+          this.formaPagoService.CRUD(res).subscribe({
             next: () => {
               this.utils.notification(
-                'La Forma de Pago se ha editado extiosamente',
+                'La forma de pago se ha editado extiosamente. ',
                 'success'
               );
             },
             error: (err: any) => {
               this.utils.closeLoading();
               err.status == 0
-                ? this.utils.notification('Error de conexión.', 'error')
+                ? this.utils.notification('Error de conexión. ', 'error')
                 : this.utils.notification(
-                    `Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`,
+                    `Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}. `,
                     'error'
                   );
               this.editFormaPago(res);
@@ -145,7 +145,7 @@ export class FormasPagoDashboardComponent {
             complete: () => {
               this.utils.closeLoading();
               setTimeout(() => {
-                this.getFormasPago();
+                this.getFormaPago();
               }, 300);
             },
           });
@@ -155,7 +155,7 @@ export class FormasPagoDashboardComponent {
   }
 
   public viewFormaPago(formaPago: IFormaPago): void {
-    this.dialog.open(AddEditFormasPagoDialogComponent, {
+    this.dialog.open(AddEditFormaPagoDialogComponent, {
       data: {
         title: `VER FORMA DE PAGO`,
         edit: false,
@@ -171,12 +171,11 @@ export class FormasPagoDashboardComponent {
         codigo_tarjeta_de_baja: formaPago.codigo_tarjeta_de_baja,
       },
     });
-    console.log(formaPago);
   }
 
   public filter(descripcion: string): void {
     this.searchValue = descripcion;
-    this.getFormasPago();
+    this.getFormaPago();
   }
 
   public getFormaPagoDescripcion(formaPago: string): string {

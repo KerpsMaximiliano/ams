@@ -11,22 +11,22 @@ import { IFormaPago } from 'src/app/core/models/formas-pago.interface';
 import { MatDialog } from '@angular/material/dialog';
 
 // * Components
-import { AddEditFormasPagoDialogComponent } from './components/add-edit-formas-pago-dialog/add-edit-formas-pago-dialog.component';
-import { FormasPagoDashboardComponent } from './components/formas-pago-dashboard/formas-pago-dashboard.component';
+import { AddEditFormaPagoDialogComponent } from './components/add-edit-forma-pago-dialog/add-edit-forma-pago-dialog.component';
+import { FormaPagoDashboardComponent } from './components/forma-pago-dashboard/forma-pago-dashboard.component';
 
 @Component({
-  selector: 'app-formas-pago',
-  templateUrl: './formas-pago.component.html',
-  styleUrls: ['./formas-pago.component.scss'],
+  selector: 'app-forma-pago',
+  templateUrl: './forma-pago.component.html',
+  styleUrls: ['./forma-pago.component.scss'],
 })
-export class FormasPagoComponent {
-  @ViewChild(FormasPagoDashboardComponent)
-  dashboard: FormasPagoDashboardComponent;
+export class FormaPagoComponent {
+  @ViewChild(FormaPagoDashboardComponent)
+  dashboard: FormaPagoDashboardComponent;
 
   constructor(
-    private formasPagoService: FormaPagoService,
     private utils: UtilService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private formaPagoService: FormaPagoService
   ) {}
 
   ngOnInit(): void {}
@@ -37,7 +37,7 @@ export class FormasPagoComponent {
 
   public nuevaFormaPago(formaPago?: IFormaPago): void {
     const modalNuevaFormaPago = this.dialog.open(
-      AddEditFormasPagoDialogComponent,
+      AddEditFormaPagoDialogComponent,
       {
         data: {
           title: `CREAR FORMA DE PAGO`,
@@ -60,19 +60,19 @@ export class FormasPagoComponent {
       next: (res) => {
         if (res) {
           this.utils.openLoading();
-          this.formasPagoService.getFormasPagoCRUD(res).subscribe({
+          this.formaPagoService.CRUD(res).subscribe({
             next: () => {
               this.utils.notification(
-                'La Forma de Pago se ha creado exitosamente.',
+                'La forma de pago se ha creado exitosamente. ',
                 'success'
               );
             },
             error: (err: any) => {
               this.utils.closeLoading();
               err.status == 0
-                ? this.utils.notification('Error de conexión.', 'error')
+                ? this.utils.notification('Error de conexión. ', 'error')
                 : this.utils.notification(
-                    `Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`,
+                    `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}. `,
                     'error'
                   );
               this.nuevaFormaPago(res);

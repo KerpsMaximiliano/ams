@@ -9,31 +9,32 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
+
+// * Material
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+
+// * Validations
 import {
   isAlphanumericWithSpaces,
   isNumeric,
 } from 'src/app/core/validators/character.validator';
 
-// * Material
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-
 // * Components
 import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
-  selector: 'app-add-edit-formas-pago-dialog',
-  templateUrl: './add-edit-formas-pago-dialog.component.html',
-  styleUrls: ['./add-edit-formas-pago-dialog.component.scss'],
+  selector: 'app-add-edit-forma-pago-dialog',
+  templateUrl: './add-edit-forma-pago-dialog.component.html',
+  styleUrls: ['./add-edit-forma-pago-dialog.component.scss'],
 })
-export class AddEditFormasPagoDialogComponent {
-  public formGroup: UntypedFormGroup;
-
+export class AddEditFormaPagoDialogComponent {
   banks: any[] = [
     {
       codigo: '',
       description: '',
     },
   ];
+  public formGroup: UntypedFormGroup;
 
   constructor(
     public dialogRef: MatDialogRef<ConfirmDialogComponent>,
@@ -205,9 +206,7 @@ export class AddEditFormasPagoDialogComponent {
           break;
         default:
           this.formaPagoService
-            .getFormasPagoCRUD(
-              JSON.stringify({ par_modo: 'B', description: '' })
-            )
+            .CRUD(JSON.stringify({ par_modo: 'B', description: '' }))
             .subscribe((res: any) => {
               for (let i = 0; i < res.dataset.length; i++) {
                 this.banks.push({
@@ -252,18 +251,15 @@ export class AddEditFormasPagoDialogComponent {
   }
 
   getErrorMessage(control: any): string {
-    // COMPLETAR
     if (control.errors?.['required']) {
       return `Campo requerido`;
     } else {
       if (control.errors?.['maxlength']) {
         return `No puede contener más de ${control.errors?.['maxlength'].requiredLength} caracteres`;
       }
-
       if (control.errors?.['minlength']) {
         return `Debe contener al menos ${control.errors?.['minlength'].requiredLength} caracteres`;
       }
-
       if (
         (control.errors?.['notAlphanumeric'] ||
           control.errors?.['notAlphanumericWithSpaces']) &&
