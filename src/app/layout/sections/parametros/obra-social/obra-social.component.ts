@@ -1,10 +1,18 @@
-import { MatDialog } from '@angular/material/dialog';
 import { Component, ViewChild } from '@angular/core';
+
+// * Services
 import { UtilService } from 'src/app/core/services/util.service';
+import { ObraSocialService } from 'src/app/core/services/obra-social.service';
+
+// * Interfaces
+import { IObraSocial } from 'src/app/core/models/obra-social.interface';
+
+// * Material
+import { MatDialog } from '@angular/material/dialog';
+
+// * Components
 import { AddEditObraSocialDialogComponent } from './components/add-edit-obra-social-dialog/add-edit-obra-social-dialog.component';
 import { ObraSocialDashboardComponent } from './components/obra-social-dashboard/obra-social-dashboard.component';
-import { IObraSocial } from 'src/app/core/models/obra-social.interface';
-import { ObraSocialService } from 'src/app/core/services/obra-social.service';
 
 @Component({
   selector: 'app-obra-social',
@@ -16,9 +24,9 @@ export class ObraSocialComponent {
   dashboard: ObraSocialDashboardComponent;
 
   constructor(
-    private obraSocialService: ObraSocialService,
     private utils: UtilService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private obraSocialService: ObraSocialService
   ) {}
 
   ngOnInit(): void {}
@@ -50,21 +58,20 @@ export class ObraSocialComponent {
     modalNuevoObraSocial.afterClosed().subscribe({
       next: (res) => {
         if (res) {
-          console.log(res);
           this.utils.openLoading();
           this.obraSocialService.CRUD(res).subscribe({
             next: () => {
               this.utils.notification(
-                'La Obra Social se ha creado exitosamente',
+                'La obra social se ha creado exitosamente. ',
                 'success'
               );
             },
             error: (err) => {
               this.utils.closeLoading();
               err.status == 0
-                ? this.utils.notification('Error de conexion', 'error')
+                ? this.utils.notification('Error de conexión. ', 'error')
                 : this.utils.notification(
-                    `Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`,
+                    `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
                     'error'
                   );
               this.nuevoObraSocial(res);

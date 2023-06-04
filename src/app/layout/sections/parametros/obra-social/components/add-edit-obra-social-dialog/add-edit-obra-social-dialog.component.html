@@ -1,129 +1,130 @@
 <div class="dialog-title">
-    <h2>{{data.title | uppercase}}</h2>
+  <h2> {{ data.title | uppercase }} </h2>
 </div>
 
 <div class="dialog-content">
+  <form class="form-datos" [formGroup]="formGroup" (ngSubmit)="confirm()">
+    <div class="seeker-fields-container">
+      <h3> CÓDIGO OBRA SOCIAL </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <input matInput formControlName="codigo" required minlength="1" maxlength="5" [readonly]="!data.edit">
+        <mat-error *ngIf="formGroup.get('codigo')?.invalid && formGroup.get('codigo')?.touched">
+          {{ getErrorMessage(formGroup.get('codigo')) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
 
-    <form class="form-datos" [formGroup]="formGroup" (ngSubmit)="confirm()">
+    <div class="seeker-fields-container">
+      <h3> OBRA SOCIAL </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <input matInput formControlName="descripcion" required minlength="3" maxlength="30" [readonly]="!data.edit">
+        <mat-error *ngIf="formGroup.get('descripcion')?.invalid && formGroup.get('descripcion')?.touched">
+          {{ getErrorMessage(formGroup.get('descripcion')) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
 
-      <div class="seeker-fields-container">
-        <h3>CÓDIGO OBRA SOCIAL</h3>
-        <mat-form-field class="seeker-form-field" appearance="outline">
-          <input matInput formControlName="codigo" required maxlength="5" minlength="1" [readonly]="!data.edit">
-          <mat-error *ngIf="formGroup.get('codigo')?.invalid && formGroup.get('codigo')?.touched">{{getErrorMessage(formGroup.get('codigo'))}}</mat-error>
-        </mat-form-field>
-      </div>
-      <div class="seeker-fields-container">
-        <h3>OBRA SOCIAL</h3>
-        <mat-form-field class="seeker-form-field" appearance="outline">
-          <input matInput formControlName="descripcion" required maxlength="30" minlength="3" [readonly]="!data.edit">
-          <mat-error *ngIf="formGroup.get('descripcion')?.invalid && formGroup.get('descripcion')?.touched">{{getErrorMessage(formGroup.get('descripcion'))}}</mat-error>
-        </mat-form-field>
-      </div>
-      <div class="seeker-fields-container">
-        <h3>PROPONE FECHA PATOLOGÍA</h3>
-        <mat-form-field class="seeker-form-field" required appearance="outline">
-          <mat-select formControlName="proponeFechaPatologia" (selectionChange)="changeProponeFechaPatologia()">
-            <mat-option [value]="'S'">
-              SI
-            </mat-option>
-            <mat-option [value]="'N'">
-              NO
-            </mat-option>
-          </mat-select>
-          <mat-error *ngIf="formGroup.get('proponeFechaPatologia')?.invalid && formGroup.get('proponeFechaPatologia')?.touched">{{getErrorMessage(formGroup.get('proponeFechaPatologia'))}}</mat-error>
-        </mat-form-field>
-      </div>
-      
-      <div class="seeker-fields-container" *ngIf="this.formGroup.get('proponeFechaPatologia')?.value == 'S'">
-        <h3>TIPO FECHA PATOLOGÍA</h3>
-        <mat-form-field class="seeker-form-field" appearance="outline" >
-          <mat-select formControlName="tipoFechaPatologia" [required]="formGroup.get('proponeFechaPatologia')?.value == 'S'">
-            <mat-option [value]="'FI'" [disabled]="formGroup.get('proponeFechaPatologia')?.value != 'S'">
-              FECHA DE INGRESO AL SERVICIO
-            </mat-option>
-            <mat-option [value]="'FS'" [disabled]="formGroup.get('proponeFechaPatologia')?.value != 'S'">
-              FECHA DE SUBSCRIPCIÓN
-            </mat-option>
-          </mat-select>
-          <mat-error *ngIf="formGroup.get('tipoFechaPatologia')?.invalid && formGroup.get('tipoFechaPatologia')?.touched">{{getErrorMessage(formGroup.get('tipoFechaPatologia'))}}</mat-error>
-        </mat-form-field>
-      </div>
-      
-      <div class="seeker-fields-container">
-        <h3>TIPO</h3>
-        <mat-form-field class="seeker-form-field" required appearance="outline">
-          <mat-select formControlName="tipo">
-            <mat-option [value]="'O'">
-              O.SOCIAL
-            </mat-option>
-            <mat-option [value]="'P'">
-              PREPAGA
-            </mat-option>
-            <mat-option [value]="'A'">
-              AMBAS
-            </mat-option>
-          </mat-select>
-          <mat-error *ngIf="formGroup.get('tipo')?.invalid && formGroup.get('tipo')?.touched">{{getErrorMessage(formGroup.get('tipo'))}}</mat-error>
-        </mat-form-field>
-      </div>
-      
-      <div class="seeker-fields-container">
-        <h3>NÚMERO REGISTRO NACIONAL</h3>
-        <mat-form-field class="seeker-form-field" appearance="outline">
-          <input matInput formControlName="numeroRegistroNacional" required maxlength="15" minlength="1" [readonly]="!data.edit">
-          <mat-error *ngIf="formGroup.get('numeroRegistroNacional')?.invalid && formGroup.get('numeroRegistroNacional')?.touched">{{getErrorMessage(formGroup.get('numeroRegistroNacional'))}}</mat-error>
-        </mat-form-field>
-      </div>
-      
-      <div class="seeker-fields-container">
-        <h3>SIMILAR SMP</h3>
-        <mat-form-field class="seeker-form-field" required appearance="outline">
-          <mat-select formControlName="similar_SMP">
-            <mat-option [value]="'S'">
-              SI
-            </mat-option>
-            <mat-option [value]="'N'">
-              NO
-            </mat-option>
-          </mat-select>
-          <mat-error *ngIf="formGroup.get('similar_SMP')?.invalid && formGroup.get('similar_SMP')?.touched">{{getErrorMessage(formGroup.get('similar_SMP'))}}</mat-error>
-        </mat-form-field>
-      </div>
-      
-      
-      <div class="seeker-fields-container">
-        <h3>OMITE RESOLUCIÓN 420</h3>
-        <mat-form-field class="seeker-form-field" required appearance="outline">
-          <mat-select formControlName="omite_R420">
-            <mat-option [value]="'S'">
-              SI
-            </mat-option>
-            <mat-option [value]="'N'">
-              NO
-            </mat-option>
-          </mat-select>
-          <mat-error *ngIf="formGroup.get('similar_SMP')?.invalid && formGroup.get('similar_SMP')?.touched">{{getErrorMessage(formGroup.get('similar_SMP'))}}</mat-error>
-        </mat-form-field>
-      </div>
+    <div class="seeker-fields-container">
+      <h3> PROPONE FECHA PATOLOGÍA </h3>
+      <mat-form-field class="seeker-form-field" required appearance="outline">
+        <mat-select formControlName="proponeFechaPatologia" (selectionChange)="changeProponeFechaPatologia()">
+          <mat-option [value]="'S'"> SI </mat-option>
+          <mat-option [value]="'N'"> NO </mat-option>
+        </mat-select>
+        <mat-error
+          *ngIf="formGroup.get('proponeFechaPatologia')?.invalid && formGroup.get('proponeFechaPatologia')?.touched">
+          {{ getErrorMessage(formGroup.get('proponeFechaPatologia')) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
 
-      <div *ngIf="data.edit; else other_content" class="buttons-container">
-        <button class="primary-button icon-button" type="button" (click)="closeDialog()">
-          <mat-icon>close</mat-icon>
-          Cancelar
-        </button>
-        <button class="primary-button icon-button" type="submit"  [disabled]="formGroup.invalid">
-          <mat-icon>done</mat-icon>
-          Guardar
-        </button>
-      </div>
+    <div class="seeker-fields-container" *ngIf="this.formGroup.get('proponeFechaPatologia')?.value == 'S'">
+      <h3> TIPO FECHA PATOLOGÍA </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <mat-select formControlName="tipoFechaPatologia"
+          [required]="formGroup.get('proponeFechaPatologia')?.value == 'S'">
+          <mat-option [value]="'FI'" [disabled]="formGroup.get('proponeFechaPatologia')?.value != 'S'">
+            FECHA DE INGRESO AL SERVICIO
+          </mat-option>
+          <mat-option [value]="'FS'" [disabled]="formGroup.get('proponeFechaPatologia')?.value != 'S'">
+            FECHA DE SUBSCRIPCIÓN
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="formGroup.get('tipoFechaPatologia')?.invalid && formGroup.get('tipoFechaPatologia')?.touched">
+          {{ getErrorMessage(formGroup.get('tipoFechaPatologia')) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
 
-      <ng-template #other_content>
-        <button class="primary-button icon-button" mat-dialog-close>
-          <mat-icon>done</mat-icon>
-          Aceptar
-        </button>
-      </ng-template>
-    </form>
+    <div class="seeker-fields-container">
+      <h3> TIPO </h3>
+      <mat-form-field class="seeker-form-field" required appearance="outline">
+        <mat-select formControlName="tipo">
+          <mat-option [value]="'O'"> O.SOCIAL </mat-option>
+          <mat-option [value]="'P'"> PREPAGA </mat-option>
+          <mat-option [value]="'A'"> AMBAS </mat-option>
+        </mat-select>
+        <mat-error *ngIf="formGroup.get('tipo')?.invalid && formGroup.get('tipo')?.touched">
+          {{ getErrorMessage(formGroup.get('tipo')) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
 
+    <div class="seeker-fields-container">
+      <h3> NÚMERO REGISTRO NACIONAL </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <input matInput formControlName="numeroRegistroNacional" required minlength="1" maxlength="15"
+          [readonly]="!data.edit">
+        <mat-error
+          *ngIf="formGroup.get('numeroRegistroNacional')?.invalid && formGroup.get('numeroRegistroNacional')?.touched">
+          {{ getErrorMessage(formGroup.get('numeroRegistroNacional')) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3> SIMILAR SMP </h3>
+      <mat-form-field class="seeker-form-field" required appearance="outline">
+        <mat-select formControlName="similar_SMP">
+          <mat-option [value]="'S'"> SI </mat-option>
+          <mat-option [value]="'N'"> NO </mat-option>
+        </mat-select>
+        <mat-error *ngIf="formGroup.get('similar_SMP')?.invalid && formGroup.get('similar_SMP')?.touched">
+          {{ getErrorMessage(formGroup.get('similar_SMP')) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+
+    <div class="seeker-fields-container">
+      <h3> OMITE RESOLUCIÓN 420 </h3>
+      <mat-form-field class="seeker-form-field" required appearance="outline">
+        <mat-select formControlName="omite_R420">
+          <mat-option [value]="'S'"> SI </mat-option>
+          <mat-option [value]="'N'"> NO </mat-option>
+        </mat-select>
+        <mat-error *ngIf="formGroup.get('similar_SMP')?.invalid && formGroup.get('similar_SMP')?.touched">
+          {{ getErrorMessage(formGroup.get('similar_SMP')) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div *ngIf="data.edit; else other_content" class="buttons-container">
+      <button class="primary-button icon-button" type="button" (click)="closeDialog()">
+        <mat-icon> close </mat-icon>
+        Cancelar
+      </button>
+      <button class="primary-button icon-button" type="submit" [disabled]="formGroup.invalid">
+        <mat-icon> done </mat-icon>
+        Guardar
+      </button>
+    </div>
+
+    <ng-template #other_content>
+      <button class="primary-button icon-button" mat-dialog-close>
+        <mat-icon> done </mat-icon>
+        Aceptar
+      </button>
+    </ng-template>
+  </form>
 </div>
