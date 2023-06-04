@@ -1,27 +1,35 @@
 import { Component, Inject } from '@angular/core';
+import { Observable } from 'rxjs';
+
+// * Services
+import { UtilService } from 'src/app/core/services/util.service';
+import { LocalidadService } from 'src/app/core/services/localidad.service';
+
+// * Forms
 import {
   UntypedFormControl,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
+
+// * Material
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { UtilService } from 'src/app/core/services/util.service';
+
+// * Validations
 import {
-  isAlphanumeric,
   isAlphanumericWithSpaces,
   isNumeric,
 } from 'src/app/core/validators/character.validator';
+
+// * Components
 import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
-import { LocalidadService } from 'src/app/core/services/localidad.service';
-import { map, Observable, startWith } from 'rxjs';
-import { formatNumber } from '@angular/common';
 
 @Component({
-  selector: 'app-edit-abm-localidades-dialog',
-  templateUrl: './edit-abm-localidades-dialog.component.html',
-  styleUrls: ['./edit-abm-localidades-dialog.component.scss'],
+  selector: 'app-edit-localidad-dialog',
+  templateUrl: './add-edit-localidad-dialog.component.html',
+  styleUrls: ['./add-edit-localidad-dialog.component.scss'],
 })
-export class EditAbmLocalidadesDialogComponent {
+export class AddEditLocalidadDialogComponent {
   paramDepto: [] | any;
   paramProv: [] | any;
   paramZonaP: [] | any;
@@ -31,7 +39,7 @@ export class EditAbmLocalidadesDialogComponent {
   deptoFiltrados: Observable<any[]>;
 
   constructor(
-    private LocalidadesService: LocalidadService,
+    private localidadService: LocalidadService,
     private utils: UtilService,
     public dialogRef: MatDialogRef<ConfirmDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
@@ -44,16 +52,16 @@ export class EditAbmLocalidadesDialogComponent {
       par_modo: 'C',
       nombre_provincia: '',
     };
-    await this.LocalidadesService.getProvincia(bodyprov).subscribe({
+    await this.localidadService.getProvincia(bodyprov).subscribe({
       next: (res) => {
         this.paramProv = res.dataset;
       },
       error: (err) => {
         console.log(err);
         err.status == 0
-          ? this.utils.notification('Error de conexion', 'error')
+          ? this.utils.notification('Error de conexión. ', 'error')
           : this.utils.notification(
-              `Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`,
+              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
               'error'
             );
       },
@@ -61,17 +69,16 @@ export class EditAbmLocalidadesDialogComponent {
     let bodyzonaP = {
       par_modo: 'P',
     };
-    this.LocalidadesService.getZona(bodyzonaP).subscribe({
+    this.localidadService.getZona(bodyzonaP).subscribe({
       next: (res) => {
         this.paramZonaP = res.dataset;
         console.log(this.paramZonaP);
       },
       error: (err) => {
-        console.log(err);
         err.status == 0
-          ? this.utils.notification('Error de conexion', 'error')
+          ? this.utils.notification('Error de conexión. ', 'error')
           : this.utils.notification(
-              `Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`,
+              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}. `,
               'error'
             );
       },
@@ -79,17 +86,15 @@ export class EditAbmLocalidadesDialogComponent {
     let bodyzonaE = {
       par_modo: 'E',
     };
-    this.LocalidadesService.getZona(bodyzonaE).subscribe({
+    this.localidadService.getZona(bodyzonaE).subscribe({
       next: (res) => {
         this.paramZonaE = res.dataset;
-        console.log(this.paramZonaE);
       },
       error: (err) => {
-        console.log(err);
         err.status == 0
-          ? this.utils.notification('Error de conexion', 'error')
+          ? this.utils.notification('Error de conexión. ', 'error')
           : this.utils.notification(
-              `Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`,
+              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
               'error'
             );
       },
@@ -102,7 +107,7 @@ export class EditAbmLocalidadesDialogComponent {
         {
           value: '',
           disabled:
-            this.data.codigo_postal && this.data.title === 'Editar Localidad',
+            this.data.codigo_postal && this.data.title === 'EDITAR LOCALIDAD',
         },
         Validators.compose([
           Validators.maxLength(7),
@@ -115,7 +120,7 @@ export class EditAbmLocalidadesDialogComponent {
         {
           value: '',
           disabled:
-            this.data.codigo_postal && this.data.title === 'Editar Localidad',
+            this.data.codigo_postal && this.data.title === 'EDITAR LOCALIDAD',
         },
         Validators.compose([
           Validators.required,
@@ -182,7 +187,6 @@ export class EditAbmLocalidadesDialogComponent {
           Validators.maxLength(10),
         ])
       ),
-      // codifica_altura: new UntypedFormControl({value: 'N', disabled: !this.data.edit},Validators.compose([Validators.required,Validators.minLength(1),Validators.maxLength(2)])),
       ingreso_ticket: new UntypedFormControl(
         { value: 'N', disabled: !this.data.edit },
         Validators.compose([
@@ -208,46 +212,20 @@ export class EditAbmLocalidadesDialogComponent {
       descripcion: '',
       letra_provincia: letra_provincia,
     };
-    this.LocalidadesService.getDepart(bodydep).subscribe({
+    this.localidadService.getDepart(bodydep).subscribe({
       next: (res) => {
         this.paramDepto = res.dataset;
-        console.log(this.paramDepto);
       },
       error: (err) => {
-        console.log(err);
         err.status == 0
-          ? this.utils.notification('Error de conexion', 'error')
+          ? this.utils.notification('Error de conexión. ', 'error')
           : this.utils.notification(
-              `Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`,
+              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje} .`,
               'error'
             );
       },
     });
   }
-  //   if (this.data.desc_depto){
-  //     this.deptoFiltrados = this.paramDepto.filter((filtro:any) => filtro = this.data.desc_depto)
-  //   }
-  //   this.deptoFiltrados = this.myControldepto.valueChanges.pipe(
-  //     startWith(''),
-  //     map(valueDep => {
-  //       const nameDepto = typeof valueDep === 'string' ? valueDep : valueDep?.descripcion;
-  //       return nameDepto ? this._filterDep(nameDepto as string) : this.paramDepto?.descripcion;
-  //     })
-  //     )
-  // }
-
-  // displayFnDep(depto: any): string {
-  //   return depto && depto.descripcion ? depto.descripcion : '';
-  // }
-
-  // private _filterDep(nameDepto: string): any[] {
-  //   const filterValueDepto = nameDepto.toLowerCase();
-  //   return this.paramDepto.filter((filtroDep:any) => filtroDep.descripcion.toLowerCase().includes(filterValueDepto));
-  // }
-
-  // dato(codigo: string) {
-  //   this.formGroup.get('codigo_departamento')?.setValue(codigo);
-  // }
 
   private setFormValues(): void {
     this.formGroup.get('codigo_postal')?.setValue(this.data.codigo_postal);

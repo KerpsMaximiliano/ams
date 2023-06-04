@@ -1,23 +1,23 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { FormControl, FormGroup, UntypedFormControl } from '@angular/forms';
 import { map, Observable, startWith } from 'rxjs';
-import { LocalidadService } from 'src/app/core/services/localidad.service';
+
+// * Services
 import { UtilService } from 'src/app/core/services/util.service';
-import {
-  isAlphanumeric,
-  isAlphanumericWithSpaces,
-  isNumeric,
-} from 'src/app/core/validators/character.validator';
+import { LocalidadService } from 'src/app/core/services/localidad.service';
+
+// * Forms
+import { FormControl, FormGroup, UntypedFormControl } from '@angular/forms';
 
 @Component({
-  selector: 'app-abm-localidades-filter',
-  templateUrl: './abm-localidades-filter.component.html',
-  styleUrls: ['./abm-localidades-filter.component.scss'],
+  selector: 'app-localidad-filter',
+  templateUrl: './localidad-filter.component.html',
+  styleUrls: ['./localidad-filter.component.scss'],
 })
-export class AbmLocalidadesFilterComponent {
+export class LocalidadFilterComponent {
+  @Output() searchEvent: EventEmitter<any> = new EventEmitter<any>();
+
   paramDepto: [] | any;
   paramProv: [] | any;
-  @Output() searchEvent: EventEmitter<any> = new EventEmitter<any>();
   searching = new FormGroup({
     codigo_postal: new FormControl(''),
     letra_provincia: new FormControl(''),
@@ -28,8 +28,9 @@ export class AbmLocalidadesFilterComponent {
   provinciaFiltrados: Observable<any[]>;
   myControldepto = new UntypedFormControl('');
   deptoFiltrados: Observable<any[]>;
+
   constructor(
-    private LocalidadesService: LocalidadService,
+    private localidadService: LocalidadService,
     private utils: UtilService
   ) {}
 
@@ -38,16 +39,15 @@ export class AbmLocalidadesFilterComponent {
       par_modo: 'C',
       nombre_provincia: '',
     };
-    this.LocalidadesService.getProvincia(bodyprov).subscribe({
+    this.localidadService.getProvincia(bodyprov).subscribe({
       next: (res) => {
         this.paramProv = res.dataset;
       },
       error: (err) => {
-        console.log(err);
         err.status == 0
-          ? this.utils.notification('Error de conexion', 'error')
+          ? this.utils.notification('Error de conexión. ', 'error')
           : this.utils.notification(
-              `Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`,
+              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
               'error'
             );
       },
@@ -82,24 +82,22 @@ export class AbmLocalidadesFilterComponent {
   }
 
   buscar(letra_provincia: string) {
-    this.searching.get('letra_provincia')?.setValue(letra_provincia),
-      console.log(letra_provincia);
+    this.searching.get('letra_provincia')?.setValue(letra_provincia);
     let bodydep = {
       par_modo: 'C',
       descripcion: '',
       letra_provincia: letra_provincia,
     };
     this.utils.openLoading();
-    this.LocalidadesService.getDepart(bodydep).subscribe({
+    this.localidadService.getDepart(bodydep).subscribe({
       next: (res) => {
         this.paramDepto = res.dataset;
       },
       error: (err) => {
-        console.log(err);
         err.status == 0
-          ? this.utils.notification('Error de conexion', 'error')
+          ? this.utils.notification('Error de conexión. ', 'error')
           : this.utils.notification(
-              `Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}`,
+              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
               'error'
             );
       },

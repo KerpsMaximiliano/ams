@@ -35,10 +35,10 @@ import { AddEditPosicionDialogComponent } from './posicion/add-edit-posicion-dia
 import { PosicionFilterComponent } from './posicion/posicion-filter/posicion-filter.component';
 import { PosicionDashboardComponent } from './posicion/posicion-dashboard/posicion-dashboard.component';
 // 06 - LOCALIDADES
-import { EditAbmLocalidadesDialogComponent } from './abm-localidades/components/abm-localidades-dialog/edit-abm-localidades-dialog.component';
-import { AbmLocalidadesComponent } from './abm-localidades/abm-localidades.component';
-import { AbmLocalidadesDashboardComponent } from './abm-localidades/components/abm-localidades-dashboard/abm-localidades-dashboard.component';
-import { AbmLocalidadesFilterComponent } from './abm-localidades/components/abm-localidades-filter/abm-localidades-filter.component';
+import { AddEditLocalidadDialogComponent } from './localidad/components/add-edit-localidad-dialog/add-edit-localidad-dialog.component';
+import { LocalidadComponent } from './localidad/localidad.component';
+import { LocalidadDashboardComponent } from './localidad/components/localidad-dashboard/localidad-dashboard.component';
+import { LocalidadFilterComponent } from './localidad/components/localidad-filter/localidad-filter.component';
 // 07 - FORMAS DE PAGO
 import { AddEditFormasPagoDialogComponent } from './formas-pago/components/add-edit-formas-pago-dialog/add-edit-formas-pago-dialog.component';
 import { FormasPagoComponent } from './formas-pago/formas-pago.component';
@@ -100,10 +100,10 @@ import { ModalLocalidadComponent } from './posicion/add-edit-posicion-dialog/mod
     PosicionFilterComponent,
     PosicionDashboardComponent,
     // 06 - LOCALIDADES
-    EditAbmLocalidadesDialogComponent,
-    AbmLocalidadesComponent,
-    AbmLocalidadesDashboardComponent,
-    AbmLocalidadesFilterComponent,
+    AddEditLocalidadDialogComponent,
+    LocalidadComponent,
+    LocalidadDashboardComponent,
+    LocalidadFilterComponent,
     // 07 - FORMAS DE PAGO
     AddEditFormasPagoDialogComponent,
     FormasPagoComponent,

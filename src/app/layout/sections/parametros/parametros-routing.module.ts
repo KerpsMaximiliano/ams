@@ -11,9 +11,9 @@ import { NacionalidadComponent } from './nacionalidad/nacionalidad.component';
 // 04 - DEPARTAMENTOS
 import { DepartamentoComponent } from './departamento/departamento.component';
 // 05 - POSICIONES
-import { AbmPosicionesComponent } from './abm-posiciones/abm-posiciones.component';
+import { PosicionComponent } from './posicion/posicion.component';
 // 06 - LOCALIDADES
-import { AbmLocalidadesComponent } from './abm-localidades/abm-localidades.component';
+import { LocalidadComponent } from './localidad/localidad.component';
 // 07 - FORMAS DE PAGO
 import { FormasPagoComponent } from './formas-pago/formas-pago.component';
 // 08 - CONDICIONES DE IVA
@@ -46,11 +46,11 @@ const routes: Routes = [
   },
   {
     path: 'parametros/posiciones',
-    component: AbmPosicionesComponent,
+    component: PosicionComponent,
   },
   {
     path: 'parametros/localidades',
-    component: AbmLocalidadesComponent,
+    component: LocalidadComponent,
   },
   {
     path: 'parametros/formas-pago',
