@@ -7,7 +7,7 @@
     <div class="seeker-fields-container">
       <h3> CÓDIGO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="codigo" required minlength="1" maxlength="1" [readonly]="!data.edit">
+        <input matInput formControlName="codigo" required minlength="1" maxlength="1">
         <mat-error *ngIf="formGroup.get('codigo')?.invalid && formGroup.get('codigo')?.touched">
           {{ getErrorMessage(formGroup.get('codigo')) }}
         </mat-error>
@@ -17,8 +17,7 @@
     <div class="seeker-fields-container">
       <h3> PROVINCIA </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="nombre_provincia" required minlength="3" maxlength="30"
-          [readonly]="!data.edit">
+        <input matInput formControlName="nombre_provincia" required minlength="3" maxlength="30">
         <mat-error *ngIf="formGroup.get('nombre_provincia')?.invalid && formGroup.get('nombre_provincia')?.touched">
           {{ getErrorMessage(formGroup.get('nombre_provincia')) }}
         </mat-error>
@@ -28,7 +27,7 @@
     <div class="seeker-fields-container">
       <h3> CÓDIGO ALTERNATIVO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="codigo_provincia" required minlength="1" maxlength="2" [readonly]="!data.edit">
+        <input matInput formControlName="codigo_provincia" required minlength="1" maxlength="2">
         <mat-error *ngIf="formGroup.get('codigo_provincia')?.invalid && formGroup.get('codigo_provincia')?.touched">
           {{ getErrorMessage(formGroup.get('codigo_provincia')) }}
         </mat-error>
@@ -48,8 +47,7 @@
     <div class="seeker-fields-container">
       <h3> PORCENTAJE DE FLETE A TRANSPORTISTA </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="flete_transportista" required minlength="1" maxlength="7" step="0.001"
-          [max]="999" [readonly]="!data.edit">
+        <input matInput formControlName="flete_transportista" maxlength="6" step="0.001" [max]="999">
         <mat-error
           *ngIf="formGroup.get('flete_transportista')?.invalid && formGroup.get('flete_transportista')?.touched">
           {{ getErrorMessage(formGroup.get('flete_transportista')) }}

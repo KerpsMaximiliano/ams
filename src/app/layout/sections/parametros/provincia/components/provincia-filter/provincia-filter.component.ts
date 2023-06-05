@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-provincia-filter',
@@ -8,22 +7,21 @@ import { FormControl } from '@angular/forms';
 })
 export class ProvinciaFilterComponent {
   @Output() searchEvent: EventEmitter<any> = new EventEmitter<any>();
-  nombre_provincia = new FormControl('');
 
   constructor() {}
 
   ngOnInit(): void {}
 
-  public search() {
-    this.searchEvent.emit(this.nombre_provincia.value);
+  public search(event: any, value: string): void {
+    event.preventDefault();
+    let body = {
+      par_modo: 'R',
+      nombre_provincia: value,
+    };
+    this.searchEvent.emit(body);
   }
 
-  public clearInputs() {
-    this.nombre_provincia.setValue('');
-  }
-
-  public searchKeyUp(e: any): void {
-    e.preventDefault();
-    this.searchEvent.emit(this.nombre_provincia.value);
+  public clear(inputElement: HTMLInputElement) {
+    inputElement.value = '';
   }
 }

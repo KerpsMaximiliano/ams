@@ -28,7 +28,7 @@ export class ProvinciaDashboardComponent {
     new MatPaginator(new MatPaginatorIntl(), this.cdr);
   @ViewChild(MatTable) table!: MatTable<any>;
 
-  public searchText: string;
+  public searchValue: string = '';
   public provincia: IProvincia[] = [];
   public displayedColumns: string[] = [
     'codigo',
@@ -67,11 +67,7 @@ export class ProvinciaDashboardComponent {
 
   private getProvincia(): void {
     this.utils.openLoading();
-    let body = JSON.stringify({
-      par_modo: 'C',
-      nombre_provincia: this.searchText,
-    });
-    this.provinciaService.CRUD(body).subscribe({
+    this.provinciaService.CRUD(this.searchValue).subscribe({
       next: (res: any) => {
         this.provincia = res.dataset as IProvincia[];
         this.dataSource = new MatTableDataSource<IProvincia>(this.provincia);
@@ -140,7 +136,7 @@ export class ProvinciaDashboardComponent {
               this.editProvincia(res);
             },
             complete: () => {
-              this.searchText = res.nombre_provincia.trim();
+              this.searchValue = res.nombre_provincia.trim();
               this.utils.closeLoading();
               setTimeout(() => {
                 this.getProvincia();
@@ -157,7 +153,7 @@ export class ProvinciaDashboardComponent {
       data: {
         title: `VER PROVINCIA`,
         edit: false,
-        id_tabla: 9,
+        par_modo: 'R',
         codigo: provincia?.codigo,
         nombre_provincia: provincia?.nombre_provincia,
         codifica_altura: provincia?.codifica_altura,
@@ -168,7 +164,7 @@ export class ProvinciaDashboardComponent {
   }
 
   public filter(data: string): void {
-    this.searchText = data;
+    this.searchValue = data;
     this.getProvincia();
   }
 }

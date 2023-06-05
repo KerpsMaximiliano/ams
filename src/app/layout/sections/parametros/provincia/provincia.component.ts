@@ -42,7 +42,7 @@ export class ProvinciaComponent {
         data: {
           title: `CREAR PROVINCIA`,
           edit: true,
-          par_modo: 'I',
+          par_modo: 'C',
           codigo: provincia?.codigo,
           nombre_provincia: provincia?.nombre_provincia,
           codifica_altura: provincia?.codifica_altura,
@@ -59,7 +59,7 @@ export class ProvinciaComponent {
           this.provinciaService.CRUD(res).subscribe({
             next: () => {
               this.utils.notification(
-                'La Provincia se ha creado exitosamente. ',
+                'La provincia se ha creado exitosamente. ',
                 'success'
               );
             },

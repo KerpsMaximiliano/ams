@@ -34,22 +34,35 @@ export class AddEditProvinciaDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
+  /**
+   * 1. 'this.setUpForm();': Asigna las validaciones correspondientes a cada campo de entrada/selección.
+   * 2. Condición: comprueba que sea una actualización (modificación) o lectura.
+   * 3. 'this.setFormValues();': Asigna los valores de 'data' a los campos de entrada/selección del formulario.
+   * 4. Condición: comprueba si la edición esta deshabilitada.
+   *     > Deshabilidada: deshabilita el formulario.
+   *     > Habilitada: deshabilita el 'codigo'.
+   */
   ngOnInit(): void {
     this.setUpForm();
-    if (this.data.codigo) this.setFormValues();
+    if (this.data.par_modo === 'U' || this.data.par_modo === 'R') {
+      this.setFormValues();
+      if (this.data.edit === false) {
+        this.formGroup.disable();
+      } else {
+        this.formGroup.get('codigo')?.disable();
+      }
+    }
   }
 
   private setUpForm(): void {
     this.formGroup = new UntypedFormGroup({
       codigo: new UntypedFormControl(
-        {
-          value: '',
-          disabled: this.data.codigo && this.data.title === 'Editar Provincia',
-        },
+        '',
         Validators.compose([
-          Validators.maxLength(1),
+          Validators.required,
           Validators.minLength(1),
-          isAlphanumeric(),
+          Validators.maxLength(1),
+          isAlphanumeric(), // Remplazar por alfabetico.
         ])
       ),
       nombre_provincia: new UntypedFormControl(
@@ -62,24 +75,25 @@ export class AddEditProvinciaDialogComponent {
         ])
       ),
       codifica_altura: new UntypedFormControl(
-        { value: 'N', disabled: !this.data.edit },
+        'N',
         Validators.compose([
           Validators.required,
           Validators.minLength(1),
-          Validators.maxLength(2),
+          Validators.maxLength(1),
+          // Validación: Alfabetico.
         ])
       ),
       codigo_provincia: new UntypedFormControl(
-        '',
+        '', // Verificar
         Validators.compose([
+          Validators.minLength(1),
           Validators.maxLength(2),
-          Validators.minLength(2),
-          isNumeric(),
+          isNumeric(), // Verificar.
         ])
       ),
       flete_transportista: new UntypedFormControl(
-        null,
-        Validators.compose([isPercentage()])
+        '', // Verificar
+        Validators.compose([Validators.maxLength(6), isPercentage()]) // Verificar isPercentage().
       ),
     });
   }
@@ -89,7 +103,9 @@ export class AddEditProvinciaDialogComponent {
     this.formGroup
       .get('nombre_provincia')
       ?.setValue(this.data.nombre_provincia);
-    this.formGroup.get('codifica_altura')?.setValue(this.data.codifica_altura);
+    this.formGroup.patchValue({
+      codifica_altura: this.data.codifica_altura,
+    });
     this.formGroup
       .get('codigo_provincia')
       ?.setValue(this.data.codigo_provincia);
@@ -110,10 +126,8 @@ export class AddEditProvinciaDialogComponent {
         codigo: this.formGroup.get('codigo')?.value,
         nombre_provincia: this.formGroup.get('nombre_provincia')?.value,
         codifica_altura: this.formGroup.get('codifica_altura')?.value,
-        codigo_provincia: Number(this.formGroup.get('codigo_provincia')?.value),
-        flete_transportista: Number(
-          this.formGroup.get('flete_transportista')?.value
-        ),
+        codigo_provincia: this.formGroup.get('codigo_provincia')?.value,
+        flete_transportista: this.formGroup.get('flete_transportista')?.value,
       });
     }
   }
