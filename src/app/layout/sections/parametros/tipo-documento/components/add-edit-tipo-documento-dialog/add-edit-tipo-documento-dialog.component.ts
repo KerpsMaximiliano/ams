@@ -32,14 +32,29 @@ export class AddEditTipoDocumentoDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
+  /**
+   * 1. 'this.setUpForm();': Asigna las validaciones correspondientes a cada campo de entrada/selección.
+   * 2. Condición: comprueba que sea una actualización (modificación) o lectura.
+   * 3. 'this.setFormValues();': Asigna los valores de 'data' a los campos de entrada/selección del formulario.
+   * 4. Condición: comprueba si la edición esta deshabilitada.
+   *     > Deshabilidada: deshabilita el formulario.
+   *     > Habilitada: deshabilita el 'tipo_de_documento'.
+   */
   ngOnInit(): void {
     this.setUpForm();
-    if (this.data.id) this.setFormValues();
+    if (this.data.par_modo === 'U' || this.data.par_modo === 'R') {
+      this.setFormValues();
+      if (this.data.edit === false) {
+        this.formGroup.disable();
+      } else {
+        this.formGroup.get('tipo_de_documento')?.disable();
+      }
+    }
   }
 
   private setUpForm(): void {
     this.formGroup = new UntypedFormGroup({
-      id: new UntypedFormControl(
+      tipo_de_documento: new UntypedFormControl(
         '',
         Validators.compose([
           Validators.required,
@@ -48,7 +63,7 @@ export class AddEditTipoDocumentoDialogComponent {
           isNumeric,
         ])
       ),
-      tipo: new UntypedFormControl(
+      descripcion: new UntypedFormControl(
         '',
         Validators.compose([
           Validators.required,
@@ -57,7 +72,7 @@ export class AddEditTipoDocumentoDialogComponent {
           isAlphanumericWithSpaces(),
         ])
       ),
-      abreviatura: new UntypedFormControl(
+      descripcion_reducida: new UntypedFormControl(
         '',
         Validators.compose([
           Validators.required,
@@ -66,24 +81,24 @@ export class AddEditTipoDocumentoDialogComponent {
           isAlphanumericWithSpaces(),
         ])
       ),
-      cuit: new UntypedFormControl(
-        { value: 'N', disabled: !this.data.edit },
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(1),
-          Validators.maxLength(2),
-        ])
+      control_cuit: new UntypedFormControl(
+        'N',
+        Validators.compose([Validators.minLength(1), Validators.maxLength(1)])
       ),
     });
   }
 
   private setFormValues(): void {
-    this.formGroup.get('id')?.setValue(this.data.id == 99 ? '' : this.data.id);
-    this.formGroup.get('tipo')?.setValue(this.data.tipo);
-    this.formGroup.get('abreviatura')?.setValue(this.data.abreviatura);
-    this.data.cuit
-      ? this.formGroup.get('cuit')?.setValue(this.data.cuit)
-      : this.formGroup.get('cuit')?.setValue('N');
+    this.formGroup
+      .get('tipo_de_documento')
+      ?.setValue(this.data.tipo_de_documento);
+    this.formGroup.get('descripcion')?.setValue(this.data.descripcion);
+    this.formGroup
+      .get('descripcion_reducida')
+      ?.setValue(this.data.descripcion_reducida);
+    this.formGroup.patchValue({
+      control_cuit: this.data.control_cuit,
+    });
   }
 
   closeDialog(): void {
@@ -93,23 +108,13 @@ export class AddEditTipoDocumentoDialogComponent {
   public confirm(): void {
     this.formGroup.markAllAsTouched();
     if (this.formGroup.valid) {
-      this.data.id != 99
-        ? this.dialogRef.close({
-            par_modo: 'U',
-            id: this.data.id,
-            descripcion: this.formGroup.get('tipo')?.value,
-            descripcion_reducida: this.formGroup.get('abreviatura')?.value,
-            control_cuit: this.formGroup.get('cuit')?.value,
-            tipo_de_documento: this.data.tipo_documento,
-          })
-        : this.dialogRef.close({
-            par_modo: 'I',
-            id: this.data.id,
-            descripcion: this.formGroup.get('tipo')?.value,
-            descripcion_reducida: this.formGroup.get('abreviatura')?.value,
-            control_cuit: this.formGroup.get('cuit')?.value,
-            tipo_de_documento: 3,
-          });
+      this.dialogRef.close({
+        par_modo: this.data.par_modo,
+        tipo_de_documento: this.data.tipo_de_documento,
+        descripcion: this.formGroup.get('descripcion')?.value,
+        descripcion_reducida: this.formGroup.get('descripcion_reducida')?.value,
+        control_cuit: this.formGroup.get('control_cuit')?.value,
+      });
     }
   }
 

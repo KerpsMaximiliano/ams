@@ -15,7 +15,7 @@ export class TipoDocumentoFilterComponent {
   public search(event: any, value: string): void {
     event.preventDefault();
     let body = {
-      id: '',
+      par_modo: 'R',
       descripcion: value,
     };
     this.searchEvent.emit(body);

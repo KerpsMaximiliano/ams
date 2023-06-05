@@ -42,7 +42,7 @@ export class TipoDocumentoComponent {
         data: {
           title: `CREAR TIPO DE DOCUMENTO`,
           edit: true,
-          id: 99,
+          par_modo: 'C',
           tipo: tipoDocumento?.descripcion,
           abreviatura: tipoDocumento?.descripcion_reducida,
           cuit: tipoDocumento?.control_cuit,
@@ -54,10 +54,8 @@ export class TipoDocumentoComponent {
     modalNuevoTipoDocumento.afterClosed().subscribe({
       next: (res) => {
         if (res) {
-          let body = res;
-          delete body['id'];
           this.utils.openLoading();
-          this.tipoDocumentoService.CRUD(body).subscribe({
+          this.tipoDocumentoService.CRUD(res).subscribe({
             next: () => {
               this.utils.notification(
                 'El Documento se ha creado exitosamente. ',
@@ -77,7 +75,7 @@ export class TipoDocumentoComponent {
             complete: () => {
               this.utils.closeLoading();
               setTimeout(() => {
-                this.handleSearch('');
+                this.handleSearch(res.descripcion.trim());
               }, 300);
             },
           });

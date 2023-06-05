@@ -29,24 +29,23 @@ export class TipoDocumentoDashboardComponent implements OnInit {
 
   @ViewChild(MatTable) table!: MatTable<any>;
 
-  public searchEvent: string = '';
-  public searchId: number = 0; // VERIFICAR.
+  public searchValue: string = '';
   public documents: ITipoDocumento[] = [];
   public displayedColumns: string[] = [
-    'id',
-    'tipo-documento',
-    'abreviatura',
-    'control-cuit',
+    'tipo_de_documento',
+    'descripcion',
+    'descripcion_reducida',
+    'control_cuit',
     'actions',
   ];
   public dataSource: MatTableDataSource<ITipoDocumento>;
 
   constructor(
-    private tipoDocumentoService: TipoDocumentoService,
     private utils: UtilService,
     private _liveAnnouncer: LiveAnnouncer,
     private cdr: ChangeDetectorRef,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private tipoDocumentoService: TipoDocumentoService
   ) {}
 
   ngOnInit(): void {
@@ -68,13 +67,7 @@ export class TipoDocumentoDashboardComponent implements OnInit {
 
   private getTipoDocumento(): void {
     this.utils.openLoading();
-    let aux = {
-      par_modo: 'C',
-      descripcion: this.searchEvent,
-      id: this.searchId,
-    };
-    let body = JSON.stringify(aux);
-    this.tipoDocumentoService.CRUD(body).subscribe({
+    this.tipoDocumentoService.CRUD(this.searchValue).subscribe({
       next: (res: any) => {
         this.documents = res.dataset as ITipoDocumento[];
         this.dataSource = new MatTableDataSource<ITipoDocumento>(
@@ -113,11 +106,11 @@ export class TipoDocumentoDashboardComponent implements OnInit {
         data: {
           title: `EDITAR COUMENTO`,
           edit: true,
-          id: tipoDocumento.tipo_de_documento,
-          tipo: tipoDocumento.descripcion,
-          abreviatura: tipoDocumento.descripcion_reducida,
-          cuit: tipoDocumento.control_cuit,
-          tipo_documento: tipoDocumento.tipo_de_documento,
+          par_modo: 'U',
+          tipo_de_documento: tipoDocumento.tipo_de_documento,
+          descripcion: tipoDocumento.descripcion,
+          descripcion_reducida: tipoDocumento.descripcion_reducida,
+          control_cuit: tipoDocumento.control_cuit,
         },
       }
     );
@@ -160,17 +153,17 @@ export class TipoDocumentoDashboardComponent implements OnInit {
       data: {
         title: `VER DOCUMENTO`,
         edit: false,
-        id: tipoDocumento.id,
-        tipo: tipoDocumento.descripcion,
-        abreviatura: tipoDocumento.descripcion_reducida,
-        cuit: tipoDocumento.control_cuit,
+        par_modo: 'R',
+        tipo_de_documento: tipoDocumento.tipo_de_documento,
+        descripcion: tipoDocumento.descripcion,
+        descripcion_reducida: tipoDocumento.descripcion_reducida,
+        control_cuit: tipoDocumento.control_cuit,
       },
     });
   }
 
-  public filter(buscar: any): void {
-    this.searchId = buscar.id;
-    this.searchEvent = buscar.descripcion;
+  public filter(data: string): void {
+    this.searchValue = data;
     this.getTipoDocumento();
   }
 }
