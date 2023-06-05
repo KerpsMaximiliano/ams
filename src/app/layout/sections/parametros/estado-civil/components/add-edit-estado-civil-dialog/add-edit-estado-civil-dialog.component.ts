@@ -14,6 +14,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {
   isAlphanumericWithSpaces,
   isAlphanumeric,
+  getErrorMessage,
 } from 'src/app/core/validators/character.validator';
 
 // * Components
@@ -26,6 +27,7 @@ import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confi
 })
 export class AddEditEstadoCivilDialogComponent {
   public formGroup: UntypedFormGroup;
+  public getErrorMessage = getErrorMessage;
 
   constructor(
     public dialogRef: MatDialogRef<ConfirmDialogComponent>,
@@ -70,7 +72,7 @@ export class AddEditEstadoCivilDialogComponent {
     this.formGroup.get('description')?.setValue(this.data.description);
   }
 
-  closeDialog(): void {
+  public closeDialog(): void {
     this.dialogRef.close(false);
   }
 
@@ -83,29 +85,5 @@ export class AddEditEstadoCivilDialogComponent {
         description: this.formGroup.get('description')?.value,
       });
     }
-  }
-
-  getErrorMessage(control: any): string {
-    if (control.errors?.['required']) {
-      return `Campo requerido.`;
-    } else {
-      if (
-        (control.errors?.['notAlphanumeric'] ||
-          control.errors?.['notAlphanumericWithSpaces']) &&
-        control.value != '' &&
-        control.value != null
-      ) {
-        return `Solo se aceptan letras y números.`;
-      }
-
-      if (control.errors?.['maxlength']) {
-        return `No puede contener más de ${control.errors?.['maxlength'].requiredLength} caracteres.`;
-      }
-
-      if (control.errors?.['minlength']) {
-        return `Debe contener al menos ${control.errors?.['minlength'].requiredLength} caracteres.`;
-      }
-    }
-    return '';
   }
 }

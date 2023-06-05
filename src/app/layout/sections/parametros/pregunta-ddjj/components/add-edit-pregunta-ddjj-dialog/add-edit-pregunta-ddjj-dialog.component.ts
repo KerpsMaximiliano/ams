@@ -7,8 +7,11 @@ import {
   Validators,
 } from '@angular/forms';
 import {
+  isAlphanumericWithPointAndSpaces,
   isNumeric,
+  notOnlySpaces,
   notZeroValidator,
+  getErrorMessage,
 } from 'src/app/core/validators/character.validator';
 
 // * Material
@@ -24,6 +27,7 @@ import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confi
 })
 export class AddEditPreguntaDDJJDialogComponent {
   public formGroup: UntypedFormGroup;
+  public getErrorMessage = getErrorMessage;
 
   constructor(
     public dialogRef: MatDialogRef<ConfirmDialogComponent>,
@@ -53,7 +57,15 @@ export class AddEditPreguntaDDJJDialogComponent {
         Validators.compose([Validators.required])
       ),
 
-      nro_preg: new UntypedFormControl(''),
+      nro_preg: new UntypedFormControl(
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(2),
+          isNumeric(),
+        ])
+      ),
 
       cantidad_lineas_resp: new UntypedFormControl(
         '',
@@ -61,8 +73,8 @@ export class AddEditPreguntaDDJJDialogComponent {
           Validators.required,
           Validators.minLength(1),
           Validators.maxLength(1),
-          notZeroValidator(),
           isNumeric(),
+          notZeroValidator(),
         ])
       ),
 
@@ -72,7 +84,11 @@ export class AddEditPreguntaDDJJDialogComponent {
       ),
       yes_no: new UntypedFormControl(
         '',
-        Validators.compose([Validators.required])
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(1),
+        ])
       ),
 
       primer_texto_preg: new UntypedFormControl(
@@ -81,12 +97,18 @@ export class AddEditPreguntaDDJJDialogComponent {
           Validators.required,
           Validators.minLength(1),
           Validators.maxLength(50),
+          isAlphanumericWithPointAndSpaces(),
+          notOnlySpaces(),
         ])
       ),
 
       segundo_texto_preg: new UntypedFormControl(
         '',
-        Validators.compose([Validators.maxLength(50)])
+        Validators.compose([
+          Validators.maxLength(50),
+          isAlphanumericWithPointAndSpaces(),
+          notOnlySpaces(),
+        ])
       ),
     });
   }
@@ -136,7 +158,7 @@ export class AddEditPreguntaDDJJDialogComponent {
     }
   }
 
-  closeDialog(): void {
+  public closeDialog(): void {
     this.dialogRef.close(false);
   }
 
@@ -154,28 +176,5 @@ export class AddEditPreguntaDDJJDialogComponent {
         segundo_texto_preg: this.formGroup.get('segundo_texto_preg')?.value,
       });
     }
-  }
-
-  getErrorMessage(control: any): string {
-    if (control.errors?.['required']) {
-      return `Campo requerido`;
-    } else {
-      if (control.errors?.['maxlength']) {
-        return `No puede contener más de ${control.errors?.['maxlength'].requiredLength} caracteres`;
-      }
-      if (control.errors?.['minlength']) {
-        return `Debe contener al menos ${control.errors?.['minlength'].requiredLength} caracteres`;
-      }
-      if (control.errors?.['notOnlySpacesValidator']) {
-        return `No puede contener solo espacios`;
-      }
-      if (control.errors?.['notNumeric']) {
-        return `Solo puede contener numeros.`;
-      }
-      if (control.errors?.['notZero']) {
-        return `No puede ser cero.`;
-      }
-    }
-    return '';
   }
 }

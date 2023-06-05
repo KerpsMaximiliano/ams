@@ -14,6 +14,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {
   isAlphanumericWithSpaces,
   isNumeric,
+  getErrorMessage,
 } from 'src/app/core/validators/character.validator';
 
 // * Componentes
@@ -26,6 +27,7 @@ import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confi
 })
 export class AddEditCondicionIvaDialogComponent {
   public formGroup: UntypedFormGroup;
+  public getErrorMessage = getErrorMessage;
 
   constructor(
     public dialogRef: MatDialogRef<ConfirmDialogComponent>,
@@ -41,6 +43,7 @@ export class AddEditCondicionIvaDialogComponent {
       this.formGroup.disable();
     }
   }
+
   private setUpForm(): void {
     this.formGroup = new UntypedFormGroup({
       codigo_de_IVA: new UntypedFormControl(
@@ -61,7 +64,6 @@ export class AddEditCondicionIvaDialogComponent {
           isAlphanumericWithSpaces(),
         ])
       ),
-
       descripcion_reducida: new UntypedFormControl(
         '',
         Validators.compose([
@@ -101,7 +103,7 @@ export class AddEditCondicionIvaDialogComponent {
     }
   }
 
-  closeDialog(): void {
+  public closeDialog(): void {
     this.dialogRef.close(false);
   }
 
@@ -116,32 +118,5 @@ export class AddEditCondicionIvaDialogComponent {
         formulario_AB: this.formGroup.get('formulario_AB')?.value,
       });
     }
-  }
-
-  getErrorMessage(control: any): string {
-    if (control.errors?.['required']) {
-      return `Campo requerido`;
-    } else {
-      if (control.errors?.['maxlength']) {
-        return `No puede contener más de ${control.errors?.['maxlength'].requiredLength} caracteres.`;
-      }
-
-      if (control.errors?.['minlength']) {
-        return `Debe contener al menos ${control.errors?.['minlength'].requiredLength} caracteres.`;
-      }
-
-      if (control.errors?.['notNumeric']) {
-        return `Solo debe contener numeros.`;
-      }
-
-      if (
-        control.errors?.['notAlphanumericWithSpaces'] &&
-        control.value != '' &&
-        control.value != null
-      ) {
-        return `No puede contener caracteres especiales.`;
-      }
-    }
-    return '';
   }
 }

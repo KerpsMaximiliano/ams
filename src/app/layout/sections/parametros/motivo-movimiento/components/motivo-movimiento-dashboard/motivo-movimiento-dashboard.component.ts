@@ -171,7 +171,7 @@ export class MotivoMovimientoDashboardComponent {
     });
   }
 
-  calcularValor(valor: string): string {
+  public calcularValor(valor: string): string {
     switch (valor) {
       case 'B':
         return 'B-BAJA';
@@ -186,7 +186,7 @@ export class MotivoMovimientoDashboardComponent {
     }
   }
 
-  calcularFecha(fecha: number) {
+  public calcularFecha(fecha: number) {
     const newFecha = fecha.toString();
     if (fecha != null) {
       return (

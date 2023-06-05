@@ -15,6 +15,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {
   isAlphanumericWithSpaces,
   isNumeric,
+  getErrorMessage,
 } from 'src/app/core/validators/character.validator';
 
 // * Components
@@ -31,6 +32,7 @@ export class AddEditMotivoMovimientoDialogComponent {
   fecha_hoy: string | undefined;
   fecha_fin: number = 0; // si se da de baja, se cambia el valor con el metodo 'darseBaja()'
   public formGroup: UntypedFormGroup;
+  public getErrorMessage = getErrorMessage;
 
   constructor(
     public datePipe: DatePipe,
@@ -60,7 +62,7 @@ export class AddEditMotivoMovimientoDialogComponent {
     }
   }
 
-  calcularFecha(fecha: number) {
+  public calcularFecha(fecha: number) {
     const newFecha = fecha.toString();
     if (fecha != null) {
       const dateFecha = new Date(
@@ -83,7 +85,7 @@ export class AddEditMotivoMovimientoDialogComponent {
     }
   }
 
-  darseBaja() {
+  public darseBaja() {
     this.fecha_fin = Number(this.datePipe.transform(new Date(), 'yyyyMMdd'));
   }
 
@@ -154,7 +156,7 @@ export class AddEditMotivoMovimientoDialogComponent {
     }
   }
 
-  closeDialog(): void {
+  public closeDialog(): void {
     this.dialogRef.close(false);
   }
 
@@ -175,32 +177,5 @@ export class AddEditMotivoMovimientoDialogComponent {
         fecha_fin_vigencia: this.fecha_fin !== undefined ? this.fecha_fin : 0,
       });
     }
-  }
-
-  getErrorMessage(control: any): string {
-    if (control.errors?.['required']) {
-      return `Campo requerido.`;
-    } else {
-      if (control.errors?.['maxlength']) {
-        return `No puede contener más de ${control.errors?.['maxlength'].requiredLength} caracteres.`;
-      }
-
-      if (control.errors?.['minlength']) {
-        return `Debe contener al menos ${control.errors?.['minlength'].requiredLength} caracteres.`;
-      }
-
-      if (control.errors?.['notNumeric']) {
-        return `Solo debe contener numeros.`;
-      }
-
-      if (
-        control.errors?.['isAlphanumericWithSpaces'] &&
-        control.value != '' &&
-        control.value != null
-      ) {
-        return `No puede contener caracteres especiales.`;
-      }
-    }
-    return '';
   }
 }

@@ -1,11 +1,11 @@
-<div class="dialog-title">
+<div class="dialog-title" [tabIndex]="0">
   <h2> {{ data.title | uppercase }} </h2>
 </div>
 
 <div class="dialog-content">
   <form class="form-datos" [formGroup]="formGroup" (ngSubmit)="confirm()">
     <div class="seeker-fields-container">
-      <h3> CÓDIGO OBRA SOCIAL </h3>
+      <h3> CÓDIGO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
         <input matInput formControlName="codigo" required minlength="1" maxlength="5" [readonly]="!data.edit">
         <mat-error *ngIf="formGroup.get('codigo')?.invalid && formGroup.get('codigo')?.touched">

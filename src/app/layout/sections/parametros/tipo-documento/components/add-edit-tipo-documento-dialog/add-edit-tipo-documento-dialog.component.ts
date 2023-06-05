@@ -14,6 +14,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {
   isAlphanumericWithSpaces,
   isNumeric,
+  notOnlySpaces,
+  getErrorMessage,
 } from 'src/app/core/validators/character.validator';
 
 // * Components
@@ -26,6 +28,7 @@ import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confi
 })
 export class AddEditTipoDocumentoDialogComponent {
   public formGroup: UntypedFormGroup;
+  public getErrorMessage = getErrorMessage;
 
   constructor(
     public dialogRef: MatDialogRef<ConfirmDialogComponent>,
@@ -70,6 +73,7 @@ export class AddEditTipoDocumentoDialogComponent {
           Validators.minLength(3),
           Validators.maxLength(20),
           isAlphanumericWithSpaces(),
+          notOnlySpaces(),
         ])
       ),
       descripcion_reducida: new UntypedFormControl(
@@ -79,11 +83,16 @@ export class AddEditTipoDocumentoDialogComponent {
           Validators.minLength(1),
           Validators.maxLength(3),
           isAlphanumericWithSpaces(),
+          notOnlySpaces(),
         ])
       ),
       control_cuit: new UntypedFormControl(
         'N',
-        Validators.compose([Validators.minLength(1), Validators.maxLength(1)])
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(1),
+        ])
       ),
     });
   }
@@ -116,29 +125,5 @@ export class AddEditTipoDocumentoDialogComponent {
         control_cuit: this.formGroup.get('control_cuit')?.value,
       });
     }
-  }
-
-  getErrorMessage(control: any): string {
-    if (control.errors?.['required']) {
-      return `Campo requerido`;
-    } else {
-      if (control.errors?.['maxlength']) {
-        return `No puede contener más de ${control.errors?.['maxlength'].requiredLength} caracteres`;
-      }
-
-      if (control.errors?.['minlength']) {
-        return `Debe contener al menos ${control.errors?.['minlength'].requiredLength} caracteres`;
-      }
-
-      if (
-        (control.errors?.['notAlphanumeric'] ||
-          control.errors?.['notAlphanumericWithSpaces']) &&
-        control.value != '' &&
-        control.value != null
-      ) {
-        return `No puede contener caracteres especiales`;
-      }
-    }
-    return '';
   }
 }

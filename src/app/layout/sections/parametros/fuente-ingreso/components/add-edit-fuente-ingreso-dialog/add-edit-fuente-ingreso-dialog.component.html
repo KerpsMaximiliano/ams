@@ -1,5 +1,5 @@
-<div class="dialog-title">
-  <h2> {{ data.title | uppercase}} </h2>
+<div class="dialog-title" [tabIndex]="0">
+  <h2> {{ data.title | uppercase }} </h2>
 </div>
 
 <div class="dialog-content">
@@ -16,7 +16,7 @@
     </div>
 
     <div class="seeker-fields-container">
-      <h3> DESCRIPCION </h3>
+      <h3> DESCRIPCIÓN </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
         <input matInput formControlName="descripcion" required maxlength="20" [readonly]="!data.edit">
         <mat-error *ngIf="formGroup.get('descripcion')?.invalid && formGroup.get('descripcion')?.touched">
@@ -51,7 +51,7 @@
     </div>
 
     <div class="seeker-fields-container" *ngIf="formGroup.get('tipo_fuente')?.value != 'A'">
-      <h3> F. DE INGRESO ADMINISTRADORA </h3>
+      <h3> FUENTE DE INGRESO ADMINISTRADORA </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
         <input matInput formControlName="codigo_fuente_admin" required maxlength="3" [readonly]="!data.edit">
         <mat-error
@@ -90,7 +90,7 @@
     </div>
 
     <div class="seeker-fields-container">
-      <h3> DIA DE CORTE </h3>
+      <h3> DÍA DE CORTE </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
         <mat-select formControlName="dia_corte" required>
           <mat-option *ngFor="let dia of dias" [value]="dia.d"> {{ dia.dia }} </mat-option>
@@ -102,7 +102,7 @@
     </div>
 
     <div class="seeker-fields-container">
-      <h3> CONTROLA DD JJ </h3>
+      <h3> CONTROLA DDJJ </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
         <mat-select formControlName="controla_dec_jur" required>
           <mat-option [value]="'S'"> SI </mat-option>
@@ -201,7 +201,7 @@
     </div>
 
     <div class="seeker-fields-container">
-      <h3> CONDICIÓN DE VENTA VENC </h3>
+      <h3> CONDICIÓN DE VENTA VENC. </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
         <mat-select formControlName="condicion_venta_venc" required>
           <mat-option *ngFor="let conVenta of listCondicionV" [value]="conVenta.id_condicion">
@@ -216,7 +216,7 @@
     </div>
 
     <div class="seeker-fields-container">
-      <h3> CONDICIÓN DE VENTA VENC 2M </h3>
+      <h3> CONDICIÓN DE VENTA VENC. 2M </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
         <mat-select formControlName="condicion_venta_dos_venc" required>
           <mat-option *ngFor="let conVenta of listCondicionV" [value]="conVenta.id_condicion">
@@ -326,7 +326,7 @@
       </div>
 
       <div class="seeker-fields-container">
-        <h3> CONC APORTE ADIC </h3>
+        <h3> CONC. APORTE ADICIONAL </h3>
         <mat-form-field class="seeker-form-field" appearance="outline">
           <mat-select formControlName="concepto_aporte_adicional">
             <mat-option *ngFor="let concepto of listConceptos" [value]="concepto.id_concepto">
@@ -341,7 +341,7 @@
       </div>
 
       <div class="seeker-fields-container">
-        <h3> CONC APORTE ADIC DEC </h3>
+        <h3> CONC. APORTE ADICIONAL DEC. </h3>
         <mat-form-field class="seeker-form-field" appearance="outline">
           <mat-select formControlName="condicion_aporte_adic_dec">
             <mat-option *ngFor="let concepto of listConceptos" [value]="concepto.id_concepto">
@@ -365,7 +365,7 @@
         <mat-icon> done </mat-icon>
         Guardar
       </button>
-      <button class="primary-button icon-button" (click)="unificar()" [disabled]="formGroup.invalid">
+      <button class="primary-button icon-button" [disabled]="formGroup.invalid">
         <mat-icon> done </mat-icon>
         Unificar Aportes
       </button>

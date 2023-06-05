@@ -1,12 +1,12 @@
-<div class="dialog-title">
-  <h2> {{data.title | uppercase}} </h2>
+<div class="dialog-title" [tabIndex]="0">
+  <h2> {{ data.title | uppercase }} </h2>
 </div>
 
 <div class="dialog-content">
 
   <form class="form-datos" [formGroup]="formGroup" (ngSubmit)="confirm()">
     <div class="seeker-fields-container">
-      <h3> CÓDIGO CONDICIÓN DE IVA </h3>
+      <h3> CÓDIGO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
         <input matInput formControlName="codigo_de_IVA" required minlength="1" maxlength="2" [disabled]="!data.edit">
         <mat-error *ngIf="formGroup.get('codigo_de_IVA')?.invalid && formGroup.get('codigo_de_IVA')?.touched">

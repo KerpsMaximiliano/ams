@@ -112,7 +112,9 @@ input[type=number] {
 }
 
 .cdk-global-overlay-wrapper {
-  overflow-y: scroll;
+  // overflow-y: scroll;
+  overflow-y: auto;
+  max-height: 100vh;
 }
 
 .mat-simple-snackbar {
@@ -197,6 +199,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .browse-section {
   padding: .5rem 1rem 1rem;
+  margin-top: 3.5rem;
 }
 
 .section-header{

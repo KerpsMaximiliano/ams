@@ -11,7 +11,9 @@ import {
 import {
   isAlphanumericWithPointAndSpaces,
   isNumeric,
+  notOnlySpaces,
   notZeroValidator,
+  getErrorMessage,
 } from 'src/app/core/validators/character.validator';
 
 // * Material
@@ -27,8 +29,7 @@ import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confi
 })
 export class AddEditObraSocialDialogComponent {
   public formGroup: UntypedFormGroup = new UntypedFormGroup({});
-
-  validaciones: [] | any;
+  public getErrorMessage = getErrorMessage;
 
   constructor(
     public dialogRef: MatDialogRef<ConfirmDialogComponent>,
@@ -60,15 +61,24 @@ export class AddEditObraSocialDialogComponent {
           Validators.minLength(3),
           Validators.maxLength(30),
           isAlphanumericWithPointAndSpaces(),
+          notOnlySpaces(),
         ])
       ),
       proponeFechaPatologia: new UntypedFormControl(
         { value: this.data.propone_fecha_patologia, disabled: !this.data.edit },
-        Validators.compose([Validators.required])
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(1),
+        ])
       ),
       tipoFechaPatologia: new UntypedFormControl(
         { value: this.data.tipo_fecha_patologia, disabled: !this.data.edit },
-        Validators.compose([Validators.required])
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(2),
+        ])
       ),
       tipo: new UntypedFormControl(
         {
@@ -128,7 +138,7 @@ export class AddEditObraSocialDialogComponent {
       : this.formGroup.get('omite_R420')?.setValue('');
   }
 
-  closeDialog(): void {
+  public closeDialog(): void {
     this.dialogRef.close(false);
   }
 
@@ -150,38 +160,7 @@ export class AddEditObraSocialDialogComponent {
     }
   }
 
-  getErrorMessage(control: any): string {
-    if (control.errors?.['required']) {
-      return `Campo requerido`;
-    } else {
-      if (control.errors?.['maxlength']) {
-        return `No puede contener más de ${control.errors?.['maxlength'].requiredLength} caracteres`;
-      }
-
-      if (control.errors?.['minlength']) {
-        return `Debe contener al menos ${control.errors?.['minlength'].requiredLength} caracteres`;
-      }
-
-      if (control.errors?.['notNumeric']) {
-        return `Solo puede contener numeros`;
-      }
-
-      if (control.errors?.['notZero']) {
-        return `No puede ser 0`;
-      }
-
-      if (
-        control.errors?.['notAlphanumericWithPointAndSpaces'] &&
-        control.value != '' &&
-        control.value != null
-      ) {
-        return `No puede contener caracteres especiales`;
-      }
-    }
-    return '';
-  }
-
-  changeProponeFechaPatologia() {
+  public changeProponeFechaPatologia() {
     const proponeFechaPatologiaControl = this.formGroup.get(
       'proponeFechaPatologia'
     );

@@ -1,4 +1,4 @@
-<div class="dialog-title">
+<div class="dialog-title" [tabIndex]="0">
   <h2> {{ data.title | uppercase }} </h2>
 </div>
 
@@ -15,7 +15,7 @@
     </div>
 
     <div class="seeker-fields-container">
-      <h3> DOCUMENTO </h3>
+      <h3> TIPO DE DOCUMENTO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
         <input matInput formControlName="descripcion" required minlength="3" maxlength="20">
         <mat-error *ngIf="formGroup.get('descripcion')?.invalid && formGroup.get('descripcion')?.touched">

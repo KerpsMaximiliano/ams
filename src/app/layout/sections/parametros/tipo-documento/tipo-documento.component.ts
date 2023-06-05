@@ -24,9 +24,9 @@ export class TipoDocumentoComponent {
   dashboard: TipoDocumentoDashboardComponent;
 
   constructor(
-    private tipoDocumentoService: TipoDocumentoService,
     private utils: UtilService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private tipoDocumentoService: TipoDocumentoService,
   ) {}
 
   ngOnInit(): void {}

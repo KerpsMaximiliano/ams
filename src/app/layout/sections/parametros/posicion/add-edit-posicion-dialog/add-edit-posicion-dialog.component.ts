@@ -18,6 +18,7 @@ import {
 import {
   isAlphanumericWithSpaces,
   isNumeric,
+  getErrorMessage,
 } from 'src/app/core/validators/character.validator';
 
 // * Components
@@ -30,6 +31,8 @@ import { ModalLocalidadComponent } from './modal-localidad/modal-localidad.compo
   styleUrls: ['./add-edit-posicion-dialog.component.scss'],
 })
 export class AddEditPosicionDialogComponent {
+  public getErrorMessage = getErrorMessage;
+  
   public formGroup: UntypedFormGroup;
   vigencia: boolean = false;
   fecha_hoy: Date = new Date();
@@ -209,27 +212,5 @@ export class AddEditPosicionDialogComponent {
     console.log(this.formGroup.get('fecha_vigencia')?.value);
     console.log(this.formGroup.value);
     return auxFecha;
-  }
-
-  getErrorMessage(control: any): string {
-    if (control.errors?.['required']) {
-      return `Campo requerido`;
-    } else {
-      if (control.errors?.['maxlength']) {
-        return `No puede contener más de ${control.errors?.['maxlength'].requiredLength} caracteres`;
-      }
-      if (control.errors?.['minlength']) {
-        return `Debe contener al menos ${control.errors?.['minlength'].requiredLength} caracteres`;
-      }
-      if (
-        (control.errors?.['notAlphanumeric'] ||
-          control.errors?.['notAlphanumericWithSpaces']) &&
-        control.value != '' &&
-        control.value != null
-      ) {
-        return `No puede contener caracteres especiales`;
-      }
-    }
-    return '';
   }
 }

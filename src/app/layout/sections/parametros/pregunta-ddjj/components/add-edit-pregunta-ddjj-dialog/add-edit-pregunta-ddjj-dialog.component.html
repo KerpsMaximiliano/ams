@@ -5,7 +5,7 @@
 <div class="dialog-content">
   <form class="form-datos" [formGroup]="formGroup" (ngSubmit)="confirm()">
     <div class="seeker-fields-container">
-      <h3> NÚMERO DE PREGUNTA </h3>
+      <h3> NÚMERO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
         <input matInput formControlName="nro_preg" />
         <mat-error *ngIf="formGroup.get('nro_preg')?.invalid && formGroup.get('nro_preg')?.touched">
@@ -39,6 +39,26 @@
     </div>
 
     <div class="seeker-fields-container">
+      <h3> PRIMER LÍNEA </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <input matInput formControlName="primer_texto_preg" required minlength="1" maxlength="50" />
+        <mat-error *ngIf="formGroup.get('primer_texto_preg')?.invalid && formGroup.get('primer_texto_preg')?.touched">
+          {{ getErrorMessage(formGroup.get("primer_texto_preg")) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3> SEGUNDA LÍNEA </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <input matInput formControlName="segundo_texto_preg" maxlength="50" />
+        <mat-error *ngIf="formGroup.get('segundo_texto_preg')?.invalid && formGroup.get('segundo_texto_preg')?.touched">
+          {{ getErrorMessage(formGroup.get("segundo_texto_preg")) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
       <h3> PIDE FECHA </h3>
       <mat-form-field class="seeker-form-field" required appearance="outline">
         <mat-select formControlName="pide_fecha">
@@ -60,26 +80,6 @@
         </mat-select>
         <mat-error *ngIf="formGroup.get('yes_no')?.invalid && formGroup.get('yes_no')?.touched">
           {{ getErrorMessage(formGroup.get("yes_no")) }}
-        </mat-error>
-      </mat-form-field>
-    </div>
-
-    <div class="seeker-fields-container">
-      <h3> PRIMER LÍNEA </h3>
-      <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="primer_texto_preg" required minlength="1" maxlength="50" />
-        <mat-error *ngIf="formGroup.get('primer_texto_preg')?.invalid && formGroup.get('primer_texto_preg')?.touched">
-          {{ getErrorMessage(formGroup.get("primer_texto_preg")) }}
-        </mat-error>
-      </mat-form-field>
-    </div>
-
-    <div class="seeker-fields-container">
-      <h3> SEGUNDA LÍNEA </h3>
-      <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="segundo_texto_preg" maxlength="50" />
-        <mat-error *ngIf="formGroup.get('segundo_texto_preg')?.invalid && formGroup.get('segundo_texto_preg')?.touched">
-          {{ getErrorMessage(formGroup.get("segundo_texto_preg")) }}
         </mat-error>
       </mat-form-field>
     </div>

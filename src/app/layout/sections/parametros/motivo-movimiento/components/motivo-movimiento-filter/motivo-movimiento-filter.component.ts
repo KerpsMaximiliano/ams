@@ -10,8 +10,7 @@ import { UntypedFormControl } from '@angular/forms';
 })
 export class MotivoMovimientoFilterComponent {
   @Output() searchEvent: EventEmitter<string> = new EventEmitter<string>();
-
-  tipoMovimiento: any[] = ['B-BAJA', 'A-ALTA', 'S-SUSPENDIDO', 'O-OSP'];
+  
   body: any;
 
   public descripcion = new UntypedFormControl('');

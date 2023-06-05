@@ -6,7 +6,10 @@ import {
 } from '@angular/forms';
 
 // * Validations
-import { isAlphanumericWithSpaces } from 'src/app/core/validators/character.validator';
+import {
+  isAlphanumericWithSpaces,
+  getErrorMessage,
+} from 'src/app/core/validators/character.validator';
 
 // * Material
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -21,6 +24,7 @@ import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confi
 })
 export class AddEditNacionalidadDialogComponent {
   public formGroup: UntypedFormGroup;
+  public getErrorMessage = getErrorMessage;
 
   constructor(
     public dialogRef: MatDialogRef<ConfirmDialogComponent>,
@@ -87,7 +91,7 @@ export class AddEditNacionalidadDialogComponent {
       ?.setValue(this.data.codigo_sistema_anterior);
   }
 
-  closeDialog(): void {
+  public closeDialog(): void {
     this.dialogRef.close(false);
   }
 
@@ -96,35 +100,10 @@ export class AddEditNacionalidadDialogComponent {
     if (this.formGroup.valid) {
       this.dialogRef.close({
         par_modo: this.data.par_modo,
-        codigo: this.formGroup.get('codigo_nacionalidad_nuevo')?.value,
-        nombre_provincia: this.formGroup.get('descripcion')?.value,
-        codifica_altura: this.formGroup.get('codigo_sistema_anterior')?.value,
+        codigo_nacionalidad_nuevo: this.formGroup.get('codigo_nacionalidad_nuevo')?.value,
+        descripcion: this.formGroup.get('descripcion')?.value,
+        codigo_sistema_anterior: this.formGroup.get('codigo_sistema_anterior')?.value,
       });
     }
-  }
-
-  getErrorMessage(control: any) {
-    if (control.errors?.['required']) {
-      return `Campo requerido`;
-    } else {
-      if (control.errors?.['maxlength']) {
-        return `No puede contener más de ${control.errors?.['maxlength'].requiredLength} caracteres`;
-      }
-      if (control.errors?.['minlength']) {
-        return `Debe contener al menos ${control.errors?.['minlength'].requiredLength} caracteres`;
-      }
-      if (
-        (control.errors?.['notAlphanumeric'] ||
-          control.errors?.['notAlphanumericWithSpaces']) &&
-        control.value != '' &&
-        control.value != null
-      ) {
-        return `No puede contener caracteres especiales`;
-      }
-      if (control.errors?.['pattern']) {
-        return `No puede contener letras, caracteres especiales`;
-      }
-    }
-    return '';
   }
 }

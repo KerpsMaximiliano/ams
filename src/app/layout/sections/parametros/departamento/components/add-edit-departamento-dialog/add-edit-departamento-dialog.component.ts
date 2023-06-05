@@ -18,7 +18,10 @@ import {
 } from '@angular/forms';
 
 // * Validations
-import { isAlphanumericWithSpaces } from 'src/app/core/validators/character.validator';
+import {
+  isAlphanumericWithSpaces,
+  getErrorMessage,
+} from 'src/app/core/validators/character.validator';
 
 // * Components
 import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
@@ -30,6 +33,7 @@ import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confi
 })
 export class AddEditDepartamentoDialogComponent {
   public formGroup: UntypedFormGroup;
+  public getErrorMessage = getErrorMessage;
   provincias$: Observable<IProvinciaResponse>;
 
   constructor(
@@ -133,30 +137,5 @@ export class AddEditDepartamentoDialogComponent {
         descripcion_reducida: this.formGroup.get('descripcion_reducida')?.value,
       });
     }
-  }
-
-  getErrorMessage(control: any) {
-    if (control.errors?.['required']) {
-      return `Campo requerido`;
-    } else {
-      if (control.errors?.['maxlength']) {
-        return `No puede contener más de ${control.errors?.['maxlength'].requiredLength} caracteres`;
-      }
-      if (control.errors?.['minlength']) {
-        return `Debe contener al menos ${control.errors?.['minlength'].requiredLength} caracteres`;
-      }
-      if (
-        (control.errors?.['notAlphanumeric'] ||
-          control.errors?.['notAlphanumericWithSpaces']) &&
-        control.value != '' &&
-        control.value != null
-      ) {
-        return `No puede contener caracteres especiales`;
-      }
-      if (control.errors?.['pattern']) {
-        return `No puede contener letras, caracteres especiales`;
-      }
-    }
-    return '';
   }
 }

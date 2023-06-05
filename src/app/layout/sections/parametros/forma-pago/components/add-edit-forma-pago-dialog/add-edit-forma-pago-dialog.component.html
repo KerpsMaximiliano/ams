@@ -1,4 +1,4 @@
-<div class="dialog-title" tabindex="0">
+<div class="dialog-title" [tabIndex]="0">
   <h2> {{ data.title | uppercase }} </h2>
 </div>
 
@@ -18,10 +18,10 @@
       <h3> FORMA DE PAGO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
         <mat-select formControlName="forma_pago" required>
-          <mat-option [value]="'BSF'" (click)="onChange()"> BSF - Débitos Automáticos NBSF </mat-option>
-          <mat-option [value]="'LNK'" (click)="onChange()"> LNK - Pagos RED LINK </mat-option>
-          <mat-option [value]="'CBU'" (click)="onChange()"> CBU - Transferencias a distintos bancos </mat-option>
-          <mat-option [value]="'TC '" (click)="onChange()"> TC - Tarjetas de crédito a configurar </mat-option>
+          <mat-option [value]="'BSF'" (click)="changeBank()"> BSF - Débitos Automáticos NBSF </mat-option>
+          <mat-option [value]="'LNK'" (click)="changeBank()"> LNK - Pagos RED LINK </mat-option>
+          <mat-option [value]="'CBU'" (click)="changeBank()"> CBU - Transferencias a distintos bancos </mat-option>
+          <mat-option [value]="'TC '" (click)="changeBank()"> TC - Tarjetas de crédito a configurar </mat-option>
         </mat-select>
         <mat-error *ngIf="formGroup.get('forma_pago')?.invalid && formGroup.get('forma_pago')?.touched">
           {{ getErrorMessage(formGroup.get('forma_pago')) }}

@@ -1,5 +1,4 @@
 import { Component, Inject } from '@angular/core';
-import { Observable } from 'rxjs';
 
 // * Forms
 import {
@@ -11,6 +10,9 @@ import {
 // * Services
 import { UtilService } from 'src/app/core/services/util.service';
 import { FuenteIngresoService } from 'src/app/core/services/fuente-ingreso.service';
+
+// * Validations
+import { getErrorMessage } from 'src/app/core/validators/character.validator';
 
 // * Material
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -25,6 +27,7 @@ import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confi
 })
 export class AddEditFuenteIngresoDialogComponent {
   public formGroup: UntypedFormGroup;
+  public getErrorMessage = getErrorMessage;
   listEmpresas: any;
   listConceptos: any;
   listComprobantes: any;
@@ -417,32 +420,5 @@ export class AddEditFuenteIngresoDialogComponent {
           ?.value,
       });
     }
-  }
-
-  unificar() {}
-
-  getErrorMessage(control: any) {
-    if (control.errors?.['required']) {
-      return `Campo requerido`;
-    } else {
-      if (control.errors?.['maxlength']) {
-        return `No puede contener más de ${control.errors?.['maxlength'].requiredLength} caracteres`;
-      }
-      if (control.errors?.['minlength']) {
-        return `Debe contener al menos ${control.errors?.['minlength'].requiredLength} caracteres`;
-      }
-      if (
-        (control.errors?.['notAlphanumeric'] ||
-          control.errors?.['notAlphanumericWithSpaces']) &&
-        control.value != '' &&
-        control.value != null
-      ) {
-        return `No puede contener caracteres especiales`;
-      }
-      if (control.errors?.['pattern']) {
-        return `No puede contener letras, caracteres especiales`;
-      }
-    }
-    return '';
   }
 }

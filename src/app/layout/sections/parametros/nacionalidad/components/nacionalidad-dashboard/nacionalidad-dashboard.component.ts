@@ -80,12 +80,15 @@ export class NacionalidadDashboardComponent {
         err.status == 0
           ? this.utils.notification('Error de conexión. ', 'error')
           : this.utils.notification(
-              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}. `,
               'error'
             );
       },
       complete: () => {
         this.utils.closeLoading();
+        setTimeout((res: any) => {
+          this.searchValue = res?.codigo_nacionalidad_nuevo;
+        }, 300);
       },
     });
   }
@@ -137,7 +140,7 @@ export class NacionalidadDashboardComponent {
             complete: () => {
               this.utils.closeLoading();
               setTimeout(() => {
-                this.getNacionalidad();
+                this.searchValue = res.codigo_nacionalidad_nuevo;
               }, 300);
             },
           });

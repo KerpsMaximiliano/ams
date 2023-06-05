@@ -17,6 +17,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {
   isAlphanumericWithSpaces,
   isNumeric,
+  getErrorMessage,
 } from 'src/app/core/validators/character.validator';
 
 // * Components
@@ -28,6 +29,7 @@ import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confi
   styleUrls: ['./add-edit-forma-pago-dialog.component.scss'],
 })
 export class AddEditFormaPagoDialogComponent {
+  public getErrorMessage = getErrorMessage;
   banks: any[] = [
     {
       codigo: '',
@@ -152,7 +154,7 @@ export class AddEditFormaPagoDialogComponent {
     }
   }
 
-  closeDialog(): void {
+  public closeDialog(): void {
     this.dialogRef.close(false);
   }
 
@@ -175,7 +177,7 @@ export class AddEditFormaPagoDialogComponent {
     }
   }
 
-  onChange(): void {
+  public changeBank(): void {
     if (this.formGroup.get('forma_pago')?.value !== undefined) {
       switch (this.formGroup.get('forma_pago')?.value) {
         case 'BSF':
@@ -208,31 +210,9 @@ export class AddEditFormaPagoDialogComponent {
     }
   }
 
-  changeStatus(): void {
+  public changeStatus(): void {
     if (this.formGroup.get('codigo_tarjeta_de_baja')?.value === 'ACTIVO') {
       this.formGroup.get('codigo_tarjeta_de_baja')?.setValue('BAJA');
     }
-  }
-
-  getErrorMessage(control: any): string {
-    if (control.errors?.['required']) {
-      return `Campo requerido`;
-    } else {
-      if (control.errors?.['maxlength']) {
-        return `No puede contener más de ${control.errors?.['maxlength'].requiredLength} caracteres`;
-      }
-      if (control.errors?.['minlength']) {
-        return `Debe contener al menos ${control.errors?.['minlength'].requiredLength} caracteres`;
-      }
-      if (
-        (control.errors?.['notAlphanumeric'] ||
-          control.errors?.['notAlphanumericWithSpaces']) &&
-        control.value != '' &&
-        control.value != null
-      ) {
-        return `No puede contener caracteres especiales`;
-      }
-    }
-    return '';
   }
 }

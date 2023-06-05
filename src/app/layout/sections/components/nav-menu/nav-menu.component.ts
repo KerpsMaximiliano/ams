@@ -29,21 +29,15 @@ export class NavMenuComponent {
       expanded: true,
       children: [
         {
-          // 01 - PROVINCIAS
-          title: 'Provincias',
-          url: '/parametros/provincias',
-          icon: 'keyboard_arrow_right',
-        },
-        {
-          // 02 - TIPOS DE DOCUMENTO
-          title: 'Tipos de documento',
-          url: '/parametros/tipos-documento',
-          icon: 'keyboard_arrow_right',
-        },
-        {
           // 03 - NACIONALIDADES
           title: 'Nacionalidades',
           url: '/parametros/nacionalidades',
+          icon: 'keyboard_arrow_right',
+        },
+        {
+          // 01 - PROVINCIAS
+          title: 'Provincias',
+          url: '/parametros/provincias',
           icon: 'keyboard_arrow_right',
         },
         {
@@ -53,45 +47,15 @@ export class NavMenuComponent {
           icon: 'keyboard_arrow_right',
         },
         {
-          // 05 - POSICIONES
-          title: 'Posiciones',
-          url: '/parametros/posiciones',
-          icon: 'keyboard_arrow_right',
-        },
-        {
           // 06 - LOCALIDADES
           title: 'Localidades',
           url: '/parametros/localidades',
           icon: 'keyboard_arrow_right',
         },
         {
-          // 07 - FORMAS DE PAGO
-          title: 'Formas de pago',
-          url: '/parametros/formas-pago',
-          icon: 'keyboard_arrow_right',
-        },
-        {
-          // 08 - CONDICIONES DE IVA
-          title: 'Condiciones de IVA',
-          url: '/parametros/condiciones-iva',
-          icon: 'keyboard_arrow_right',
-        },
-        {
-          // 09 - ESTADOS CIVILES
-          title: 'Estados civiles',
-          url: '/parametros/estados-civiles',
-          icon: 'keyboard_arrow_right',
-        },
-        {
-          // 10 - MOTIVOS DE MOVIMIENTOS
-          title: 'Motivos de movimientos',
-          url: '/parametros/motivos-movimientos',
-          icon: 'keyboard_arrow_right',
-        },
-        {
-          // 11 - FUENTES DE INGRESO
-          title: 'Fuentes de ingreso',
-          url: '/parametros/fuentes-ingreso',
+          // 05 - POSICIONES
+          title: 'Posiciones',
+          url: '/parametros/posiciones',
           icon: 'keyboard_arrow_right',
         },
         {
@@ -101,9 +65,45 @@ export class NavMenuComponent {
           icon: 'keyboard_arrow_right',
         },
         {
+          // 11 - FUENTES DE INGRESO
+          title: 'Fuentes de ingreso',
+          url: '/parametros/fuentes-ingreso',
+          icon: 'keyboard_arrow_right',
+        },
+        {
+          // 10 - MOTIVOS DE MOVIMIENTOS
+          title: 'Motivos de movimientos',
+          url: '/parametros/motivos-movimientos',
+          icon: 'keyboard_arrow_right',
+        },
+        {
           // 13 - PREGUNTAS DE DECLARACIONES JURADAS
           title: 'Preguntas de DDJJ',
           url: '/parametros/preguntas-ddjj',
+          icon: 'keyboard_arrow_right',
+        },
+        {
+          // 08 - CONDICIONES DE IVA
+          title: 'Condiciones de IVA',
+          url: '/parametros/condiciones-iva',
+          icon: 'keyboard_arrow_right',
+        },
+        {
+          // 07 - FORMAS DE PAGO
+          title: 'Formas de pago',
+          url: '/parametros/formas-pago',
+          icon: 'keyboard_arrow_right',
+        },
+        {
+          // 02 - TIPOS DE DOCUMENTO
+          title: 'Tipos de documento',
+          url: '/parametros/tipos-documento',
+          icon: 'keyboard_arrow_right',
+        },
+        {
+          // 09 - ESTADOS CIVILES
+          title: 'Estados civiles',
+          url: '/parametros/estados-civiles',
           icon: 'keyboard_arrow_right',
         },
       ],

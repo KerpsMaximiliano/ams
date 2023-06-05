@@ -55,7 +55,7 @@ export class NacionalidadComponent {
         if (res) {
           this.utils.openLoading();
           this.nacionalidadService.CRUD(res).subscribe({
-            next: (res: any) => {
+            next: () => {
               this.utils.notification(
                 'La nacionalidad se ha creado exitosamente. ',
                 'success'
@@ -74,7 +74,10 @@ export class NacionalidadComponent {
             complete: () => {
               this.utils.closeLoading();
               setTimeout(() => {
-                this.handleSearch(res.codigo_nacionalidad_nuevo.trim());
+                this.handleSearch({
+                  par_modo: 'R',
+                  codigo_nacionalidad_nuevo: res.codigo_nacionalidad_nuevo,
+                });
               }, 300);
             },
           });
