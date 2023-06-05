@@ -42,3 +42,10 @@ td.mat-cell:first-of-type {
     text-align: center !important;
     width: 25% !important;
 }
+
+/*
+ * Oculta la paginación hasta que la tabla tenga datos.
+*/
+.hide-paginator {
+    display: none;
+}

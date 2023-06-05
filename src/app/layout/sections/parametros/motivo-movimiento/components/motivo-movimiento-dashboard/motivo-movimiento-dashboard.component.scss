@@ -101,3 +101,10 @@ td.mat-cell:first-of-type {
 .mat-column-estado.mat-cell {
   width: 8% !important;
 }
+
+/*
+ * Oculta la paginación hasta que la tabla tenga datos.
+*/
+.hide-paginator {
+  display: none;
+}

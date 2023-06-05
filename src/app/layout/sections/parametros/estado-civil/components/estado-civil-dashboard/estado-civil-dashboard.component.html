@@ -31,6 +31,6 @@
   </table>
 
   <mat-paginator [pageSizeOptions]="[10, 20, 30]" [pageSize]="10" showFirstLastButtons
-    aria-label="controles de página de la tabla de estados" >
+    aria-label="Controles de paginación." [ngClass]="{'hide-paginator': !dataSource }">
   </mat-paginator>
 </section>

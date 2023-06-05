@@ -38,7 +38,7 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
 
-  <mat-paginator *ngIf="dataSource" [pageSizeOptions]="[10, 20, 30]" [pageSize]="10" showFirstLastButtons
-    aria-label="Controles de paginación.">
+  <mat-paginator [pageSizeOptions]="[10, 20, 30]" [pageSize]="10" showFirstLastButtons
+    aria-label="Controles de paginación." [ngClass]="{'hide-paginator': !dataSource }">
   </mat-paginator>
 </section>
