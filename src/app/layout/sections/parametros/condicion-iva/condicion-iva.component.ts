@@ -78,7 +78,7 @@ export class CondicionIvaComponent {
                 this.handleSearch(
                   JSON.stringify({
                     par_modo: 'C',
-                    descripcion: res.descripcion,
+                    descripcion: res.descripcion.trim(),
                   })
                 );
               }, 300);

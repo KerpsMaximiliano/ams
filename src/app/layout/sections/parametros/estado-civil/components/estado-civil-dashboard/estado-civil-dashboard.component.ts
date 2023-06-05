@@ -158,8 +158,8 @@ export class EstadoCivilDashboardComponent implements OnInit {
     });
   }
 
-  public filter(descripcion: string): void {
-    this.searchValue = descripcion;
+  public filter(data: string): void {
+    this.searchValue = data;
     this.getEstadoCivil();
   }
 }
