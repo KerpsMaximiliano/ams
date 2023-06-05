@@ -4,11 +4,10 @@
 
 <div class="dialog-content">
   <form class="form-datos" [formGroup]="formGroup" (ngSubmit)="confirm()">
-
     <div class="seeker-fields-container">
       <h3> CÓDIGO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="codigo">
+        <input matInput formControlName="codigo" required minlength="1" maxlength="3">
         <mat-error *ngIf="formGroup.get('codigo')?.invalid && formGroup.get('codigo')?.touched">
           {{ getErrorMessage(formGroup.get('codigo')) }}
         </mat-error>
@@ -18,11 +17,11 @@
     <div class="seeker-fields-container">
       <h3> FORMA DE PAGO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <mat-select formControlName="forma_pago">
+        <mat-select formControlName="forma_pago" required>
           <mat-option [value]="'BSF'" (click)="onChange()"> BSF - Débitos Automáticos NBSF </mat-option>
           <mat-option [value]="'LNK'" (click)="onChange()"> LNK - Pagos RED LINK </mat-option>
           <mat-option [value]="'CBU'" (click)="onChange()"> CBU - Transferencias a distintos bancos </mat-option>
-          <mat-option [value]="'TC'" (click)="onChange()"> TC - Tarjetas de crédito a configurar </mat-option>
+          <mat-option [value]="'TC '" (click)="onChange()"> TC - Tarjetas de crédito a configurar </mat-option>
         </mat-select>
         <mat-error *ngIf="formGroup.get('forma_pago')?.invalid && formGroup.get('forma_pago')?.touched">
           {{ getErrorMessage(formGroup.get('forma_pago')) }}
@@ -33,7 +32,7 @@
     <div class="seeker-fields-container">
       <h3> DESCRIPCIÓN </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="description">
+        <input matInput formControlName="description" required minlength="3" maxlength="20">
         <mat-error *ngIf="formGroup.get('description')?.invalid && formGroup.get('description')?.touched">
           {{ getErrorMessage(formGroup.get('description')) }}
         </mat-error>
@@ -43,7 +42,7 @@
     <div class="seeker-fields-container">
       <h3> NEMOTÉCNICO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="nombre_tarjeta_nemot">
+        <input matInput formControlName="nombre_tarjeta_nemot" required minlength="1" maxlength="5">
         <mat-error
           *ngIf="formGroup.get('nombre_tarjeta_nemot')?.invalid && formGroup.get('nombre_tarjeta_nemot')?.touched">
           {{ getErrorMessage(formGroup.get('nombre_tarjeta_nemot')) }}
@@ -54,7 +53,7 @@
     <div class="seeker-fields-container">
       <h3> BANCO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <mat-select formControlName="codigo_banco">
+        <mat-select formControlName="codigo_banco" required>
           <mat-option [value]="330"> Nuevo Banco de Santa Fe </mat-option>
           <mat-option [value]="815"> Pagos RED LINK </mat-option>
           <mat-option [value]="0"> Tarjeta de Crédito </mat-option>
@@ -71,7 +70,7 @@
     <div class="seeker-fields-container">
       <h3> ¿TRABAJA CON ARCHIVOS? </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <mat-select formControlName="trabaja_archivos">
+        <mat-select formControlName="trabaja_archivos" required>
           <mat-option [value]="'S'"> SI </mat-option>
           <mat-option [value]="'N'"> NO </mat-option>
         </mat-select>
@@ -84,7 +83,7 @@
     <div class="seeker-fields-container">
       <h3> ¿TRABAJA CON RECHAZOS? </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <mat-select formControlName="trabaja_rechazos">
+        <mat-select formControlName="trabaja_rechazos" required>
           <mat-option [value]="'S'"> SI </mat-option>
           <mat-option [value]="'N'"> NO </mat-option>
         </mat-select>
@@ -97,7 +96,7 @@
     <div class="seeker-fields-container">
       <h3> ¿SOLICITA DATOS ADICIONALES? </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <mat-select formControlName="solicita_datos_ad">
+        <mat-select formControlName="solicita_datos_ad" required>
           <mat-option [value]="'S'"> SI </mat-option>
           <mat-option [value]="'N'"> NO </mat-option>
         </mat-select>
@@ -107,7 +106,7 @@
       </mat-form-field>
     </div>
 
-    <div class="seeker-fields-container">
+    <div class="seeker-fields-container" *ngIf="data.par_modo === 'R' || data.par_modo === 'U'">
       <h3> ESTADO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
         <input matInput formControlName="codigo_tarjeta_de_baja">
@@ -123,12 +122,12 @@
         <mat-icon> close </mat-icon>
         Cancelar
       </button>
-      <button type="submit" *ngIf="data.edit && this.formGroup.get('codigo_tarjeta_de_baja')?.value === 'S'"
-        class="primary-button icon-button" [disabled]="formGroup.invalid" (click)="changeStatus()">
-        <mat-icon> done </mat-icon>
-        Baja
-      </button>
-
+      <div *ngIf="data.edit === true && this.formGroup.get('codigo_tarjeta_de_baja')?.value === 'ACTIVO'">
+        <button type="submit" class="primary-button icon-button" (click)="changeStatus()">
+          <mat-icon> remove_done </mat-icon>
+          Baja
+        </button>
+      </div>
       <button class="primary-button icon-button" type="submit" [disabled]="formGroup.invalid">
         <mat-icon> done </mat-icon>
         Guardar

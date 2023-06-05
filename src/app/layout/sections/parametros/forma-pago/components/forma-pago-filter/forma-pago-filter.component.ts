@@ -15,7 +15,7 @@ export class FormaPagoFilterComponent {
   public search(event: any, value: string): void {
     event.preventDefault();
     let body = {
-      par_modo: 'C',
+      par_modo: 'R',
       description: value,
     };
     this.searchEvent.emit(body);

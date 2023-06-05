@@ -108,14 +108,14 @@ export class FormaPagoDashboardComponent {
           title: `EDITAR FORMA DE PAGO`,
           edit: true,
           par_modo: 'U',
-          forma_pago: formaPago.forma_pago,
           codigo: formaPago.codigo,
+          forma_pago: formaPago.forma_pago,
           description: formaPago.description,
-          solicita_datos_ad: formaPago.solicita_datos_ad,
+          nombre_tarjeta_nemot: formaPago.nombre_tarjeta_nemot,
           codigo_banco: formaPago.codigo_banco,
           trabaja_archivos: formaPago.trabaja_archivos,
           trabaja_rechazos: formaPago.trabaja_rechazos,
-          nombre_tarjeta_nemot: formaPago.nombre_tarjeta_nemot,
+          solicita_datos_ad: formaPago.solicita_datos_ad,
           codigo_tarjeta_de_baja: formaPago.codigo_tarjeta_de_baja,
         },
       }
@@ -137,7 +137,7 @@ export class FormaPagoDashboardComponent {
               err.status == 0
                 ? this.utils.notification('Error de conexión. ', 'error')
                 : this.utils.notification(
-                    `Status Code ${err.error.returnset.Codigo}: ${err.error.returnset.Mensaje}. `,
+                    `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}. `,
                     'error'
                   );
               this.editFormaPago(res);
@@ -159,23 +159,18 @@ export class FormaPagoDashboardComponent {
       data: {
         title: `VER FORMA DE PAGO`,
         edit: false,
-        par_modo: 'C',
-        forma_pago: formaPago.forma_pago,
+        par_modo: 'R',
         codigo: formaPago.codigo,
+        forma_pago: formaPago.forma_pago,
         description: formaPago.description,
-        solicita_datos_ad: formaPago.solicita_datos_ad,
+        nombre_tarjeta_nemot: formaPago.nombre_tarjeta_nemot,
         codigo_banco: formaPago.codigo_banco,
         trabaja_archivos: formaPago.trabaja_archivos,
         trabaja_rechazos: formaPago.trabaja_rechazos,
-        nombre_tarjeta_nemot: formaPago.nombre_tarjeta_nemot,
+        solicita_datos_ad: formaPago.solicita_datos_ad,
         codigo_tarjeta_de_baja: formaPago.codigo_tarjeta_de_baja,
       },
     });
-  }
-
-  public filter(descripcion: string): void {
-    this.searchValue = descripcion;
-    this.getFormaPago();
   }
 
   public getFormaPagoDescripcion(formaPago: string): string {
@@ -191,5 +186,10 @@ export class FormaPagoDashboardComponent {
       default:
         return '';
     }
+  }
+
+  public filter(data: string): void {
+    this.searchValue = data;
+    this.getFormaPago();
   }
 }

@@ -42,25 +42,31 @@ export class AddEditFormaPagoDialogComponent {
     private formaPagoService: FormaPagoService
   ) {}
 
+  /**
+   * 1. 'this.setUpForm();': Asigna las validaciones correspondientes a cada campo de entrada/selección.
+   * 2. Condición: comprueba que sea una actualización (modificación) o lectura.
+   * 3. 'this.setFormValues();': Asigna los valores de 'data' a los campos de entrada/selección del formulario.
+   * 4. Condición: comprueba si la edición esta deshabilitada.
+   *     > Deshabilidada: deshabilita el formulario.
+   *     > Habilitada: deshabilita el 'codigo'.
+   */
   ngOnInit(): void {
     this.setUpForm();
-    if (this.data.codigo !== undefined) {
+    if (this.data.par_modo === 'U' || this.data.par_modo === 'R') {
       this.setFormValues();
-    }
-    if (!this.data.edit && this.data.par_modo === 'C') {
-      this.formGroup.disable();
+      if (this.data.edit === false) {
+        this.formGroup.disable();
+      } else {
+        this.formGroup.get('codigo')?.disable();
+        this.formGroup.get('forma_pago')?.disable();
+      }
     }
   }
 
   private setUpForm(): void {
     this.formGroup = new UntypedFormGroup({
-      forma_pago: new UntypedFormControl(
-        '',
-        Validators.compose([Validators.required])
-      ),
-
       codigo: new UntypedFormControl(
-        { value: '', disabled: this.data.edit },
+        '',
         Validators.compose([
           Validators.required,
           Validators.minLength(1),
@@ -68,17 +74,23 @@ export class AddEditFormaPagoDialogComponent {
           isNumeric(),
         ])
       ),
-
-      description: new UntypedFormControl(
+      forma_pago: new UntypedFormControl(
         '',
         Validators.compose([
           Validators.required,
           Validators.minLength(1),
+          Validators.maxLength(3),
+        ])
+      ),
+      description: new UntypedFormControl(
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(3),
           Validators.maxLength(20),
           isAlphanumericWithSpaces(),
         ])
       ),
-
       nombre_tarjeta_nemot: new UntypedFormControl(
         '',
         Validators.compose([
@@ -88,101 +100,78 @@ export class AddEditFormaPagoDialogComponent {
           isAlphanumericWithSpaces(),
         ])
       ),
-
       codigo_banco: new UntypedFormControl(
-        '',
-        Validators.compose([Validators.required])
-      ),
-
-      trabaja_archivos: new UntypedFormControl(
         '',
         Validators.compose([
           Validators.required,
           Validators.minLength(1),
-          Validators.maxLength(1),
-          isAlphanumericWithSpaces(),
+          Validators.maxLength(3),
+          // Falta validación regex.
         ])
       ),
-
+      trabaja_archivos: new UntypedFormControl(
+        '',
+        Validators.compose([Validators.required])
+      ),
       trabaja_rechazos: new UntypedFormControl(
         '',
         Validators.compose([Validators.required])
       ),
-
       solicita_datos_ad: new UntypedFormControl(
         '',
         Validators.compose([Validators.required])
       ),
-
       codigo_tarjeta_de_baja: new UntypedFormControl({
-        value: '',
-        disabled: this.data.edit,
+        value: this.data.codigo_tarjeta_de_baja,
+        disabled: true,
       }),
     });
   }
 
   private setFormValues(): void {
-    // Código (codigo).
     this.formGroup.get('codigo')?.setValue(this.data.codigo);
+    this.formGroup.get('forma_pago')?.setValue(this.data.forma_pago);
+    this.formGroup.get('description')?.setValue(this.data.description);
+    this.formGroup
+      .get('nombre_tarjeta_nemot')
+      ?.setValue(this.data.nombre_tarjeta_nemot);
+    this.formGroup.get('codigo_banco')?.setValue(this.data.codigo_banco);
+    this.formGroup.patchValue({
+      trabaja_archivos: this.data.trabaja_archivos,
+    });
+    this.formGroup.patchValue({
+      trabaja_rechazos: this.data.trabaja_rechazos,
+    });
+    this.formGroup.patchValue({
+      solicita_datos_ad: this.data.solicita_datos_ad,
+    });
+    if (this.formGroup.get('codigo_tarjeta_de_baja')?.value === '') {
+      this.formGroup.get('codigo_tarjeta_de_baja')?.setValue('ACTIVO');
+    } else {
+      this.formGroup.get('codigo_tarjeta_de_baja')?.setValue('BAJA');
+    }
+  }
 
-    // Forma de Pago (forma_pago).
-    if (
-      this.data.forma_pago !== undefined &&
-      this.data.forma_pago !== '' &&
-      this.data.forma_pago !== null
-    ) {
-      this.formGroup.patchValue({
-        forma_pago: this.data.forma_pago,
+  closeDialog(): void {
+    this.dialogRef.close(false);
+  }
+
+  public confirm(): void {
+    this.formGroup.markAllAsTouched();
+    if (this.formGroup.valid) {
+      this.dialogRef.close({
+        par_modo: this.data.par_modo,
+        codigo: this.formGroup.get('codigo')?.value,
+        forma_pago: this.formGroup.get('forma_pago')?.value,
+        description: this.formGroup.get('description')?.value,
+        nombre_tarjeta_nemot: this.formGroup.get('nombre_tarjeta_nemot')?.value,
+        codigo_banco: this.formGroup.get('codigo_banco')?.value,
+        trabaja_archivos: this.formGroup.get('trabaja_archivos')?.value,
+        trabaja_rechazos: this.formGroup.get('trabaja_rechazos')?.value,
+        solicita_datos_ad: this.formGroup.get('solicita_datos_ad')?.value,
+        codigo_tarjeta_de_baja: this.formGroup.get('codigo_tarjeta_de_baja')
+          ?.value,
       });
-    }
-
-    // Descripción (description).
-    if (this.data.description !== undefined) {
-      this.formGroup.get('description')?.setValue(this.data.description);
-    }
-
-    // Nemotécnico (nombre_tarjeta_nemot).
-    if (this.data.nombre_tarjeta_nemot !== undefined) {
-      this.formGroup
-        .get('nombre_tarjeta_nemot')
-        ?.setValue(this.data.nombre_tarjeta_nemot);
-    }
-
-    // Banco (codigo_banco).
-    if (this.data.codigo_banco !== undefined) {
-      this.formGroup.patchValue({
-        codigo_banco: this.data.codigo_banco,
-      });
-    }
-
-    // ¿Trabaja con archivos? (trabaja_archivos).
-    if (this.data.trabaja_archivos !== undefined) {
-      this.formGroup.patchValue({
-        trabaja_archivos: this.data.trabaja_archivos,
-      });
-    }
-
-    // ¿Trabaja con rechazos? (trabaja_rechazos)
-    if (this.data.trabaja_rechazos !== undefined) {
-      this.formGroup.patchValue({
-        trabaja_rechazos: this.data.trabaja_rechazos,
-      });
-    }
-
-    // ¿Solicita datos adicionales? (solicita_datos_ad).
-    if (this.data.solicita_datos_ad !== undefined) {
-      this.formGroup.patchValue({
-        solicita_datos_ad: this.data.solicita_datos_ad,
-      });
-    }
-
-    // Estado (codigo_tarjeta_de_baja).
-    if (this.data.codigo_tarjeta_de_baja !== undefined) {
-      if (this.data.codigo_tarjeta_de_baja === 'S') {
-        this.formGroup.get('codigo_tarjeta_de_baja')?.setValue('BAJA');
-      } else {
-        this.formGroup.get('codigo_tarjeta_de_baja')?.setValue('ACTIVO');
-      }
     }
   }
 
@@ -219,34 +208,9 @@ export class AddEditFormaPagoDialogComponent {
     }
   }
 
-  closeDialog(): void {
-    this.dialogRef.close(false);
-  }
-
   changeStatus(): void {
     if (this.formGroup.get('codigo_tarjeta_de_baja')?.value === 'ACTIVO') {
       this.formGroup.get('codigo_tarjeta_de_baja')?.setValue('BAJA');
-    }
-  }
-
-  public confirm(): void {
-    this.formGroup.markAllAsTouched();
-    if (this.formGroup.valid) {
-      this.dialogRef.close({
-        par_modo: this.data.par_modo,
-        codigo: this.formGroup.get('codigo')?.value,
-        forma_pago: this.formGroup.get('forma_pago')?.value,
-        description: this.formGroup.get('description')?.value,
-        nombre_tarjeta_nemot: this.formGroup.get('nombre_tarjeta_nemot')?.value,
-        codigo_banco: this.formGroup.get('codigo_banco')?.value,
-        trabaja_archivos: this.formGroup.get('trabaja_archivos')?.value,
-        trabaja_rechazos: this.formGroup.get('trabaja_rechazos')?.value,
-        solicita_datos_ad: this.formGroup.get('solicita_datos_ad')?.value,
-        codigo_tarjeta_de_baja:
-          this.formGroup.get('codigo_tarjeta_de_baja')?.value === 'BAJA'
-            ? 'S'
-            : '',
-      });
     }
   }
 

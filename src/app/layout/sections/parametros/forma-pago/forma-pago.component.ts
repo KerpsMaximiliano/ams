@@ -42,15 +42,15 @@ export class FormaPagoComponent {
         data: {
           title: `CREAR FORMA DE PAGO`,
           edit: true,
-          par_modo: 'I',
+          par_modo: 'C',
+          codigo: formaPago?.codigo,
           forma_pago: formaPago?.forma_pago,
-          codigo: 0,
           description: formaPago?.description,
-          solicita_datos_ad: formaPago?.solicita_datos_ad,
+          nombre_tarjeta_nemot: formaPago?.nombre_tarjeta_nemot,
           codigo_banco: formaPago?.codigo_banco,
           trabaja_archivos: formaPago?.trabaja_archivos,
           trabaja_rechazos: formaPago?.trabaja_rechazos,
-          nombre_tarjeta_nemot: formaPago?.nombre_tarjeta_nemot,
+          solicita_datos_ad: formaPago?.solicita_datos_ad,
           codigo_tarjeta_de_baja: '',
         },
       }
@@ -80,12 +80,7 @@ export class FormaPagoComponent {
             complete: () => {
               this.utils.closeLoading();
               setTimeout(() => {
-                this.handleSearch(
-                  JSON.stringify({
-                    par_modo: 'C',
-                    description: '',
-                  })
-                );
+                this.handleSearch(res.description.trim());
               }, 300);
             },
           });

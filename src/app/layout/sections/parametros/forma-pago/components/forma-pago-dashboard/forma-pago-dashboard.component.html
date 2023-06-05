@@ -32,7 +32,7 @@
     <ng-container matColumnDef="codigo_tarjeta_de_baja">
       <th mat-header-cell *matHeaderCellDef> Estado </th>
       <td mat-cell *matCellDef="let param">
-        {{ param.codigo_tarjeta_de_baja === "S" ? "BAJA" : "ACTIVO" }}
+        {{ param.codigo_tarjeta_de_baja === "" ? "ACTIVO" : "BAJA" }}
       </td>
     </ng-container>
 
@@ -42,9 +42,14 @@
         <button class="action-button" (click)="viewFormaPago(formaPago)">
           <mat-icon class="edit-icon" aria-label="false"> visibility </mat-icon>
         </button>
-        <button class="action-button" (click)="editFormaPago(formaPago)">
-          <mat-icon class="delete-icon" aria-label="false"> edit </mat-icon>
-        </button>
+        <ng-container *ngIf="formaPago.codigo_tarjeta_de_baja !== 'S'; else edit">
+          <button class="action-button" (click)="editFormaPago(formaPago)">
+            <mat-icon class="delete-icon" aria-label="false"> edit </mat-icon>
+          </button>
+        </ng-container>
+        <ng-template #edit>
+          <div class="no-edit"></div>
+        </ng-template>
       </td>
     </ng-container>
 
@@ -52,7 +57,7 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
 
-  <mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons
-    aria-label="controles de página de la tabla de estados">
+  <mat-paginator [pageSizeOptions]="[10, 20, 30]" [pageSize]="10" showFirstLastButtons
+    aria-label="Controles de paginación.">
   </mat-paginator>
 </section>
