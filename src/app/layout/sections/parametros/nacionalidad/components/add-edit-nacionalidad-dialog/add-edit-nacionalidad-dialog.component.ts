@@ -27,24 +27,35 @@ export class AddEditNacionalidadDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
+  /**
+   * 1. 'this.setUpForm();': Asigna las validaciones correspondientes a cada campo de entrada/selección.
+   * 2. Condición: comprueba que sea una actualización (modificación) o lectura.
+   * 3. 'this.setFormValues();': Asigna los valores de 'data' a los campos de entrada/selección del formulario.
+   * 4. Condición: comprueba si la edición esta deshabilitada.
+   *     > Deshabilidada: deshabilita el formulario.
+   *     > Habilitada: deshabilita el 'codigo_nacionalidad_nuevo'.
+   */
   ngOnInit(): void {
     this.setUpForm();
-    if (this.data.codigo_nacionalidad_nuevo) this.setFormValues();
+    if (this.data.par_modo === 'U' || this.data.par_modo === 'R') {
+      this.setFormValues();
+      if (this.data.edit === false) {
+        this.formGroup.disable();
+      } else {
+        this.formGroup.get('codigo_nacionalidad_nuevo')?.disable();
+      }
+    }
   }
 
   private setUpForm(): void {
     this.formGroup = new UntypedFormGroup({
       codigo_nacionalidad_nuevo: new UntypedFormControl(
-        {
-          value: '',
-          disabled:
-            this.data.codigo_nacionalidad_nuevo &&
-            this.data.title === 'EDITAR NACIONALIDAD',
-        },
+        '',
         Validators.compose([
-          Validators.maxLength(3),
+          Validators.required,
           Validators.minLength(1),
-          Validators.pattern('^[0-9]*$'),
+          Validators.maxLength(3),
+          Validators.pattern('^[0-9]*$'), // Verificar
         ])
       ),
       descripcion: new UntypedFormControl(
@@ -60,8 +71,7 @@ export class AddEditNacionalidadDialogComponent {
         '',
         Validators.compose([
           Validators.maxLength(3),
-          Validators.minLength(1),
-          Validators.pattern('^[0-9]*$'),
+          Validators.pattern('^[0-9]*$'), // Verificar
         ])
       ),
     });
@@ -84,27 +94,12 @@ export class AddEditNacionalidadDialogComponent {
   public confirm(): void {
     this.formGroup.markAllAsTouched();
     if (this.formGroup.valid) {
-      this.data.codigo_nacionalidad_nuevo
-        ? this.dialogRef.close({
-            par_modo: 'U',
-            codigo_nacionalidad_nuevo: this.formGroup.get(
-              'codigo_nacionalidad_nuevo'
-            )?.value,
-            descripcion: this.formGroup.get('descripcion')?.value,
-            codigo_sistema_anterior: this.formGroup.get(
-              'codigo_sistema_anterior'
-            )?.value,
-          })
-        : this.dialogRef.close({
-            par_modo: 'I',
-            codigo_nacionalidad_nuevo: +this.formGroup.get(
-              'codigo_nacionalidad_nuevo'
-            )?.value,
-            descripcion: this.formGroup.get('descripcion')?.value,
-            codigo_sistema_anterior: this.formGroup.get(
-              'codigo_sistema_anterior'
-            )?.value,
-          });
+      this.dialogRef.close({
+        par_modo: this.data.par_modo,
+        codigo: this.formGroup.get('codigo_nacionalidad_nuevo')?.value,
+        nombre_provincia: this.formGroup.get('descripcion')?.value,
+        codifica_altura: this.formGroup.get('codigo_sistema_anterior')?.value,
+      });
     }
   }
 

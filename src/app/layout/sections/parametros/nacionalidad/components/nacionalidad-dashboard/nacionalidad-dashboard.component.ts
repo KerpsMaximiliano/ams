@@ -28,9 +28,8 @@ export class NacionalidadDashboardComponent {
     new MatPaginator(new MatPaginatorIntl(), this.cdr);
   @ViewChild(MatTable) table!: MatTable<any>;
 
-  public searchId: number = 0;
-  public searchEvent: string = '';
-  public nacionalidades: INacionalidad[] = [];
+  public searchValue: string = '';
+  public nacionalidad: INacionalidad[] = [];
   public displayedColumns: string[] = [
     'codigo_nacionalidad_nuevo',
     'descripcion',
@@ -41,11 +40,11 @@ export class NacionalidadDashboardComponent {
   public dataSource: MatTableDataSource<INacionalidad>;
 
   constructor(
-    private nacionalidadService: NacionalidadService,
     private utils: UtilService,
     private _liveAnnouncer: LiveAnnouncer,
     private cdr: ChangeDetectorRef,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private nacionalidadService: NacionalidadService
   ) {}
 
   ngOnInit(): void {
@@ -67,17 +66,11 @@ export class NacionalidadDashboardComponent {
 
   private getNacionalidad(): void {
     this.utils.openLoading();
-    let aux = {
-      par_modo: 'C',
-      id: this.searchId,
-      descripcion: this.searchEvent,
-    };
-    let body = JSON.stringify(aux);
-    this.nacionalidadService.CRUD(body).subscribe({
+    this.nacionalidadService.CRUD(this.searchValue).subscribe({
       next: (res: any) => {
-        this.nacionalidades = res.dataset as INacionalidad[];
+        this.nacionalidad = res.dataset as INacionalidad[];
         this.dataSource = new MatTableDataSource<INacionalidad>(
-          this.nacionalidades
+          this.nacionalidad
         );
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
@@ -113,7 +106,6 @@ export class NacionalidadDashboardComponent {
           title: `EDITAR NACIONALIDAD`,
           edit: true,
           par_modo: 'U',
-          id_tabla: 3,
           codigo_nacionalidad_nuevo: nacionalidad.codigo_nacionalidad_nuevo,
           descripcion: nacionalidad.descripcion,
           codigo_sistema_anterior: nacionalidad.codigo_sistema_anterior,
@@ -159,7 +151,7 @@ export class NacionalidadDashboardComponent {
       data: {
         title: `VER NACIONALIDAD`,
         edit: false,
-        id_tabla: 3,
+        par_modo: 'R',
         codigo_nacionalidad_nuevo: nacionalidad.codigo_nacionalidad_nuevo,
         descripcion: nacionalidad.descripcion,
         codigo_sistema_anterior: nacionalidad.codigo_sistema_anterior,
@@ -167,9 +159,8 @@ export class NacionalidadDashboardComponent {
     });
   }
 
-  public filter(buscar: any): void {
-    this.searchId = buscar.id;
-    this.searchEvent = buscar.descripcion;
+  public filter(data: string): void {
+    this.searchValue = data;
     this.getNacionalidad();
   }
 }

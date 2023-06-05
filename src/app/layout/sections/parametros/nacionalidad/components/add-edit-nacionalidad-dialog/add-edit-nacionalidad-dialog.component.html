@@ -7,8 +7,7 @@
     <div class="seeker-fields-container">
       <h3> Código </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="codigo_nacionalidad_nuevo" required minlength="1" maxlength="3"
-          [readonly]="!data.edit" />
+        <input matInput formControlName="codigo_nacionalidad_nuevo" required minlength="1" maxlength="3">
         <mat-error
           *ngIf="formGroup.get('codigo_nacionalidad_nuevo')?.invalid && formGroup.get('codigo_nacionalidad_nuevo')?.touched">
           {{ getErrorMessage(formGroup.get("codigo_nacionalidad_nuevo")) }}
@@ -19,7 +18,7 @@
     <div class="seeker-fields-container">
       <h3> Nacionalidad </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="descripcion" required minlength="3" maxlength="30" [readonly]="!data.edit" />
+        <input matInput formControlName="descripcion" required minlength="3" maxlength="30" />
         <mat-error *ngIf="formGroup.get('descripcion')?.invalid && formGroup.get('descripcion')?.touched">
           {{ getErrorMessage(formGroup.get("descripcion")) }}
         </mat-error>
@@ -29,14 +28,14 @@
     <div class="seeker-fields-container">
       <h3> Sistema anterior </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="codigo_sistema_anterior" required minlength="1" maxlength="3"
-          [readonly]="!data.edit" />
+        <input matInput formControlName="codigo_sistema_anterior">
         <mat-error
           *ngIf="formGroup.get('codigo_sistema_anterior')?.invalid && formGroup.get('codigo_sistema_anterior')?.touched">
           {{ getErrorMessage(formGroup.get("codigo_sistema_anterior")) }}
         </mat-error>
       </mat-form-field>
     </div>
+
     <div *ngIf="data.edit; else other_content" class="buttons-container">
       <button class="primary-button icon-button" type="button" (click)="closeDialog()">
         <mat-icon> close </mat-icon>

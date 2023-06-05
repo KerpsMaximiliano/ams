@@ -8,3 +8,17 @@ export interface INacionalidad {
 }
 
 export type INacionalidadResponse = IResponse<INacionalidad[]>;
+
+/**
+ * par_modo: string - CRUD.
+ * CRUD:
+ * C: Create (insertar).
+ * R: Read (consultar).
+ * U: Update (actualizar/modificar).
+ * D: Delete (eliminar).
+ *
+ * DATOS REF. TABLA: T03FNAC.
+ * codigo_nacionalidad_nuevo:     number - Cód.nacionalidad.
+ * descripcion:                   string - Descripción.
+ * Codigo sistema ant.:           number - Codigo sistema ant.
+ */

@@ -42,7 +42,7 @@ export class NacionalidadComponent {
         data: {
           title: `NUEVA NACIONALIDAD`,
           edit: true,
-          id_tabla: 3,
+          par_modo: 'C',
           codigo_nacionalidad_nuevo: nacionalidad?.codigo_nacionalidad_nuevo,
           descripcion: nacionalidad?.descripcion,
           codigo_sistema_anterior: nacionalidad?.codigo_sistema_anterior,
@@ -74,7 +74,7 @@ export class NacionalidadComponent {
             complete: () => {
               this.utils.closeLoading();
               setTimeout(() => {
-                this.handleSearch('');
+                this.handleSearch(res.codigo_nacionalidad_nuevo.trim());
               }, 300);
             },
           });
