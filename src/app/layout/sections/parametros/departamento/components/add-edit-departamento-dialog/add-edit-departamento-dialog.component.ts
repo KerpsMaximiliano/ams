@@ -38,10 +38,28 @@ export class AddEditDepartamentoDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
+  /**
+   * 1. 'this.setUpForm();': Asigna las validaciones correspondientes a cada campo de entrada/selección.
+   * 2. Condición: comprueba que sea una actualización (modificación) o lectura.
+   * 3. 'this.setFormValues();': Asigna los valores de 'data' a los campos de entrada/selección del formulario.
+   * 4. Condición: comprueba si la edición esta deshabilitada.
+   *     > Deshabilidada: deshabilita el formulario.
+   *     > Habilitada: deshabilita el 'letra_provincia'.
+   */
   ngOnInit(): void {
-    this.provincias$ = this.provinciaService.provinciaList;
+    // Verificar
     this.setUpForm();
     if (this.data.letra_provincia) this.setFormValues();
+
+    this.provincias$ = this.provinciaService.provinciaList;
+    if (this.data.par_modo === 'U' || this.data.par_modo === 'R') {
+      this.setFormValues();
+      if (this.data.edit === false) {
+        this.formGroup.disable();
+      } else {
+        this.formGroup.get('letra_provincia')?.disable();
+      }
+    }
   }
 
   private setUpForm(): void {
@@ -73,7 +91,11 @@ export class AddEditDepartamentoDialogComponent {
       ),
       descripcion_reducida: new UntypedFormControl(
         '',
-        Validators.compose([Validators.minLength(3), Validators.maxLength(15)])
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(15),
+        ])
       ),
       nombre_provincia: new UntypedFormControl({
         value: '',

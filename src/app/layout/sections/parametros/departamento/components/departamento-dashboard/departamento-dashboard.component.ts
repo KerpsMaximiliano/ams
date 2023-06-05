@@ -45,8 +45,8 @@ export class DepartamentoDashboardComponent {
   provincias$: Observable<IProvinciaResponse>;
   public displayedColumns: string[] = [
     'codigo_departamento',
-    'departamento',
-    'abreviatura',
+    'descripcion',
+    'descripcion_reducida',
     'actions',
   ];
   public dataSource: MatTableDataSource<IDepartamento>;
@@ -56,8 +56,8 @@ export class DepartamentoDashboardComponent {
     private _liveAnnouncer: LiveAnnouncer,
     private cdr: ChangeDetectorRef,
     private dialog: MatDialog,
-    private provinciaService: ProvinciaService,
-    private departamentoService: DepartamentoService
+    private departamentoService: DepartamentoService,
+    private provinciaService: ProvinciaService
   ) {}
 
   ngOnInit(): void {
@@ -92,7 +92,7 @@ export class DepartamentoDashboardComponent {
   private getDepartamento(): void {
     this.utils.openLoading();
     let body = {
-      par_modo: 'C',
+      par_modo: 'R',
       letra_provincia: this.searchValue.letra_provincia,
       codigo_departamento: null,
       descripcion: this.searchValue.descripcion,
@@ -191,7 +191,6 @@ export class DepartamentoDashboardComponent {
       data: {
         title: `VER DEPARTAMENTO`,
         edit: false,
-        id_tabla: 10,
         letra_provincia: departamento.letra_provincia,
         codigo_departamento: departamento?.codigo_departamento,
         descripcion: departamento?.descripcion,
@@ -203,8 +202,8 @@ export class DepartamentoDashboardComponent {
     });
   }
 
-  public filter(buscar: searchValue): void {
-    this.searchValue = buscar;
+  public filter(data: searchValue): void {
+    this.searchValue = data;
     this.getDepartamento();
   }
 }

@@ -31,9 +31,9 @@ export class DepartamentoComponent {
   provincias$: Observable<IProvinciaResponse>;
 
   constructor(
-    private departamentoService: DepartamentoService,
     private utils: UtilService,
     private dialog: MatDialog,
+    private departamentoService: DepartamentoService,
     private provinciaService: ProvinciaService
   ) {}
 
@@ -50,9 +50,9 @@ export class DepartamentoComponent {
       AddEditDepartamentoDialogComponent,
       {
         data: {
-          title: `NUEVO DEPARTAMENTO`,
+          title: `CREAR DEPARTAMENTO`,
           edit: true,
-          par_modo: 'I',
+          par_modo: 'C',
           letra_provincia: departamento?.letra_provincia,
           codigo_departamento: departamento?.codigo_departamento,
           descripcion: departamento?.descripcion,
@@ -86,8 +86,8 @@ export class DepartamentoComponent {
               this.utils.closeLoading();
               setTimeout(() => {
                 this.handleSearch({
-                  letra_provincia: res.letra_provincia,
-                  descripcion: res.codigo_departamento,
+                  letra_provincia: res.letra_provincia.trim(),
+                  descripcion: res.codigo_departamento.trim(),
                 });
               }, 300);
             },
