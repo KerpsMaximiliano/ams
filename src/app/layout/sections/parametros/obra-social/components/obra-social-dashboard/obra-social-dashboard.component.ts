@@ -28,7 +28,7 @@ export class ObraSocialDashboardComponent {
     new MatPaginator(new MatPaginatorIntl(), this.cdr);
   @ViewChild(MatTable) table!: MatTable<any>;
 
-  public searchValue: string;
+  public searchValue: string = '';
   public obrasSociales: IObraSocial[] = [];
   public displayedColumns: string[] = [
     'codigo',
@@ -147,8 +147,8 @@ export class ObraSocialDashboardComponent {
               this.utils.closeLoading();
               setTimeout(() => {
                 this.searchValue = JSON.stringify({
-                  par_modo: 'C',
-                  descripcion: res.descripcion,
+                  par_modo: 'R',
+                  codigo: res.codigo,
                 });
                 this.getobraSocial();
               }, 300);
@@ -164,7 +164,7 @@ export class ObraSocialDashboardComponent {
       data: {
         title: `VER OBRA SOCIAL`,
         edit: false,
-        par_modo: 'C',
+        par_modo: 'R',
         codigo: obraSocial.codigo,
         descripcion: obraSocial.descripcion,
         propone_fecha_patologia: obraSocial.propone_fecha_patologia,

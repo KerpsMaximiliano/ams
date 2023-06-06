@@ -80,7 +80,11 @@ export class FormaPagoComponent {
             complete: () => {
               this.utils.closeLoading();
               setTimeout(() => {
-                this.handleSearch(res.description.trim());
+                this.handleSearch(
+                  JSON.stringify({
+                    par_modo: 'R',
+                  })
+                );
               }, 300);
             },
           });

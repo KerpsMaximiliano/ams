@@ -8,19 +8,17 @@ import { Component, EventEmitter, Output } from '@angular/core';
 export class CondicionIvaFilterComponent {
   @Output() searchEvent: EventEmitter<string> = new EventEmitter<string>();
 
-  body: string | any;
-
   constructor() {}
 
   ngOnInit(): void {}
 
   public search(event: any, value: string): void {
     event.preventDefault();
-    this.body = {
-      par_modo: 'C',
+    let body = {
+      par_modo: 'O',
       descripcion: value,
     };
-    this.searchEvent.emit(this.body);
+    this.searchEvent.emit(JSON.stringify(body));
   }
 
   public clear(inputElement: HTMLInputElement) {

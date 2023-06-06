@@ -30,7 +30,7 @@ export class TipoDocumentoDashboardComponent implements OnInit {
   @ViewChild(MatTable) table!: MatTable<any>;
 
   public searchValue: string = '';
-  public documents: ITipoDocumento[] = [];
+  public tipoDocumento: ITipoDocumento[] = [];
   public displayedColumns: string[] = [
     'tipo_de_documento',
     'descripcion',
@@ -69,9 +69,11 @@ export class TipoDocumentoDashboardComponent implements OnInit {
     this.utils.openLoading();
     this.tipoDocumentoService.CRUD(this.searchValue).subscribe({
       next: (res: any) => {
-        this.documents = res.dataset as ITipoDocumento[];
+        res.dataset.length
+          ? (this.tipoDocumento = res.dataset as ITipoDocumento[])
+          : (this.tipoDocumento = [res.dataset]);
         this.dataSource = new MatTableDataSource<ITipoDocumento>(
-          this.documents
+          this.tipoDocumento
         );
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
@@ -104,7 +106,7 @@ export class TipoDocumentoDashboardComponent implements OnInit {
       AddEditTipoDocumentoDialogComponent,
       {
         data: {
-          title: `EDITAR COUMENTO`,
+          title: `EDITAR TIPO DE DOCUMENTO`,
           edit: true,
           par_modo: 'U',
           tipo_de_documento: tipoDocumento.tipo_de_documento,
@@ -139,6 +141,10 @@ export class TipoDocumentoDashboardComponent implements OnInit {
             complete: () => {
               this.utils.closeLoading();
               setTimeout(() => {
+                this.searchValue = JSON.stringify({
+                  par_modo: 'R',
+                  tipo_de_documento: res.tipo_de_documento,
+                });
                 this.getTipoDocumento();
               }, 300);
             },

@@ -42,7 +42,7 @@ export class ObraSocialComponent {
         data: {
           title: `CREAR OBRA SOCIAL`,
           edit: true,
-          par_modo: 'I',
+          par_modo: 'C',
           codigo: obraSocial?.codigo,
           descripcion: obraSocial?.descripcion,
           propone_fecha_patologia: obraSocial?.propone_fecha_patologia,
@@ -81,8 +81,8 @@ export class ObraSocialComponent {
               setTimeout(() => {
                 this.handleSearch(
                   JSON.stringify({
-                    par_modo: 'C',
-                    descripcion: res.descripcion,
+                    par_modo: 'R',
+                    codigo: res.codigo,
                   })
                 );
               }, 300);

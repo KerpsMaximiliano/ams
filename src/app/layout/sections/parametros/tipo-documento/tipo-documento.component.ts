@@ -26,7 +26,7 @@ export class TipoDocumentoComponent {
   constructor(
     private utils: UtilService,
     private dialog: MatDialog,
-    private tipoDocumentoService: TipoDocumentoService,
+    private tipoDocumentoService: TipoDocumentoService
   ) {}
 
   ngOnInit(): void {}
@@ -43,10 +43,10 @@ export class TipoDocumentoComponent {
           title: `CREAR TIPO DE DOCUMENTO`,
           edit: true,
           par_modo: 'C',
-          tipo: tipoDocumento?.descripcion,
-          abreviatura: tipoDocumento?.descripcion_reducida,
-          cuit: tipoDocumento?.control_cuit,
-          tipo_documento: tipoDocumento?.tipo_de_documento,
+          tipo_de_documento: tipoDocumento?.tipo_de_documento,
+          descripcion: tipoDocumento?.descripcion,
+          descripcion_reducida: tipoDocumento?.descripcion_reducida,
+          control_cuit: tipoDocumento?.control_cuit,
         },
       }
     );
@@ -58,7 +58,7 @@ export class TipoDocumentoComponent {
           this.tipoDocumentoService.CRUD(res).subscribe({
             next: () => {
               this.utils.notification(
-                'El Documento se ha creado exitosamente. ',
+                'El documento se ha creado exitosamente. ',
                 'success'
               );
             },
@@ -75,7 +75,12 @@ export class TipoDocumentoComponent {
             complete: () => {
               this.utils.closeLoading();
               setTimeout(() => {
-                this.handleSearch(res.descripcion.trim());
+                this.handleSearch(
+                  JSON.stringify({
+                    par_modo: 'R',
+                    tipo_de_documento: res.tipo_de_documento,
+                  })
+                );
               }, 300);
             },
           });

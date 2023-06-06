@@ -163,7 +163,7 @@ export class PreguntaDDJJDashboardComponent {
       data: {
         title: `VER PREGUNTA DE DECLARACIONES JURADAS`,
         edit: false,
-        par_modo: 'C',
+        par_modo: 'R',
         modelo_formulario: preguntaDDJJ?.modelo_formulario,
         nro_preg: preguntaDDJJ?.nro_preg,
         cantidad_lineas_resp: preguntaDDJJ?.cantidad_lineas_resp,

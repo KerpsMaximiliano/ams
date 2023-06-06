@@ -42,7 +42,7 @@ export class EstadoCivilComponent {
         data: {
           title: `CREAR ESTADO CIVIL`,
           edit: true,
-          par_modo: 'I',
+          par_modo: 'C',
           codigo_estado_civil: estadoCivil?.codigo_estado_civil,
           description: estadoCivil?.description,
         },
@@ -75,8 +75,8 @@ export class EstadoCivilComponent {
               setTimeout(() => {
                 this.handleSearch(
                   JSON.stringify({
-                    par_modo: 'C',
-                    description: res.description,
+                    par_modo: 'R',
+                    codigo_estado_civil: res.codigo_estado_civil,
                   })
                 );
               }, 300);

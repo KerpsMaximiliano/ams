@@ -18,10 +18,10 @@ export class PreguntaDDJJFilterComponent {
   public search(): void {
     let selectedValue = this.selectOptions?.value || '';
     let body = {
-      par_modo: 'C',
+      par_modo: 'O',
       modelo_formulario: selectedValue,
     };
-    this.searchEvent.emit(body);
+    this.searchEvent.emit(JSON.stringify(body));
   }
 
   public clean(): void {

@@ -40,7 +40,7 @@ export class NacionalidadComponent {
       AddEditNacionalidadDialogComponent,
       {
         data: {
-          title: `NUEVA NACIONALIDAD`,
+          title: `CREAR NACIONALIDAD`,
           edit: true,
           par_modo: 'C',
           codigo_nacionalidad_nuevo: nacionalidad?.codigo_nacionalidad_nuevo,
@@ -74,10 +74,12 @@ export class NacionalidadComponent {
             complete: () => {
               this.utils.closeLoading();
               setTimeout(() => {
-                this.handleSearch({
-                  par_modo: 'R',
-                  codigo_nacionalidad_nuevo: res.codigo_nacionalidad_nuevo,
-                });
+                this.handleSearch(
+                  JSON.stringify({
+                    par_modo: 'R',
+                    codigo_nacionalidad_nuevo: res.codigo_nacionalidad_nuevo,
+                  })
+                );
               }, 300);
             },
           });

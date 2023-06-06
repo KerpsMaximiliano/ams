@@ -18,7 +18,7 @@ export class NacionalidadFilterComponent {
       par_modo: 'O',
       descripcion: value,
     };
-    this.searchEvent.emit(body);
+    this.searchEvent.emit(JSON.stringify(body));
   }
 
   public clear(inputElement: HTMLInputElement) {

@@ -15,10 +15,10 @@ export class TipoDocumentoFilterComponent {
   public search(event: any, value: string): void {
     event.preventDefault();
     let body = {
-      par_modo: 'R',
+      par_modo: 'O',
       descripcion: value,
     };
-    this.searchEvent.emit(body);
+    this.searchEvent.emit(JSON.stringify(body));
   }
 
   public clear(inputElement: HTMLInputElement) {

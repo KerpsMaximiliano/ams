@@ -68,7 +68,9 @@ export class NacionalidadDashboardComponent {
     this.utils.openLoading();
     this.nacionalidadService.CRUD(this.searchValue).subscribe({
       next: (res: any) => {
-        this.nacionalidad = res.dataset as INacionalidad[];
+        res.dataset.length
+          ? (this.nacionalidad = res.dataset as INacionalidad[])
+          : (this.nacionalidad = [res.dataset]);
         this.dataSource = new MatTableDataSource<INacionalidad>(
           this.nacionalidad
         );
@@ -86,9 +88,6 @@ export class NacionalidadDashboardComponent {
       },
       complete: () => {
         this.utils.closeLoading();
-        setTimeout((res: any) => {
-          this.searchValue = res?.codigo_nacionalidad_nuevo;
-        }, 300);
       },
     });
   }
@@ -140,7 +139,11 @@ export class NacionalidadDashboardComponent {
             complete: () => {
               this.utils.closeLoading();
               setTimeout(() => {
-                this.searchValue = res.codigo_nacionalidad_nuevo;
+                this.searchValue = JSON.stringify({
+                  par_modo: 'R',
+                  codigo_nacionalidad_nuevo: res.codigo_nacionalidad_nuevo,
+                });
+                this.getNacionalidad();
               }, 300);
             },
           });

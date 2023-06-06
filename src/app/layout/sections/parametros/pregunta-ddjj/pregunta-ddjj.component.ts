@@ -42,9 +42,9 @@ export class PreguntaDDJJComponent {
         data: {
           title: `CREAR PREGUNTA DE DECLARACIÓN JURADA`,
           edit: true,
-          par_modo: 'I',
+          par_modo: 'C',
           modelo_formulario: preguntaDDJJ?.modelo_formulario,
-          nro_preg: 0,
+          nro_preg: preguntaDDJJ?.nro_preg,
           cantidad_lineas_resp: preguntaDDJJ?.cantidad_lineas_resp,
           pide_fecha: preguntaDDJJ?.pide_fecha,
           yes_no: preguntaDDJJ?.yes_no,
@@ -79,8 +79,9 @@ export class PreguntaDDJJComponent {
               setTimeout(() => {
                 this.handleSearch(
                   JSON.stringify({
-                    par_modo: 'C',
-                    modelo_formulario: '',
+                    par_modo: 'R',
+                    modelo_formulario: res.modelo_formulario,
+                    nro_preg: res.nro_preg,
                   })
                 );
               }, 300);

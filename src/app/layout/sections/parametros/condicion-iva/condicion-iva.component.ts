@@ -42,7 +42,7 @@ export class CondicionIvaComponent {
         data: {
           title: `CREAR CONDICIÓN DE IVA`,
           edit: true,
-          par_modo: 'I',
+          par_modo: 'C',
           codigoCondIva: condicionIva?.codigo_de_IVA,
           descripcion: condicionIva?.descripcion,
           abreviatura: condicionIva?.descripcion_reducida,
@@ -77,8 +77,8 @@ export class CondicionIvaComponent {
               setTimeout(() => {
                 this.handleSearch(
                   JSON.stringify({
-                    par_modo: 'C',
-                    descripcion: res.descripcion.trim(),
+                    par_modo: 'R',
+                    codigo_de_IVA: res.codigo_de_IVA,
                   })
                 );
               }, 300);

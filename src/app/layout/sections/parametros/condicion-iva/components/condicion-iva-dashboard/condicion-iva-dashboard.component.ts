@@ -29,7 +29,7 @@ export class CondicionIvaDashboardComponent {
   @ViewChild(MatTable) table!: MatTable<any>;
 
   public searchValue: string;
-  public documents: ICondicionIva[] = [];
+  public condicionIva: ICondicionIva[] = [];
   public displayedColumns: string[] = [
     'codigo_de_IVA',
     'descripcion',
@@ -68,8 +68,12 @@ export class CondicionIvaDashboardComponent {
     this.utils.openLoading();
     this.tipoCondicionService.CRUD(this.searchValue).subscribe({
       next: (res: any) => {
-        this.documents = res.dataset as ICondicionIva[];
-        this.dataSource = new MatTableDataSource<ICondicionIva>(this.documents);
+        res.dataset.length
+          ? (this.condicionIva = res.dataset as ICondicionIva[])
+          : (this.condicionIva = [res.dataset]);
+        this.dataSource = new MatTableDataSource<ICondicionIva>(
+          this.condicionIva
+        );
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
       },
@@ -137,8 +141,8 @@ export class CondicionIvaDashboardComponent {
               this.utils.closeLoading();
               setTimeout(() => {
                 this.searchValue = JSON.stringify({
-                  par_modo: 'C',
-                  descripcion: res.descripcion,
+                  par_modo: 'R',
+                  codigo_de_IVA: res.codigo_de_IVA,
                 });
                 this.getCondicionIva();
               }, 300);
@@ -154,7 +158,7 @@ export class CondicionIvaDashboardComponent {
       data: {
         title: `VER CONDICIÓN DE IVA`,
         edit: false,
-        par_modo: 'C',
+        par_modo: 'R',
         codigo_de_IVA: condicionIva.codigo_de_IVA,
         descripcion: condicionIva.descripcion,
         descripcion_reducida: condicionIva.descripcion_reducida,
@@ -163,8 +167,8 @@ export class CondicionIvaDashboardComponent {
     });
   }
 
-  public filter(buscar: string): void {
-    this.searchValue = buscar;
+  public filter(data: string): void {
+    this.searchValue = data;
     this.getCondicionIva();
   }
 }

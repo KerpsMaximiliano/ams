@@ -69,7 +69,6 @@ export class EstadoCivilDashboardComponent implements OnInit {
         res.dataset.length
           ? (this.estadoCivil = res.dataset as IEstadoCivil[])
           : (this.estadoCivil = [res.dataset]);
-
         this.dataSource = new MatTableDataSource<IEstadoCivil>(
           this.estadoCivil
         );
@@ -120,7 +119,7 @@ export class EstadoCivilDashboardComponent implements OnInit {
           this.estadoCivilService.CRUD(res).subscribe({
             next: () => {
               this.utils.notification(
-                'El Estado Civil se ha editado extiosamente. ',
+                'El estado civil se ha editado extiosamente. ',
                 'success'
               );
             },
@@ -137,6 +136,10 @@ export class EstadoCivilDashboardComponent implements OnInit {
             complete: () => {
               this.utils.closeLoading();
               setTimeout(() => {
+                this.searchValue = JSON.stringify({
+                  par_modo: 'R',
+                  codigo_estado_civil: res.codigo_estado_civil,
+                });
                 this.getEstadoCivil();
               }, 300);
             },
@@ -151,7 +154,7 @@ export class EstadoCivilDashboardComponent implements OnInit {
       data: {
         title: `VER ESTADO CIVIL`,
         edit: false,
-        par_modo: 'C',
+        par_modo: 'R',
         codigo_estado_civil: estadoCivil?.codigo_estado_civil,
         description: estadoCivil?.description,
       },
