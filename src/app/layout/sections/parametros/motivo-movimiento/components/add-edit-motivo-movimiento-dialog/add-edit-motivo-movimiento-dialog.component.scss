@@ -11,23 +11,33 @@
 }
 
 /*
-   * MODAL: Espacios.
-  */
+ * MODAL: Espacios.
+*/
 .form-datos {
-  padding: 2rem 1rem !important;
+  padding: 0rem 1rem 1rem 1rem !important;
 }
 
 /*
-   * MODAL: Formulario deshabilitado.
-   * Borde: '::ng-deep .mat-form-field-disabled .mat-form-field-outline'.
-   * Texto inputs: '::ng-deep .mat-form-field-disabled .mat-input-element'.
-   * Texto select: '::ng-deep .mat-form-field-disabled .mat-select-value'.
-   * Texto seleccionable: '.mat-form-field-disabled'.
-  */
+ * MODAL: Formulario deshabilitado.
+ * Borde: '::ng-deep .mat-form-field-disabled .mat-form-field-outline'.
+ * Texto inputs: '::ng-deep .mat-form-field-disabled .mat-input-element'.
+ * Texto select: '::ng-deep .mat-form-field-disabled .mat-select-value'.
+ * Texto seleccionable: '.mat-form-field-disabled'.
+*/
 ::ng-deep .mat-form-field-disabled .mat-form-field-outline,
 ::ng-deep .mat-form-field-disabled .mat-input-element,
 ::ng-deep .mat-form-field-disabled .mat-select-value,
 .mat-form-field-disabled {
-  color: #000 !important;
+  color: #635f5f !important;
   user-select: text !important;
+}
+
+/*
+   
+*/
+.date-input[type="date"]::-webkit-calendar-picker-indicator {
+  background-size: cover;
+  width: 1rem;
+  height: 1rem;
+  cursor: pointer;
 }

@@ -109,7 +109,7 @@
     <div class="seeker-fields-container" *ngIf="data.par_modo === 'R' || data.par_modo === 'U'">
       <h3> ESTADO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="codigo_tarjeta_de_baja">
+        <input matInput [value]="data.codigo_tarjeta_de_baja === 'S' ? 'BAJA' : 'ACTIVO'" matInput disabled>
         <mat-error
           *ngIf="formGroup.get('codigo_tarjeta_de_baja')?.invalid && formGroup.get('codigo_tarjeta_de_baja')?.touched">
           {{ getErrorMessage(formGroup.get('codigo_tarjeta_de_baja')) }}

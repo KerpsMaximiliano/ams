@@ -36,17 +36,30 @@ export class AddEditObraSocialDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
+  /**
+   * 1. 'this.setUpForm();': Asigna las validaciones correspondientes a cada campo de entrada/selección.
+   * 2. Condición: comprueba que sea una actualización (modificación) o lectura.
+   * 3. 'this.setFormValues();': Asigna los valores de 'data' a los campos de entrada/selección del formulario.
+   * 4. Condición: comprueba si la edición esta deshabilitada.
+   *     > Deshabilidada: deshabilita el formulario.
+   *     > Habilitada: deshabilita el 'codigo'.
+   */
   ngOnInit(): void {
     this.setUpForm();
-    if (this.data.id) {
+    if (this.data.par_modo === 'U' || this.data.par_modo === 'R') {
       this.setFormValues();
+      if (this.data.edit === false) {
+        this.formGroup.disable();
+      } else {
+        this.formGroup.get('codigo')?.disable();
+      }
     }
   }
 
   private setUpForm(): void {
     this.formGroup = new UntypedFormGroup({
       codigo: new UntypedFormControl(
-        { value: this.data.codigo, disabled: this.data.par_modo == 'U' },
+        this.data.codigo,
         Validators.compose([
           Validators.required,
           Validators.minLength(1),
@@ -55,7 +68,7 @@ export class AddEditObraSocialDialogComponent {
         ])
       ),
       descripcion: new UntypedFormControl(
-        this.data.descripcion,
+        this.data.descripcion ? this.data.descripcion.trim() : '',
         Validators.compose([
           Validators.required,
           Validators.minLength(3),
@@ -64,30 +77,27 @@ export class AddEditObraSocialDialogComponent {
           notOnlySpaces(),
         ])
       ),
-      proponeFechaPatologia: new UntypedFormControl(
-        { value: this.data.propone_fecha_patologia, disabled: !this.data.edit },
+      propone_fecha_patologia: new UntypedFormControl(
+        this.data.propone_fecha_patologia,
         Validators.compose([
           Validators.required,
           Validators.minLength(1),
           Validators.maxLength(1),
         ])
       ),
-      tipoFechaPatologia: new UntypedFormControl(
-        { value: this.data.tipo_fecha_patologia, disabled: !this.data.edit },
+      tipo_fecha_patologia: new UntypedFormControl(
+        this.data.tipo_fecha_patologia,
         Validators.compose([
           Validators.required,
           Validators.minLength(1),
           Validators.maxLength(2),
         ])
       ),
-      tipo: new UntypedFormControl(
-        {
-          value: this.data.tipo_obra_social_prepaga,
-          disabled: !this.data.edit,
-        },
+      tipo_obra_social_prepaga: new UntypedFormControl(
+        this.data.tipo_obra_social_prepaga,
         Validators.compose([Validators.required])
       ),
-      numeroRegistroNacional: new UntypedFormControl(
+      nro_registro: new UntypedFormControl(
         this.data.nro_registro,
         Validators.compose([
           Validators.required,
@@ -98,11 +108,11 @@ export class AddEditObraSocialDialogComponent {
         ])
       ),
       similar_SMP: new UntypedFormControl(
-        { value: this.data.similar_SMP, disabled: !this.data.edit },
+        this.data.similar_SMP,
         Validators.compose([Validators.required])
       ),
       omite_R420: new UntypedFormControl(
-        { value: this.data.omite_R420, disabled: !this.data.edit },
+        this.data.omite_R420,
         Validators.compose([Validators.required])
       ),
     });
@@ -110,32 +120,23 @@ export class AddEditObraSocialDialogComponent {
 
   private setFormValues(): void {
     this.formGroup.get('codigo')?.setValue(this.data.codigo);
-    this.formGroup.get('descripcion')?.setValue(this.data.descripcion);
-
-    this.data.proponeFechaPatologia
-      ? this.formGroup
-          .get('proponeFechaPatologia')
-          ?.setValue(this.data.proponeFechaPatologia)
-      : this.formGroup.get('proponeFechaPatologia')?.setValue('');
-
-    this.data.tipoFechaPatologia
-      ? this.formGroup
-          .get('tipoFechaPatologia')
-          ?.setValue(this.data.tipoFechaPatologia)
-      : this.formGroup.get('tipoFechaPatologia')?.setValue('');
-
-    this.formGroup.get('tipo')?.setValue(this.data.tipo);
     this.formGroup
-      .get('numeroRegistroNacional')
-      ?.setValue(this.data.numeroRegistroNacional);
-
-    this.data.similar_SMP
-      ? this.formGroup.get('similar_SMP')?.setValue(this.data.similar_SMP)
-      : this.formGroup.get('similar_SMP')?.setValue('');
-
-    this.data.omiteResolucion
-      ? this.formGroup.get('omite_R420')?.setValue(this.data.omite_R420)
-      : this.formGroup.get('omite_R420')?.setValue('');
+      .get('descripcion')
+      ?.setValue(this.data.descripcion ? this.data.descripcion.trim() : '');
+    this.formGroup
+      .get('propone_fecha_patologia')
+      ?.setValue(this.data.propone_fecha_patologia);
+    this.formGroup
+      .get('tipo_fecha_patologia')
+      ?.setValue(this.data.tipo_fecha_patologia);
+    this.formGroup
+      .get('tipo_obra_social_prepaga')
+      ?.setValue(this.data.tipo_obra_social_prepaga);
+    this.formGroup
+      .get('nro_registro')
+      ?.setValue(this.data.nro_registro);
+    this.formGroup.get('similar_SMP')?.setValue(this.data.similar_SMP);
+    this.formGroup.get('omite_R420')?.setValue(this.data.omite_R420);
   }
 
   public closeDialog(): void {
@@ -148,12 +149,12 @@ export class AddEditObraSocialDialogComponent {
       this.dialogRef.close({
         par_modo: this.data.par_modo,
         codigo: this.formGroup.get('codigo')?.value,
-        descripcion: this.formGroup.get('descripcion')?.value.trim(),
-        propone_fecha_patologia: this.formGroup.get('proponeFechaPatologia')
+        descripcion: this.formGroup.get('descripcion')?.value,
+        propone_fecha_patologia: this.formGroup.get('propone_fecha_patologia')
           ?.value,
-        tipo_fecha_patologia: this.formGroup.get('tipoFechaPatologia')?.value,
-        tipo_obra_social_prepaga: this.formGroup.get('tipo')?.value,
-        nro_registro: this.formGroup.get('numeroRegistroNacional')?.value,
+        tipo_fecha_patologia: this.formGroup.get('tipo_fecha_patologia')?.value,
+        tipo_obra_social_prepaga: this.formGroup.get('tipo_obra_social_prepaga')?.value,
+        nro_registro: this.formGroup.get('nro_registro')?.value,
         similar_SMP: this.formGroup.get('similar_SMP')?.value,
         omite_R420: this.formGroup.get('omite_R420')?.value,
       });
@@ -162,9 +163,9 @@ export class AddEditObraSocialDialogComponent {
 
   public changeProponeFechaPatologia() {
     const proponeFechaPatologiaControl = this.formGroup.get(
-      'proponeFechaPatologia'
+      'propone_fecha_patologia'
     );
-    const tipoFechaPatologiaControl = this.formGroup.get('tipoFechaPatologia');
+    const tipoFechaPatologiaControl = this.formGroup.get('tipo_fecha_patologia');
     if (proponeFechaPatologiaControl?.value === 'N') {
       tipoFechaPatologiaControl?.setValue('');
       tipoFechaPatologiaControl?.disable();

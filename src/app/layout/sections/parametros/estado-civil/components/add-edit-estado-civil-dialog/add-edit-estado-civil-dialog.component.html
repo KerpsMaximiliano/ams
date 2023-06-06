@@ -7,8 +7,7 @@
     <div class="seeker-fields-container">
       <h3> CÓDIGO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="codigo_estado_civil" required minlength="1" maxlength="1"
-          [readonly]="!data.edit">
+        <input matInput formControlName="codigo_estado_civil" required minlength="1" maxlength="1">
         <mat-error
           *ngIf="formGroup.get('codigo_estado_civil')?.invalid && formGroup.get('codigo_estado_civil')?.touched">
           {{ getErrorMessage(formGroup.get('codigo_estado_civil')) }}
@@ -19,7 +18,7 @@
     <div class="seeker-fields-container">
       <h3> ESTADO CIVIL </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="description" required maxlength="20" [readonly]="!data.edit">
+        <input matInput formControlName="description" required maxlength="20">
         <mat-error *ngIf="formGroup.get('description')?.invalid && formGroup.get('description')?.touched">
           {{ getErrorMessage(formGroup.get('description')) }}
         </mat-error>

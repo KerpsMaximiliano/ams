@@ -61,7 +61,7 @@
     <div class="seeker-fields-container">
       <h3> PIDE FECHA </h3>
       <mat-form-field class="seeker-form-field" required appearance="outline">
-        <mat-select formControlName="pide_fecha">
+        <mat-select formControlName="pide_fecha" (selectionChange)="onChangeDate()">
           <mat-option [value]="'S'"> SI </mat-option>
           <mat-option [value]="'N'"> NO </mat-option>
         </mat-select>
@@ -74,7 +74,7 @@
     <div class="seeker-fields-container">
       <h3> PIDE SI/NO </h3>
       <mat-form-field class="seeker-form-field" required appearance="outline">
-        <mat-select formControlName="yes_no">
+        <mat-select formControlName="yes_no" (selectionChange)="onChangeYesNo()">
           <mat-option [value]="'S'"> SI </mat-option>
           <mat-option [value]="'N'"> NO </mat-option>
         </mat-select>

@@ -7,7 +7,7 @@
     <div class="seeker-fields-container">
       <h3> CÓDIGO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="codigo" required minlength="1" maxlength="5" [readonly]="!data.edit">
+        <input matInput formControlName="codigo" required minlength="1" maxlength="5">
         <mat-error *ngIf="formGroup.get('codigo')?.invalid && formGroup.get('codigo')?.touched">
           {{ getErrorMessage(formGroup.get('codigo')) }}
         </mat-error>
@@ -17,7 +17,7 @@
     <div class="seeker-fields-container">
       <h3> OBRA SOCIAL </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="descripcion" required minlength="3" maxlength="30" [readonly]="!data.edit">
+        <input matInput formControlName="descripcion" required minlength="3" maxlength="30">
         <mat-error *ngIf="formGroup.get('descripcion')?.invalid && formGroup.get('descripcion')?.touched">
           {{ getErrorMessage(formGroup.get('descripcion')) }}
         </mat-error>
@@ -27,13 +27,14 @@
     <div class="seeker-fields-container">
       <h3> PROPONE FECHA PATOLOGÍA </h3>
       <mat-form-field class="seeker-form-field" required appearance="outline">
-        <mat-select formControlName="proponeFechaPatologia" (selectionChange)="changeProponeFechaPatologia()">
+        <mat-select formControlName="propone_fecha_patologia" (selectionChange)="changeProponeFechaPatologia()"
+          required>
           <mat-option [value]="'S'"> SI </mat-option>
           <mat-option [value]="'N'"> NO </mat-option>
         </mat-select>
         <mat-error
-          *ngIf="formGroup.get('proponeFechaPatologia')?.invalid && formGroup.get('proponeFechaPatologia')?.touched">
-          {{ getErrorMessage(formGroup.get('proponeFechaPatologia')) }}
+          *ngIf="formGroup.get('propone_fecha_patologia')?.invalid && formGroup.get('propone_fecha_patologia')?.touched">
+          {{ getErrorMessage(formGroup.get('propone_fecha_patologia')) }}
         </mat-error>
       </mat-form-field>
     </div>
@@ -41,31 +42,33 @@
     <div class="seeker-fields-container" *ngIf="this.formGroup.get('proponeFechaPatologia')?.value == 'S'">
       <h3> TIPO FECHA PATOLOGÍA </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <mat-select formControlName="tipoFechaPatologia"
-          [required]="formGroup.get('proponeFechaPatologia')?.value == 'S'">
-          <mat-option [value]="'FI'" [disabled]="formGroup.get('proponeFechaPatologia')?.value != 'S'">
+        <mat-select formControlName="tipo_fecha_patologia"
+          [required]="formGroup.get('propone_fecha_patologia')?.value == 'S'">
+          <mat-option [value]="'FI'" [disabled]="formGroup.get('propone_fecha_patologia')?.value != 'S'">
             FECHA DE INGRESO AL SERVICIO
           </mat-option>
-          <mat-option [value]="'FS'" [disabled]="formGroup.get('proponeFechaPatologia')?.value != 'S'">
+          <mat-option [value]="'FS'" [disabled]="formGroup.get('propone_fecha_patologia')?.value != 'S'">
             FECHA DE SUBSCRIPCIÓN
           </mat-option>
         </mat-select>
-        <mat-error *ngIf="formGroup.get('tipoFechaPatologia')?.invalid && formGroup.get('tipoFechaPatologia')?.touched">
-          {{ getErrorMessage(formGroup.get('tipoFechaPatologia')) }}
+        <mat-error
+          *ngIf="formGroup.get('tipo_fecha_patologia')?.invalid && formGroup.get('tipo_fecha_patologia')?.touched">
+          {{ getErrorMessage(formGroup.get('tipo_fecha_patologia')) }}
         </mat-error>
       </mat-form-field>
     </div>
 
     <div class="seeker-fields-container">
       <h3> TIPO </h3>
-      <mat-form-field class="seeker-form-field" required appearance="outline">
-        <mat-select formControlName="tipo">
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <mat-select formControlName="tipo_obra_social_prepaga" required>
           <mat-option [value]="'O'"> O.SOCIAL </mat-option>
           <mat-option [value]="'P'"> PREPAGA </mat-option>
           <mat-option [value]="'A'"> AMBAS </mat-option>
         </mat-select>
-        <mat-error *ngIf="formGroup.get('tipo')?.invalid && formGroup.get('tipo')?.touched">
-          {{ getErrorMessage(formGroup.get('tipo')) }}
+        <mat-error
+          *ngIf="formGroup.get('tipo_obra_social_prepaga')?.invalid && formGroup.get('tipo_obra_social_prepaga')?.touched">
+          {{ getErrorMessage(formGroup.get('tipo_obra_social_prepaga')) }}
         </mat-error>
       </mat-form-field>
     </div>
@@ -73,11 +76,9 @@
     <div class="seeker-fields-container">
       <h3> NÚMERO REGISTRO NACIONAL </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="numeroRegistroNacional" required minlength="1" maxlength="15"
-          [readonly]="!data.edit">
-        <mat-error
-          *ngIf="formGroup.get('numeroRegistroNacional')?.invalid && formGroup.get('numeroRegistroNacional')?.touched">
-          {{ getErrorMessage(formGroup.get('numeroRegistroNacional')) }}
+        <input matInput formControlName="nro_registro" required minlength="1" maxlength="15">
+        <mat-error *ngIf="formGroup.get('nro_registro')?.invalid && formGroup.get('nro_registro')?.touched">
+          {{ getErrorMessage(formGroup.get('nro_registro')) }}
         </mat-error>
       </mat-form-field>
     </div>
@@ -95,7 +96,6 @@
       </mat-form-field>
     </div>
 
-
     <div class="seeker-fields-container">
       <h3> OMITE RESOLUCIÓN 420 </h3>
       <mat-form-field class="seeker-form-field" required appearance="outline">
@@ -103,8 +103,8 @@
           <mat-option [value]="'S'"> SI </mat-option>
           <mat-option [value]="'N'"> NO </mat-option>
         </mat-select>
-        <mat-error *ngIf="formGroup.get('similar_SMP')?.invalid && formGroup.get('similar_SMP')?.touched">
-          {{ getErrorMessage(formGroup.get('similar_SMP')) }}
+        <mat-error *ngIf="formGroup.get('omite_R420')?.invalid && formGroup.get('omite_R420')?.touched">
+          {{ getErrorMessage(formGroup.get('omite_R420')) }}
         </mat-error>
       </mat-form-field>
     </div>

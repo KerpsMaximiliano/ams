@@ -7,32 +7,7 @@ td.mat-cell:first-of-type {
 }
 
 /*
- * Espacio mínimo a ambos lados de todas las columnas.
-*/
-.mat-column-id_motivo.mat-header-cell,
-.mat-column-id_motivo.mat-cell,
-.mat-column-descripcion.mat-header-cell,
-.mat-column-descripcion.mat-cell,
-.mat-column-tipo_motivo.mat-header-cell,
-.mat-column-tipo_motivo.mat-cell,
-.mat-column-datos_adic_SN.mat-header-cell,
-.mat-column-datos_adic_SN.mat-cell,
-.mat-column-fecha_inicio_vigencia.mat-header-cell,
-.mat-column-fecha_inicio_vigencia.mat-cell,
-.mat-column-estado.mat-header-cell,
-.mat-column-estado.mat-cell,
-.mat-column-actions.mat-header-cell,
-.mat-column-actions.mat-cell {
-  padding-left: 0.5vw !important;
-  padding-right: 0.5vw !important;
-}
-
-/*
  * Texto alineado a la izquierda.
- * Tipo de movimiento (tipo_motivo).
- * Motivo (descripcion).
- * ¿Datos Adicionales? (datos_adic_SN)
- * Estado (estado)
 */
 .mat-column-tipo_motivo.mat-header-cell,
 .mat-column-tipo_motivo.mat-cell,
@@ -44,12 +19,11 @@ td.mat-cell:first-of-type {
 .mat-column-estado.mat-cell {
   text-align: left !important;
   padding-left: 1vw !important;
+  word-break: break-all !important;
 }
 
 /*
  * Número y fecha alineado a la derecha.
- * Código MM (id_motivo).
- * Fecha inicio vigencia (fecha_inicio_vigencia).
 */
 .mat-column-id_motivo.mat-header-cell,
 .mat-column-id_motivo.mat-cell,
@@ -57,21 +31,21 @@ td.mat-cell:first-of-type {
 .mat-column-fecha_inicio_vigencia.mat-cell {
   text-align: right !important;
   padding-right: 1vw !important;
+  word-break: break-all !important;
 }
 
 /*
  * Iconos alineados al centro.
- * Acciones (actions).
 */
 .mat-column-actions.mat-header-cell,
 .mat-column-actions.mat-cell {
-  width: 11% !important;
   text-align: center !important;
+  word-break: break-all !important;
 }
 
 /*
- * Ancho máximo por columna individual de todas las columnas menos las 'Acciones' (actions).
- */
+ * Tamaño de columnas.
+*/
 .mat-column-id_motivo.mat-header-cell,
 .mat-column-id_motivo.mat-cell {
   width: 9% !important;
@@ -102,9 +76,24 @@ td.mat-cell:first-of-type {
   width: 8% !important;
 }
 
+.mat-column-actions.mat-header-cell,
+.mat-column-actions.mat-cell {
+  width: 11% !important;
+}
+
 /*
  * Oculta la paginación hasta que la tabla tenga datos.
 */
 .hide-paginator {
   display: none;
+}
+
+/*
+ * Genera el espacio que corresponde al botón que no esta disponible.
+*/
+.no-edit {
+  display: inline-block;
+  vertical-align: bottom;
+  width: 40px;
+  height: 44.09px;
 }

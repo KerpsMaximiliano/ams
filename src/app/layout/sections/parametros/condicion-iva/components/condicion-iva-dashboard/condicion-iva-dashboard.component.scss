@@ -7,27 +7,7 @@ td.mat-cell:first-of-type {
 }
 
 /*
- * Espacio mínimo a ambos lados de todas las columnas.
-*/
-.mat-column-codigo_de_IVA.mat-header-cell,
-.mat-column-codigo_de_IVA.mat-cell,
-.mat-column-descripcion.mat-header-cell,
-.mat-column-descripcion.mat-cell,
-.mat-column-descripcion_reducida.mat-header-cell,
-.mat-column-descripcion_reducida.mat-cell,
-.mat-column-formulario_AB.mat-header-cell,
-.mat-column-formulario_AB.mat-cell,
-.mat-column-actions.mat-header-cell,
-.mat-column-actions.mat-cell {
-  padding-left: 0.5vw !important;
-  padding-right: 0.5vw !important;
-}
-
-/*
  * Texto alineado a la izquierda.
- * Condicion de IVA (descripcion).
- * Abreviatura (descripcion_reducida).
- * Formulario (formulario_AB).
 */
 .mat-column-descripcion.mat-header-cell,
 .mat-column-descripcion.mat-cell,
@@ -37,29 +17,29 @@ td.mat-cell:first-of-type {
 .mat-column-formulario_AB.mat-cell {
   text-align: left !important;
   padding-left: 1vw !important;
+  word-break: break-all !important;
 }
 
 /*
- * Codigo condicion de IVA (codigo_de_IVA).
+ * Número y fecha alineado a la derecha.
 */
 .mat-column-codigo_de_IVA.mat-header-cell,
 .mat-column-codigo_de_IVA.mat-cell {
   text-align: right !important;
   padding-right: 1vw !important;
+  word-break: break-all !important;
 }
 
 /*
  * Iconos alineados al centro.
- * Acciones (actions).
 */
 .mat-column-actions.mat-header-cell,
 .mat-column-actions.mat-cell {
-  width: 11% !important;
   text-align: center !important;
 }
 
 /*
- * Ancho máximo por columna individual de todas las columnas menos las 'Acciones' (actions).
+ * Tamaño de columnas.
 */
 .mat-column-codigo_de_IVA.mat-header-cell,
 .mat-column-codigo_de_IVA.mat-cell {
@@ -79,6 +59,11 @@ td.mat-cell:first-of-type {
 .mat-column-formulario_AB.mat-header-cell,
 .mat-column-formulario_AB.mat-cell {
   width: 15% !important;
+}
+
+.mat-column-actions.mat-header-cell,
+.mat-column-actions.mat-cell {
+  width: 11% !important;
 }
 
 /*

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 
 // * Forms
 import { UntypedFormControl } from '@angular/forms';
@@ -10,11 +10,7 @@ import { UntypedFormControl } from '@angular/forms';
 })
 export class MotivoMovimientoFilterComponent {
   @Output() searchEvent: EventEmitter<string> = new EventEmitter<string>();
-  
-  body: any;
-
-  public descripcion = new UntypedFormControl('');
-  public tipo_motivo = new UntypedFormControl('');
+  @ViewChild('selectOptions') selectOptions: any;
 
   constructor() {}
 
@@ -22,17 +18,17 @@ export class MotivoMovimientoFilterComponent {
 
   public search(event: any, value: string): void {
     event.preventDefault();
-    this.body = {
-      par_modo: 'C',
-      tipo_motivo: this.tipo_motivo.value[0],
-      descripcion: this.descripcion.value,
+    let selectValue = this.selectOptions?.value;
+    let body = {
+      par_modo: 'O',
+      tipo_motivo: selectValue,
+      descripcion: value,
     };
-    this.searchEvent.emit(this.body);
+    this.searchEvent.emit(JSON.stringify(body));
   }
 
   public clear(inputElement: HTMLInputElement) {
+    this.selectOptions.value = '';
     inputElement.value = '';
-    this.descripcion.setValue('');
-    this.tipo_motivo.setValue('');
   }
 }

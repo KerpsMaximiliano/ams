@@ -40,25 +40,119 @@ export class AddEditMotivoMovimientoDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
+  /**
+   * 1. 'this.setUpForm();': Asigna las validaciones correspondientes a cada campo de entrada/selección.
+   * 2. Condición: comprueba que sea una actualización (modificación) o lectura.
+   * 3. 'this.setFormValues();': Asigna los valores de 'data' a los campos de entrada/selección del formulario.
+   * 4. Condición: comprueba si la edición esta deshabilitada.
+   *     > Deshabilidada: deshabilita el formulario.
+   *     > Habilitada: deshabilita el 'id_motivo'.
+   */
   ngOnInit(): void {
     let fecha = new Date();
+
     const fechaEndPicker =
       fecha.getFullYear() +
       '-' +
       (fecha.getMonth() + 1) +
       '-' +
       (fecha.getDate() + 1);
+
     this.fecha_hoy = this.datePipe
       .transform(fechaEndPicker, 'yyyy-MM-dd')
       ?.toString();
+
     this.fecha_fin = this.data.fecha_fin_vigencia;
 
     this.setUpForm();
-    if (this.data.id_motivo !== undefined) {
+    if (this.data.par_modo === 'U' || this.data.par_modo === 'R') {
       this.setFormValues();
+      if (this.data.edit === false) {
+        this.formGroup.disable();
+      } else {
+        this.formGroup.get('id_motivo')?.disable();
+        this.formGroup.get('tipo_motivo')?.disable();
+      }
     }
-    if (!this.data.edit && this.data.par_modo === 'C') {
-      this.formGroup.disable();
+  }
+
+  private setUpForm(): void {
+    this.formGroup = new UntypedFormGroup({
+      id_motivo: new UntypedFormControl(
+        this.data.id_motivo,
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(2),
+          isNumeric(),
+        ])
+      ),
+      tipo_motivo: new UntypedFormControl(
+        this.data.tipo_motivo,
+        Validators.compose([Validators.required])
+      ),
+      descripcion: new UntypedFormControl(
+        this.data.descripcion ? this.data.descripcion.trim() : '',
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(30),
+          isAlphanumericWithSpaces(),
+        ])
+      ),
+      datos_adic_SN: new UntypedFormControl(
+        this.data.datos_adic_SN,
+        Validators.compose([Validators.required])
+      ),
+      fecha_inicio_vigencia: new UntypedFormControl(
+        this.data.fecha_inicio_vigencia,
+        Validators.compose([Validators.required])
+      ),
+    });
+  }
+
+  private setFormValues(): void {
+    this.formGroup.get('id_motivo')?.setValue(this.data.id_motivo);
+    this.formGroup.get('tipo_motivo')?.setValue(this.data.tipo_motivo);
+    this.formGroup
+      .get('descripcion')
+      ?.setValue(this.data.descripcion ? this.data.descripcion.trim() : '');
+    this.formGroup.get('datos_adic_SN')?.setValue(this.data.datos_adic_SN);
+    this.formGroup
+      .get('fecha_inicio_vigencia')
+      ?.setValue(this.calcularFecha(this.data.fecha_inicio_vigencia - 1));
+    this.formGroup
+      .get('fecha_fin_vigencia')
+      ?.setValue(this.data.fecha_fin_vigencia);
+  }
+
+  public closeDialog(): void {
+    this.dialogRef.close(false);
+  }
+
+  public confirm(): void {
+    this.formGroup.markAllAsTouched();
+    const newDate = new Date(
+      this.formGroup.get('fecha_inicio_vigencia')?.value
+    );
+    const fecha = this.datePipe.transform(
+      newDate.getFullYear() +
+        '-' +
+        (newDate.getMonth() + 1) +
+        '-' +
+        (newDate.getDate() + 1),
+      'yyyyMMdd'
+    );
+    if (this.formGroup.valid) {
+      this.dialogRef.close({
+        par_modo: this.data.par_modo,
+        id_motivo: this.formGroup.get('id_motivo')?.value,
+        descripcion: this.formGroup.get('descripcion')?.value,
+        tipo_motivo: this.formGroup.get('tipo_motivo')?.value,
+        datos_adic_SN: this.formGroup.get('datos_adic_SN')?.value,
+        fecha_inicio_vigencia: Number(fecha),
+        fecha_fin_vigencia: this.fecha_fin !== undefined ? this.fecha_fin : 0,
+      });
     }
   }
 
@@ -89,93 +183,7 @@ export class AddEditMotivoMovimientoDialogComponent {
     this.fecha_fin = Number(this.datePipe.transform(new Date(), 'yyyyMMdd'));
   }
 
-  private setUpForm(): void {
-    this.formGroup = new UntypedFormGroup({
-      tipo_motivo: new UntypedFormControl(
-        { value: '', disabled: this.data.par_modo !== 'I' },
-        Validators.compose([Validators.required])
-      ),
-      id_motivo: new UntypedFormControl(
-        { value: '', disabled: this.data.par_modo !== 'I' },
-        Validators.compose([Validators.required, isNumeric()])
-      ),
-      descripcion: new UntypedFormControl(
-        { value: '', disabled: !this.data.edit },
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(1),
-          Validators.maxLength(30),
-          isAlphanumericWithSpaces(),
-        ])
-      ),
-      datos_adic_SN: new UntypedFormControl(
-        { value: '', disabled: !this.data.edit },
-        Validators.compose([Validators.required])
-      ),
-      fecha_inicio_vigencia: new UntypedFormControl(
-        {
-          value: '',
-          disabled: this.data.par_modo !== 'I',
-        },
-        Validators.compose([Validators.required])
-      ),
-    });
-  }
-
-  private setFormValues(): void {
-    // id motivo
-    this.formGroup.get('id_motivo')?.setValue(this.data.id_motivo);
-
-    // tipo de motivo
-    if (this.data.tipo_motivo !== undefined) {
-      this.formGroup.get('tipo_motivo')?.setValue(this.data.tipo_motivo);
-    }
-
-    // descripcion
-    if (this.data.descripcion !== undefined) {
-      this.formGroup.get('descripcion')?.setValue(this.data.descripcion);
-    }
-
-    // datos adicionales
-    if (this.data.datos_adic_SN !== undefined) {
-      this.formGroup.get('datos_adic_SN')?.setValue(this.data.datos_adic_SN);
-    }
-
-    // fecha inicio vigencia
-    if (this.data.fecha_inicio_vigencia !== undefined) {
-      this.formGroup
-        .get('fecha_inicio_vigencia')
-        ?.setValue(this.calcularFecha(this.data.fecha_inicio_vigencia));
-    }
-
-    // fecha fin vigencia
-    if (this.data.fecha_fin_vigencia !== undefined) {
-      this.formGroup
-        .get('fecha_fin_vigencia')
-        ?.setValue(this.data.fecha_fin_vigencia);
-    }
-  }
-
-  public closeDialog(): void {
-    this.dialogRef.close(false);
-  }
-
-  public confirm(): void {
-    this.formGroup.markAllAsTouched();
-    const newDate = this.datePipe.transform(
-      new Date(this.formGroup.get('fecha_inicio_vigencia')?.value),
-      'yyyyMMdd'
-    );
-    if (this.formGroup.valid) {
-      this.dialogRef.close({
-        par_modo: this.data.par_modo,
-        id_motivo: this.formGroup.get('id_motivo')?.value,
-        descripcion: this.formGroup.get('descripcion')?.value,
-        tipo_motivo: this.formGroup.get('tipo_motivo')?.value,
-        datos_adic_SN: this.formGroup.get('datos_adic_SN')?.value,
-        fecha_inicio_vigencia: Number(newDate),
-        fecha_fin_vigencia: this.fecha_fin !== undefined ? this.fecha_fin : 0,
-      });
-    }
+  public darseAlta() {
+    this.fecha_fin = 0;
   }
 }

@@ -7,53 +7,31 @@ td.mat-cell:first-of-type {
 }
 
 /*
- * Espacio mínimo a ambos lados de todas las columnas.
+ * Texto alineado a la izquierda.
 */
-.mat-column-id.mat-header-cell,
-.mat-column-id.mat-cell,
-.mat-column-tipo-documento.mat-header-cell,
-.mat-column-tipo-documento.mat-cell,
-.mat-column-abreviatura.mat-header-cell,
-.mat-column-abreviatura.mat-cell,
-.mat-column-control-cuit.mat-header-cell,
-.mat-column-control-cuit.mat-cell,
-.mat-column-actions.mat-header-cell,
-.mat-column-actions.mat-cell {
-  padding-left: 0.5vw !important;
-  padding-right: 0.5vw !important;
+.mat-column-descripcion.mat-header-cell,
+.mat-column-descripcion.mat-cell,
+.mat-column-descripcion_reducida.mat-header-cell,
+.mat-column-descripcion_reducida.mat-cell,
+.mat-column-control_cuit.mat-header-cell,
+.mat-column-control_cuit.mat-cell {
+  text-align: left !important;
+  padding-left: 1vw !important;
   word-break: break-all !important;
 }
 
 /*
- * Texto alineado a la izquierda.
- * Tipo de documento (tipo-documento).
- * Abreviatura (abreviatura).
- * Control de CUIT (control-cuit).
-*/
-.mat-column-tipo-documento.mat-header-cell,
-.mat-column-tipo-documento.mat-cell,
-.mat-column-abreviatura.mat-header-cell,
-.mat-column-abreviatura.mat-cell,
-.mat-column-control-cuit.mat-header-cell,
-.mat-column-control-cuit.mat-cell {
-  text-align: left !important;
-  padding-left: 1vw !important;
-}
-
-/*
  * Número y fecha alineado a la derecha.
- * Código (id).
 */
-.mat-column-id.mat-header-cell,
-.mat-column-id.mat-cell {
-  width: 10% !important;
+.mat-column-tipo_de_documento.mat-header-cell,
+.mat-column-tipo_de_documento.mat-cell {
   text-align: right !important;
   padding-right: 1vw !important;
+  word-break: break-all !important;
 }
 
 /*
  * Iconos alineados al centro.
- * Acciones (actions).
 */
 .mat-column-actions.mat-header-cell,
 .mat-column-actions.mat-cell {
@@ -61,21 +39,31 @@ td.mat-cell:first-of-type {
 }
 
 /*
- * Ancho máximo por columna individual de todas las columnas menos el 'Código' (nro_preg) y las 'Acciones' (actions).
+ * Tamaño de columnas.
 */
-.mat-column-tipo-documento.mat-header-cell,
-.mat-column-tipo-documento.mat-cell {
-  width: 40% !important;
+.mat-column-tipo_de_documento.mat-header-cell,
+.mat-column-tipo_de_documento.mat-cell {
+  width: 13% !important;
 }
 
-.mat-column-id.mat-header-cell,
-.mat-column-id.mat-cell,
-.mat-column-control-cuit.mat-header-cell,
-.mat-column-control-cuit.mat-cell,
-.mat-column-actions.mat-header-cell,
-.mat-column-actions.mat-cell .mat-column-yes_no.mat-header-cell,
-.mat-column-yes_no.mat-cell {
+.mat-column-descripcion.mat-header-cell,
+.mat-column-descripcion.mat-cell {
+  width: 35% !important;
+}
+
+.mat-column-descripcion_reducida.mat-header-cell,
+.mat-column-descripcion_reducida.mat-cell {
+  width: 24% !important;
+}
+
+.mat-column-control_cuit.mat-header-cell,
+.mat-column-control_cuit.mat-cell {
   width: 15% !important;
+}
+
+.mat-column-actions.mat-header-cell,
+.mat-column-actions.mat-cell {
+  width: 13% !important;
 }
 
 /*

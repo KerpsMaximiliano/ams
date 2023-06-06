@@ -42,8 +42,7 @@ export class MotivoMovimientoComponent {
         data: {
           title: `CREAR MOTIVO DE MOVIMIENTO`,
           edit: true,
-          par_modo: 'I',
-          id: 99,
+          par_modo: 'C',
           id_motivo: motivoMovimiento?.id_motivo,
           tipo_motivo: motivoMovimiento?.tipo_motivo,
           descripcion: motivoMovimiento?.descripcion,
@@ -72,6 +71,9 @@ export class MotivoMovimientoComponent {
                     `Status Code ${error.error.estado.Codigo}: ${error.error.estado.Mensaje}. `,
                     'error'
                   );
+                  if(res.par_modo === "C"){
+                    res.fecha_inicio_vigencia = null;
+                  }
               this.nuevoMotivoMovimiento(res);
             },
             complete: () => {
@@ -79,9 +81,9 @@ export class MotivoMovimientoComponent {
               setTimeout(() => {
                 this.handleSearch(
                   JSON.stringify({
-                    par_modo: 'C',
-                    tipo_motivo: res.tipo_motivo[0],
-                    descripcion: res.descripcion,
+                    par_modo: 'R',
+                    id_motivo: res.id_motivo,
+                    tipo_motivo: res.tipo_motivo,
                   })
                 );
               }, 300);

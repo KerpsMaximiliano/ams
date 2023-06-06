@@ -69,7 +69,9 @@ export class ProvinciaDashboardComponent {
     this.utils.openLoading();
     this.provinciaService.CRUD(this.searchValue).subscribe({
       next: (res: any) => {
-        this.provincia = res.dataset as IProvincia[];
+        res.dataset.length
+          ? (this.provincia = res.dataset as IProvincia[])
+          : (this.provincia = [res.dataset]);
         this.dataSource = new MatTableDataSource<IProvincia>(this.provincia);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
@@ -107,8 +109,8 @@ export class ProvinciaDashboardComponent {
           par_modo: 'U',
           codigo: provincia?.codigo,
           nombre_provincia: provincia?.nombre_provincia,
-          codifica_altura: provincia?.codifica_altura,
           codigo_provincia: provincia?.codigo_provincia,
+          codifica_altura: provincia?.codifica_altura,
           flete_transportista: provincia?.flete_transportista,
         },
       }
@@ -121,7 +123,7 @@ export class ProvinciaDashboardComponent {
           this.provinciaService.CRUD(res).subscribe({
             next: () => {
               this.utils.notification(
-                'La Provincia se ha editado extiosamente. ',
+                'La provincia se ha editado extiosamente. ',
                 'success'
               );
             },
@@ -136,9 +138,12 @@ export class ProvinciaDashboardComponent {
               this.editProvincia(res);
             },
             complete: () => {
-              this.searchValue = res.nombre_provincia.trim();
               this.utils.closeLoading();
               setTimeout(() => {
+                this.searchValue = JSON.stringify({
+                  par_modo: 'R',
+                  codigo: res.codigo,
+                });
                 this.getProvincia();
               }, 300);
             },

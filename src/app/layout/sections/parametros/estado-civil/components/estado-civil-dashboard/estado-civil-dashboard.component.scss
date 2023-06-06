@@ -3,49 +3,59 @@
 */
 th.mat-header-cell:first-of-type,
 td.mat-cell:first-of-type {
-    padding-left: 0px !important;
+  padding-left: 0px !important;
 }
 
 /*
  * Número y fecha alineado a la derecha.
- * Código (codigo_estado_civil).
 */
 .mat-column-codigo_estado_civil.mat-header-cell,
 .mat-column-codigo_estado_civil.mat-cell {
-    text-align: right !important;
-    padding-right: 3vw !important;
-    word-break: break-all !important;
-    width: 25% !important;
+  text-align: right !important;
+  padding-right: 3vw !important;
+  word-break: break-all !important;
 }
 
 /*
  * Texto alineado a la izquierda.
- * Estado Civil (description).
 */
 .mat-column-description.mat-header-cell,
 .mat-column-description.mat-cell {
-    text-align: left !important;
-    padding-left: 3vw !important;
-    padding-right: 3vw !important;
-    word-break: break-all !important;
-    width: 50% !important;
+  text-align: left !important;
+  padding-left: 3vw !important;
+  word-break: break-all !important;
 }
 
 /*
  * Iconos alineados al centro.
- * Acciones (actions).
 */
 .mat-column-actions.mat-header-cell,
 .mat-column-actions.mat-cell {
-    padding-left: 3vw !important;
-    word-break: break-all !important;
-    text-align: center !important;
-    width: 25% !important;
+  word-break: break-all !important;
+  text-align: center !important;
+}
+
+/*
+ * Tamaño de columnas.
+*/
+.mat-column-codigo_estado_civil.mat-header-cell,
+.mat-column-codigo_estado_civil.mat-cell {
+  width: 15% !important;
+}
+
+.mat-column-description.mat-header-cell,
+.mat-column-description.mat-cell {
+  width: 65% !important;
+}
+
+.mat-column-actions.mat-header-cell,
+.mat-column-actions.mat-cell {
+  width: 20% !important;
 }
 
 /*
  * Oculta la paginación hasta que la tabla tenga datos.
 */
 .hide-paginator {
-    display: none;
+  display: none;
 }

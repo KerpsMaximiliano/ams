@@ -1,30 +1,87 @@
-table .mat-cell.mat-column-description {
-    text-align: left !important;
+/*
+ * Evita un espaciado innecesario en la primer columna.
+*/
+th.mat-header-cell:first-of-type,
+td.mat-cell:first-of-type {
+  padding-left: 0px !important;
 }
 
-// Mejora la distribucion del header de la tabla
-th.mat-header-cell:first-of-type {
-    padding-left: 0px;
+/*
+ * Número y fecha alineado a la derecha.
+*/
+.mat-column-codigo.mat-header-cell,
+.mat-column-codigo.mat-cell,
+.mat-column-nro_registro.mat-header-cell,
+.mat-column-nro_registro.mat-cell {
+  text-align: right !important;
+  padding-right: 1.5vw !important;
+  word-break: break-all !important;
 }
 
-// Numeros y fechas a la derecha
-.mat-column-codigo,
-.mat-column-numeroRegistroNacional {
-    text-align: right;
-    padding-right: 50px;
+/*
+ * Texto alineado a la izquierda.
+*/
+.mat-column-descripcion.mat-header-cell,
+.mat-column-descripcion.mat-cell,
+.mat-column-propone_fecha_patologia.mat-header-cell,
+.mat-column-propone_fecha_patologia.mat-cell,
+.mat-column-tipo_fecha_patologia.mat-header-cell,
+.mat-column-tipo_fecha_patologia.mat-cell,
+.mat-column-tipo_obra_social_prepaga.mat-header-cell,
+.mat-column-tipo_obra_social_prepaga.mat-cell,
+.mat-column-similar_SMP.mat-header-cell,
+.mat-column-similar_SMP.mat-cell,
+.mat-column-omite_R420.mat-header-cell,
+.mat-column-omite_R420.mat-cell {
+  text-align: left !important;
+  padding-left: 1.5vw !important;
+  word-break: break-all !important;
 }
 
-// Textos a la izquierda
-.mat-column-descripcion,
-.mat-column-tipo,
-.mat-column-simil,
-.mat-column-omite_R420 {
-    text-align: left;
+/*
+ * Iconos alineados al centro.
+*/
+.mat-column-actions.mat-header-cell,
+.mat-column-actions.mat-cell {
+  word-break: break-all !important;
+  text-align: center !important;
+}
+
+/*
+ * Tamaño de columnas.
+*/
+.mat-column-codigo.mat-header-cell,
+.mat-column-codigo.mat-cell {
+    width: 9%;
+}
+
+.mat-column-tipo_obra_social_prepaga.mat-header-cell,
+.mat-column-tipo_obra_social_prepaga.mat-cell,
+.mat-column-similar_SMP.mat-header-cell,
+.mat-column-similar_SMP.mat-cell,
+.mat-column-omite_R420.mat-header-cell,
+.mat-column-omite_R420.mat-cell {
+    width: 11% !important;
+}
+
+.mat-column-descripcion.mat-header-cell,
+.mat-column-descripcion.mat-cell {
+    width: 26% !important;
+}
+
+.mat-column-nro_registro.mat-header-cell,
+.mat-column-nro_registro.mat-cell {
+    width: 21% !important;
+}
+
+.mat-column-actions.mat-header-cell,
+.mat-column-actions.mat-cell {
+    width: 11% !important;
 }
 
 /*
  * Oculta la paginación hasta que la tabla tenga datos.
 */
 .hide-paginator {
-    display: none;
+  display: none;
 }

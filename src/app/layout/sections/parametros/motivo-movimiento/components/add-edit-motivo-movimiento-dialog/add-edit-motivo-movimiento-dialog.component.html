@@ -22,7 +22,8 @@
     <div class="seeker-fields-container">
       <h3> CÓDIGO DE MOTIVO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput [disabled]="this.data.par_modo !== 'I'" formControlName="id_motivo">
+        <input matInput [disabled]="this.data.par_modo !== 'C'" formControlName="id_motivo" required minlength="1"
+          maxlength="2">
         <mat-error *ngIf="formGroup.get('id_motivo')?.invalid && formGroup.get('id_motivo')?.touched">
           {{ getErrorMessage(formGroup.get('id_motivo')) }}
         </mat-error>
@@ -32,7 +33,7 @@
     <div class="seeker-fields-container">
       <h3> MOTIVO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="descripcion" required minlength="1" maxlength="30" [disabled]="!data.edit">
+        <input matInput formControlName="descripcion" required minlength="1" maxlength="30">
         <mat-error *ngIf="formGroup.get('descripcion')?.invalid && formGroup.get('descripcion')?.touched">
           {{ getErrorMessage(formGroup.get('descripcion')) }}
         </mat-error>
@@ -41,19 +42,14 @@
 
     <div class="seeker-fields-container">
       <h3> VIGENCIA DESDE </h3>
-      <div>
-        <mat-form-field class="seeker-form-field" appearance="outline">
-          <!-- <input min="1990-01-01" [max]="fecha_hoy" value="2022/15/05" matInput [matDatepicker]="picker"
-            formControlName="fecha_inicio_vigencia"> -->
-          <input formControlName="fecha_inicio_vigencia">
-          <mat-error
-            *ngIf="formGroup.get('fecha_inicio_vigencia')?.invalid && formGroup.get('fecha_inicio_vigencia')?.touched">
-            {{ getErrorMessage(formGroup.get('fecha_inicio_vigencia')) }}
-          </mat-error>
-        </mat-form-field>
-        <!-- <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker> -->
-      </div>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <input matInput formControlName="fecha_inicio_vigencia" class="date-input" type="date" min="1990-01-01"
+          [max]="fecha_hoy" required minlength="1" maxlength="10">
+        <mat-error
+          *ngIf="formGroup.get('fecha_inicio_vigencia')?.invalid && formGroup.get('fecha_inicio_vigencia')?.touched">
+          {{ getErrorMessage(formGroup.get('fecha_inicio_vigencia')) }}
+        </mat-error>
+      </mat-form-field>
     </div>
 
     <div class="seeker-fields-container">
@@ -69,10 +65,10 @@
       </mat-form-field>
     </div>
 
-    <div class="seeker-fields-container" *ngIf="data.par_modo !== 'I'">
+    <div class="seeker-fields-container" *ngIf="data.par_modo !== 'C'">
       <h3> ESTADO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input [value]="data.fecha_fin_vigencia === 0 ? 'Activo' : 'Baja'" matInput [disabled]="true">
+        <input [value]="data.fecha_fin_vigencia === 0 ? 'Activo' : 'Baja'" matInput disabled>
       </mat-form-field>
     </div>
 
@@ -81,10 +77,15 @@
         <mat-icon> close </mat-icon>
         Cancelar
       </button>
-      <button class="primary-button icon-button" (click)="darseBaja()"
-        *ngIf="this.data.fecha_fin_vigencia === 0 && this.data.par_modo === 'U'">
+      <button class="primary-button icon-button" type="button" (click)="darseBaja()"
+        *ngIf="this.fecha_fin === 0 && this.data.par_modo === 'U'">
         <mat-icon> close </mat-icon>
         Baja
+      </button>
+      <button class="primary-button icon-button" type="button" (click)="darseAlta()"
+        *ngIf="this.fecha_fin !== 0 && this.data.par_modo === 'U'">
+        <mat-icon> close </mat-icon>
+        Alta
       </button>
       <button class="primary-button icon-button" type="submit" [disabled]="formGroup.invalid">
         <mat-icon> done </mat-icon>

@@ -2,12 +2,12 @@ import { Component, Inject } from '@angular/core';
 
 // * Form - Validations
 import {
+  FormGroup,
   UntypedFormControl,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 import {
-  isAlphanumericWithPointAndSpaces,
   isNumeric,
   notOnlySpaces,
   notZeroValidator,
@@ -57,12 +57,12 @@ export class AddEditPreguntaDDJJDialogComponent {
   private setUpForm(): void {
     this.formGroup = new UntypedFormGroup({
       modelo_formulario: new UntypedFormControl(
-        '',
+        this.data.modelo_formulario,
         Validators.compose([Validators.required])
       ),
 
       nro_preg: new UntypedFormControl(
-        '',
+        this.data.nro_preg,
         Validators.compose([
           Validators.required,
           Validators.minLength(1),
@@ -70,9 +70,8 @@ export class AddEditPreguntaDDJJDialogComponent {
           isNumeric(),
         ])
       ),
-
       cantidad_lineas_resp: new UntypedFormControl(
-        '',
+        this.data.cantidad_lineas_resp,
         Validators.compose([
           Validators.required,
           Validators.minLength(1),
@@ -81,85 +80,68 @@ export class AddEditPreguntaDDJJDialogComponent {
           notZeroValidator(),
         ])
       ),
-
       pide_fecha: new UntypedFormControl(
-        '',
-        Validators.compose([Validators.required])
-      ),
-      yes_no: new UntypedFormControl(
-        '',
+        this.data.pide_fecha,
         Validators.compose([
           Validators.required,
           Validators.minLength(1),
           Validators.maxLength(1),
         ])
       ),
-
+      yes_no: new UntypedFormControl(
+        this.data.yes_no,
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(1),
+        ])
+      ),
       primer_texto_preg: new UntypedFormControl(
-        '',
+        this.data.primer_texto_preg ? this.data.primer_texto_preg.trim() : '',
         Validators.compose([
           Validators.required,
           Validators.minLength(1),
           Validators.maxLength(50),
-          isAlphanumericWithPointAndSpaces(),
           notOnlySpaces(),
         ])
       ),
-
       segundo_texto_preg: new UntypedFormControl(
-        '',
-        Validators.compose([
-          Validators.maxLength(50),
-          isAlphanumericWithPointAndSpaces(),
-          notOnlySpaces(),
-        ])
+        this.data.segundo_texto_preg ? this.data.segundo_texto_preg.trim() : '',
+        Validators.compose([Validators.maxLength(50), notOnlySpaces()])
       ),
     });
   }
 
-  private exclusiveSelects(): string {
-    return `No pueden ser iguales.`;
-  }
-
   private setFormValues(): void {
-    if (this.data.modelo_formulario !== undefined) {
-      this.formGroup.patchValue({
-        modelo_formulario: this.data.modelo_formulario.trim(),
-      });
-      if (this.data.nro_preg > 0 && this.data.par_modo === 'U') {
-        this.formGroup.get('modelo_formulario')?.disable();
-      }
-    }
+    this.formGroup.patchValue({
+      modelo_formulario: this.data.modelo_formulario
+        ? this.data.modelo_formulario.trim()
+        : '',
+    });
 
-    if (this.data.cantidad_lineas_resp !== undefined) {
-      this.formGroup
-        .get('cantidad_lineas_resp')
-        ?.setValue(this.data.cantidad_lineas_resp);
-    }
+    this.formGroup
+      .get('cantidad_lineas_resp')
+      ?.setValue(this.data.cantidad_lineas_resp);
 
-    if (this.data.pide_fecha !== undefined) {
-      this.formGroup.patchValue({
-        pide_fecha: this.data.pide_fecha,
-      });
-    }
+    this.formGroup.patchValue({
+      pide_fecha: this.data.pide_fecha,
+    });
 
-    if (this.data.yes_no !== undefined) {
-      this.formGroup.patchValue({
-        yes_no: this.data.yes_no,
-      });
-    }
+    this.formGroup.patchValue({
+      yes_no: this.data.yes_no,
+    });
 
-    if (this.data.primer_texto_preg !== undefined) {
-      this.formGroup
-        .get('primer_texto_preg')
-        ?.setValue(this.data.primer_texto_preg);
-    }
+    this.formGroup
+      .get('primer_texto_preg')
+      ?.setValue(
+        this.data.primer_texto_preg ? this.data.primer_texto_preg.trim() : ''
+      );
 
-    if (this.data.segundo_texto_preg !== undefined) {
-      this.formGroup
-        .get('segundo_texto_preg')
-        ?.setValue(this.data.segundo_texto_preg);
-    }
+    this.formGroup
+      .get('segundo_texto_preg')
+      ?.setValue(
+        this.data.segundo_texto_preg ? this.data.segundo_texto_preg.trim() : ''
+      );
   }
 
   public closeDialog(): void {
@@ -179,6 +161,18 @@ export class AddEditPreguntaDDJJDialogComponent {
         primer_texto_preg: this.formGroup.get('primer_texto_preg')?.value,
         segundo_texto_preg: this.formGroup.get('segundo_texto_preg')?.value,
       });
+    }
+  }
+
+  public onChangeDate() {
+    if (this.formGroup.get('pide_fecha')?.value === 'S') {
+      this.formGroup.get('yes_no')?.setValue('N');
+    }
+  }
+
+  public onChangeYesNo() {
+    if (this.formGroup.get('yes_no')?.value === 'S') {
+      this.formGroup.get('pide_fecha')?.setValue('N');
     }
   }
 }

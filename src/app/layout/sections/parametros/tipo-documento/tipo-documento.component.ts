@@ -35,7 +35,7 @@ export class TipoDocumentoComponent {
     this.dashboard.filter(inputValue);
   }
 
-  public nuevoTipoDocumento(tipoDocumento?: ITipoDocumento): void {
+  public nuevoTipoDocumento(documento?: ITipoDocumento): void {
     const modalNuevoTipoDocumento = this.dialog.open(
       AddEditTipoDocumentoDialogComponent,
       {
@@ -43,10 +43,10 @@ export class TipoDocumentoComponent {
           title: `CREAR TIPO DE DOCUMENTO`,
           edit: true,
           par_modo: 'C',
-          tipo_de_documento: tipoDocumento?.tipo_de_documento,
-          descripcion: tipoDocumento?.descripcion,
-          descripcion_reducida: tipoDocumento?.descripcion_reducida,
-          control_cuit: tipoDocumento?.control_cuit,
+          tipo_de_documento: documento?.tipo_de_documento,
+          descripcion: documento?.descripcion,
+          descripcion_reducida: documento?.descripcion_reducida,
+          control_cuit: documento?.control_cuit,
         },
       }
     );

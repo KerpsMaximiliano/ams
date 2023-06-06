@@ -15,7 +15,7 @@ export class ProvinciaFilterComponent {
   public search(event: any, value: string): void {
     event.preventDefault();
     let body = {
-      par_modo: 'R',
+      par_modo: 'O',
       nombre_provincia: value,
     };
     this.searchEvent.emit(body);

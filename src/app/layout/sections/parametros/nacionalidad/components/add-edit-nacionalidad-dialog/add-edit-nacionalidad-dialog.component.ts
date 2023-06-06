@@ -54,16 +54,16 @@ export class AddEditNacionalidadDialogComponent {
   private setUpForm(): void {
     this.formGroup = new UntypedFormGroup({
       codigo_nacionalidad_nuevo: new UntypedFormControl(
-        '',
+        this.data.codigo_nacionalidad_nuevo,
         Validators.compose([
           Validators.required,
           Validators.minLength(1),
           Validators.maxLength(3),
-          Validators.pattern('^[0-9]*$'), // Verificar
+          Validators.pattern('^[0-9]*$'),
         ])
       ),
       descripcion: new UntypedFormControl(
-        '',
+        this.data.descripcion ? this.data.descripcion.trim() : '',
         Validators.compose([
           Validators.required,
           Validators.minLength(3),
@@ -72,10 +72,10 @@ export class AddEditNacionalidadDialogComponent {
         ])
       ),
       codigo_sistema_anterior: new UntypedFormControl(
-        '',
+        this.data.codigo_sistema_anterior,
         Validators.compose([
           Validators.maxLength(3),
-          Validators.pattern('^[0-9]*$'), // Verificar
+          Validators.pattern('^[0-9]*$'),
         ])
       ),
     });
@@ -85,7 +85,9 @@ export class AddEditNacionalidadDialogComponent {
     this.formGroup
       .get('codigo_nacionalidad_nuevo')
       ?.setValue(this.data.codigo_nacionalidad_nuevo);
-    this.formGroup.get('descripcion')?.setValue(this.data.descripcion);
+    this.formGroup
+      .get('descripcion')
+      ?.setValue(this.data.descripcion ? this.data.descripcion.trim() : '');
     this.formGroup
       .get('codigo_sistema_anterior')
       ?.setValue(this.data.codigo_sistema_anterior);
@@ -100,9 +102,12 @@ export class AddEditNacionalidadDialogComponent {
     if (this.formGroup.valid) {
       this.dialogRef.close({
         par_modo: this.data.par_modo,
-        codigo_nacionalidad_nuevo: this.formGroup.get('codigo_nacionalidad_nuevo')?.value,
+        codigo_nacionalidad_nuevo: this.formGroup.get(
+          'codigo_nacionalidad_nuevo'
+        )?.value,
         descripcion: this.formGroup.get('descripcion')?.value,
-        codigo_sistema_anterior: this.formGroup.get('codigo_sistema_anterior')?.value,
+        codigo_sistema_anterior: this.formGroup.get('codigo_sistema_anterior')
+          ?.value,
       });
     }
   }

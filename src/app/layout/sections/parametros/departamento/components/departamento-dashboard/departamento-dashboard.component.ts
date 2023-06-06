@@ -92,11 +92,11 @@ export class DepartamentoDashboardComponent {
   private getDepartamento(): void {
     this.utils.openLoading();
     let body = {
-      par_modo: 'R',
+      par_modo: 'O',
       letra_provincia: this.searchValue.letra_provincia,
-      codigo_departamento: null,
+      // codigo_departamento: null,
       descripcion: this.searchValue.descripcion,
-      descripcion_reducida: '',
+      // descripcion_reducida: '',
     };
     this.departamentoService.CRUD(JSON.stringify(body)).subscribe({
       next: (res: any) => {

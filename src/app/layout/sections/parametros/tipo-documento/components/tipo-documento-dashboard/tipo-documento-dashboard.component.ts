@@ -124,7 +124,7 @@ export class TipoDocumentoDashboardComponent implements OnInit {
           this.tipoDocumentoService.CRUD(res).subscribe({
             next: () => {
               this.utils.notification(
-                'El Documento se ha editado extiosamente. ',
+                'El documento se ha editado extiosamente. ',
                 'success'
               );
             },

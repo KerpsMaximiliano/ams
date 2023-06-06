@@ -34,20 +34,30 @@ export class AddEditCondicionIvaDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
+  /**
+   * 1. 'this.setUpForm();': Asigna las validaciones correspondientes a cada campo de entrada/selección.
+   * 2. Condición: comprueba que sea una actualización (modificación) o lectura.
+   * 3. 'this.setFormValues();': Asigna los valores de 'data' a los campos de entrada/selección del formulario.
+   * 4. Condición: comprueba si la edición esta deshabilitada.
+   *     > Deshabilidada: deshabilita el formulario.
+   *     > Habilitada: deshabilita el 'codigo_de_IVA'.
+   */
   ngOnInit(): void {
     this.setUpForm();
-    if (this.data.codigo_de_IVA !== undefined) {
+    if (this.data.par_modo === 'U' || this.data.par_modo === 'R') {
       this.setFormValues();
-    }
-    if (!this.data.edit) {
-      this.formGroup.disable();
+      if (this.data.edit === false) {
+        this.formGroup.disable();
+      } else {
+        this.formGroup.get('codigo_de_IVA')?.disable();
+      }
     }
   }
 
   private setUpForm(): void {
     this.formGroup = new UntypedFormGroup({
       codigo_de_IVA: new UntypedFormControl(
-        { value: '', disabled: this.data.par_modo == 'U' },
+        this.data.codigo_de_IVA,
         Validators.compose([
           Validators.required,
           Validators.minLength(1),
@@ -56,7 +66,7 @@ export class AddEditCondicionIvaDialogComponent {
         ])
       ),
       descripcion: new UntypedFormControl(
-        '',
+        this.data.descripcion ? this.data.descripcion.trim() : '',
         Validators.compose([
           Validators.required,
           Validators.minLength(3),
@@ -65,7 +75,9 @@ export class AddEditCondicionIvaDialogComponent {
         ])
       ),
       descripcion_reducida: new UntypedFormControl(
-        '',
+        this.data.descripcion_reducida
+          ? this.data.descripcion_reducida.trim()
+          : '',
         Validators.compose([
           Validators.required,
           Validators.minLength(1),
@@ -73,34 +85,25 @@ export class AddEditCondicionIvaDialogComponent {
         ])
       ),
       formulario_AB: new UntypedFormControl(
-        '',
+        this.data.formulario_AB,
         Validators.compose([Validators.required])
       ),
     });
   }
 
   private setFormValues(): void {
-    // Codigo de iva
     this.formGroup.get('codigo_de_IVA')?.setValue(this.data.codigo_de_IVA);
-
-    // Descripcion
-    if (this.data.descripcion !== undefined) {
-      this.formGroup.get('descripcion')?.setValue(this.data.descripcion);
-    }
-
-    // Descripcion reducida
-    if (this.data.descripcion_reducida !== undefined) {
-      this.formGroup
-        .get('descripcion_reducida')
-        ?.setValue(this.data.descripcion_reducida);
-    }
-
-    // Formulario A o B
-    if (this.data.formulario_AB !== undefined) {
-      this.formGroup.get('formulario_AB')?.setValue(this.data.formulario_AB);
-    } else {
-      this.formGroup.get('formulario_AB')?.setValue(null);
-    }
+    this.formGroup
+      .get('descripcion')
+      ?.setValue(this.data.descripcion ? this.data.descripcion.trim() : '');
+    this.formGroup
+      .get('descripcion_reducida')
+      ?.setValue(
+        this.data.descripcion_reducida
+          ? this.data.descripcion_reducida.trim()
+          : ''
+      );
+    this.formGroup.get('formulario_AB')?.patchValue(this.data.formulario_AB);
   }
 
   public closeDialog(): void {

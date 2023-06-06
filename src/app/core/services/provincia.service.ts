@@ -19,7 +19,7 @@ export class ProvinciaService {
   get provinciaList(): any {
     return this.CRUD(
       JSON.stringify({
-        par_modo: 'C',
+        par_modo: 'O',
         nombre_provincia: '',
       })
     );

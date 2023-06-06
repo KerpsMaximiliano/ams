@@ -76,7 +76,12 @@ export class ProvinciaComponent {
             complete: () => {
               this.utils.closeLoading();
               setTimeout(() => {
-                this.handleSearch(res.nombre_provincia.trim());
+                this.handleSearch(
+                  JSON.stringify({
+                    par_modo: 'R',
+                    codigo: res.codigo,
+                  })
+                );
               }, 300);
             },
           });

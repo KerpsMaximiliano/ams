@@ -29,7 +29,7 @@ export class MotivoMovimientoDashboardComponent {
   @ViewChild(MatTable) table!: MatTable<any>;
 
   public searchValue: string = '';
-  public documents: IMotivoMovimiento[] = [];
+  public motivoMovimiento: IMotivoMovimiento[] = [];
   public displayedColumns: string[] = [
     'id_motivo',
     'descripcion',
@@ -70,9 +70,11 @@ export class MotivoMovimientoDashboardComponent {
     this.utils.openLoading();
     this.motivoMovimientoService.CRUD(this.searchValue).subscribe({
       next: (res: any) => {
-        this.documents = res.dataset as IMotivoMovimiento[];
+        res.dataset.length
+          ? (this.motivoMovimiento = res.dataset as IMotivoMovimiento[])
+          : (this.motivoMovimiento = [res.dataset]);
         this.dataSource = new MatTableDataSource<IMotivoMovimiento>(
-          this.documents
+          this.motivoMovimiento
         );
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
@@ -142,9 +144,9 @@ export class MotivoMovimientoDashboardComponent {
               this.utils.closeLoading();
               setTimeout(() => {
                 this.searchValue = JSON.stringify({
-                  par_modo: 'C',
-                  tipo_motivo: res.tipo_motivo[0],
-                  descripcion: res.descripcion,
+                  par_modo: 'R',
+                  id_motivo: res.id_motivo,
+                  tipo_motivo: res.tipo_motivo,
                 });
                 this.getMotivoMovimiento();
               }, 300);
@@ -160,7 +162,7 @@ export class MotivoMovimientoDashboardComponent {
       data: {
         title: `VER MOTIVO DE MOVIMIENTO`,
         edit: false,
-        par_modo: 'C',
+        par_modo: 'R',
         id_motivo: motivoMovimiento.id_motivo,
         tipo_motivo: motivoMovimiento.tipo_motivo,
         descripcion: motivoMovimiento.descripcion,

@@ -146,8 +146,8 @@ export class PreguntaDDJJDashboardComponent {
               setTimeout(() => {
                 this.searchValue = JSON.stringify({
                   par_modo: 'R',
-                  modelo_formulario: preguntaDDJJ.modelo_formulario,
-                  nro_preg: preguntaDDJJ.nro_preg,
+                  modelo_formulario: res.modelo_formulario,
+                  nro_preg: res.nro_preg,
                 });
                 this.getPreguntaDDJJ();
               }, 300);
@@ -175,8 +175,8 @@ export class PreguntaDDJJDashboardComponent {
     });
   }
 
-  public filter(descripcion: string): void {
-    this.searchValue = descripcion;
+  public filter(data: string): void {
+    this.searchValue = data;
     this.getPreguntaDDJJ();
   }
 }

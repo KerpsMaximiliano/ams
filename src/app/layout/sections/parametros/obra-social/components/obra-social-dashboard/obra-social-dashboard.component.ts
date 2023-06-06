@@ -33,9 +33,9 @@ export class ObraSocialDashboardComponent {
   public displayedColumns: string[] = [
     'codigo',
     'descripcion',
-    'tipo',
-    'numeroRegistroNacional',
-    'simil',
+    'tipo_obra_social_prepaga',
+    'nro_registro',
+    'similar_SMP',
     'omite_R420',
     'actions',
   ];
@@ -175,6 +175,19 @@ export class ObraSocialDashboardComponent {
         omite_R420: obraSocial.omite_R420,
       },
     });
+  }
+
+  public getTipo(tipo: string): string {
+    switch (tipo) {
+      case 'O':
+        return 'OBRA SOCIAL';
+      case 'P':
+        return 'PREPAGA';
+      case 'A':
+        return 'AMBAS';
+      default:
+        return '';
+    }
   }
 
   public filter(buscar: string): void {

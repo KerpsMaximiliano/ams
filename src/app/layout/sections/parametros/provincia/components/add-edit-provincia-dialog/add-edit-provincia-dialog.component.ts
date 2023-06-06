@@ -60,7 +60,7 @@ export class AddEditProvinciaDialogComponent {
   private setUpForm(): void {
     this.formGroup = new UntypedFormGroup({
       codigo: new UntypedFormControl(
-        '',
+        this.data.codigo,
         Validators.compose([
           Validators.required,
           Validators.minLength(1),
@@ -69,7 +69,7 @@ export class AddEditProvinciaDialogComponent {
         ])
       ),
       nombre_provincia: new UntypedFormControl(
-        '',
+        this.data.nombre_provincia ? this.data.nombre_provincia.trim() : '',
         Validators.compose([
           Validators.required,
           Validators.minLength(3),
@@ -79,7 +79,7 @@ export class AddEditProvinciaDialogComponent {
         ])
       ),
       codifica_altura: new UntypedFormControl(
-        'N',
+        this.data.codifica_altura,
         Validators.compose([
           Validators.required,
           Validators.minLength(1),
@@ -87,7 +87,7 @@ export class AddEditProvinciaDialogComponent {
         ])
       ),
       codigo_provincia: new UntypedFormControl(
-        '',
+        this.data.codigo_provincia,
         Validators.compose([
           Validators.minLength(1),
           Validators.maxLength(2),
@@ -95,7 +95,7 @@ export class AddEditProvinciaDialogComponent {
         ])
       ),
       flete_transportista: new UntypedFormControl(
-        '',
+        this.data.flete_transportista,
         Validators.compose([Validators.maxLength(6), isPercentage()]) // Verificar isPercentage().
       ),
     });
@@ -105,7 +105,7 @@ export class AddEditProvinciaDialogComponent {
     this.formGroup.get('codigo')?.setValue(this.data.codigo);
     this.formGroup
       .get('nombre_provincia')
-      ?.setValue(this.data.nombre_provincia);
+      ?.setValue(this.data.nombre_provincia ? this.data.nombre_provincia.trim() : '');
     this.formGroup.patchValue({
       codifica_altura: this.data.codifica_altura,
     });

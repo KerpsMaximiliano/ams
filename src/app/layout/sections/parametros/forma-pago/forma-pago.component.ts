@@ -83,6 +83,8 @@ export class FormaPagoComponent {
                 this.handleSearch(
                   JSON.stringify({
                     par_modo: 'R',
+                    codigo: res.codigo,
+                    forma_pago: res.forma_pago,
                   })
                 );
               }, 300);

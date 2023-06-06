@@ -58,7 +58,7 @@ export class AddEditTipoDocumentoDialogComponent {
   private setUpForm(): void {
     this.formGroup = new UntypedFormGroup({
       tipo_de_documento: new UntypedFormControl(
-        '',
+        this.data.tipo_de_documento,
         Validators.compose([
           Validators.required,
           Validators.minLength(1),
@@ -67,7 +67,7 @@ export class AddEditTipoDocumentoDialogComponent {
         ])
       ),
       descripcion: new UntypedFormControl(
-        '',
+        this.data.descripcion ? this.data.descripcion.trim() : '',
         Validators.compose([
           Validators.required,
           Validators.minLength(3),
@@ -77,7 +77,7 @@ export class AddEditTipoDocumentoDialogComponent {
         ])
       ),
       descripcion_reducida: new UntypedFormControl(
-        '',
+        this.data.descripcion_reducida ? this.data.descripcion_reducida.trim() : '',
         Validators.compose([
           Validators.required,
           Validators.minLength(1),
@@ -87,7 +87,7 @@ export class AddEditTipoDocumentoDialogComponent {
         ])
       ),
       control_cuit: new UntypedFormControl(
-        'N',
+        this.data.control_cuit,
         Validators.compose([
           Validators.required,
           Validators.minLength(1),
@@ -101,10 +101,10 @@ export class AddEditTipoDocumentoDialogComponent {
     this.formGroup
       .get('tipo_de_documento')
       ?.setValue(this.data.tipo_de_documento);
-    this.formGroup.get('descripcion')?.setValue(this.data.descripcion);
+    this.formGroup.get('descripcion')?.setValue(this.data.descripcion ? this.data.descripcion.trim() : '');
     this.formGroup
       .get('descripcion_reducida')
-      ?.setValue(this.data.descripcion_reducida);
+      ?.setValue(this.data.descripcion_reducida ? this.data.descripcion_reducida.trim() : '');
     this.formGroup.patchValue({
       control_cuit: this.data.control_cuit,
     });
@@ -119,7 +119,7 @@ export class AddEditTipoDocumentoDialogComponent {
     if (this.formGroup.valid) {
       this.dialogRef.close({
         par_modo: this.data.par_modo,
-        tipo_de_documento: this.data.tipo_de_documento,
+        tipo_de_documento: this.formGroup.get('tipo_de_documento')?.value,
         descripcion: this.formGroup.get('descripcion')?.value,
         descripcion_reducida: this.formGroup.get('descripcion_reducida')?.value,
         control_cuit: this.formGroup.get('control_cuit')?.value,

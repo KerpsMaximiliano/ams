@@ -68,7 +68,7 @@ export class AddEditFormaPagoDialogComponent {
   private setUpForm(): void {
     this.formGroup = new UntypedFormGroup({
       codigo: new UntypedFormControl(
-        '',
+        this.data.codigo,
         Validators.compose([
           Validators.required,
           Validators.minLength(1),
@@ -77,7 +77,7 @@ export class AddEditFormaPagoDialogComponent {
         ])
       ),
       forma_pago: new UntypedFormControl(
-        '',
+        this.data.forma_pago,
         Validators.compose([
           Validators.required,
           Validators.minLength(1),
@@ -85,7 +85,7 @@ export class AddEditFormaPagoDialogComponent {
         ])
       ),
       description: new UntypedFormControl(
-        '',
+        this.data.description ? this.data.description.trim() : '',
         Validators.compose([
           Validators.required,
           Validators.minLength(3),
@@ -94,7 +94,9 @@ export class AddEditFormaPagoDialogComponent {
         ])
       ),
       nombre_tarjeta_nemot: new UntypedFormControl(
-        '',
+        this.data.nombre_tarjeta_nemot
+          ? this.data.nombre_tarjeta_nemot.trim()
+          : '',
         Validators.compose([
           Validators.required,
           Validators.minLength(1),
@@ -103,40 +105,42 @@ export class AddEditFormaPagoDialogComponent {
         ])
       ),
       codigo_banco: new UntypedFormControl(
-        '',
+        this.data.codigo_banco,
         Validators.compose([
           Validators.required,
           Validators.minLength(1),
           Validators.maxLength(3),
-          // Falta validación regex.
+          isNumeric,
         ])
       ),
       trabaja_archivos: new UntypedFormControl(
-        '',
+        this.data.trabaja_archivos,
         Validators.compose([Validators.required])
       ),
       trabaja_rechazos: new UntypedFormControl(
-        '',
+        this.data.trabaja_rechazos,
         Validators.compose([Validators.required])
       ),
       solicita_datos_ad: new UntypedFormControl(
-        '',
+        this.data.solicita_datos_ad,
         Validators.compose([Validators.required])
       ),
-      codigo_tarjeta_de_baja: new UntypedFormControl({
-        value: this.data.codigo_tarjeta_de_baja,
-        disabled: true,
-      }),
     });
   }
 
   private setFormValues(): void {
     this.formGroup.get('codigo')?.setValue(this.data.codigo);
     this.formGroup.get('forma_pago')?.setValue(this.data.forma_pago);
-    this.formGroup.get('description')?.setValue(this.data.description);
+    this.formGroup
+      .get('description')
+      ?.setValue(this.data.description ? this.data.description.trim() : '');
     this.formGroup
       .get('nombre_tarjeta_nemot')
-      ?.setValue(this.data.nombre_tarjeta_nemot);
+      ?.setValue(
+        this.data.nombre_tarjeta_nemot
+          ? this.data.nombre_tarjeta_nemot.trim()
+          : ''
+      );
     this.formGroup.get('codigo_banco')?.setValue(this.data.codigo_banco);
     this.formGroup.patchValue({
       trabaja_archivos: this.data.trabaja_archivos,
@@ -147,11 +151,6 @@ export class AddEditFormaPagoDialogComponent {
     this.formGroup.patchValue({
       solicita_datos_ad: this.data.solicita_datos_ad,
     });
-    if (this.formGroup.get('codigo_tarjeta_de_baja')?.value === '') {
-      this.formGroup.get('codigo_tarjeta_de_baja')?.setValue('ACTIVO');
-    } else {
-      this.formGroup.get('codigo_tarjeta_de_baja')?.setValue('BAJA');
-    }
   }
 
   public closeDialog(): void {
