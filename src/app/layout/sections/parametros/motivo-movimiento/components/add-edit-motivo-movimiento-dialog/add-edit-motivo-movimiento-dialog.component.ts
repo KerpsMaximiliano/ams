@@ -16,6 +16,7 @@ import {
   isAlphanumericWithSpaces,
   isNumeric,
   getErrorMessage,
+  notOnlySpaces,
 } from 'src/app/core/validators/character.validator';
 
 // * Components
@@ -28,11 +29,11 @@ import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confi
   providers: [DatePipe],
 })
 export class AddEditMotivoMovimientoDialogComponent {
+  public formGroup: UntypedFormGroup;
+  public getErrorMessage = getErrorMessage;
   fechaNum: string; // Utlizado para almacenar la fecha de hoy, pero en formato para poder almacenarlo en la base de datos.
   fecha_hoy: string | undefined;
   fecha_fin: number = 0; // si se da de baja, se cambia el valor con el metodo 'darseBaja()'
-  public formGroup: UntypedFormGroup;
-  public getErrorMessage = getErrorMessage;
 
   constructor(
     public datePipe: DatePipe,
@@ -50,7 +51,6 @@ export class AddEditMotivoMovimientoDialogComponent {
    */
   ngOnInit(): void {
     let fecha = new Date();
-
     const fechaEndPicker =
       fecha.getFullYear() +
       '-' +
@@ -98,6 +98,7 @@ export class AddEditMotivoMovimientoDialogComponent {
           Validators.minLength(1),
           Validators.maxLength(30),
           isAlphanumericWithSpaces(),
+          notOnlySpaces(),
         ])
       ),
       datos_adic_SN: new UntypedFormControl(
@@ -120,7 +121,7 @@ export class AddEditMotivoMovimientoDialogComponent {
     this.formGroup.get('datos_adic_SN')?.setValue(this.data.datos_adic_SN);
     this.formGroup
       .get('fecha_inicio_vigencia')
-      ?.setValue(this.calcularFecha(this.data.fecha_inicio_vigencia - 1));
+      ?.setValue(this.calcularFecha(this.data.fecha_inicio_vigencia));
     this.formGroup
       .get('fecha_fin_vigencia')
       ?.setValue(this.data.fecha_fin_vigencia);
@@ -171,7 +172,7 @@ export class AddEditMotivoMovimientoDialogComponent {
           '-' +
           (dateFecha.getMonth() + 1) +
           '-' +
-          (dateFecha.getDate() + 2),
+          (dateFecha.getDate() + 1),
         'yyyy-MM-dd'
       );
     } else {

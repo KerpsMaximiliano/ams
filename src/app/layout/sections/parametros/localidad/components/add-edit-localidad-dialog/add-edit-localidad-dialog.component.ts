@@ -51,7 +51,7 @@ export class AddEditLocalidadDialogComponent {
     this.setUpForm();
     if (this.data.codigo_postal) this.setFormValues();
     let bodyprov = {
-      par_modo: 'C',
+      par_modo: 'O',
       nombre_provincia: '',
     };
     await this.localidadService.getProvincia(bodyprov).subscribe({
@@ -210,7 +210,7 @@ export class AddEditLocalidadDialogComponent {
 
   buscar(letra_provincia: string) {
     let bodydep = {
-      par_modo: 'C',
+      par_modo: 'O',
       descripcion: '',
       letra_provincia: letra_provincia,
     };

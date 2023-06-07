@@ -43,8 +43,7 @@
     <div class="seeker-fields-container">
       <h3> VIGENCIA DESDE </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="fecha_inicio_vigencia" class="date-input" type="date" min="1990-01-01"
-          [max]="fecha_hoy" required minlength="1" maxlength="10">
+        <input matInput formControlName="fecha_inicio_vigencia" class="date-input" type="date" [max]="fecha_hoy">
         <mat-error
           *ngIf="formGroup.get('fecha_inicio_vigencia')?.invalid && formGroup.get('fecha_inicio_vigencia')?.touched">
           {{ getErrorMessage(formGroup.get('fecha_inicio_vigencia')) }}
@@ -56,7 +55,7 @@
       <h3> ¿DATOS ADICIONALES? </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
         <mat-select formControlName="datos_adic_SN">
-          <mat-option [value]="'S'" [disabled]="!data.edit"> SI </mat-option>
+          <mat-option [value]="'S'"> SI </mat-option>
           <mat-option [value]="'N'"> NO </mat-option>
         </mat-select>
         <mat-error *ngIf="formGroup.get('datos_adic_SN')?.invalid && formGroup.get('datos_adic_SN')?.touched">
@@ -68,7 +67,7 @@
     <div class="seeker-fields-container" *ngIf="data.par_modo !== 'C'">
       <h3> ESTADO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input [value]="data.fecha_fin_vigencia === 0 ? 'Activo' : 'Baja'" matInput disabled>
+        <input [value]="fecha_fin === 0 ? 'Activo' : 'Baja'" matInput disabled>
       </mat-form-field>
     </div>
 
@@ -87,7 +86,8 @@
         <mat-icon> close </mat-icon>
         Alta
       </button>
-      <button class="primary-button icon-button" type="submit" [disabled]="formGroup.invalid">
+      <button class="primary-button icon-button" type="submit" [disabled]="formGroup.invalid"
+        [disabled]="this.data.datos_adic_SN === ' '">
         <mat-icon> done </mat-icon>
         Guardar
       </button>
