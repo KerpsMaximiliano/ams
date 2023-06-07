@@ -108,8 +108,14 @@ export class LocalidadDashboardComponent {
         },
       });
     } else {
-      this.aux.par_modo = 'C';
-      this.localidadesService.CRUD(JSON.stringify(this.aux)).subscribe({
+      this.aux.par_modo = 'O';
+      let body = {
+        par_modo: this.aux.par_modo,
+        descripcion: this.aux.descripcion,
+        letra_provincia: this.aux.letra_provincia,
+        codigo_departamento: this.aux.codigo_departamento,
+      };
+      this.localidadesService.CRUD(JSON.stringify(body)).subscribe({
         next: (res: any) => {
           this.localidades = res.dataset as ILocalidad[];
           this.dataSource = new MatTableDataSource<ILocalidad>(

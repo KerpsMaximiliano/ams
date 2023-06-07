@@ -39,6 +39,7 @@ td.mat-cell:first-of-type {
 */
 .mat-column-actions.mat-header-cell,
 .mat-column-actions.mat-cell {
+  width: 11% !important;
   text-align: center !important;
   word-break: break-all !important;
 }
@@ -74,11 +75,6 @@ td.mat-cell:first-of-type {
 .mat-column-estado.mat-header-cell,
 .mat-column-estado.mat-cell {
   width: 8% !important;
-}
-
-.mat-column-actions.mat-header-cell,
-.mat-column-actions.mat-cell {
-  width: 11% !important;
 }
 
 /*
