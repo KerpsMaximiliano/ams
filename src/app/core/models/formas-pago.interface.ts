@@ -11,6 +11,7 @@ export interface IFormaPago {
   trabaja_rechazos: string;
   nombre_tarjeta_nemot: string;
   codigo_tarjeta_de_baja: string;
+  desc_banco: string;
 }
 
 export type IFormaPagoResponse = IResponse<IFormaPago[]>;
