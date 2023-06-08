@@ -1,15 +1,64 @@
-.mat-column-departamento.mat-header-cell,
-.mat-column-departamento.mat-cell,
-.mat-column-abreviatura.mat-header-cell,
-.mat-column-abreviatura.mat-cell {
-  text-align: left !important;
-  padding-left: 1vw !important;
+/*
+ * Evita un espaciado innecesario en la primer columna.
+*/
+th.mat-header-cell:first-of-type,
+td.mat-cell:first-of-type {
+  padding-left: 0px !important;
 }
 
+/*
+ * Texto alineado a la izquierda.
+*/
+.mat-column-descripcion.mat-header-cell,
+.mat-column-descripcion.mat-cell,
+.mat-column-descripcion_reducida.mat-header-cell,
+.mat-column-descripcion_reducida.mat-cell {
+  text-align: left !important;
+  padding-left: 1vw !important;
+  word-break: break-all !important;
+}
+
+/*
+ * Número y fecha alineado a la derecha.
+*/
 .mat-column-codigo_departamento.mat-header-cell,
 .mat-column-codigo_departamento.mat-cell {
   text-align: right !important;
   padding-right: 1vw !important;
+  word-break: break-all !important;
+}
+
+/*
+ * Iconos alineados al centro.
+*/
+.mat-column-actions.mat-header-cell,
+.mat-column-actions.mat-cell {
+  text-align: center !important;
+  word-break: break-all !important;
+}
+
+/*
+ * Tamaño de columnas.
+*/
+
+.mat-column-codigo_departamento.mat-header-cell,
+.mat-column-codigo_departamento.mat-cell {
+  width: 15% !important;
+}
+
+.mat-column-descripcion.mat-header-cell,
+.mat-column-descripcion.mat-cell {
+  width: 40% !important;
+}
+
+.mat-column-descripcion_reducida.mat-header-cell,
+.mat-column-descripcion_reducida.mat-cell {
+  width: 25% !important;
+}
+
+.mat-column-actions.mat-header-cell,
+.mat-column-actions.mat-cell {
+  width: 20% !important;
 }
 
 /*

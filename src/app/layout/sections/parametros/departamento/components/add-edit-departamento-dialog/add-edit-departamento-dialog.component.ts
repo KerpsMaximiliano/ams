@@ -2,10 +2,14 @@ import { Component, Inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
 // * Services
+import { UtilService } from 'src/app/core/services/util.service';
 import { ProvinciaService } from 'src/app/core/services/provincia.service';
 
 // * Interfaces
-import { IProvinciaResponse } from 'src/app/core/models/provincia.interface';
+import {
+  IProvincia,
+  IProvinciaResponse,
+} from 'src/app/core/models/provincia.interface';
 
 // * Material
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -21,6 +25,8 @@ import {
 import {
   isAlphanumericWithSpaces,
   getErrorMessage,
+  notOnlySpaces,
+  isNumeric,
 } from 'src/app/core/validators/character.validator';
 
 // * Components
@@ -33,13 +39,14 @@ import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confi
 })
 export class AddEditDepartamentoDialogComponent {
   public formGroup: UntypedFormGroup;
+  provincias: IProvincia[] = [];
   public getErrorMessage = getErrorMessage;
-  provincias$: Observable<IProvinciaResponse>;
 
   constructor(
-    private provinciaService: ProvinciaService,
     public dialogRef: MatDialogRef<ConfirmDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private utils: UtilService,
+    private provinciaService: ProvinciaService
   ) {}
 
   /**
@@ -51,75 +58,105 @@ export class AddEditDepartamentoDialogComponent {
    *     > Habilitada: deshabilita el 'letra_provincia'.
    */
   ngOnInit(): void {
-    // Verificar
     this.setUpForm();
-    if (this.data.letra_provincia) this.setFormValues();
+  }
 
-    this.provincias$ = this.provinciaService.provinciaList;
-    if (this.data.par_modo === 'U' || this.data.par_modo === 'R') {
-      this.setFormValues();
-      if (this.data.edit === false) {
-        this.formGroup.disable();
-      } else {
-        this.formGroup.get('letra_provincia')?.disable();
-      }
+  ngAfterViewInit(): void {
+    let body;
+    if (this.formGroup.get('letra_provincia')?.value) {
+      body = {
+        par_modo: 'R',
+        codigo: this.formGroup.get('letra_provincia')?.value,
+      };
+    } else {
+      body = {
+        par_modo: 'O',
+        nombre_provincia: '',
+      };
     }
+    this.utils.openLoading();
+    this.provinciaService.CRUD(JSON.stringify(body)).subscribe({
+      next: (res: any) => {
+        res.dataset.length
+          ? (this.provincias = res.dataset as IProvincia[])
+          : (this.provincias = [res.dataset]);
+      },
+      complete: () => {
+        if (this.data.par_modo === 'U' || this.data.par_modo === 'R') {
+          this.setFormValues();
+          if (this.data.edit === false) {
+            this.formGroup.disable();
+          } else {
+            this.formGroup.get('nombre_provincia')?.disable();
+            this.formGroup.get('codigo_departamento')?.disable();
+          }
+        }
+        this.utils.closeLoading();
+        console.log(this.provincias);
+      },
+    });
   }
 
   private setUpForm(): void {
     this.formGroup = new UntypedFormGroup({
-      letra_provincia: new UntypedFormControl(
-        { value: '', disabled: this.data.par_modo == 'U' },
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(1),
-          Validators.maxLength(1),
-        ])
+      nombre_provincia: new UntypedFormControl(
+        this.data.nombre_provincia ? this.data.nombre_provincia.trim() : '',
+        Validators.compose([Validators.required])
       ),
       codigo_departamento: new UntypedFormControl(
-        { value: '', disabled: this.data.par_modo == 'U' },
+        this.data.codigo_departamento,
         Validators.compose([
           Validators.required,
           Validators.minLength(1),
           Validators.maxLength(3),
+          isNumeric(),
         ])
       ),
       descripcion: new UntypedFormControl(
-        '',
+        this.data.descripcion ? this.data.descripcion.trim() : '',
         Validators.compose([
           Validators.required,
           Validators.minLength(3),
           Validators.maxLength(50),
-          isAlphanumericWithSpaces,
+          isAlphanumericWithSpaces(),
+          notOnlySpaces(),
         ])
       ),
       descripcion_reducida: new UntypedFormControl(
-        '',
+        this.data.descripcion_reducida
+          ? this.data.descripcion_reducida.trim()
+          : '',
         Validators.compose([
           Validators.required,
           Validators.minLength(3),
           Validators.maxLength(15),
+          isAlphanumericWithSpaces(),
+          notOnlySpaces(),
         ])
       ),
-      nombre_provincia: new UntypedFormControl({
-        value: '',
-        disabled: this.data.par_modo == 'U',
-      }),
     });
   }
 
   private setFormValues(): void {
-    this.formGroup.get('letra_provincia')?.setValue(this.data.letra_provincia);
+    this.formGroup.patchValue({
+      nombre_provincia: this.data.nombre_provincia
+        ? this.data.nombre_provincia.trim()
+        : '',
+    });
     this.formGroup
       .get('codigo_departamento')
       ?.setValue(this.data.codigo_departamento);
-    this.formGroup.get('descripcion')?.setValue(this.data.descripcion);
+    this.formGroup
+      .get('descripcion')
+      ?.setValue(this.data.descripcion ? this.data.descripcion.trim() : '');
     this.formGroup
       .get('descripcion_reducida')
-      ?.setValue(this.data.descripcion_reducida);
-    this.formGroup
-      .get('nombre_provincia')
-      ?.setValue(this.data.nombre_provincia);
+      ?.setValue(
+        this.data.descripcion_reducida
+          ? this.data.descripcion_reducida.trim()
+          : ''
+      );
+    console.log(this.formGroup.get('letra_provincia')?.value);
   }
 
   closeDialog(): void {

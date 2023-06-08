@@ -5,43 +5,34 @@
         <mat-panel-title> Opciones de búsqueda </mat-panel-title>
       </mat-expansion-panel-header>
 
-      <form [formGroup]="searchForm">
-        <div class="seeker-fields-container" (keyup.enter)="searchKeyUp($event)">
-          <h3> Provincia </h3>
-          <mat-form-field class="seeker-form-field" appearance="outline">
-            <input type="text" required matInput [formControl]="myControlProv" [matAutocomplete]="prov">
-            <mat-autocomplete #prov="matAutocomplete" [displayWith]="displayFnProv">
-              <mat-option *ngFor="let Prov of provinciaFiltrados | async" [value]="Prov"
-                (onSelectionChange)="buscar(Prov.codigo)">
-                {{ Prov.nombre_provincia }}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
-
-          <ng-template #loading>
-            <div class="seeker-fields-container">
-              <mat-form-field class="seeker-form-field">
-                <mat-select>
-                  <mat-option> Cargando </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-          </ng-template>
-
+      <form>
+        <div class="seeker-fields-container">
           <mat-form-field class="seeker-form-field">
-            <mat-label class="seeker-label"> Ingrese el departamento </mat-label>
-            <input matInput class="seeker-input" formControlName="descripcion">
+            <mat-label class="seeker-label" for="modelo_formulario">
+              Seleccione una provincia
+            </mat-label>
+            <mat-select #selectOptions>
+              <mat-option *ngFor="let provincia of provincias" [value]="provincia.codigo"> {{ provincia.nombre_provincia }} </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="seeker-fields-container">
+          <mat-form-field class="seeker-form-field">
+            <mat-label class="seeker-label" for="descripcion"> Ingrese el departamento </mat-label>
+            <input matInput class="seeker-input" (keydown.enter)="search($event, input.value)" #input maxlength="30" />
           </mat-form-field>
         </div>
 
         <div class="buttons-container">
-          <button class="primary-button icon-button" type="button" (click)="search()"
-            [disabled]="!(searchForm.get('letra_provincia')?.value || searchForm.get('descripcion')?.value)">
-            <mat-icon> done </mat-icon>
+          <button class="primary-button icon-button" type="button" (click)="search($event, input.value)" [disabled]="
+          !selectOptions?.value">
+            <mat-icon>done</mat-icon>
             Buscar
           </button>
-          <button class="primary-button icon-button" type="button" (click)="clearInputs()">
-            <mat-icon> close </mat-icon>
+          <button class="primary-button icon-button" type="button" (click)="clear(input)" [disabled]="
+            !selectOptions?.value" [disabled]="!input?.value">
+            <mat-icon>close</mat-icon>
             Limpiar
           </button>
         </div>

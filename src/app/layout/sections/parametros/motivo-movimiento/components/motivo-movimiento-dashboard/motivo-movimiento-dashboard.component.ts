@@ -203,8 +203,8 @@ export class MotivoMovimientoDashboardComponent {
     }
   }
 
-  public filter(buscar: string): void {
-    this.searchValue = buscar;
+  public filter(data: string): void {
+    this.searchValue = data;
     this.getMotivoMovimiento();
   }
 }
