@@ -1,0 +1,25 @@
+.active {
+    background-color: #f0f0f0;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.accordion-content {
+    display: none;
+}
+
+.active + .accordion-content {
+    display: table-cell;
+}.accordion-content {
+    display: none;
+}
+.accordion-toggle.active + .accordion-content {
+    display: table-row;
+}
+.content{
+    display: flex;
+    text-align: center;
+}
+.content-part{
+    display: block;
+}

@@ -1,0 +1,129 @@
+<div class="dialog-title" [tabIndex]="0">
+<h2> {{ data.title | uppercase }} </h2>
+</div>
+
+<div class="dialog-content">
+<form class="form-datos" [formGroup]="formGroup" (ngSubmit)="confirm()">
+    <div class="seeker-fields-container">
+        <h3> FECHA VIGENCIA </h3>
+        <mat-form-field class="seeker-form-field" appearance="outline">
+            <input matInput formControlName="vigencia" required minlength="1" maxlength="1">
+            <mat-error
+            *ngIf="formGroup.get('vigencia')?.invalid && formGroup.get('vigencia')?.touched">
+            {{ getErrorMessage(formGroup.get('vigencia')) }}
+            </mat-error> 
+        </mat-form-field>
+        </div>
+        <div class="seeker-fields-container">
+            <h3> FUENTE DE INGRESO </h3>
+            <mat-form-field class="seeker-form-field" appearance="outline">
+                <input matInput formControlName="fuenteIngreso" required minlength="1" maxlength="1">
+                <mat-error
+                *ngIf="formGroup.get('fuenteIngreso')?.invalid && formGroup.get('fuenteIngreso')?.touched">
+                {{ getErrorMessage(formGroup.get('fuenteIngreso')) }}
+                </mat-error> 
+            </mat-form-field>
+        </div>
+        <div class="seeker-fields-container">
+            <h3> PRODUCTO </h3>
+            <mat-form-field class="seeker-form-field" appearance="outline">
+                <input matInput formControlName="producto" required minlength="1" maxlength="1">
+                <mat-error
+                *ngIf="formGroup.get('producto')?.invalid && formGroup.get('producto')?.touched">
+                {{ getErrorMessage(formGroup.get('producto')) }}
+                </mat-error> 
+            </mat-form-field>
+        </div>
+        <div class="seeker-fields-container">
+            <h3> REMUNERACION DESDE ($) </h3>
+            <mat-form-field class="seeker-form-field" appearance="outline">
+                <input matInput formControlName="remuneracionDesde" required minlength="1" maxlength="1">
+                <mat-error
+                *ngIf="formGroup.get('remuneracionDesde')?.invalid && formGroup.get('remuneracionDesde')?.touched">
+                {{ getErrorMessage(formGroup.get('remuneracionDesde')) }}
+                </mat-error> 
+            </mat-form-field>
+        </div>
+        <div class="seeker-fields-container">
+            <h3> REMUNERACION HASTA ($) </h3>
+            <mat-form-field class="seeker-form-field" appearance="outline">
+                <input matInput formControlName="remuneracionHasta" required minlength="1" maxlength="1">
+                <mat-error
+                *ngIf="formGroup.get('remuneracionHasta')?.invalid && formGroup.get('remuneracionHasta')?.touched">
+                {{ getErrorMessage(formGroup.get('remuneracionHasta')) }}
+                </mat-error> 
+            </mat-form-field>
+        </div>
+        <div class="seeker-fields-container">
+            <div class="content">
+                <div class="content-part">
+                    <h3> COEFICIENTE 1 </h3>
+                    <mat-form-field class="seeker-form-field" appearance="outline">
+                        <input matInput formControlName="coeficiente1" required type="number" min="0" step="0.01" max="1">
+                        <mat-error
+                        *ngIf="formGroup.get('coeficiente1')?.invalid && formGroup.get('coeficiente1')?.touched">
+                        {{ getErrorMessage(formGroup.get('coeficiente1')) }}
+                        </mat-error> 
+                    </mat-form-field>
+                </div>
+                <div class="content-part">
+                    <h3> COEFICIENTE 2 </h3>
+                    <mat-form-field class="seeker-form-field" appearance="outline">
+                        <input matInput formControlName="coeficiente2" required type="number" min="0" step="0.01" max="1">
+                        <mat-error
+                        *ngIf="formGroup.get('coeficiente2')?.invalid && formGroup.get('coeficiente2')?.touched">
+                        {{ getErrorMessage(formGroup.get('coeficiente2')) }}
+                        </mat-error> 
+                    </mat-form-field>
+                </div>
+                <div class="content-part">
+                    <h3> COEFICIENTE 3 </h3>
+                    <mat-form-field class="seeker-form-field" appearance="outline">
+                        <input matInput formControlName="coeficiente3" required type="number" min="0" step="0.01" max="1">
+                        <mat-error
+                        *ngIf="formGroup.get('coeficiente3')?.invalid && formGroup.get('coeficiente3')?.touched">
+                        {{ getErrorMessage(formGroup.get('coeficiente3')) }}
+                    </mat-error> 
+                    </mat-form-field>
+                </div>
+                <div class="content-part">
+                    <h3> COEFICIENTE 4 </h3>
+                    <mat-form-field class="seeker-form-field" appearance="outline">
+                        <input matInput formControlName="coeficiente4" required type="number" min="0" step="0.01" max="1">
+                        <mat-error
+                        *ngIf="formGroup.get('coeficiente4')?.invalid && formGroup.get('coeficiente4')?.touched">
+                        {{ getErrorMessage(formGroup.get('coeficiente4')) }}
+                    </mat-error> 
+                    </mat-form-field>
+                </div>
+                <div class="content-part">
+                    <h3> COEFICIENTE 5 </h3>
+                    <mat-form-field class="seeker-form-field" appearance="outline">
+                        <input matInput formControlName="coeficiente5" required type="number" min="0" step="0.01" max="1">
+                        <mat-error
+                        *ngIf="formGroup.get('coeficiente5')?.invalid && formGroup.get('coeficiente5')?.touched">
+                        {{ getErrorMessage(formGroup.get('coeficiente5')) }}
+                    </mat-error> 
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+    <div *ngIf="data.edit; else other_content" class="buttons-container">
+    <button class="primary-button icon-button" type="button" (click)="closeDialog()">
+        <mat-icon> close </mat-icon>
+        Cancelar
+    </button>
+    <button class="primary-button icon-button" type="submit" [disabled]="formGroup.invalid">
+        <mat-icon> done </mat-icon>
+        Guardar
+    </button>
+    </div>
+
+    <ng-template #other_content>
+    <button class="primary-button icon-button" mat-dialog-close>
+        <mat-icon> done </mat-icon>
+        Aceptar
+    </button>
+    </ng-template>
+</form>
+</div>

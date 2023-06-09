@@ -76,6 +76,10 @@ import { PreguntaDDJJDashboardComponent } from './pregunta-ddjj/components/pregu
 import { PreguntaDDJJFilterComponent } from './pregunta-ddjj/components/pregunta-ddjj-filter/pregunta-ddjj-filter.component';
 
 import { ModalLocalidadComponent } from './posicion/add-edit-posicion-dialog/modal-localidad/modal-localidad.component';
+import { ExtencionFuenteIngresoComponent } from './extencion-fuente-ingreso/extencion-fuente-ingreso.component';
+import { ExtencionFuenteIngresoDashboardComponent } from './extencion-fuente-ingreso/components/extencion-fuente-ingreso-dashboard/extencion-fuente-ingreso-dashboard.component';
+import { ExtencionFuenteIngresoFilterComponent } from './extencion-fuente-ingreso/components/extencion-fuente-ingreso-filter/extencion-fuente-ingreso-filter.component';
+import { AddEditExtencionFuenteIngresoComponent } from './extencion-fuente-ingreso/components/add-edit-extencion-fuente-ingreso/add-edit-extencion-fuente-ingreso.component';
 
 @NgModule({
   declarations: [
@@ -144,7 +148,13 @@ import { ModalLocalidadComponent } from './posicion/add-edit-posicion-dialog/mod
     PreguntaDDJJComponent,
     PreguntaDDJJDashboardComponent,
     PreguntaDDJJFilterComponent,
-
+    
+    // 32 - EXTENCION FUENTES DE INGRESOS
+    ExtencionFuenteIngresoComponent,
+    ExtencionFuenteIngresoDashboardComponent,
+    ExtencionFuenteIngresoFilterComponent,
+    AddEditExtencionFuenteIngresoComponent,
+    
     ModalLocalidadComponent,
   ],
   imports: [

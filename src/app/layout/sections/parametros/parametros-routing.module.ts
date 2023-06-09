@@ -28,6 +28,8 @@ import { FuenteIngresoComponent } from './fuente-ingreso/fuente-ingreso.componen
 import { ObraSocialComponent } from './obra-social/obra-social.component';
 // 13 - PREGUNTAS DE DECLARACIONES JURADS
 import { PreguntaDDJJComponent } from './pregunta-ddjj/pregunta-ddjj.component';
+// 32 - EXTENCION FUENTES DE INGRESOS
+import { ExtencionFuenteIngresoComponent } from './extencion-fuente-ingreso/extencion-fuente-ingreso.component';
 
 const routes: Routes = [
   {
@@ -81,6 +83,10 @@ const routes: Routes = [
   {
     path: 'parametros/preguntas-ddjj',
     component: PreguntaDDJJComponent,
+  },
+  {
+    path: 'parametros/extencion-fuente-ingreso',
+    component: ExtencionFuenteIngresoComponent,
   },
 ];
 

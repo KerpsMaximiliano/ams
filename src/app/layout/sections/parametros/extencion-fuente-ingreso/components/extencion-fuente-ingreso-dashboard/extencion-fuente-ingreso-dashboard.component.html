@@ -1,0 +1,85 @@
+<section>
+    <mat-accordion>
+        <mat-expansion-panel class="mat-elevation-z1">
+            <mat-expansion-panel-header floating>
+                <mat-panel-title>
+    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
+        <ng-container class="mat-row" *matNoDataRow>
+            <td class="mat-cell no-data-cell" [attr.colspan]="displayedColumns.length">
+                No se encontraron resultados
+            </td>
+        </ng-container>
+        <tr >
+            <ng-container matColumnDef="fecha_vigencia">
+                <th mat-header-cell *matHeaderCellDef> fecha vigencia </th>
+                <td mat-cell *matCellDef="let param"> {{ param.vigencia }} </td>
+            </ng-container>
+            <ng-container matColumnDef="monto_desde">
+            <th mat-header-cell *matHeaderCellDef> Remuneracion desde ($) </th>
+            <td mat-cell *matCellDef="let param"> {{ param.remuneracionDesde }} </td>
+            </ng-container>
+            <ng-container matColumnDef="monto_hasta">
+                <th mat-header-cell *matHeaderCellDef> Remuneracion hasta ($) </th>
+                <td mat-cell *matCellDef="let param"> {{ param.remuneracionHasta }} </td>
+            </ng-container>
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef> Acciones </th>
+                <td mat-cell *matCellDef="let doctype">
+                    <button class="action-button" (click)="viewExtencionFuenteIngraso(doctype)">
+                        <mat-icon class="edit-icon" aria-label="false"> visibility </mat-icon>
+                    </button>
+                    <button class="action-button" (click)="editExtencionFuenteIngraso(doctype)">
+                        <mat-icon class="delete-icon" aria-label="false"> edit </mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+        </tr>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+</mat-panel-title>
+</mat-expansion-panel-header>
+    <table>
+        <tr class="accordion-content">
+            <div class="content">
+                <div class="content-part">
+                    <ng-container matColumnDef="coeficiente1">
+                        <th mat-header-cell *matHeaderCellDef> COEFICIENTE 1 </th>
+                        <td mat-cell *matCellDef="let param"> {{ param.coeficiente1 }} </td>
+                    </ng-container>
+                </div>
+                <div class="content-part">
+                    <ng-container matColumnDef="coeficiente2">
+                        <th mat-header-cell *matHeaderCellDef> COEFICIENTE 2 </th>
+                        <td mat-cell *matCellDef="let param"> {{ param.coeficiente2 }} </td>
+                    </ng-container>
+                </div>
+                <div class="content-part">
+                    <ng-container matColumnDef="coeficiente3">
+                        <th mat-header-cell *matHeaderCellDef> COEFICIENTE 3 </th>
+                        <td mat-cell *matCellDef="let param"> {{ param.coeficiente3 }} </td>
+                    </ng-container>
+                </div>
+                <div class="content-part">
+                    <ng-container matColumnDef="coeficiente4">
+                        <th mat-header-cell *matHeaderCellDef> COEFICIENTE 4 </th>
+                        <td mat-cell *matCellDef="let param"> {{ param.coeficiente4 }} </td>
+                    </ng-container>
+                </div>
+                <div class="content-part">
+                    <ng-container matColumnDef="coeficiente5">
+                        <th mat-header-cell *matHeaderCellDef> COEFICIENTE 5 </th>
+                        <td mat-cell *matCellDef="let param"> {{ param.coeficiente5 }} </td>
+                    </ng-container>
+                </div>
+            </div>
+        </tr>
+        <tr mat-header-row *matHeaderRowDef="displayColumnsAcordion"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayColumnsAcordion"></tr>
+    </table>
+</mat-expansion-panel>
+</mat-accordion>
+    <mat-paginator [pageSizeOptions]="[10, 20, 30]" [pageSize]="10" showFirstLastButtons
+        aria-label="Controles de paginación." [ngClass]="{'hide-paginator': !dataSource }">
+    </mat-paginator>
+</section>

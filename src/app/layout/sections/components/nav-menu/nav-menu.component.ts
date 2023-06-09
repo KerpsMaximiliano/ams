@@ -106,6 +106,13 @@ export class NavMenuComponent {
           url: '/parametros/estados-civiles',
           icon: 'keyboard_arrow_right',
         },
+        {
+          // 09 - EXTENCION FUENTE INGRESO 
+          title: 'Extencion Fuente de Ingreso',
+          url: '/parametros/extencion-fuente-ingreso',
+          icon: 'keyboard_arrow_right',
+        },
+
       ],
     },
   ];
