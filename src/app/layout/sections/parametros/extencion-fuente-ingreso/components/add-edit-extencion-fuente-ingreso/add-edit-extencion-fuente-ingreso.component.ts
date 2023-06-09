@@ -40,22 +40,21 @@ export class AddEditExtencionFuenteIngresoComponent {
 
   /**
    * 1. 'this.setUpForm();': Asigna las validaciones correspondientes a cada campo de entrada/selección.
-   * 2. Condición: comprueba que sea una actualización (modificación) o lectura.
-   * 3. 'this.setFormValues();': Asigna los valores de 'data' a los campos de entrada/selección del formulario.
+  //  * 2. Condición: comprueba que sea una actualización (modificación) o lectura.
+   * 2. 'this.setFormValues();': Asigna los valores de 'data' a los campos de entrada/selección del formulario.
    * 4. Condición: comprueba si la edición esta deshabilitada.
    *     > Deshabilidada: deshabilita el formulario.
    *     > Habilitada: deshabilita el 'vigencia'.
    */
   ngOnInit(): void {
     this.setUpForm();
-    if (this.data.par_modo === 'U' || this.data.par_modo === 'R') {
-      this.setFormValues();
+    this.setFormValues();
       if (this.data.edit === false) {
         this.formGroup.disable();
       } else {
         this.formGroup.get('vigencia')?.disable();
+        this.formGroup.get('fuenteIngreso')?.disable();
       }
-    }
   }
 
   private setUpForm(): void {
@@ -157,6 +156,14 @@ export class AddEditExtencionFuenteIngresoComponent {
     });
   }
 
+  getProducto(){
+
+  }
+
+  limpiar(){
+
+  }
+
   private setFormValues(): void {
     this.formGroup
       .get('vigencia')
@@ -168,6 +175,25 @@ export class AddEditExtencionFuenteIngresoComponent {
 
   public closeDialog(): void {
     this.dialogRef.close(false);
+  }
+
+  closeOpenDialog(){
+    if (this.formGroup.valid) {
+      this.dialogRef.close({
+        par_modo: this.data.par_modo,
+        vigencia: this.formGroup.get('vigencia')?.value,
+        fuenteingreso: this.formGroup.get('fuenteIngreso')?.value,
+        producto: this.formGroup.get('producto')?.value,
+        remuneracionDesde: this.formGroup.get('remuneracionDesde')?.value,
+        remuneracionHasta: this.formGroup.get('remuneracionHasta')?.value,
+        coeficiente1: this.formGroup.get('coeficiente1')?.value,
+        coeficiente2: this.formGroup.get('coeficiente2')?.value,
+        coeficiente3: this.formGroup.get('coeficiente3')?.value,
+        coeficiente4: this.formGroup.get('coeficiente4')?.value,
+        coeficiente5: this.formGroup.get('coeficiente5')?.value,
+        reload: true,
+      });
+    }
   }
 
   public confirm(): void {
@@ -185,6 +211,7 @@ export class AddEditExtencionFuenteIngresoComponent {
         coeficiente3: this.formGroup.get('coeficiente3')?.value,
         coeficiente4: this.formGroup.get('coeficiente4')?.value,
         coeficiente5: this.formGroup.get('coeficiente5')?.value,
+        reload: false,
       });
     }
   }

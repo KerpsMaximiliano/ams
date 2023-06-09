@@ -26,18 +26,29 @@
         </div>
         <div class="seeker-fields-container">
             <h3> PRODUCTO </h3>
-            <mat-form-field class="seeker-form-field" appearance="outline">
-                <input matInput formControlName="producto" required minlength="1" maxlength="1">
-                <mat-error
-                *ngIf="formGroup.get('producto')?.invalid && formGroup.get('producto')?.touched">
-                {{ getErrorMessage(formGroup.get('producto')) }}
-                </mat-error> 
-            </mat-form-field>
+            <div class="content">
+
+                <mat-form-field class="seeker-form-field" appearance="outline">
+                    <input matInput formControlName="producto" required minlength="1" maxlength="1"
+                    [readonly]="data.par_modo!='C'">
+                    <mat-error
+                    *ngIf="formGroup.get('producto')?.invalid && formGroup.get('producto')?.touched">
+                    {{ getErrorMessage(formGroup.get('producto')) }}
+                    </mat-error> 
+                </mat-form-field>
+                <div class="icon">
+                    <mat-icon class="material-symbols-outlined" (click)="getProducto()">search</mat-icon>
+                </div>
+                <div class="icon">
+                    <mat-icon class="material-symbols-outlined" (click)="limpiar()">close</mat-icon>
+                </div>
+            </div>
         </div>
         <div class="seeker-fields-container">
             <h3> REMUNERACION DESDE ($) </h3>
             <mat-form-field class="seeker-form-field" appearance="outline">
-                <input matInput formControlName="remuneracionDesde" required minlength="1" maxlength="1">
+                <input matInput formControlName="remuneracionDesde" required minlength="1" maxlength="1"
+                [readonly]="data.par_modo!='C'">
                 <mat-error
                 *ngIf="formGroup.get('remuneracionDesde')?.invalid && formGroup.get('remuneracionDesde')?.touched">
                 {{ getErrorMessage(formGroup.get('remuneracionDesde')) }}
@@ -47,7 +58,8 @@
         <div class="seeker-fields-container">
             <h3> REMUNERACION HASTA ($) </h3>
             <mat-form-field class="seeker-form-field" appearance="outline">
-                <input matInput formControlName="remuneracionHasta" required minlength="1" maxlength="1">
+                <input matInput formControlName="remuneracionHasta" required minlength="1" maxlength="1"
+                [readonly]="data.par_modo!='C'">
                 <mat-error
                 *ngIf="formGroup.get('remuneracionHasta')?.invalid && formGroup.get('remuneracionHasta')?.touched">
                 {{ getErrorMessage(formGroup.get('remuneracionHasta')) }}
@@ -55,7 +67,7 @@
             </mat-form-field>
         </div>
         <div class="seeker-fields-container">
-            <div class="content">
+            <div class="content-coeficiente">
                 <div class="content-part">
                     <h3> COEFICIENTE 1 </h3>
                     <mat-form-field class="seeker-form-field" appearance="outline">
@@ -112,6 +124,11 @@
     <button class="primary-button icon-button" type="button" (click)="closeDialog()">
         <mat-icon> close </mat-icon>
         Cancelar
+    </button>
+    <button class="primary-button icon-button" type="button"
+     (click)="closeOpenDialog()" [disabled]="formGroup.invalid" *ngIf="data.par_modo=='C'">
+        <mat-icon> done </mat-icon>
+        Guardar y Nuevo
     </button>
     <button class="primary-button icon-button" type="submit" [disabled]="formGroup.invalid">
         <mat-icon> done </mat-icon>

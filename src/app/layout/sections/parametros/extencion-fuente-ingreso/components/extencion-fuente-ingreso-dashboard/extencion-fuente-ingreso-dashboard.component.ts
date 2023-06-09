@@ -1,5 +1,12 @@
 import { ChangeDetectorRef, Component, Renderer2, ViewChild } from '@angular/core';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 
 // * Services
 import { UtilService } from 'src/app/core/services/util.service';
@@ -19,7 +26,17 @@ import { ExtencionFuenteIngresoService } from 'src/app/core/services/extencion-f
 @Component({
   selector: 'app-extencion-fuente-ingreso-dashboard',
   templateUrl: './extencion-fuente-ingreso-dashboard.component.html',
-  styleUrls: ['./extencion-fuente-ingreso-dashboard.component.scss']
+  styleUrls: ['./extencion-fuente-ingreso-dashboard.component.scss'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
+      transition(
+        'expanded <=> collapsed',
+        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
+      ),
+    ]),
+  ],
 })
 
 export class ExtencionFuenteIngresoDashboardComponent {
@@ -30,23 +47,18 @@ export class ExtencionFuenteIngresoDashboardComponent {
   
   public searchValue: string = '';
   public fuenteingreso: IExtencionFuenteIngreso[]=[];
-  public displayedColumns: string[] = [
+  public columnsToDisplay: string[] = [
     'fecha_vigencia',
     'monto_desde',
     'monto_hasta',
-    'actions'
   ]
-  displayColumnsAcordion: string[] = [
-    'coeficiente1',
-    'coeficiente2',
-    'coeficiente3',
-    'coeficiente4',
-    'coeficiente5',
-  ];
+  columnsToDisplayWithExpand = [...this.columnsToDisplay, 'actions'];
+
+
   public dataSource: MatTableDataSource<IExtencionFuenteIngreso>;
-  activeItem: number | null = null;
-  rowIndex: number | null = null; 
-  index: number | null = null;
+  expandedElement: any | null;
+
+
 
   constructor(
     private utils: UtilService,
@@ -55,14 +67,6 @@ export class ExtencionFuenteIngresoDashboardComponent {
     private dialog: MatDialog,
     private extncionFuenteIngresoService: ExtencionFuenteIngresoService,
   ) {}
-
-  toggleAccordion(rowIndex: number): void {
-    if (this.activeItem === rowIndex) {
-      this.activeItem = null;
-    } else {
-      this.activeItem = rowIndex;
-    }
-  }
 
   ngOnInit(): void {
     this.paginator._intl.itemsPerPageLabel = 'Elementos por página: ';
@@ -81,17 +85,9 @@ export class ExtencionFuenteIngresoDashboardComponent {
     };
   }
 
-  // toggleAccordion(rowIndex: number): void {
-  //   if (this.activeRowIndex === rowIndex) {
-  //     this.activeRowIndex = -1; // Si se hace clic en la fila activa, se cierra el acordeón
-  //   } else {
-  //     this.activeRowIndex = rowIndex;
-  //   }
-  // }
-
   private getExtencionFuenteIngraso(): void {
-    // this.utils.openLoading();
-    this.fuenteingreso = [this.extncionFuenteIngresoService.getprueba(this.searchValue)]//.subscribe({
+    this.utils.openLoading();
+    this.fuenteingreso = this.extncionFuenteIngresoService.getprueba(this.searchValue)//.subscribe({
       // next: (res: any) => {
       //   res.dataset.length
           // ? (this.fuenteingreso = res.dataset as IExtencionFuenteIngreso[])
@@ -103,7 +99,7 @@ export class ExtencionFuenteIngresoDashboardComponent {
         this.dataSource.paginator = this.paginator;
       // },
       // error: (err: any) => {
-      //   this.utils.closeLoading();
+        this.utils.closeLoading();
       //   err.status == 0
       //     ? this.utils.notification('Error de conexión. ', 'error')
       //     : this.utils.notification(

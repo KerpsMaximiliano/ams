@@ -36,7 +36,7 @@ export class ExtencionFuenteIngresoComponent {
     this.dashboard.filter(inputValue);
   }
 
-  public nuevoEstadoCivil(fuenteingreso?: IExtencionFuenteIngreso): void {
+  public nuevaExtencionFuenteIngreso(fuenteingreso?: IExtencionFuenteIngreso): void {
     const modalNuevaExtencionFuenteIngreso = this.dialog.open(
       AddEditExtencionFuenteIngresoComponent,
       {
@@ -70,18 +70,21 @@ export class ExtencionFuenteIngresoComponent {
                     `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
                     'error'
                   );
-              this.nuevoEstadoCivil(res);
+              this.nuevaExtencionFuenteIngreso(res);
             },
             complete: () => {
               this.utils.closeLoading();
-              setTimeout(() => {
-                this.handleSearch(
-                  JSON.stringify({
-                    par_modo: 'R',
-                    codigo_estado_civil: res.codigo_estado_civil,
-                  })
-                );
-              }, 300);
+              // setTimeout(() => {
+                // this.handleSearch(
+                  // JSON.stringify({
+              //       par_modo: 'R',
+              //       codigo_estado_civil: res.codigo_estado_civil,
+              //     })
+              //   );
+              // }, 300);
+              if(res.reload){
+                this.nuevaExtencionFuenteIngreso()
+              }
             },
           });
         }

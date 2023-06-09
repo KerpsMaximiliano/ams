@@ -1,15 +1,8 @@
 <section>
-    <mat-accordion>
-        <mat-expansion-panel class="mat-elevation-z1">
-            <mat-expansion-panel-header floating>
-                <mat-panel-title>
-    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
+    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)" multiTemplateDataRows>
         <ng-container class="mat-row" *matNoDataRow>
-            <td class="mat-cell no-data-cell" [attr.colspan]="displayedColumns.length">
-                No se encontraron resultados
-            </td>
+            <td class="mat-cell no-data-cell" [attr.colspan]="columnsToDisplay.length"> No se encontraron resultados </td>
         </ng-container>
-        <tr >
             <ng-container matColumnDef="fecha_vigencia">
                 <th mat-header-cell *matHeaderCellDef> fecha vigencia </th>
                 <td mat-cell *matCellDef="let param"> {{ param.vigencia }} </td>
@@ -24,25 +17,41 @@
             </ng-container>
             <ng-container matColumnDef="actions">
                 <th mat-header-cell *matHeaderCellDef> Acciones </th>
-                <td mat-cell *matCellDef="let doctype">
-                    <button class="action-button" (click)="viewExtencionFuenteIngraso(doctype)">
+                <td mat-cell *matCellDef="let param">
+                    <button class="action-button" (click)="viewExtencionFuenteIngraso(param)">
                         <mat-icon class="edit-icon" aria-label="false"> visibility </mat-icon>
                     </button>
-                    <button class="action-button" (click)="editExtencionFuenteIngraso(doctype)">
+                    <button class="action-button" (click)="editExtencionFuenteIngraso(param)">
                         <mat-icon class="delete-icon" aria-label="false"> edit </mat-icon>
                     </button>
+                    <button class="action-button" aria-label="false" (click)="expandedElement = expandedElement === param ? null : param; $event.stopPropagation()">
+                        <mat-icon *ngIf="expandedElement !== param"> keyboard_arrow_down </mat-icon>
+                        <mat-icon *ngIf="expandedElement === param"> keyboard_arrow_up </mat-icon>
+                    </button>
+                </td>
+
+            </ng-container>
+            <ng-container matColumnDef="expandedDetail">
+                <td mat-cell *matCellDef="let param" [attr.colspan]="columnsToDisplayWithExpand.length">
+                    <div class="detailExpand" [@detailExpand]="param == expandedElement ? 'expanded' : 'collapsed'">
+                        <div class="detailExpand-container">
+                            <span class="detailExpand-item text"> COEFICIENTE 1 </span>
+                            <span class="detailExpand-item text"> COEFICIENTE 2 </span>
+                            <span class="detailExpand-item text"> COEFICIENTE 3 </span>
+                            <span class="detailExpand-item text"> COEFICIENTE 4 </span>
+                            <span class="detailExpand-item text"> COEFICIENTE 5 </span>
+                        </div>
+                        <div class="detailExpand-list">
+                            <span class="detailExpand-item num"> {{ param.coeficiente1 }} </span>
+                            <span class="detailExpand-item num"> {{ param.coeficiente2 }} </span>
+                            <span class="detailExpand-item num"> {{ param.coeficiente3 }} </span>
+                            <span class="detailExpand-item num"> {{ param.coeficiente4 }} </span>
+                            <span class="detailExpand-item num"> {{ param.coeficiente5 }} </span>
+                        </div>
+                    </div>
                 </td>
             </ng-container>
-        </tr>
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-    </table>
-</mat-panel-title>
-</mat-expansion-panel-header>
-    <table>
-        <tr class="accordion-content">
-            <div class="content">
-                <div class="content-part">
+                <!-- <div>
                     <ng-container matColumnDef="coeficiente1">
                         <th mat-header-cell *matHeaderCellDef> COEFICIENTE 1 </th>
                         <td mat-cell *matCellDef="let param"> {{ param.coeficiente1 }} </td>
@@ -71,14 +80,16 @@
                         <th mat-header-cell *matHeaderCellDef> COEFICIENTE 5 </th>
                         <td mat-cell *matCellDef="let param"> {{ param.coeficiente5 }} </td>
                     </ng-container>
-                </div>
-            </div>
+                </div> -->
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
+        <tr mat-row *matRowDef="let param; columns: columnsToDisplayWithExpand"
+            [class.detailExpand-element]="true"
+            [class.detailExpanded-row]="expandedElement === param"
+            [class.selected]="expandedElement === param"
+            [ngClass]="{ 'hover-row': expandedElement !== param }">
         </tr>
-        <tr mat-header-row *matHeaderRowDef="displayColumnsAcordion"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayColumnsAcordion"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detailExpand-row"></tr>
     </table>
-</mat-expansion-panel>
-</mat-accordion>
     <mat-paginator [pageSizeOptions]="[10, 20, 30]" [pageSize]="10" showFirstLastButtons
         aria-label="Controles de paginación." [ngClass]="{'hide-paginator': !dataSource }">
     </mat-paginator>
