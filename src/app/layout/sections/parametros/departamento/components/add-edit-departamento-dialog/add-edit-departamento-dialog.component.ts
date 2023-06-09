@@ -1,15 +1,7 @@
 import { Component, Inject } from '@angular/core';
-import { Observable } from 'rxjs';
-
-// * Services
-import { UtilService } from 'src/app/core/services/util.service';
-import { ProvinciaService } from 'src/app/core/services/provincia.service';
 
 // * Interfaces
-import {
-  IProvincia,
-  IProvinciaResponse,
-} from 'src/app/core/models/provincia.interface';
+import { IProvincia } from 'src/app/core/models/provincia.interface';
 
 // * Material
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -39,14 +31,12 @@ import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confi
 })
 export class AddEditDepartamentoDialogComponent {
   public formGroup: UntypedFormGroup;
-  provincias: IProvincia[] = [];
   public getErrorMessage = getErrorMessage;
+  public provincias: IProvincia[];
 
   constructor(
     public dialogRef: MatDialogRef<ConfirmDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private utils: UtilService,
-    private provinciaService: ProvinciaService
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
   /**
@@ -58,43 +48,16 @@ export class AddEditDepartamentoDialogComponent {
    *     > Habilitada: deshabilita el 'letra_provincia'.
    */
   ngOnInit(): void {
+    this.provincias = this.data.provincias;
     this.setUpForm();
-  }
-
-  ngAfterViewInit(): void {
-    let body;
-    if (this.formGroup.get('letra_provincia')?.value) {
-      body = {
-        par_modo: 'R',
-        codigo: this.formGroup.get('letra_provincia')?.value,
-      };
-    } else {
-      body = {
-        par_modo: 'O',
-        nombre_provincia: '',
-      };
+    if (this.data.par_modo !== 'C') {
+      this.setFormValues();
+      this.formGroup.get('nombre_provincia')?.disable();
+      this.formGroup.get('codigo_departamento')?.disable();
+      if (this.data.edit !== true) {
+        this.formGroup.disable();
+      }
     }
-    this.utils.openLoading();
-    this.provinciaService.CRUD(JSON.stringify(body)).subscribe({
-      next: (res: any) => {
-        res.dataset.length
-          ? (this.provincias = res.dataset as IProvincia[])
-          : (this.provincias = [res.dataset]);
-      },
-      complete: () => {
-        if (this.data.par_modo === 'U' || this.data.par_modo === 'R') {
-          this.setFormValues();
-          if (this.data.edit === false) {
-            this.formGroup.disable();
-          } else {
-            this.formGroup.get('nombre_provincia')?.disable();
-            this.formGroup.get('codigo_departamento')?.disable();
-          }
-        }
-        this.utils.closeLoading();
-        console.log(this.provincias);
-      },
-    });
   }
 
   private setUpForm(): void {
@@ -138,11 +101,12 @@ export class AddEditDepartamentoDialogComponent {
   }
 
   private setFormValues(): void {
-    this.formGroup.patchValue({
-      nombre_provincia: this.data.nombre_provincia
-        ? this.data.nombre_provincia.trim()
-        : '',
-    });
+    this.formGroup
+      .get('nombre_provincia')
+      ?.setValue(this.findNombreProvinciaByCodigo(this.data.letra_provincia));
+    this.formGroup
+      .get('codigo_departamento')
+      ?.setValue(this.data.codigo_departamento);
     this.formGroup
       .get('codigo_departamento')
       ?.setValue(this.data.codigo_departamento);
@@ -156,7 +120,13 @@ export class AddEditDepartamentoDialogComponent {
           ? this.data.descripcion_reducida.trim()
           : ''
       );
-    console.log(this.formGroup.get('letra_provincia')?.value);
+  }
+
+  private findNombreProvinciaByCodigo(letra_provincia: string): string {
+    const provincia = this.provincias.find(
+      (provincia) => provincia.codigo === letra_provincia
+    );
+    return provincia ? provincia.nombre_provincia : '';
   }
 
   closeDialog(): void {
@@ -168,9 +138,12 @@ export class AddEditDepartamentoDialogComponent {
     if (this.formGroup.valid) {
       this.dialogRef.close({
         par_modo: this.data.par_modo,
-        letra_provincia: this.formGroup.get('letra_provincia')?.value,
+        letra_provincia:
+          this.data.par_modo === 'C'
+            ? this.formGroup.get('nombre_provincia')?.value
+            : this.data.letra_provincia,
         codigo_departamento: this.formGroup.get('codigo_departamento')?.value,
-        descripcion: this.formGroup.get('descripcion')?.value.trim(),
+        descripcion: this.formGroup.get('descripcion')?.value,
         descripcion_reducida: this.formGroup.get('descripcion_reducida')?.value,
       });
     }

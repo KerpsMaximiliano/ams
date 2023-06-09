@@ -3,6 +3,7 @@ import { Component, ViewChild } from '@angular/core';
 // * Services
 import { UtilService } from 'src/app/core/services/util.service';
 import { DepartamentoService } from 'src/app/core/services/departamento.service';
+import { ProvinciaService } from 'src/app/core/services/provincia.service';
 
 // * Interfaces
 import { IProvincia } from 'src/app/core/models/provincia.interface';
@@ -24,12 +25,38 @@ export class DepartamentoComponent {
   @ViewChild(DepartamentoDashboardComponent)
   dashboard: DepartamentoDashboardComponent;
   provincias: IProvincia[] = [];
+  request: boolean = false;
 
   constructor(
     private utils: UtilService,
     private dialog: MatDialog,
-    private departamentoService: DepartamentoService
-  ) {}
+    private departamentoService: DepartamentoService,
+    private provinciaService: ProvinciaService
+  ) {
+    this.provinciaService
+      .CRUD(
+        JSON.stringify({
+          par_modo: 'O',
+          nombre_provincia: '',
+        })
+      )
+      .subscribe({
+        next: (res: any) => {
+          res.dataset.length
+            ? (this.provincias = res.dataset as IProvincia[])
+            : (this.provincias = [res.dataset]);
+        },
+        error: () => {
+          this.utils.notification(
+            `No se han podido cargar las provincias. `,
+            'error'
+          );
+        },
+        complete: () => {
+          this.request = true;
+        },
+      });
+  }
 
   ngOnInit(): void {}
 
@@ -45,7 +72,7 @@ export class DepartamentoComponent {
           title: `CREAR DEPARTAMENTO`,
           edit: true,
           par_modo: 'C',
-          letra_provincia: departamento?.letra_provincia,
+          provincias: this.provincias,
           codigo_departamento: departamento?.codigo_departamento,
           descripcion: departamento?.descripcion,
           descripcion_reducida: departamento?.descripcion_reducida,

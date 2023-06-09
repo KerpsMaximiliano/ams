@@ -7,14 +7,19 @@
     <div class="seeker-fields-container">
       <h3> PROVINCIA </h3>
       <mat-form-field class="seeker-form-field" required appearance="outline">
-        <mat-select formControlName="nombre_provincia">
-          <mat-option *ngFor="let provincia of provincias" [value]="provincia.codigo"> {{ provincia.nombre_provincia }} </mat-option>
+        <mat-select formControlName="nombre_provincia" *ngIf="data.par_modo === 'C'; else noEdit">
+          <mat-option *ngFor="let provincia of provincias" [value]="provincia.codigo"> {{ provincia.nombre_provincia }}
+          </mat-option>
         </mat-select>
+        <ng-template #noEdit>
+          <input matInput formControlName="nombre_provincia" />
+        </ng-template>
         <mat-error *ngIf="formGroup.get('nombre_provincia')?.invalid && formGroup.get('nombre_provincia')?.touched">
           {{ getErrorMessage(formGroup.get("nombre_provincia")) }}
         </mat-error>
       </mat-form-field>
     </div>
+
 
     <div class="seeker-fields-container">
       <h3> CÓDIGO </h3>
@@ -30,7 +35,7 @@
     <div class="seeker-fields-container">
       <h3> DEPARTAMENTO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="descripcion" minlength="1" maxlength="1" required />
+        <input matInput formControlName="descripcion" minlength="3" maxlength="50" required />
         <mat-error *ngIf="formGroup.get('descripcion')?.invalid && formGroup.get('descripcion')?.touched">
           {{ getErrorMessage(formGroup.get("descripcion")) }}
         </mat-error>
@@ -40,7 +45,7 @@
     <div class="seeker-fields-container">
       <h3> ABREVIATURA </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="descripcion_reducida" required minlength="1" maxlength="50" />
+        <input matInput formControlName="descripcion_reducida" required minlength="1" maxlength="15" />
         <mat-error
           *ngIf="formGroup.get('descripcion_reducida')?.invalid && formGroup.get('descripcion_reducida')?.touched">
           {{ getErrorMessage(formGroup.get("descripcion_reducida")) }}

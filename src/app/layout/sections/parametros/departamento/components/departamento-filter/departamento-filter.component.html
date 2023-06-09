@@ -12,7 +12,8 @@
               Seleccione una provincia
             </mat-label>
             <mat-select #selectOptions>
-              <mat-option *ngFor="let provincia of provincias" [value]="provincia.codigo"> {{ provincia.nombre_provincia }} </mat-option>
+              <mat-option *ngFor="let provincia of provincias" [value]="provincia.codigo">
+                {{ provincia.nombre_provincia }} </mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -20,7 +21,8 @@
         <div class="seeker-fields-container">
           <mat-form-field class="seeker-form-field">
             <mat-label class="seeker-label" for="descripcion"> Ingrese el departamento </mat-label>
-            <input matInput class="seeker-input" (keydown.enter)="search($event, input.value)" #input maxlength="30" />
+            <input matInput class="seeker-input" (keydown.enter)="search($event, input.value)" #input maxlength="30"
+              [disabled]="!selectOptions?.value" />
           </mat-form-field>
         </div>
 

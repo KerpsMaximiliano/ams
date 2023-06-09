@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, ViewChild } from '@angular/core';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 
 // * Services
@@ -7,6 +7,7 @@ import { DepartamentoService } from 'src/app/core/services/departamento.service'
 
 // * Interfaces
 import { IDepartamento } from 'src/app/core/models/departamento.interface';
+import { IProvincia } from 'src/app/core/models/provincia.interface';
 
 // * Material
 import { MatDialog } from '@angular/material/dialog';
@@ -27,6 +28,7 @@ export class DepartamentoDashboardComponent {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator =
     new MatPaginator(new MatPaginatorIntl(), this.cdr);
   @ViewChild(MatTable) table!: MatTable<any>;
+  @Input() provincias: IProvincia[];
 
   public searchValue: string = '';
   public departamento: IDepartamento[] = [];
@@ -107,10 +109,11 @@ export class DepartamentoDashboardComponent {
           title: `EDITAR DEPARTAMENTO`,
           edit: true,
           par_modo: 'U',
-          letra_provincia: departamento.letra_provincia,
+          letra_provincia: departamento?.letra_provincia,
           codigo_departamento: departamento?.codigo_departamento,
           descripcion: departamento?.descripcion,
           descripcion_reducida: departamento?.descripcion_reducida,
+          provincias: this.provincias,
         },
       }
     );
@@ -163,6 +166,7 @@ export class DepartamentoDashboardComponent {
         codigo_departamento: departamento?.codigo_departamento,
         descripcion: departamento?.descripcion,
         descripcion_reducida: departamento?.descripcion_reducida,
+        provincias: this.provincias,
       },
     });
   }
