@@ -2,7 +2,6 @@ import { Component, Inject } from '@angular/core';
 
 // * Form - Validations
 import {
-  FormGroup,
   UntypedFormControl,
   UntypedFormGroup,
   Validators,

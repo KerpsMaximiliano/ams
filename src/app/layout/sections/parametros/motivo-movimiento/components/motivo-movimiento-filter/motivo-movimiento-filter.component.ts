@@ -1,8 +1,5 @@
 import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 
-// * Forms
-import { UntypedFormControl } from '@angular/forms';
-
 @Component({
   selector: 'app-motivo-movimiento-filter',
   templateUrl: './motivo-movimiento-filter.component.html',

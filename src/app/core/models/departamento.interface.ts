@@ -2,7 +2,7 @@ import { IResponse } from './response.interface';
 
 export interface IDepartamento {
   par_modo: string;
-  letra_provincia: string; // ??
+  letra_provincia: string;
   codigo_departamento: number;
   descripcion: string;
   descripcion_reducida: string;
@@ -19,6 +19,7 @@ export type IDepartamentoResponse = IResponse<IDepartamento[]>;
  * D: Delete (eliminar).
  *
  * DATOS REF. TABLA: T10FDTO.
+ * letra_provincia:       string - Letra provincia.
  * codigo_departamento:   number - Código departamento.
  * descripcion:           string - Descripción.
  * descripcion_reducida:  string - Descripción reducida.

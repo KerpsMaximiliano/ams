@@ -2,7 +2,7 @@ import { IResponse } from './response.interface';
 
 export interface IProvincia {
   par_modo: string;
-  codigo: number; // Error.
+  codigo: string; // Error.
   nombre_provincia: string;
   codifica_altura: string; // Error.
   codigo_provincia: number; // Error.

@@ -15,16 +15,6 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class ProvinciaService {
-  URL: string = '/abmprovincias';
-  get provinciaList(): any {
-    return this.CRUD(
-      JSON.stringify({
-        par_modo: 'O',
-        nombre_provincia: '',
-      })
-    );
-  }
-
   constructor(
     private http: HttpClient,
     private environmentService: EnvironmentService
@@ -32,7 +22,7 @@ export class ProvinciaService {
 
   CRUD(body: string): Observable<IProvinciaResponse> {
     return this.http.post<IProvinciaResponse>(
-      `${this.environmentService.api}` + this.URL,
+      `${this.environmentService.api}/abmprovincias`,
       body,
       httpOptions
     );

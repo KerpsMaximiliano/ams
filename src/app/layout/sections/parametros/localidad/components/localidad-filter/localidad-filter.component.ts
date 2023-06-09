@@ -36,7 +36,7 @@ export class LocalidadFilterComponent {
 
   ngOnInit() {
     let bodyprov = {
-      par_modo: 'C',
+      par_modo: 'O',
       nombre_provincia: '',
     };
     this.localidadService.getProvincia(bodyprov).subscribe({
@@ -84,7 +84,7 @@ export class LocalidadFilterComponent {
   buscar(letra_provincia: string) {
     this.searching.get('letra_provincia')?.setValue(letra_provincia);
     let bodydep = {
-      par_modo: 'C',
+      par_modo: 'O',
       descripcion: '',
       letra_provincia: letra_provincia,
     };

@@ -60,8 +60,8 @@ import { MotivoMovimientoComponent } from './motivo-movimiento/motivo-movimiento
 import { MotivoMovimientoDashboardComponent } from './motivo-movimiento/components/motivo-movimiento-dashboard/motivo-movimiento-dashboard.component';
 import { MotivoMovimientoFilterComponent } from './motivo-movimiento/components/motivo-movimiento-filter/motivo-movimiento-filter.component';
 // 11 - FUENTES INGRESO
-import { FuenteIngresoComponent } from './fuente-ingreso/fuente-ingreso.component';
 import { AddEditFuenteIngresoDialogComponent } from './fuente-ingreso/components/add-edit-fuente-ingreso-dialog/add-edit-fuente-ingreso-dialog.component';
+import { FuenteIngresoComponent } from './fuente-ingreso/fuente-ingreso.component';
 import { FuenteIngresoFilterComponent } from './fuente-ingreso/components/fuente-ingreso-filter/fuente-ingreso-filter.component';
 import { FuenteIngresoDashboardComponent } from './fuente-ingreso/components/fuente-ingreso-dashboard/fuente-ingreso-dashboard.component';
 // 12 - OBRAS SOCIALES
