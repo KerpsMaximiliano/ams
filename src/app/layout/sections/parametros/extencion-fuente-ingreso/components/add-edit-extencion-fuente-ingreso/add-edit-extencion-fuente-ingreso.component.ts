@@ -8,7 +8,7 @@ import {
 } from '@angular/forms';
 
 // * Material
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 
 // * Validations
 import {
@@ -21,6 +21,7 @@ import {
 
 // * Components 
 import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
+import { ModalExtencionProductoComponent } from './modal-extencion-producto/modal-extencion-producto.component';
 
 @Component({
   selector: 'app-add-edit-extencion-fuente-ingreso',
@@ -34,9 +35,9 @@ export class AddEditExtencionFuenteIngresoComponent {
   public getErrorMessage = getErrorMessage;
 
   constructor(
-    public dialogRef: MatDialogRef<ConfirmDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
-  ) {}
+              public dialogRef: MatDialogRef<ConfirmDialogComponent>,
+              private dialog: MatDialog,
+              @Inject(MAT_DIALOG_DATA) public data: any)  {}
 
   /**
    * 1. 'this.setUpForm();': Asigna las validaciones correspondientes a cada campo de entrada/selección.
@@ -156,12 +157,24 @@ export class AddEditExtencionFuenteIngresoComponent {
     });
   }
 
-  getProducto(){
-
+  getProducto() {
+    const ModalNuevoProductoComponent = this.dialog.open(ModalExtencionProductoComponent, {
+      data:{
+      }
+    });
+    ModalNuevoProductoComponent.afterClosed().subscribe({
+      next:(res : any) => {
+        if (res) {
+          this.formGroup.get('producto_secundario')?.setValue(res.producto_principal)
+          this.formGroup.get('producto_secundario_cod')?.setValue(res.descripcion_producto_cod)
+        }
+      }
+    })
   }
 
   limpiar(){
-
+    this.formGroup.get('producto_secundario')?.setValue('')
+    this.formGroup.get('producto_secundario_cod')?.setValue(0)
   }
 
   private setFormValues(): void {

@@ -1,0 +1,26 @@
+.mat-column-descripcion.mat-header-cell,
+.mat-column-descripcion.mat-cell,
+.mat-column-subdescripcion.mat-header-cell,
+.mat-column-subdescripcion.mat-cell {
+    text-align: left !important;
+    padding-left: 1vw !important;
+}
+.mat-column-codigo_producto.mat-header-cell,
+.mat-column-codigo_producto.mat-cell,
+.mat-column-codigo_subproducto.mat-header-cell,
+.mat-column-codigo_subproducto.mat-cell {
+    text-align: right !important;
+    padding-right: 1vw !important;
+}
+/*
+ * Oculta la paginación hasta que la tabla tenga datos.
+*/
+.hide-paginator {
+    display: none;
+}
+.content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}

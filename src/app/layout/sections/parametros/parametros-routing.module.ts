@@ -30,6 +30,8 @@ import { ObraSocialComponent } from './obra-social/obra-social.component';
 import { PreguntaDDJJComponent } from './pregunta-ddjj/pregunta-ddjj.component';
 // 32 - EXTENCION FUENTES DE INGRESOS
 import { ExtencionFuenteIngresoComponent } from './extencion-fuente-ingreso/extencion-fuente-ingreso.component';
+// 20 - PRODUCTO
+import { ProductoComponent } from './producto/producto.component';
 
 const routes: Routes = [
   {
@@ -87,6 +89,10 @@ const routes: Routes = [
   {
     path: 'parametros/extencion-fuente-ingreso',
     component: ExtencionFuenteIngresoComponent,
+  },
+  {
+    path: 'parametros/productos',
+    component: ProductoComponent,
   },
 ];
 

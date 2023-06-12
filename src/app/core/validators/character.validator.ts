@@ -122,3 +122,10 @@ export function isAlphanumericWithSlash(): ValidatorFn {
       : { notAlphanumericWithSlash: true };
   };
 }
+
+export function notOnlySpacesValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    let regex = /^\s+$/;
+    return regex.test(control.value) ? { notOnlySpaces: true } : null;
+  };
+}

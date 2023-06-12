@@ -107,12 +107,17 @@ export class NavMenuComponent {
           icon: 'keyboard_arrow_right',
         },
         {
-          // 09 - EXTENCION FUENTE INGRESO 
+          // 32 - EXTENCION DE FUENTES DE INGRESOS
           title: 'Extencion Fuente de Ingreso',
           url: '/parametros/extencion-fuente-ingreso',
           icon: 'keyboard_arrow_right',
         },
-
+        {
+          // 20 - PRODUCTOS
+          title: 'PRODUCTOS',
+          url: '/parametros/productos',
+          icon: 'keyboard_arrow_right',
+        },
       ],
     },
   ];

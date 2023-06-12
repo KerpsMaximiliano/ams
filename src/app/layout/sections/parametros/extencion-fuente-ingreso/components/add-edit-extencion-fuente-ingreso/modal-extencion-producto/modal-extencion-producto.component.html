@@ -1,0 +1,69 @@
+<div>
+    <h2>Producto</h2>
+    <form>
+        <div class="seeker-fields-container">
+        <mat-form-field class="seeker-form-field">
+            <mat-label class="seeker-label">Producto</mat-label>
+            <mat-select #inputprod>
+                <mat-option *ngFor="let produc of productos"
+                [value]="produc.codigo_producto">
+                {{ produc.descripcion_producto }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <!-- <mat-form-field class="seeker-form-field">
+            <mat-label class="seeker-label">Subproducto</mat-label>
+            <mat-select #inputsubprod>
+                <mat-option *ngFor="let produc of subProductos"
+                [value]="produc.codigo_producto">
+                {{ produc.descripcion_producto }}</mat-option>
+            </mat-select>
+        </mat-form-field> -->
+        <button class="primary-button icon-button searchButton" type="button"
+            (click)="search(inputprod.value)" [disabled]="!inputprod.value">
+            Buscar</button>
+        <mat-icon class="closeIcon" (click)="closeDialog()">close</mat-icon>
+        </div>
+    </form>
+</div>
+<div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
+        <ng-container class="mat-row" *matNoDataRow>
+            <td class="mat-cell no-data-cell" [attr.colspan]="displayedColumns.length"> No se encontraron resultados </td>
+        </ng-container>
+        <ng-container matColumnDef="codigo_producto">
+        <th mat-header-cell *matHeaderCellDef> Código Producto </th>
+        <td mat-cell *matCellDef="let element"> {{element.producto_principal}} </td>
+        </ng-container>
+        <ng-container matColumnDef="descripcion">
+        <th mat-header-cell *matHeaderCellDef> Descripcion Producto </th>
+        <td mat-cell *matCellDef="let element"> {{getproducto(element.producto_principal)}}</td>
+        </ng-container>
+        <ng-container matColumnDef="codigo_subproducto">
+            <th mat-header-cell *matHeaderCellDef> Código Subproducto </th>
+            <td mat-cell *matCellDef="let element"> {{element.subproducto_principal}} </td>
+        </ng-container>
+        <ng-container matColumnDef="subdescripcion">
+            <th mat-header-cell *matHeaderCellDef> Descripcion Subproducto</th>
+            <td mat-cell *matCellDef="let element"> {{getproducto(element.subproducto_principal)}}</td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Acciones</th>
+        <td mat-cell *matCellDef="let param" >
+            <input type="checkbox" [checked]="param === selectedParam" (change)="onCheckboxChange(param)">
+        </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns:displayedColumns"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20, 30]" [pageSize]="5" showFirstLastButtons
+        aria-label="Controles de paginación." [ngClass]="{'hide-paginator': !dataSource }">
+    </mat-paginator>
+    <div class="container-button">
+        <button
+            class="primary-button icon-button"
+            (click)="selected()" [disabled]="selectedItem < 1"
+            [disabled]="!selectedParam">
+            Seleccionar
+        </button>
+    </div>
+</div>

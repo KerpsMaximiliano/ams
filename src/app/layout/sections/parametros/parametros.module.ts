@@ -74,12 +74,18 @@ import { AddEditPreguntaDDJJDialogComponent } from './pregunta-ddjj/components/a
 import { PreguntaDDJJComponent } from './pregunta-ddjj/pregunta-ddjj.component';
 import { PreguntaDDJJDashboardComponent } from './pregunta-ddjj/components/pregunta-ddjj-dashboard/pregunta-ddjj-dashboard.component';
 import { PreguntaDDJJFilterComponent } from './pregunta-ddjj/components/pregunta-ddjj-filter/pregunta-ddjj-filter.component';
-
+// 32 - EXTENCION DE FUENTES DE INGRESOS
 import { ModalLocalidadComponent } from './posicion/add-edit-posicion-dialog/modal-localidad/modal-localidad.component';
 import { ExtencionFuenteIngresoComponent } from './extencion-fuente-ingreso/extencion-fuente-ingreso.component';
 import { ExtencionFuenteIngresoDashboardComponent } from './extencion-fuente-ingreso/components/extencion-fuente-ingreso-dashboard/extencion-fuente-ingreso-dashboard.component';
 import { ExtencionFuenteIngresoFilterComponent } from './extencion-fuente-ingreso/components/extencion-fuente-ingreso-filter/extencion-fuente-ingreso-filter.component';
 import { AddEditExtencionFuenteIngresoComponent } from './extencion-fuente-ingreso/components/add-edit-extencion-fuente-ingreso/add-edit-extencion-fuente-ingreso.component';
+import { ModalExtencionProductoComponent } from './extencion-fuente-ingreso/components/add-edit-extencion-fuente-ingreso/modal-extencion-producto/modal-extencion-producto.component';
+// 20 - PRODUCTO
+import { AddEditProductoDialogComponent } from './producto/components/add-edit-producto-dialog/add-edit-producto-dialog.component';
+import { ProductoComponent } from './producto/producto.component';
+import { ProductoDashboardComponent } from './producto/components/producto-dashboard/producto-dashboard.component';
+import { ProductoFilterComponent } from './producto/components/producto-filter/producto-filter.component';
 
 @NgModule({
   declarations: [
@@ -98,7 +104,7 @@ import { AddEditExtencionFuenteIngresoComponent } from './extencion-fuente-ingre
     NacionalidadComponent,
     NacionalidadDashboardComponent,
     NacionalidadFilterComponent,
-    // 04 - DEPARTAMENTOS
+    // 04 - DEPARTAMENTO
     AddEditDepartamentoDialogComponent,
     DepartamentoComponent,
     DepartamentoDashboardComponent,
@@ -148,12 +154,17 @@ import { AddEditExtencionFuenteIngresoComponent } from './extencion-fuente-ingre
     PreguntaDDJJComponent,
     PreguntaDDJJDashboardComponent,
     PreguntaDDJJFilterComponent,
-    
     // 32 - EXTENCION FUENTES DE INGRESOS
     ExtencionFuenteIngresoComponent,
     ExtencionFuenteIngresoDashboardComponent,
     ExtencionFuenteIngresoFilterComponent,
     AddEditExtencionFuenteIngresoComponent,
+    ModalExtencionProductoComponent,
+    // 20 - PRODUCTO
+    AddEditProductoDialogComponent,
+    ProductoComponent,
+    ProductoDashboardComponent,
+    ProductoFilterComponent,
     
     ModalLocalidadComponent,
   ],
