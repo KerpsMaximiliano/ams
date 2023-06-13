@@ -84,6 +84,7 @@ export class PosicionComponent {
           control_rechazo: posicion?.control_rechazo,
           yes_no: posicion?.yes_no,
           fecha_vigencia: posicion?.fecha_vigencia,
+          letra_provincia: posicion?.letra_provincia,
         },
       }
     );

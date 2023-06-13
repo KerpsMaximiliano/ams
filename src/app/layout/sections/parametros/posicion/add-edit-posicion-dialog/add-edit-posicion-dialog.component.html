@@ -98,12 +98,12 @@
         <mat-icon> close </mat-icon>
         Cancelar
       </button>
-      <!-- <div *ngIf="data.edit === true && this.formGroup.get('codigo_tarjeta_de_baja')?.value === 'ACTIVO'">
-        <button type="submit" class="primary-button icon-button" (click)="changeStatus()">
+      <div>
+        <button type="button" class="primary-button icon-button" (click)="setDate()">
           <mat-icon> remove_done </mat-icon>
           Baja
         </button>
-      </div> -->
+      </div>
       <button class="primary-button icon-button" type="submit" [disabled]="formGroup.invalid">
         <mat-icon> done </mat-icon>
         Guardar

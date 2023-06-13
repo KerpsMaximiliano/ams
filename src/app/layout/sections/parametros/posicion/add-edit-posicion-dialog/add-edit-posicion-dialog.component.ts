@@ -43,6 +43,7 @@ export class AddEditPosicionDialogComponent {
   public formGroup: UntypedFormGroup;
   public getErrorMessage = getErrorMessage;
   public provincias: IProvincia[];
+  public date: Date;
 
   constructor(
     private utils: UtilService,
@@ -70,6 +71,7 @@ export class AddEditPosicionDialogComponent {
         this.formGroup.disable();
       }
     }
+    this.date = new Date();
   }
 
   private setUpForm(): void {
@@ -148,6 +150,7 @@ export class AddEditPosicionDialogComponent {
             this.data.localidad = res.dataset.descripcion
               ? res.dataset.descripcion.trim()
               : '';
+            console.log(this.data.localidad, res.dataset.descripcion);
           },
           error: (err: any) => {
             this.utils.closeLoading();
@@ -208,6 +211,21 @@ export class AddEditPosicionDialogComponent {
         letra_provincia: this.data.letra_provincia,
       });
     }
+  }
+
+  public setDate(): number {
+    const day = this.date.getDate();
+    const month = this.date.getMonth() + 1;
+    const year = this.date.getFullYear();
+
+    const dayFormat = day < 10 ? `0${day}` : day.toString();
+    const monthFormat = month < 10 ? `0${month}` : month.toString();
+
+    const dateFormat = parseInt(`${dayFormat}${monthFormat}${year}`);
+
+    console.log(dateFormat);
+
+    return dateFormat;
   }
 
   public searchLocalidad(): void {
