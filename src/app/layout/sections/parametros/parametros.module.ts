@@ -34,6 +34,7 @@ import { PosicionComponent } from './posicion/posicion.component';
 import { AddEditPosicionDialogComponent } from './posicion/add-edit-posicion-dialog/add-edit-posicion-dialog.component';
 import { PosicionFilterComponent } from './posicion/posicion-filter/posicion-filter.component';
 import { PosicionDashboardComponent } from './posicion/posicion-dashboard/posicion-dashboard.component';
+import { PosicionSetDialogComponent } from './posicion/add-edit-posicion-dialog/posicion-set-dialog/posicion-set-dialog.component';
 // 06 - LOCALIDADES
 import { AddEditLocalidadDialogComponent } from './localidad/components/add-edit-localidad-dialog/add-edit-localidad-dialog.component';
 import { LocalidadComponent } from './localidad/localidad.component';
@@ -75,8 +76,6 @@ import { PreguntaDDJJComponent } from './pregunta-ddjj/pregunta-ddjj.component';
 import { PreguntaDDJJDashboardComponent } from './pregunta-ddjj/components/pregunta-ddjj-dashboard/pregunta-ddjj-dashboard.component';
 import { PreguntaDDJJFilterComponent } from './pregunta-ddjj/components/pregunta-ddjj-filter/pregunta-ddjj-filter.component';
 
-import { ModalLocalidadComponent } from './posicion/add-edit-posicion-dialog/modal-localidad/modal-localidad.component';
-
 @NgModule({
   declarations: [
     // 01 - PROVINCIAS
@@ -104,6 +103,7 @@ import { ModalLocalidadComponent } from './posicion/add-edit-posicion-dialog/mod
     PosicionComponent,
     PosicionFilterComponent,
     PosicionDashboardComponent,
+    PosicionSetDialogComponent,
     // 06 - LOCALIDADES
     AddEditLocalidadDialogComponent,
     LocalidadComponent,
@@ -144,8 +144,6 @@ import { ModalLocalidadComponent } from './posicion/add-edit-posicion-dialog/mod
     PreguntaDDJJComponent,
     PreguntaDDJJDashboardComponent,
     PreguntaDDJJFilterComponent,
-
-    ModalLocalidadComponent,
   ],
   imports: [
     CommonModule,

@@ -2,12 +2,14 @@ import { Component, ViewChild } from '@angular/core';
 
 // * Services
 import { UtilService } from 'src/app/core/services/util.service';
+import { ProvinciaService } from 'src/app/core/services/provincia.service';
 import { PosicionService } from 'src/app/core/services/posicion.service';
 
 // * Interfaces
+import { IProvincia } from 'src/app/core/models/provincia.interface';
 import { IPosicion } from 'src/app/core/models/posicion.interface';
 
-// * Interfaces
+// * Material
 import { MatDialog } from '@angular/material/dialog';
 
 // * Components
@@ -22,12 +24,42 @@ import { PosicionDashboardComponent } from './posicion-dashboard/posicion-dashbo
 export class PosicionComponent {
   @ViewChild(PosicionDashboardComponent)
   dashboard: PosicionDashboardComponent;
+  provincias: IProvincia[] = [];
+  request: boolean = false;
 
   constructor(
     private posicionService: PosicionService,
+    private provinciaService: ProvinciaService,
     private utils: UtilService,
     private dialog: MatDialog
-  ) {}
+  ) {
+    this.utils.openLoading();
+    this.provinciaService
+      .CRUD(
+        JSON.stringify({
+          par_modo: 'O',
+          nombre_provincia: '',
+        })
+      )
+      .subscribe({
+        next: (res: any) => {
+          res.dataset.length
+            ? (this.provincias = res.dataset as IProvincia[])
+            : (this.provincias = [res.dataset]);
+        },
+        error: () => {
+          this.utils.closeLoading();
+          this.utils.notification(
+            `No se han podido cargar las provincias. `,
+            'error'
+          );
+        },
+        complete: () => {
+          this.utils.closeLoading();
+          this.request = true;
+        },
+      });
+  }
 
   ngOnInit(): void {}
 
@@ -42,6 +74,8 @@ export class PosicionComponent {
         data: {
           title: `NUEVA POSICIÓN`,
           edit: true,
+          par_modo: 'C',
+          provincias: this.provincias,
           codigo_posicion: posicion?.codigo_posicion,
           descripcion: posicion?.descripcion,
           domicilio: posicion?.domicilio,
@@ -50,7 +84,6 @@ export class PosicionComponent {
           control_rechazo: posicion?.control_rechazo,
           yes_no: posicion?.yes_no,
           fecha_vigencia: posicion?.fecha_vigencia,
-          letra_provincia: posicion?.letra_provincia,
         },
       }
     );
@@ -79,7 +112,12 @@ export class PosicionComponent {
             complete: () => {
               this.utils.closeLoading();
               setTimeout(() => {
-                this.handleSearch('');
+                this.handleSearch(
+                  JSON.stringify({
+                    par_modo: 'R',
+                    codigo_posicion: res.codigo_posicion,
+                  })
+                );
               }, 300);
             },
           });

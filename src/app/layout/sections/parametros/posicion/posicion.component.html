@@ -1,14 +1,14 @@
 <section class="browse-section">
   <div class="section-header">
     <h2> Posiciones </h2>
-    <button class="new-button icon-button" (click)="nuevaPosicion()">
+    <button class="new-button icon-button" (click)="nuevaPosicion()" [disabled]="request === false">
       <mat-icon> add </mat-icon>
       Nuevo
     </button>
   </div>
 
   <div class="section-content">
-    <app-posicion-filter (searchEvent)="handleSearch($event)"></app-posicion-filter>
-    <app-posicion-dashboard></app-posicion-dashboard>
+    <app-posicion-filter (searchEvent)="handleSearch($event)" [provincias]="provincias"></app-posicion-filter>
+    <app-posicion-dashboard [provincias]="provincias"></app-posicion-dashboard>
   </div>
 </section>

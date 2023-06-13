@@ -24,8 +24,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
-
 // import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatRadioModule } from '@angular/material/radio';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,8 @@ import { MatSelectModule } from '@angular/material/select';
     MatSnackBarModule,
     MatSelectModule,
     // MatDatepickerModule,
+    MatRadioModule,
+    FormsModule,
   ],
 })
 export class SharedModule {}
