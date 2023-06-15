@@ -5,129 +5,117 @@ th.mat-header-cell:first-of-type,
 td.mat-cell:first-of-type {
   padding-left: 0px !important;
 }
+.mat-column-fecha_vigencia.mat-header-cell,
+.mat-column-fecha_vigencia.mat-cell,
+.mat-column-monto_desde.mat-header-cell,
+.mat-column-monto_desde.mat-cell,
+.mat-column-monto_hasta.mat-header-cell,
+.mat-column-monto_hasta.mat-cell {
+  text-align: right !important;
+  padding-right: 3vw !important;
+  word-break: break-all !important;
+}
 
+.mat-colum-actions.mat-header-cell,
+.mat-colum-actions.mat-cell {
+  text-align: center;
+}
 /*
- * Espacio mínimo a ambos lados de todas las columnas.
+ * Ancho máximo por columna individual de todas las columnas menos el 'Código' (nro_preg) y las 'Acciones' (actions).
 */
 .mat-column-fecha_vigencia.mat-header-cell,
 .mat-column-fecha_vigencia.mat-cell,
 .mat-column-monto_desde.mat-header-cell,
 .mat-column-monto_desde.mat-cell,
 .mat-column-monto_hasta.mat-header-cell,
-.mat-column-monto_hasta.mat-cell
-{
-  padding-left: 0.5vw !important;
-  padding-right: 0.5vw !important;
+.mat-column-monto_hasta.mat-cell,
+.mat-colum-actions.mat-header-cell,
+.mat-colum-actions.mat-cell {
+  width: 25% !important;
 }
-
 /*
-* Texto alineado a la izquierda.
+ * Oculta la paginación hasta que la tabla tenga datos.
 */
-.mat-column-monto_desde.mat-header-cell,
-.mat-column-monto_desde.mat-cell,
-.mat-column-monto_hasta.mat-header-cell,
-.mat-column-monto_hasta.mat-cell
-{
-    text-align: left !important;
-    padding-left: 1vw !important;
-}
-
-/*
-* Texto alineado a la izquierda.
-*/
-.mat-column-fecha_vigencia.mat-header-cell,
-.mat-column-fecha_vigencia.mat-cell
-{
-    text-align: right !important;
-    padding-right: 1vw !important;
-}
-
-/*
- * Iconos alineados al centro.
- * Acciones (actions).
-*/
-.mat-column-actions.mat-header-cell,
-.mat-column-actions.mat-cell {
-    width: 15% !important;
-    text-align: center !important;
+.hide-paginator {
+  display: none;
 }
 
 /*
  * Estilo del panel expandible.
 */
 .detailExpand {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-family: Roboto, "Helvetica Neue", sans-serif;
-    font-size: 14px;
-    overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: 14px;
+  overflow: hidden;
 }
 
 .detailExpand-container,
 .detailExpand-list {
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-    justify-content: center;
-    align-items: center;
-    height: 48px;
-    gap: 1vw;
-    padding: 0rem 5vw;
-    background-color: #dddddd;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  justify-content: center;
+  align-items: center;
+  height: 48px;
+  gap: 1vw;
+  padding: 0rem 5vw;
+  background-color: #dddddd;
 }
 
 .detailExpand-container {
-    font-weight: 500;
-    font-size: 0.95rem !important;
+  font-weight: 500;
+  font-size: 0.95rem !important;
 }
 
 .num {
-    text-align: center !important;
-    padding-right: 1vw !important;
+  text-align: center !important;
+  padding-right: 1vw !important;
 }
 
 .text {
-    text-align: center !important;
-    padding-left: 1vw !important;
+  text-align: center !important;
+  padding-left: 1vw !important;
 }
 
 .detailExpand-element {
-    position: relative;
-    z-index: 1;
-    transition: 300ms all !important;
+  position: relative;
+  z-index: 1;
+  transition: 300ms all !important;
 }
 
 .selected {
-    box-shadow: 0px 0px 0px 2px rgb(150, 150, 150) !important;
-    -webkit-box-shadow: 0px 0px 0px 2px rgb(150, 150, 150) !important;
-    -moz-box-shadow: 0px 0px 0px 2px rgb(150, 150, 150) !important;
-    position: relative;
-    z-index: 1;
+  box-shadow: 0px 0px 0px 2px rgb(150, 150, 150) !important;
+  -webkit-box-shadow: 0px 0px 0px 2px rgb(150, 150, 150) !important;
+  -moz-box-shadow: 0px 0px 0px 2px rgb(150, 150, 150) !important;
+  position: relative;
+  z-index: 1;
 }
 
 .hover-row:hover {
-    background-color: #efefef !important;
-    position: relative;
-    z-index: 2;
+  background-color: #efefef !important;
+  position: relative;
+  z-index: 2;
 }
 
 /*
  * Estilos propios de Material.
 */
 tr.detailExpand-row {
-    height: 0;
+  height: 0;
 }
 
 tr.detailExpand-element:not(.detailExpanded-row):hover {
-    background: whitesmoke;
+  background: whitesmoke;
 }
 
 tr.detailExpand-element:not(.detailExpanded-row):active {
-    background: #efefef;
+  background: #efefef;
 }
 
 .detailExpand-element td {
-    border-bottom-width: 0;
+  border-bottom-width: 0;
 }

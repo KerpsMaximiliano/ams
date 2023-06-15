@@ -11,15 +11,14 @@ import { IExtencionFuenteIngreso } from 'src/app/core/models/extencion-fuente-in
 import { MatDialog } from '@angular/material/dialog';
 
 // * Components
-import { AddEditExtencionFuenteIngresoComponent } from './components/add-edit-extencion-fuente-ingreso/add-edit-extencion-fuente-ingreso.component'; 
+import { AddEditExtencionFuenteIngresoComponent } from './components/add-edit-extencion-fuente-ingreso/add-edit-extencion-fuente-ingreso.component';
 import { ExtencionFuenteIngresoDashboardComponent } from './components/extencion-fuente-ingreso-dashboard/extencion-fuente-ingreso-dashboard.component';
 
 @Component({
   selector: 'app-extencion-fuente-ingreso',
   templateUrl: './extencion-fuente-ingreso.component.html',
-  styleUrls: ['./extencion-fuente-ingreso.component.scss']
+  styleUrls: ['./extencion-fuente-ingreso.component.scss'],
 })
-
 export class ExtencionFuenteIngresoComponent {
   @ViewChild(ExtencionFuenteIngresoDashboardComponent)
   dashboard: ExtencionFuenteIngresoDashboardComponent;
@@ -36,7 +35,9 @@ export class ExtencionFuenteIngresoComponent {
     this.dashboard.filter(inputValue);
   }
 
-  public nuevaExtencionFuenteIngreso(fuenteingreso?: IExtencionFuenteIngreso): void {
+  public nuevaExtencionFuenteIngreso(
+    fuenteingreso?: IExtencionFuenteIngreso
+  ): void {
     const modalNuevaExtencionFuenteIngreso = this.dialog.open(
       AddEditExtencionFuenteIngresoComponent,
       {
@@ -46,7 +47,7 @@ export class ExtencionFuenteIngresoComponent {
           par_modo: 'C',
           fuenteIngreso: fuenteingreso?.fuenteingreso,
           producto: fuenteingreso?.producto,
-          vigencia: fuenteingreso?.vigencia
+          vigencia: fuenteingreso?.vigencia,
         },
       }
     );
@@ -75,15 +76,15 @@ export class ExtencionFuenteIngresoComponent {
             complete: () => {
               this.utils.closeLoading();
               // setTimeout(() => {
-                // this.handleSearch(
-                  // JSON.stringify({
+              // this.handleSearch(
+              // JSON.stringify({
               //       par_modo: 'R',
               //       codigo_estado_civil: res.codigo_estado_civil,
               //     })
               //   );
               // }, 300);
-              if(res.reload){
-                this.nuevaExtencionFuenteIngreso()
+              if (res.reload) {
+                this.nuevaExtencionFuenteIngreso();
               }
             },
           });

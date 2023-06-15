@@ -1,5 +1,22 @@
-import { ChangeDetectorRef, Component, Renderer2, ViewChild } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ViewChild,
+} from '@angular/core';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
+// * Services
+import { UtilService } from 'src/app/core/services/util.service';
+// * Interfaces
+import { IExtencionFuenteIngreso } from 'src/app/core/models/extencion-fuente-ingreso.interface';
+// * Material
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
+import { MatSort, Sort } from '@angular/material/sort';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
+// * Components
+import { AddEditExtencionFuenteIngresoComponent } from '../add-edit-extencion-fuente-ingreso/add-edit-extencion-fuente-ingreso.component';
+import { ExtencionFuenteIngresoService } from 'src/app/core/services/extencion-fuente-ingreso.service';
+// * Others
 import {
   animate,
   state,
@@ -7,22 +24,6 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-
-// * Services
-import { UtilService } from 'src/app/core/services/util.service';
-
-// * Interfaces
-import { IExtencionFuenteIngreso } from 'src/app/core/models/extencion-fuente-ingreso.interface';
-
-// * Material
-import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
-import { MatSort, Sort } from '@angular/material/sort';
-import { MatTable, MatTableDataSource } from '@angular/material/table';
-
-// * Components
-import { AddEditExtencionFuenteIngresoComponent } from '../add-edit-extencion-fuente-ingreso/add-edit-extencion-fuente-ingreso.component';
-import { ExtencionFuenteIngresoService } from 'src/app/core/services/extencion-fuente-ingreso.service';
 @Component({
   selector: 'app-extencion-fuente-ingreso-dashboard',
   templateUrl: './extencion-fuente-ingreso-dashboard.component.html',
@@ -38,34 +39,30 @@ import { ExtencionFuenteIngresoService } from 'src/app/core/services/extencion-f
     ]),
   ],
 })
-
 export class ExtencionFuenteIngresoDashboardComponent {
   @ViewChild(MatSort) sort: MatSort = new MatSort();
   @ViewChild(MatTable) table!: MatTable<any>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator =
-  new MatPaginator(new MatPaginatorIntl(), this.cdr);
-  
+    new MatPaginator(new MatPaginatorIntl(), this.cdr);
+
   public searchValue: string = '';
-  public fuenteingreso: IExtencionFuenteIngreso[]=[];
+  public fuenteingreso: IExtencionFuenteIngreso[] = [];
   public columnsToDisplay: string[] = [
     'fecha_vigencia',
     'monto_desde',
     'monto_hasta',
-  ]
+  ];
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'actions'];
-
 
   public dataSource: MatTableDataSource<IExtencionFuenteIngreso>;
   expandedElement: any | null;
-
-
 
   constructor(
     private utils: UtilService,
     private _liveAnnouncer: LiveAnnouncer,
     private cdr: ChangeDetectorRef,
     private dialog: MatDialog,
-    private extncionFuenteIngresoService: ExtencionFuenteIngresoService,
+    private extncionFuenteIngresoService: ExtencionFuenteIngresoService
   ) {}
 
   ngOnInit(): void {
@@ -87,26 +84,28 @@ export class ExtencionFuenteIngresoDashboardComponent {
 
   private getExtencionFuenteIngraso(): void {
     this.utils.openLoading();
-    this.fuenteingreso = this.extncionFuenteIngresoService.getprueba(this.searchValue)//.subscribe({
-      // next: (res: any) => {
-      //   res.dataset.length
-          // ? (this.fuenteingreso = res.dataset as IExtencionFuenteIngreso[])
-          // : (this.fuenteingreso = [res.dataset]);
-        this.dataSource = new MatTableDataSource<IExtencionFuenteIngreso>(
-          this.fuenteingreso
-        );
-        this.dataSource.sort = this.sort;
-        this.dataSource.paginator = this.paginator;
-      // },
-      // error: (err: any) => {
-        this.utils.closeLoading();
-      //   err.status == 0
-      //     ? this.utils.notification('Error de conexión. ', 'error')
-      //     : this.utils.notification(
-      //         `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
-      //         'error'
-      //       );
-      // },
+    this.fuenteingreso = this.extncionFuenteIngresoService.getprueba(
+      this.searchValue
+    ); //.subscribe({
+    // next: (res: any) => {
+    //   res.dataset.length
+    // ? (this.fuenteingreso = res.dataset as IExtencionFuenteIngreso[])
+    // : (this.fuenteingreso = [res.dataset]);
+    this.dataSource = new MatTableDataSource<IExtencionFuenteIngreso>(
+      this.fuenteingreso
+    );
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+    // },
+    // error: (err: any) => {
+    this.utils.closeLoading();
+    //   err.status == 0
+    //     ? this.utils.notification('Error de conexión. ', 'error')
+    //     : this.utils.notification(
+    //         `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+    //         'error'
+    //       );
+    // },
     //   complete: () => {
     //     this.utils.closeLoading();
     //   },
@@ -121,7 +120,9 @@ export class ExtencionFuenteIngresoDashboardComponent {
     }
   }
 
-  public editExtencionFuenteIngraso(fuenteingreso: IExtencionFuenteIngreso): void {
+  public editExtencionFuenteIngraso(
+    fuenteingreso: IExtencionFuenteIngreso
+  ): void {
     const modalNuevoEstadoCivil = this.dialog.open(
       AddEditExtencionFuenteIngresoComponent,
       {
@@ -131,7 +132,7 @@ export class ExtencionFuenteIngresoDashboardComponent {
           par_modo: 'U',
           fuenteIngreso: fuenteingreso?.fuenteingreso,
           producto: fuenteingreso?.producto,
-          vigencia: fuenteingreso?.vigencia
+          vigencia: fuenteingreso?.vigencia,
         },
       }
     );
@@ -173,7 +174,9 @@ export class ExtencionFuenteIngresoDashboardComponent {
     });
   }
 
-  public viewExtencionFuenteIngraso(fuenteingreso: IExtencionFuenteIngreso): void {
+  public viewExtencionFuenteIngraso(
+    fuenteingreso: IExtencionFuenteIngreso
+  ): void {
     this.dialog.open(AddEditExtencionFuenteIngresoComponent, {
       data: {
         title: `VER FUENTE DE INGRESO`,
@@ -181,7 +184,7 @@ export class ExtencionFuenteIngresoDashboardComponent {
         par_modo: 'R',
         fuenteIngreso: fuenteingreso?.fuenteingreso,
         producto: fuenteingreso?.producto,
-        vigencia: fuenteingreso?.vigencia
+        vigencia: fuenteingreso?.vigencia,
       },
     });
   }

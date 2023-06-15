@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Output } from '@angular/core';
+// * Forms
 import { FormControl, FormGroup } from '@angular/forms';
-import { UtilService } from 'src/app/core/services/util.service';
 
 @Component({
   selector: 'app-extencion-fuente-ingreso-filter',
   templateUrl: './extencion-fuente-ingreso-filter.component.html',
-  styleUrls: ['./extencion-fuente-ingreso-filter.component.scss']
+  styleUrls: ['./extencion-fuente-ingreso-filter.component.scss'],
 })
 export class ExtencionFuenteIngresoFilterComponent {
   @Output() searchEvent: EventEmitter<any> = new EventEmitter<any>();
@@ -13,11 +13,10 @@ export class ExtencionFuenteIngresoFilterComponent {
   searchForm = new FormGroup({
     fuente_ingreso: new FormControl(''),
     producto: new FormControl(''),
-    vigencia: new FormControl('')
+    vigencia: new FormControl(''),
   });
 
-  constructor(
-  ) {}
+  constructor() {}
 
   ngOnInit() {
     // this.cargaDatos('E', 'listEmpresas');

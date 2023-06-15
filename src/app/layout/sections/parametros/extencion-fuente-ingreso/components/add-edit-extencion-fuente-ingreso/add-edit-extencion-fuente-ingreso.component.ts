@@ -8,7 +8,11 @@ import {
 } from '@angular/forms';
 
 // * Material
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import {
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+  MatDialog,
+} from '@angular/material/dialog';
 
 // * Validations
 import {
@@ -19,25 +23,24 @@ import {
   isNumeric,
 } from 'src/app/core/validators/character.validator';
 
-// * Components 
+// * Components
 import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
 import { ModalExtencionProductoComponent } from './modal-extencion-producto/modal-extencion-producto.component';
 
 @Component({
   selector: 'app-add-edit-extencion-fuente-ingreso',
   templateUrl: './add-edit-extencion-fuente-ingreso.component.html',
-  styleUrls: ['./add-edit-extencion-fuente-ingreso.component.scss']
+  styleUrls: ['./add-edit-extencion-fuente-ingreso.component.scss'],
 })
-
 export class AddEditExtencionFuenteIngresoComponent {
-
   public formGroup: UntypedFormGroup;
   public getErrorMessage = getErrorMessage;
 
   constructor(
-              public dialogRef: MatDialogRef<ConfirmDialogComponent>,
-              private dialog: MatDialog,
-              @Inject(MAT_DIALOG_DATA) public data: any)  {}
+    public dialogRef: MatDialogRef<ConfirmDialogComponent>,
+    private dialog: MatDialog,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {}
 
   /**
    * 1. 'this.setUpForm();': Asigna las validaciones correspondientes a cada campo de entrada/selección.
@@ -50,12 +53,12 @@ export class AddEditExtencionFuenteIngresoComponent {
   ngOnInit(): void {
     this.setUpForm();
     this.setFormValues();
-      if (this.data.edit === false) {
-        this.formGroup.disable();
-      } else {
-        this.formGroup.get('vigencia')?.disable();
-        this.formGroup.get('fuenteIngreso')?.disable();
-      }
+    if (this.data.edit === false) {
+      this.formGroup.disable();
+    } else {
+      this.formGroup.get('vigencia')?.disable();
+      this.formGroup.get('fuenteIngreso')?.disable();
+    }
   }
 
   private setUpForm(): void {
@@ -113,7 +116,7 @@ export class AddEditExtencionFuenteIngresoComponent {
         this.data.coeficiente1 ? this.data.coeficiente1.trim() : 0.01,
         Validators.compose([
           Validators.required,
-          Validators.min(0.00),
+          Validators.min(0.0),
           Validators.max(1),
           isNumeric,
         ])
@@ -122,7 +125,7 @@ export class AddEditExtencionFuenteIngresoComponent {
         this.data.coeficiente2 ? this.data.coeficiente2.trim() : 0.01,
         Validators.compose([
           Validators.required,
-          Validators.min(0.00),
+          Validators.min(0.0),
           Validators.max(1),
           isNumeric,
         ])
@@ -131,7 +134,7 @@ export class AddEditExtencionFuenteIngresoComponent {
         this.data.coeficiente3 ? this.data.coeficiente3.trim() : 0.01,
         Validators.compose([
           Validators.required,
-          Validators.min(0.00),
+          Validators.min(0.0),
           Validators.max(1),
           isNumeric,
         ])
@@ -140,7 +143,7 @@ export class AddEditExtencionFuenteIngresoComponent {
         this.data.coeficiente4 ? this.data.coeficiente4.trim() : 0.01,
         Validators.compose([
           Validators.required,
-          Validators.min(0.00),
+          Validators.min(0.0),
           Validators.max(1),
           isNumeric,
         ])
@@ -149,7 +152,7 @@ export class AddEditExtencionFuenteIngresoComponent {
         this.data.coeficiente5 ? this.data.coeficiente5.trim() : 0.01,
         Validators.compose([
           Validators.required,
-          Validators.min(0.00),
+          Validators.min(0.0),
           Validators.max(1),
           isNumeric,
         ])
@@ -158,29 +161,33 @@ export class AddEditExtencionFuenteIngresoComponent {
   }
 
   getProducto() {
-    const ModalNuevoProductoComponent = this.dialog.open(ModalExtencionProductoComponent, {
-      data:{
+    const ModalNuevoProductoComponent = this.dialog.open(
+      ModalExtencionProductoComponent,
+      {
+        data: {},
       }
-    });
+    );
     ModalNuevoProductoComponent.afterClosed().subscribe({
-      next:(res : any) => {
+      next: (res: any) => {
         if (res) {
-          this.formGroup.get('producto_secundario')?.setValue(res.producto_principal)
-          this.formGroup.get('producto_secundario_cod')?.setValue(res.descripcion_producto_cod)
+          this.formGroup
+            .get('producto_secundario')
+            ?.setValue(res.producto_principal);
+          this.formGroup
+            .get('producto_secundario_cod')
+            ?.setValue(res.descripcion_producto_cod);
         }
-      }
-    })
+      },
+    });
   }
 
-  limpiar(){
-    this.formGroup.get('producto_secundario')?.setValue('')
-    this.formGroup.get('producto_secundario_cod')?.setValue(0)
+  limpiar() {
+    this.formGroup.get('producto_secundario')?.setValue('');
+    this.formGroup.get('producto_secundario_cod')?.setValue(0);
   }
 
   private setFormValues(): void {
-    this.formGroup
-      .get('vigencia')
-      ?.setValue(this.data.vigencia);
+    this.formGroup.get('vigencia')?.setValue(this.data.vigencia);
     this.formGroup
       .get('fuenteingreso')
       ?.setValue(this.data.fuenteingreso ? this.data.fuenteingreso.trim() : '');
@@ -190,7 +197,7 @@ export class AddEditExtencionFuenteIngresoComponent {
     this.dialogRef.close(false);
   }
 
-  closeOpenDialog(){
+  closeOpenDialog() {
     if (this.formGroup.valid) {
       this.dialogRef.close({
         par_modo: this.data.par_modo,
