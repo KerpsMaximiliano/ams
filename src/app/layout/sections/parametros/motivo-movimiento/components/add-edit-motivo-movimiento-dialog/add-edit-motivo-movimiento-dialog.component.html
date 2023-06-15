@@ -72,21 +72,21 @@
     </div>
 
     <div *ngIf="data.edit; else other_content" class="buttons-container">
-      <button class="primary-button icon-button" type="button" (click)="closeDialog()">
+      <button class="primary-button icon-button  btn-w" type="button" (click)="closeDialog()">
         <mat-icon> close </mat-icon>
         Cancelar
       </button>
-      <button class="primary-button icon-button" type="button" (click)="darseBaja()"
+      <button class="primary-button icon-button  btn-w" type="button" (click)="darseBaja()"
         *ngIf="this.fecha_fin === 0 && this.data.par_modo === 'U'">
-        <mat-icon> close </mat-icon>
+        <mat-icon> remove_done </mat-icon>
         Baja
       </button>
-      <button class="primary-button icon-button" type="button" (click)="darseAlta()"
+      <button class="primary-button icon-button  btn-w" type="button" (click)="darseAlta()"
         *ngIf="this.fecha_fin !== 0 && this.data.par_modo === 'U'">
-        <mat-icon> close </mat-icon>
+        <mat-icon> done_all </mat-icon>
         Alta
       </button>
-      <button class="primary-button icon-button" type="submit" [disabled]="formGroup.invalid"
+      <button class="primary-button icon-button  btn-w" type="submit" [disabled]="formGroup.invalid"
         [disabled]="this.data.datos_adic_SN === ' '">
         <mat-icon> done </mat-icon>
         Guardar

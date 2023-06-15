@@ -15,7 +15,7 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-      
+
       <mat-form-field class="seeker-form-field">
         <mat-label class="seeker-label">
           Seleccione un departamento
@@ -43,6 +43,11 @@
   </form>
 
   <section class="table-container">
+    <mat-form-field appearance="standard" class="filter-container">
+      <mat-label> Ingrese la localidad </mat-label>
+      <input matInput (keyup)="applyFilter($event)" #input [disabled]="!dataSource">
+    </mat-form-field>
+
     <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
       <ng-container class="mat-row" *matNoDataRow>
         <td class="mat-cell no-data-cell" [attr.colspan]="displayedColumns.length"> No se encontraron resultados
@@ -63,7 +68,7 @@
         <th mat-header-cell *matHeaderCellDef> Acciones </th>
         <td mat-cell *matCellDef="let localidad">
           <mat-radio-group [(ngModel)]="showGuardarButton" aria-label="Select an option">
-            <mat-radio-button [value]="localidad"></mat-radio-button>
+            <mat-radio-button [value]="localidad" class="btn-radio"></mat-radio-button>
           </mat-radio-group>
         </td>
       </ng-container>
@@ -73,7 +78,7 @@
     </table>
 
     <mat-paginator [pageSize]="5" showFirstLastButtons stiky aria-label="Controles de paginación."
-      [ngClass]="{'hide-paginator': !dataSource }">
+      [ngClass]="{'hide': !dataSource }">
     </mat-paginator>
   </section>
 

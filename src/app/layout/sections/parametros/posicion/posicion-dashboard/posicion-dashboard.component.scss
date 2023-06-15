@@ -68,6 +68,16 @@ td.mat-cell:first-of-type {
 }
 
 /*
+ * Genera el espacio que corresponde al botón que no esta disponible.
+*/
+.no-edit {
+  display: inline-block;
+  vertical-align: bottom;
+  width: 40px;
+  height: 44.09px;
+}
+
+/*
  * Oculta la paginación hasta que la tabla tenga datos.
 */
 .hide-paginator {

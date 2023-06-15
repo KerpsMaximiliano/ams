@@ -1,5 +1,5 @@
 .dialog-content {
-    min-width: 600px;
+  min-width: 600px;
 }
 
 /* 1/2 Comienzo ----------------------------------------------------------------------------------------------------- */
@@ -11,53 +11,61 @@
  * .material-symbols-outlined (estilo de material icon).
 */
 .seeker-fields-container {
-    display: grid;
-    grid-template-columns: 0.8fr 1.2fr;
-    gap: 1rem;
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: 1rem;
 }
 
 .content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
 }
 
 .icon {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 7px;
-    padding: 0.35rem;
-    background-color: var(--sancor-blue);
-    margin: 0px 0px 16px;
-    cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 7px;
+  padding: 0.35rem;
+  background-color: var(--sancor-blue);
+  margin: 0px 0px 16px;
+  cursor: pointer;
 }
 
 .material-symbols-outlined {
-    font-variation-settings: "FILL" 1, "wght" 700, "GRAD" 200, "opsz" 48;
-    color: var(--background-white);
+  font-variation-settings: "FILL" 1, "wght" 700, "GRAD" 200, "opsz" 48;
+  color: var(--background-white);
 }
+
 /* 2/2 Fin ---------------------------------------------------------------------------------------------------------- */
 
 /*
  * MODAL: Espacios.
 */
 .form-datos {
-    padding: 0rem 1rem 1rem 1rem !important;
+  padding: 0rem 1rem 1rem 1rem !important;
 }
 
 /*
-   * MODAL: Formulario deshabilitado.
-   * Borde: '::ng-deep .mat-form-field-disabled .mat-form-field-outline'.
-   * Texto inputs: '::ng-deep .mat-form-field-disabled .mat-input-element'.
-   * Texto select: '::ng-deep .mat-form-field-disabled .mat-select-value'.
-   * Texto seleccionable: '.mat-form-field-disabled'.
-  */
+ * MODAL: Formulario deshabilitado.
+ * Borde: '::ng-deep .mat-form-field-disabled .mat-form-field-outline'.
+ * Texto inputs: '::ng-deep .mat-form-field-disabled .mat-input-element'.
+ * Texto select: '::ng-deep .mat-form-field-disabled .mat-select-value'.
+ * Texto seleccionable: '.mat-form-field-disabled'.
+*/
 ::ng-deep .mat-form-field-disabled .mat-form-field-outline,
 ::ng-deep .mat-form-field-disabled .mat-input-element,
 ::ng-deep .mat-form-field-disabled .mat-select-value,
 .mat-form-field-disabled {
-    color: #635f5f !important;
-    user-select: text !important;
+  color: #635f5f !important;
+  user-select: text !important;
+}
+
+/*
+ * Tamaño fijo para los botones.
+*/
+.btn-w {
+  width: 130px;
 }

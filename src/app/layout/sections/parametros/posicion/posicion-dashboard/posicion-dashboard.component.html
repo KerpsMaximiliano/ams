@@ -32,9 +32,14 @@
         <button class="action-button" (click)="viewPosicion(posicion)">
           <mat-icon class="edit-icon" aria-label="false"> visibility </mat-icon>
         </button>
-        <button class="action-button" (click)="editPosicion(posicion)">
-          <mat-icon class="delete-icon" aria-label="false"> edit </mat-icon>
-        </button>
+        <ng-container *ngIf="posicion.fecha_vigencia === 0; else edit">
+          <button class="action-button" (click)="editPosicion(posicion)">
+            <mat-icon class="delete-icon" aria-label="false"> edit </mat-icon>
+          </button>
+        </ng-container>
+        <ng-template #edit>
+          <div class="no-edit"></div>
+        </ng-template>
       </td>
     </ng-container>
 

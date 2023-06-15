@@ -1,14 +1,15 @@
 /* Corrección tamaño modal */
 ::ng-deep .mat-dialog-container {
   padding: 1rem;
+  background-color: #fff;
+  height: 100%;
+  width: 100%;
 }
 
 .dialog-content {
-  min-width: 700px;
-  min-height: 560px;
-  height: 100%;
-  max-height: 95vh;
-  width: 950px;
+  height: 630px;
+  width: 700px;
+  background-color: #fff;
 }
 
 .seeker-fields-container {
@@ -16,8 +17,8 @@
 }
 
 .buttons-container {
-  margin-top: 0.4rem;
-  margin-bottom: 1.5rem;
+  margin-top: 0.6rem;
+  margin-bottom: 0.6rem;
 }
 
 .table-container {
@@ -86,14 +87,16 @@ td.mat-cell:first-of-type {
 
 /*
  * Oculta la paginación hasta que la tabla tenga datos.
+ * Oculta el botón confirmar si aun no se ha seleccionado una localidad.
 */
-.hide-paginator {
+.hide {
   display: none;
 }
 
 /*
- * Oculta el botón confirmar si aun no se ha seleccionado una localidad.
+ * Cambia el tamaño y los espacios del filtro.
 */
-.btn-hide {
-  display: none;
+.filter-container {
+  width: 48%;
+  margin-bottom: 0.5rem;
 }

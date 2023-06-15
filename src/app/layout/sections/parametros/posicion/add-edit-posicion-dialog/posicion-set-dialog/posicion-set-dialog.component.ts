@@ -3,9 +3,13 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 
 // * Services
 import { UtilService } from 'src/app/core/services/util.service';
+import { DepartamentoService } from 'src/app/core/services/departamento.service';
+import { LocalidadService } from 'src/app/core/services/localidad.service';
 
 // * Interfaces
 import { IProvincia } from 'src/app/core/models/provincia.interface';
+import { IDepartamento } from 'src/app/core/models/departamento.interface';
+import { ILocalidad } from 'src/app/core/models/localidad.interface';
 
 // * Material
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -15,10 +19,6 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
 
 // * Components
 import { ConfirmDialogComponent } from '../../../../components/confirm-dialog/confirm-dialog.component';
-import { DepartamentoService } from 'src/app/core/services/departamento.service';
-import { IDepartamento } from 'src/app/core/models/departamento.interface';
-import { LocalidadService } from 'src/app/core/services/localidad.service';
-import { ILocalidad } from 'src/app/core/models/localidad.interface';
 
 @Component({
   selector: 'app-posicion-set-dialog',
@@ -162,5 +162,10 @@ export class PosicionSetDialogComponent {
   public clear() {
     this.selectProvincia.value = '';
     this.selectDepartamento.value = '';
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 }

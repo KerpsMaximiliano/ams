@@ -94,17 +94,17 @@
     </div>
 
     <div *ngIf="data.edit; else other_content" class="buttons-container">
-      <button class="primary-button icon-button" type="button" (click)="closeDialog()">
+      <button class="primary-button icon-button btn-w" type="button" (click)="closeDialog()">
         <mat-icon> close </mat-icon>
         Cancelar
       </button>
-      <div>
-        <button type="button" class="primary-button icon-button" (click)="setDate()">
-          <mat-icon> remove_done </mat-icon>
-          Baja
+      <div *ngIf="data.par_modo === 'U'">
+        <button type="button" class="primary-button icon-button btn-w" (click)="setDate()">
+          <mat-icon> {{ data.fecha_vigencia === 0 ? 'remove_done' : 'done_all' }} </mat-icon>
+          {{ data.fecha_vigencia === 0 ? 'Baja' : 'Alta' }}
         </button>
       </div>
-      <button class="primary-button icon-button" type="submit" [disabled]="formGroup.invalid">
+      <button class="primary-button icon-button btn-w" type="submit" [disabled]="formGroup.invalid">
         <mat-icon> done </mat-icon>
         Guardar
       </button>

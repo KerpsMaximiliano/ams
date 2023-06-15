@@ -150,7 +150,6 @@ export class AddEditPosicionDialogComponent {
             this.data.localidad = res.dataset.descripcion
               ? res.dataset.descripcion.trim()
               : '';
-            console.log(this.data.localidad, res.dataset.descripcion);
           },
           error: (err: any) => {
             this.utils.closeLoading();
@@ -186,7 +185,6 @@ export class AddEditPosicionDialogComponent {
     this.formGroup.patchValue({
       yes_no: this.data.yes_no,
     });
-    this.formGroup.get('fecha_vigencia')?.setValue(this.data.fecha_vigencia);
   }
 
   closeDialog(): void {
@@ -205,15 +203,21 @@ export class AddEditPosicionDialogComponent {
         sub_codigo_postal: this.data.sub_codigo_postal,
         control_rechazo: this.formGroup.get('control_rechazo')?.value,
         yes_no: this.formGroup.get('yes_no')?.value,
-        fecha_vigencia: this.formGroup.get('fecha_vigencia')?.value
-          ? this.formGroup.get('fecha_vigencia')?.value
-          : 0,
+        fecha_vigencia: this.data.fecha_vigencia,
         letra_provincia: this.data.letra_provincia,
       });
     }
   }
 
-  public setDate(): number {
+  public setDate(): void {
+    if (this.data.fecha_vigencia === 0) {
+      this.data.fecha_vigencia = this.formatDate();
+    } else {
+      this.data.fecha_vigencia = 0;
+    }
+  }
+
+  private formatDate(): number {
     const day = this.date.getDate();
     const month = this.date.getMonth() + 1;
     const year = this.date.getFullYear();
@@ -221,11 +225,7 @@ export class AddEditPosicionDialogComponent {
     const dayFormat = day < 10 ? `0${day}` : day.toString();
     const monthFormat = month < 10 ? `0${month}` : month.toString();
 
-    const dateFormat = parseInt(`${dayFormat}${monthFormat}${year}`);
-
-    console.log(dateFormat);
-
-    return dateFormat;
+    return parseInt(`${dayFormat}${monthFormat}${year}`);
   }
 
   public searchLocalidad(): void {
@@ -233,7 +233,6 @@ export class AddEditPosicionDialogComponent {
       data: {
         title: 'SELECCIONE UNA LOCALIDAD',
         edit: true,
-        par_modo: '',
         provincias: this.data.provincias,
         letra_provincia: this.data.letra_provincia,
         descripcion: this.data.descripcion,
