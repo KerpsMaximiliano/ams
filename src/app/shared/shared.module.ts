@@ -24,8 +24,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
-
 // import { MatDatepickerModule } from '@angular/material/datepicker';
+import {
+  MatRadioModule,
+  MAT_RADIO_DEFAULT_OPTIONS,
+} from '@angular/material/radio';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -54,6 +58,14 @@ import { MatSelectModule } from '@angular/material/select';
     MatSnackBarModule,
     MatSelectModule,
     // MatDatepickerModule,
+    MatRadioModule,
+    FormsModule,
+  ],
+  providers: [
+    {
+      provide: MAT_RADIO_DEFAULT_OPTIONS,
+      useValue: { color: 'primary' },
+    },
   ],
 })
 export class SharedModule {}

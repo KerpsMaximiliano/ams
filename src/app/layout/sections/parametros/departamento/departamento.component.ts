@@ -33,6 +33,7 @@ export class DepartamentoComponent {
     private departamentoService: DepartamentoService,
     private provinciaService: ProvinciaService
   ) {
+    this.utils.openLoading();
     this.provinciaService
       .CRUD(
         JSON.stringify({
@@ -47,12 +48,14 @@ export class DepartamentoComponent {
             : (this.provincias = [res.dataset]);
         },
         error: () => {
+          this.utils.closeLoading();
           this.utils.notification(
             `No se han podido cargar las provincias. `,
             'error'
           );
         },
         complete: () => {
+          this.utils.closeLoading();
           this.request = true;
         },
       });

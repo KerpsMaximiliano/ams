@@ -1,0 +1,102 @@
+/* Corrección tamaño modal */
+::ng-deep .mat-dialog-container {
+  padding: 1rem;
+  background-color: #fff;
+  height: 100%;
+  width: 100%;
+}
+
+.dialog-content {
+  height: 630px;
+  width: 700px;
+  background-color: #fff;
+}
+
+.seeker-fields-container {
+  margin-top: 1.5rem;
+}
+
+.buttons-container {
+  margin-top: 0.6rem;
+  margin-bottom: 0.6rem;
+}
+
+.table-container {
+  margin-bottom: 0.5rem;
+}
+
+.btn {
+  width: 100%;
+  max-width: 130px;
+}
+
+/*
+ * Evita un espaciado innecesario en la primer columna.
+*/
+th.mat-header-cell:first-of-type,
+td.mat-cell:first-of-type {
+  padding-left: 0px !important;
+}
+
+/*
+ * Texto alineado a la izquierda.
+*/
+.mat-column-descripcion.mat-header-cell,
+.mat-column-descripcion.mat-cell {
+  text-align: left !important;
+  padding-left: 3vw !important;
+  word-break: break-all !important;
+}
+
+/*
+ * Número y fecha alineado a la derecha.
+*/
+.mat-column-codigo_postal.mat-header-cell,
+.mat-column-codigo_postal.mat-cell {
+  text-align: right !important;
+  padding-right: 3vw !important;
+  word-break: break-all !important;
+}
+
+/*
+ * Iconos alineados al centro.
+*/
+.mat-column-actions.mat-header-cell,
+.mat-column-actions.mat-cell {
+  text-align: center !important;
+  word-break: break-all !important;
+}
+
+/*
+ * Tamaño de columnas.
+*/
+.mat-column-codigo_posicion.mat-header-cell,
+.mat-column-codigo_posicion.mat-cell {
+  width: 20% !important;
+}
+
+.mat-column-descripcion.mat-header-cell,
+.mat-column-descripcion.mat-cell {
+  width: 60% !important;
+}
+
+.mat-column-actions.mat-header-cell,
+.mat-column-actions.mat-cell {
+  width: 20% !important;
+}
+
+/*
+ * Oculta la paginación hasta que la tabla tenga datos.
+ * Oculta el botón confirmar si aun no se ha seleccionado una localidad.
+*/
+.hide {
+  display: none;
+}
+
+/*
+ * Cambia el tamaño y los espacios del filtro.
+*/
+.filter-container {
+  width: 48%;
+  margin-bottom: 0.5rem;
+}

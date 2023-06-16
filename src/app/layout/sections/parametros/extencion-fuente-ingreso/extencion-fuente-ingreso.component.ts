@@ -59,7 +59,7 @@ export class ExtencionFuenteIngresoComponent {
           this.extencionFuenteIngreso.CRUD(res).subscribe({
             next: () => {
               this.utils.notification(
-                'El estado civil se ha creado exitosamente. ',
+                'La extencion de fuente de ingreso se ha creado exitosamente. ',
                 'success'
               );
             },
@@ -75,14 +75,6 @@ export class ExtencionFuenteIngresoComponent {
             },
             complete: () => {
               this.utils.closeLoading();
-              // setTimeout(() => {
-              // this.handleSearch(
-              // JSON.stringify({
-              //       par_modo: 'R',
-              //       codigo_estado_civil: res.codigo_estado_civil,
-              //     })
-              //   );
-              // }, 300);
               if (res.reload) {
                 this.nuevaExtencionFuenteIngreso();
               }

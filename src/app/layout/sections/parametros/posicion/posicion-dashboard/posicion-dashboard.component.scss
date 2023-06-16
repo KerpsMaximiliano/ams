@@ -1,17 +1,80 @@
+/*
+ * Evita un espaciado innecesario en la primer columna.
+*/
+th.mat-header-cell:first-of-type,
+td.mat-cell:first-of-type {
+  padding-left: 0px !important;
+}
+
+/*
+ * Texto alineado a la izquierda.
+*/
 .mat-column-descripcion.mat-header-cell,
 .mat-column-descripcion.mat-cell,
 .mat-column-domicilio.mat-header-cell,
 .mat-column-domicilio.mat-cell,
-.mat-column-estados.mat-header-cell,
-.mat-column-estados.mat-cell {
+.mat-column-estado.mat-header-cell,
+.mat-column-estado.mat-cell {
   text-align: left !important;
-  padding-left: 1vw !important;
+  padding-left: 2vw !important;
+  word-break: break-all !important;
 }
 
-.mat-column-codigo_postal.mat-header-cell,
-.mat-column-codigo_postal.mat-cell {
+/*
+ * Número y fecha alineado a la derecha.
+*/
+.mat-column-codigo_posicion.mat-header-cell,
+.mat-column-codigo_posicion.mat-cell {
   text-align: right !important;
-  padding-right: 1vw !important;
+  padding-right: 2vw !important;
+  word-break: break-all !important;
+}
+
+/*
+ * Iconos alineados al centro.
+*/
+.mat-column-actions.mat-header-cell,
+.mat-column-actions.mat-cell {
+  text-align: center !important;
+  word-break: break-all !important;
+}
+
+/*
+ * Tamaño de columnas.
+*/
+.mat-column-codigo_posicion.mat-header-cell,
+.mat-column-codigo_posicion.mat-cell {
+  width: 10% !important;
+}
+
+.mat-column-descripcion.mat-header-cell,
+.mat-column-descripcion.mat-cell {
+  width: 30% !important;
+}
+
+.mat-column-domicilio.mat-header-cell,
+.mat-column-domicilio.mat-cell {
+  width: 35% !important;
+}
+
+.mat-column-estado.mat-header-cell,
+.mat-column-estado.mat-cell {
+  width: 10% !important;
+}
+
+.mat-column-actions.mat-header-cell,
+.mat-column-actions.mat-cell {
+  width: 15% !important;
+}
+
+/*
+ * Genera el espacio que corresponde al botón que no esta disponible.
+*/
+.no-edit {
+  display: inline-block;
+  vertical-align: bottom;
+  width: 40px;
+  height: 44.09px;
 }
 
 /*

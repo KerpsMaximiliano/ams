@@ -7,6 +7,13 @@ import {
   Validators,
 } from '@angular/forms';
 
+// * Services
+import { UtilService } from 'src/app/core/services/util.service';
+import { LocalidadService } from 'src/app/core/services/localidad.service';
+
+// * Interfaces
+import { IProvincia } from 'src/app/core/models/provincia.interface';
+
 // * Material
 import {
   MatDialogRef,
@@ -19,11 +26,13 @@ import {
   isAlphanumericWithSpaces,
   isNumeric,
   getErrorMessage,
+  notOnlySpaces,
+  isAlpha,
 } from 'src/app/core/validators/character.validator';
 
 // * Components
 import { ConfirmDialogComponent } from '../../../components/confirm-dialog/confirm-dialog.component';
-import { ModalLocalidadComponent } from './modal-localidad/modal-localidad.component';
+import { PosicionSetDialogComponent } from './posicion-set-dialog/posicion-set-dialog.component';
 
 @Component({
   selector: 'app-add-edit-posicion-dialog',
@@ -31,74 +40,44 @@ import { ModalLocalidadComponent } from './modal-localidad/modal-localidad.compo
   styleUrls: ['./add-edit-posicion-dialog.component.scss'],
 })
 export class AddEditPosicionDialogComponent {
-  public getErrorMessage = getErrorMessage;
-  
   public formGroup: UntypedFormGroup;
-  vigencia: boolean = false;
-  fecha_hoy: Date = new Date();
-  paramLocal: [] | any;
-  paramProv: [] | any;
-  searchDescription: any;
-  searchCodePost: any;
-  dataSource: any;
-  localidad: any;
+  public getErrorMessage = getErrorMessage;
+  public provincias: IProvincia[];
+  public date: Date;
 
   constructor(
+    private utils: UtilService,
     public dialogRef: MatDialogRef<ConfirmDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private dialog: MatDialog,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    private localidadService: LocalidadService
   ) {}
 
+  /**
+   * 1. 'this.setUpForm();': Asigna las validaciones correspondientes a cada campo de entrada/selección.
+   * 2. Condición: comprueba que sea una actualización (modificación) o lectura.
+   * 3. 'this.setFormValues();': Asigna los valores de 'data' a los campos de entrada/selección del formulario.
+   * 4. Condición: comprueba si la edición esta deshabilitada.
+   *     > Deshabilidada: deshabilita el formulario.
+   *     > Habilitada: deshabilita el 'letra_provincia'.
+   */
   ngOnInit(): void {
     this.setUpForm();
-    if (this.data.codigo_posicion) this.setFormValues();
-    if (
-      this.data.fecha_vigencia == 0 ||
-      this.data.fecha_vigencia > this.fecha_hoy
-    ) {
-      this.vigencia = true;
-    } else {
-      this.vigencia = false;
+    if (this.data.par_modo !== 'C') {
+      this.searchLocalidadDescripcion();
+      this.formGroup.get('codigo_posicion')?.disable();
+      this.formGroup.get('estado')?.disable();
+      if (this.data.edit !== true) {
+        this.formGroup.disable();
+      }
     }
-  }
-
-  getLocalidad() {
-    const modalSearchLocal = this.dialog.open(ModalLocalidadComponent, {
-      data: {
-        title: `SELECCIONAR LOCALIDAD`,
-        par_modo: 'C',
-      },
-    });
-
-    modalSearchLocal.afterClosed().subscribe({
-      next: (datos) => {
-        this.localidad = datos.datos;
-        console.log(this.localidad);
-        if (this.localidad) {
-          this.formGroup.get('localidad')?.setValue(this.localidad.descripcion);
-          this.formGroup
-            .get('codigo_postal')
-            ?.setValue(this.localidad.codigo_postal);
-          this.formGroup
-            .get('sub_codigo_postal')
-            ?.setValue(this.localidad.sub_codigo_postal);
-          this.formGroup
-            .get('letra_provincia')
-            ?.setValue(this.localidad.letra_provincia);
-        }
-      },
-      error: (err) => {},
-    });
+    this.date = new Date();
   }
 
   private setUpForm(): void {
     this.formGroup = new UntypedFormGroup({
       codigo_posicion: new UntypedFormControl(
-        {
-          value: '',
-          disabled:
-            this.data.codigo_posicion && this.data.title === 'EDITAR POSICIÓN',
-        },
+        this.data.codigo_posicion,
         Validators.compose([
           Validators.required,
           Validators.minLength(1),
@@ -107,56 +86,105 @@ export class AddEditPosicionDialogComponent {
         ])
       ),
       descripcion: new UntypedFormControl(
-        '',
+        this.data.descripcion ? this.data.descripcion.trim() : '',
         Validators.compose([
           Validators.required,
-          Validators.minLength(1),
+          Validators.minLength(3),
           Validators.maxLength(30),
-          isAlphanumericWithSpaces(),
+          notOnlySpaces(),
         ])
       ),
-      localidad: new UntypedFormControl(''),
+      localidad: new UntypedFormControl(
+        this.data.localidad ? this.data.localidad.trim() : '',
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(30),
+          notOnlySpaces(),
+        ])
+      ),
       domicilio: new UntypedFormControl(
-        '',
+        this.data.domicilio ? this.data.domicilio.trim() : '',
         Validators.compose([
           Validators.required,
-          Validators.minLength(1),
+          Validators.minLength(3),
           Validators.maxLength(50),
-          isAlphanumericWithSpaces(),
+          notOnlySpaces(),
         ])
       ),
-      codigo_postal: new UntypedFormControl(''),
-      sub_codigo_postal: new UntypedFormControl(''),
       control_rechazo: new UntypedFormControl(
-        { value: 'N', disabled: !this.data.edit },
+        this.data.control_rechazo,
         Validators.compose([
           Validators.required,
           Validators.minLength(1),
-          Validators.maxLength(2),
+          Validators.maxLength(1),
+          isAlpha(),
         ])
       ),
-      yes_no: new UntypedFormControl({ value: 'N', disabled: !this.data.edit }),
-      fecha_vigencia: new UntypedFormControl(''),
-      letra_provincia: new UntypedFormControl(''),
+      yes_no: new UntypedFormControl(
+        this.data.yes_no,
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(1),
+          isAlpha(),
+        ])
+      ),
+      fecha_vigencia: new UntypedFormControl(this.data.fecha_vigencia),
     });
   }
 
+  private searchLocalidadDescripcion(): void {
+    if (this.data.codigo_postal && this.data.letra_provincia) {
+      this.utils.openLoading();
+      this.localidadService
+        .CRUD(
+          JSON.stringify({
+            par_modo: 'R',
+            codigo_postal: this.data.codigo_postal,
+            letra_provincia: this.data.letra_provincia,
+          })
+        )
+        .subscribe({
+          next: (res: any) => {
+            this.data.localidad = res.dataset.descripcion
+              ? res.dataset.descripcion.trim()
+              : '';
+          },
+          error: (err: any) => {
+            this.utils.closeLoading();
+            err.status == 0
+              ? this.utils.notification(
+                  'No se ha podido cargar la localidad. ',
+                  'error'
+                )
+              : this.utils.notification(
+                  `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+                  'error'
+                );
+          },
+          complete: () => {
+            this.utils.closeLoading();
+            this.setFormValues();
+          },
+        });
+    }
+  }
+
   private setFormValues(): void {
-    this.formGroup.get('codigo_posicion')?.setValue(this.data.codigo_posicion),
-      this.formGroup.get('descripcion')?.setValue(this.data.descripcion),
-      this.formGroup.get('domicilio')?.setValue(this.data.domicilio),
-      this.formGroup.get('codigo_postal')?.setValue(this.data.codigo_postal),
-      this.formGroup
-        .get('sub_codigo_postal')
-        ?.setValue(this.data.sub_codigo_postal),
-      this.formGroup
-        .get('control_rechazo')
-        ?.setValue(this.data.control_rechazo),
-      this.formGroup.get('yes_no')?.setValue(this.data.yes_no),
-      this.formGroup.get('fecha_vigencia')?.setValue(this.data.fecha_vigencia),
-      this.formGroup
-        .get('letra_provincia')
-        ?.setValue(this.data.letra_provincia);
+    this.formGroup.get('codigo_posicion')?.setValue(this.data.codigo_posicion);
+    this.formGroup
+      .get('descripcion')
+      ?.setValue(this.data.descripcion ? this.data.descripcion.trim() : '');
+    this.formGroup
+      .get('localidad')
+      ?.setValue(this.data.localidad ? this.data.localidad : '');
+    this.formGroup
+      .get('domicilio')
+      ?.setValue(this.data.domicilio ? this.data.domicilio.trim() : '');
+    this.formGroup.patchValue({
+      yes_no: this.data.yes_no,
+    });
   }
 
   closeDialog(): void {
@@ -164,53 +192,70 @@ export class AddEditPosicionDialogComponent {
   }
 
   public confirm(): void {
+    this.formGroup.markAllAsTouched();
     if (this.formGroup.valid) {
-      this.data.codigo_posicion
-        ? this.dialogRef.close({
-            par_modo: 'U',
-            codigo_posicion: this.formGroup.get('codigo_posicion')?.value,
-            descripcion: this.formGroup.get('descripcion')?.value,
-            domicilio: this.formGroup.get('domicilio')?.value,
-            codigo_postal: this.formGroup.get('codigo_postal')?.value,
-            sub_codigo_postal: this.formGroup.get('sub_codigo_postal')?.value,
-            control_rechazo: this.formGroup.get('control_rechazo')?.value,
-            yes_no: this.formGroup.get('yes_no')?.value,
-            fecha_vigencia: this.fecha(
-              this.formGroup.get('fecha_vigencia')?.value
-            ),
-            letra_provincia: this.formGroup.get('letra_provincia')?.value,
-          })
-        : this.dialogRef.close({
-            par_modo: 'I',
-            codigo_posicion: this.formGroup.get('codigo_posicion')?.value,
-            descripcion: this.formGroup.get('descripcion')?.value,
-            domicilio: this.formGroup.get('domicilio')?.value,
-            codigo_postal: this.formGroup.get('codigo_postal')?.value,
-            sub_codigo_postal: this.formGroup.get('sub_codigo_postal')?.value,
-            control_rechazo: this.formGroup.get('control_rechazo')?.value,
-            yes_no: this.formGroup.get('yes_no')?.value,
-            fecha_vigencia: this.fecha(
-              this.formGroup.get('fecha_vigencia')?.value
-            ),
-            letra_provincia: this.formGroup.get('letra_provincia')?.value,
-          });
+      this.dialogRef.close({
+        par_modo: this.data.par_modo,
+        codigo_posicion: this.formGroup.get('codigo_posicion')?.value,
+        descripcion: this.formGroup.get('descripcion')?.value,
+        domicilio: this.formGroup.get('domicilio')?.value,
+        codigo_postal: this.data.codigo_postal,
+        sub_codigo_postal: this.data.sub_codigo_postal,
+        control_rechazo: this.formGroup.get('control_rechazo')?.value,
+        yes_no: this.formGroup.get('yes_no')?.value,
+        fecha_vigencia: this.data.fecha_vigencia,
+        letra_provincia: this.data.letra_provincia,
+      });
     }
   }
 
-  fecha(fecha: any) {
-    let auxFecha: number;
-    let ano = this.fecha_hoy.getFullYear().toString();
-    let mes = (this.fecha_hoy.getMonth() + 1).toString();
-    if (mes.length == 1) {
-      mes = '0' + mes;
+  public setDate(): void {
+    if (this.data.fecha_vigencia === 0) {
+      this.data.fecha_vigencia = this.formatDate();
+    } else {
+      this.data.fecha_vigencia = 0;
     }
-    let dia = this.fecha_hoy.getDate().toString();
-    if (dia.length == 1) {
-      dia = '0' + dia;
-    }
-    auxFecha = parseInt(ano + mes + dia);
-    console.log(this.formGroup.get('fecha_vigencia')?.value);
-    console.log(this.formGroup.value);
-    return auxFecha;
+  }
+
+  private formatDate(): number {
+    const day = this.date.getDate();
+    const month = this.date.getMonth() + 1;
+    const year = this.date.getFullYear();
+
+    const dayFormat = day < 10 ? `0${day}` : day.toString();
+    const monthFormat = month < 10 ? `0${month}` : month.toString();
+
+    return parseInt(`${dayFormat}${monthFormat}${year}`);
+  }
+
+  public searchLocalidad(): void {
+    const modalSetLocalidad = this.dialog.open(PosicionSetDialogComponent, {
+      data: {
+        title: 'SELECCIONE UNA LOCALIDAD',
+        edit: true,
+        provincias: this.data.provincias,
+        letra_provincia: this.data.letra_provincia,
+        descripcion: this.data.descripcion,
+        codigo_postal: this.data.codigo_postal,
+        sub_codigo_postal: this.data.sub_codigo_postal,
+      },
+    });
+    modalSetLocalidad.afterClosed().subscribe({
+      next: (res) => {
+        if (res) {
+          this.data.letra_provincia = res.letra_provincia;
+          this.data.codigo_postal = res.codigo_postal;
+          this.data.sub_codigo_postal = res.sub_codigo_postal;
+          this.data.localidad = res.descripcion;
+          this.formGroup
+            .get('localidad')
+            ?.setValue(this.data.localidad ? this.data.localidad.trim() : '');
+        }
+      },
+    });
+  }
+
+  public clearLocalidad(inputElement: HTMLInputElement): void {
+    inputElement.value = '';
   }
 }

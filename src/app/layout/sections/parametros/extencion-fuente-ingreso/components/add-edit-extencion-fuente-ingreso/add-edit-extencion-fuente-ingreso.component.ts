@@ -16,8 +16,6 @@ import {
 
 // * Validations
 import {
-  isAlphanumericWithSpaces,
-  isAlphanumeric,
   getErrorMessage,
   notOnlySpaces,
   isNumeric,
@@ -52,33 +50,30 @@ export class AddEditExtencionFuenteIngresoComponent {
    */
   ngOnInit(): void {
     this.setUpForm();
-    this.setFormValues();
-    if (this.data.edit === false) {
-      this.formGroup.disable();
-    } else {
-      this.formGroup.get('vigencia')?.disable();
-      this.formGroup.get('fuenteIngreso')?.disable();
+    if (this.data.par_modo === 'U' || this.data.par_modo === 'R') {
+      if (this.data.edit === false) {
+        this.formGroup.disable();
+      }
     }
   }
 
   private setUpForm(): void {
     this.formGroup = new UntypedFormGroup({
       vigencia: new UntypedFormControl(
-        this.data.vigencia,
+        this.data.vigencia ? this.data.vigencia : 0,
         Validators.compose([
           Validators.required,
-          Validators.minLength(1),
-          Validators.maxLength(1),
-          isAlphanumeric(),
+          Validators.minLength(6),
+          Validators.maxLength(6),
+          notOnlySpaces(),
         ])
       ),
       fuenteIngreso: new UntypedFormControl(
         this.data.fuenteIngreso ? this.data.fuenteIngreso.trim() : '',
         Validators.compose([
           Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(20),
-          isAlphanumericWithSpaces(),
+          Validators.minLength(5),
+          Validators.maxLength(5),
           notOnlySpaces(),
         ])
       ),
@@ -88,32 +83,31 @@ export class AddEditExtencionFuenteIngresoComponent {
           Validators.required,
           Validators.minLength(3),
           Validators.maxLength(20),
-          isAlphanumericWithSpaces(),
           notOnlySpaces(),
         ])
       ),
+      producto_cod: new UntypedFormControl(
+        this.data.producto_cod ? this.data.producto_cod : 0,
+        Validators.compose([Validators.required, isNumeric()])
+      ),
       remuneracionDesde: new UntypedFormControl(
-        this.data.remuneracionDesde ? this.data.remuneracionDesde.trim() : '',
+        this.data.remuneracionDesde ? this.data.remuneracionDesde : 0,
         Validators.compose([
           Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(20),
-          isAlphanumericWithSpaces(),
+          Validators.maxLength(11),
           notOnlySpaces(),
         ])
       ),
       remuneracionHasta: new UntypedFormControl(
-        this.data.remuneracionHasta ? this.data.remuneracionHasta.trim() : '',
+        this.data.remuneracionHasta ? this.data.remuneracionHasta : 0,
         Validators.compose([
           Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(20),
-          isAlphanumericWithSpaces(),
+          Validators.maxLength(11),
           notOnlySpaces(),
         ])
       ),
       coeficiente1: new UntypedFormControl(
-        this.data.coeficiente1 ? this.data.coeficiente1.trim() : 0.01,
+        this.data.coeficiente1 ? this.data.coeficiente1 : 0.01,
         Validators.compose([
           Validators.required,
           Validators.min(0.0),
@@ -122,7 +116,7 @@ export class AddEditExtencionFuenteIngresoComponent {
         ])
       ),
       coeficiente2: new UntypedFormControl(
-        this.data.coeficiente2 ? this.data.coeficiente2.trim() : 0.01,
+        this.data.coeficiente2 ? this.data.coeficiente2 : 0.01,
         Validators.compose([
           Validators.required,
           Validators.min(0.0),
@@ -131,7 +125,7 @@ export class AddEditExtencionFuenteIngresoComponent {
         ])
       ),
       coeficiente3: new UntypedFormControl(
-        this.data.coeficiente3 ? this.data.coeficiente3.trim() : 0.01,
+        this.data.coeficiente3 ? this.data.coeficiente3 : 0.01,
         Validators.compose([
           Validators.required,
           Validators.min(0.0),
@@ -140,7 +134,7 @@ export class AddEditExtencionFuenteIngresoComponent {
         ])
       ),
       coeficiente4: new UntypedFormControl(
-        this.data.coeficiente4 ? this.data.coeficiente4.trim() : 0.01,
+        this.data.coeficiente4 ? this.data.coeficiente4 : 0.01,
         Validators.compose([
           Validators.required,
           Validators.min(0.0),
@@ -149,7 +143,7 @@ export class AddEditExtencionFuenteIngresoComponent {
         ])
       ),
       coeficiente5: new UntypedFormControl(
-        this.data.coeficiente5 ? this.data.coeficiente5.trim() : 0.01,
+        this.data.coeficiente5 ? this.data.coeficiente5 : 0.01,
         Validators.compose([
           Validators.required,
           Validators.min(0.0),
@@ -170,51 +164,25 @@ export class AddEditExtencionFuenteIngresoComponent {
     ModalNuevoProductoComponent.afterClosed().subscribe({
       next: (res: any) => {
         if (res) {
+          this.formGroup.get('producto')?.setValue(res.producto_principal);
           this.formGroup
-            .get('producto_secundario')
-            ?.setValue(res.producto_principal);
-          this.formGroup
-            .get('producto_secundario_cod')
+            .get('producto_cod')
             ?.setValue(res.descripcion_producto_cod);
         }
       },
     });
   }
 
-  limpiar() {
-    this.formGroup.get('producto_secundario')?.setValue('');
-    this.formGroup.get('producto_secundario_cod')?.setValue(0);
-  }
-
-  private setFormValues(): void {
-    this.formGroup.get('vigencia')?.setValue(this.data.vigencia);
-    this.formGroup
-      .get('fuenteingreso')
-      ?.setValue(this.data.fuenteingreso ? this.data.fuenteingreso.trim() : '');
+  public limpiar(): void {
+    this.formGroup.get('producto')?.setValue('');
+    this.formGroup.get('producto_cod')?.setValue(0);
   }
 
   public closeDialog(): void {
     this.dialogRef.close(false);
   }
 
-  closeOpenDialog() {
-    if (this.formGroup.valid) {
-      this.dialogRef.close({
-        par_modo: this.data.par_modo,
-        vigencia: this.formGroup.get('vigencia')?.value,
-        fuenteingreso: this.formGroup.get('fuenteIngreso')?.value,
-        producto: this.formGroup.get('producto')?.value,
-        remuneracionDesde: this.formGroup.get('remuneracionDesde')?.value,
-        remuneracionHasta: this.formGroup.get('remuneracionHasta')?.value,
-        coeficiente1: this.formGroup.get('coeficiente1')?.value,
-        coeficiente2: this.formGroup.get('coeficiente2')?.value,
-        coeficiente3: this.formGroup.get('coeficiente3')?.value,
-        coeficiente4: this.formGroup.get('coeficiente4')?.value,
-        coeficiente5: this.formGroup.get('coeficiente5')?.value,
-        reload: true,
-      });
-    }
-  }
+  closeOpenDialog() {}
 
   public confirm(): void {
     this.formGroup.markAllAsTouched();

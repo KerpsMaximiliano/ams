@@ -34,6 +34,7 @@ import { PosicionComponent } from './posicion/posicion.component';
 import { AddEditPosicionDialogComponent } from './posicion/add-edit-posicion-dialog/add-edit-posicion-dialog.component';
 import { PosicionFilterComponent } from './posicion/posicion-filter/posicion-filter.component';
 import { PosicionDashboardComponent } from './posicion/posicion-dashboard/posicion-dashboard.component';
+import { PosicionSetDialogComponent } from './posicion/add-edit-posicion-dialog/posicion-set-dialog/posicion-set-dialog.component';
 // 06 - LOCALIDADES
 import { AddEditLocalidadDialogComponent } from './localidad/components/add-edit-localidad-dialog/add-edit-localidad-dialog.component';
 import { LocalidadComponent } from './localidad/localidad.component';
@@ -75,7 +76,6 @@ import { PreguntaDDJJComponent } from './pregunta-ddjj/pregunta-ddjj.component';
 import { PreguntaDDJJDashboardComponent } from './pregunta-ddjj/components/pregunta-ddjj-dashboard/pregunta-ddjj-dashboard.component';
 import { PreguntaDDJJFilterComponent } from './pregunta-ddjj/components/pregunta-ddjj-filter/pregunta-ddjj-filter.component';
 // 32 - EXTENCION DE FUENTES DE INGRESOS
-import { ModalLocalidadComponent } from './posicion/add-edit-posicion-dialog/modal-localidad/modal-localidad.component';
 import { ExtencionFuenteIngresoComponent } from './extencion-fuente-ingreso/extencion-fuente-ingreso.component';
 import { ExtencionFuenteIngresoDashboardComponent } from './extencion-fuente-ingreso/components/extencion-fuente-ingreso-dashboard/extencion-fuente-ingreso-dashboard.component';
 import { ExtencionFuenteIngresoFilterComponent } from './extencion-fuente-ingreso/components/extencion-fuente-ingreso-filter/extencion-fuente-ingreso-filter.component';
@@ -114,6 +114,7 @@ import { ProductoFilterComponent } from './producto/components/producto-filter/p
     PosicionComponent,
     PosicionFilterComponent,
     PosicionDashboardComponent,
+    PosicionSetDialogComponent,
     // 06 - LOCALIDADES
     AddEditLocalidadDialogComponent,
     LocalidadComponent,
@@ -165,8 +166,6 @@ import { ProductoFilterComponent } from './producto/components/producto-filter/p
     ProductoComponent,
     ProductoDashboardComponent,
     ProductoFilterComponent,
-    
-    ModalLocalidadComponent,
   ],
   imports: [
     CommonModule,

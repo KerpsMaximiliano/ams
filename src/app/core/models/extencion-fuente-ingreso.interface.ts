@@ -5,6 +5,7 @@ export interface IExtencionFuenteIngreso {
   vigencia: string;
   fuenteingreso: string;
   producto: string;
+  producto_cod: string;
   remuneracionDesde: string;
   remuneracionHasta: string;
   coeficiente1: number;

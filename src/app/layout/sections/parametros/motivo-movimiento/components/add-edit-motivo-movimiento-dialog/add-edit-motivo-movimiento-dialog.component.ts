@@ -47,7 +47,7 @@ export class AddEditMotivoMovimientoDialogComponent {
    * 3. 'this.setFormValues();': Asigna los valores de 'data' a los campos de entrada/selección del formulario.
    * 4. Condición: comprueba si la edición esta deshabilitada.
    *     > Deshabilidada: deshabilita el formulario.
-   *     > Habilitada: deshabilita el 'id_motivo'.
+   *     > Habilitada: deshabilita el 'id_motivo' y 'tipo_motivo.
    */
   ngOnInit(): void {
     let fecha = new Date();

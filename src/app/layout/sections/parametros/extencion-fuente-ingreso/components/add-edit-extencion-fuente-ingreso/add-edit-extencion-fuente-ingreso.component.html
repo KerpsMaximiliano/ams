@@ -7,13 +7,7 @@
     <div class="seeker-fields-container">
       <h3>FECHA VIGENCIA</h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input
-          matInput
-          formControlName="vigencia"
-          required
-          minlength="1"
-          maxlength="1"
-        />
+        <input matInput formControlName="vigencia" />
         <mat-error
           *ngIf="
             formGroup.get('vigencia')?.invalid &&
@@ -27,13 +21,7 @@
     <div class="seeker-fields-container">
       <h3>FUENTE DE INGRESO</h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input
-          matInput
-          formControlName="fuenteIngreso"
-          required
-          minlength="1"
-          maxlength="1"
-        />
+        <input matInput formControlName="fuenteIngreso" />
         <mat-error
           *ngIf="
             formGroup.get('fuenteIngreso')?.invalid &&
@@ -48,14 +36,7 @@
       <h3>PRODUCTO</h3>
       <div class="content">
         <mat-form-field class="seeker-form-field" appearance="outline">
-          <input
-            matInput
-            formControlName="producto"
-            required
-            minlength="1"
-            maxlength="1"
-            [readonly]="data.par_modo != 'C'"
-          />
+          <input matInput formControlName="producto" />
           <mat-error
             *ngIf="
               formGroup.get('producto')?.invalid &&
@@ -80,14 +61,7 @@
     <div class="seeker-fields-container">
       <h3>REMUNERACION DESDE ($)</h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input
-          matInput
-          formControlName="remuneracionDesde"
-          required
-          minlength="1"
-          maxlength="1"
-          [readonly]="data.par_modo != 'C'"
-        />
+        <input matInput formControlName="remuneracionDesde" />
         <mat-error
           *ngIf="
             formGroup.get('remuneracionDesde')?.invalid &&
@@ -101,14 +75,7 @@
     <div class="seeker-fields-container">
       <h3>REMUNERACION HASTA ($)</h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input
-          matInput
-          formControlName="remuneracionHasta"
-          required
-          minlength="1"
-          maxlength="1"
-          [readonly]="data.par_modo != 'C'"
-        />
+        <input matInput formControlName="remuneracionHasta" />
         <mat-error
           *ngIf="
             formGroup.get('remuneracionHasta')?.invalid &&
@@ -127,7 +94,6 @@
             <input
               matInput
               formControlName="coeficiente1"
-              required
               type="number"
               min="0"
               step="0.01"
@@ -149,7 +115,6 @@
             <input
               matInput
               formControlName="coeficiente2"
-              required
               type="number"
               min="0"
               step="0.01"
@@ -171,7 +136,6 @@
             <input
               matInput
               formControlName="coeficiente3"
-              required
               type="number"
               min="0"
               step="0.01"
@@ -193,7 +157,6 @@
             <input
               matInput
               formControlName="coeficiente4"
-              required
               type="number"
               min="0"
               step="0.01"
@@ -215,7 +178,6 @@
             <input
               matInput
               formControlName="coeficiente5"
-              required
               type="number"
               min="0"
               step="0.01"

@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Output } from '@angular/core';
+// * service
+import { ExtencionFuenteIngresoService } from 'src/app/core/services/extencion-fuente-ingreso.service';
 // * Forms
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-extencion-fuente-ingreso-filter',
@@ -10,40 +12,32 @@ import { FormControl, FormGroup } from '@angular/forms';
 export class ExtencionFuenteIngresoFilterComponent {
   @Output() searchEvent: EventEmitter<any> = new EventEmitter<any>();
 
+  public fuenteIngreso: { fuenteIngreso: string; codigo: number };
   searchForm = new FormGroup({
-    fuente_ingreso: new FormControl(''),
-    producto: new FormControl(''),
-    vigencia: new FormControl(''),
+    fuente_ingreso: new UntypedFormControl({ value: '', disabled: true }),
+    fuente_ingreso_cod: new UntypedFormControl({ value: 0, disabled: true }),
+    producto: new UntypedFormControl(''),
+    producto_cod: new UntypedFormControl(''),
+    vigencia: new UntypedFormControl(''),
   });
 
-  constructor() {}
-
-  ngOnInit() {
-    // this.cargaDatos('E', 'listEmpresas');
+  constructor(private _extencionFuenteIngreso: ExtencionFuenteIngresoService) {
+    this.fuenteIngreso = this._extencionFuenteIngreso.getFuenteIngreso();
   }
 
-  // cargaDatos(dato: string, consulta: string) {
-  //   let body = {
-  //     par_modo: dato,
-  //   };
-  //   this.fuenteIngresoService.CRUD(JSON.stringify(body)).subscribe({
-  //     next: (res: any) => {
-  //       if (consulta == 'listEmpresas') {
-  //         this.listEmpresas = res.dataset;
-  //       } else if (consulta == 'listIngreso') {
-  //         this.listIngrasos = res.dataset;
-  //       }
-  //     },
-  //     error: (err: any) => {
-  //       err.status == 0
-  //         ? this.utils.notification('Error de conexión. ', 'error')
-  //         : this.utils.notification(
-  //             `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}. `,
-  //             'error'
-  //           );
-  //     },
-  //   });
-  // }
+  ngOnInit() {
+    this.cargaDatos();
+  }
+
+  cargaDatos() {
+    this.searchForm
+      .get('fuente_ingreso')
+      ?.setValue(this.fuenteIngreso.fuenteIngreso);
+    this.searchForm
+      .get('fuente_ingreso_cod')
+      ?.setValue(this.fuenteIngreso.codigo);
+    this.searchForm.get('fuente_ingreso')?.disable;
+  }
 
   public search() {
     this.searchEvent.emit(this.searchForm.value);
@@ -51,6 +45,7 @@ export class ExtencionFuenteIngresoFilterComponent {
 
   public clearInputs() {
     this.searchForm.get('producto')?.setValue('');
+    this.searchForm.get('producto_cod')?.setValue('');
     this.searchForm.get('vigencia')?.setValue('');
   }
 
