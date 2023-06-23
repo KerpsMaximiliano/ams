@@ -38,7 +38,7 @@ export class FuenteIngresoComponent {
     private fuenteIngresoService: FuenteIngresoService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit() {}
 
   public handleSearch(inputValue: searchValue): void {
     this.dashboard.filter(inputValue);
@@ -51,7 +51,7 @@ export class FuenteIngresoComponent {
         data: {
           title: `NUEVA FUENTE DE INGRESO`,
           edit: true,
-          par_modo: 'I',
+          par_modo: 'C',
           codigo_fuente_ingreso: fuenteIngreso?.codigo_fuente_ingreso,
           tipo_fuente: fuenteIngreso?.tipo_fuente,
           descripcion: fuenteIngreso?.descripcion,
@@ -92,6 +92,8 @@ export class FuenteIngresoComponent {
     modalNuevoFuenteIngreso.afterClosed().subscribe({
       next: (res) => {
         if (res) {
+          console.log(res);
+          
           this.utils.openLoading();
           this.fuenteIngresoService.CRUD(res).subscribe({
             next: (res: any) => {
@@ -112,7 +114,15 @@ export class FuenteIngresoComponent {
             },
             complete: () => {
               this.utils.closeLoading();
-              setTimeout(() => {}, 300);
+              setTimeout(() => {
+                this.handleSearch(
+                  {
+                    par_modo: 'R',
+                    descripcion: res.descripcion,
+                    empresa_asociada: res.empresa_asociada,
+                  }
+                );
+              }, 300);
             },
           });
         }

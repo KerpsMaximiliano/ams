@@ -7,6 +7,7 @@ import { ParametrosRoutingModule } from './parametros-routing.module';
 
 // * Material
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatStepperModule } from '@angular/material/stepper';
 
 // * Components
 // 01 - PROVINCIAS
@@ -65,6 +66,7 @@ import { AddEditFuenteIngresoDialogComponent } from './fuente-ingreso/components
 import { FuenteIngresoComponent } from './fuente-ingreso/fuente-ingreso.component';
 import { FuenteIngresoFilterComponent } from './fuente-ingreso/components/fuente-ingreso-filter/fuente-ingreso-filter.component';
 import { FuenteIngresoDashboardComponent } from './fuente-ingreso/components/fuente-ingreso-dashboard/fuente-ingreso-dashboard.component';
+import { ModalFuenteIngresoComponent } from './fuente-ingreso/components/add-edit-fuente-ingreso-dialog/modal-fuente-ingreso/modal-fuente-ingreso.component';
 // 12 - OBRAS SOCIALES
 import { AddEditObraSocialDialogComponent } from './obra-social/components/add-edit-obra-social-dialog/add-edit-obra-social-dialog.component';
 import { ObraSocialComponent } from './obra-social/obra-social.component';
@@ -134,6 +136,7 @@ import { PreguntaDDJJFilterComponent } from './pregunta-ddjj/components/pregunta
     AddEditFuenteIngresoDialogComponent,
     FuenteIngresoFilterComponent,
     FuenteIngresoDashboardComponent,
+    ModalFuenteIngresoComponent,
     // 12 - OBRAS SOCIALES
     AddEditObraSocialDialogComponent,
     ObraSocialDashboardComponent,
@@ -150,6 +153,7 @@ import { PreguntaDDJJFilterComponent } from './pregunta-ddjj/components/pregunta
     ParametrosRoutingModule,
     SharedModule,
     MatAutocompleteModule,
+    MatStepperModule,
   ],
 })
 export class ParametrosModule {}

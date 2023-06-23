@@ -1,0 +1,40 @@
+/*
+   * MODAL: Tamaño.
+  */
+.dialog-content {
+  min-height: 400px !important;
+  height: 100% !important;
+  max-height: 92vh !important;
+  min-width: 600px !important;
+  width: 100% !important;
+  max-width: 60vw !important;
+}
+
+.stepper {
+  background-color: var(--background-white);
+}
+
+.seeker-fields-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+.icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 7px;
+  padding: 0.35rem;
+  color: white;
+  background-color: var(--sancor-blue);
+  margin: 0px 0px 16px;
+  cursor: pointer;
+}
+

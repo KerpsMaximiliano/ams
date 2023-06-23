@@ -16,22 +16,22 @@ export class FuenteIngresoFilterComponent {
   @Output() searchEvent: EventEmitter<any> = new EventEmitter<any>();
 
   searchForm = new FormGroup({
+    par_modo: new FormControl('O'),
     descripcion: new FormControl(''),
     empresa_asociada: new FormControl(''),
   });
   listEmpresas: any[];
-  listIngrasos: any[];
 
   constructor(
     private utils: UtilService,
     public fuenteIngresoService: FuenteIngresoService
-  ) {}
-
-  ngOnInit() {
+  ) {
     this.cargaDatos('E', 'listEmpresas');
   }
 
-  cargaDatos(dato: string, consulta: string) {
+  ngOnInit() {}
+
+  private cargaDatos(dato: string, consulta: string): void {
     let body = {
       par_modo: dato,
     };
@@ -39,8 +39,6 @@ export class FuenteIngresoFilterComponent {
       next: (res: any) => {
         if (consulta == 'listEmpresas') {
           this.listEmpresas = res.dataset;
-        } else if (consulta == 'listIngreso') {
-          this.listIngrasos = res.dataset;
         }
       },
       error: (err: any) => {
