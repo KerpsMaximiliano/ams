@@ -1,4 +1,9 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+
+// * Services
+import { DataSharingService } from 'src/app/core/services/data-sharing.service';
+import { UtilService } from 'src/app/core/services/util.service';
+import { LocalidadService } from 'src/app/core/services/localidad.service';
 
 // * Forms
 import {
@@ -7,31 +12,18 @@ import {
   Validators,
 } from '@angular/forms';
 
-// * Services
-import { UtilService } from 'src/app/core/services/util.service';
-import { LocalidadService } from 'src/app/core/services/localidad.service';
-
-// * Interfaces
-import { IProvincia } from 'src/app/core/models/provincia.interface';
-
-// * Material
-import {
-  MatDialogRef,
-  MAT_DIALOG_DATA,
-  MatDialog,
-} from '@angular/material/dialog';
-
 // * Validations
 import {
-  isAlphanumericWithSpaces,
   isNumeric,
   getErrorMessage,
   notOnlySpaces,
   isAlpha,
 } from 'src/app/core/validators/character.validator';
 
+// * Material
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+
 // * Components
-import { ConfirmDialogComponent } from '../../../components/confirm-dialog/confirm-dialog.component';
 import { PosicionSetDialogComponent } from './posicion-set-dialog/posicion-set-dialog.component';
 
 @Component({
@@ -39,173 +31,25 @@ import { PosicionSetDialogComponent } from './posicion-set-dialog/posicion-set-d
   templateUrl: './add-edit-posicion-dialog.component.html',
   styleUrls: ['./add-edit-posicion-dialog.component.scss'],
 })
-export class AddEditPosicionDialogComponent {
+export class AddEditPosicionDialogComponent implements OnInit {
   public formGroup: UntypedFormGroup;
   public getErrorMessage = getErrorMessage;
-  public provincias: IProvincia[];
   public date: Date;
 
   constructor(
-    private utils: UtilService,
-    public dialogRef: MatDialogRef<ConfirmDialogComponent>,
+    private localidadService: LocalidadService,
+    private utilService: UtilService,
+    private dataSharingService: DataSharingService,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private dialog: MatDialog,
-    private localidadService: LocalidadService
-  ) {}
-
-  /**
-   * 1. 'this.setUpForm();': Asigna las validaciones correspondientes a cada campo de entrada/selección.
-   * 2. Condición: comprueba que sea una actualización (modificación) o lectura.
-   * 3. 'this.setFormValues();': Asigna los valores de 'data' a los campos de entrada/selección del formulario.
-   * 4. Condición: comprueba si la edición esta deshabilitada.
-   *     > Deshabilidada: deshabilita el formulario.
-   *     > Habilitada: deshabilita el 'letra_provincia'.
-   */
-  ngOnInit(): void {
+    private dialog: MatDialog
+  ) {
     this.setUpForm();
-    if (this.data.par_modo !== 'C') {
-      this.searchLocalidadDescripcion();
-      this.formGroup.get('codigo_posicion')?.disable();
-      this.formGroup.get('estado')?.disable();
-      if (this.data.edit !== true) {
-        this.formGroup.disable();
-      }
-    }
     this.date = new Date();
   }
 
-  private setUpForm(): void {
-    this.formGroup = new UntypedFormGroup({
-      codigo_posicion: new UntypedFormControl(
-        this.data.codigo_posicion,
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(1),
-          Validators.maxLength(3),
-          isNumeric,
-        ])
-      ),
-      descripcion: new UntypedFormControl(
-        this.data.descripcion ? this.data.descripcion.trim() : '',
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(30),
-          notOnlySpaces(),
-        ])
-      ),
-      localidad: new UntypedFormControl(
-        this.data.localidad ? this.data.localidad.trim() : '',
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(30),
-          notOnlySpaces(),
-        ])
-      ),
-      domicilio: new UntypedFormControl(
-        this.data.domicilio ? this.data.domicilio.trim() : '',
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(50),
-          notOnlySpaces(),
-        ])
-      ),
-      control_rechazo: new UntypedFormControl(
-        this.data.control_rechazo,
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(1),
-          Validators.maxLength(1),
-          isAlpha(),
-        ])
-      ),
-      yes_no: new UntypedFormControl(
-        this.data.yes_no,
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(1),
-          Validators.maxLength(1),
-          isAlpha(),
-        ])
-      ),
-      fecha_vigencia: new UntypedFormControl(this.data.fecha_vigencia),
-    });
-  }
-
-  private searchLocalidadDescripcion(): void {
-    if (this.data.codigo_postal && this.data.letra_provincia) {
-      this.utils.openLoading();
-      this.localidadService
-        .CRUD(
-          JSON.stringify({
-            par_modo: 'R',
-            codigo_postal: this.data.codigo_postal,
-            letra_provincia: this.data.letra_provincia,
-          })
-        )
-        .subscribe({
-          next: (res: any) => {
-            this.data.localidad = res.dataset.descripcion
-              ? res.dataset.descripcion.trim()
-              : '';
-          },
-          error: (err: any) => {
-            this.utils.closeLoading();
-            err.status == 0
-              ? this.utils.notification(
-                  'No se ha podido cargar la localidad. ',
-                  'error'
-                )
-              : this.utils.notification(
-                  `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
-                  'error'
-                );
-          },
-          complete: () => {
-            this.utils.closeLoading();
-            this.setFormValues();
-          },
-        });
-    }
-  }
-
-  private setFormValues(): void {
-    this.formGroup.get('codigo_posicion')?.setValue(this.data.codigo_posicion);
-    this.formGroup
-      .get('descripcion')
-      ?.setValue(this.data.descripcion ? this.data.descripcion.trim() : '');
-    this.formGroup
-      .get('localidad')
-      ?.setValue(this.data.localidad ? this.data.localidad : '');
-    this.formGroup
-      .get('domicilio')
-      ?.setValue(this.data.domicilio ? this.data.domicilio.trim() : '');
-    this.formGroup.patchValue({
-      yes_no: this.data.yes_no,
-    });
-  }
-
-  closeDialog(): void {
-    this.dialogRef.close(false);
-  }
-
-  public confirm(): void {
-    this.formGroup.markAllAsTouched();
-    if (this.formGroup.valid) {
-      this.dialogRef.close({
-        par_modo: this.data.par_modo,
-        codigo_posicion: this.formGroup.get('codigo_posicion')?.value,
-        descripcion: this.formGroup.get('descripcion')?.value,
-        domicilio: this.formGroup.get('domicilio')?.value,
-        codigo_postal: this.data.codigo_postal,
-        sub_codigo_postal: this.data.sub_codigo_postal,
-        control_rechazo: this.formGroup.get('control_rechazo')?.value,
-        yes_no: this.formGroup.get('yes_no')?.value,
-        fecha_vigencia: this.data.fecha_vigencia,
-        letra_provincia: this.data.letra_provincia,
-      });
+  ngOnInit(): void {
+    if (this.data.par_modo !== 'C') {
+      this.searchLocalidadDescripcion();
     }
   }
 
@@ -215,17 +59,6 @@ export class AddEditPosicionDialogComponent {
     } else {
       this.data.fecha_vigencia = 0;
     }
-  }
-
-  private formatDate(): number {
-    const day = this.date.getDate();
-    const month = this.date.getMonth() + 1;
-    const year = this.date.getFullYear();
-
-    const dayFormat = day < 10 ? `0${day}` : day.toString();
-    const monthFormat = month < 10 ? `0${month}` : month.toString();
-
-    return parseInt(`${dayFormat}${monthFormat}${year}`);
   }
 
   public searchLocalidad(): void {
@@ -257,5 +90,155 @@ export class AddEditPosicionDialogComponent {
 
   public clearLocalidad(inputElement: HTMLInputElement): void {
     inputElement.value = '';
+  }
+
+  public confirm(): void {
+    this.formGroup.markAllAsTouched();
+    if (this.formGroup.valid) {
+      this.dataSharingService.sendData({
+        par_modo: this.data.par_modo,
+        codigo_posicion: this.formGroup.get('codigo_posicion')?.value,
+        descripcion: this.formGroup.get('descripcion')?.value,
+        domicilio: this.formGroup.get('domicilio')?.value,
+        codigo_postal: this.data.codigo_postal,
+        sub_codigo_postal: this.data.sub_codigo_postal,
+        control_rechazo: this.formGroup.get('control_rechazo')?.value,
+        yes_no: this.formGroup.get('yes_no')?.value,
+        fecha_vigencia: this.data.fecha_vigencia ? this.data.fecha_vigencia : 0,
+        letra_provincia: this.data.letra_provincia,
+      });
+    }
+  }
+
+  private setUpForm(): void {
+    this.formGroup = new UntypedFormGroup({
+      codigo_posicion: new UntypedFormControl(
+        {
+          value: this.data.codigo_posicion,
+          disabled: this.data.par_modo === 'U' || this.data.par_modo === 'R',
+        },
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(3),
+          isNumeric,
+        ])
+      ),
+      descripcion: new UntypedFormControl(
+        {
+          value: this.data.descripcion ? this.data.descripcion.trim() : '',
+          disabled: this.data.par_modo === 'R',
+        },
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(30),
+          notOnlySpaces(),
+        ])
+      ),
+      localidad: new UntypedFormControl(
+        {
+          value: this.data.localidad ? this.data.localidad.trim() : '',
+          disabled: this.data.par_modo === 'R',
+        },
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(30),
+          notOnlySpaces(),
+        ])
+      ),
+      domicilio: new UntypedFormControl(
+        {
+          value: this.data.domicilio ? this.data.domicilio.trim() : '',
+          disabled: this.data.par_modo === 'R',
+        },
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(50),
+          notOnlySpaces(),
+        ])
+      ),
+      control_rechazo: new UntypedFormControl(
+        {
+          value: this.data.control_rechazo
+            ? this.data.control_rechazo.trim()
+            : '',
+          disabled: this.data.par_modo === 'R',
+        },
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(1),
+          isAlpha(),
+        ])
+      ),
+      yes_no: new UntypedFormControl(
+        {
+          value: this.data.yes_no ? this.data.yes_no.trim() : '',
+          disabled: this.data.par_modo === 'R',
+        },
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(1),
+          isAlpha(),
+        ])
+      ),
+      fecha_vigencia: new UntypedFormControl({
+        value: this.data.fecha_vigencia,
+        disabled: this.data.par_modo === 'R',
+      }),
+    });
+  }
+
+  private searchLocalidadDescripcion(): void {
+    if (this.data.codigo_postal && this.data.letra_provincia) {
+      this.utilService.openLoading();
+      this.localidadService
+        .CRUD(
+          JSON.stringify({
+            par_modo: 'R',
+            codigo_postal: this.data.codigo_postal,
+            letra_provincia: this.data.letra_provincia,
+          })
+        )
+        .subscribe({
+          next: (res: any) => {
+            this.data.localidad = res.dataset.descripcion
+              ? res.dataset.descripcion.trim()
+              : '';
+          },
+          error: (err: any) => {
+            this.utilService.closeLoading();
+            if (err.status === 0) {
+              this.utilService.notification('Error de conexión.', 'error');
+            } else {
+              this.utilService.notification(
+                `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+                'error'
+              );
+            }
+          },
+          complete: () => {
+            this.utilService.closeLoading();
+            this.formGroup
+              .get('localidad')
+              ?.setValue(this.data.localidad ? this.data.localidad.trim() : '');
+          },
+        });
+    }
+  }
+
+  private formatDate(): number {
+    const day = this.date.getDate();
+    const month = this.date.getMonth() + 1;
+    const year = this.date.getFullYear();
+
+    const dayFormat = day < 10 ? `0${day}` : day.toString();
+    const monthFormat = month < 10 ? `0${month}` : month.toString();
+
+    return parseInt(`${dayFormat}${monthFormat}${year}`);
   }
 }

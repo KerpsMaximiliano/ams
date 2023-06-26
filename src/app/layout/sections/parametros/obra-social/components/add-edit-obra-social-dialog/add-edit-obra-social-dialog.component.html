@@ -27,8 +27,8 @@
     <div class="seeker-fields-container">
       <h3> PROPONE FECHA PATOLOGÍA </h3>
       <mat-form-field class="seeker-form-field" required appearance="outline">
-        <mat-select formControlName="propone_fecha_patologia" (selectionChange)="changeProponeFechaPatologia()"
-          required>
+        <mat-select formControlName="propone_fecha_patologia" (selectionChange)="changeProponeFechaPatologia()" required
+          disableOptionCentering>
           <mat-option [value]="'S'"> SI </mat-option>
           <mat-option [value]="'N'"> NO </mat-option>
         </mat-select>
@@ -43,7 +43,7 @@
       <h3> TIPO FECHA PATOLOGÍA </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
         <mat-select formControlName="tipo_fecha_patologia"
-          [required]="formGroup.get('propone_fecha_patologia')?.value == 'S'">
+          [required]="formGroup.get('propone_fecha_patologia')?.value == 'S'" disableOptionCentering>
           <mat-option [value]="'FI'" [disabled]="formGroup.get('propone_fecha_patologia')?.value != 'S'">
             FECHA DE INGRESO AL SERVICIO
           </mat-option>
@@ -61,7 +61,7 @@
     <div class="seeker-fields-container">
       <h3> TIPO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <mat-select formControlName="tipo_obra_social_prepaga" required>
+        <mat-select formControlName="tipo_obra_social_prepaga" required disableOptionCentering>
           <mat-option [value]="'O'"> O.SOCIAL </mat-option>
           <mat-option [value]="'P'"> PREPAGA </mat-option>
           <mat-option [value]="'A'"> AMBAS </mat-option>
@@ -86,7 +86,7 @@
     <div class="seeker-fields-container">
       <h3> SIMILAR SMP </h3>
       <mat-form-field class="seeker-form-field" required appearance="outline">
-        <mat-select formControlName="similar_SMP">
+        <mat-select formControlName="similar_SMP" disableOptionCentering required>
           <mat-option [value]="'S'"> SI </mat-option>
           <mat-option [value]="'N'"> NO </mat-option>
         </mat-select>
@@ -99,7 +99,7 @@
     <div class="seeker-fields-container">
       <h3> OMITE RESOLUCIÓN 420 </h3>
       <mat-form-field class="seeker-form-field" required appearance="outline">
-        <mat-select formControlName="omite_R420">
+        <mat-select formControlName="omite_R420" disableOptionCentering required>
           <mat-option [value]="'S'"> SI </mat-option>
           <mat-option [value]="'N'"> NO </mat-option>
         </mat-select>
@@ -110,7 +110,7 @@
     </div>
 
     <div *ngIf="data.edit; else other_content" class="buttons-container">
-      <button class="primary-button icon-button" type="button" (click)="closeDialog()">
+      <button class="primary-button icon-button" type="button" mat-dialog-close>
         <mat-icon> close </mat-icon>
         Cancelar
       </button>
@@ -121,10 +121,12 @@
     </div>
 
     <ng-template #other_content>
-      <button class="primary-button icon-button" mat-dialog-close>
-        <mat-icon> done </mat-icon>
-        Aceptar
-      </button>
+      <div class="buttons-container">
+        <button class="primary-button icon-button" mat-dialog-close>
+          <mat-icon> done </mat-icon>
+          Aceptar
+        </button>
+      </div>
     </ng-template>
   </form>
 </div>

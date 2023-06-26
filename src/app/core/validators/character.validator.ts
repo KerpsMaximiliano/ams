@@ -45,7 +45,8 @@ export function notOnlySpaces(): ValidatorFn {
 // Distinto de cero.
 export function notZeroValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
-    return control.value !== 0 ? null : { differentFromZero: true };
+    let regex = /^[1-9][0-9]*$/;
+    return regex.test(control.value) ? null : { differentFromZero: true };
   };
 }
 
@@ -97,6 +98,9 @@ export function getErrorMessage(control: any) {
     if (control.errors?.['notNumeric']) {
       return `Solo se permiten números.`;
     }
+    if (control.errors?.['differentFromZero']) {
+      return `No puede ser 0 (cero).`;
+    }
     if (control.errors?.['onlySpaces']) {
       return `No puede tener solo espacios en blanco.`;
     }
@@ -106,19 +110,6 @@ export function getErrorMessage(control: any) {
     if (control.errors?.['notPercentage']) {
       return `Debe ser un número que represente un porcentaje. Ej: 1.5`;
     }
-    if (control.errors?.['pattern']) {
-      return `No puede tener letras o caracteres especiales.`;
-    }
   }
   return '';
-}
-
-// Verificar
-export function isAlphanumericWithSlash(): ValidatorFn {
-  return (control: AbstractControl): ValidationErrors | null => {
-    let regex = /^[a-zA-Z0-9\/]*$/;
-    return regex.test(control.value)
-      ? null
-      : { notAlphanumericWithSlash: true };
-  };
 }

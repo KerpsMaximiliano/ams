@@ -7,7 +7,7 @@
     <div class="seeker-fields-container">
       <h3> TIPO DE MOVIMIENTO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <mat-select formControlName="tipo_motivo">
+        <mat-select formControlName="tipo_motivo" required minlenght="1" maxlenght="1" disableOptionCentering>
           <mat-option [value]="'A'"> A-ALTA </mat-option>
           <mat-option [value]="'B'"> B-BAJA </mat-option>
           <mat-option [value]="'S'"> S-SUSPENSIÓN </mat-option>
@@ -22,8 +22,7 @@
     <div class="seeker-fields-container">
       <h3> CÓDIGO DE MOTIVO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput [disabled]="this.data.par_modo !== 'C'" formControlName="id_motivo" required minlength="1"
-          maxlength="2">
+        <input matInput formControlName="id_motivo" required minlength="1" maxlength="2">
         <mat-error *ngIf="formGroup.get('id_motivo')?.invalid && formGroup.get('id_motivo')?.touched">
           {{ getErrorMessage(formGroup.get('id_motivo')) }}
         </mat-error>
@@ -54,7 +53,7 @@
     <div class="seeker-fields-container">
       <h3> ¿DATOS ADICIONALES? </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <mat-select formControlName="datos_adic_SN">
+        <mat-select formControlName="datos_adic_SN" required minlenght="1" maxlenght="1" disableOptionCentering>
           <mat-option [value]="'S'"> SI </mat-option>
           <mat-option [value]="'N'"> NO </mat-option>
         </mat-select>
@@ -67,37 +66,33 @@
     <div class="seeker-fields-container" *ngIf="data.par_modo !== 'C'">
       <h3> ESTADO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input [value]="fecha_fin === 0 ? 'Activo' : 'Baja'" matInput disabled>
+        <input [value]="fecha_fin === 0 ? 'ACTIVO' : 'BAJA'" matInput disabled>
       </mat-form-field>
     </div>
 
     <div *ngIf="data.edit; else other_content" class="buttons-container">
-      <button class="primary-button icon-button  btn-w" type="button" (click)="closeDialog()">
+      <button class="primary-button icon-button  btn-w" type="button" mat-dialog-close>
         <mat-icon> close </mat-icon>
         Cancelar
       </button>
-      <button class="primary-button icon-button  btn-w" type="button" (click)="darseBaja()"
-        *ngIf="this.fecha_fin === 0 && this.data.par_modo === 'U'">
-        <mat-icon> remove_done </mat-icon>
-        Baja
+      <button class="primary-button icon-button  btn-w" type="button" (click)="calcularEstado()"
+        *ngIf="this.data.par_modo === 'U'">
+        <mat-icon> {{ this.status? 'done_all': 'remove_done' }} </mat-icon>
+        {{ this.status? 'Alta': 'Baja' }}
       </button>
-      <button class="primary-button icon-button  btn-w" type="button" (click)="darseAlta()"
-        *ngIf="this.fecha_fin !== 0 && this.data.par_modo === 'U'">
-        <mat-icon> done_all </mat-icon>
-        Alta
-      </button>
-      <button class="primary-button icon-button  btn-w" type="submit" [disabled]="formGroup.invalid"
-        [disabled]="this.data.datos_adic_SN === ' '">
+      <button class="primary-button icon-button  btn-w" type="submit" [disabled]="formGroup.invalid">
         <mat-icon> done </mat-icon>
         Guardar
       </button>
     </div>
 
     <ng-template #other_content>
-      <button class="primary-button icon-button" mat-dialog-close>
-        <mat-icon> done </mat-icon>
-        Aceptar
-      </button>
+      <div class="buttons-container">
+        <button class="primary-button icon-button" mat-dialog-close>
+          <mat-icon> done </mat-icon>
+          Aceptar
+        </button>
+      </div>
     </ng-template>
   </form>
 </div>

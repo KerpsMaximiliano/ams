@@ -15,26 +15,25 @@ import { IProvincia } from 'src/app/core/models/provincia.interface';
   styleUrls: ['./departamento-filter.component.scss'],
 })
 export class DepartamentoFilterComponent {
-  @Output() searchEvent: EventEmitter<any> = new EventEmitter<any>();
-  @Input() provincias: IProvincia[];
-  @ViewChild('selectOptions') selectOptions: any;
+  @Input() public provincias: IProvincia[];
+
+  @Output() public search: EventEmitter<any> = new EventEmitter<any>();
+
+  @ViewChild('selectOptions') public selectOptions: any;
 
   constructor() {}
 
-  ngOnInit(): void {}
-
-  public search(event: any, value: string): void {
-    event.preventDefault();
-    let selectValue = this.selectOptions?.value;
-    let body = {
-      par_modo: 'O',
-      letra_provincia: selectValue,
-      descripcion: value,
-    };
-    this.searchEvent.emit(JSON.stringify(body));
+  public performSearch(value: string): void {
+    this.search.emit(
+      JSON.stringify({
+        par_modo: 'O',
+        letra_provincia: this.selectOptions?.value,
+        descripcion: value,
+      })
+    );
   }
 
-  public clear(inputElement: HTMLInputElement) {
+  public clear(inputElement: HTMLInputElement): void {
     this.selectOptions.value = '';
     inputElement.value = '';
   }

@@ -22,36 +22,8 @@ export class PosicionService {
   ) {}
 
   CRUD(body: string): Observable<IPosicionResponse> {
-    console.log(body);
     return this.http.post<IPosicionResponse>(
       `${this.environmentService.api}/abmposiciones`,
-      body,
-      httpOptions
-    );
-  }
-
-  getProv(body: any): Observable<IPosicionResponse> {
-    console.log(body);
-    return this.http.post<IPosicionResponse>(
-      `${this.environmentService.api}/abmprovincias`,
-      body,
-      httpOptions
-    );
-  }
-
-  public getLocal(data: any): Observable<any> {
-    let body = data;
-    return this.http.post<any>(
-      `${this.environmentService.api}/abmlocalidades`,
-      body,
-      httpOptions
-    );
-  }
-
-  public getDepart(data: any): Observable<any> {
-    let body = JSON.stringify(data);
-    return this.http.post<any>(
-      `${this.environmentService.api}/abmdepartamentos`,
       body,
       httpOptions
     );

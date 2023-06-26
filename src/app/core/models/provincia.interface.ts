@@ -4,8 +4,8 @@ export interface IProvincia {
   par_modo: string;
   codigo: string; // Error.
   nombre_provincia: string;
-  codifica_altura: string; // Error.
   codigo_provincia: number; // Error.
+  codifica_altura: string; // Error.
   flete_transportista: number; // Error.
 }
 

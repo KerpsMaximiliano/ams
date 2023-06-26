@@ -38,15 +38,18 @@
     <div class="seeker-fields-container">
       <h3> CONTROL DE CUIT </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <mat-select formControlName="control_cuit" required="">
+        <mat-select formControlName="control_cuit" required disableOptionCentering>
           <mat-option [value]="'S'"> SI </mat-option>
           <mat-option [value]="'N'"> NO </mat-option>
         </mat-select>
+        <mat-error *ngIf="formGroup.get('control_cuit')?.invalid && formGroup.get('control_cuit')?.touched">
+          {{ getErrorMessage(formGroup.get('control_cuit')) }}
+        </mat-error>
       </mat-form-field>
     </div>
 
     <div *ngIf="data.edit; else other_content" class="buttons-container">
-      <button class="primary-button icon-button" type="button" (click)="closeDialog()">
+      <button class="primary-button icon-button" type="button" mat-dialog-close>
         <mat-icon> close </mat-icon>
         Cancelar
       </button>
@@ -57,10 +60,12 @@
     </div>
 
     <ng-template #other_content>
-      <button class="primary-button icon-button right" mat-dialog-close>
-        <mat-icon> done </mat-icon>
-        Aceptar
-      </button>
+      <div class="buttons-container">
+        <button class="primary-button icon-button" mat-dialog-close>
+          <mat-icon> done </mat-icon>
+          Aceptar
+        </button>
+      </div>
     </ng-template>
   </form>
 </div>

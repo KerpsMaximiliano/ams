@@ -3,7 +3,7 @@
 */
 th.mat-header-cell:first-of-type,
 td.mat-cell:first-of-type {
-  padding-left: 0px !important;
+  padding-left: 0px;
 }
 
 /*
@@ -18,8 +18,8 @@ td.mat-cell:first-of-type {
 .mat-column-yes_no.mat-header-cell,
 .mat-column-yes_no.mat-cell {
   text-align: left !important;
-  padding-left: 1vw !important;
-  word-break: break-all !important;
+  padding-left: 1vw;
+  word-break: break-all;
 }
 
 /*
@@ -28,43 +28,47 @@ td.mat-cell:first-of-type {
 .mat-column-nro_preg.mat-header-cell,
 .mat-column-nro_preg.mat-cell {
   text-align: right !important;
-  padding-right: 1vw !important;
-  word-break: break-all !important;
-}
-
-/*
- * Iconos alineados al centro.
-*/
-.mat-column-actions.mat-header-cell,
-.mat-column-actions.mat-cell {
-  text-align: center !important;
-  word-break: break-all !important;
+  padding-right: 1vw;
 }
 
 /*
  * Tamaño de columnas.
 */
-.mat-column-primer_texto_preg.mat-header-cell,
-.mat-column-primer_texto_preg.mat-cell,
-.mat-column-segundo_texto_preg.mat-header-cell,
-.mat-column-segundo_texto_preg.mat-cell {
-  width: 30% !important;
+.mat-column-nro_preg.mat-header-cell,
+.mat-column-nro_preg.mat-cell {
+  min-width: 100px;
 }
 
-.mat-column-nro_preg.mat-header-cell,
-.mat-column-nro_preg.mat-cell,
-.mat-column-actions.mat-header-cell,
-.mat-column-actions.mat-cell,
+.mat-column-primer_texto_preg.mat-header-cell,
+.mat-column-primer_texto_preg.mat-cell {
+  min-width: 120px;
+  width: 50%;
+}
+
+.mat-column-segundo_texto_preg.mat-header-cell,
+.mat-column-segundo_texto_preg.mat-cell {
+  min-width: 130px;
+  width: 50%;
+}
+
 .mat-column-pide_fecha.mat-header-cell,
-.mat-column-pide_fecha.mat-cell,
+.mat-column-pide_fecha.mat-cell {
+  min-width: 100px;
+}
+
 .mat-column-yes_no.mat-header-cell,
 .mat-column-yes_no.mat-cell {
-  width: 10% !important;
+  min-width: 100px;
+}
+
+.mat-column-actions.mat-header-cell,
+.mat-column-actions.mat-cell {
+  min-width: 100px;
 }
 
 /*
- * Oculta la paginación hasta que la tabla tenga datos.
+ * Oculta la tabla y paginación hasta que existan datos.
 */
-.hide-paginator {
+.d-none {
   display: none;
 }

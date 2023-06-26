@@ -2,11 +2,10 @@ import { IResponse } from './response.interface';
 
 export interface ICondicionIva {
   par_modo: string;
-  id: number;
+  codigo_de_IVA: string;
   descripcion: string;
   descripcion_reducida: string;
   formulario_AB: string;
-  codigo_de_IVA: string;
 }
 
 export type ICondicionIvaResponse = IResponse<ICondicionIva[]>;

@@ -14,8 +14,7 @@ td.mat-cell:first-of-type {
 .mat-column-nro_registro.mat-header-cell,
 .mat-column-nro_registro.mat-cell {
   text-align: right !important;
-  padding-right: 1.5vw !important;
-  word-break: break-all !important;
+  padding-right: 1vw;
 }
 
 /*
@@ -34,17 +33,8 @@ td.mat-cell:first-of-type {
 .mat-column-omite_R420.mat-header-cell,
 .mat-column-omite_R420.mat-cell {
   text-align: left !important;
-  padding-left: 1.5vw !important;
-  word-break: break-all !important;
-}
-
-/*
- * Iconos alineados al centro.
-*/
-.mat-column-actions.mat-header-cell,
-.mat-column-actions.mat-cell {
-  word-break: break-all !important;
-  text-align: center !important;
+  padding-left: 1vw;
+  word-break: break-all;
 }
 
 /*
@@ -52,36 +42,45 @@ td.mat-cell:first-of-type {
 */
 .mat-column-codigo.mat-header-cell,
 .mat-column-codigo.mat-cell {
-    width: 9%;
-}
-
-.mat-column-tipo_obra_social_prepaga.mat-header-cell,
-.mat-column-tipo_obra_social_prepaga.mat-cell,
-.mat-column-similar_SMP.mat-header-cell,
-.mat-column-similar_SMP.mat-cell,
-.mat-column-omite_R420.mat-header-cell,
-.mat-column-omite_R420.mat-cell {
-    width: 11% !important;
+  min-width: 100px;
 }
 
 .mat-column-descripcion.mat-header-cell,
 .mat-column-descripcion.mat-cell {
-    width: 26% !important;
+  min-width: 110px;
+  width: 45%;
+}
+
+.mat-column-tipo_obra_social_prepaga.mat-header-cell,
+.mat-column-tipo_obra_social_prepaga.mat-cell {
+  min-width: 40px;
+  width: 25%;
 }
 
 .mat-column-nro_registro.mat-header-cell,
 .mat-column-nro_registro.mat-cell {
-    width: 21% !important;
+  min-width: 240px;
+  width: 30%;
+}
+
+.mat-column-similar_SMP.mat-header-cell,
+.mat-column-similar_SMP.mat-cell {
+  min-width: 90px;
+}
+
+.mat-column-omite_R420.mat-header-cell,
+.mat-column-omite_R420.mat-cell {
+  min-width: 100px;
 }
 
 .mat-column-actions.mat-header-cell,
 .mat-column-actions.mat-cell {
-    width: 11% !important;
+  min-width: 100px;
 }
 
 /*
- * Oculta la paginación hasta que la tabla tenga datos.
+ * Oculta la tabla y paginación hasta que existan datos.
 */
-.hide-paginator {
+.d-none {
   display: none;
 }

@@ -8,10 +8,10 @@
       <form>
         <div class="seeker-fields-container">
           <mat-form-field class="seeker-form-field">
-            <mat-label class="seeker-label" for="modelo_formulario">
+            <mat-label class="seeker-label">
               Seleccione un modelo
             </mat-label>
-            <mat-select #selectOptions>
+            <mat-select #selectOptions required disableOptionCentering>
               <mat-option [value]="'A1'"> ALTA </mat-option>
               <mat-option [value]="'M'"> MODIFICACIÓN </mat-option>
             </mat-select>
@@ -19,12 +19,13 @@
         </div>
 
         <div class="buttons-container">
-          <button class="primary-button icon-button" type="button" (click)="search()" [disabled]="!selectOptions?.value">
-            <mat-icon>done</mat-icon>
+          <button class="primary-button icon-button" type="button" (click)="performSearch()"
+            [disabled]="!selectOptions?.value">
+            <mat-icon> done </mat-icon>
             Buscar
           </button>
-          <button class="primary-button icon-button" type="button" (click)="clean()" [disabled]="!selectOptions?.value">
-            <mat-icon>close</mat-icon>
+          <button class="primary-button icon-button" type="button" (click)="clear()" [disabled]="!selectOptions?.value">
+            <mat-icon> close </mat-icon>
             Limpiar
           </button>
         </div>

@@ -105,8 +105,11 @@ input[type="number"] {
 }
 
 .mat-select-panel-wrap {
-  max-width: fit-content;
-  margin-top: 25px;
+  /* max-width: fit-content; */
+  margin-top: 12px !important;
+  max-width: 95%;
+  padding-left: 8px;
+  padding-top: 16px;
 }
 
 .mat-dialog-container {
@@ -193,7 +196,7 @@ thead {
 
 .mat-paginator-container {
   min-height: 3.5rem;
-  height: 3.5rem;
+  height: 3rem;
   border-radius: 0 0 0.5rem 0.5rem;
 
   .mat-form-field-underline {
@@ -214,12 +217,12 @@ body {
 //Sections
 
 .browse-section {
-  padding: 0.5rem 1rem 1rem;
+  padding: 0.5rem 1rem;
   margin-top: 3.5rem;
 }
 
 .section-header {
-  padding: 1rem;
+  padding: 0.7rem 1rem;
   background-color: #f5f5f5;
   border-radius: 4px;
   display: flex;
@@ -466,9 +469,7 @@ button {
 }
 
 .mat-radio-button.mat-primary .mat-radio-inner-circle,
-.mat-radio-button.mat-primary
-  .mat-radio-ripple
-  .mat-ripple-element:not(.mat-radio-persistent-ripple),
+.mat-radio-button.mat-primary .mat-radio-ripple .mat-ripple-element:not(.mat-radio-persistent-ripple),
 .mat-radio-button.mat-primary.mat-radio-checked .mat-radio-persistent-ripple,
 .mat-radio-button.mat-primary:active .mat-radio-persistent-ripple {
   background-color: var(--sancor-blue);
