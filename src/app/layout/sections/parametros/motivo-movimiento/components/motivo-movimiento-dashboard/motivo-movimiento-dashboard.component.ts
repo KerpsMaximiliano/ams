@@ -1,35 +1,27 @@
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { LiveAnnouncer } from '@angular/cdk/a11y';
-
-// * Services
-import { UtilService } from 'src/app/core/services/util.service';
-import { MotivoMovimientoService } from 'src/app/core/services/motivo-movimiento.service';
+import {
+  Component,
+  Input,
+  ViewChild,
+  SimpleChanges,
+  EventEmitter,
+  Output,
+  OnInit,
+  OnChanges,
+} from '@angular/core';
 
 // * Interfaces
 import { IMotivoMovimiento } from 'src/app/core/models/motivo-movimiento.interface';
 
 // * Material
-import { MatDialog } from '@angular/material/dialog';
+import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
-import { MatSort, Sort } from '@angular/material/sort';
-import { MatTable, MatTableDataSource } from '@angular/material/table';
-
-// * Componentes
-import { AddEditMotivoMovimientoDialogComponent } from '../add-edit-motivo-movimiento-dialog/add-edit-motivo-movimiento-dialog.component';
 
 @Component({
   selector: 'app-motivo-movimiento-dashboard',
   templateUrl: './motivo-movimiento-dashboard.component.html',
   styleUrls: ['./motivo-movimiento-dashboard.component.scss'],
 })
-export class MotivoMovimientoDashboardComponent {
-  @ViewChild(MatSort) sort: MatSort = new MatSort();
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator =
-    new MatPaginator(new MatPaginatorIntl(), this.cdr);
-  @ViewChild(MatTable) table!: MatTable<any>;
-
-  public searchValue: string = '';
-  public motivoMovimiento: IMotivoMovimiento[] = [];
+export class MotivoMovimientoDashboardComponent implements OnInit, OnChanges {
   public displayedColumns: string[] = [
     'id_motivo',
     'descripcion',
@@ -41,136 +33,36 @@ export class MotivoMovimientoDashboardComponent {
   ];
   public dataSource: MatTableDataSource<IMotivoMovimiento>;
 
-  constructor(
-    private utils: UtilService,
-    private _liveAnnouncer: LiveAnnouncer,
-    private cdr: ChangeDetectorRef,
-    private dialog: MatDialog,
-    private motivoMovimientoService: MotivoMovimientoService
-  ) {}
+  @ViewChild(MatPaginator, { static: true }) public paginator!: MatPaginator;
+
+  @Input() public receivedData: IMotivoMovimiento[] = [];
+  @Output() public viewEvent: EventEmitter<IMotivoMovimiento> =
+    new EventEmitter<IMotivoMovimiento>();
+  @Output() public editEvent: EventEmitter<IMotivoMovimiento> =
+    new EventEmitter<IMotivoMovimiento>();
+  searchValue: string;
+
+  constructor(private matPaginatorIntl: MatPaginatorIntl) {}
 
   ngOnInit(): void {
-    this.paginator._intl.itemsPerPageLabel = 'Elementos por página: ';
-    this.paginator._intl.nextPageLabel = 'Página siguiente.';
-    this.paginator._intl.previousPageLabel = 'Página anterior.';
-    this.paginator._intl.firstPageLabel = 'Primer página.';
-    this.paginator._intl.lastPageLabel = 'Ultima página.';
-    this.paginator._intl.getRangeLabel = (
-      page: number,
-      pageSize: number,
-      length: number
-    ): string => {
-      return length
-        ? 'Página ' + (page + 1) + ' de ' + Math.ceil(length / pageSize)
-        : 'Página 0 de 0';
-    };
+    this.configurePaginator();
   }
 
-  private getMotivoMovimiento(): void {
-    this.utils.openLoading();
-    this.motivoMovimientoService.CRUD(this.searchValue).subscribe({
-      next: (res: any) => {
-        res.dataset.length
-          ? (this.motivoMovimiento = res.dataset as IMotivoMovimiento[])
-          : (this.motivoMovimiento = [res.dataset]);
-        this.dataSource = new MatTableDataSource<IMotivoMovimiento>(
-          this.motivoMovimiento
-        );
-        this.dataSource.sort = this.sort;
-        this.dataSource.paginator = this.paginator;
-      },
-      error: (err: any) => {
-        this.utils.closeLoading();
-        err.status == 0
-          ? this.utils.notification('Error de conexión. ', 'error')
-          : this.utils.notification(
-              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
-              'error'
-            );
-      },
-      complete: () => {
-        this.utils.closeLoading();
-      },
-    });
-  }
-
-  public announceSortChange(sortState: Sort): void {
-    if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    } else {
-      this._liveAnnouncer.announce('Sorting cleared');
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['receivedData'] && !changes['receivedData'].firstChange) {
+      this.dataSource = new MatTableDataSource<IMotivoMovimiento>(
+        this.receivedData
+      );
+      this.dataSource.paginator = this.paginator;
     }
   }
 
-  public editMotivo(motivoMovimiento: IMotivoMovimiento): void {
-    const modalNuevoMotivoMovimiento = this.dialog.open(
-      AddEditMotivoMovimientoDialogComponent,
-      {
-        data: {
-          title: `EDITAR MOTIVO DE MOVIMIENTO`,
-          edit: true,
-          par_modo: 'U',
-          id_motivo: motivoMovimiento.id_motivo,
-          tipo_motivo: motivoMovimiento.tipo_motivo,
-          descripcion: motivoMovimiento.descripcion,
-          datos_adic_SN: motivoMovimiento.datos_adic_SN,
-          fecha_inicio_vigencia: motivoMovimiento.fecha_inicio_vigencia,
-          fecha_fin_vigencia: motivoMovimiento.fecha_fin_vigencia,
-        },
-      }
-    );
-    modalNuevoMotivoMovimiento.afterClosed().subscribe({
-      next: (res) => {
-        if (res) {
-          this.utils.openLoading();
-          this.motivoMovimientoService.CRUD(res).subscribe({
-            next: () => {
-              this.utils.notification(
-                'El motivo de movimiento se ha editado extiosamente. ',
-                'success'
-              );
-            },
-            error: (err) => {
-              this.utils.closeLoading();
-              err.status == 0
-                ? this.utils.notification('Error de conexión. ', 'error')
-                : this.utils.notification(
-                    `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}. `,
-                    'error'
-                  );
-              this.editMotivo(res);
-            },
-            complete: () => {
-              this.utils.closeLoading();
-              setTimeout(() => {
-                this.searchValue = JSON.stringify({
-                  par_modo: 'R',
-                  id_motivo: res.id_motivo,
-                  tipo_motivo: res.tipo_motivo,
-                });
-                this.getMotivoMovimiento();
-              }, 300);
-            },
-          });
-        }
-      },
-    });
+  public view(element: IMotivoMovimiento): void {
+    this.viewEvent.emit(element);
   }
 
-  public viewMotivo(motivoMovimiento: IMotivoMovimiento): void {
-    this.dialog.open(AddEditMotivoMovimientoDialogComponent, {
-      data: {
-        title: `VER MOTIVO DE MOVIMIENTO`,
-        edit: false,
-        par_modo: 'R',
-        id_motivo: motivoMovimiento.id_motivo,
-        tipo_motivo: motivoMovimiento.tipo_motivo,
-        descripcion: motivoMovimiento.descripcion,
-        datos_adic_SN: motivoMovimiento.datos_adic_SN,
-        fecha_inicio_vigencia: motivoMovimiento.fecha_inicio_vigencia,
-        fecha_fin_vigencia: motivoMovimiento.fecha_fin_vigencia,
-      },
-    });
+  public edit(element: IMotivoMovimiento): void {
+    this.editEvent.emit(element);
   }
 
   public calcularValor(valor: string): string {
@@ -203,8 +95,21 @@ export class MotivoMovimientoDashboardComponent {
     }
   }
 
-  public filter(data: string): void {
-    this.searchValue = data;
-    this.getMotivoMovimiento();
+  private configurePaginator(): void {
+    this.paginator._intl = this.matPaginatorIntl;
+    this.paginator._intl.itemsPerPageLabel = 'Elementos por página: ';
+    this.paginator._intl.nextPageLabel = 'Página siguiente.';
+    this.paginator._intl.previousPageLabel = 'Página anterior.';
+    this.paginator._intl.firstPageLabel = 'Primer página.';
+    this.paginator._intl.lastPageLabel = 'Última página.';
+    this.paginator._intl.getRangeLabel = (
+      page: number,
+      pageSize: number,
+      length: number
+    ): string => {
+      return length
+        ? `Página ${page + 1} de ${Math.ceil(length / pageSize)}`
+        : 'Página 0 de 0';
+    };
   }
 }

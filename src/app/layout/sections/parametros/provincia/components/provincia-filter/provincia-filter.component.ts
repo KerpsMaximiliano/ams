@@ -6,22 +6,20 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styleUrls: ['./provincia-filter.component.scss'],
 })
 export class ProvinciaFilterComponent {
-  @Output() searchEvent: EventEmitter<any> = new EventEmitter<any>();
+  @Output() public search: EventEmitter<string> = new EventEmitter<string>();
 
   constructor() {}
 
-  ngOnInit(): void {}
-
-  public search(event: any, value: string): void {
-    event.preventDefault();
-    let body = {
-      par_modo: 'O',
-      nombre_provincia: value,
-    };
-    this.searchEvent.emit(body);
+  public performSearch(value: string): void {
+    this.search.emit(
+      JSON.stringify({
+        par_modo: 'O',
+        nombre_provincia: value,
+      })
+    );
   }
 
-  public clear(inputElement: HTMLInputElement) {
+  public clear(inputElement: HTMLInputElement): void {
     inputElement.value = '';
   }
 }

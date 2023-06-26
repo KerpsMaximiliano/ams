@@ -3,7 +3,7 @@
 */
 th.mat-header-cell:first-of-type,
 td.mat-cell:first-of-type {
-  padding-left: 0px !important;
+  padding-left: 0px;
 }
 
 /*
@@ -16,8 +16,8 @@ td.mat-cell:first-of-type {
 .mat-column-estado.mat-header-cell,
 .mat-column-estado.mat-cell {
   text-align: left !important;
-  padding-left: 2vw !important;
-  word-break: break-all !important;
+  padding-left: 1vw;
+  word-break: break-all;
 }
 
 /*
@@ -26,17 +26,7 @@ td.mat-cell:first-of-type {
 .mat-column-codigo_posicion.mat-header-cell,
 .mat-column-codigo_posicion.mat-cell {
   text-align: right !important;
-  padding-right: 2vw !important;
-  word-break: break-all !important;
-}
-
-/*
- * Iconos alineados al centro.
-*/
-.mat-column-actions.mat-header-cell,
-.mat-column-actions.mat-cell {
-  text-align: center !important;
-  word-break: break-all !important;
+  padding-right: 1vw;
 }
 
 /*
@@ -44,27 +34,36 @@ td.mat-cell:first-of-type {
 */
 .mat-column-codigo_posicion.mat-header-cell,
 .mat-column-codigo_posicion.mat-cell {
-  width: 10% !important;
+  min-width: 100px;
 }
 
 .mat-column-descripcion.mat-header-cell,
 .mat-column-descripcion.mat-cell {
-  width: 30% !important;
+  min-width: 80px;
+  width: 55%;
 }
 
 .mat-column-domicilio.mat-header-cell,
 .mat-column-domicilio.mat-cell {
-  width: 35% !important;
+  min-width: 90px;
+  width: 45%;
 }
 
 .mat-column-estado.mat-header-cell,
 .mat-column-estado.mat-cell {
-  width: 10% !important;
+  min-width: 70px;
 }
 
 .mat-column-actions.mat-header-cell,
 .mat-column-actions.mat-cell {
-  width: 15% !important;
+  min-width: 100px;
+}
+
+/*
+ * Oculta la tabla y paginación hasta que existan datos.
+*/
+.d-none {
+  display: none;
 }
 
 /*
@@ -75,11 +74,4 @@ td.mat-cell:first-of-type {
   vertical-align: bottom;
   width: 40px;
   height: 44.09px;
-}
-
-/*
- * Oculta la paginación hasta que la tabla tenga datos.
-*/
-.hide-paginator {
-  display: none;
 }

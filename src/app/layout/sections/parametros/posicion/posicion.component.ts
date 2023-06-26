@@ -1,6 +1,8 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 // * Services
+import { DataSharingService } from 'src/app/core/services/data-sharing.service';
 import { UtilService } from 'src/app/core/services/util.service';
 import { ProvinciaService } from 'src/app/core/services/provincia.service';
 import { PosicionService } from 'src/app/core/services/posicion.service';
@@ -10,30 +12,164 @@ import { IProvincia } from 'src/app/core/models/provincia.interface';
 import { IPosicion } from 'src/app/core/models/posicion.interface';
 
 // * Material
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 // * Components
 import { AddEditPosicionDialogComponent } from './add-edit-posicion-dialog/add-edit-posicion-dialog.component';
-import { PosicionDashboardComponent } from './posicion-dashboard/posicion-dashboard.component';
 
 @Component({
   selector: 'app-posicion',
   templateUrl: './posicion.component.html',
   styleUrls: ['./posicion.component.scss'],
 })
-export class PosicionComponent {
-  @ViewChild(PosicionDashboardComponent)
-  dashboard: PosicionDashboardComponent;
-  provincias: IProvincia[] = [];
-  request: boolean = false;
+export class PosicionComponent implements OnInit, OnDestroy {
+  private dataSubscription: Subscription | undefined;
+  public provincias: IProvincia[];
+  public dataSent: IPosicion[];
+  public request: boolean = false;
 
   constructor(
-    private posicionService: PosicionService,
+    private dataSharingService: DataSharingService,
     private provinciaService: ProvinciaService,
-    private utils: UtilService,
+    private posicionService: PosicionService,
+    private utilService: UtilService,
     private dialog: MatDialog
-  ) {
-    this.utils.openLoading();
+  ) {}
+
+  ngOnInit(): void {
+    this.getProvincias();
+  }
+
+  ngOnDestroy(): void {
+    if (this.dataSubscription) {
+      this.dataSubscription.unsubscribe();
+    }
+  }
+
+  public new(): void {
+    const dialogRef = this.openDialog('CREAR POSICIÓN', 'C', true);
+    this.dataSubscription = this.dataSharingService
+      .getData()
+      .subscribe((res) => {
+        this.performCRUD(
+          res,
+          'La posición se ha creado exitosamente.',
+          dialogRef
+        );
+      });
+    dialogRef.afterClosed().subscribe(() => {
+      this.dataSharingService.unsubscribeData(this.dataSubscription!);
+      this.dataSubscription = undefined;
+    });
+  }
+
+  public edit(data: IPosicion): void {
+    const dialogRef = this.openDialog('EDITAR POSICIÓN', 'U', true, data);
+    this.dataSubscription = this.dataSharingService
+      .getData()
+      .subscribe((res) => {
+        this.performCRUD(
+          res,
+          'La posición se ha editado exitosamente.',
+          dialogRef
+        );
+      });
+    dialogRef.afterClosed().subscribe(() => {
+      this.dataSharingService.unsubscribeData(this.dataSubscription!);
+      this.dataSubscription = undefined;
+    });
+  }
+
+  public view(data: IPosicion): void {
+    this.openDialog('VER POSICIÓN', 'R', false, data);
+  }
+
+  public getPosicion(value: string): void {
+    this.utilService.openLoading();
+    this.posicionService.CRUD(value).subscribe({
+      next: (res: any) => {
+        this.dataSent = Array.isArray(res.dataset)
+          ? (res.dataset as IPosicion[])
+          : [res.dataset as IPosicion];
+      },
+      error: (err: any) => {
+        this.utilService.closeLoading();
+        if (err.status == 0) {
+          this.utilService.notification('Error de conexión.', 'error');
+        } else {
+          this.utilService.notification(
+            `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+            'error'
+          );
+        }
+        if (err.status == 404) {
+          this.dataSent = [];
+        }
+      },
+      complete: () => {
+        this.utilService.closeLoading();
+      },
+    });
+  }
+
+  private openDialog(
+    title: string,
+    par_modo: string,
+    edit: boolean,
+    data?: IPosicion
+  ): MatDialogRef<AddEditPosicionDialogComponent, any> {
+    return this.dialog.open(AddEditPosicionDialogComponent, {
+      data: {
+        title: title,
+        edit: edit,
+        par_modo: par_modo,
+        provincias: this.provincias,
+        codigo_posicion: data?.codigo_posicion,
+        descripcion: data?.descripcion,
+        domicilio: data?.domicilio,
+        codigo_postal: data?.codigo_postal,
+        sub_codigo_postal: data?.sub_codigo_postal,
+        control_rechazo: data?.control_rechazo,
+        yes_no: data?.yes_no,
+        fecha_vigencia: data?.fecha_vigencia,
+        letra_provincia: data?.letra_provincia,
+      },
+    });
+  }
+
+  private performCRUD(
+    data: any,
+    successMessage: string,
+    dialogRef: MatDialogRef<any, any>
+  ): void {
+    this.utilService.openLoading();
+    this.posicionService.CRUD(data).subscribe({
+      next: () => {
+        this.utilService.notification(successMessage, 'success');
+        dialogRef.close();
+        this.getPosicion(
+          JSON.stringify({
+            par_modo: 'R',
+            codigo_posicion: data.codigo_posicion,
+          })
+        );
+      },
+      error: (err: any) => {
+        this.utilService.closeLoading();
+        if (err.status === 0) {
+          this.utilService.notification('Error de conexión.', 'error');
+        } else {
+          this.utilService.notification(
+            `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+            'error'
+          );
+        }
+      },
+    });
+  }
+
+  private getProvincias(): void {
+    this.utilService.openLoading();
     this.provinciaService
       .CRUD(
         JSON.stringify({
@@ -43,87 +179,25 @@ export class PosicionComponent {
       )
       .subscribe({
         next: (res: any) => {
-          res.dataset.length
-            ? (this.provincias = res.dataset as IProvincia[])
-            : (this.provincias = [res.dataset]);
-        },
-        error: () => {
-          this.utils.closeLoading();
-          this.utils.notification(
-            `No se han podido cargar las provincias. `,
-            'error'
-          );
-        },
-        complete: () => {
-          this.utils.closeLoading();
+          this.provincias = Array.isArray(res.dataset)
+            ? (res.dataset as IProvincia[])
+            : [res.dataset as IProvincia];
           this.request = true;
         },
-      });
-  }
-
-  ngOnInit(): void {}
-
-  public handleSearch(inputValue: any): void {
-    this.dashboard.filter(inputValue);
-  }
-
-  public nuevaPosicion(posicion?: IPosicion): void {
-    const modalNuevaPosicion = this.dialog.open(
-      AddEditPosicionDialogComponent,
-      {
-        data: {
-          title: `NUEVA POSICIÓN`,
-          edit: true,
-          par_modo: 'C',
-          provincias: this.provincias,
-          codigo_posicion: posicion?.codigo_posicion,
-          descripcion: posicion?.descripcion,
-          domicilio: posicion?.domicilio,
-          codigo_postal: posicion?.codigo_postal,
-          sub_codigo_postal: posicion?.sub_codigo_postal,
-          control_rechazo: posicion?.control_rechazo,
-          yes_no: posicion?.yes_no,
-          fecha_vigencia: posicion?.fecha_vigencia,
-          letra_provincia: posicion?.letra_provincia,
+        error: (err: any) => {
+          this.utilService.closeLoading();
+          if (err.status === 0) {
+            this.utilService.notification('Error de conexión.', 'error');
+          } else {
+            this.utilService.notification(
+              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+              'error'
+            );
+          }
         },
-      }
-    );
-
-    modalNuevaPosicion.afterClosed().subscribe({
-      next: (res) => {
-        if (res) {
-          this.utils.openLoading();
-          this.posicionService.CRUD(res).subscribe({
-            next: (res: any) => {
-              this.utils.notification(
-                'La posición se ha creado exitosamente. ',
-                'success'
-              );
-            },
-            error: (err) => {
-              this.utils.closeLoading();
-              err.status == 0
-                ? this.utils.notification('Error de conexión. ', 'error')
-                : this.utils.notification(
-                    `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
-                    'error'
-                  );
-              this.nuevaPosicion(res);
-            },
-            complete: () => {
-              this.utils.closeLoading();
-              setTimeout(() => {
-                this.handleSearch(
-                  JSON.stringify({
-                    par_modo: 'R',
-                    codigo_posicion: res.codigo_posicion,
-                  })
-                );
-              }, 300);
-            },
-          });
-        }
-      },
-    });
+        complete: () => {
+          this.utilService.closeLoading();
+        },
+      });
   }
 }

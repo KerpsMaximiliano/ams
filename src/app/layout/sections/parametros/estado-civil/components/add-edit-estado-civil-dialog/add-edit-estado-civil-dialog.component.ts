@@ -1,25 +1,24 @@
 import { Component, Inject } from '@angular/core';
 
-// * Form
+// * Services
+import { DataSharingService } from 'src/app/core/services/data-sharing.service';
+
+// * Forms
 import {
   UntypedFormControl,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 
-// * Material
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-
-// * Validations
+// * Validators
 import {
-  isAlphanumericWithSpaces,
-  isAlphanumeric,
   getErrorMessage,
   notOnlySpaces,
+  isAlpha,
 } from 'src/app/core/validators/character.validator';
 
-// * Components
-import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
+// * Material
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-add-edit-estado-civil-dialog',
@@ -31,75 +30,49 @@ export class AddEditEstadoCivilDialogComponent {
   public getErrorMessage = getErrorMessage;
 
   constructor(
-    public dialogRef: MatDialogRef<ConfirmDialogComponent>,
+    private dataSharingService: DataSharingService,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {}
-
-  /**
-   * 1. 'this.setUpForm();': Asigna las validaciones correspondientes a cada campo de entrada/selección.
-   * 2. Condición: comprueba que sea una actualización (modificación) o lectura.
-   * 3. 'this.setFormValues();': Asigna los valores de 'data' a los campos de entrada/selección del formulario.
-   * 4. Condición: comprueba si la edición esta deshabilitada.
-   *     > Deshabilidada: deshabilita el formulario.
-   *     > Habilitada: deshabilita el 'codigo_estado_civil'.
-   */
-  ngOnInit(): void {
+  ) {
     this.setUpForm();
-    if (this.data.par_modo === 'U' || this.data.par_modo === 'R') {
-      this.setFormValues();
-      if (this.data.edit === false) {
-        this.formGroup.disable();
-      } else {
-        this.formGroup.get('codigo_estado_civil')?.disable();
-      }
+  }
+
+  public confirm(): void {
+    this.formGroup.markAllAsTouched();
+    if (this.formGroup.valid) {
+      this.dataSharingService.sendData({
+        par_modo: this.data.par_modo,
+        codigo_estado_civil: this.formGroup.get('codigo_estado_civil')?.value,
+        description: this.formGroup.get('description')?.value,
+      });
     }
   }
 
   private setUpForm(): void {
     this.formGroup = new UntypedFormGroup({
       codigo_estado_civil: new UntypedFormControl(
-        this.data.codigo_estado_civil,
-        Validators.compose([
+        {
+          value: this.data.codigo_estado_civil,
+          disabled: this.data.par_modo === 'U' || this.data.par_modo === 'R',
+        },
+        [
           Validators.required,
           Validators.minLength(1),
           Validators.maxLength(1),
-          isAlphanumeric(),
-        ])
+          isAlpha(),
+        ]
       ),
       description: new UntypedFormControl(
-        this.data.description ? this.data.description.trim() : '',
-        Validators.compose([
+        {
+          value: this.data.description ? this.data.description.trim() : '',
+          disabled: this.data.par_modo === 'R',
+        },
+        [
           Validators.required,
           Validators.minLength(3),
           Validators.maxLength(20),
-          isAlphanumericWithSpaces(),
           notOnlySpaces(),
-        ])
+        ]
       ),
     });
-  }
-
-  private setFormValues(): void {
-    this.formGroup
-      .get('codigo_estado_civil')
-      ?.setValue(this.data.codigo_estado_civil);
-    this.formGroup
-      .get('description')
-      ?.setValue(this.data.description ? this.data.description.trim() : '');
-  }
-
-  public closeDialog(): void {
-    this.dialogRef.close(false);
-  }
-
-  public confirm(): void {
-    this.formGroup.markAllAsTouched();
-    if (this.formGroup.valid) {
-      this.dialogRef.close({
-        par_modo: this.data.par_modo,
-        codigo_estado_civil: this.formGroup.get('codigo_estado_civil')?.value,
-        description: this.formGroup.get('description')?.value,
-      });
-    }
   }
 }

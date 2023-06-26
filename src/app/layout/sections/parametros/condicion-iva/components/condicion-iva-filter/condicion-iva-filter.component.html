@@ -8,13 +8,13 @@
       <form>
         <div class="seeker-fields-container">
           <mat-form-field class="seeker-form-field">
-            <mat-label class="seeker-label" for="descripcion"> Ingrese la condición de IVA</mat-label>
-            <input matInput class="seeker-input" #input (keydown.enter)="search($event , input.value)" maxlength="20">
+            <mat-label class="seeker-label"> Ingrese la condición de IVA </mat-label>
+            <input matInput class="seeker-input" (keydown.enter)="performSearch(input.value)" #input maxlength="20" />
           </mat-form-field>
         </div>
 
         <div class="buttons-container">
-          <button class="primary-button icon-button" type="button" (click)="search($event, input.value)">
+          <button class="primary-button icon-button" type="button" (click)="performSearch(input.value)">
             <mat-icon> done </mat-icon>
             Buscar
           </button>

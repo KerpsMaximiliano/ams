@@ -9,8 +9,9 @@
         <mat-label class="seeker-label">
           Seleccione una provincia
         </mat-label>
-        <mat-select #selectProvincia required>
-          <mat-option *ngFor="let provincia of provincias" [value]="provincia.codigo" (click)="loadDepartamentos()">
+        <mat-select #selectProvincia required disableOptionCentering>
+          <mat-option *ngFor="let provincia of data.provincias" [value]="provincia.codigo"
+            (click)="loadDepartamentos()">
             {{ provincia.nombre_provincia }}
           </mat-option>
         </mat-select>
@@ -20,7 +21,7 @@
         <mat-label class="seeker-label">
           Seleccione un departamento
         </mat-label>
-        <mat-select #selectDepartamento required [disabled]="!selectProvincia?.value">
+        <mat-select #selectDepartamento required [disabled]="!selectProvincia?.value" disableOptionCentering>
           <mat-option *ngFor="let departamento of departamentos" [value]="departamento.codigo_departamento">
             {{ departamento.descripcion }}
           </mat-option>
@@ -48,9 +49,11 @@
       <input matInput (keyup)="applyFilter($event)" #input [disabled]="!dataSource">
     </mat-form-field>
 
-    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
+    <table mat-table [dataSource]="dataSource">
       <ng-container class="mat-row" *matNoDataRow>
-        <td class="mat-cell no-data-cell" [attr.colspan]="displayedColumns.length"> No se encontraron resultados
+        <td class="mat-cell no-data-cell" [attr.colspan]="displayedColumns.length"
+          *ngIf="this.dataSource.data.length === 0">
+          No se encontraron resultados
         </td>
       </ng-container>
 
@@ -74,11 +77,11 @@
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns:displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
 
     <mat-paginator [pageSize]="5" showFirstLastButtons stiky aria-label="Controles de paginación."
-      [ngClass]="{'hide': !dataSource }">
+      [ngClass]="{'d-none': !dataSource || this.dataSource.data.length < 5 }">
     </mat-paginator>
   </section>
 

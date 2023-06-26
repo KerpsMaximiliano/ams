@@ -7,7 +7,7 @@
     <div class="seeker-fields-container">
       <h3> CÓDIGO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="codigo" required minlength="1" maxlength="3">
+        <input matInput formControlName="codigo" required minlength="1" maxlength="2">
         <mat-error *ngIf="formGroup.get('codigo')?.invalid && formGroup.get('codigo')?.touched">
           {{ getErrorMessage(formGroup.get('codigo')) }}
         </mat-error>
@@ -17,7 +17,7 @@
     <div class="seeker-fields-container">
       <h3> FORMA DE PAGO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <mat-select formControlName="forma_pago" required>
+        <mat-select formControlName="forma_pago" required disableOptionCentering>
           <mat-option [value]="'BSF'" (click)="changeBank()"> BSF - Débitos Automáticos NBSF </mat-option>
           <mat-option [value]="'LNK'" (click)="changeBank()"> LNK - Pagos RED LINK </mat-option>
           <mat-option [value]="'CBU'" (click)="changeBank()"> CBU - Transferencias a distintos bancos </mat-option>
@@ -53,7 +53,7 @@
     <div class="seeker-fields-container">
       <h3> BANCO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <mat-select formControlName="codigo_banco" required>
+        <mat-select formControlName="codigo_banco" required disableOptionCentering>
           <mat-option [value]="330"> Nuevo Banco de Santa Fe </mat-option>
           <mat-option [value]="815"> Pagos RED LINK </mat-option>
           <mat-option [value]="0"> Tarjeta de Crédito </mat-option>
@@ -70,7 +70,7 @@
     <div class="seeker-fields-container">
       <h3> ¿TRABAJA CON ARCHIVOS? </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <mat-select formControlName="trabaja_archivos" required>
+        <mat-select formControlName="trabaja_archivos" required disableOptionCentering>
           <mat-option [value]="'S'"> SI </mat-option>
           <mat-option [value]="'N'"> NO </mat-option>
         </mat-select>
@@ -83,7 +83,7 @@
     <div class="seeker-fields-container">
       <h3> ¿TRABAJA CON RECHAZOS? </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <mat-select formControlName="trabaja_rechazos" required>
+        <mat-select formControlName="trabaja_rechazos" required disableOptionCentering>
           <mat-option [value]="'S'"> SI </mat-option>
           <mat-option [value]="'N'"> NO </mat-option>
         </mat-select>
@@ -96,7 +96,7 @@
     <div class="seeker-fields-container">
       <h3> ¿SOLICITA DATOS ADICIONALES? </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <mat-select formControlName="solicita_datos_ad" required>
+        <mat-select formControlName="solicita_datos_ad" required disableOptionCentering>
           <mat-option [value]="'S'"> SI </mat-option>
           <mat-option [value]="'N'"> NO </mat-option>
         </mat-select>
@@ -118,7 +118,7 @@
     </div>
 
     <div *ngIf="data.edit; else other_content" class="buttons-container">
-      <button class="primary-button icon-button" type="button" (click)="closeDialog()">
+      <button class="primary-button icon-button" type="button" mat-dialog-close>
         <mat-icon> close </mat-icon>
         Cancelar
       </button>

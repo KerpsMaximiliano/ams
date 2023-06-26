@@ -64,12 +64,12 @@ export class NavMenuComponent {
           url: '/parametros/obras-sociales',
           icon: 'keyboard_arrow_right',
         },
-        {
-          // 11 - FUENTES DE INGRESO
-          title: 'Fuentes de ingreso',
-          url: '/parametros/fuentes-ingreso',
-          icon: 'keyboard_arrow_right',
-        },
+        // {
+        // // 11 - FUENTES DE INGRESO
+        //   title: 'Fuentes de ingreso',
+        //   url: '/parametros/fuentes-ingreso',
+        //   icon: 'keyboard_arrow_right',
+        // },
         {
           // 10 - MOTIVOS DE MOVIMIENTOS
           title: 'Motivos de movimientos',

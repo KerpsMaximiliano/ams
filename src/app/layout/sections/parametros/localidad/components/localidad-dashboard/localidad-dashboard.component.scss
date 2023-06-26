@@ -1,26 +1,68 @@
-.mat-column-Localidad.mat-header-cell,
-.mat-column-Localidad.mat-cell,
-.mat-column-Provincia.mat-header-cell,
-.mat-column-Provincia.mat-cell,
-.mat-column-Departamento.mat-header-cell,
-.mat-column-Departamento.mat-cell {
-  text-align: left !important;
-  padding-left: 1vw !important;
-}
-
-.mat-column-Codigo.mat-header-cell,
-.mat-column-Codigo.mat-cell,
-.mat-column-Posicion.mat-header-cell,
-.mat-column-Posicion.mat-cell,
-.mat-column-Habitantes.mat-header-cell,
-.mat-column-Habitantes.mat-cell {
-  text-align: right !important;
-  padding-right: 1vw !important;
+/*
+ * Evita un espaciado innecesario en la primer columna.
+*/
+th.mat-header-cell:first-of-type,
+td.mat-cell:first-of-type {
+  padding-left: 0px;
 }
 
 /*
- * Oculta la paginación hasta que la tabla tenga datos.
+ * Número y fecha alineado a la derecha.
 */
-.hide-paginator {
+.mat-column-codigo_posicion.mat-header-cell,
+.mat-column-codigo_posicion.mat-cell,
+.mat-column-cant_habitantes.mat-header-cell,
+.mat-column-cant_habitantes.mat-cell {
+  text-align: right !important;
+  padding-right: 1vw;
+}
+
+/*
+ * Texto alineado a la izquierda.
+*/
+.mat-column-descripcion.mat-header-cell,
+.mat-column-descripcion.mat-cell,
+.mat-column-domicilio.mat-header-cell,
+.mat-column-domicilio.mat-cell,
+.mat-column-estado.mat-header-cell,
+.mat-column-estado.mat-cell {
+  text-align: left !important;
+  padding-left: 1vw;
+  word-break: break-all;
+}
+
+/*
+ * Tamaño de columnas.
+*/
+.mat-column-codigo_posicion.mat-header-cell,
+.mat-column-codigo_posicion.mat-cell {
+  min-width: 100px;
+}
+
+.mat-column-descripcion.mat-header-cell,
+.mat-column-descripcion.mat-cell {
+  min-width: 90px;
+  width: 40%;
+}
+
+.mat-column-domicilio.mat-header-cell,
+.mat-column-domicilio.mat-cell {
+  width: 35%;
+}
+
+.mat-column-estado.mat-header-cell,
+.mat-column-estado.mat-cell {
+  min-width: 70px;
+}
+
+.mat-column-actions.mat-header-cell,
+.mat-column-actions.mat-cell {
+  min-width: 100px;
+}
+
+/*
+ * Oculta la tabla y paginación hasta que existan datos.
+*/
+.d-none {
   display: none;
 }

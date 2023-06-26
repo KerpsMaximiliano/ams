@@ -1,12 +1,18 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { map, Observable, startWith } from 'rxjs';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild,
+} from '@angular/core';
 
 // * Services
 import { UtilService } from 'src/app/core/services/util.service';
-import { LocalidadService } from 'src/app/core/services/localidad.service';
+import { DepartamentoService } from 'src/app/core/services/departamento.service';
 
-// * Forms
-import { FormControl, FormGroup, UntypedFormControl } from '@angular/forms';
+// * Interfaces
+import { IProvincia } from 'src/app/core/models/provincia.interface';
+import { IDepartamento } from 'src/app/core/models/departamento.interface';
 
 @Component({
   selector: 'app-localidad-filter',
@@ -14,141 +20,118 @@ import { FormControl, FormGroup, UntypedFormControl } from '@angular/forms';
   styleUrls: ['./localidad-filter.component.scss'],
 })
 export class LocalidadFilterComponent {
-  @Output() searchEvent: EventEmitter<any> = new EventEmitter<any>();
+  @Input() public provincias: IProvincia[];
 
-  paramDepto: [] | any;
-  paramProv: [] | any;
-  searching = new FormGroup({
-    codigo_postal: new FormControl(''),
-    letra_provincia: new FormControl(''),
-    codigo_departamento: new FormControl(''),
-    descripcion: new FormControl(''),
-  });
-  myControlProv = new UntypedFormControl('');
-  provinciaFiltrados: Observable<any[]>;
-  myControldepto = new UntypedFormControl('');
-  deptoFiltrados: Observable<any[]>;
+  @Output() public search: EventEmitter<string> = new EventEmitter<string>();
+  @Output() public loadDepartamentos: EventEmitter<IDepartamento[]> =
+    new EventEmitter<IDepartamento[]>();
+
+  public departamentos: IDepartamento[];
+
+  @ViewChild('provincia') public provincia: any;
+  @ViewChild('departamento') public departamento: any;
 
   constructor(
-    private localidadService: LocalidadService,
+    private departamentoService: DepartamentoService,
     private utils: UtilService
   ) {}
 
-  ngOnInit() {
-    let bodyprov = {
-      par_modo: 'O',
-      nombre_provincia: '',
-    };
-    this.localidadService.getProvincia(bodyprov).subscribe({
-      next: (res) => {
-        this.paramProv = res.dataset;
-      },
-      error: (err) => {
-        err.status == 0
-          ? this.utils.notification('Error de conexión. ', 'error')
-          : this.utils.notification(
-              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
-              'error'
-            );
-      },
-    });
-    this.provinciaFiltrados = this.myControlProv.valueChanges.pipe(
-      startWith(''),
-      map((valueProv) => {
-        const nameProv =
-          typeof valueProv === 'string'
-            ? valueProv
-            : valueProv?.nombre_provincia;
-        return nameProv
-          ? this._filterProv(nameProv as string)
-          : this.paramProv?.nombre_provincia;
-      })
-    );
+  public performSearch(
+    localidad: HTMLInputElement,
+    codigo: HTMLInputElement
+  ): void {
+    codigo.value
+      ? this.search.emit(
+          JSON.stringify({
+            par_modo: 'R',
+            letra_provincia: this.provincia.value,
+            codigo_postal: codigo.value,
+          })
+        )
+      : this.search.emit(
+          JSON.stringify({
+            par_modo: 'O',
+            letra_provincia: this.provincia.value,
+            codigo_departamento: this.departamento.value,
+            descripcion: localidad.value,
+          })
+        );
   }
 
-  displayFnProv(prov: any): string {
-    return prov && prov.nombre_provincia ? prov.nombre_provincia : '';
+  public clear(localidad: HTMLInputElement, codigo: HTMLInputElement): void {
+    this.provincia.value = '';
+    this.departamento.value = '';
+    if (localidad) localidad.value = '';
+    if (codigo) codigo.value = '';
   }
 
-  private _filterProv(nameProv: string): any[] {
-    const filterValueProv = nameProv.toLowerCase();
-    return this.paramProv.filter((prov: any) =>
-      prov.nombre_provincia.toLowerCase().includes(filterValueProv)
-    );
-  }
-
-  public search() {
-    this.searchEvent.emit(this.searching.value);
-  }
-
-  buscar(letra_provincia: string) {
-    this.searching.get('letra_provincia')?.setValue(letra_provincia);
-    let bodydep = {
-      par_modo: 'O',
-      descripcion: '',
-      letra_provincia: letra_provincia,
-    };
+  public getDepartamentos(value: string): void {
     this.utils.openLoading();
-    this.localidadService.getDepart(bodydep).subscribe({
-      next: (res) => {
-        this.paramDepto = res.dataset;
-      },
-      error: (err) => {
-        err.status == 0
-          ? this.utils.notification('Error de conexión. ', 'error')
-          : this.utils.notification(
-              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
-              'error'
-            );
-      },
-      complete: () => {
-        this.utils.closeLoading();
-        setTimeout(() => {}, 300);
-      },
-    });
-    this.deptoFiltrados = this.myControldepto.valueChanges.pipe(
-      startWith(''),
-      map((valueDep) => {
-        const nameDepto =
-          typeof valueDep === 'string' ? valueDep : valueDep?.descripcion;
-        return nameDepto
-          ? this._filterDep(nameDepto as string)
-          : this.paramDepto?.descripcion;
-      })
-    );
+    this.departamentoService
+      .CRUD(
+        JSON.stringify({
+          par_modo: 'O',
+          letra_provincia: value,
+          descripcion: '',
+        })
+      )
+      .subscribe({
+        next: (res: any) => {
+          this.departamentos = Array.isArray(res.dataset)
+            ? (res.dataset as IDepartamento[])
+            : [res.dataset as IDepartamento];
+        },
+        error: (err: any) => {
+          this.utils.closeLoading();
+          err.status == 0
+            ? this.utils.notification('Error de conexión. ', 'error')
+            : err.status == 404
+            ? (this.departamentos = [])
+            : this.utils.notification(
+                `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+                'error'
+              );
+        },
+        complete: () => {
+          this.utils.closeLoading();
+          this.loadDepartamentos.emit(this.departamentos);
+        },
+      });
   }
 
-  displayFnDep(depto: any): string {
-    return depto && depto.descripcion ? depto.descripcion : '';
+  public validateNumberInput(event: KeyboardEvent): void {
+    const allowedKeys = ['Backspace', 'ArrowLeft', 'ArrowRight'];
+    const allowedDigits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+    const isCtrlPressed = event.ctrlKey || event.metaKey;
+
+    if (
+      !(
+        allowedDigits.includes(event.key) ||
+        allowedKeys.includes(event.key) ||
+        (isCtrlPressed &&
+          (event.key === 'c' ||
+            event.key === 'C' ||
+            event.key === 'v' ||
+            event.key === 'V' ||
+            event.key === 'x' ||
+            event.key === 'X' ||
+            event.key === 'y' ||
+            event.key === 'Y' ||
+            event.key === 'z' ||
+            event.key === 'Z'))
+      )
+    ) {
+      event.preventDefault();
+    }
   }
 
-  private _filterDep(nameDepto: string): any[] {
-    const filterValueDepto = nameDepto.toLowerCase();
-    return this.paramDepto.filter((filtroDep: any) =>
-      filtroDep.descripcion.toLowerCase().includes(filterValueDepto)
-    );
-  }
-
-  dato(codigo: string) {
-    this.searching.get('codigo_departamento')?.setValue(codigo);
-  }
-
-  public searchid(e: any) {
-    e.preventDefault();
-    this.searchEvent.emit(this.searching.value);
-  }
-
-  public clearInputs() {
-    this.myControlProv?.setValue(''),
-      this.myControldepto?.setValue(''),
-      this.searching.get('codigo_postal')?.setValue(''),
-      this.searching.get('letra_provincia')?.setValue(''),
-      this.searching.get('codigo_departamento')?.setValue(''),
-      this.searching.get('descripcion')?.setValue('');
-  }
-
-  public searchKeyUp(e: any): void {
-    e.preventDefault();
-    this.searchEvent.emit(this.searching.value);
+  public handlePaste(event: ClipboardEvent) {
+    const clipboardData = event.clipboardData;
+    if (clipboardData) {
+      const pastedText = clipboardData.getData('text/plain');
+      if (!/^\d+$/.test(pastedText)) {
+        event.preventDefault();
+      }
+    }
   }
 }

@@ -1,176 +1,66 @@
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { LiveAnnouncer } from '@angular/cdk/a11y';
-
-// * Services
-import { UtilService } from 'src/app/core/services/util.service';
-import { FormaPagoService } from 'src/app/core/services/forma-pago.service';
+import {
+  Component,
+  Input,
+  ViewChild,
+  OnInit,
+  OnChanges,
+  SimpleChanges,
+  EventEmitter,
+  Output,
+} from '@angular/core';
 
 // * Interfaces
 import { IFormaPago } from 'src/app/core/models/formas-pago.interface';
 
 // * Material
-import { MatDialog } from '@angular/material/dialog';
+import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
-import { MatSort, Sort } from '@angular/material/sort';
-import { MatTable, MatTableDataSource } from '@angular/material/table';
-
-// * Components
-import { AddEditFormaPagoDialogComponent } from '../add-edit-forma-pago-dialog/add-edit-forma-pago-dialog.component';
 
 @Component({
   selector: 'app-forma-pago-dashboard',
   templateUrl: './forma-pago-dashboard.component.html',
   styleUrls: ['./forma-pago-dashboard.component.scss'],
 })
-export class FormaPagoDashboardComponent {
-  @ViewChild(MatSort) sort: MatSort = new MatSort();
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator =
-    new MatPaginator(new MatPaginatorIntl(), this.cdr);
-  @ViewChild(MatTable) table!: MatTable<any>;
+export class FormaPagoDashboardComponent implements OnInit, OnChanges {
+  @Input() public receivedData: IFormaPago[] = [];
 
-  public searchValue: string = '';
-  public formasPago: IFormaPago[] = [];
+  @Output() public viewEvent: EventEmitter<IFormaPago> =
+    new EventEmitter<IFormaPago>();
+  @Output() public editEvent: EventEmitter<IFormaPago> =
+    new EventEmitter<IFormaPago>();
+
   public displayedColumns: string[] = [
     'codigo',
     'forma_pago',
     'description',
     'nombre_tarjeta_nemot',
-    'codigo_banco',
+    'desc_banco',
     'codigo_tarjeta_de_baja',
     'actions',
   ];
   public dataSource: MatTableDataSource<IFormaPago>;
 
-  constructor(
-    private utils: UtilService,
-    private _liveAnnouncer: LiveAnnouncer,
-    private cdr: ChangeDetectorRef,
-    private dialog: MatDialog,
-    private formaPagoService: FormaPagoService
-  ) {}
+  @ViewChild(MatPaginator, { static: true }) public paginator!: MatPaginator;
+
+  constructor(private matPaginatorIntl: MatPaginatorIntl) {}
 
   ngOnInit(): void {
-    this.paginator._intl.itemsPerPageLabel = 'Elementos por página: ';
-    this.paginator._intl.nextPageLabel = 'Página siguiente.';
-    this.paginator._intl.previousPageLabel = 'Página anterior.';
-    this.paginator._intl.firstPageLabel = 'Primer página.';
-    this.paginator._intl.lastPageLabel = 'Ultima página.';
-    this.paginator._intl.getRangeLabel = (
-      page: number,
-      pageSize: number,
-      length: number
-    ): string => {
-      return length
-        ? 'Página ' + (page + 1) + ' de ' + Math.ceil(length / pageSize)
-        : 'Página 0 de 0';
-    };
+    this.configurePaginator();
   }
 
-  private getFormaPago(): void {
-    this.utils.openLoading();
-    this.formaPagoService.CRUD(this.searchValue).subscribe({
-      next: (res: any) => {
-        res.dataset.length
-          ? (this.formasPago = res.dataset as IFormaPago[])
-          : (this.formasPago = [res.dataset]);
-        this.dataSource = new MatTableDataSource<IFormaPago>(this.formasPago);
-        this.dataSource.sort = this.sort;
-        this.dataSource.paginator = this.paginator;
-      },
-      error: (err: any) => {
-        this.utils.closeLoading();
-        err.status == 0
-          ? this.utils.notification('Error de conexión. ', 'error')
-          : this.utils.notification(
-              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}. `,
-              'error'
-            );
-      },
-      complete: () => {
-        this.utils.closeLoading();
-      },
-    });
-  }
-
-  public announceSortChange(sortState: Sort): void {
-    if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    } else {
-      this._liveAnnouncer.announce('Sorting cleared');
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['receivedData'] && !changes['receivedData'].firstChange) {
+      this.dataSource = new MatTableDataSource<IFormaPago>(this.receivedData);
+      this.dataSource.paginator = this.paginator;
     }
   }
 
-  public editFormaPago(formaPago: IFormaPago): void {
-    const modalEditFormaPago = this.dialog.open(
-      AddEditFormaPagoDialogComponent,
-      {
-        data: {
-          title: `EDITAR FORMA DE PAGO`,
-          edit: true,
-          par_modo: 'U',
-          codigo: formaPago.codigo,
-          forma_pago: formaPago.forma_pago,
-          description: formaPago.description,
-          nombre_tarjeta_nemot: formaPago.nombre_tarjeta_nemot,
-          codigo_banco: formaPago.codigo_banco,
-          trabaja_archivos: formaPago.trabaja_archivos,
-          trabaja_rechazos: formaPago.trabaja_rechazos,
-          solicita_datos_ad: formaPago.solicita_datos_ad,
-          codigo_tarjeta_de_baja: formaPago.codigo_tarjeta_de_baja,
-        },
-      }
-    );
-
-    modalEditFormaPago.afterClosed().subscribe({
-      next: (res) => {
-        if (res) {
-          this.utils.openLoading();
-          this.formaPagoService.CRUD(res).subscribe({
-            next: () => {
-              this.utils.notification(
-                'La forma de pago se ha editado extiosamente. ',
-                'success'
-              );
-            },
-            error: (err: any) => {
-              this.utils.closeLoading();
-              err.status == 0
-                ? this.utils.notification('Error de conexión. ', 'error')
-                : this.utils.notification(
-                    `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}. `,
-                    'error'
-                  );
-              this.editFormaPago(res);
-            },
-            complete: () => {
-              this.utils.closeLoading();
-              setTimeout(() => {
-                this.getFormaPago();
-              }, 300);
-            },
-          });
-        }
-      },
-    });
+  public view(element: IFormaPago): void {
+    this.viewEvent.emit(element);
   }
 
-  public viewFormaPago(formaPago: IFormaPago): void {
-    this.dialog.open(AddEditFormaPagoDialogComponent, {
-      data: {
-        title: `VER FORMA DE PAGO`,
-        edit: false,
-        par_modo: 'R',
-        codigo: formaPago.codigo,
-        forma_pago: formaPago.forma_pago,
-        description: formaPago.description,
-        nombre_tarjeta_nemot: formaPago.nombre_tarjeta_nemot,
-        codigo_banco: formaPago.codigo_banco,
-        trabaja_archivos: formaPago.trabaja_archivos,
-        trabaja_rechazos: formaPago.trabaja_rechazos,
-        solicita_datos_ad: formaPago.solicita_datos_ad,
-        codigo_tarjeta_de_baja: formaPago.codigo_tarjeta_de_baja,
-      },
-    });
+  public edit(element: IFormaPago): void {
+    this.editEvent.emit(element);
   }
 
   public getFormaPagoDescripcion(formaPago: string): string {
@@ -188,8 +78,21 @@ export class FormaPagoDashboardComponent {
     }
   }
 
-  public filter(data: string): void {
-    this.searchValue = data;
-    this.getFormaPago();
+  private configurePaginator(): void {
+    this.paginator._intl = this.matPaginatorIntl;
+    this.paginator._intl.itemsPerPageLabel = 'Elementos por página: ';
+    this.paginator._intl.nextPageLabel = 'Página siguiente.';
+    this.paginator._intl.previousPageLabel = 'Página anterior.';
+    this.paginator._intl.firstPageLabel = 'Primer página.';
+    this.paginator._intl.lastPageLabel = 'Última página.';
+    this.paginator._intl.getRangeLabel = (
+      page: number,
+      pageSize: number,
+      length: number
+    ): string => {
+      return length
+        ? `Página ${page + 1} de ${Math.ceil(length / pageSize)}`
+        : 'Página 0 de 0';
+    };
   }
 }

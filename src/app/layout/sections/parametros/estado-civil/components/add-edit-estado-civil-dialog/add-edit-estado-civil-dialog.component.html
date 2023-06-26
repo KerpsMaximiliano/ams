@@ -26,7 +26,7 @@
     </div>
 
     <div *ngIf="data.edit; else other_content" class="buttons-container">
-      <button class="primary-button icon-button" type="button" (click)="closeDialog()">
+      <button class="primary-button icon-button" type="button" mat-dialog-close>
         <mat-icon> close </mat-icon>
         Cancelar
       </button>
@@ -37,11 +37,12 @@
     </div>
 
     <ng-template #other_content>
-      <button class="primary-button icon-button" mat-dialog-close>
-        <mat-icon> done </mat-icon>
-        Aceptar
-      </button>
+      <div class="buttons-container">
+        <button class="primary-button icon-button" mat-dialog-close>
+          <mat-icon> done </mat-icon>
+          Aceptar
+        </button>
+      </div>
     </ng-template>
   </form>
-
 </div>

@@ -1,9 +1,12 @@
 import { Component, Inject } from '@angular/core';
-import { Observable } from 'rxjs';
 
 // * Services
+import { DataSharingService } from 'src/app/core/services/data-sharing.service';
 import { UtilService } from 'src/app/core/services/util.service';
-import { LocalidadService } from 'src/app/core/services/localidad.service';
+import { DepartamentoService } from 'src/app/core/services/departamento.service';
+
+// * Interfaces
+import { IDepartamento } from 'src/app/core/models/departamento.interface';
 
 // * Forms
 import {
@@ -12,18 +15,15 @@ import {
   Validators,
 } from '@angular/forms';
 
-// * Material
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-
 // * Validations
 import {
-  isAlphanumericWithSpaces,
   isNumeric,
   getErrorMessage,
+  notOnlySpaces,
 } from 'src/app/core/validators/character.validator';
 
-// * Components
-import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
+// * Material
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-edit-localidad-dialog',
@@ -32,97 +32,93 @@ import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confi
 })
 export class AddEditLocalidadDialogComponent {
   public getErrorMessage = getErrorMessage;
-  paramDepto: [] | any;
-  paramProv: [] | any;
-  paramZonaP: [] | any;
-  paramZonaE: [] | any;
   public formGroup: UntypedFormGroup;
-  myControldepto = new UntypedFormControl('');
-  deptoFiltrados: Observable<any[]>;
+
+  public departamentos: IDepartamento[];
 
   constructor(
-    private localidadService: LocalidadService,
-    private utils: UtilService,
-    public dialogRef: MatDialogRef<ConfirmDialogComponent>,
+    private departamentoService: DepartamentoService,
+    private utilService: UtilService,
+    private dataSharingService: DataSharingService,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {}
-
-  async ngOnInit(): Promise<void> {
+  ) {
     this.setUpForm();
-    if (this.data.codigo_postal) this.setFormValues();
-    let bodyprov = {
-      par_modo: 'O',
-      nombre_provincia: '',
-    };
-    await this.localidadService.getProvincia(bodyprov).subscribe({
-      next: (res) => {
-        this.paramProv = res.dataset;
-      },
-      error: (err) => {
-        console.log(err);
-        err.status == 0
-          ? this.utils.notification('Error de conexión. ', 'error')
-          : this.utils.notification(
+  }
+
+  public confirm(): void {
+    this.formGroup.markAllAsTouched();
+    if (this.formGroup.valid) {
+      this.dataSharingService.sendData({
+        par_modo: this.data.par_modo,
+        codigo_postal: this.formGroup.get('codigo_postal')?.value,
+        sub_codigo_postal: this.formGroup.get('sub_codigo_postal')?.value,
+        descripcion: this.formGroup.get('descripcion')?.value,
+        cant_habitantes: this.formGroup.get('cant_habitantes')?.value,
+        letra_provincia: this.formGroup.get('letra_provincia')?.value,
+        codigo_departamento: this.formGroup.get('codigo_departamento')?.value,
+        posicion_referente: this.formGroup.get('posicion_referente')?.value,
+        zona_promocion: this.formGroup.get('zona_promocion')?.value,
+        zona_envio: this.formGroup.get('zona_envio')?.value,
+        ingreso_ticket: this.formGroup.get('ingreso_ticket')?.value,
+        visitado_auditor: this.formGroup.get('visitado_auditor')?.value,
+      });
+    }
+  }
+
+  public getDepartamentos(value: string): void {
+    this.utilService.openLoading();
+    this.departamentoService
+      .CRUD(
+        JSON.stringify({
+          par_modo: 'O',
+          letra_provincia: value,
+          descripcion: '',
+        })
+      )
+      .subscribe({
+        next: (res: any) => {
+          this.data.departamentos = Array.isArray(res.dataset)
+            ? (res.dataset as IDepartamento[])
+            : [res.dataset as IDepartamento];
+        },
+        error: (err: any) => {
+          this.utilService.closeLoading();
+          if (err.status == 0) {
+            this.utilService.notification('Error de conexión.', 'error');
+          } else {
+            this.utilService.notification(
               `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
               'error'
             );
-      },
-    });
-    let bodyzonaP = {
-      par_modo: 'P',
-    };
-    this.localidadService.getZona(bodyzonaP).subscribe({
-      next: (res) => {
-        this.paramZonaP = res.dataset;
-        console.log(this.paramZonaP);
-      },
-      error: (err) => {
-        err.status == 0
-          ? this.utils.notification('Error de conexión. ', 'error')
-          : this.utils.notification(
-              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}. `,
-              'error'
-            );
-      },
-    });
-    let bodyzonaE = {
-      par_modo: 'E',
-    };
-    this.localidadService.getZona(bodyzonaE).subscribe({
-      next: (res) => {
-        this.paramZonaE = res.dataset;
-      },
-      error: (err) => {
-        err.status == 0
-          ? this.utils.notification('Error de conexión. ', 'error')
-          : this.utils.notification(
-              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
-              'error'
-            );
-      },
-    });
+          }
+          if (err.status == 404) {
+            this.departamentos = [];
+          }
+        },
+        complete: () => {
+          this.utilService.closeLoading();
+        },
+      });
   }
 
   private setUpForm(): void {
     this.formGroup = new UntypedFormGroup({
       codigo_postal: new UntypedFormControl(
         {
-          value: '',
-          disabled:
-            this.data.codigo_postal && this.data.title === 'EDITAR LOCALIDAD',
+          value: this.data.codigo_postal,
+          disabled: this.data.par_modo === 'U' || this.data.par_modo === 'R',
         },
         Validators.compose([
-          Validators.maxLength(7),
-          Validators.minLength(4),
           Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(7),
           isNumeric,
         ])
       ),
       sub_codigo_postal: new UntypedFormControl(
         {
-          value: '',
-          disabled:
-            this.data.codigo_postal && this.data.title === 'EDITAR LOCALIDAD',
+          value: this.data.sub_codigo_postal,
+          disabled: this.data.par_modo === 'U' || this.data.par_modo === 'R',
         },
         Validators.compose([
           Validators.required,
@@ -132,187 +128,73 @@ export class AddEditLocalidadDialogComponent {
         ])
       ),
       descripcion: new UntypedFormControl(
-        '',
+        {
+          value: this.data.descripcion ? this.data.descripcion.trim() : '',
+          disabled: this.data.par_modo === 'R',
+        },
         Validators.compose([
           Validators.minLength(3),
           Validators.maxLength(30),
-          isAlphanumericWithSpaces,
-        ])
-      ),
-      letra_provincia: new UntypedFormControl(
-        '',
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(1),
-          Validators.maxLength(2),
-        ])
-      ),
-      flete_transporte: new UntypedFormControl(0),
-      posicion_referente: new UntypedFormControl(
-        '',
-        Validators.compose([
-          Validators.minLength(1),
-          Validators.maxLength(3),
-          isNumeric,
-        ])
-      ),
-      visitado_auditor: new UntypedFormControl(
-        { value: 'N', disabled: !this.data.edit },
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(1),
-          Validators.maxLength(2),
-        ])
-      ),
-      zona_promocion: new UntypedFormControl(
-        '',
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(1),
-          Validators.maxLength(3),
-        ])
-      ),
-      desc_depto: new UntypedFormControl(''),
-      codigo_departamento: new UntypedFormControl(
-        '',
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(1),
-          Validators.maxLength(3),
-        ])
-      ),
-      zona_envio: new UntypedFormControl(
-        '',
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(1),
-          Validators.maxLength(10),
-        ])
-      ),
-      ingreso_ticket: new UntypedFormControl(
-        { value: 'N', disabled: !this.data.edit },
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(1),
-          Validators.maxLength(2),
+          notOnlySpaces(),
         ])
       ),
       cant_habitantes: new UntypedFormControl(
-        '',
+        {
+          value: this.data.cant_habitantes,
+          disabled: this.data.par_modo === 'R',
+        },
         Validators.compose([
-          Validators.maxLength(8),
           Validators.minLength(1),
-          isNumeric,
+          Validators.maxLength(8),
+          isNumeric(),
         ])
       ),
+      letra_provincia: new UntypedFormControl(
+        {
+          value: this.data.letra_provincia,
+          disabled: this.data.par_modo === 'R',
+        },
+        Validators.compose([Validators.required])
+      ),
+      codigo_departamento: new UntypedFormControl(
+        {
+          value: this.data.codigo_departamento,
+          disabled: this.data.par_modo === 'R',
+        },
+        Validators.compose([Validators.required])
+      ),
+      zona_promocion: new UntypedFormControl(
+        {
+          value: this.data.zona_promocion,
+          disabled: this.data.par_modo === 'R',
+        },
+        Validators.compose([Validators.required])
+      ),
+      zona_envio: new UntypedFormControl(
+        {
+          value: this.data.zona_envio ? this.data.zona_envio.trim() : '',
+          disabled: this.data.par_modo === 'R',
+        },
+        Validators.compose([Validators.required])
+      ),
+      ingreso_ticket: new UntypedFormControl(
+        {
+          value: this.data.ingreso_ticket
+            ? this.data.ingreso_ticket.trim()
+            : '',
+          disabled: this.data.par_modo === 'R',
+        },
+        Validators.compose([Validators.required])
+      ),
+      visitado_auditor: new UntypedFormControl(
+        {
+          value: this.data.visitado_auditor
+            ? this.data.visitado_auditor.trim()
+            : '',
+          disabled: this.data.par_modo === 'R',
+        },
+        Validators.compose([Validators.required])
+      ),
     });
-  }
-
-  buscar(letra_provincia: string) {
-    let bodydep = {
-      par_modo: 'O',
-      descripcion: '',
-      letra_provincia: letra_provincia,
-    };
-    this.localidadService.getDepart(bodydep).subscribe({
-      next: (res) => {
-        this.paramDepto = res.dataset;
-      },
-      error: (err) => {
-        err.status == 0
-          ? this.utils.notification('Error de conexión. ', 'error')
-          : this.utils.notification(
-              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje} .`,
-              'error'
-            );
-      },
-    });
-  }
-
-  private setFormValues(): void {
-    this.formGroup.get('codigo_postal')?.setValue(this.data.codigo_postal);
-    this.formGroup
-      .get('sub_codigo_postal')
-      ?.setValue(this.data.sub_codigo_postal);
-    this.formGroup.get('descripcion')?.setValue(this.data.descripcion);
-    this.formGroup.get('letra_provincia')?.setValue(this.data.letra_provincia);
-    this.formGroup
-      .get('flete_transporte')
-      ?.setValue(this.data.flete_transporte);
-    this.formGroup
-      .get('posicion_referente')
-      ?.setValue(this.data.posicion_referente);
-    this.formGroup
-      .get('visitado_auditor')
-      ?.setValue(this.data.visitado_auditor);
-    this.formGroup.get('zona_promocion')?.setValue(this.data.zona_promocion);
-    this.formGroup
-      .get('codigo_departamento')
-      ?.setValue(this.data.codigo_departamento);
-    this.formGroup.get('desc_depto')?.setValue(this.data.desc_depto);
-    this.formGroup.get('zona_envio')?.setValue(this.data.zona_envio);
-    this.formGroup.get('ingreso_ticket')?.setValue(this.data.ingreso_ticket);
-    this.formGroup.get('cant_habitantes')?.setValue(this.data.cant_habitantes);
-  }
-
-  closeDialog(): void {
-    this.dialogRef.close(false);
-  }
-
-  public confirm(): void {
-    this.formGroup.markAllAsTouched();
-    if (this.formGroup.valid) {
-      this.data.codigo_postal
-        ? this.dialogRef.close({
-            par_modo: 'U',
-            codigo_postal: parseInt(this.formGroup.get('codigo_postal')?.value),
-            sub_codigo_postal: parseInt(
-              this.formGroup.get('sub_codigo_postal')?.value
-            ),
-            descripcion: this.formGroup.get('descripcion')?.value,
-            letra_provincia: this.formGroup.get('letra_provincia')?.value,
-            flete_transporte: this.formGroup.get('flete_transporte')?.value,
-            posicion_referente: parseInt(
-              this.formGroup.get('posicion_referente')?.value
-            ),
-            visitado_auditor: this.formGroup.get('visitado_auditor')?.value,
-            zona_promocion: parseInt(
-              this.formGroup.get('zona_promocion')?.value
-            ),
-            codigo_departamento: parseInt(
-              this.formGroup.get('codigo_departamento')?.value
-            ),
-            zona_envio: this.formGroup.get('zona_envio')?.value,
-            ingreso_ticket: this.formGroup.get('ingreso_ticket')?.value,
-            cant_habitantes: parseInt(
-              this.formGroup.get('cant_habitantes')?.value
-            ),
-          })
-        : this.dialogRef.close({
-            par_modo: 'I',
-            codigo_postal: parseInt(this.formGroup.get('codigo_postal')?.value),
-            sub_codigo_postal: parseInt(
-              this.formGroup.get('sub_codigo_postal')?.value
-            ),
-            descripcion: this.formGroup.get('descripcion')?.value,
-            letra_provincia: this.formGroup.get('letra_provincia')?.value,
-            flete_transporte: this.formGroup.get('flete_transporte')?.value,
-            posicion_referente: parseInt(
-              this.formGroup.get('posicion_referente')?.value
-            ),
-            visitado_auditor: this.formGroup.get('visitado_auditor')?.value,
-            zona_promocion: parseInt(
-              this.formGroup.get('zona_promocion')?.value
-            ),
-            codigo_departamento: parseInt(
-              this.formGroup.get('codigo_departamento')?.value
-            ),
-            zona_envio: this.formGroup.get('zona_envio')?.value,
-            ingreso_ticket: this.formGroup.get('ingreso_ticket')?.value,
-            cant_habitantes: parseInt(
-              this.formGroup.get('cant_habitantes')?.value
-            ),
-          });
-    }
   }
 }

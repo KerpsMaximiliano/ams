@@ -8,7 +8,7 @@
     <div class="seeker-fields-container">
       <h3> CÓDIGO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="codigo_de_IVA" required minlength="1" maxlength="2" [disabled]="!data.edit">
+        <input matInput formControlName="codigo_de_IVA" required minlength="1" maxlength="2">
         <mat-error *ngIf="formGroup.get('codigo_de_IVA')?.invalid && formGroup.get('codigo_de_IVA')?.touched">
           {{ getErrorMessage(formGroup.get('codigo_de_IVA')) }}
         </mat-error>
@@ -18,7 +18,7 @@
     <div class="seeker-fields-container">
       <h3> CONDICIÓN DE IVA </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="descripcion" required minlength="3" maxlength="20" [disabled]="!data.edit">
+        <input matInput formControlName="descripcion" required minlength="3" maxlength="20">
         <mat-error *ngIf="formGroup.get('descripcion')?.invalid && formGroup.get('descripcion')?.touched">
           {{ getErrorMessage(formGroup.get('descripcion')) }}
         </mat-error>
@@ -28,8 +28,7 @@
     <div class="seeker-fields-container">
       <h3> ABREVIATURA </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="descripcion_reducida" required minlength="1" maxlength="8"
-          [disabled]="!data.edit">
+        <input matInput formControlName="descripcion_reducida" required minlength="1" maxlength="8">
         <mat-error
           *ngIf="formGroup.get('descripcion_reducida')?.invalid && formGroup.get('descripcion_reducida')?.touched">
           {{ getErrorMessage(formGroup.get('descripcion_reducida')) }}
@@ -40,15 +39,18 @@
     <div class="seeker-fields-container">
       <h3> FORMULARIO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <mat-select formControlName="formulario_AB" required [disabled]="!data.edit">
+        <mat-select formControlName="formulario_AB" required disableOptionCentering>
           <mat-option [value]="'A'"> A </mat-option>
           <mat-option [value]="'B'"> B </mat-option>
         </mat-select>
+        <mat-error *ngIf="formGroup.get('formulario_AB')?.invalid && formGroup.get('formulario_AB')?.touched">
+          {{ getErrorMessage(formGroup.get("formulario_AB")) }}
+        </mat-error>
       </mat-form-field>
     </div>
 
     <div *ngIf="data.edit; else other_content" class="buttons-container">
-      <button class="primary-button icon-button" type="button" (click)="closeDialog()">
+      <button class="primary-button icon-button" type="button" mat-dialog-close>
         <mat-icon> close </mat-icon>
         Cancelar
       </button>
@@ -59,10 +61,12 @@
     </div>
 
     <ng-template #other_content>
-      <button class="primary-button icon-button" mat-dialog-close>
-        <mat-icon> done </mat-icon>
-        Aceptar
-      </button>
+      <div class="buttons-container">
+        <button class="primary-button icon-button" mat-dialog-close>
+          <mat-icon> done </mat-icon>
+          Aceptar
+        </button>
+      </div>
     </ng-template>
   </form>
 </div>
