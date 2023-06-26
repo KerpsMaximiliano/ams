@@ -52,6 +52,13 @@ export class FuenteIngresoFilterComponent {
     });
   }
 
+  public limpiar(): boolean {
+    return this.searchForm.get('descripcion')?.value != '' ||
+      this.searchForm.get('empresa_asociada')?.value != ''
+      ? false
+      : true;
+  }
+
   public search() {
     this.searchEvent.emit(this.searchForm.value);
   }
