@@ -13,6 +13,7 @@ import { MatDialog } from '@angular/material/dialog';
 // * Components
 import { AddEditExtencionFuenteIngresoComponent } from './components/add-edit-extencion-fuente-ingreso/add-edit-extencion-fuente-ingreso.component';
 import { ExtencionFuenteIngresoDashboardComponent } from './components/extencion-fuente-ingreso-dashboard/extencion-fuente-ingreso-dashboard.component';
+import { ExtencionFuenteIngresoFilterComponent } from './components/extencion-fuente-ingreso-filter/extencion-fuente-ingreso-filter.component';
 
 @Component({
   selector: 'app-extencion-fuente-ingreso',
@@ -20,6 +21,8 @@ import { ExtencionFuenteIngresoDashboardComponent } from './components/extencion
   styleUrls: ['./extencion-fuente-ingreso.component.scss'],
 })
 export class ExtencionFuenteIngresoComponent {
+  @ViewChild(ExtencionFuenteIngresoFilterComponent)
+  filter: ExtencionFuenteIngresoFilterComponent;
   @ViewChild(ExtencionFuenteIngresoDashboardComponent)
   dashboard: ExtencionFuenteIngresoDashboardComponent;
 

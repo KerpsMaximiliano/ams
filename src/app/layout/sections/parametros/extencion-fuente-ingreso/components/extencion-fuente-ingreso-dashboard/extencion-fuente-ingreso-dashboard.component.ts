@@ -43,11 +43,7 @@ export class ExtencionFuenteIngresoDashboardComponent {
 
   public searchValue: any;
   public fuenteingreso: IExtencionFuenteIngreso[] = [];
-  public columnsToDisplay: string[] = [
-    'fecha_vigencia',
-    'monto_desde',
-    'monto_hasta',
-  ];
+  public columnsToDisplay: string[] = ['monto_desde', 'monto_hasta'];
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'actions'];
 
   public dataSource: MatTableDataSource<IExtencionFuenteIngreso>;
@@ -80,38 +76,38 @@ export class ExtencionFuenteIngresoDashboardComponent {
 
   private getExtencionFuenteIngraso(): void {
     this.utils.openLoading();
-    this.fuenteingreso = this._extncionFuenteIngreso.getprueba(
-      JSON.stringify({
-        par_modo: 'R',
-        fuenteIngreso: this.searchValue.fuente_ingreso_cod,
-        producto: this.searchValue.producto_cod,
-        vigencia: this.searchValue.vigencia,
-      })
-    );
-    //.subscribe({
-    // next: (res: any) => {
-    //   res.dataset.length
-    // ? (this.fuenteingreso = res.dataset as IExtencionFuenteIngreso[])
-    // : (this.fuenteingreso = [res.dataset]);
-    this.dataSource = new MatTableDataSource<IExtencionFuenteIngreso>(
-      this.fuenteingreso
-    );
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
-    // },
-    // error: (err: any) => {
-    this.utils.closeLoading();
-    //   err.status == 0
-    //     ? this.utils.notification('Error de conexión. ', 'error')
-    //     : this.utils.notification(
-    //         `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
-    //         'error'
-    //       );
-    // },
-    //   complete: () => {
-    //     this.utils.closeLoading();
-    //   },
-    // });
+    this._extncionFuenteIngreso
+      .CRUD(
+        JSON.stringify({
+          par_modo: 'R',
+          fuenteIngreso: this.searchValue.fuente_ingreso_cod,
+          producto: this.searchValue.producto_cod,
+          vigencia: this.searchValue.vigencia,
+        })
+      ).subscribe({
+        next: (res: any) => {
+          res.dataset.length
+            ? (this.fuenteingreso = res.dataset as IExtencionFuenteIngreso[])
+            : (this.fuenteingreso = [res.dataset]);
+          this.dataSource = new MatTableDataSource<IExtencionFuenteIngreso>(
+            this.fuenteingreso
+          );
+          this.dataSource.sort = this.sort;
+          this.dataSource.paginator = this.paginator;
+        },
+        error: (err: any) => {
+          this.utils.closeLoading();
+          err.status == 0
+            ? this.utils.notification('Error de conexión. ', 'error')
+            : this.utils.notification(
+                `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+                'error'
+              );
+        },
+        complete: () => {
+          this.utils.closeLoading();
+        },
+      });
   }
 
   public announceSortChange(sortState: Sort): void {

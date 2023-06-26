@@ -6,10 +6,7 @@
       </mat-expansion-panel-header>
 
       <form [formGroup]="searchForm">
-        <div
-          class="seeker-fields-container"
-          (keyup.enter)="searchKeyUp($event)"
-        >
+        <div class="seeker-fields-container">
           <mat-form-field class="seeker-form-field">
             <mat-label class="seeker-label"> Fuente de ingreso </mat-label>
             <input
@@ -18,15 +15,28 @@
               formControlName="fuente_ingreso"
             />
           </mat-form-field>
-          <mat-form-field class="seeker-form-field">
-            <mat-label class="seeker-label"> Producto </mat-label>
-            <input matInput class="seeker-input" formControlName="producto" />
-          </mat-form-field>
         </div>
-        <div
-          class="seeker-fields-container"
-          (keyup.enter)="searchKeyUp($event)"
-        >
+        <div class="seeker-fields-container">
+          <mat-form-field class="seeker-form-field">
+            <mat-label class="seeker-label">Producto</mat-label>
+            <input matInput class="seeker-input" formControlName="producto" readonly/>
+          </mat-form-field>
+          <div class="content">
+            <div class="icon">
+              <mat-icon
+                class="material-symbols-outlined"
+                (click)="getProducto()"
+                >search</mat-icon
+              >
+            </div>
+            <div class="icon">
+              <mat-icon class="material-symbols-outlined" (click)="limpiar()"
+                >close</mat-icon
+              >
+            </div>
+          </div>
+        </div>
+        <div class="seeker-fields-container">
           <mat-form-field class="seeker-form-field">
             <mat-label class="seeker-label"> Vigencia </mat-label>
             <input matInput class="seeker-input" formControlName="vigencia" />
@@ -36,6 +46,7 @@
           <button
             class="primary-button icon-button"
             type="button"
+            [disabled]="searchForm.valid"
             (click)="search()"
           >
             <mat-icon> done </mat-icon>
@@ -44,6 +55,7 @@
           <button
             class="primary-button icon-button"
             type="button"
+            [disabled]="limpiar()"
             (click)="clearInputs()"
           >
             <mat-icon> close </mat-icon>

@@ -19,6 +19,7 @@ td.mat-cell:first-of-type {
 .mat-colum-actions.mat-header-cell,
 .mat-colum-actions.mat-cell {
   text-align: center;
+  width: 20% !important;
 }
 /*
  * Ancho máximo por columna individual de todas las columnas menos el 'Código' (nro_preg) y las 'Acciones' (actions).
@@ -28,10 +29,8 @@ td.mat-cell:first-of-type {
 .mat-column-monto_desde.mat-header-cell,
 .mat-column-monto_desde.mat-cell,
 .mat-column-monto_hasta.mat-header-cell,
-.mat-column-monto_hasta.mat-cell,
-.mat-colum-actions.mat-header-cell,
-.mat-colum-actions.mat-cell {
-  width: 25% !important;
+.mat-column-monto_hasta.mat-cell {
+  width: 40% !important;
 }
 /*
  * Oculta la paginación hasta que la tabla tenga datos.
