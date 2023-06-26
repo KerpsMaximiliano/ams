@@ -27,7 +27,8 @@
             <mat-icon> done </mat-icon>
             Buscar
           </button>
-          <button class="primary-button icon-button" type="button" (click)="clearInputs()">
+          <button class="primary-button icon-button" type="button"  [disabled]="limpiar()"
+          (click)="clearInputs()">
             <mat-icon> close </mat-icon>
             Limpiar
           </button>

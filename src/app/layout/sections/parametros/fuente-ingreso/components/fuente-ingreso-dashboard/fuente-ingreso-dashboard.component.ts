@@ -18,6 +18,7 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { AddEditFuenteIngresoDialogComponent } from '../add-edit-fuente-ingreso-dialog/add-edit-fuente-ingreso-dialog.component';
 
 export interface searchValue {
+  par_modo: string;
   empresa_asociada: Number;
   descripcion: string;
 }
@@ -87,7 +88,7 @@ export class FuenteIngresoDashboardComponent {
     };
   }
 
-  obtenerNombreEmpresa(id: number): string {
+  public obtenerNombreEmpresa(id: number): string {
     const empresa = this.listEmpresas.find((emp) => emp.id_empresa === id);
     return empresa ? empresa.descripcion : '';
   }
@@ -95,7 +96,7 @@ export class FuenteIngresoDashboardComponent {
   private getFuenteIngreso(): void {
     this.utils.openLoading();
     let body = {
-      par_modo: 'C',
+      par_modo: this.searchValue.par_modo,
       descripcion: this.searchValue.descripcion,
       desc_empresa: this.searchValue.empresa_asociada,
     };
@@ -215,6 +216,7 @@ export class FuenteIngresoDashboardComponent {
       data: {
         title: `VER FUENTE DE INGRESO`,
         edit: false,
+        par_modo: 'C',
         codigo_fuente_ingreso: fuenteIngreso?.codigo_fuente_ingreso,
         tipo_fuente: fuenteIngreso?.tipo_fuente,
         descripcion: fuenteIngreso?.descripcion,
