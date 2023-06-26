@@ -17,7 +17,7 @@
     <div class="seeker-fields-container">
       <h3> MODELO DE FORMULARIO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <mat-select formControlName="modelo_formulario" required minlength="1" maxlength="3">
+        <mat-select formControlName="modelo_formulario" required minlength="1" maxlength="3" disableOptionCentering>
           <mat-option [value]="'A1'"> A1-ALTA </mat-option>
           <mat-option [value]="'M'"> M-MODIFICACIÓN </mat-option>
         </mat-select>
@@ -61,8 +61,8 @@
     <div class="seeker-fields-container">
       <h3> PIDE FECHA </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <mat-select formControlName="pide_fecha" (selectionChange)="changeOption()" required minlength="1"
-          maxlength="1">
+        <mat-select formControlName="pide_fecha" (selectionChange)="changeOption()" required minlength="1" maxlength="1"
+          disableOptionCentering>
           <mat-option [value]="'S'"> SI </mat-option>
           <mat-option [value]="'N'"> NO </mat-option>
         </mat-select>
@@ -75,7 +75,8 @@
     <div class="seeker-fields-container">
       <h3> PIDE SI/NO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <mat-select formControlName="yes_no" (selectionChange)="changeOption()" required minlength="1" maxlength="1">
+        <mat-select formControlName="yes_no" (selectionChange)="changeOption()" required minlength="1" maxlength="1"
+          disableOptionCentering>
           <mat-option [value]="'S'"> SI </mat-option>
           <mat-option [value]="'N'"> NO </mat-option>
         </mat-select>

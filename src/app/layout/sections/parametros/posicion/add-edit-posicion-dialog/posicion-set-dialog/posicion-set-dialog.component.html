@@ -9,7 +9,7 @@
         <mat-label class="seeker-label">
           Seleccione una provincia
         </mat-label>
-        <mat-select #selectProvincia required>
+        <mat-select #selectProvincia required disableOptionCentering>
           <mat-option *ngFor="let provincia of data.provincias" [value]="provincia.codigo"
             (click)="loadDepartamentos()">
             {{ provincia.nombre_provincia }}
@@ -21,7 +21,7 @@
         <mat-label class="seeker-label">
           Seleccione un departamento
         </mat-label>
-        <mat-select #selectDepartamento required [disabled]="!selectProvincia?.value">
+        <mat-select #selectDepartamento required [disabled]="!selectProvincia?.value" disableOptionCentering>
           <mat-option *ngFor="let departamento of departamentos" [value]="departamento.codigo_departamento">
             {{ departamento.descripcion }}
           </mat-option>

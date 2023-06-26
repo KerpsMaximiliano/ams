@@ -11,7 +11,7 @@
             <mat-label class="seeker-label">
               Seleccione una provincia
             </mat-label>
-            <mat-select #selectOptions [disabled]="!provincias">
+            <mat-select #selectOptions [disabled]="!provincias" disableOptionCentering>
               <mat-option *ngFor="let provincia of provincias" [value]="provincia.codigo">
                 {{ provincia.nombre_provincia }}
               </mat-option>
