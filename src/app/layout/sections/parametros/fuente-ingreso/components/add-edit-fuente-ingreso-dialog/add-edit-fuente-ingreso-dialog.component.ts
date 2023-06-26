@@ -25,6 +25,7 @@ import {
 import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
 import { ModalFuenteIngresoComponent } from './modal-fuente-ingreso/modal-fuente-ingreso.component';
 import { IFuenteIngreso } from 'src/app/core/models/fuente-ingreso.interface';
+import { concat, merge, toArray } from 'rxjs';
 
 @Component({
   selector: 'app-add-edit-fuente-ingreso-dialog',
@@ -37,12 +38,16 @@ export class AddEditFuenteIngresoDialogComponent {
   public formSecond: UntypedFormGroup;
   public formFinal: UntypedFormGroup;
   public getErrorMessage = getErrorMessage;
-  listEmpresas: any;
-  listConceptos: any;
-  listComprobantes: any;
-  listTalonarios: any;
-  listCondicionV: any;
-  listReferencia: any;
+  listEmpresas: { descripcion: string; id_empresa: number }[];
+  listConceptos: { id_concepto: number; descripcion: string }[];
+  listComprobantes: { id_comprobante: string; descripcion: string }[];
+  listTalonarios: { id_talonario: number; numero: number }[];
+  listCondicionV: { id_condicion: number; descripcion: string }[];
+  listReferencia: {
+    descripcion: string;
+    id_empresaAsoc: number;
+    id_referencia_contable: string;
+  }[];
   mostrarAdministradora: boolean = false;
 
   dias: { d: number; dia: number }[];
@@ -83,11 +88,11 @@ export class AddEditFuenteIngresoDialogComponent {
       { d: 27, dia: 27 },
       { d: 28, dia: 28 },
     ];
-    this.listEmpresas = this.cargaDatos('E', 'listEmpresas');
-    this.listConceptos = this.cargaDatos('A', 'listConceptos');
-    this.listComprobantes = this.cargaDatos('B', 'listComprobantes');
-    this.listTalonarios = this.cargaDatos('H', 'listTalonarios');
-    this.listCondicionV = this.cargaDatos('G', 'listCondicionV');
+    this.cargaDatos();
+    // this.cargaDatos('A', 'listConceptos');
+    // this.cargaDatos('B', 'listComprobantes');
+    // this.cargaDatos('H', 'listTalonarios');
+    // this.cargaDatos('G', 'listCondicionV');
   }
 
   ngOnInit() {
@@ -159,48 +164,41 @@ export class AddEditFuenteIngresoDialogComponent {
   }
 
   // * carga de las lista
-  private cargaDatos(dato: string, consulta: string): void {
-    let body = {
-      par_modo: dato,
-    };
-    this.fuentesIngresoService.CRUD(JSON.stringify(body)).subscribe({
-      next: (res: any) => {
-        switch (consulta) {
-          case 'listEmpresas': {
-            this.listEmpresas = res.dataset;
-            break;
-          }
-          case 'listConceptos': {
-            this.listConceptos = res.dataset;
-            break;
-          }
-          case 'listComprobantes': {
-            this.listComprobantes = res.dataset;
-            break;
-          }
-          case 'listTalonarios': {
-            this.listTalonarios = res.dataset;
-            break;
-          }
-          case 'listCondicionV': {
-            this.listCondicionV = res.dataset;
-            break;
-          }
-        }
-      },
-      error: (err: any) => {
-        err.status == 0
-          ? this.utils.notification('Error de conexión. ', 'error')
-          : this.utils.notification(
-              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}. `,
-              'error'
-            );
-      },
-    });
+  private cargaDatos(): void {
+    concat(
+      this.fuentesIngresoService.CRUD(JSON.stringify({ par_modo: 'E' })),
+      this.fuentesIngresoService.CRUD(JSON.stringify({ par_modo: 'A' })),
+      this.fuentesIngresoService.CRUD(JSON.stringify({ par_modo: 'B' })),
+      this.fuentesIngresoService.CRUD(JSON.stringify({ par_modo: 'H' })),
+      this.fuentesIngresoService.CRUD(JSON.stringify({ par_modo: 'G' }))
+    )
+      .pipe(toArray())
+      .subscribe({
+        next: (res: any) => {
+          // * listEmpresas
+          this.listEmpresas = res[0].dataset;
+          // * listConceptos
+          this.listConceptos = res[1].dataset;
+          // * listComprobantes
+          this.listComprobantes = res[2].dataset;
+          // * listTalonarios
+          this.listTalonarios = res[3].dataset;
+          // * listCondicionV
+          this.listCondicionV = res[4].dataset;
+        },
+        error: (err: any) => {
+          err.status == 0
+            ? this.utils.notification('Error de conexión. ', 'error')
+            : this.utils.notification(
+                `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}. `,
+                'error'
+              );
+        },
+      });
   }
 
   // * carga de las lista de referencias de empresas
-  public cargaReferencia(dato: string): void {
+  public cargaReferencia(dato: number): void {
     let body = {
       par_modo: 'J',
       empresa_asociada: dato,
