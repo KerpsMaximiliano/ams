@@ -1,11 +1,4 @@
 /*
- * MODAL: Espacios.
-*/
-.form-datos {
-  padding: 0rem 1rem 1rem 1rem !important;
-}
-
-/*
    * MODAL: Formulario deshabilitado.
    * Borde: '::ng-deep .mat-form-field-disabled .mat-form-field-outline'.
    * Texto inputs: '::ng-deep .mat-form-field-disabled .mat-input-element'.
@@ -18,4 +11,8 @@
 .mat-form-field-disabled {
   color: #635f5f !important;
   user-select: text !important;
+}
+
+.dialog-content {
+  width: 700px;
 }

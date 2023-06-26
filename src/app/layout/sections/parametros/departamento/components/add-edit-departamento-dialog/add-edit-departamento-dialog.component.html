@@ -7,13 +7,11 @@
     <div class="seeker-fields-container">
       <h3> PROVINCIA </h3>
       <mat-form-field class="seeker-form-field" required appearance="outline">
-        <mat-select formControlName="nombre_provincia" *ngIf="data.par_modo === 'C'; else noEdit">
-          <mat-option *ngFor="let provincia of provincias" [value]="provincia.codigo"> {{ provincia.nombre_provincia }}
+        <mat-select formControlName="nombre_provincia" disableOptionCentering>
+          <mat-option *ngFor="let provincia of data.provincias" [value]="provincia.codigo">
+            {{ provincia.nombre_provincia }}
           </mat-option>
         </mat-select>
-        <ng-template #noEdit>
-          <input matInput formControlName="nombre_provincia" />
-        </ng-template>
         <mat-error *ngIf="formGroup.get('nombre_provincia')?.invalid && formGroup.get('nombre_provincia')?.touched">
           {{ getErrorMessage(formGroup.get("nombre_provincia")) }}
         </mat-error>
@@ -24,7 +22,7 @@
     <div class="seeker-fields-container">
       <h3> CÓDIGO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="codigo_departamento" />
+        <input matInput formControlName="codigo_departamento" required />
         <mat-error
           *ngIf="formGroup.get('codigo_departamento')?.invalid && formGroup.get('codigo_departamento')?.touched">
           {{ getErrorMessage(formGroup.get('codigo_departamento')) }}
@@ -35,7 +33,7 @@
     <div class="seeker-fields-container">
       <h3> DEPARTAMENTO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="descripcion" minlength="3" maxlength="50" required />
+        <input matInput formControlName="descripcion" required minlength="3" maxlength="50" />
         <mat-error *ngIf="formGroup.get('descripcion')?.invalid && formGroup.get('descripcion')?.touched">
           {{ getErrorMessage(formGroup.get("descripcion")) }}
         </mat-error>
@@ -54,7 +52,7 @@
     </div>
 
     <div *ngIf="data.edit; else other_content" class="buttons-container">
-      <button class="primary-button icon-button" type="button" (click)="closeDialog()">
+      <button class="primary-button icon-button" type="button" mat-dialog-close>
         <mat-icon> close </mat-icon>
         Cancelar
       </button>

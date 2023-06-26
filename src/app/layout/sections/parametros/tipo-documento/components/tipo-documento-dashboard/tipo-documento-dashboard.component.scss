@@ -7,6 +7,15 @@ td.mat-cell:first-of-type {
 }
 
 /*
+ * Número y fecha alineado a la derecha.
+*/
+.mat-column-tipo_de_documento.mat-header-cell,
+.mat-column-tipo_de_documento.mat-cell {
+  text-align: right !important;
+  padding-right: 1vw;
+}
+
+/*
  * Texto alineado a la izquierda.
 */
 .mat-column-descripcion.mat-header-cell,
@@ -16,26 +25,8 @@ td.mat-cell:first-of-type {
 .mat-column-control_cuit.mat-header-cell,
 .mat-column-control_cuit.mat-cell {
   text-align: left !important;
-  padding-left: 1vw !important;
-  word-break: break-all !important;
-}
-
-/*
- * Número y fecha alineado a la derecha.
-*/
-.mat-column-tipo_de_documento.mat-header-cell,
-.mat-column-tipo_de_documento.mat-cell {
-  text-align: right !important;
-  padding-right: 1vw !important;
-  word-break: break-all !important;
-}
-
-/*
- * Iconos alineados al centro.
-*/
-.mat-column-actions.mat-header-cell,
-.mat-column-actions.mat-cell {
-  text-align: center !important;
+  padding-left: 1vw;
+  word-break: break-all;
 }
 
 /*
@@ -43,32 +34,35 @@ td.mat-cell:first-of-type {
 */
 .mat-column-tipo_de_documento.mat-header-cell,
 .mat-column-tipo_de_documento.mat-cell {
-  width: 13% !important;
+  min-width: 100px;
 }
 
 .mat-column-descripcion.mat-header-cell,
 .mat-column-descripcion.mat-cell {
-  width: 35% !important;
+  min-width: 200px;
+  width: 45%;
 }
 
 .mat-column-descripcion_reducida.mat-header-cell,
 .mat-column-descripcion_reducida.mat-cell {
-  width: 24% !important;
+  min-width: 110px;
+  width: 25%;
 }
 
 .mat-column-control_cuit.mat-header-cell,
 .mat-column-control_cuit.mat-cell {
-  width: 15% !important;
+  min-width: 150px;
+  width: 30%;
 }
 
 .mat-column-actions.mat-header-cell,
 .mat-column-actions.mat-cell {
-  width: 13% !important;
+  min-width: 100px;
 }
 
 /*
- * Oculta la paginación hasta que la tabla tenga datos.
+ * Oculta la tabla y paginación hasta que existan datos.
 */
-.hide-paginator {
+.d-none {
   display: none;
 }

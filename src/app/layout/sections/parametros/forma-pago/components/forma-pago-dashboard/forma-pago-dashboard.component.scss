@@ -7,6 +7,15 @@ td.mat-cell:first-of-type {
 }
 
 /*
+ * Número y fecha alineado a la derecha.
+*/
+.mat-column-codigo.mat-header-cell,
+.mat-column-codigo.mat-cell {
+  text-align: right !important;
+  padding-right: 1vw;
+}
+
+/*
  * Texto alineado a la izquierda.
 */
 .mat-column-forma_pago.mat-header-cell,
@@ -15,70 +24,62 @@ td.mat-cell:first-of-type {
 .mat-column-description.mat-cell,
 .mat-column-nombre_tarjeta_nemot.mat-header-cell,
 .mat-column-nombre_tarjeta_nemot.mat-cell,
+.mat-column-desc_banco.mat-header-cell,
+.mat-column-desc_banco.mat-cell,
 .mat-column-codigo_tarjeta_de_baja.mat-header-cell,
 .mat-column-codigo_tarjeta_de_baja.mat-cell {
   text-align: left !important;
-  padding-left: 1vw !important;
-  word-break: break-all !important;
+  padding-left: 1vw;
+  word-break: break-all;
 }
 
 /*
- * Número y fecha alineado a la derecha.
-*/
-.mat-column-codigo.mat-header-cell,
-.mat-column-codigo.mat-cell,
-.mat-column-codigo_banco.mat-header-cell,
-.mat-column-codigo_banco.mat-cell {
-  text-align: right !important;
-  padding-right: 1vw !important;
-  word-break: break-all !important;
-}
-
-/*
- * Iconos alineados al centro.
-*/
-.mat-column-actions.mat-header-cell,
-.mat-column-actions.mat-cell {
-  text-align: center !important;
-  word-break: break-all !important;
-}
-
-/*
- * Ancho máximo por columna individual de todas las columnas menos las 'Acciones' (actions).
+ * Tamaño de columnas.
 */
 .mat-column-codigo.mat-header-cell,
 .mat-column-codigo.mat-cell {
-  width: 8% !important;
+  min-width: 100px;
 }
 
-.mat-column-descripcion.mat-header-cell,
-.mat-column-descripcion.mat-cell {
-  width: 30% !important;
+.mat-column-forma_pago.mat-header-cell,
+.mat-column-forma_pago.mat-cell {
+  min-width: 130px;
+  width: 20%;
 }
 
-.mat-column-tipo_obra_social_prepaga.mat-header-cell,
-.mat-column-tipo_obra_social_prepaga.mat-cell {
-  width: 6% !important;
+.mat-column-description.mat-header-cell,
+.mat-column-description.mat-cell {
+  min-width: 110px;
+  width: 35%;
 }
 
-.mat-column-nro_registro.mat-header-cell,
-.mat-column-nro_registro.mat-cell {
-  width: 24% !important;
+.mat-column-nombre_tarjeta_nemot.mat-header-cell,
+.mat-column-nombre_tarjeta_nemot.mat-cell {
+  min-width: 110px;
+  width: 10%;
 }
 
-.mat-column-similar_SMP.mat-header-cell,
-.mat-column-similar_SMP.mat-cell {
-  width: 10% !important;
+.mat-column-desc_banco.mat-header-cell,
+.mat-column-desc_banco.mat-cell {
+  min-width: 50px;
+  width: 35%;
 }
 
-.mat-column-omite_R420.mat-header-cell,
-.mat-column-omite_R420.mat-cell {
-  width: 11% !important;
+.mat-column-codigo_tarjeta_de_baja.mat-header-cell,
+.mat-column-codigo_tarjeta_de_baja.mat-cell {
+  min-width: 80px;
 }
 
 .mat-column-actions.mat-header-cell,
 .mat-column-actions.mat-cell {
-  width: 11% !important;
+  min-width: 100px;
+}
+
+/*
+ * Oculta la tabla y paginación hasta que existan datos.
+*/
+.d-none {
+  display: none;
 }
 
 /*
@@ -89,11 +90,4 @@ td.mat-cell:first-of-type {
   vertical-align: bottom;
   width: 40px;
   height: 44.09px;
-}
-
-/*
- * Oculta la paginación hasta que la tabla tenga datos.
-*/
-.hide-paginator {
-  display: none;
 }

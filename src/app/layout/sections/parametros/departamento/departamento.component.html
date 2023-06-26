@@ -1,14 +1,15 @@
 <section class="browse-section">
   <div class="section-header">
     <h2> Departamentos </h2>
-    <button class="new-button icon-button" (click)="nuevoDepartamento()" [disabled]="request === false">
+    <button class="new-button icon-button" (click)="new()" [disabled]="request === false">
       <mat-icon> add </mat-icon>
       Nuevo
     </button>
   </div>
 
   <div class="section-content">
-    <app-departamento-filter (searchEvent)="handleSearch($event)" [provincias]="provincias"></app-departamento-filter>
-    <app-departamento-dashboard [provincias]="provincias"></app-departamento-dashboard>
+    <app-departamento-filter (search)="getDepartamento($event)" [provincias]="provincias"></app-departamento-filter>
+    <app-departamento-dashboard [receivedData]="dataSent" (viewEvent)="view($event)"
+      (editEvent)="edit($event)"></app-departamento-dashboard>
   </div>
 </section>

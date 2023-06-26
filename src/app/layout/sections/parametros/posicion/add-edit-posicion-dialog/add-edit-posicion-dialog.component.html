@@ -28,7 +28,7 @@
       <h3> LOCALIDAD </h3>
       <div class="content">
         <mat-form-field class="seeker-form-field" appearance="outline">
-          <input matInput formControlName="localidad" #inputLocalidad readonly />
+          <input matInput formControlName="localidad" #inputLocalidad readonly required />
           <mat-error *ngIf="formGroup.get('localidad')?.invalid && formGroup.get('localidad')?.touched">
             {{ getErrorMessage(formGroup.get("localidad")) }}
           </mat-error>
@@ -57,13 +57,10 @@
     <div class="seeker-fields-container">
       <h3> CONTROL DE RECHAZO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <mat-select formControlName="control_rechazo" required *ngIf="data.edit; else controlRechazo">
+        <mat-select formControlName="control_rechazo" required disableOptionCentering>
           <mat-option [value]="'S'"> SI </mat-option>
           <mat-option [value]="'N'"> NO </mat-option>
         </mat-select>
-        <ng-template #controlRechazo>
-          <input matInput [value]="data.control_rechazo === 'S' ? 'SI'  : 'NO'" disabled />
-        </ng-template>
         <mat-error *ngIf="formGroup.get('control_rechazo')?.invalid && formGroup.get('control_rechazo')?.touched">
           {{ getErrorMessage(formGroup.get('control_rechazo')) }}
         </mat-error>
@@ -73,13 +70,10 @@
     <div class="seeker-fields-container">
       <h3> HABILITADO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <mat-select formControlName="yes_no" required *ngIf="data.edit; else yesNo">
+        <mat-select formControlName="yes_no" required disableOptionCentering>
           <mat-option [value]="'S'"> SI </mat-option>
           <mat-option [value]="'N'"> NO </mat-option>
         </mat-select>
-        <ng-template #yesNo>
-          <input matInput [value]="data.yes_no === 'S' ? 'SI'  : 'NO'" disabled />
-        </ng-template>
         <mat-error *ngIf="formGroup.get('yes_no')?.invalid && formGroup.get('yes_no')?.touched">
           {{ getErrorMessage(formGroup.get('yes_no')) }}
         </mat-error>
@@ -94,7 +88,7 @@
     </div>
 
     <div *ngIf="data.edit; else other_content" class="buttons-container">
-      <button class="primary-button icon-button btn-w" type="button" (click)="closeDialog()">
+      <button class="primary-button icon-button btn-w" type="button" mat-dialog-close>
         <mat-icon> close </mat-icon>
         Cancelar
       </button>

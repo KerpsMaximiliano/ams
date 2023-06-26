@@ -65,7 +65,7 @@ export class NavMenuComponent {
           icon: 'keyboard_arrow_right',
         },
         {
-          // 11 - FUENTES DE INGRESO
+        // 11 - FUENTES DE INGRESO
           title: 'Fuentes de ingreso',
           url: '/parametros/fuentes-ingreso',
           icon: 'keyboard_arrow_right',

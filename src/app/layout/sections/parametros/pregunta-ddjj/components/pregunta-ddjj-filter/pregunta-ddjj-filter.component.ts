@@ -6,25 +6,23 @@ import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
   styleUrls: ['./pregunta-ddjj-filter.component.scss'],
 })
 export class PreguntaDDJJFilterComponent {
-  @Output() searchEvent: EventEmitter<any> = new EventEmitter<any>();
-  @ViewChild('selectOptions') selectOptions: any;
+  @Output() public search: EventEmitter<string> = new EventEmitter<string>();
+  @ViewChild('selectOptions') public selectOptions: any;
 
   isCleanButtonDisabled = true;
 
   constructor() {}
 
-  ngOnInit(): void {}
-
-  public search(): void {
-    let selectedValue = this.selectOptions?.value || '';
-    let body = {
-      par_modo: 'O',
-      modelo_formulario: selectedValue,
-    };
-    this.searchEvent.emit(JSON.stringify(body));
+  public performSearch(): void {
+    this.search.emit(
+      JSON.stringify({
+        par_modo: 'O',
+        modelo_formulario: this.selectOptions?.value || '',
+      })
+    );
   }
 
-  public clean(): void {
+  public clear(): void {
     this.selectOptions.value = '';
   }
 }

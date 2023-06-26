@@ -1,14 +1,16 @@
 <section class="browse-section">
   <div class="section-header">
     <h2> Localidades </h2>
-    <button class="new-button icon-button" (click)="nuevaLocalidad()">
+    <button class="new-button icon-button" (click)="new()" [disabled]="request === false">
       <mat-icon> add </mat-icon>
       Nuevo
     </button>
   </div>
 
   <div class="section-content">
-    <app-localidad-filter (searchEvent)="handleSearch($event)"></app-localidad-filter>
-    <app-localidad-dashboard></app-localidad-dashboard>
+    <app-localidad-filter (search)="getLocalidad($event)" [provincias]="provincias"
+      (loadDepartamentos)="onDepartamentosLoaded($event)"></app-localidad-filter>
+    <app-localidad-dashboard [receivedData]="dataSent" (viewEvent)="view($event)"
+      (editEvent)="edit($event)"></app-localidad-dashboard>
   </div>
 </section>

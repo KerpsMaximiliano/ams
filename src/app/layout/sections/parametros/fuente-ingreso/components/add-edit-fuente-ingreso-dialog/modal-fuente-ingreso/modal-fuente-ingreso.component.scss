@@ -1,0 +1,26 @@
+
+
+.mat-column-descripcion.mat-header-cell,
+.mat-column-descripcion.mat-cell {
+    text-align: left !important;
+    padding-left: 1vw !important;
+}
+
+.mat-column-codigo_fuente_ingreso.mat-header-cell,
+.mat-column-codigo_fuente_ingreso.mat-cell {
+    text-align: right !important;
+    padding-right: 1vw !important;
+}
+
+/*
+* Oculta la paginación hasta que la tabla tenga datos.
+*/
+.hide-paginator {
+    display: none;
+}
+.mat-dialog-container{
+        margin-left: -25% !important;
+    padding: auto;
+    width: 150% !important;
+    height: 100% !important;
+}

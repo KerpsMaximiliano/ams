@@ -6,25 +6,22 @@ import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
   styleUrls: ['./motivo-movimiento-filter.component.scss'],
 })
 export class MotivoMovimientoFilterComponent {
-  @Output() searchEvent: EventEmitter<string> = new EventEmitter<string>();
-  @ViewChild('selectOptions') selectOptions: any;
+  @Output() public search: EventEmitter<string> = new EventEmitter<string>();
+  @ViewChild('selectOptions') public selectOptions: any;
 
   constructor() {}
 
-  ngOnInit(): void {}
-
-  public search(event: any, value: string): void {
-    event.preventDefault();
-    let selectValue = this.selectOptions?.value;
-    let body = {
-      par_modo: 'O',
-      tipo_motivo: selectValue,
-      descripcion: value,
-    };
-    this.searchEvent.emit(JSON.stringify(body));
+  public performSearch(value: string): void {
+    this.search.emit(
+      JSON.stringify({
+        par_modo: 'O',
+        tipo_motivo: this.selectOptions?.value,
+        descripcion: value,
+      })
+    );
   }
 
-  public clear(inputElement: HTMLInputElement) {
+  public clear(inputElement: HTMLInputElement): void {
     this.selectOptions.value = '';
     inputElement.value = '';
   }

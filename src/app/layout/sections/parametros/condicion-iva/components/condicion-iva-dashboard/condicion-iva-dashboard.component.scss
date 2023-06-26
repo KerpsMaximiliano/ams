@@ -3,7 +3,16 @@
 */
 th.mat-header-cell:first-of-type,
 td.mat-cell:first-of-type {
-  padding-left: 0px !important;
+  padding-left: 0px;
+}
+
+/*
+ * Número y fecha alineado a la derecha.
+*/
+.mat-column-codigo_de_IVA.mat-header-cell,
+.mat-column-codigo_de_IVA.mat-cell {
+  text-align: right !important;
+  padding-right: 1vw;
 }
 
 /*
@@ -16,26 +25,8 @@ td.mat-cell:first-of-type {
 .mat-column-formulario_AB.mat-header-cell,
 .mat-column-formulario_AB.mat-cell {
   text-align: left !important;
-  padding-left: 1vw !important;
-  word-break: break-all !important;
-}
-
-/*
- * Número y fecha alineado a la derecha.
-*/
-.mat-column-codigo_de_IVA.mat-header-cell,
-.mat-column-codigo_de_IVA.mat-cell {
-  text-align: right !important;
-  padding-right: 1vw !important;
-  word-break: break-all !important;
-}
-
-/*
- * Iconos alineados al centro.
-*/
-.mat-column-actions.mat-header-cell,
-.mat-column-actions.mat-cell {
-  text-align: center !important;
+  padding-left: 1vw;
+  word-break: break-all;
 }
 
 /*
@@ -43,32 +34,35 @@ td.mat-cell:first-of-type {
 */
 .mat-column-codigo_de_IVA.mat-header-cell,
 .mat-column-codigo_de_IVA.mat-cell {
-  width: 16% !important;
+  min-width: 100px;
 }
 
 .mat-column-descripcion.mat-header-cell,
 .mat-column-descripcion.mat-cell {
-  width: 36% !important;
+  min-width: 160px;
+  width: 40%;
 }
 
 .mat-column-descripcion_reducida.mat-header-cell,
 .mat-column-descripcion_reducida.mat-cell {
-  width: 22% !important;
+  min-width: 110px;
+  width: 40%;
 }
 
 .mat-column-formulario_AB.mat-header-cell,
 .mat-column-formulario_AB.mat-cell {
-  width: 15% !important;
+  min-width: 100px;
+  width: 20%;
 }
 
 .mat-column-actions.mat-header-cell,
 .mat-column-actions.mat-cell {
-  width: 11% !important;
+  min-width: 100px;
 }
 
 /*
- * Oculta la paginación hasta que la tabla tenga datos.
+ * Oculta la tabla y paginación hasta que existan datos.
 */
-.hide-paginator {
+.d-none {
   display: none;
 }

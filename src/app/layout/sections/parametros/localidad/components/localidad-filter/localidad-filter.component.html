@@ -5,53 +5,58 @@
         <mat-panel-title> Opciones de búsqueda </mat-panel-title>
       </mat-expansion-panel-header>
 
-      <form [formGroup]="searching">
-        <div class="seeker-fields-container">
-          <h3> Provincia </h3>
-          <mat-form-field class="seeker-form-field" appearance="outline">
-            <input type="text" matInput [formControl]="myControlProv" [matAutocomplete]="prov" required>
-            <mat-autocomplete #prov="matAutocomplete" [displayWith]="displayFnProv">
-              <mat-option *ngFor="let Prov of provinciaFiltrados | async" [value]="Prov"
-                (onSelectionChange)="buscar(Prov.codigo)">
-                {{ Prov.nombre_provincia }}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
+      <div class="seeker-fields-container">
+        <mat-form-field class="seeker-form-field">
+          <mat-label class="seeker-label">
+            Seleccione una provincia
+          </mat-label>
+          <mat-select #provincia required [disabled]="!provincias" disableOptionCentering>
+            <mat-option *ngFor="let provincia of provincias" [value]="provincia.codigo"
+              (click)="getDepartamentos(provincia.codigo)">
+              {{ provincia.nombre_provincia }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
 
-          <h3> Departamento </h3>
-          <mat-form-field class="seeker-form-field" appearance="outline">
-            <input type="text" matInput [formControl]="myControldepto" [matAutocomplete]="dep" required>
-            <mat-autocomplete #dep="matAutocomplete" [displayWith]="displayFnDep">
-              <mat-option *ngFor="let depto of deptoFiltrados | async" [value]="depto"
-                (onSelectionChange)="dato(depto.codigo_departamento)">
-                {{ depto.descripcion }}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
-        </div>
+        <mat-form-field class="seeker-form-field">
+          <mat-label class="seeker-label">
+            Seleccione un departamento
+          </mat-label>
+          <mat-select #departamento [disabled]="!provincia?.value" disableOptionCentering>
+            <mat-option *ngFor="let departamento of departamentos" [value]="departamento.codigo_departamento">
+              {{ departamento.descripcion }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
 
-        <div class="seeker-fields-container">
-          <mat-form-field class="seeker-form-field">
-            <mat-label class="seeker-label"> Código postal </mat-label>
-            <input matInput class="seeker-input" formControlName="codigo_postal" (keydown.enter)="searchKeyUp($event)">
-          </mat-form-field>
-          <mat-form-field class="seeker-form-field">
-            <mat-label class="seeker-label"> Localidad </mat-label>
-            <input matInput class="seeker-input" formControlName="descripcion" (keydown.enter)="searchKeyUp($event)">
-          </mat-form-field>
-        </div>
+      <div class="seeker-fields-container">
+        <mat-form-field class="seeker-form-field">
+          <mat-label class="seeker-label"> Ingrese una localidad </mat-label>
+          <input matInput #localidad class="seeker-input" (keydown.enter)="performSearch(localidad, codigo)"
+            maxlength="30" [disabled]="!provincia?.value || !departamento?.value" />
+        </mat-form-field>
 
-        <div class="buttons-container">
-          <button class="primary-button icon-button" type="button" (click)="search()">
-            <mat-icon> done </mat-icon>
-            Buscar
-          </button>
-          <button class="primary-button icon-button" type="button" (click)="clearInputs()">
-            <mat-icon> close </mat-icon>
-            Limpiar
-          </button>
-        </div>
-      </form>
+        <mat-form-field class="seeker-form-field">
+          <mat-label class="seeker-label"> Ingrese un código postal </mat-label>
+          <input matInput class="seeker-input" #codigo maxlength="7" [disabled]="!provincia?.value"
+            (keydown)="validateNumberInput($event)" (keydown.enter)="performSearch(localidad, codigo)"
+            (paste)="handlePaste($event)" />
+        </mat-form-field>
+      </div>
+
+      <div class=" buttons-container">
+        <button class="primary-button icon-button" type="button"
+          [disabled]="!departamento?.value && codigo.value.length=== 0" (click)="performSearch(localidad, codigo)">
+          <mat-icon> done </mat-icon>
+          Buscar
+        </button>
+        <button class="primary-button icon-button" type="button" (click)="clear(localidad, codigo)"
+          [disabled]="!provincia?.value && !departamento?.value && localidad.value.length === 0 && codigo.value.length === 0">
+          <mat-icon> close </mat-icon>
+          Limpiar
+        </button>
+      </div>
     </mat-expansion-panel>
   </mat-accordion>
 </section>

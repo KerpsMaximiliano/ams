@@ -16,7 +16,7 @@ import { SuccessComponent } from 'src/app/shared/snackbar/success/success.compon
 export class UtilService {
   constructor(private snackBar: MatSnackBar, private matDialog: MatDialog) {}
 
-  dialogRef: MatDialogRef<LoaderComponent>;
+  dialogRef: MatDialogRef<LoaderComponent, any> | null = null;
 
   notification(statusMessage: string, tipo?: string, duration?: number) {
     if (tipo) {
@@ -44,19 +44,24 @@ export class UtilService {
   }
 
   openLoading(message: string = 'Cargando...') {
-    this.dialogRef = this.matDialog.open(LoaderComponent, {
-      disableClose: true,
-    });
-    this.dialogRef.componentInstance.title = message;
-    this.dialogRef.updateSize('200px');
-    return this.dialogRef.afterClosed();
+    if (!this.dialogRef) {
+      this.dialogRef = this.matDialog.open(LoaderComponent, {
+        disableClose: true,
+      });
+      this.dialogRef.componentInstance.title = message;
+      this.dialogRef.updateSize('200px');
+      return this.dialogRef.afterClosed();
+    } else {
+      return undefined;
+    }
   }
 
   closeLoading(time?: number) {
-    setTimeout(() => {
-      if (this.dialogRef) {
-        this.dialogRef.close();
-      }
-    }, time ?? 0);
+    if (this.dialogRef) {
+      setTimeout(() => {
+        this.dialogRef?.close();
+        this.dialogRef = null;
+      }, time || 0);
+    }
   }
 }

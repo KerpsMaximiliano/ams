@@ -1,36 +1,27 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { LiveAnnouncer } from '@angular/cdk/a11y';
-
-// * Services
-import { UtilService } from 'src/app/core/services/util.service';
-import { TipoDocumentoService } from 'src/app/core/services/tipo-documento.service';
+import {
+  Component,
+  Input,
+  ViewChild,
+  OnInit,
+  OnChanges,
+  SimpleChanges,
+  EventEmitter,
+  Output,
+} from '@angular/core';
 
 // * Interfaces
 import { ITipoDocumento } from 'src/app/core/models/tipo-documento.interface';
 
 // * Material
-import { MatDialog } from '@angular/material/dialog';
+import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
-import { MatSort, Sort } from '@angular/material/sort';
-import { MatTable, MatTableDataSource } from '@angular/material/table';
-
-// * Components
-import { AddEditTipoDocumentoDialogComponent } from '../add-edit-tipo-documento-dialog/add-edit-tipo-documento-dialog.component';
 
 @Component({
   selector: 'app-tipo-documento-dashboard',
   templateUrl: './tipo-documento-dashboard.component.html',
   styleUrls: ['./tipo-documento-dashboard.component.scss'],
 })
-export class TipoDocumentoDashboardComponent implements OnInit {
-  @ViewChild(MatSort) sort: MatSort = new MatSort();
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator =
-    new MatPaginator(new MatPaginatorIntl(), this.cdr);
-
-  @ViewChild(MatTable) table!: MatTable<any>;
-
-  public searchValue: string = '';
-  public tipoDocumento: ITipoDocumento[] = [];
+export class TipoDocumentoDashboardComponent implements OnInit, OnChanges {
   public displayedColumns: string[] = [
     'tipo_de_documento',
     'descripcion',
@@ -40,136 +31,52 @@ export class TipoDocumentoDashboardComponent implements OnInit {
   ];
   public dataSource: MatTableDataSource<ITipoDocumento>;
 
-  constructor(
-    private utils: UtilService,
-    private _liveAnnouncer: LiveAnnouncer,
-    private cdr: ChangeDetectorRef,
-    private dialog: MatDialog,
-    private tipoDocumentoService: TipoDocumentoService
-  ) {}
+  @ViewChild(MatPaginator, { static: true }) public paginator!: MatPaginator;
+
+  @Input() public receivedData: ITipoDocumento[] = [];
+  @Output() public viewEvent: EventEmitter<ITipoDocumento> =
+    new EventEmitter<ITipoDocumento>();
+  @Output() public editEvent: EventEmitter<ITipoDocumento> =
+    new EventEmitter<ITipoDocumento>();
+
+  constructor(private matPaginatorIntl: MatPaginatorIntl) {}
 
   ngOnInit(): void {
+    this.configurePaginator();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['receivedData'] && !changes['receivedData'].firstChange) {
+      this.dataSource = new MatTableDataSource<ITipoDocumento>(
+        this.receivedData
+      );
+      this.dataSource.paginator = this.paginator;
+    }
+  }
+
+  public view(element: ITipoDocumento): void {
+    this.viewEvent.emit(element);
+  }
+
+  public edit(element: ITipoDocumento): void {
+    this.editEvent.emit(element);
+  }
+
+  private configurePaginator(): void {
+    this.paginator._intl = this.matPaginatorIntl;
     this.paginator._intl.itemsPerPageLabel = 'Elementos por página: ';
     this.paginator._intl.nextPageLabel = 'Página siguiente.';
     this.paginator._intl.previousPageLabel = 'Página anterior.';
     this.paginator._intl.firstPageLabel = 'Primer página.';
-    this.paginator._intl.lastPageLabel = 'Ultima página.';
+    this.paginator._intl.lastPageLabel = 'Última página.';
     this.paginator._intl.getRangeLabel = (
       page: number,
       pageSize: number,
       length: number
     ): string => {
       return length
-        ? 'Página ' + (page + 1) + ' de ' + Math.ceil(length / pageSize)
+        ? `Página ${page + 1} de ${Math.ceil(length / pageSize)}`
         : 'Página 0 de 0';
     };
-  }
-
-  private getTipoDocumento(): void {
-    this.utils.openLoading();
-    this.tipoDocumentoService.CRUD(this.searchValue).subscribe({
-      next: (res: any) => {
-        res.dataset.length
-          ? (this.tipoDocumento = res.dataset as ITipoDocumento[])
-          : (this.tipoDocumento = [res.dataset]);
-        this.dataSource = new MatTableDataSource<ITipoDocumento>(
-          this.tipoDocumento
-        );
-        this.dataSource.sort = this.sort;
-        this.dataSource.paginator = this.paginator;
-      },
-      error: (err: any) => {
-        this.utils.closeLoading();
-        err.status == 0
-          ? this.utils.notification('Error de conexión. ', 'error')
-          : this.utils.notification(
-              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
-              'error'
-            );
-      },
-      complete: () => {
-        this.utils.closeLoading();
-      },
-    });
-  }
-
-  public announceSortChange(sortState: Sort): void {
-    if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    } else {
-      this._liveAnnouncer.announce('Sorting cleared');
-    }
-  }
-
-  public editTipoDocumento(tipoDocumento: ITipoDocumento): void {
-    const modalNuevoTipoDocumento = this.dialog.open(
-      AddEditTipoDocumentoDialogComponent,
-      {
-        data: {
-          title: `EDITAR TIPO DE DOCUMENTO`,
-          edit: true,
-          par_modo: 'U',
-          tipo_de_documento: tipoDocumento.tipo_de_documento,
-          descripcion: tipoDocumento.descripcion,
-          descripcion_reducida: tipoDocumento.descripcion_reducida,
-          control_cuit: tipoDocumento.control_cuit,
-        },
-      }
-    );
-
-    modalNuevoTipoDocumento.afterClosed().subscribe({
-      next: (res) => {
-        if (res) {
-          this.utils.openLoading();
-          this.tipoDocumentoService.CRUD(res).subscribe({
-            next: () => {
-              this.utils.notification(
-                'El documento se ha editado extiosamente. ',
-                'success'
-              );
-            },
-            error: (err) => {
-              this.utils.closeLoading();
-              err.status == 0
-                ? this.utils.notification('Error de conexión. ', 'error')
-                : this.utils.notification(
-                    `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
-                    'error'
-                  );
-              this.editTipoDocumento(res);
-            },
-            complete: () => {
-              this.utils.closeLoading();
-              setTimeout(() => {
-                this.searchValue = JSON.stringify({
-                  par_modo: 'R',
-                  tipo_de_documento: res.tipo_de_documento,
-                });
-                this.getTipoDocumento();
-              }, 300);
-            },
-          });
-        }
-      },
-    });
-  }
-
-  public viewTipoDocumento(tipoDocumento: ITipoDocumento): void {
-    this.dialog.open(AddEditTipoDocumentoDialogComponent, {
-      data: {
-        title: `VER DOCUMENTO`,
-        edit: false,
-        par_modo: 'R',
-        tipo_de_documento: tipoDocumento.tipo_de_documento,
-        descripcion: tipoDocumento.descripcion,
-        descripcion_reducida: tipoDocumento.descripcion_reducida,
-        control_cuit: tipoDocumento.control_cuit,
-      },
-    });
-  }
-
-  public filter(data: string): void {
-    this.searchValue = data;
-    this.getTipoDocumento();
   }
 }
