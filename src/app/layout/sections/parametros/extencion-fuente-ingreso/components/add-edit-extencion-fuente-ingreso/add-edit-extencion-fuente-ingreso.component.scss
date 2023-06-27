@@ -1,3 +1,4 @@
+// * contenedor de coeficientes
 .content-coeficiente {
   display: flex;
   text-align: center;
@@ -5,6 +6,7 @@
   align-items: center;
   margin: 1rem;
 }
+// * coeficientes
 .content-part {
   display: block;
 }
@@ -15,18 +17,13 @@
   align-items: center;
   gap: 1rem;
 }
+
 .seeker-fields-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
 }
-.buttons-container {
-  display: grid !important;
-  justify-content: center;
-  align-items: center;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 1rem;
-}
+// * iconos de busqueda y eliminacion
 .icon {
   display: flex;
   justify-content: center;

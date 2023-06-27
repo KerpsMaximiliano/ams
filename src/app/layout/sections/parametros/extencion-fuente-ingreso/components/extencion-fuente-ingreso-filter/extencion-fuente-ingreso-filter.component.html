@@ -4,7 +4,6 @@
       <mat-expansion-panel-header floating>
         <mat-panel-title> Opciones de búsqueda </mat-panel-title>
       </mat-expansion-panel-header>
-
       <form [formGroup]="searchForm">
         <div class="seeker-fields-container">
           <mat-form-field class="seeker-form-field">
@@ -12,6 +11,7 @@
             <input
               matInput
               class="seeker-input"
+              readonly
               formControlName="fuente_ingreso"
             />
           </mat-form-field>
@@ -19,7 +19,13 @@
         <div class="seeker-fields-container">
           <mat-form-field class="seeker-form-field">
             <mat-label class="seeker-label">Producto</mat-label>
-            <input matInput class="seeker-input" formControlName="producto" readonly/>
+            <input
+              matInput
+              class="seeker-input"
+              (ngModelChange)="fechas()"
+              formControlName="producto_des"
+              readonly
+            />
           </mat-form-field>
           <div class="content">
             <div class="icon">
@@ -30,7 +36,9 @@
               >
             </div>
             <div class="icon">
-              <mat-icon class="material-symbols-outlined" (click)="limpiar()"
+              <mat-icon
+                class="material-symbols-outlined"
+                (click)="limpiarProducto()"
                 >close</mat-icon
               >
             </div>
@@ -39,14 +47,25 @@
         <div class="seeker-fields-container">
           <mat-form-field class="seeker-form-field">
             <mat-label class="seeker-label"> Vigencia </mat-label>
-            <input matInput class="seeker-input" formControlName="vigencia" />
+            <!-- <input matInput class="seeker-input" formControlName="fecha_de_vigencia" /> -->
+            <mat-select
+              formControlName="fecha_de_vigencia"
+              [disabled]="searchForm.get('producto')?.value == 0"
+            >
+              <mat-option
+                *ngFor="let fecha of listaFechas"
+                [value]="fecha.fecha_de_vigencia"
+              >
+                {{ fecha.fecha_de_vigencia }}</mat-option
+              >
+            </mat-select>
           </mat-form-field>
         </div>
         <div class="buttons-container">
           <button
             class="primary-button icon-button"
             type="button"
-            [disabled]="searchForm.valid"
+            [disabled]="validarBoton()"
             (click)="search()"
           >
             <mat-icon> done </mat-icon>

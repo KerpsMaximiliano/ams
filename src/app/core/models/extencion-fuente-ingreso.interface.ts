@@ -2,17 +2,20 @@ import { IResponse } from './response.interface';
 
 export interface IExtencionFuenteIngreso {
   par_modo: string;
-  vigencia: string;
-  fuenteingreso: string;
-  producto: string;
-  producto_cod: string;
-  remuneracionDesde: string;
-  remuneracionHasta: string;
-  coeficiente1: number;
-  coeficiente2: number;
-  coeficiente3: number;
-  coeficiente4: number;
-  coeficiente5: number;
+  fecha_de_vigencia: number;
+  codigo_fuente_ingreso: number;
+  fuente_ingreso: string;
+  producto: number;
+  producto_des: string;
+  remuneracion_desde: number;
+  remuneracion_hasta: number;
+  coeficiente_uno: number;
+  coeficiente_dos: number;
+  coeficiente_tres: number;
+  coeficiente_cuatro: number;
+  coeficiente_cinco: number;
 }
 
-export type IExtencionFuenteIngresoResponse = IResponse<IExtencionFuenteIngreso[]>;
+export type IExtencionFuenteIngresoResponse = IResponse<
+  IExtencionFuenteIngreso[]
+>;

@@ -25,6 +25,7 @@ export class ExtencionFuenteIngresoComponent {
   filter: ExtencionFuenteIngresoFilterComponent;
   @ViewChild(ExtencionFuenteIngresoDashboardComponent)
   dashboard: ExtencionFuenteIngresoDashboardComponent;
+  fuente_ingreso: IExtencionFuenteIngreso;
 
   constructor(
     private extencionFuenteIngreso: ExtencionFuenteIngresoService,
@@ -38,6 +39,16 @@ export class ExtencionFuenteIngresoComponent {
     this.dashboard.filter(inputValue);
   }
 
+  public validarBoton(): boolean {
+    if (this.filter)
+      return this.filter.searchForm.get('producto')?.value != 0 &&
+        this.filter.searchForm.get('producto_des')?.value != '' &&
+        this.filter.searchForm.get('fecha_de_vigencia')?.value != 0
+        ? false
+        : true;
+    return false;
+  }
+
   public nuevaExtencionFuenteIngreso(
     fuenteingreso?: IExtencionFuenteIngreso
   ): void {
@@ -48,9 +59,14 @@ export class ExtencionFuenteIngresoComponent {
           title: `CREAR FUENTE DE INGRESO`,
           edit: true,
           par_modo: 'C',
-          fuenteIngreso: fuenteingreso?.fuenteingreso,
-          producto: fuenteingreso?.producto,
-          vigencia: fuenteingreso?.vigencia,
+          codigo_fuente_ingreso: this.filter.searchForm.get(
+            'codigo_fuente_ingreso'
+          )?.value,
+          fuente_ingreso: this.filter.searchForm.get('fuente_ingreso')?.value,
+          producto: this.filter.searchForm.get('producto')?.value,
+          producto_des: this.filter.searchForm.get('producto_des')?.value,
+          fecha_de_vigencia:
+            this.filter.searchForm.get('fecha_de_vigencia')?.value,
         },
       }
     );
@@ -59,30 +75,32 @@ export class ExtencionFuenteIngresoComponent {
       next: (res) => {
         if (res) {
           this.utils.openLoading();
-          this.extencionFuenteIngreso.CRUD(res).subscribe({
-            next: () => {
-              this.utils.notification(
-                'La extencion de fuente de ingreso se ha creado exitosamente. ',
-                'success'
-              );
-            },
-            error: (err) => {
-              this.utils.closeLoading();
-              err.status == 0
-                ? this.utils.notification('Error de conexión. ', 'error')
-                : this.utils.notification(
-                    `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
-                    'error'
-                  );
-              this.nuevaExtencionFuenteIngreso(res);
-            },
-            complete: () => {
-              this.utils.closeLoading();
-              if (res.reload) {
-                this.nuevaExtencionFuenteIngreso();
-              }
-            },
-          });
+          this.extencionFuenteIngreso
+            .CRUD(JSON.stringify(res.datos))
+            .subscribe({
+              next: () => {
+                this.utils.notification(
+                  'La extencion de fuente de ingreso se ha creado exitosamente. ',
+                  'success'
+                );
+              },
+              error: (err) => {
+                this.utils.closeLoading();
+                err.status == 0
+                  ? this.utils.notification('Error de conexión. ', 'error')
+                  : this.utils.notification(
+                      `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+                      'error'
+                    );
+                this.nuevaExtencionFuenteIngreso(res);
+              },
+              complete: () => {
+                this.utils.closeLoading();
+                if (res.reload) {
+                  this.nuevaExtencionFuenteIngreso();
+                }
+              },
+            });
         }
       },
     });

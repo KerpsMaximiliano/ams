@@ -54,7 +54,7 @@ export class ExtencionFuenteIngresoDashboardComponent {
     private cdr: ChangeDetectorRef,
     private utils: UtilService,
     private _liveAnnouncer: LiveAnnouncer,
-    private _extncionFuenteIngreso: ExtencionFuenteIngresoService
+    private _extencionFuenteIngreso: ExtencionFuenteIngresoService
   ) {}
 
   ngOnInit(): void {
@@ -76,15 +76,16 @@ export class ExtencionFuenteIngresoDashboardComponent {
 
   private getExtencionFuenteIngraso(): void {
     this.utils.openLoading();
-    this._extncionFuenteIngreso
+    this._extencionFuenteIngreso
       .CRUD(
         JSON.stringify({
-          par_modo: 'R',
-          fuenteIngreso: this.searchValue.fuente_ingreso_cod,
-          producto: this.searchValue.producto_cod,
-          vigencia: this.searchValue.vigencia,
+          par_modo: 'F',
+          codigo_fuente_ingreso: this.searchValue.codigo_fuente_ingreso,
+          producto: this.searchValue.producto,
+          fecha_de_vigencia: this.searchValue.fecha_de_vigencia,
         })
-      ).subscribe({
+      )
+      .subscribe({
         next: (res: any) => {
           res.dataset.length
             ? (this.fuenteingreso = res.dataset as IExtencionFuenteIngreso[])
@@ -121,33 +122,34 @@ export class ExtencionFuenteIngresoDashboardComponent {
   public editExtencionFuenteIngraso(
     fuenteingreso: IExtencionFuenteIngreso
   ): void {
-    const modalNuevoEstadoCivil = this.dialog.open(
+    const modalNuevaExtencionFuenteIngreso = this.dialog.open(
       AddEditExtencionFuenteIngresoComponent,
       {
         data: {
           title: `EDITAR FUENTE DE INGRESO`,
           edit: true,
           par_modo: 'U',
-          fuenteIngreso: fuenteingreso?.fuenteingreso,
+          codigo_fuente_ingreso: fuenteingreso?.codigo_fuente_ingreso,
+          fuente_ingreso: this.searchValue.fuente_ingreso,
           producto: fuenteingreso?.producto,
-          producto_cod: fuenteingreso?.producto_cod,
-          vigencia: fuenteingreso?.vigencia,
-          remuneracionDesde: fuenteingreso?.remuneracionDesde,
-          remuneracionHasta: fuenteingreso?.remuneracionHasta,
-          coeficiente1: fuenteingreso?.coeficiente1,
-          coeficiente2: fuenteingreso?.coeficiente2,
-          coeficiente3: fuenteingreso?.coeficiente3,
-          coeficiente4: fuenteingreso?.coeficiente4,
-          coeficiente5: fuenteingreso?.coeficiente5,
+          producto_des: this.searchValue.producto_des,
+          fecha_de_vigencia: fuenteingreso?.fecha_de_vigencia,
+          remuneracion_desde: fuenteingreso?.remuneracion_desde,
+          remuneracion_hasta: fuenteingreso?.remuneracion_hasta,
+          coeficiente_uno: fuenteingreso?.coeficiente_uno,
+          coeficiente_dos: fuenteingreso?.coeficiente_dos,
+          coeficiente_tres: fuenteingreso?.coeficiente_tres,
+          coeficiente_cuatro: fuenteingreso?.coeficiente_cuatro,
+          coeficiente_cinco: fuenteingreso?.coeficiente_cinco,
         },
       }
     );
 
-    modalNuevoEstadoCivil.afterClosed().subscribe({
+    modalNuevaExtencionFuenteIngreso.afterClosed().subscribe({
       next: (res) => {
         if (res) {
           this.utils.openLoading();
-          this._extncionFuenteIngreso.CRUD(res).subscribe({
+          this._extencionFuenteIngreso.CRUD(res.datos).subscribe({
             next: () => {
               this.utils.notification(
                 'La extencion de fuente de ingreso se ha editado extiosamente. ',
@@ -179,17 +181,18 @@ export class ExtencionFuenteIngresoDashboardComponent {
         title: `VER FUENTE DE INGRESO`,
         edit: false,
         par_modo: 'R',
-        fuenteIngreso: fuenteingreso?.fuenteingreso,
+        codigo_fuente_ingreso: fuenteingreso?.codigo_fuente_ingreso,
+        fuente_ingreso: this.searchValue.fuente_ingreso,
         producto: fuenteingreso?.producto,
-        producto_cod: fuenteingreso?.producto_cod,
-        vigencia: fuenteingreso?.vigencia,
-        remuneracionDesde: fuenteingreso?.remuneracionDesde,
-        remuneracionHasta: fuenteingreso?.remuneracionHasta,
-        coeficiente1: fuenteingreso?.coeficiente1,
-        coeficiente2: fuenteingreso?.coeficiente2,
-        coeficiente3: fuenteingreso?.coeficiente3,
-        coeficiente4: fuenteingreso?.coeficiente4,
-        coeficiente5: fuenteingreso?.coeficiente5,
+        producto_des: this.searchValue.producto_des,
+        fecha_de_vigencia: fuenteingreso?.fecha_de_vigencia,
+        remuneracion_desde: fuenteingreso?.remuneracion_desde,
+        remuneracion_hasta: fuenteingreso?.remuneracion_hasta,
+        coeficiente_uno: fuenteingreso?.coeficiente_uno,
+        coeficiente_dos: fuenteingreso?.coeficiente_dos,
+        coeficiente_tres: fuenteingreso?.coeficiente_tres,
+        coeficiente_cuatro: fuenteingreso?.coeficiente_cuatro,
+        coeficiente_cinco: fuenteingreso?.coeficiente_cinco,
       },
     });
   }
