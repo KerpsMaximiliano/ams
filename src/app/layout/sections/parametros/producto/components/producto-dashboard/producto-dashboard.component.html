@@ -1,0 +1,92 @@
+<section>
+  <table mat-table [dataSource]="dataSource" [ngClass]="{'d-none': !dataSource }" multiTemplateDataRows>
+    <ng-container class="mat-row" *matNoDataRow>
+      <td class="mat-cell no-data-cell" [attr.colspan]="columnsToDisplay.length"
+        *ngIf="this.dataSource.data.length === 0">
+        No se encontraron resultados
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="codigo_producto">
+      <th mat-header-cell *matHeaderCellDef> Código </th>
+      <td mat-cell *matCellDef="let param"> {{ param.codigo_producto }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="descripcion_producto">
+      <th mat-header-cell *matHeaderCellDef> Producto </th>
+      <td mat-cell *matCellDef="let param"> {{ param.descripcion_producto }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="tipo_producto">
+      <th mat-header-cell *matHeaderCellDef> Tipo </th>
+      <td mat-cell *matCellDef="let param">
+        {{ param.tipo_producto === "P" ? "Primario" : param.tipo_producto ? "Secundario" : 'S/D' }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="clase_producto">
+      <th mat-header-cell *matHeaderCellDef> Clase </th>
+      <td mat-cell *matCellDef="let param"> {{ getClase(param.clase_producto) }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="fecha_baja_producto">
+      <th mat-header-cell *matHeaderCellDef> Estado </th>
+      <td mat-cell *matCellDef="let param">
+        {{ param.fecha_baja_producto === 0 ? 'ACTIVO' : 'BAJA' }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef aria-label="row actions"> Acciones </th>
+      <td mat-cell *matCellDef="let element">
+        <button class="action-button" (click)="view(element)">
+          <mat-icon class="edit-icon" aria-label="false"> visibility </mat-icon>
+        </button>
+
+        <button class="action-button" (click)="edit(element)">
+          <mat-icon class="delete-icon" aria-label="false"> edit </mat-icon>
+        </button>
+
+        <button class="action-button" aria-label="false"
+          (click)="expandedElement = expandedElement === element ? null : element; $event.stopPropagation()">
+          <mat-icon *ngIf="expandedElement !== element"> keyboard_arrow_down </mat-icon>
+          <mat-icon *ngIf="expandedElement === element"> keyboard_arrow_up </mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="expandedDetail">
+      <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length">
+        <div class="detailExpand" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+          <div class="detailExpand-container">
+            <span class="detailExpand-item text"> Abreviatura </span>
+            <span class="detailExpand-item text" *ngIf="element.tipo_producto === 'S'"> Administrado por </span>
+            <span class="detailExpand-item num"> Fuente de Ingreso </span>
+            <span class="detailExpand-item text"> Obra Social </span>
+            <span class="detailExpand-item num"> Empresa que Factura </span>
+          </div>
+          <div class="detailExpand-list">
+            <span class="detailExpand-item text"> {{ element.descripcion_reducida }} </span>
+            <span class="detailExpand-item text" *ngIf="element.tipo_producto === 'S'">
+              {{ element.descripcion_producto_administrador }}
+            </span>
+            <span class="detailExpand-item num"> {{ element.descripcion_fuente_ingreso }} </span>
+            <span class="detailExpand-item text"> {{ element.descripcion_obra_social }} </span>
+            <span class="detailExpand-item num"> {{ element.descripcion_empresa }} </span>
+          </div>
+        </div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
+    <tr mat-row *matRowDef="let element; columns: columnsToDisplayWithExpand" [class.detailExpand-element]="true"
+      [class.detailExpanded-row]="expandedElement === element" [class.selected]="expandedElement === element"
+      [ngClass]="{ 'hover-row': expandedElement !== element }">
+    </tr>
+    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detailExpand-row"></tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[10, 20, 30]" [pageSize]="10" showFirstLastButtons
+    aria-label="Controles de paginación." [ngClass]="{'d-none': !dataSource || this.dataSource.data.length < 10 }">
+  </mat-paginator>
+</section>

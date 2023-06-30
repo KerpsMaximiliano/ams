@@ -11,18 +11,11 @@
         <div class="seeker-fields-container">
           <h3>CÓDIGO</h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
-            <input
-              matInput
-              formControlName="codigo_fuente_ingreso"
-              [readonly]="!data.edit"
-              maxlength="5"
-            />
-            <mat-error
-              *ngIf="
+            <input matInput formControlName="codigo_fuente_ingreso" [readonly]="!data.edit" maxlength="5" />
+            <mat-error *ngIf="
                 formInitial.get('codigo_fuente_ingreso')?.invalid &&
                 formInitial.get('codigo_fuente_ingreso')?.touched
-              "
-            >
+              ">
               {{ getErrorMessage(formInitial.get("codigo_fuente_ingreso")) }}
             </mat-error>
           </mat-form-field>
@@ -31,19 +24,11 @@
         <div class="seeker-fields-container">
           <h3>DESCRIPCIÓN</h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
-            <input
-              matInput
-              formControlName="descripcion"
-              required
-              maxlength="20"
-              [readonly]="!data.edit"
-            />
-            <mat-error
-              *ngIf="
+            <input matInput formControlName="descripcion" required maxlength="20" [readonly]="!data.edit" />
+            <mat-error *ngIf="
                 formInitial.get('descripcion')?.invalid &&
                 formInitial.get('descripcion')?.touched
-              "
-            >
+              ">
               {{ getErrorMessage(formInitial.get("descripcion")) }}
             </mat-error>
           </mat-form-field>
@@ -52,19 +37,11 @@
         <div class="seeker-fields-container">
           <h3>ABREVIATURA</h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
-            <input
-              matInput
-              formControlName="descripcion_reducida"
-              required
-              maxlength="5"
-              [readonly]="!data.edit"
-            />
-            <mat-error
-              *ngIf="
+            <input matInput formControlName="descripcion_reducida" required maxlength="5" [readonly]="!data.edit" />
+            <mat-error *ngIf="
                 formInitial.get('descripcion_reducida')?.invalid &&
                 formInitial.get('descripcion_reducida')?.touched
-              "
-            >
+              ">
               {{ getErrorMessage(formInitial.get("descripcion_reducida")) }}
             </mat-error>
           </mat-form-field>
@@ -73,21 +50,15 @@
         <div class="seeker-fields-container">
           <h3>TIPO</h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
-            <mat-select
-              formControlName="tipo_fuente"
-              required
-              (selectionChange)="fuenteAdministradora()"
-            >
+            <mat-select formControlName="tipo_fuente" required (selectionChange)="fuenteAdministradora()">
               <mat-option [value]="'A'"> ADMINISTRADORA </mat-option>
               <mat-option [value]="'M'"> MIXTO </mat-option>
               <mat-option [value]="'S'"> SUBORDINADA </mat-option>
             </mat-select>
-            <mat-error
-              *ngIf="
+            <mat-error *ngIf="
                 formInitial.get('tipo_fuente')?.invalid &&
                 formInitial.get('tipo_fuente')?.touched
-              "
-            >
+              ">
               {{ getErrorMessage(formInitial.get("tipo_fuente")) }}
             </mat-error>
           </mat-form-field>
@@ -97,37 +68,23 @@
           <h3>FUENTE DE INGRESO ADMINISTRADORA</h3>
           <div class="content">
             <mat-form-field class="seeker-form-field" appearance="outline">
-              <input
-                matInput
-                formControlName="codigo_fuente_admin_descripcion"
-                readonly
-              />
-              <mat-error
-                *ngIf="
+              <input matInput formControlName="codigo_fuente_admin_descripcion" readonly />
+              <mat-error *ngIf="
                   formInitial.get('codigo_fuente_admin_descripcion')?.invalid &&
                   formInitial.get('codigo_fuente_admin_descripcion')?.touched
-                "
-              >
+                ">
                 {{
-                  getErrorMessage(
-                    formInitial.get("codigo_fuente_admin_descripcion")
-                  )
+                getErrorMessage(
+                formInitial.get("codigo_fuente_admin_descripcion")
+                )
                 }}
               </mat-error>
             </mat-form-field>
             <div class="icon">
-              <mat-icon
-                class="material-symbols-outlined"
-                (click)="getFuente('administrado')"
-                >search</mat-icon
-              >
+              <mat-icon class="material-symbols-outlined" (click)="getFuente('administrado')">search</mat-icon>
             </div>
             <div class="icon">
-              <mat-icon
-                class="material-symbols-outlined"
-                (click)="limpiar('administrado')"
-                >close</mat-icon
-              >
+              <mat-icon class="material-symbols-outlined" (click)="limpiar('administrado')">close</mat-icon>
             </div>
           </div>
         </div>
@@ -136,20 +93,15 @@
           <h3>EMPRESA QUE FACTURA</h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
             <mat-select formControlName="empresa_asociada" required>
-              <mat-option
-                *ngFor="let empresa of listEmpresas"
-                (onSelectionChange)="cargaReferencia(empresa.id_empresa)"
-                [value]="empresa.id_empresa"
-              >
+              <mat-option *ngFor="let empresa of listEmpresas" (onSelectionChange)="cargaReferencia(empresa.id_empresa)"
+                [value]="empresa.id_empresa">
                 {{ empresa.descripcion }}
               </mat-option>
             </mat-select>
-            <mat-error
-              *ngIf="
+            <mat-error *ngIf="
                 formInitial.get('empresa_asociada')?.invalid &&
                 formInitial.get('empresa_asociada')?.touched
-              "
-            >
+              ">
               {{ getErrorMessage(formInitial.get("empresa_asociada")) }}
             </mat-error>
           </mat-form-field>
@@ -162,12 +114,10 @@
               <mat-option [value]="'S'"> SI </mat-option>
               <mat-option [value]="'N'"> NO </mat-option>
             </mat-select>
-            <mat-error
-              *ngIf="
+            <mat-error *ngIf="
                 formInitial.get('solicita_ref')?.invalid &&
                 formInitial.get('solicita_ref')?.touched
-              "
-            >
+              ">
               {{ getErrorMessage(formInitial.get("solicita_ref")) }}
             </mat-error>
           </mat-form-field>
@@ -181,12 +131,10 @@
                 {{ dia.dia }}
               </mat-option>
             </mat-select>
-            <mat-error
-              *ngIf="
+            <mat-error *ngIf="
                 formInitial.get('dia_corte')?.invalid &&
                 formInitial.get('dia_corte')?.touched
-              "
-            >
+              ">
               {{ getErrorMessage(formInitial.get("dia_corte")) }}
             </mat-error>
           </mat-form-field>
@@ -199,12 +147,10 @@
               <mat-option [value]="'S'"> SI </mat-option>
               <mat-option [value]="'N'"> NO </mat-option>
             </mat-select>
-            <mat-error
-              *ngIf="
+            <mat-error *ngIf="
                 formInitial.get('controla_dec_jur')?.invalid &&
                 formInitial.get('controla_dec_jur')?.touched
-              "
-            >
+              ">
               {{ getErrorMessage(formInitial.get("controla_dec_jur")) }}
             </mat-error>
           </mat-form-field>
@@ -215,27 +161,15 @@
           <button class="primary-button icon-button" (click)="closeDialog()">
             Cancelar
           </button>
-          <button
-            class="primary-button icon-button"
-            *ngIf="data.par_modo == 'U'"
-            (click)="coeficiente()"
-            [disabled]="formFinal.invalid"
-          >
+          <button class="primary-button icon-button" *ngIf="data.par_modo == 'U'" (click)="coeficiente()"
+            [disabled]="formFinal.invalid">
             Coeficiente
           </button>
-          <button
-            class="primary-button icon-button"
-            *ngIf="data.par_modo == 'U'"
-            (click)="atributo()"
-            [disabled]="formFinal.invalid"
-          >
+          <button class="primary-button icon-button" *ngIf="data.par_modo == 'U'" (click)="atributo()"
+            [disabled]="formFinal.invalid">
             Atributo
           </button>
-          <button
-            class="primary-button icon-button"
-            matStepperNext
-            [disabled]="formInitial.invalid"
-          >
+          <button class="primary-button icon-button" matStepperNext [disabled]="formInitial.invalid">
             Siguiente
           </button>
         </div>
@@ -250,19 +184,14 @@
           <h3>CONCEPTO APORTE</h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
             <mat-select formControlName="concepto_aporte" required>
-              <mat-option
-                *ngFor="let concepto of listConceptos"
-                [value]="concepto.id_concepto"
-              >
+              <mat-option *ngFor="let concepto of listConceptos" [value]="concepto.id_concepto">
                 {{ concepto.descripcion }}
               </mat-option>
             </mat-select>
-            <mat-error
-              *ngIf="
+            <mat-error *ngIf="
                 formSecond.get('concepto_aporte')?.invalid &&
                 formSecond.get('concepto_aporte')?.touched
-              "
-            >
+              ">
               {{ getErrorMessage(formSecond.get("concepto_aporte")) }}
             </mat-error>
           </mat-form-field>
@@ -272,19 +201,14 @@
           <h3>CONCEPTO ARANCEL</h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
             <mat-select formControlName="concepto_arancel" required>
-              <mat-option
-                *ngFor="let concepto of listConceptos"
-                [value]="concepto.id_concepto"
-              >
+              <mat-option *ngFor="let concepto of listConceptos" [value]="concepto.id_concepto">
                 {{ concepto.descripcion }}
               </mat-option>
             </mat-select>
-            <mat-error
-              *ngIf="
+            <mat-error *ngIf="
                 formSecond.get('concepto_arancel')?.invalid &&
                 formSecond.get('concepto_arancel')?.touched
-              "
-            >
+              ">
               {{ getErrorMessage(formSecond.get("concepto_arancel")) }}
             </mat-error>
           </mat-form-field>
@@ -294,19 +218,14 @@
           <h3>CONDICIÓN DE VENTA</h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
             <mat-select formControlName="condicion_venta" required>
-              <mat-option
-                *ngFor="let conVenta of listCondicionV"
-                [value]="conVenta.id_condicion"
-              >
+              <mat-option *ngFor="let conVenta of listCondicionV" [value]="conVenta.id_condicion">
                 {{ conVenta.descripcion }}
               </mat-option>
             </mat-select>
-            <mat-error
-              *ngIf="
+            <mat-error *ngIf="
                 formSecond.get('condicion_venta')?.invalid &&
                 formSecond.get('condicion_venta')?.touched
-              "
-            >
+              ">
               {{ getErrorMessage(formSecond.get("condicion_venta")) }}
             </mat-error>
           </mat-form-field>
@@ -316,19 +235,14 @@
           <h3>REFERENCIA CONTABLE</h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
             <mat-select formControlName="ref_contable_asociada" required>
-              <mat-option
-                *ngFor="let referencia of listReferencia"
-                [value]="referencia.id_referencia_contable"
-              >
+              <mat-option *ngFor="let referencia of listReferencia" [value]="referencia.id_referencia_contable">
                 {{ referencia.descripcion }}
               </mat-option>
             </mat-select>
-            <mat-error
-              *ngIf="
+            <mat-error *ngIf="
                 formSecond.get('ref_contable_asociada')?.invalid &&
                 formSecond.get('ref_contable_asociada')?.touched
-              "
-            >
+              ">
               {{ getErrorMessage(formSecond.get("ref_contable_asociada")) }}
             </mat-error>
           </mat-form-field>
@@ -338,19 +252,14 @@
           <h3>COMPROBANTE A GENERAR</h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
             <mat-select formControlName="comprobante_general" required>
-              <mat-option
-                *ngFor="let comprobante of listComprobantes"
-                [value]="comprobante.id_comprobante"
-              >
+              <mat-option *ngFor="let comprobante of listComprobantes" [value]="comprobante.id_comprobante">
                 {{ comprobante.descripcion }}
               </mat-option>
             </mat-select>
-            <mat-error
-              *ngIf="
+            <mat-error *ngIf="
                 formSecond.get('comprobante_general')?.invalid &&
                 formSecond.get('comprobante_general')?.touched
-              "
-            >
+              ">
               {{ getErrorMessage(formSecond.get("comprobante_general")) }}
             </mat-error>
           </mat-form-field>
@@ -360,19 +269,14 @@
           <h3>TALONARIO</h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
             <mat-select formControlName="talonario" required>
-              <mat-option
-                *ngFor="let talonario of listTalonarios"
-                [value]="talonario.id_talonario"
-              >
+              <mat-option *ngFor="let talonario of listTalonarios" [value]="talonario.id_talonario">
                 {{ talonario.numero }}
               </mat-option>
             </mat-select>
-            <mat-error
-              *ngIf="
+            <mat-error *ngIf="
                 formSecond.get('talonario')?.invalid &&
                 formSecond.get('talonario')?.touched
-              "
-            >
+              ">
               {{ getErrorMessage(formSecond.get("talonario")) }}
             </mat-error>
           </mat-form-field>
@@ -382,19 +286,14 @@
           <h3>CONDICIÓN DE VENTA VENC.</h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
             <mat-select formControlName="condicion_venta_venc" required>
-              <mat-option
-                *ngFor="let conVenta of listCondicionV"
-                [value]="conVenta.id_condicion"
-              >
+              <mat-option *ngFor="let conVenta of listCondicionV" [value]="conVenta.id_condicion">
                 {{ conVenta.descripcion }}
               </mat-option>
             </mat-select>
-            <mat-error
-              *ngIf="
+            <mat-error *ngIf="
                 formSecond.get('condicion_venta_venc')?.invalid &&
                 formSecond.get('condicion_venta_venc')?.touched
-              "
-            >
+              ">
               {{ getErrorMessage(formSecond.get("condicion_venta_venc")) }}
             </mat-error>
           </mat-form-field>
@@ -404,19 +303,14 @@
           <h3>CONDICIÓN DE VENTA VENC. 2M</h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
             <mat-select formControlName="condicion_venta_dos_venc" required>
-              <mat-option
-                *ngFor="let conVenta of listCondicionV"
-                [value]="conVenta.id_condicion"
-              >
+              <mat-option *ngFor="let conVenta of listCondicionV" [value]="conVenta.id_condicion">
                 {{ conVenta.descripcion }}
               </mat-option>
             </mat-select>
-            <mat-error
-              *ngIf="
+            <mat-error *ngIf="
                 formSecond.get('condicion_venta_dos_venc')?.invalid &&
                 formSecond.get('condicion_venta_dos_venc')?.touched
-              "
-            >
+              ">
               {{ getErrorMessage(formSecond.get("condicion_venta_dos_venc")) }}
             </mat-error>
           </mat-form-field>
@@ -430,11 +324,7 @@
           <button class="primary-button icon-button" matStepperPrevious>
             Anterior
           </button>
-          <button
-            class="primary-button icon-button"
-            matStepperNext
-            [disabled]="formSecond.invalid"
-          >
+          <button class="primary-button icon-button" matStepperNext [disabled]="formSecond.invalid">
             Siguiente
           </button>
         </div>
@@ -452,12 +342,10 @@
               <mat-option [value]="'S'"> SI </mat-option>
               <mat-option [value]="'N'"> NO </mat-option>
             </mat-select>
-            <mat-error
-              *ngIf="
+            <mat-error *ngIf="
                 formFinal.get('liquida_punitorio')?.invalid &&
                 formFinal.get('liquida_punitorio')?.touched
-              "
-            >
+              ">
               {{ getErrorMessage(formFinal.get("liquida_punitorio")) }}
             </mat-error>
           </mat-form-field>
@@ -470,12 +358,10 @@
               <mat-option [value]="'S'"> SI </mat-option>
               <mat-option [value]="'N'"> NO </mat-option>
             </mat-select>
-            <mat-error
-              *ngIf="
+            <mat-error *ngIf="
                 formFinal.get('liquida_reintegro')?.invalid &&
                 formFinal.get('liquida_reintegro')?.touched
-              "
-            >
+              ">
               {{ getErrorMessage(formFinal.get("liquida_reintegro")) }}
             </mat-error>
           </mat-form-field>
@@ -488,12 +374,10 @@
               <mat-option [value]="'S'"> SI </mat-option>
               <mat-option [value]="'N'"> NO </mat-option>
             </mat-select>
-            <mat-error
-              *ngIf="
+            <mat-error *ngIf="
                 formFinal.get('liquida_planes_mix')?.invalid &&
                 formFinal.get('liquida_planes_mix')?.touched
-              "
-            >
+              ">
               {{ getErrorMessage(formFinal.get("liquida_planes_mix")) }}
             </mat-error>
           </mat-form-field>
@@ -506,12 +390,10 @@
               <mat-option [value]="'S'"> SI </mat-option>
               <mat-option [value]="'N'"> NO </mat-option>
             </mat-select>
-            <mat-error
-              *ngIf="
+            <mat-error *ngIf="
                 formFinal.get('liquida_planes_monotributo')?.invalid &&
                 formFinal.get('liquida_planes_monotributo')?.touched
-              "
-            >
+              ">
               {{ getErrorMessage(formFinal.get("liquida_planes_monotributo")) }}
             </mat-error>
           </mat-form-field>
@@ -524,12 +406,10 @@
               <mat-option [value]="'S'"> SI </mat-option>
               <mat-option [value]="'N'"> NO </mat-option>
             </mat-select>
-            <mat-error
-              *ngIf="
+            <mat-error *ngIf="
                 formFinal.get('agrupa_entidades')?.invalid &&
                 formFinal.get('agrupa_entidades')?.touched
-              "
-            >
+              ">
               {{ getErrorMessage(formFinal.get("agrupa_entidades")) }}
             </mat-error>
           </mat-form-field>
@@ -542,12 +422,10 @@
               <mat-option [value]="'S'"> SI </mat-option>
               <mat-option [value]="'N'"> NO </mat-option>
             </mat-select>
-            <mat-error
-              *ngIf="
+            <mat-error *ngIf="
                 formFinal.get('aporte_adicional')?.invalid &&
                 formFinal.get('aporte_adicional')?.touched
-              "
-            >
+              ">
               {{ getErrorMessage(formFinal.get("aporte_adicional")) }}
             </mat-error>
           </mat-form-field>
@@ -558,39 +436,25 @@
             <h3>FUENTE APORTE ADICIONAL</h3>
             <div class="content">
               <mat-form-field class="seeker-form-field" appearance="outline">
-                <input
-                  matInput
-                  formControlName="fuente_aporte_adicional_descripcion"
-                  readonly
-                />
-                <mat-error
-                  *ngIf="
+                <input matInput formControlName="fuente_aporte_adicional_descripcion" readonly />
+                <mat-error *ngIf="
                     formInitial.get('fuente_aporte_adicional_descripcion')
                       ?.invalid &&
                     formInitial.get('fuente_aporte_adicional_descripcion')
                       ?.touched
-                  "
-                >
+                  ">
                   {{
-                    getErrorMessage(
-                      formInitial.get("fuente_aporte_adicional_descripcion")
-                    )
+                  getErrorMessage(
+                  formInitial.get("fuente_aporte_adicional_descripcion")
+                  )
                   }}
                 </mat-error>
               </mat-form-field>
               <div class="icon">
-                <mat-icon
-                  class="material-symbols-outlined"
-                  (click)="getFuente('adicional')"
-                  >search</mat-icon
-                >
+                <mat-icon class="material-symbols-outlined" (click)="getFuente('adicional')">search</mat-icon>
               </div>
               <div class="icon">
-                <mat-icon
-                  class="material-symbols-outlined"
-                  (click)="limpiar('adicional')"
-                  >close</mat-icon
-                >
+                <mat-icon class="material-symbols-outlined" (click)="limpiar('adicional')">close</mat-icon>
               </div>
             </div>
           </div>
@@ -598,21 +462,16 @@
             <h3>CONC. APORTE ADICIONAL</h3>
             <mat-form-field class="seeker-form-field" appearance="outline">
               <mat-select formControlName="concepto_aporte_adicional">
-                <mat-option
-                  *ngFor="let concepto of listConceptos"
-                  [value]="concepto.id_concepto"
-                >
+                <mat-option *ngFor="let concepto of listConceptos" [value]="concepto.id_concepto">
                   {{ concepto.descripcion }}
                 </mat-option>
               </mat-select>
-              <mat-error
-                *ngIf="
+              <mat-error *ngIf="
                   formFinal.get('concepto_aporte_adicional')?.invalid &&
                   formFinal.get('concepto_aporte_adicional')?.touched
-                "
-              >
+                ">
                 {{
-                  getErrorMessage(formFinal.get("concepto_aporte_adicional"))
+                getErrorMessage(formFinal.get("concepto_aporte_adicional"))
                 }}
               </mat-error>
             </mat-form-field>
@@ -621,44 +480,30 @@
             <h3>CONC. APORTE ADICIONAL DEC.</h3>
             <mat-form-field class="seeker-form-field" appearance="outline">
               <mat-select formControlName="condicion_aporte_adic_dec">
-                <mat-option
-                  *ngFor="let concepto of listConceptos"
-                  [value]="concepto.id_concepto"
-                >
+                <mat-option *ngFor="let concepto of listConceptos" [value]="concepto.id_concepto">
                   {{ concepto.descripcion }}
                 </mat-option>
               </mat-select>
-              <mat-error
-                *ngIf="
+              <mat-error *ngIf="
                   formFinal.get('condicion_aporte_adic_dec')?.invalid &&
                   formFinal.get('condicion_aporte_adic_dec')?.touched
-                "
-              >
+                ">
                 {{
-                  getErrorMessage(formFinal.get("condicion_aporte_adic_dec"))
+                getErrorMessage(formFinal.get("condicion_aporte_adic_dec"))
                 }}
               </mat-error>
             </mat-form-field>
           </div>
         </div>
         <div *ngIf="data.edit; else other_content" class="buttons-container">
-          <button
-            class="primary-button icon-button"
-            type="button"
-            (click)="closeDialog()"
-          >
+          <button class="primary-button icon-button" type="button" (click)="closeDialog()">
             <mat-icon> close </mat-icon>
             Cancelar
           </button>
           <button class="primary-button icon-button" matStepperPrevious>
             Anterior
           </button>
-          <button
-            class="primary-button icon-button"
-            type="submit"
-            [disabled]="formFinal.invalid"
-            (click)="confirm()"
-          >
+          <button class="primary-button icon-button" type="submit" [disabled]="formFinal.invalid" (click)="confirm()">
             <mat-icon> done </mat-icon>
             Guardar
           </button>

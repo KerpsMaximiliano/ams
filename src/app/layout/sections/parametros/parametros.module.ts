@@ -7,7 +7,6 @@ import { ParametrosRoutingModule } from './parametros-routing.module';
 
 // * Material
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatStepperModule } from '@angular/material/stepper';
 
 // * Components
 // 01 - PROVINCIAS
@@ -77,6 +76,34 @@ import { AddEditPreguntaDDJJDialogComponent } from './pregunta-ddjj/components/a
 import { PreguntaDDJJComponent } from './pregunta-ddjj/pregunta-ddjj.component';
 import { PreguntaDDJJDashboardComponent } from './pregunta-ddjj/components/pregunta-ddjj-dashboard/pregunta-ddjj-dashboard.component';
 import { PreguntaDDJJFilterComponent } from './pregunta-ddjj/components/pregunta-ddjj-filter/pregunta-ddjj-filter.component';
+// 20 - PRODUCTOS
+import { AddEditProductoDialogComponent } from './producto/components/add-edit-producto-dialog/add-edit-producto-dialog.component';
+import { SetProductoDialogComponent } from './producto/components/add-edit-producto-dialog/set-producto-dialog/set-producto-dialog.component';
+import { ProductoComponent } from './producto/producto.component';
+import { ProductoDashboardComponent } from './producto/components/producto-dashboard/producto-dashboard.component';
+import { ProductoFilterComponent } from './producto/components/producto-filter/producto-filter.component';
+// 21 - PARENTESCO POR PRODUCTOS
+import { AddEditParentescoProductoDialogComponent } from './parentesco-producto/components/add-edit-parentesco-producto-dialog/add-edit-parentesco-producto-dialog.component';
+import { ParentescoProductoComponent } from './parentesco-producto/parentesco-producto.component';
+import { ParentescoProductoFilterComponent } from './parentesco-producto/components/parentesco-producto-filter/parentesco-producto-filter.component';
+import { ParentescoProductoDashboardComponent } from './parentesco-producto/components/parentesco-producto-dashboard/parentesco-producto-dashboard.component';
+// 22 - MOTIVO DE MOVIMIENTO POR PRODUCTO
+import { AddEditMovimientoProductoDialogComponent } from './movimiento-producto/components/add-edit-movimiento-producto-dialog/add-edit-movimiento-producto-dialog.component';
+import { MovimientoProductoComponent } from './movimiento-producto/movimiento-producto.component';
+import { MovimientoProductoDashboardComponent } from './movimiento-producto/components/movimiento-producto-dashboard/movimiento-producto-dashboard.component';
+import { MovimientoProductoFilterComponent } from './movimiento-producto/components/movimiento-producto-filter/movimiento-producto-filter.component';
+import { SetMotivoMovimientoDialogComponent } from './movimiento-producto/components/add-edit-movimiento-producto-dialog/set-motivo-movimiento-dialog/set-motivo-movimiento-dialog.component';
+// 23 - SUBMOTIVO DE MOVIMIENTO
+import { SubmotivoMovimientoComponent } from './submotivo-movimiento/submotivo-movimiento.component';
+import { SubmotivoMovimientoFilterComponent } from './submotivo-movimiento/components/submotivo-movimiento-filter/submotivo-movimiento-filter.component';
+import { SubmotivoMovimientoDashboardComponent } from './submotivo-movimiento/components/submotivo-movimiento-dashboard/submotivo-movimiento-dashboard.component';
+import { AddEditSubmotivoMovimientoComponent } from './submotivo-movimiento/components/add-edit-submotivo-movimiento/add-edit-submotivo-movimiento.component';
+// 24 - UNIFICACION DE APORTES
+import { UnificadorAportesComponent } from './unificador-aportes/unificador-aportes.component';
+import { UnificadorAporteDashboardComponent } from './unificador-aportes/components/unificador-aporte-dashboard/unificador-aporte-dashboard.component';
+import { UnificadorAporteFilterComponent } from './unificador-aportes/components/unificador-aporte-filter/unificador-aporte-filter.component';
+import { AddEditUnificadorAporteComponent } from './unificador-aportes/components/add-edit-unificador-aporte/add-edit-unificador-aporte.component';
+import { ModalProductoComponent } from './unificador-aportes/components/add-edit-unificador-aporte/modal-producto/modal-producto.component';
 
 @NgModule({
   declarations: [
@@ -116,6 +143,7 @@ import { PreguntaDDJJFilterComponent } from './pregunta-ddjj/components/pregunta
     FormaPagoComponent,
     FormaPagoDashboardComponent,
     FormaPagoFilterComponent,
+    ModalFuenteIngresoComponent,
     // 08 - CONDICIONES DE IVA
     AddEditCondicionIvaDialogComponent,
     CondicionIvaComponent,
@@ -136,7 +164,6 @@ import { PreguntaDDJJFilterComponent } from './pregunta-ddjj/components/pregunta
     AddEditFuenteIngresoDialogComponent,
     FuenteIngresoFilterComponent,
     FuenteIngresoDashboardComponent,
-    ModalFuenteIngresoComponent,
     // 12 - OBRAS SOCIALES
     AddEditObraSocialDialogComponent,
     ObraSocialDashboardComponent,
@@ -147,13 +174,40 @@ import { PreguntaDDJJFilterComponent } from './pregunta-ddjj/components/pregunta
     PreguntaDDJJComponent,
     PreguntaDDJJDashboardComponent,
     PreguntaDDJJFilterComponent,
+    // 20 - PRODUCTO
+    AddEditProductoDialogComponent,
+    SetProductoDialogComponent,
+    ProductoComponent,
+    ProductoDashboardComponent,
+    ProductoFilterComponent,
+    // 21 - PARENTESCO POR PRODUCTO
+    ParentescoProductoComponent,
+    ParentescoProductoFilterComponent,
+    ParentescoProductoDashboardComponent,
+    AddEditParentescoProductoDialogComponent,
+    // 22 - MOTIVO DE MOVIMIENTO POR PRODUCTO
+    AddEditMovimientoProductoDialogComponent,
+    MovimientoProductoDashboardComponent,
+    MovimientoProductoFilterComponent,
+    MovimientoProductoComponent,
+    SetMotivoMovimientoDialogComponent,
+    // 23 - SUBMOTIVO DE MOVIMIENTO
+    SubmotivoMovimientoComponent,
+    SubmotivoMovimientoFilterComponent,
+    SubmotivoMovimientoDashboardComponent,
+    AddEditSubmotivoMovimientoComponent,
+    // 24 - UNIFICACION DE APORTES
+    UnificadorAportesComponent,
+    UnificadorAporteDashboardComponent,
+    UnificadorAporteFilterComponent,
+    AddEditUnificadorAporteComponent,
+    ModalProductoComponent,
   ],
   imports: [
     CommonModule,
     ParametrosRoutingModule,
     SharedModule,
     MatAutocompleteModule,
-    MatStepperModule,
   ],
 })
 export class ParametrosModule {}

@@ -65,7 +65,7 @@ export class NavMenuComponent {
           icon: 'keyboard_arrow_right',
         },
         {
-        // 11 - FUENTES DE INGRESO
+          // 11 - FUENTES DE INGRESO
           title: 'Fuentes de ingreso',
           url: '/parametros/fuentes-ingreso',
           icon: 'keyboard_arrow_right',
@@ -104,6 +104,12 @@ export class NavMenuComponent {
           // 09 - ESTADOS CIVILES
           title: 'Estados civiles',
           url: '/parametros/estados-civiles',
+          icon: 'keyboard_arrow_right',
+        },
+        {
+          // 20 - PRODUCTOS
+          title: 'Productos',
+          url: '/parametros/productos',
           icon: 'keyboard_arrow_right',
         },
       ],

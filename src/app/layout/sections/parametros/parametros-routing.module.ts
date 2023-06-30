@@ -28,6 +28,16 @@ import { FuenteIngresoComponent } from './fuente-ingreso/fuente-ingreso.componen
 import { ObraSocialComponent } from './obra-social/obra-social.component';
 // 13 - PREGUNTAS DE DECLARACIONES JURADS
 import { PreguntaDDJJComponent } from './pregunta-ddjj/pregunta-ddjj.component';
+// 20 - PRODUCTO
+import { ProductoComponent } from './producto/producto.component';
+// 21 - PARENTESCOS
+import { ParentescoProductoComponent } from './parentesco-producto/parentesco-producto.component';
+// 22 - MOTIVO DE MOVIMIENTO POR PRODUCTO
+import { MovimientoProductoComponent } from './movimiento-producto/movimiento-producto.component';
+// 23 - SUBMOTIVO DE MOVIMIENTO
+import { SubmotivoMovimientoComponent } from './submotivo-movimiento/submotivo-movimiento.component';
+// 24 - UNIFICACION DE APORTES
+import { UnificadorAportesComponent } from './unificador-aportes/unificador-aportes.component';
 
 const routes: Routes = [
   {
@@ -81,6 +91,26 @@ const routes: Routes = [
   {
     path: 'parametros/preguntas-ddjj',
     component: PreguntaDDJJComponent,
+  },
+  {
+    path: 'parametros/productos',
+    component: ProductoComponent,
+  },
+  {
+    path: 'parametros/parentesco-producto',
+    component: ParentescoProductoComponent,
+  },
+  {
+    path: 'parametros/movimiento-producto',
+    component: MovimientoProductoComponent,
+  },
+  {
+    path: 'parametros/submotivo-movimiento',
+    component: SubmotivoMovimientoComponent,
+  },
+  {
+    path: 'parametros/unificacion-aportes',
+    component: UnificadorAportesComponent,
   },
 ];
 

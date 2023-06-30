@@ -1,0 +1,15 @@
+<section class="browse-section">
+  <div class="section-header">
+    <h2> Parentesco por producto </h2>
+    <button class="new-button icon-button" (click)="new()">
+      <mat-icon> add </mat-icon>
+      Nuevo
+    </button>
+  </div>
+
+  <div class="section-content">
+    <app-parentesco-producto-filter (search)="getData($event)" [producto]="producto"></app-parentesco-producto-filter>
+    <app-parentesco-producto-dashboard [receivedData]="dataSent" (viewEvent)="view($event)"
+      (editEvent)="edit($event)"></app-parentesco-producto-dashboard>
+  </div>
+</section>

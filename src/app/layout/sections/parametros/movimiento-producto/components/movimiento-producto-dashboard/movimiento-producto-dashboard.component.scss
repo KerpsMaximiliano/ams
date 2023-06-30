@@ -1,0 +1,83 @@
+/*
+ * Evita un espaciado innecesario en la primer columna.
+*/
+th.mat-header-cell:first-of-type,
+td.mat-cell:first-of-type {
+  padding-left: 0px !important;
+}
+
+/*
+ * Texto alineado a la izquierda.
+*/
+.mat-column-tipo_motivo.mat-header-cell,
+.mat-column-tipo_motivo.mat-cell,
+.mat-column-descripcion.mat-header-cell,
+.mat-column-descripcion.mat-cell,
+.mat-column-datos_adicionales.mat-header-cell,
+.mat-column-datos_adicionales.mat-cell,
+.mat-column-otra_cobertura.mat-header-cell,
+.mat-column-otra_cobertura.mat-cell {
+  text-align: left !important;
+  padding-left: 1vw !important;
+  word-break: break-all !important;
+}
+
+/*
+ * Número y fecha alineado a la derecha.
+*/
+.mat-column-id_motivo.mat-header-cell,
+.mat-column-id_motivo.mat-cell
+{
+  text-align: right !important;
+  padding-right: 1vw !important;
+  word-break: break-all !important;
+}
+
+/*
+ * Iconos alineados al centro.
+*/
+.mat-column-actions.mat-header-cell,
+.mat-column-actions.mat-cell {
+  text-align: center !important;
+  word-break: break-all !important;
+}
+
+/*
+ * Ancho máximo por columna individual de todas las columnas.
+ */
+ .mat-column-actions.mat-header-cell,
+ .mat-column-actions.mat-cell {
+   width: 11%;
+ }
+
+ .mat-column-id_motivo.mat-header-cell,
+ .mat-column-id_motivo.mat-cell {
+   width: 11% !important;
+ }
+
+.mat-column-descripcion.mat-header-cell,
+.mat-column-descripcion.mat-cell {
+   width: 30% !important;
+}
+ 
+.mat-column-tipo_motivo.mat-header-cell,
+.mat-column-tipo_motivo.mat-cell {
+  width: 17% !important;
+}
+
+.mat-column-datos_adicionales.mat-cell.mat-header-cell,
+.mat-column-datos_adicionales.mat-cell {
+  width: 16% !important;
+}
+
+.mat-column-otra_cobertura.mat-header-cell,
+.mat-column-otra_cobertura.mat-cell {
+  width: 14% !important;
+}
+
+/*
+ * Oculta la paginación hasta que la tabla tenga datos.
+*/
+.hide-paginator {
+  display: none;
+}

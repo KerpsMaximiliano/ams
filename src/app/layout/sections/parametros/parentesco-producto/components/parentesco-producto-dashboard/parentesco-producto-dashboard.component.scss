@@ -1,0 +1,66 @@
+
+/*
+ * Texto alineado a la izquierda.
+*/
+.mat-column-descripcion.mat-header-cell,
+.mat-column-descripcion.mat-cell,
+.mat-column-permite_darse_baja.mat-header-cell,
+.mat-column-permite_darse_baja.mat-cell,
+.mat-column-pide_fecha_enlace.mat-header-cell,
+.mat-column-pide_fecha_enlace.mat-cell {
+  text-align: left !important;
+  padding-left: 1vw !important;
+  word-break: break-all !important;
+}
+
+/*
+ * Número y fecha alineado a la derecha.
+*/
+.mat-column-codigo_parentesco.mat-header-cell,
+.mat-column-codigo_parentesco.mat-cell,
+.mat-column-codigo_afip.mat-header-cell,
+.mat-column-codigo_afip.mat-cell {
+  text-align: right !important;
+  padding-right: 1vw !important;
+}
+
+/*
+ * Ancho máximo por columna individual de todas las columnas.
+*/
+
+.mat-column-codigo_parentesco.mat-header-cell,
+.mat-column-codigo_parentesco.mat-cell {
+  min-width: 60px;
+}
+
+.mat-column-descripcion.mat-header-cell,
+.mat-column-descripcion.mat-cell {
+  width: 100%;
+  min-width: 110px;
+}
+
+.mat-column-permite_darse_baja.mat-header-cell,
+.mat-column-permite_darse_baja.mat-cell {
+  min-width: 150px;
+}
+
+.mat-column-pide_fecha_enlace.mat-header-cell,
+.mat-column-pide_fecha_enlace.mat-cell {
+  min-width: 170px;
+}
+
+.mat-column-codigo_afip.mat-header-cell,
+.mat-column-codigo_afip.mat-cell {
+  min-width: 120px;
+}
+
+.mat-column-actions.mat-header-cell,
+.mat-column-actions.mat-cell {
+  min-width: 100px;
+}
+/*
+* Oculta la paginación hasta que la tabla tenga datos.
+*/
+.hide-paginator {
+  display: none;
+}
