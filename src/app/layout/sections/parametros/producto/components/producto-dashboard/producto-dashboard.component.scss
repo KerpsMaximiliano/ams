@@ -37,26 +37,32 @@ td.mat-cell:first-of-type {
 */
 .mat-column-codigo_producto.mat-header-cell,
 .mat-column-codigo_producto.mat-cell,
+.mat-column-fecha_baja_producto.mat-cell,
+.mat-column-fecha_baja_producto.mat-header-cell {
+  min-width: 80px;
+  width: 8%;
+}
+
 .mat-column-tipo_producto.mat-header-cell,
-.mat-column-tipo_producto.mat-cell,
-.mat-column-fecha_baja_producto.mat-header-cell,
-.mat-column-fecha_baja_producto.mat-cell {
-  width: 11%;
+.mat-column-tipo_producto.mat-cell {
+  min-width: 90px;
+  width: 9%;
 }
 
 .mat-column-descripcion_producto.mat-header-cell,
 .mat-column-descripcion_producto.mat-cell {
-  width: 30%;
+  width: 40%;
 }
 
 .mat-column-clase_producto.mat-header-cell,
 .mat-column-clase_producto.mat-cell {
-  width: 22%;
+  width: 30%;
 }
 
 .mat-column-actions.mat-header-cell,
 .mat-column-actions.mat-cell {
-  width: 15%;
+  min-width: 130px;
+  width: 13%;
 }
 
 /*
@@ -79,7 +85,7 @@ td.mat-cell:first-of-type {
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   justify-content: center;
   align-items: center;
-  height: 48px;
+  height: 40px;
   gap: 1vw;
   padding: 0rem 5vw;
   background-color: #dddddd;
@@ -90,12 +96,7 @@ td.mat-cell:first-of-type {
   font-size: 0.95rem !important;
 }
 
-.num {
-  text-align: right !important;
-  padding-right: 1vw !important;
-}
-
-.text {
+.detailExpand-item {
   text-align: left !important;
   padding-left: 1vw !important;
 }
@@ -107,9 +108,6 @@ td.mat-cell:first-of-type {
 }
 
 .selected {
-  box-shadow: 0px 0px 0px 2px rgb(150, 150, 150) !important;
-  -webkit-box-shadow: 0px 0px 0px 2px rgb(150, 150, 150) !important;
-  -moz-box-shadow: 0px 0px 0px 2px rgb(150, 150, 150) !important;
   position: relative;
   z-index: 1;
 }

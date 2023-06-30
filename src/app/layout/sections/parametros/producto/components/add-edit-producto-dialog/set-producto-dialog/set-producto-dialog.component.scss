@@ -1,0 +1,43 @@
+.dialog-content {
+  min-width: 800px;
+  min-height: 590px;
+}
+
+.filter-container {
+  width: 47%;
+}
+
+.table-container {
+  padding-bottom: 1rem;
+}
+
+.mat-column-descripcion.mat-header-cell,
+.mat-column-descripcion.mat-cell {
+  text-align: left !important;
+  padding-left: 2vw;
+  word-break: break-all;
+}
+
+.mat-column-codigo.mat-header-cell,
+.mat-column-codigo.mat-cell {
+  text-align: right !important;
+  padding-right: 2vw;
+  word-break: break-all;
+}
+
+.mat-column-codigo.mat-header-cell,
+.mat-column-codigo.mat-cell,
+.mat-column-actions.mat-header-cell,
+.mat-column-actions.mat-cell {
+  min-width: 130px;
+}
+
+.mat-column-descripcion.mat-header-cell,
+.mat-column-descripcion.mat-cell {
+  width: 100%;
+}
+
+::ng-deep .mat-paginator-container {
+  min-height: 3rem;
+  height: none;
+}

@@ -69,7 +69,6 @@ export class AddEditProductoDialogComponent {
   }
 
   public confirm(): void {
-    this.formGroup.markAllAsTouched();
     if (this.formGroup.valid) {
       this.dataSharingService.sendData({
         par_modo: this.data.par_modo,
@@ -108,11 +107,14 @@ export class AddEditProductoDialogComponent {
         programa_recalculo: this.data.programa_recalculo,
         clasificador: this.data.clasificador,
       });
+    } else {
+      this.formGroup.markAllAsTouched();
     }
   }
 
-  public clear(inputElement: HTMLInputElement): void {
+  public clear(inputElement: HTMLInputElement, controlName: string): void {
     inputElement.value = '';
+    this.formGroup.get(controlName)?.setValue('');
   }
 
   public setElement(option: number): void {

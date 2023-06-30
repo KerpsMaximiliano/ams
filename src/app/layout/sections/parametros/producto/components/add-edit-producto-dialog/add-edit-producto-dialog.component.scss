@@ -1,32 +1,31 @@
-// .dialog-content {}
-
-.buttons-container {
-  display: grid !important;
-  justify-content: center;
-  align-items: center;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 1rem;
+.form-datos {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.5rem;
 }
 
-/* 1/2 Comienzo ----------------------------------------------------------------------------------------------------- */
-/*
- * Ajustes al contenido distinto (título, campo de entrada | selector y, iconos 'buscar' y 'cancelar'). Selectores:
- * .seeker-fields-container (contenedor).
- * .content (contenido funcional). No incluye el título.
- * .icon (contenedor de icono).
- * .material-symbols-outlined (estilo de material icon).
-*/
-// .seeker-fields-container {
-//   display: grid;
-//   grid-template-columns: repeat(0.25fr, 0.25fr, 0.25fr, 0.25fr);
-//   width: 100%;
-// }
+.seeker-field-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.seeker-fields-container {
+  display: grid;
+  grid-template-columns: minmax(190px, 0.9fr) minmax(290px, 1.1fr);
+  align-items: center;
+  column-gap: 0rem;
+}
 
 .content {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
+  gap: 0.3rem;
+}
+
+.primary-button {
+  width: 130px;
 }
 
 .icon {
@@ -44,4 +43,14 @@
   font-variation-settings: "FILL" 1, "wght" 700, "GRAD" 200, "opsz" 48;
   color: var(--background-white);
 }
-/* 2/2 Fin ---------------------------------------------------------------------------------------------------------- */
+
+.disabled {
+  opacity: 0.5;
+  pointer-events: pointer;
+  cursor: not-allowed;
+  filter: grayscale(100%);
+}
+
+.disabled:hover {
+  filter: grayscale(100%);
+}

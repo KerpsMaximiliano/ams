@@ -9,8 +9,8 @@
 .mat-column-pide_fecha_enlace.mat-header-cell,
 .mat-column-pide_fecha_enlace.mat-cell {
   text-align: left !important;
-  padding-left: 1vw !important;
-  word-break: break-all !important;
+  padding-left: 1vw;
+  word-break: break-all;
 }
 
 /*
@@ -21,7 +21,7 @@
 .mat-column-codigo_afip.mat-header-cell,
 .mat-column-codigo_afip.mat-cell {
   text-align: right !important;
-  padding-right: 1vw !important;
+  padding-right: 1vw;
 }
 
 /*
@@ -30,7 +30,7 @@
 
 .mat-column-codigo_parentesco.mat-header-cell,
 .mat-column-codigo_parentesco.mat-cell {
-  min-width: 60px;
+  min-width: 70px;
 }
 
 .mat-column-descripcion.mat-header-cell,
@@ -41,26 +41,37 @@
 
 .mat-column-permite_darse_baja.mat-header-cell,
 .mat-column-permite_darse_baja.mat-cell {
-  min-width: 150px;
+  min-width: 130px;
 }
 
 .mat-column-pide_fecha_enlace.mat-header-cell,
 .mat-column-pide_fecha_enlace.mat-cell {
-  min-width: 170px;
+  min-width: 150px;
 }
 
 .mat-column-codigo_afip.mat-header-cell,
 .mat-column-codigo_afip.mat-cell {
-  min-width: 120px;
+  min-width: 110px;
 }
 
 .mat-column-actions.mat-header-cell,
 .mat-column-actions.mat-cell {
   min-width: 100px;
 }
+
 /*
-* Oculta la paginación hasta que la tabla tenga datos.
+ * Oculta la tabla y paginación hasta que existan datos.
 */
-.hide-paginator {
+.d-none {
   display: none;
+}
+
+/*
+ * Genera el espacio que corresponde al botón que no esta disponible.
+*/
+.no-edit {
+  display: inline-block;
+  vertical-align: bottom;
+  width: 40px;
+  height: 44.09px;
 }

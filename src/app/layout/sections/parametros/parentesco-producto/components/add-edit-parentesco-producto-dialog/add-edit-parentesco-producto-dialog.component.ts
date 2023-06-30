@@ -55,6 +55,8 @@ export class AddEditParentescoProductoDialogComponent {
             ? this.formGroup.get('codigo_afip')?.value.codigo
             : this.data.codigo_parentesco_afip,
       });
+    } else {
+      this.formGroup.markAllAsTouched();
     }
   }
 

@@ -71,11 +71,9 @@ export class ParentescoProductoComponent implements OnInit, OnDestroy {
           'El parentesco se ha creado exitosamente. ',
           dialogRef
         );
+        this.dataSharingService.unsubscribeData(this.dataSubscription!);
+        this.dataSubscription = undefined;
       });
-    dialogRef.afterClosed().subscribe(() => {
-      this.dataSharingService.unsubscribeData(this.dataSubscription!);
-      this.dataSubscription = undefined;
-    });
   }
 
   public edit(data: IParentescoProducto): void {
@@ -93,11 +91,9 @@ export class ParentescoProductoComponent implements OnInit, OnDestroy {
           'El parentesco por producto se ha editado exitosamente.',
           dialogRef
         );
+        this.dataSharingService.unsubscribeData(this.dataSubscription!);
+        this.dataSubscription = undefined;
       });
-    dialogRef.afterClosed().subscribe(() => {
-      this.dataSharingService.unsubscribeData(this.dataSubscription!);
-      this.dataSubscription = undefined;
-    });
   }
 
   public view(data: IParentescoProducto): void {
