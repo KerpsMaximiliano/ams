@@ -44,6 +44,10 @@
   color: var(--background-white);
 }
 
+/*
+  * Estilos del boton "Guardar" para que este deshabilitado.
+*/
+
 .disabled {
   opacity: 0.5;
   pointer-events: pointer;

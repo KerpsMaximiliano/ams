@@ -40,7 +40,6 @@ export class AddEditDepartamentoDialogComponent {
   }
 
   public confirm(): void {
-    this.formGroup.markAllAsTouched();
     if (this.formGroup.valid) {
       this.dataSharingService.sendData({
         par_modo: this.data.par_modo,
@@ -52,6 +51,8 @@ export class AddEditDepartamentoDialogComponent {
         descripcion: this.formGroup.get('descripcion')?.value,
         descripcion_reducida: this.formGroup.get('descripcion_reducida')?.value,
       });
+    } else {
+      this.formGroup.markAllAsTouched();
     }
   }
 

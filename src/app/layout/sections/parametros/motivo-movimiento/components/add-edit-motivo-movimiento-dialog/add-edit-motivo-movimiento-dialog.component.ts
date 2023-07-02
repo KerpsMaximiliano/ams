@@ -52,7 +52,6 @@ export class AddEditMotivoMovimientoDialogComponent {
   }
 
   public confirm(): void {
-    this.formGroup.markAllAsTouched();
     if (this.formGroup.valid) {
       const fecha = this.datePipe.transform(
         this.calcularFecha(
@@ -69,6 +68,8 @@ export class AddEditMotivoMovimientoDialogComponent {
         fecha_inicio_vigencia: Number(fecha),
         fecha_fin_vigencia: this.fecha_fin !== undefined ? this.fecha_fin : 0,
       });
+    } else {
+      this.formGroup.markAllAsTouched();
     }
   }
 

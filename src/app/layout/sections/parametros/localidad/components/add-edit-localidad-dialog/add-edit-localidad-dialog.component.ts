@@ -46,7 +46,6 @@ export class AddEditLocalidadDialogComponent {
   }
 
   public confirm(): void {
-    this.formGroup.markAllAsTouched();
     if (this.formGroup.valid) {
       this.dataSharingService.sendData({
         par_modo: this.data.par_modo,
@@ -62,6 +61,8 @@ export class AddEditLocalidadDialogComponent {
         ingreso_ticket: this.formGroup.get('ingreso_ticket')?.value,
         visitado_auditor: this.formGroup.get('visitado_auditor')?.value,
       });
+    } else {
+      this.formGroup.markAllAsTouched();
     }
   }
 

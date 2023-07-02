@@ -37,13 +37,14 @@ export class AddEditEstadoCivilDialogComponent {
   }
 
   public confirm(): void {
-    this.formGroup.markAllAsTouched();
     if (this.formGroup.valid) {
       this.dataSharingService.sendData({
         par_modo: this.data.par_modo,
         codigo_estado_civil: this.formGroup.get('codigo_estado_civil')?.value,
         description: this.formGroup.get('description')?.value,
       });
+    } else {
+      this.formGroup.markAllAsTouched();
     }
   }
 

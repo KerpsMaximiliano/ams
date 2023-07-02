@@ -62,13 +62,16 @@
   width: 130px;
 }
 
-.disabled{
+/*
+  * Estilos del boton "Guardar" para que este deshabilitado.
+*/
+.disabled {
   opacity: 0.5;
   pointer-events: pointer;
   cursor: not-allowed;
   filter: grayscale(100%);
 }
 
-.disabled:hover{
+.disabled:hover {
   filter: grayscale(100%);
 }

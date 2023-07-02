@@ -93,7 +93,6 @@ export class AddEditPosicionDialogComponent implements OnInit {
   }
 
   public confirm(): void {
-    this.formGroup.markAllAsTouched();
     if (this.formGroup.valid) {
       this.dataSharingService.sendData({
         par_modo: this.data.par_modo,
@@ -107,6 +106,8 @@ export class AddEditPosicionDialogComponent implements OnInit {
         fecha_vigencia: this.data.fecha_vigencia ? this.data.fecha_vigencia : 0,
         letra_provincia: this.data.letra_provincia,
       });
+    } else {
+      this.formGroup.markAllAsTouched();
     }
   }
 

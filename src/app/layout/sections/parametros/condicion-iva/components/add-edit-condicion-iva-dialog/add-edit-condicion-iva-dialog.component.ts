@@ -37,7 +37,6 @@ export class AddEditCondicionIvaDialogComponent {
   }
 
   public confirm(): void {
-    this.formGroup.markAllAsTouched();
     if (this.formGroup.valid) {
       this.dataSharingService.sendData({
         par_modo: this.data.par_modo,
@@ -46,6 +45,8 @@ export class AddEditCondicionIvaDialogComponent {
         descripcion_reducida: this.formGroup.get('descripcion_reducida')?.value,
         formulario_AB: this.formGroup.get('formulario_AB')?.value,
       });
+    } else {
+      this.formGroup.markAllAsTouched();
     }
   }
 

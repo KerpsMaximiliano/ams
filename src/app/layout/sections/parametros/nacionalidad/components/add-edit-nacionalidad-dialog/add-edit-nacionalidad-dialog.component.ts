@@ -38,7 +38,6 @@ export class AddEditNacionalidadDialogComponent {
   }
 
   public confirm(): void {
-    this.formGroup.markAllAsTouched();
     if (this.formGroup.valid) {
       this.dataSharingService.sendData({
         par_modo: this.data.par_modo,
@@ -49,6 +48,8 @@ export class AddEditNacionalidadDialogComponent {
         codigo_sistema_anterior: this.formGroup.get('codigo_sistema_anterior')
           ?.value,
       });
+    } else {
+      this.formGroup.markAllAsTouched();
     }
   }
 

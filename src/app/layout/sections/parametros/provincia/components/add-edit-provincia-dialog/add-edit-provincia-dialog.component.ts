@@ -39,7 +39,6 @@ export class AddEditProvinciaDialogComponent {
   }
 
   public confirm(): void {
-    this.formGroup.markAllAsTouched();
     if (this.formGroup.valid) {
       this.dataSharingService.sendData({
         par_modo: this.data.par_modo,
@@ -49,6 +48,8 @@ export class AddEditProvinciaDialogComponent {
         codigo_provincia: this.formGroup.get('codigo_provincia')?.value,
         flete_transportista: this.formGroup.get('flete_transportista')?.value,
       });
+    } else {
+      this.formGroup.markAllAsTouched();
     }
   }
 

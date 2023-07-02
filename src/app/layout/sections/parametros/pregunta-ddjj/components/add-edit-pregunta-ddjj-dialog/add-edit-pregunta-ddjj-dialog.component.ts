@@ -39,7 +39,6 @@ export class AddEditPreguntaDDJJDialogComponent {
   }
 
   public confirm(): void {
-    this.formGroup.markAllAsTouched();
     if (this.formGroup.valid) {
       this.dataSharingService.sendData({
         par_modo: this.data.par_modo,
@@ -51,6 +50,8 @@ export class AddEditPreguntaDDJJDialogComponent {
         primer_texto_preg: this.formGroup.get('primer_texto_preg')?.value,
         segundo_texto_preg: this.formGroup.get('segundo_texto_preg')?.value,
       });
+    } else {
+      this.formGroup.markAllAsTouched();
     }
   }
 
