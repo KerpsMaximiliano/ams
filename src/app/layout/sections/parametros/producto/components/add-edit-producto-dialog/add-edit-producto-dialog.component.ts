@@ -145,6 +145,11 @@ export class AddEditProductoDialogComponent {
     }
   }
 
+  public redirectTo(url: string): void {
+    this.productoService.set(this.data);
+    this.router.navigate([url]);
+  }
+
   private compareDate(date1: number, date2: number): boolean {
     const strDate1: string = date1.toString();
     const strDate2: string = date2.toString();
@@ -173,11 +178,6 @@ export class AddEditProductoDialogComponent {
     const month = ('0' + (date.getMonth() + 1)).slice(-2);
     const day = ('0' + date.getDate()).slice(-2);
     return Number(`${year}${month}${day}`);
-  }
-
-  public redirectTo(url: string): void {
-    this.productoService.set(this.data);
-    this.router.navigate([url]);
   }
 
   private setUpForm(): void {
