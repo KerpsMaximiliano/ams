@@ -15,6 +15,7 @@ import {
   isNumeric,
   getErrorMessage,
   notOnlySpaces,
+  isAlpha,
 } from 'src/app/core/validators/character.validator';
 
 // * Material
@@ -92,13 +93,14 @@ export class AddEditCondicionIvaDialogComponent {
       ),
       formulario_AB: new UntypedFormControl(
         {
-          value: this.data.formulario_AB,
+          value: this.data.formulario_AB ? this.data.formulario_AB.trim() : '',
           disabled: this.data.par_modo === 'R',
         },
         Validators.compose([
           Validators.required,
           Validators.minLength(1),
           Validators.maxLength(1),
+          isAlpha(),
         ])
       ),
     });

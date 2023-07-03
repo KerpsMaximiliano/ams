@@ -16,7 +16,7 @@ export class MovimientoProductoFilterComponent {
   @Input() public producto: IProducto;
   @Output() public search: EventEmitter<any> = new EventEmitter<any>();
 
-  @ViewChild('tipo') tipo: any;
+  @ViewChild('tipo') private tipo: any;
 
   public tipos: string[] = ['A-ALTA', 'B-BAJA', 'S-SUSPENDIDO', 'O-OSP'];
 

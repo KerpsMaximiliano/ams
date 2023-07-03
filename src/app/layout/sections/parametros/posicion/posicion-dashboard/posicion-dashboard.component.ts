@@ -21,7 +21,7 @@ import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
   templateUrl: './posicion-dashboard.component.html',
   styleUrls: ['./posicion-dashboard.component.scss'],
 })
-export class PosicionDashboardComponent {
+export class PosicionDashboardComponent implements OnInit, OnChanges {
   public displayedColumns: string[] = [
     'codigo_posicion',
     'descripcion',

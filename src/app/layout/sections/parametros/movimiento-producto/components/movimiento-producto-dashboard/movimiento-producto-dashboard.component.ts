@@ -39,6 +39,7 @@ export class MovimientoProductoDashboardComponent {
     new EventEmitter<IMovimientoProducto>();
 
   constructor(private matPaginatorIntl: MatPaginatorIntl) {}
+
   ngOnInit(): void {
     this.configurePaginator();
   }
@@ -60,8 +61,8 @@ export class MovimientoProductoDashboardComponent {
     this.editEvent.emit(element);
   }
 
-  calcularTexto(value: string, caso: number): string {
-    if (caso === 1) {
+  public text(value: string, type: boolean): string {
+    if (type) {
       switch (value) {
         case 'N':
           return 'N-NADA';

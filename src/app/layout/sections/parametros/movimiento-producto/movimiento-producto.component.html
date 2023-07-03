@@ -1,12 +1,11 @@
 <section class="browse-section">
   <div class="section-header">
-    <h2> Motivo de movimiento por producto </h2>
+    <h2> Motivo de movimiento por producto #{{ producto.codigo_producto }} </h2>
     <button class="new-button icon-button" (click)="new()">
       <mat-icon> add </mat-icon>
       Nuevo
     </button>
   </div>
-
   <div class="section-content">
     <app-movimiento-producto-filter (search)="getData($event)" [producto]="producto"></app-movimiento-producto-filter>
     <app-movimiento-producto-dashboard [receivedData]="dataSent" (viewEvent)="view($event)"

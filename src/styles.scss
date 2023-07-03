@@ -106,9 +106,9 @@ input[type="number"] {
 
 .mat-select-panel-wrap {
   /* max-width: fit-content; */
-  margin-top: 12px !important;
-  max-width: 95%;
-  padding-left: 8px;
+  margin-top: 16px !important;
+  /* max-width: 96%;
+  padding-left: 8px;*/
   padding-top: 16px;
 }
 
@@ -217,7 +217,7 @@ body {
 //Sections
 
 .browse-section {
-  padding: 0.5rem 1rem;
+  padding: 1rem 1rem;
   margin-top: 3.5rem;
 }
 
@@ -469,9 +469,7 @@ button {
 }
 
 .mat-radio-button.mat-primary .mat-radio-inner-circle,
-.mat-radio-button.mat-primary
-  .mat-radio-ripple
-  .mat-ripple-element:not(.mat-radio-persistent-ripple),
+.mat-radio-button.mat-primary .mat-radio-ripple .mat-ripple-element:not(.mat-radio-persistent-ripple),
 .mat-radio-button.mat-primary.mat-radio-checked .mat-radio-persistent-ripple,
 .mat-radio-button.mat-primary:active .mat-radio-persistent-ripple {
   background-color: var(--sancor-blue);

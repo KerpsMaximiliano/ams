@@ -36,9 +36,9 @@ export class AddEditMotivoMovimientoDialogComponent {
   public status: boolean;
 
   constructor(
-    public datePipe: DatePipe,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private dataSharingService: DataSharingService
+    private dataSharingService: DataSharingService,
+    private datePipe: DatePipe,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     const fechaEndPicker = this.calcularFecha(new Date());
 

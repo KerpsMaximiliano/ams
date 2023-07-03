@@ -14,6 +14,7 @@ import {
 // * Validations
 import {
   getErrorMessage,
+  isAlpha,
   isNumeric,
   notOnlySpaces,
 } from 'src/app/core/validators/character.validator';
@@ -227,14 +228,26 @@ export class AddEditProductoDialogComponent {
           value: this.data.tipo_producto ? this.data.tipo_producto.trim() : '',
           disabled: this.data.par_modo === 'R' || this.data.par_modo === 'U',
         },
-        Validators.compose([Validators.required])
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(2),
+          isAlpha(),
+        ])
       ),
-      descripcion_producto_administrador: new UntypedFormControl({
-        value: this.data.descripcion_producto_administrador
-          ? this.data.descripcion_producto_administrador.trim()
-          : '',
-        disabled: this.data.par_modo === 'R' || this.data.par_modo === 'U',
-      }),
+      descripcion_producto_administrador: new UntypedFormControl(
+        {
+          value: this.data.descripcion_producto_administrador
+            ? this.data.descripcion_producto_administrador.trim()
+            : '',
+          disabled: this.data.par_modo === 'R' || this.data.par_modo === 'U',
+        },
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(3),
+          notOnlySpaces(),
+        ])
+      ),
       clase_producto: new UntypedFormControl(
         {
           value: this.data.clase_producto
@@ -251,14 +264,22 @@ export class AddEditProductoDialogComponent {
             : '',
           disabled: this.data.par_modo === 'R' || this.data.par_modo === 'U',
         },
-        Validators.compose([Validators.required])
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(3),
+          notOnlySpaces(),
+        ])
       ),
       numero_empresa_factura: new UntypedFormControl(
         {
           value: this.data.numero_empresa_factura,
           disabled: this.data.par_modo === 'R' || this.data.par_modo === 'U',
         },
-        Validators.compose([Validators.required])
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(3),
+          notOnlySpaces(),
+        ])
       ),
       descripcion_obra_social: new UntypedFormControl(
         {
@@ -267,7 +288,11 @@ export class AddEditProductoDialogComponent {
             : '',
           disabled: this.data.par_modo === 'R' || this.data.par_modo === 'U',
         },
-        Validators.compose([Validators.required])
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(3),
+          notOnlySpaces(),
+        ])
       ),
     });
   }

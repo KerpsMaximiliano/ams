@@ -35,7 +35,7 @@
       </mat-form-field>
     </div>
 
-    <div class="seeker-fields-container" *ngIf="formGroup.get('tipo_motivo')?.value">
+    <div class="seeker-fields-container">
       <h3> MOTIVO </h3>
       <div class="content">
         <mat-form-field class="seeker-form-field" appearance="outline">
@@ -44,7 +44,7 @@
             *ngIf="formGroup.get('descripcion')?.invalid">{{getErrorMessage(formGroup.get('descripcion'))}}</mat-error>
         </mat-form-field>
         <ng-container *ngIf="data.par_modo === 'C'">
-          <div class="icon" (click)="getData()">
+          <div class="icon" (click)="getData()" *ngIf="formGroup.get('tipo_motivo')?.value">
             <mat-icon class="material-symbols-outlined"> search </mat-icon>
           </div>
           <div class="icon" (click)="clear(descripcion)" *ngIf="formGroup.get('descripcion')?.value">

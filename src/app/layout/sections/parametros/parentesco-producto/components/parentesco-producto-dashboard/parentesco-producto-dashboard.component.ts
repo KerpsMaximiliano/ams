@@ -5,6 +5,8 @@ import {
   SimpleChanges,
   EventEmitter,
   Output,
+  OnChanges,
+  OnInit,
 } from '@angular/core';
 
 // * Interfaces
@@ -19,7 +21,7 @@ import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
   templateUrl: './parentesco-producto-dashboard.component.html',
   styleUrls: ['./parentesco-producto-dashboard.component.scss'],
 })
-export class ParentescoProductoDashboardComponent {
+export class ParentescoProductoDashboardComponent implements OnInit, OnChanges {
   public displayedColumns: string[] = [
     'codigo_parentesco',
     'descripcion',
@@ -44,7 +46,9 @@ export class ParentescoProductoDashboardComponent {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['receivedData'] && !changes['receivedData'].firstChange) {
-      this.dataSource = new MatTableDataSource<IParentescoProducto>(this.receivedData);
+      this.dataSource = new MatTableDataSource<IParentescoProducto>(
+        this.receivedData
+      );
       this.dataSource.paginator = this.paginator;
     }
   }

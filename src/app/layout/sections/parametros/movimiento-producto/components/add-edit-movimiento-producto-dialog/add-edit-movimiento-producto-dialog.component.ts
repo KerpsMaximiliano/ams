@@ -2,6 +2,12 @@ import { Component, Inject } from '@angular/core';
 
 // * Services
 import { DataSharingService } from 'src/app/core/services/data-sharing.service';
+import { UtilService } from 'src/app/core/services/util.service';
+import { MotivoMovimientoService } from 'src/app/core/services/motivo-movimiento.service';
+
+// * Interfaces
+import { IMotivoMovimiento } from 'src/app/core/models/motivo-movimiento.interface';
+import { IDialog } from 'src/app/core/models/dialog.interface';
 
 // * Form
 import {
@@ -13,16 +19,15 @@ import {
 // * Validations
 import {
   getErrorMessage,
+  isAlpha,
   notOnlySpaces,
 } from 'src/app/core/validators/character.validator';
 
 // * Material
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+
+// * Components
 import { SetMotivoMovimientoDialogComponent } from './set-motivo-movimiento-dialog/set-motivo-movimiento-dialog.component';
-import { IMotivoMovimiento } from 'src/app/core/models/motivo-movimiento.interface';
-import { MotivoMovimientoService } from 'src/app/core/services/motivo-movimiento.service';
-import { UtilService } from 'src/app/core/services/util.service';
-import { IDialog } from 'src/app/core/models/dialog.interface';
 
 @Component({
   selector: 'app-add-edit-movimiento-producto-dialog',
@@ -53,58 +58,15 @@ export class AddEditMovimientoProductoDialogComponent {
       this.dataSharingService.sendData({
         par_modo: this.data.par_modo,
         tipo_motivo: this.formGroup.get('tipo_motivo')?.value[0],
-        id_motivo: this.data.id_motivo,
+        codigo_motivo: this.data.codigo_motivo,
         id_producto: this.data.producto.codigo_producto,
+        descripcion: this.formGroup.get('descripcion')?.value,
         datos_adicionales: this.formGroup.get('datos_adicionales')?.value,
         otra_cobertura: this.formGroup.get('otra_cobertura')?.value,
       });
     } else {
       this.formGroup.markAllAsTouched();
     }
-  }
-
-  private setUpForm(): void {
-    this.formGroup = new UntypedFormGroup({
-      tipo_motivo: new UntypedFormControl(
-        {
-          value: this.data.tipo_motivo,
-          disabled: this.data.par_modo === 'U' || this.data.par_modo === 'R',
-        },
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(1),
-          Validators.maxLength(1),
-        ])
-      ),
-      descripcion: new UntypedFormControl(
-        {
-          value: this.data.descripcion ? this.data.descripcion.trim() : '',
-          disabled: this.data.par_modo === 'U' || this.data.par_modo === 'R',
-        },
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(30),
-          notOnlySpaces(),
-        ])
-      ),
-      datos_adicionales: new UntypedFormControl(
-        this.data.datos_adicionales,
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(1),
-          Validators.maxLength(1),
-        ])
-      ),
-      otra_cobertura: new UntypedFormControl(
-        this.data.otra_cobertura,
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(1),
-          Validators.maxLength(1),
-        ])
-      ),
-    });
   }
 
   public getData(): void {
@@ -151,6 +113,52 @@ export class AddEditMovimientoProductoDialogComponent {
       });
   }
 
+  private setUpForm(): void {
+    this.formGroup = new UntypedFormGroup({
+      tipo_motivo: new UntypedFormControl(
+        {
+          value: this.data.tipo_motivo,
+          disabled: this.data.par_modo === 'U' || this.data.par_modo === 'R',
+        },
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(1),
+        ])
+      ),
+      descripcion: new UntypedFormControl(
+        {
+          value: this.data.descripcion ? this.data.descripcion.trim() : '',
+          disabled: this.data.par_modo === 'U' || this.data.par_modo === 'R',
+        },
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(30),
+          notOnlySpaces(),
+        ])
+      ),
+      datos_adicionales: new UntypedFormControl(
+        this.data.datos_adicionales ? this.data.datos_adicionales.trim() : '',
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(1),
+          isAlpha(),
+        ])
+      ),
+      otra_cobertura: new UntypedFormControl(
+        this.data.otra_cobertura ? this.data.otra_cobertura.trim() : '',
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(1),
+          isAlpha(),
+        ])
+      ),
+    });
+  }
+
   private setDialog(data: any): void {
     const modal = this.dialog.open(SetMotivoMovimientoDialogComponent, {
       data: data,
@@ -158,7 +166,7 @@ export class AddEditMovimientoProductoDialogComponent {
 
     modal.afterClosed().subscribe({
       next: (res: any) => {
-        this.data.id_motivo = res?.codigo;
+        this.data.codigo_motivo = res?.codigo;
         this.data.descripcion = res?.descripcion;
         this.formGroup
           .get('descripcion')

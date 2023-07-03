@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+
+// * Interfaces
 import { IProducto } from 'src/app/core/models/producto.interface';
 
 @Component({

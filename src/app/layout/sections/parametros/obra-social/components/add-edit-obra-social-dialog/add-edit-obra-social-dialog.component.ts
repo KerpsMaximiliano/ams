@@ -32,8 +32,8 @@ export class AddEditObraSocialDialogComponent {
   public getErrorMessage = getErrorMessage;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private dataSharingService: DataSharingService
+    private dataSharingService: DataSharingService,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.setUpForm();
   }

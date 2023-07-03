@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 
 // * Services
 import { DataSharingService } from 'src/app/core/services/data-sharing.service';
@@ -28,12 +28,12 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./add-edit-provincia-dialog.component.scss'],
 })
 export class AddEditProvinciaDialogComponent {
-  public formGroup: UntypedFormGroup;
   public getErrorMessage = getErrorMessage;
+  public formGroup: UntypedFormGroup;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private dataSharingService: DataSharingService
+    private dataSharingService: DataSharingService,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.setUpForm();
   }

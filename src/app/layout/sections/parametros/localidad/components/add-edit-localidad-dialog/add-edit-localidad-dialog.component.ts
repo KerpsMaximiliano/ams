@@ -37,9 +37,9 @@ export class AddEditLocalidadDialogComponent {
   public departamentos: IDepartamento[];
 
   constructor(
+    private dataSharingService: DataSharingService,
     private departamentoService: DepartamentoService,
     private utilService: UtilService,
-    private dataSharingService: DataSharingService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.setUpForm();
