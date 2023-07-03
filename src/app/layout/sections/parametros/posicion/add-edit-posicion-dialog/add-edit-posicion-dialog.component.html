@@ -28,7 +28,7 @@
       <h3> LOCALIDAD </h3>
       <div class="content">
         <mat-form-field class="seeker-form-field" appearance="outline">
-          <input matInput formControlName="localidad" #inputLocalidad required minlength="3" maxlength="30" readonly/>
+          <input matInput formControlName="localidad" #localidad required minlength="3" maxlength="30" readonly />
           <mat-error *ngIf="formGroup.get('localidad')?.invalid && formGroup.get('localidad')?.touched">
             {{ getErrorMessage(formGroup.get("localidad")) }}
           </mat-error>
@@ -37,7 +37,7 @@
           <div class="icon" (click)="searchLocalidad()">
             <mat-icon class="material-symbols-outlined"> search </mat-icon>
           </div>
-          <div class="icon" (click)="clearLocalidad(inputLocalidad)">
+          <div class="icon" (click)="clear(localidad, 'localidad')" *ngIf="formGroup.get('localidad')?.value">
             <mat-icon class="material-symbols-outlined"> close </mat-icon>
           </div>
         </ng-container>
@@ -99,7 +99,7 @@
         </button>
       </div>
       <button [class]="formGroup.invalid ? 'primary-button icon-button disabled' : 'primary-button icon-button'"
-      type="submit" (click)="confirm()">
+        type="submit" (click)="confirm()">
         <mat-icon> done </mat-icon>
         Guardar
       </button>

@@ -9,7 +9,7 @@
 .dialog-content {
   display: flex;
   flex-direction: column;
-  min-height: 590px;
+  min-height: 525px;
   min-width: 650px;
   background-color: #fff;
 }
@@ -66,8 +66,8 @@ td.mat-cell:first-of-type {
 /*
  * Número y fecha alineado a la derecha.
 */
-.mat-column-codigo_postal.mat-header-cell,
-.mat-column-codigo_postal.mat-cell {
+.mat-column-codigo_fuente_ingreso.mat-header-cell,
+.mat-column-codigo_fuente_ingreso.mat-cell {
   text-align: right !important;
   padding-right: 3vw;
   word-break: break-all;
@@ -76,8 +76,8 @@ td.mat-cell:first-of-type {
 /*
  * Tamaño de columnas.
 */
-.mat-column-codigo_postal.mat-header-cell,
-.mat-column-codigo_postal.mat-cell {
+.mat-column-codigo_fuente_ingreso.mat-header-cell,
+.mat-column-codigo_fuente_ingreso.mat-cell {
   width: 20%;
 }
 

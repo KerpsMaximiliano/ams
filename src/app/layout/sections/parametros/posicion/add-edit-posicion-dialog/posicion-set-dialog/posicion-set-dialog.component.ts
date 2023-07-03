@@ -29,15 +29,13 @@ export class PosicionSetDialogComponent implements OnInit {
     'actions',
   ];
   public dataSource: MatTableDataSource<ILocalidad>;
-
-  @ViewChild(MatPaginator, { static: true }) public paginator!: MatPaginator;
-  @ViewChild('selectProvincia') selectProvincia: any;
-  @ViewChild('selectDepartamento') selectDepartamento: any;
-
   public departamentos: IDepartamento[];
   public localidades: ILocalidad[];
+  public localidad: any;
 
-  public showGuardarButton: any;
+  @ViewChild(MatPaginator, { static: true }) public paginator!: MatPaginator;
+  @ViewChild('provincia') public provincia: any;
+  @ViewChild('departamento') public departamento: any;
 
   constructor(
     private departamentoService: DepartamentoService,
@@ -58,7 +56,7 @@ export class PosicionSetDialogComponent implements OnInit {
       .CRUD(
         JSON.stringify({
           par_modo: 'O',
-          letra_provincia: this.selectProvincia.value,
+          letra_provincia: this.provincia.value,
           descripcion: '',
         })
       )
@@ -70,7 +68,7 @@ export class PosicionSetDialogComponent implements OnInit {
         },
         error: () => {
           this.utils.closeLoading();
-          this.selectDepartamento.value = 'No se encontraron departamentos. ';
+          this.departamento.value = 'No se encontraron departamentos. ';
         },
         complete: () => {
           this.utils.closeLoading();
@@ -79,15 +77,15 @@ export class PosicionSetDialogComponent implements OnInit {
   }
 
   public getLocalidades(): void {
-    this.showGuardarButton = null;
+    this.localidad = null;
     this.utils.openLoading();
     this.localidadService
       .CRUD(
         JSON.stringify({
           par_modo: 'O',
           descripcion: '',
-          letra_provincia: this.selectProvincia?.value,
-          codigo_departamento: this.selectDepartamento?.value,
+          letra_provincia: this.provincia?.value,
+          codigo_departamento: this.departamento?.value,
         })
       )
       .subscribe({
@@ -130,21 +128,22 @@ export class PosicionSetDialogComponent implements OnInit {
 
   public confirm(): void {
     this.dialogRef.close({
-      letra_provincia: this.showGuardarButton.letra_provincia,
-      descripcion: this.showGuardarButton.descripcion,
-      codigo_postal: this.showGuardarButton.codigo_postal,
-      sub_codigo_postal: this.showGuardarButton.sub_codigo_postal,
+      letra_provincia: this.localidad.letra_provincia,
+      descripcion: this.localidad.descripcion,
+      codigo_postal: this.localidad.codigo_postal,
+      sub_codigo_postal: this.localidad.sub_codigo_postal,
     });
   }
 
   public clear() {
-    this.selectProvincia.value = '';
-    this.selectDepartamento.value = '';
+    this.provincia.value = '';
+    this.departamento.value = '';
   }
 
   public applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.dataSource.filter = (event.target as HTMLInputElement).value
+      .trim()
+      .toLowerCase();
   }
 
   private configurePaginator(): void {

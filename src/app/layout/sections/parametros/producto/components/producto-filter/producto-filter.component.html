@@ -8,7 +8,7 @@
       <form>
         <div class="seeker-fields-container">
           <mat-form-field class="seeker-form-field">
-            <mat-label class="seeker-label"> Ingrese la empresa </mat-label>
+            <mat-label class="seeker-label"> Seleccione una empresa </mat-label>
             <mat-select #select disableOptionCentering>
               <mat-option [value]="2">
                 Asociacion Mutual Sancor
@@ -29,9 +29,8 @@
           </mat-form-field>
 
           <mat-form-field class="seeker-form-field">
-            <mat-label class="seeker-label"> Ingrese el producto </mat-label>
-            <input matInput class="seeker-input" (keydown.enter)="performSearch(input.value)" #input
-              maxlength="30" />
+            <mat-label class="seeker-label"> Ingrese un producto </mat-label>
+            <input matInput class="seeker-input" (keydown.enter)="performSearch(input.value)" #input maxlength="30" />
           </mat-form-field>
         </div>
 

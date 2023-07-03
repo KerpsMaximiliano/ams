@@ -16,7 +16,8 @@
     <div class="seeker-fields-container">
       <h3> TIPO DE MOVIMIENTO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <mat-select formControlName="tipo_motivo" minlength="1" maxlength="1" required disableOptionCentering>
+        <mat-select formControlName="tipo_motivo" minlength="1" maxlength="1" required disableOptionCentering
+          (selectionChange)="clear(input, 'descripcion')">
           <mat-option [value]="'A'">
             ALTA
           </mat-option>
@@ -44,10 +45,10 @@
             *ngIf="formGroup.get('descripcion')?.invalid">{{getErrorMessage(formGroup.get('descripcion'))}}</mat-error>
         </mat-form-field>
         <ng-container *ngIf="data.par_modo === 'C'">
-          <div class="icon" (click)="getData()" *ngIf="formGroup.get('tipo_motivo')?.value">
+          <div class="icon" (click)="getMotivo()" *ngIf="formGroup.get('tipo_motivo')?.value">
             <mat-icon class="material-symbols-outlined"> search </mat-icon>
           </div>
-          <div class="icon" (click)="clear(input)" *ngIf="formGroup.get('descripcion')?.value">
+          <div class="icon" (click)="clear(input, 'descripcion')" *ngIf="formGroup.get('descripcion')?.value">
             <mat-icon class="material-symbols-outlined"> close </mat-icon>
           </div>
         </ng-container>

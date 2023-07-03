@@ -13,12 +13,12 @@ import { IProducto } from 'src/app/core/models/producto.interface';
   styleUrls: ['./movimiento-producto-filter.component.scss'],
 })
 export class MovimientoProductoFilterComponent {
+  public tipos: string[] = ['A-ALTA', 'B-BAJA', 'S-SUSPENDIDO', 'O-OSP'];
+
   @Input() public producto: IProducto;
   @Output() public search: EventEmitter<any> = new EventEmitter<any>();
 
   @ViewChild('select') private select: any;
-
-  public tipos: string[] = ['A-ALTA', 'B-BAJA', 'S-SUSPENDIDO', 'O-OSP'];
 
   constructor() {}
 
@@ -27,7 +27,8 @@ export class MovimientoProductoFilterComponent {
     this.search.emit(
       JSON.stringify({
         par_modo: 'O',
-        tipo_motivo: this.select.value !== undefined ? this.select.value[0] : '',
+        tipo_motivo:
+          this.select.value !== undefined ? this.select.value[0] : '',
         id_producto: this.producto.codigo_producto,
         descripcion: value,
       })

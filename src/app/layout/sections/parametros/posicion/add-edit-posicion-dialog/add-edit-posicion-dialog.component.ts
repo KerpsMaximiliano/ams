@@ -88,8 +88,9 @@ export class AddEditPosicionDialogComponent implements OnInit {
     });
   }
 
-  public clearLocalidad(inputElement: HTMLInputElement): void {
+  public clear(inputElement: HTMLInputElement, controlName: string): void {
     inputElement.value = '';
+    this.formGroup.get(controlName)?.setValue('');
   }
 
   public confirm(): void {

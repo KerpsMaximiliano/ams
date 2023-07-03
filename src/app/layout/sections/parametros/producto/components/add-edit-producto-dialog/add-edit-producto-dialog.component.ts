@@ -21,7 +21,6 @@ import {
 
 // * Material
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-import { SetProductoDialogComponent } from './set-producto-dialog/set-producto-dialog.component';
 import { IFuenteIngreso } from 'src/app/core/models/fuente-ingreso.interface';
 import { FuenteIngresoService } from 'src/app/core/services/fuente-ingreso.service';
 import {
@@ -31,6 +30,9 @@ import {
 import { ProductoService } from 'src/app/core/services/producto.service';
 import { Router } from '@angular/router';
 import { IDialog } from 'src/app/core/models/dialog.interface';
+import { SetProductoPrimarioDialogComponent } from './set-producto-primario-dialog/set-producto-primario-dialog.component';
+import { SetFuenteIngresoDialogComponent } from './set-fuente-ingreso-dialog/set-fuente-ingreso-dialog.component';
+import { SetObraSocialDialogComponent } from './set-obra-social-dialog/set-obra-social-dialog.component';
 
 @Component({
   selector: 'app-add-edit-producto-dialog',
@@ -38,7 +40,7 @@ import { IDialog } from 'src/app/core/models/dialog.interface';
   styleUrls: ['./add-edit-producto-dialog.component.scss'],
 })
 export class AddEditProductoDialogComponent {
-  private element: IDialog[];
+  private element: any[];
   private date: number;
   public formGroup: UntypedFormGroup;
   public getErrorMessage = getErrorMessage;
@@ -258,7 +260,7 @@ export class AddEditProductoDialogComponent {
         Validators.compose([
           Validators.required,
           Validators.minLength(1),
-          Validators.maxLength(1)
+          Validators.maxLength(1),
         ])
       ),
       descripcion_fuente_ingreso: new UntypedFormControl(
@@ -324,6 +326,7 @@ export class AddEditProductoDialogComponent {
   }
 
   private getProductoPrimario(): void {
+    this.element = [];
     this.utilService.openLoading();
     this.productoService
       .CRUD(
@@ -333,39 +336,22 @@ export class AddEditProductoDialogComponent {
       )
       .subscribe({
         next: (res: any) => {
-          let datas: IProducto[] = Array.isArray(res.dataset)
+          this.element = Array.isArray(res.dataset)
             ? (res.dataset as IProducto[])
             : [res.dataset as IProducto];
-
-          this.element = datas.map((data: IProducto) => {
-            return {
-              codigo: Number(data.codigo_fuente_ingreso),
-              descripcion: String(data.descripcion_producto),
-            };
-          });
         },
         error: (err: any) => {
           this.utilService.closeLoading();
-          if (err.status == 0) {
-            this.utilService.notification('Error de conexión.', 'error');
-          } else {
-            this.utilService.notification(
-              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
-              'error'
-            );
-          }
-          if (err.status == 404) {
-            this.element = [];
-          }
+          err.status == 0
+            ? this.utilService.notification('Error de conexión. ', 'error')
+            : this.utilService.notification(
+                `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+                'error'
+              );
         },
         complete: () => {
           this.utilService.closeLoading();
-          this.setDialog(
-            'SELECCIONE UN PRODUCTO ADMINISTRADOR',
-            'Ingrese un producto',
-            1,
-            this.element
-          );
+          this.setProductoPrimario(this.element);
         },
       });
   }
@@ -382,39 +368,22 @@ export class AddEditProductoDialogComponent {
       )
       .subscribe({
         next: (res: any) => {
-          let datas: IFuenteIngreso[] = Array.isArray(res.dataset)
+          let data: IFuenteIngreso[] = Array.isArray(res.dataset)
             ? (res.dataset as IFuenteIngreso[])
             : [res.dataset as IFuenteIngreso];
-
-          this.element = datas.map((data: IFuenteIngreso) => {
-            return {
-              codigo: Number(data.codigo_fuente_ingreso),
-              descripcion: String(data.descripcion),
-            };
-          });
+          this.setFuenteIngreso(data);
         },
         error: (err: any) => {
           this.utilService.closeLoading();
-          if (err.status == 0) {
-            this.utilService.notification('Error de conexión.', 'error');
-          } else {
-            this.utilService.notification(
-              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
-              'error'
-            );
-          }
-          if (err.status == 404) {
-            this.element = [];
-          }
+          err.status == 0
+            ? this.utilService.notification('Error de conexión. ', 'error')
+            : this.utilService.notification(
+                `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+                'error'
+              );
         },
         complete: () => {
           this.utilService.closeLoading();
-          this.setDialog(
-            'SELECCIONE UNA FUENTE DE INGRESO',
-            'Ingrese una fuente de ingreso',
-            2,
-            this.element
-          );
         },
       });
   }
@@ -429,36 +398,19 @@ export class AddEditProductoDialogComponent {
       )
       .subscribe({
         next: (res: any) => {
-          let datas: IProductoObraSocial[] = Array.isArray(res.dataset)
+          let data: IProductoObraSocial[] = Array.isArray(res.dataset)
             ? (res.dataset as IProductoObraSocial[])
             : [res.dataset as IProductoObraSocial];
-
-          this.element = datas.map((data: IProductoObraSocial) => {
-            return {
-              codigo: data.id_obrasocial,
-              descripcion: data.descripcion,
-            };
-          });
-          this.setDialog(
-            'SELECCIONE UNA OBRA SOCIAL',
-            'Ingrese una obra social',
-            3,
-            this.element
-          );
+          this.setObraSocial(data);
         },
         error: (err: any) => {
           this.utilService.closeLoading();
-          if (err.status == 0) {
-            this.utilService.notification('Error de conexión.', 'error');
-          } else {
-            this.utilService.notification(
-              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
-              'error'
-            );
-          }
-          if (err.status == 404) {
-            this.element = [];
-          }
+          err.status == 0
+            ? this.utilService.notification('Error de conexión. ', 'error')
+            : this.utilService.notification(
+                `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+                'error'
+              );
         },
         complete: () => {
           this.utilService.closeLoading();
@@ -466,49 +418,62 @@ export class AddEditProductoDialogComponent {
       });
   }
 
-  private setDialog(
-    title: string,
-    label: string,
-    option: number,
-    data: any
-  ): void {
-    const modal = this.dialog.open(SetProductoDialogComponent, {
+  private setProductoPrimario(data: IProducto[]): void {
+    const modal = this.dialog.open(SetProductoPrimarioDialogComponent, {
       data: {
-        title: title,
-        label: label,
-        option: option,
-        element: data,
+        title: 'SELECCIONE UN PRODUCTO ADMINISTRADOR',
+        data: data,
       },
     });
-
     modal.afterClosed().subscribe({
-      next: (res: any) => {
+      next: (res) => {
         if (res) {
-          switch (res.option) {
-            case 1:
-              this.data.producto_administrador = res?.codigo;
-              this.data.descripcion_producto_administrador = res?.descripcion;
-              this.formGroup
-                .get('descripcion_producto_administrador')
-                ?.setValue(res?.descripcion);
-              break;
-            case 2:
-              this.data.codigo_fuente_ingreso = res?.codigo;
-              this.data.descripcion_fuente_ingreso = res?.descripcion;
-              this.formGroup
-                .get('descripcion_fuente_ingreso')
-                ?.setValue(res?.descripcion);
-              break;
-            case 3:
-              this.data.codigo_obra_social = res?.codigo;
-              this.data.descripcion_obra_social = res?.descripcion;
-              this.formGroup
-                .get('descripcion_obra_social')
-                ?.setValue(res?.descripcion);
-              break;
-            default:
-              break;
-          }
+          this.data.producto_administrador = res?.codigo_producto;
+          this.data.descripcion_producto_administrador =
+            res?.descripcion_producto;
+          this.formGroup
+            .get('descripcion_producto_administrador')
+            ?.setValue(res?.descripcion_producto);
+        }
+      },
+    });
+  }
+
+  private setFuenteIngreso(data: IFuenteIngreso[]): void {
+    const modal = this.dialog.open(SetFuenteIngresoDialogComponent, {
+      data: {
+        title: 'SELECCIONE UNA FUENTE DE INGRESO',
+        data: data,
+      },
+    });
+    modal.afterClosed().subscribe({
+      next: (res) => {
+        if (res) {
+          this.data.codigo_fuente_ingreso = res?.codigo_fuente_ingreso;
+          this.data.descripcion_fuente_ingreso = res?.descripcion;
+          this.formGroup
+            .get('descripcion_fuente_ingreso')
+            ?.setValue(res?.descripcion);
+        }
+      },
+    });
+  }
+
+  private setObraSocial(data: IProductoObraSocial[]): void {
+    const modal = this.dialog.open(SetObraSocialDialogComponent, {
+      data: {
+        title: 'SELECCIONE UNA OBRA SOCIAL',
+        data: data,
+      },
+    });
+    modal.afterClosed().subscribe({
+      next: (res) => {
+        if (res) {
+          this.data.codigo_obra_social = res?.id_obrasocial;
+          this.data.descripcion_obra_social = res?.descripcion;
+          this.formGroup
+            .get('descripcion_obra_social')
+            ?.setValue(res?.descripcion);
         }
       },
     });

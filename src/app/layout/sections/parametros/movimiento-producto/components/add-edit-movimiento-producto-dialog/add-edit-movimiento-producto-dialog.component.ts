@@ -27,7 +27,7 @@ import {
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 
 // * Components
-import { SetMotivoMovimientoDialogComponent } from './set-motivo-movimiento-dialog/set-motivo-movimiento-dialog.component';
+import { SetMotivoDialogComponent } from './set-motivo-dialog/set-motivo-dialog.component';
 
 @Component({
   selector: 'app-add-edit-movimiento-producto-dialog',
@@ -49,8 +49,9 @@ export class AddEditMovimientoProductoDialogComponent {
     this.setUpForm();
   }
 
-  public clear(inputElement: HTMLInputElement): void {
+  public clear(inputElement: HTMLInputElement, controlName: string): void {
     inputElement.value = '';
+    this.formGroup.get(controlName)?.setValue('');
   }
 
   public confirm(): void {
@@ -69,7 +70,7 @@ export class AddEditMovimientoProductoDialogComponent {
     }
   }
 
-  public getData(): void {
+  public getMotivo(): void {
     this.utilService.openLoading();
     this.motivoMovimientoService
       .CRUD(
@@ -81,31 +82,19 @@ export class AddEditMovimientoProductoDialogComponent {
       )
       .subscribe({
         next: (res: any) => {
-          let datas: IMotivoMovimiento[] = Array.isArray(res.dataset)
+          let data: IMotivoMovimiento[] = Array.isArray(res.dataset)
             ? (res.dataset as IMotivoMovimiento[])
             : [res.dataset as IMotivoMovimiento];
-
-          this.element = datas.map((data: IMotivoMovimiento) => {
-            return {
-              codigo: data.id_motivo,
-              descripcion: data.descripcion,
-            };
-          });
-          this.setDialog(this.element);
+          this.setDialog(data);
         },
         error: (err: any) => {
           this.utilService.closeLoading();
-          if (err.status == 0) {
-            this.utilService.notification('Error de conexión.', 'error');
-          } else {
-            this.utilService.notification(
-              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
-              'error'
-            );
-          }
-          if (err.status == 404) {
-            this.element = [];
-          }
+          err.status == 0
+            ? this.utilService.notification('Error de conexión. ', 'error')
+            : this.utilService.notification(
+                `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+                'error'
+              );
         },
         complete: () => {
           this.utilService.closeLoading();
@@ -159,15 +148,18 @@ export class AddEditMovimientoProductoDialogComponent {
     });
   }
 
-  private setDialog(data: any): void {
-    const modal = this.dialog.open(SetMotivoMovimientoDialogComponent, {
-      data: data,
+  private setDialog(data: IMotivoMovimiento[]): void {
+    const modal = this.dialog.open(SetMotivoDialogComponent, {
+      data: {
+        title: 'SELECCIONE UN MOTIVO DE MOVIMIENTO',
+        data: data,
+      },
     });
-
     modal.afterClosed().subscribe({
       next: (res: any) => {
-        this.data.codigo_motivo = res?.codigo;
-        this.data.descripcion = res?.descripcion;
+        this.data.codigo_motivo = res?.id_motivo;
+        (this.data.tipo_motivo = res?.tipo_motivo),
+          (this.data.descripcion = res?.descripcion);
         this.formGroup
           .get('descripcion')
           ?.setValue(this.data.descripcion ? this.data.descripcion.trim() : '');

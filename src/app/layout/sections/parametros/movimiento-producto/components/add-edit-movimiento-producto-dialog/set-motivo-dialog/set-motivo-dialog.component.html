@@ -3,17 +3,23 @@
     <h2> {{ data.title | uppercase }} </h2>
   </div>
 
-
   <section class="table-container">
     <mat-form-field appearance="standard" class="filter-container">
-      <mat-label> {{ data.label }} </mat-label>
-      <input matInput (keyup)="applyFilter($event)" #input>
+      <mat-label> Ingrese el código o la descripción </mat-label>
+      <input matInput (keyup)="applyFilter($event)" #input maxlength="20">
     </mat-form-field>
 
     <table mat-table [dataSource]="dataSource">
-      <ng-container matColumnDef="codigo">
+      <ng-container class="mat-row" *matNoDataRow>
+        <td class="mat-cell no-data-cell" [attr.colspan]="displayedColumns.length"
+          *ngIf="this.dataSource.data.length === 0">
+          No se encontraron resultados
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="id_motivo">
         <th mat-header-cell *matHeaderCellDef> Código </th>
-        <td mat-cell *matCellDef="let param"> {{ param.codigo }} </td>
+        <td mat-cell *matCellDef="let param"> {{ param.id_motivo }} </td>
       </ng-container>
 
       <ng-container matColumnDef="descripcion">
@@ -24,7 +30,7 @@
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef> Acciones </th>
         <td mat-cell *matCellDef="let element">
-          <mat-radio-group [(ngModel)]="btn_radio" aria-label="Select an option">
+          <mat-radio-group [(ngModel)]="motivoMovimiento" aria-label="Select an option">
             <mat-radio-button [value]="element" class="btn-radio"></mat-radio-button>
           </mat-radio-group>
         </td>
@@ -34,15 +40,18 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
 
-    <mat-paginator [pageSize]="7" showFirstLastButtons aria-label="Controles de paginación."
-      [ngClass]="{'d-none': !dataSource || this.dataSource.data.length < 7 }">
+    <mat-paginator [pageSize]="6" showFirstLastButtons aria-label="Controles de paginación.">
     </mat-paginator>
   </section>
 
-  <ng-container *ngIf="btn_radio">
-    <button class="primary-button icon-button btn" type="button" (click)="confirm()">
-      <mat-icon> done </mat-icon>
+  <div class="buttons-container">
+    <button class="primary-button icon-button" type="button" mat-dialog-close>
+      <mat-icon> close </mat-icon>
+      Cancelar
+    </button>
+    <button class="primary-button icon-button btn" type="button" (click)="confirm()" *ngIf="motivoMovimiento">
+      <mat-icon>done</mat-icon>
       Guardar
     </button>
-  </ng-container>
+  </div>
 </div>

@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 
 // * Interfaces
-import { IDialog } from 'src/app/core/models/dialog.interface';
+import { IFuenteIngreso } from 'src/app/core/models/fuente-ingreso.interface';
 
 // * Material
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -12,34 +12,37 @@ import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
-  selector: 'app-set-motivo-movimiento-dialog',
-  templateUrl: './set-motivo-movimiento-dialog.component.html',
-  styleUrls: ['./set-motivo-movimiento-dialog.component.scss'],
+  selector: 'app-set-fuente-ingreso-dialog',
+  templateUrl: './set-fuente-ingreso-dialog.component.html',
+  styleUrls: ['./set-fuente-ingreso-dialog.component.scss'],
 })
-export class SetMotivoMovimientoDialogComponent implements OnInit {
-  public displayedColumns: string[] = ['codigo', 'descripcion', 'actions'];
-  public dataSource: MatTableDataSource<IDialog>;
-  public btn_radio: any;
+export class SetFuenteIngresoDialogComponent implements OnInit {
+  public displayedColumns: string[] = [
+    'codigo_fuente_ingreso',
+    'descripcion',
+    'actions',
+  ];
+  public dataSource: MatTableDataSource<IFuenteIngreso>;
+  public fuenteIngreso: any;
 
   @ViewChild(MatPaginator, { static: true }) public paginator!: MatPaginator;
 
   constructor(
-    private dialogRef: MatDialogRef<ConfirmDialogComponent>,
     private matPaginatorIntl: MatPaginatorIntl,
+    public dialogRef: MatDialogRef<ConfirmDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
   ngOnInit(): void {
     this.configurePaginator();
-    this.dataSource = new MatTableDataSource<IDialog>(this.data);
+    this.dataSource = new MatTableDataSource<IFuenteIngreso>(this.data.data);
     this.dataSource.paginator = this.paginator;
   }
 
   public confirm(): void {
     this.dialogRef.close({
-      option: this.data.option,
-      codigo: this.btn_radio.codigo,
-      descripcion: this.btn_radio.descripcion,
+      codigo_fuente_ingreso: this.fuenteIngreso.codigo_fuente_ingreso,
+      descripcion: this.fuenteIngreso.descripcion,
     });
   }
 

@@ -78,7 +78,9 @@ import { PreguntaDDJJDashboardComponent } from './pregunta-ddjj/components/pregu
 import { PreguntaDDJJFilterComponent } from './pregunta-ddjj/components/pregunta-ddjj-filter/pregunta-ddjj-filter.component';
 // 20 - PRODUCTOS
 import { AddEditProductoDialogComponent } from './producto/components/add-edit-producto-dialog/add-edit-producto-dialog.component';
-import { SetProductoDialogComponent } from './producto/components/add-edit-producto-dialog/set-producto-dialog/set-producto-dialog.component';
+import { SetProductoPrimarioDialogComponent } from './producto/components/add-edit-producto-dialog/set-producto-primario-dialog/set-producto-primario-dialog.component';
+import { SetFuenteIngresoDialogComponent } from './producto/components/add-edit-producto-dialog/set-fuente-ingreso-dialog/set-fuente-ingreso-dialog.component';
+import { SetObraSocialDialogComponent } from './producto/components/add-edit-producto-dialog/set-obra-social-dialog/set-obra-social-dialog.component';
 import { ProductoComponent } from './producto/producto.component';
 import { ProductoDashboardComponent } from './producto/components/producto-dashboard/producto-dashboard.component';
 import { ProductoFilterComponent } from './producto/components/producto-filter/producto-filter.component';
@@ -92,7 +94,7 @@ import { AddEditMovimientoProductoDialogComponent } from './movimiento-producto/
 import { MovimientoProductoComponent } from './movimiento-producto/movimiento-producto.component';
 import { MovimientoProductoDashboardComponent } from './movimiento-producto/components/movimiento-producto-dashboard/movimiento-producto-dashboard.component';
 import { MovimientoProductoFilterComponent } from './movimiento-producto/components/movimiento-producto-filter/movimiento-producto-filter.component';
-import { SetMotivoMovimientoDialogComponent } from './movimiento-producto/components/add-edit-movimiento-producto-dialog/set-motivo-movimiento-dialog/set-motivo-movimiento-dialog.component';
+import { SetMotivoDialogComponent } from './movimiento-producto/components/add-edit-movimiento-producto-dialog/set-motivo-dialog/set-motivo-dialog.component';
 // 23 - SUBMOTIVO DE MOVIMIENTO
 import { SubmotivoMovimientoComponent } from './submotivo-movimiento/submotivo-movimiento.component';
 import { SubmotivoMovimientoFilterComponent } from './submotivo-movimiento/components/submotivo-movimiento-filter/submotivo-movimiento-filter.component';
@@ -176,7 +178,9 @@ import { ModalProductoComponent } from './unificador-aportes/components/add-edit
     PreguntaDDJJFilterComponent,
     // 20 - PRODUCTO
     AddEditProductoDialogComponent,
-    SetProductoDialogComponent,
+    SetProductoPrimarioDialogComponent,
+    SetFuenteIngresoDialogComponent,
+    SetObraSocialDialogComponent,
     ProductoComponent,
     ProductoDashboardComponent,
     ProductoFilterComponent,
@@ -190,7 +194,7 @@ import { ModalProductoComponent } from './unificador-aportes/components/add-edit
     MovimientoProductoDashboardComponent,
     MovimientoProductoFilterComponent,
     MovimientoProductoComponent,
-    SetMotivoMovimientoDialogComponent,
+    SetMotivoDialogComponent,
     // 23 - SUBMOTIVO DE MOVIMIENTO
     SubmotivoMovimientoComponent,
     SubmotivoMovimientoFilterComponent,

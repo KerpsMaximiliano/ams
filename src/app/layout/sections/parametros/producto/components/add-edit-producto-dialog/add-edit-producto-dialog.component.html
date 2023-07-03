@@ -69,8 +69,8 @@
         <h3> ADMINISTRADO POR </h3>
         <div class="content">
           <mat-form-field class="seeker-form-field" appearance="outline">
-            <input matInput formControlName="descripcion_producto_administrador" #inputDescripcionProducto
-              readonly required />
+            <input matInput formControlName="descripcion_producto_administrador" #inputDescripcionProducto readonly
+              required />
             <mat-error
               *ngIf="formGroup.get('descripcion_producto_administrador')?.invalid && formGroup.get('descripcion_producto_administrador')?.touched">
               {{ getErrorMessage(formGroup.get("descripcion_producto_administrador")) }}
@@ -123,7 +123,8 @@
         <h3> FUENTE DE INGRESO </h3>
         <div class="content">
           <mat-form-field class="seeker-form-field" appearance="outline">
-            <input matInput formControlName="descripcion_fuente_ingreso" required minlength="3" #inputDescripcionFuente readonly />
+            <input matInput formControlName="descripcion_fuente_ingreso" required minlength="3" #inputDescripcionFuente
+              readonly />
             <mat-error
               *ngIf="formGroup.get('descripcion_fuente_ingreso')?.invalid && formGroup.get('descripcion_fuente_ingreso')?.touched">
               {{ getErrorMessage(formGroup.get("descripcion_fuente_ingreso")) }}
@@ -146,7 +147,8 @@
       <div class="seeker-fields-container">
         <h3> EMPRESA QUE FACTURA </h3>
         <mat-form-field class="seeker-form-field" appearance="outline">
-          <mat-select formControlName="numero_empresa_factura" required minlength="1" maxlength="8" disableOptionCentering>
+          <mat-select formControlName="numero_empresa_factura" required minlength="1" maxlength="8"
+            disableOptionCentering>
             <mat-option [value]="2">
               Asociacion Mutual Sancor
             </mat-option>
@@ -174,7 +176,8 @@
         <h3> OBRA SOCIAL </h3>
         <div class="content">
           <mat-form-field class="seeker-form-field" appearance="outline">
-            <input matInput formControlName="descripcion_obra_social"  required minlength="3" #inputObraSocial readonly />
+            <input matInput formControlName="descripcion_obra_social" required minlength="3" #inputObraSocial
+              readonly />
             <mat-error
               *ngIf="formGroup.get('descripcion_obra_social')?.invalid && formGroup.get('descripcion_obra_social')?.touched">
               {{ getErrorMessage(formGroup.get("descripcion_obra_social")) }}
@@ -200,12 +203,12 @@
       </button>
       <button class="primary-button icon-button" type="submit" (click)="redirectTo('parametros/parentesco-producto')"
         *ngIf="data.par_modo === 'U'" mat-dialog-close>
-        <mat-icon> switch_access_shortcut </mat-icon>
+        <mat-icon> open_in_new_down </mat-icon>
         Parentescos
       </button>
       <button class="primary-button icon-button" type="submit" (click)="redirectTo('parametros/movimiento-producto')"
         *ngIf="data.par_modo === 'U'" mat-dialog-close>
-        <mat-icon> switch_access_shortcut </mat-icon>
+        <mat-icon> open_in_new_down </mat-icon>
         Motivos
       </button>
       <button class="primary-button icon-button " type="button" (click)="setStatus()"
