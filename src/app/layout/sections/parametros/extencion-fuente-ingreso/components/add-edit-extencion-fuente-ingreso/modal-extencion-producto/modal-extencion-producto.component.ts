@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Inject, Component, ViewChild } from '@angular/core';
+import { Inject, Component, ViewChild } from '@angular/core';
 
 // * Services
 import { UtilService } from 'src/app/core/services/util.service';
@@ -36,7 +36,6 @@ export class ModalExtencionProductoComponent {
     public dialogRef: MatDialogRef<any>,
     private _productoService: ProductoService,
     private _utils: UtilService,
-    private cdr: ChangeDetectorRef,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     // * Assign the data to the data source for the table to render

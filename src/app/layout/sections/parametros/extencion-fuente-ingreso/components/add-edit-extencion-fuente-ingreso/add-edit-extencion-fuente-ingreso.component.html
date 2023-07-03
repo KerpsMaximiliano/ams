@@ -61,7 +61,12 @@
     <div class="seeker-fields-container">
       <h3>REMUNERACION DESDE ($)</h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="remuneracion_desde" type="number" />
+        <input
+          matInput
+          formControlName="remuneracion_desde"
+          step="0.01"
+          type="number"
+        />
         <mat-error
           *ngIf="
             formGroup.get('remuneracion_desde')?.invalid &&
@@ -75,7 +80,12 @@
     <div class="seeker-fields-container">
       <h3>REMUNERACION HASTA ($)</h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="remuneracion_hasta" type="number" />
+        <input
+          matInput
+          formControlName="remuneracion_hasta"
+          step="0.01"
+          type="number"
+        />
         <mat-error
           *ngIf="
             formGroup.get('remuneracion_hasta')?.invalid &&

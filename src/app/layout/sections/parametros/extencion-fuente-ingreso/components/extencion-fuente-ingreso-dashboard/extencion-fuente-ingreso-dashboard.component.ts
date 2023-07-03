@@ -166,7 +166,10 @@ export class ExtencionFuenteIngresoDashboardComponent {
                   );
               this.editExtencionFuenteIngraso(res);
             },
-            complete: () => {},
+            complete: () => {
+              this.utils.closeLoading();
+              this.getExtencionFuenteIngraso();
+            },
           });
         }
       },

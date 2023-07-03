@@ -24,6 +24,8 @@ import {
 // * Components
 import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
 import { ModalExtencionProductoComponent } from './modal-extencion-producto/modal-extencion-producto.component';
+import { ExtencionFuenteIngresoService } from 'src/app/core/services/extencion-fuente-ingreso.service';
+import { UtilService } from 'src/app/core/services/util.service';
 
 @Component({
   selector: 'app-add-edit-extencion-fuente-ingreso',
@@ -37,6 +39,9 @@ export class AddEditExtencionFuenteIngresoComponent {
   constructor(
     public dialogRef: MatDialogRef<ConfirmDialogComponent>,
     private dialog: MatDialog,
+
+    private _extencionFuenteIngreso: ExtencionFuenteIngresoService,
+    private _utils: UtilService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
@@ -53,7 +58,19 @@ export class AddEditExtencionFuenteIngresoComponent {
     if (this.data.par_modo === 'U' || this.data.par_modo === 'R') {
       if (this.data.edit === false) {
         this.formGroup.disable();
+      } else {
+        this.formGroup.disable();
+        this.formGroup.get('coeficiente_uno')?.enable();
+        this.formGroup.get('coeficiente_dos')?.enable();
+        this.formGroup.get('coeficiente_tres')?.enable();
+        this.formGroup.get('coeficiente_cuatro')?.enable();
+        this.formGroup.get('coeficiente_cinco')?.enable();
       }
+    } else {
+      this.formGroup.get('fecha_de_vigencia')?.disable();
+      this.formGroup.get('fuente_ingreso')?.disable();
+      this.formGroup.get('producto_des')?.disable();
+      this.valorInicialRemDesde();
     }
   }
 
@@ -97,8 +114,9 @@ export class AddEditExtencionFuenteIngresoComponent {
         this.data.remuneracion_desde ? this.data.remuneracion_desde : 0,
         Validators.compose([
           Validators.required,
+          Validators.min(0.0),
           Validators.maxLength(11),
-          isNumeric(),
+          isNumeric,
         ])
       ),
       remuneracion_hasta: new UntypedFormControl(
@@ -106,7 +124,7 @@ export class AddEditExtencionFuenteIngresoComponent {
         Validators.compose([
           Validators.required,
           Validators.maxLength(11),
-          isNumeric(),
+          isNumeric,
         ])
       ),
       coeficiente_uno: new UntypedFormControl(
@@ -157,7 +175,7 @@ export class AddEditExtencionFuenteIngresoComponent {
     });
   }
 
-  getProducto() {
+  public getProducto(): void {
     const ModalNuevoProductoComponent = this.dialog.open(
       ModalExtencionProductoComponent,
       {
@@ -176,6 +194,40 @@ export class AddEditExtencionFuenteIngresoComponent {
     });
   }
 
+  private valorInicialRemDesde(): void {
+    this._utils.openLoading();
+    this._extencionFuenteIngreso
+      .CRUD(
+        JSON.stringify({
+          par_modo: 'H',
+          codigo_fuente_ingreso: this.formGroup.get('codigo_fuente_ingreso')
+            ?.value,
+          fecha_de_vigencia: this.formGroup.get('fecha_de_vigencia')?.value,
+          producto: this.formGroup.get('producto')?.value,
+        })
+      )
+      .subscribe({
+        next: (res: any) => {
+          this._utils.closeLoading();
+          this.formGroup
+            .get('remuneracion_desde')
+            ?.setValue(res.dataset.remuneracion_hasta);
+        },
+        error: (err: any) => {
+          this._utils.closeLoading();
+          err.status == 0
+            ? this._utils.notification('Error de conexión', 'error')
+            : this._utils.notification(
+                `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+                'error'
+              );
+        },
+        complete: () => {
+          this._utils.closeLoading();
+        },
+      });
+  }
+
   public limpiar(): void {
     this.formGroup.get('producto')?.setValue(0);
     this.formGroup.get('producto_des')?.setValue('');
@@ -185,7 +237,7 @@ export class AddEditExtencionFuenteIngresoComponent {
     this.dialogRef.close(false);
   }
 
-  closeOpenDialog() {
+  public closeOpenDialog(): void {
     this.confirm(true);
   }
 
@@ -196,7 +248,8 @@ export class AddEditExtencionFuenteIngresoComponent {
         datos: {
           par_modo: this.data.par_modo,
           fecha_de_vigencia: this.formGroup.get('fecha_de_vigencia')?.value,
-          fuenteingreso: this.formGroup.get('codigo_fuente_ingreso')?.value,
+          codigo_fuente_ingreso: this.formGroup.get('codigo_fuente_ingreso')
+            ?.value,
           producto: this.formGroup.get('producto')?.value,
           remuneracion_desde: this.formGroup.get('remuneracion_desde')?.value,
           remuneracion_hasta: this.formGroup.get('remuneracion_hasta')?.value,
