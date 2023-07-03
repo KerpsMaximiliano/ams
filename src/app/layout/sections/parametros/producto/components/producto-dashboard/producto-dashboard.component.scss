@@ -39,30 +39,28 @@ td.mat-cell:first-of-type {
 .mat-column-codigo_producto.mat-cell,
 .mat-column-fecha_baja_producto.mat-cell,
 .mat-column-fecha_baja_producto.mat-header-cell {
-  min-width: 80px;
-  width: 8%;
+  min-width: 100px;
 }
 
 .mat-column-tipo_producto.mat-header-cell,
 .mat-column-tipo_producto.mat-cell {
-  min-width: 90px;
-  width: 9%;
+  min-width: 120px;
 }
 
 .mat-column-descripcion_producto.mat-header-cell,
 .mat-column-descripcion_producto.mat-cell {
-  width: 40%;
+  min-width: 80px;
+  width: 100%;
 }
 
 .mat-column-clase_producto.mat-header-cell,
 .mat-column-clase_producto.mat-cell {
-  width: 30%;
+  min-width: 180px;
 }
 
 .mat-column-actions.mat-header-cell,
 .mat-column-actions.mat-cell {
   min-width: 130px;
-  width: 13%;
 }
 
 /*
@@ -87,7 +85,7 @@ td.mat-cell:first-of-type {
   align-items: center;
   height: 40px;
   gap: 1vw;
-  padding: 0rem 5vw;
+  padding: 0rem 3vw;
   background-color: #dddddd;
 }
 

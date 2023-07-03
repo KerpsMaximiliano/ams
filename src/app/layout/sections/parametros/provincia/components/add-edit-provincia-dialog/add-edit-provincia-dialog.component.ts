@@ -81,6 +81,17 @@ export class AddEditProvinciaDialogComponent {
           notOnlySpaces(),
         ])
       ),
+      codigo_provincia: new UntypedFormControl(
+        {
+          value: this.data.codigo_provincia,
+          disabled: this.data.par_modo === 'R',
+        },
+        Validators.compose([
+          Validators.minLength(1),
+          Validators.maxLength(2),
+          isNumeric(),
+        ])
+      ),
       codifica_altura: new UntypedFormControl(
         {
           value: this.data.codifica_altura,
@@ -91,17 +102,6 @@ export class AddEditProvinciaDialogComponent {
           Validators.minLength(1),
           Validators.maxLength(1),
           isAlpha(),
-        ])
-      ),
-      codigo_provincia: new UntypedFormControl(
-        {
-          value: this.data.codigo_provincia,
-          disabled: this.data.par_modo === 'R',
-        },
-        Validators.compose([
-          Validators.minLength(1),
-          Validators.maxLength(2),
-          isNumeric(),
         ])
       ),
       flete_transportista: new UntypedFormControl(

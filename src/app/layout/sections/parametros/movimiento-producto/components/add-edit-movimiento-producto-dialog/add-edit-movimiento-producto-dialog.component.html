@@ -9,25 +9,25 @@
     <div class="seeker-fields-container">
       <h3> PRODUCTO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput [disabled]="true" [value]="data.producto.codigo_producto">
+        <input matInput disabled [value]="data.producto.codigo_producto">
       </mat-form-field>
     </div>
 
     <div class="seeker-fields-container">
       <h3> TIPO DE MOVIMIENTO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <mat-select formControlName="tipo_motivo" required disableOptionCentering>
+        <mat-select formControlName="tipo_motivo" minlength="1" maxlength="1" required disableOptionCentering>
           <mat-option [value]="'A'">
-            A-ALTA
+            ALTA
           </mat-option>
           <mat-option [value]="'B'">
-            B-BAJA
+            BAJA
           </mat-option>
           <mat-option [value]="'S'">
-            S-SUSPENDIDO
+            SUSPENDIDO
           </mat-option>
           <mat-option [value]="'O'">
-            O-OSP
+            OSP
           </mat-option>
         </mat-select>
         <mat-error
@@ -39,7 +39,7 @@
       <h3> MOTIVO </h3>
       <div class="content">
         <mat-form-field class="seeker-form-field" appearance="outline">
-          <input matInput formControlName="descripcion" required readonly #descripcion>
+          <input matInput formControlName="descripcion" required minlength="3" maxlength="30" readonly #input>
           <mat-error
             *ngIf="formGroup.get('descripcion')?.invalid">{{getErrorMessage(formGroup.get('descripcion'))}}</mat-error>
         </mat-form-field>
@@ -47,7 +47,7 @@
           <div class="icon" (click)="getData()" *ngIf="formGroup.get('tipo_motivo')?.value">
             <mat-icon class="material-symbols-outlined"> search </mat-icon>
           </div>
-          <div class="icon" (click)="clear(descripcion)" *ngIf="formGroup.get('descripcion')?.value">
+          <div class="icon" (click)="clear(input)" *ngIf="formGroup.get('descripcion')?.value">
             <mat-icon class="material-symbols-outlined"> close </mat-icon>
           </div>
         </ng-container>
@@ -57,18 +57,18 @@
     <div class="seeker-fields-container">
       <h3> ¿DATOS ADICIONALES? </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <mat-select formControlName="datos_adicionales" required disableOptionCentering>
+        <mat-select formControlName="datos_adicionales" required minlength="1" maxlength="1" disableOptionCentering>
           <mat-option [value]="'F'">
-            F-FECHA
+            FECHA
           </mat-option>
           <mat-option [value]="'S'">
-            S-SUBMOTIVO
+            SUBMOTIVO
           </mat-option>
           <mat-option [value]="'T'">
-            T-TEXTO
+            TEXTO
           </mat-option>
           <mat-option [value]="'N'">
-            N-NADA
+            NADA
           </mat-option>
         </mat-select>
         <mat-error
@@ -79,7 +79,7 @@
     <div class="seeker-fields-container">
       <h3> ¿OTRA COBERTURA? </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <mat-select formControlName="otra_cobertura" required disableOptionCentering>
+        <mat-select formControlName="otra_cobertura" required minlength="1" maxlength="1" disableOptionCentering>
           <mat-option [value]="'S'">
             SI
           </mat-option>

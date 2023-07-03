@@ -16,7 +16,7 @@ export class MovimientoProductoFilterComponent {
   @Input() public producto: IProducto;
   @Output() public search: EventEmitter<any> = new EventEmitter<any>();
 
-  @ViewChild('tipo') private tipo: any;
+  @ViewChild('select') private select: any;
 
   public tipos: string[] = ['A-ALTA', 'B-BAJA', 'S-SUSPENDIDO', 'O-OSP'];
 
@@ -27,7 +27,7 @@ export class MovimientoProductoFilterComponent {
     this.search.emit(
       JSON.stringify({
         par_modo: 'O',
-        tipo_motivo: this.tipo.value !== undefined ? this.tipo.value[0] : '',
+        tipo_motivo: this.select.value !== undefined ? this.select.value[0] : '',
         id_producto: this.producto.codigo_producto,
         descripcion: value,
       })
@@ -35,7 +35,7 @@ export class MovimientoProductoFilterComponent {
   }
 
   public clear(inputElement: HTMLInputElement) {
-    this.tipo.value = '';
+    this.select.value = '';
     inputElement.value = '';
   }
 }

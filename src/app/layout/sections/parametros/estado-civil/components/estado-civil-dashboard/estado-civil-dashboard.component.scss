@@ -21,7 +21,7 @@ td.mat-cell:first-of-type {
 .mat-column-description.mat-header-cell,
 .mat-column-description.mat-cell {
   text-align: left !important;
-  padding-left: 1vw;
+  padding-left: 3vw;
   word-break: break-all;
 }
 
@@ -30,18 +30,18 @@ td.mat-cell:first-of-type {
 */
 .mat-column-codigo_estado_civil.mat-header-cell,
 .mat-column-codigo_estado_civil.mat-cell {
-  min-width: 100px;
+  min-width: 120px;
 }
 
 .mat-column-description.mat-header-cell,
 .mat-column-description.mat-cell {
-  min-width: none;
-  width: 90%;
+  min-width: 120px;
+  width: 100%;
 }
 
 .mat-column-actions.mat-header-cell,
 .mat-column-actions.mat-cell {
-  min-width: 100px;
+  min-width: 150px;
 }
 
 /*

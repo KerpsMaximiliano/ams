@@ -17,7 +17,7 @@ import { IProvincia } from 'src/app/core/models/provincia.interface';
 export class PosicionFilterComponent {
   @Input() public provincias: IProvincia[];
 
-  @ViewChild('selectOptions') public selectOptions: any;
+  @ViewChild('select') public select: any;
 
   @Output() public search: EventEmitter<any> = new EventEmitter<any>();
 
@@ -27,14 +27,14 @@ export class PosicionFilterComponent {
     this.search.emit(
       JSON.stringify({
         par_modo: 'O',
-        letra_provincia: this.selectOptions?.value,
+        letra_provincia: this.select?.value,
         descripcion: value,
       })
     );
   }
 
   public clear(inputElement: HTMLInputElement): void {
-    this.selectOptions.value = '';
+    this.select.value = '';
     inputElement.value = '';
   }
 }

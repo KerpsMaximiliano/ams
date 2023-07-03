@@ -7,7 +7,7 @@
   <section class="table-container">
     <mat-form-field appearance="standard" class="filter-container">
       <mat-label> Ingrese un código o descripción </mat-label>
-      <input matInput (keyup)="applyFilter($event)" #input>
+      <input matInput (keyup)="applyFilter($event)" #input maxlength="30">
     </mat-form-field>
 
     <table mat-table [dataSource]="dataSource">
@@ -34,7 +34,7 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
 
-    <mat-paginator [pageSize]="7" showFirstLastButtons sticky aria-label="Controles de paginación."
+    <mat-paginator [pageSize]="7" showFirstLastButtons aria-label="Controles de paginación."
       [ngClass]="{'d-none': !dataSource || this.dataSource.data.length < 7 }">
     </mat-paginator>
   </section>

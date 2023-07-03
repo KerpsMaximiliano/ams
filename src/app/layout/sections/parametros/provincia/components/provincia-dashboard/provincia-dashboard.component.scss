@@ -8,7 +8,7 @@
 .mat-column-codifica_altura.mat-header-cell,
 .mat-column-codifica_altura.mat-cell {
   text-align: left !important;
-  padding-left: 1vw;
+  padding-left: 2vw;
   word-break: break-all;
 }
 
@@ -20,7 +20,7 @@
 .mat-column-flete_transportista.mat-header-cell,
 .mat-column-flete_transportista.mat-cell {
   text-align: right !important;
-  padding-right: 1vw;
+  padding-right: 2vw;
 }
 
 /*
@@ -28,28 +28,28 @@
 */
 .mat-column-codigo.mat-header-cell,
 .mat-column-codigo.mat-cell {
-  min-width: 100px;
+  min-width: 90px;
 }
 
 .mat-column-nombre_provincia.mat-header-cell,
 .mat-column-nombre_provincia.mat-cell {
   min-width: 90px;
-  width: 50%;
+  width: 100%;
 }
 
 .mat-column-codigo_provincia.mat-header-cell,
 .mat-column-codigo_provincia.mat-cell {
-  min-width: 190px;
-  width: 50%;
+  min-width: 175px;
 }
 .mat-column-codifica_altura.mat-header-cell,
 .mat-column-codifica_altura.mat-cell {
-  min-width: 170px;
+  min-width: 160px;
 }
 
 .mat-column-flete_transportista.mat-header-cell,
 .mat-column-flete_transportista.mat-cell {
-  min-width: 70px;
+  min-width: 125px;
+  padding-left: 2vw;
 }
 
 .mat-column-actions.mat-header-cell,

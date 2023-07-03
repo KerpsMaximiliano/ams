@@ -12,7 +12,7 @@ td.mat-cell:first-of-type {
 .mat-column-codigo_de_IVA.mat-header-cell,
 .mat-column-codigo_de_IVA.mat-cell {
   text-align: right !important;
-  padding-right: 1vw;
+  padding-right: 2vw;
 }
 
 /*
@@ -25,7 +25,7 @@ td.mat-cell:first-of-type {
 .mat-column-formulario_AB.mat-header-cell,
 .mat-column-formulario_AB.mat-cell {
   text-align: left !important;
-  padding-left: 1vw;
+  padding-left: 2vw;
   word-break: break-all;
 }
 
@@ -34,30 +34,28 @@ td.mat-cell:first-of-type {
 */
 .mat-column-codigo_de_IVA.mat-header-cell,
 .mat-column-codigo_de_IVA.mat-cell {
-  min-width: 100px;
+  min-width: 120px;
 }
 
 .mat-column-descripcion.mat-header-cell,
 .mat-column-descripcion.mat-cell {
   min-width: 160px;
-  width: 40%;
+  width: 100%;
 }
 
 .mat-column-descripcion_reducida.mat-header-cell,
 .mat-column-descripcion_reducida.mat-cell {
-  min-width: 110px;
-  width: 40%;
+  min-width: 130px;
 }
 
 .mat-column-formulario_AB.mat-header-cell,
 .mat-column-formulario_AB.mat-cell {
-  min-width: 100px;
-  width: 20%;
+  min-width: 120px;
 }
 
 .mat-column-actions.mat-header-cell,
 .mat-column-actions.mat-cell {
-  min-width: 100px;
+  min-width: 150px;
 }
 
 /*

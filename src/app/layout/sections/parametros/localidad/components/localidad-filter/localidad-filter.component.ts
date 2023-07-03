@@ -28,8 +28,8 @@ export class LocalidadFilterComponent {
 
   public departamentos: IDepartamento[];
 
-  @ViewChild('provincia') public provincia: any;
-  @ViewChild('departamento') public departamento: any;
+  @ViewChild('selectProvincia') public selectProvincia: any;
+  @ViewChild('selectDepartamento') public selectDepartamento: any;
 
   constructor(
     private departamentoService: DepartamentoService,
@@ -44,23 +44,23 @@ export class LocalidadFilterComponent {
       ? this.search.emit(
           JSON.stringify({
             par_modo: 'R',
-            letra_provincia: this.provincia.value,
+            letra_provincia: this.selectProvincia.value,
             codigo_postal: codigo.value,
           })
         )
       : this.search.emit(
           JSON.stringify({
             par_modo: 'O',
-            letra_provincia: this.provincia.value,
-            codigo_departamento: this.departamento.value,
+            letra_provincia: this.selectProvincia.value,
+            codigo_departamento: this.selectDepartamento.value,
             descripcion: localidad.value,
           })
         );
   }
 
   public clear(localidad: HTMLInputElement, codigo: HTMLInputElement): void {
-    this.provincia.value = '';
-    this.departamento.value = '';
+    this.selectProvincia.value = '';
+    this.selectDepartamento.value = '';
     if (localidad) localidad.value = '';
     if (codigo) codigo.value = '';
   }

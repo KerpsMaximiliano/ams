@@ -66,6 +66,18 @@ export class AddEditPreguntaDDJJDialogComponent {
 
   private setUpForm(): void {
     this.formGroup = new UntypedFormGroup({
+      nro_preg: new UntypedFormControl(
+        {
+          value: this.data.nro_preg,
+          disabled: this.data.par_modo === 'U' || this.data.par_modo === 'R',
+        },
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(2),
+          isNumeric(),
+        ])
+      ),
       modelo_formulario: new UntypedFormControl(
         {
           value: this.data.modelo_formulario
@@ -77,18 +89,6 @@ export class AddEditPreguntaDDJJDialogComponent {
           Validators.required,
           Validators.minLength(1),
           Validators.maxLength(3),
-        ])
-      ),
-      nro_preg: new UntypedFormControl(
-        {
-          value: this.data.nro_preg,
-          disabled: this.data.par_modo === 'U' || this.data.par_modo === 'R',
-        },
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(1),
-          Validators.maxLength(2),
-          isNumeric(),
         ])
       ),
       cantidad_lineas_resp: new UntypedFormControl(
@@ -103,6 +103,31 @@ export class AddEditPreguntaDDJJDialogComponent {
           isNumeric(),
           notZeroValidator(),
         ])
+        ),
+      primer_texto_preg: new UntypedFormControl(
+        {
+          value: this.data.primer_texto_preg
+            ? this.data.primer_texto_preg.trim()
+            : '',
+          disabled: this.data.par_modo === 'R',
+        },
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(50),
+          notOnlySpaces(),
+        ])
+      ),
+      segundo_texto_preg: new UntypedFormControl(
+        {
+          value: this.data.segundo_texto_preg
+            ? this.data.segundo_texto_preg.trim()
+            : '',
+          disabled: this.data.par_modo === 'R',
+        },
+        Validators.compose([
+          Validators.maxLength(50),
+          notOnlySpaces()])
       ),
       pide_fecha: new UntypedFormControl(
         {
@@ -127,29 +152,6 @@ export class AddEditPreguntaDDJJDialogComponent {
           Validators.maxLength(1),
           isAlpha(),
         ])
-      ),
-      primer_texto_preg: new UntypedFormControl(
-        {
-          value: this.data.primer_texto_preg
-            ? this.data.primer_texto_preg.trim()
-            : '',
-          disabled: this.data.par_modo === 'R',
-        },
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(50),
-          notOnlySpaces(),
-        ])
-      ),
-      segundo_texto_preg: new UntypedFormControl(
-        {
-          value: this.data.segundo_texto_preg
-            ? this.data.segundo_texto_preg.trim()
-            : '',
-          disabled: this.data.par_modo === 'R',
-        },
-        Validators.compose([Validators.maxLength(50), notOnlySpaces()])
       ),
     });
   }

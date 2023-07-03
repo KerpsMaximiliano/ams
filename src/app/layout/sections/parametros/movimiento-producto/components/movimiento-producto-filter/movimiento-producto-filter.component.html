@@ -17,9 +17,9 @@
             <mat-label class="seeker-label">
               Seleccione un tipo de movimiento por producto
             </mat-label>
-            <mat-select #tipo required disableOptionCentering>
+            <mat-select #select required disableOptionCentering>
               <mat-option *ngFor="let element of tipos" [value]="element"
-                (keydown.enter)="performSearch($event, motivo.value)">
+                (keydown.enter)="performSearch($event, input.value)">
                 {{ element }}
               </mat-option>
             </mat-select>
@@ -27,19 +27,19 @@
 
           <mat-form-field class="seeker-form-field">
             <mat-label class="seeker-label"> Ingrese el motivo de movimiento por producto </mat-label>
-            <input matInput class="seeker-input" (keydown.enter)="performSearch($event, motivo.value)" #motivo
+            <input matInput class="seeker-input" (keydown.enter)="performSearch($event, input.value)" #input
               maxlength="30">
           </mat-form-field>
         </div>
 
         <div class="buttons-container">
-          <button class="primary-button icon-button" type="button" (click)="performSearch($event, motivo.value)"
-            [disabled]="!tipo?.value">
+          <button class="primary-button icon-button" type="button" (click)="performSearch($event, input.value)"
+            [disabled]="!select?.value">
             <mat-icon> done </mat-icon>
             Buscar
           </button>
-          <button class="primary-button icon-button" type="button" (click)="clear(motivo)"
-            [disabled]="motivo.value.length === 0 && !tipo?.value">
+          <button class="primary-button icon-button" type="button" (click)="clear(input)"
+            [disabled]="input.value.length === 0 && !select?.value">
             <mat-icon> close </mat-icon>
             Limpiar
           </button>

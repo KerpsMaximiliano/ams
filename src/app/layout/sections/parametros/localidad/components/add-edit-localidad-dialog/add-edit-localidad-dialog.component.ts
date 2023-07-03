@@ -155,28 +155,44 @@ export class AddEditLocalidadDialogComponent {
           value: this.data.letra_provincia,
           disabled: this.data.par_modo === 'R',
         },
-        Validators.compose([Validators.required])
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(1)
+        ])
       ),
       codigo_departamento: new UntypedFormControl(
         {
           value: this.data.codigo_departamento,
           disabled: this.data.par_modo === 'R',
         },
-        Validators.compose([Validators.required])
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(3)
+        ])
       ),
       zona_promocion: new UntypedFormControl(
         {
           value: this.data.zona_promocion,
           disabled: this.data.par_modo === 'R',
         },
-        Validators.compose([Validators.required])
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(2)
+        ])
       ),
       zona_envio: new UntypedFormControl(
         {
           value: this.data.zona_envio ? this.data.zona_envio.trim() : '',
           disabled: this.data.par_modo === 'R',
         },
-        Validators.compose([Validators.required])
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(10)
+        ])
       ),
       ingreso_ticket: new UntypedFormControl(
         {
@@ -185,7 +201,11 @@ export class AddEditLocalidadDialogComponent {
             : '',
           disabled: this.data.par_modo === 'R',
         },
-        Validators.compose([Validators.required])
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(1)
+        ])
       ),
       visitado_auditor: new UntypedFormControl(
         {
@@ -194,7 +214,11 @@ export class AddEditLocalidadDialogComponent {
             : '',
           disabled: this.data.par_modo === 'R',
         },
-        Validators.compose([Validators.required])
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(1)
+        ])
       ),
     });
   }

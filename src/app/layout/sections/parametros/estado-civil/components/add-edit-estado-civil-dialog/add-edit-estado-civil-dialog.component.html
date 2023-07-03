@@ -18,7 +18,7 @@
     <div class="seeker-fields-container">
       <h3> ESTADO CIVIL </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="description" required maxlength="20">
+        <input matInput formControlName="description" required minlength="3" maxlength="20">
         <mat-error *ngIf="formGroup.get('description')?.invalid && formGroup.get('description')?.touched">
           {{ getErrorMessage(formGroup.get('description')) }}
         </mat-error>

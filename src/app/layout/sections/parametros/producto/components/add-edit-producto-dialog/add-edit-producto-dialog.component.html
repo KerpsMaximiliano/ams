@@ -51,7 +51,7 @@
       <div class="seeker-fields-container">
         <h3> TIPO </h3>
         <mat-form-field class="seeker-form-field" appearance="outline">
-          <mat-select formControlName="tipo_producto" required disableOptionCentering>
+          <mat-select formControlName="tipo_producto" required minlength="1" maxlength="1" disableOptionCentering>
             <mat-option [value]="'P'">
               PRIMARIO
             </mat-option>
@@ -69,7 +69,7 @@
         <h3> ADMINISTRADO POR </h3>
         <div class="content">
           <mat-form-field class="seeker-form-field" appearance="outline">
-            <input matInput formControlName="descripcion_producto_administrador" #descripcion_producto_administrador
+            <input matInput formControlName="descripcion_producto_administrador" #inputDescripcionProducto
               readonly required />
             <mat-error
               *ngIf="formGroup.get('descripcion_producto_administrador')?.invalid && formGroup.get('descripcion_producto_administrador')?.touched">
@@ -80,7 +80,7 @@
             <div class="icon" (click)="setElement(1)">
               <mat-icon class="material-symbols-outlined"> search </mat-icon>
             </div>
-            <div class="icon" (click)="clear(descripcion_producto_administrador, 'descripcion_producto_administrador')"
+            <div class="icon" (click)="clear(inputDescripcionProducto, 'descripcion_producto_administrador')"
               *ngIf="formGroup.get('descripcion_producto_administrador')?.value">
               <mat-icon class="material-symbols-outlined"> close </mat-icon>
             </div>
@@ -93,7 +93,7 @@
       <div class="seeker-fields-container">
         <h3> CLASE </h3>
         <mat-form-field class="seeker-form-field" appearance="outline">
-          <mat-select formControlName="clase_producto" required disableOptionCentering>
+          <mat-select formControlName="clase_producto" required minlength="1" maxlength="1" disableOptionCentering>
             <mat-option [value]="'S'">
               SALUD
             </mat-option>
@@ -123,7 +123,7 @@
         <h3> FUENTE DE INGRESO </h3>
         <div class="content">
           <mat-form-field class="seeker-form-field" appearance="outline">
-            <input matInput formControlName="descripcion_fuente_ingreso" #descripcion_fuente_ingreso readonly />
+            <input matInput formControlName="descripcion_fuente_ingreso" required minlength="3" #inputDescripcionFuente readonly />
             <mat-error
               *ngIf="formGroup.get('descripcion_fuente_ingreso')?.invalid && formGroup.get('descripcion_fuente_ingreso')?.touched">
               {{ getErrorMessage(formGroup.get("descripcion_fuente_ingreso")) }}
@@ -133,7 +133,7 @@
             <div class="icon" (click)="setElement(2)">
               <mat-icon class="material-symbols-outlined"> search </mat-icon>
             </div>
-            <div class="icon" (click)="clear(descripcion_fuente_ingreso, 'descripcion_fuente_ingreso')"
+            <div class="icon" (click)="clear(inputDescripcionFuente, 'descripcion_fuente_ingreso')"
               *ngIf="formGroup.get('descripcion_fuente_ingreso')?.value">
               <mat-icon class="material-symbols-outlined"> close </mat-icon>
             </div>
@@ -146,7 +146,7 @@
       <div class="seeker-fields-container">
         <h3> EMPRESA QUE FACTURA </h3>
         <mat-form-field class="seeker-form-field" appearance="outline">
-          <mat-select disableOptionCentering required formControlName="numero_empresa_factura">
+          <mat-select formControlName="numero_empresa_factura" required minlength="1" maxlength="8" disableOptionCentering>
             <mat-option [value]="2">
               Asociacion Mutual Sancor
             </mat-option>
@@ -174,7 +174,7 @@
         <h3> OBRA SOCIAL </h3>
         <div class="content">
           <mat-form-field class="seeker-form-field" appearance="outline">
-            <input matInput formControlName="descripcion_obra_social" #descripcion_obra_social required readonly />
+            <input matInput formControlName="descripcion_obra_social"  required minlength="3" #inputObraSocial readonly />
             <mat-error
               *ngIf="formGroup.get('descripcion_obra_social')?.invalid && formGroup.get('descripcion_obra_social')?.touched">
               {{ getErrorMessage(formGroup.get("descripcion_obra_social")) }}
@@ -184,7 +184,7 @@
             <div class="icon" (click)="setElement(3)">
               <mat-icon class="material-symbols-outlined"> search </mat-icon>
             </div>
-            <div class="icon" (click)="clear(descripcion_obra_social, 'descripcion_obra_social')"
+            <div class="icon" (click)="clear(inputObraSocial, 'descripcion_obra_social')"
               *ngIf="formGroup.get('descripcion_obra_social')?.value">
               <mat-icon class="material-symbols-outlined"> close </mat-icon>
             </div>

@@ -7,7 +7,7 @@
     <div class="seeker-fields-container">
       <h3> PRODUCTO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput disabled [value]="data.producto.descripcion_producto">
+        <input matInput [value]="data.producto.descripcion_producto" disabled>
       </mat-form-field>
     </div>
 
@@ -34,7 +34,7 @@
     <div class="seeker-fields-container">
       <h3> ¿PERMITE DARSE DE BAJA? </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <mat-select formControlName="permite_darse_baja" required disableOptionCentering>
+        <mat-select formControlName="permite_darse_baja" required minlength="1" maxlength="1" disableOptionCentering>
           <mat-option [value]="'S'"> SI </mat-option>
           <mat-option [value]="'N'"> NO </mat-option>
         </mat-select>
@@ -47,7 +47,7 @@
     <div class="seeker-fields-container">
       <h3> ¿PIDE FECHA DE ENLACE? </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <mat-select formControlName="pide_fecha_enlace" required disableOptionCentering>
+        <mat-select formControlName="pide_fecha_enlace" required minlength="1" maxlength="1" disableOptionCentering>
           <mat-option [value]="'S'"> SI </mat-option>
           <mat-option [value]="'N'"> NO </mat-option>
         </mat-select>
@@ -61,7 +61,7 @@
       <h3> CÓDIGO AFIP </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
         <div *ngIf="this.data.par_modo === 'C'; else notCreate">
-          <mat-select formControlName="codigo_afip" required minlength="1" maxlength="2">
+          <mat-select formControlName="codigo_afip" required minlength="1" maxlength="2" disableOptionCentering>
             <mat-option [value]="item" *ngFor="let item of data.parentescos">
               {{ item.descripcion }}
             </mat-option>

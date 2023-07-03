@@ -1,4 +1,3 @@
-
 /*
  * Texto alineado a la izquierda.
 */
@@ -35,18 +34,18 @@
 
 .mat-column-descripcion.mat-header-cell,
 .mat-column-descripcion.mat-cell {
+  min-width: 100px;
   width: 100%;
-  min-width: 110px;
 }
 
 .mat-column-permite_darse_baja.mat-header-cell,
 .mat-column-permite_darse_baja.mat-cell {
-  min-width: 130px;
+  min-width: 140px;
 }
 
 .mat-column-pide_fecha_enlace.mat-header-cell,
 .mat-column-pide_fecha_enlace.mat-cell {
-  min-width: 150px;
+  min-width: 160px;
 }
 
 .mat-column-codigo_afip.mat-header-cell,

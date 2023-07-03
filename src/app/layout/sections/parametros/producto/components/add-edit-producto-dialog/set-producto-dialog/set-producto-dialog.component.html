@@ -34,14 +34,14 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
 
-    <mat-paginator [pageSize]="7" showFirstLastButtons sticky aria-label="Controles de paginación."
+    <mat-paginator [pageSize]="7" showFirstLastButtons aria-label="Controles de paginación."
       [ngClass]="{'d-none': !dataSource || this.dataSource.data.length < 7 }">
     </mat-paginator>
   </section>
 
   <ng-container *ngIf="btn_radio">
     <button class="primary-button icon-button btn" type="button" (click)="confirm()">
-      <mat-icon>done</mat-icon>
+      <mat-icon> done </mat-icon>
       Guardar
     </button>
   </ng-container>

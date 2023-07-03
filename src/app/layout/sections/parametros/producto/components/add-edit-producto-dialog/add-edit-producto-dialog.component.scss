@@ -1,13 +1,12 @@
 .form-datos {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 0.5rem;
 }
 
 .seeker-field-group {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
 .seeker-fields-container {
@@ -15,6 +14,10 @@
   grid-template-columns: minmax(190px, 0.9fr) minmax(290px, 1.1fr);
   align-items: center;
   column-gap: 0rem;
+}
+
+.buttons-container {
+  margin-top: 0rem;
 }
 
 .content {

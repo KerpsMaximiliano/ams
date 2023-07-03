@@ -12,7 +12,7 @@ td.mat-cell:first-of-type {
 .mat-column-tipo_de_documento.mat-header-cell,
 .mat-column-tipo_de_documento.mat-cell {
   text-align: right !important;
-  padding-right: 1vw;
+  padding-right: 2vw;
 }
 
 /*
@@ -25,7 +25,7 @@ td.mat-cell:first-of-type {
 .mat-column-control_cuit.mat-header-cell,
 .mat-column-control_cuit.mat-cell {
   text-align: left !important;
-  padding-left: 1vw;
+  padding-left: 2vw;
   word-break: break-all;
 }
 
@@ -39,25 +39,23 @@ td.mat-cell:first-of-type {
 
 .mat-column-descripcion.mat-header-cell,
 .mat-column-descripcion.mat-cell {
-  min-width: 200px;
-  width: 45%;
+  min-width: 170px;
+  width: 100%;
 }
 
 .mat-column-descripcion_reducida.mat-header-cell,
 .mat-column-descripcion_reducida.mat-cell {
-  min-width: 110px;
-  width: 25%;
+  min-width: 130px;
 }
 
 .mat-column-control_cuit.mat-header-cell,
 .mat-column-control_cuit.mat-cell {
-  min-width: 150px;
-  width: 30%;
+  min-width: 160px;
 }
 
 .mat-column-actions.mat-header-cell,
 .mat-column-actions.mat-cell {
-  min-width: 100px;
+  min-width: 130px;
 }
 
 /*

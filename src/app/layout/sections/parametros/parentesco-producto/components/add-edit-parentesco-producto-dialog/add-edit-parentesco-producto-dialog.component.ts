@@ -92,7 +92,11 @@ export class AddEditParentescoProductoDialogComponent {
           value: this.data.permite_darse_baja,
           disabled: this.data.par_modo === 'R',
         },
-        Validators.compose([Validators.required])
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(1)
+        ])
       ),
       pide_fecha_enlace: new UntypedFormControl(
         {

@@ -40,23 +40,23 @@ td.mat-cell:first-of-type {
 .mat-column-descripcion.mat-header-cell,
 .mat-column-descripcion.mat-cell {
   min-width: 80px;
-  width: 55%;
+  width: 40%;
 }
 
 .mat-column-domicilio.mat-header-cell,
 .mat-column-domicilio.mat-cell {
   min-width: 90px;
-  width: 45%;
+  width: 60%;
 }
 
 .mat-column-estado.mat-header-cell,
 .mat-column-estado.mat-cell {
-  min-width: 70px;
+  min-width: 80px;
 }
 
 .mat-column-actions.mat-header-cell,
 .mat-column-actions.mat-cell {
-  min-width: 100px;
+  min-width: 130px;
 }
 
 /*

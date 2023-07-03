@@ -231,7 +231,7 @@ export class AddEditProductoDialogComponent {
         Validators.compose([
           Validators.required,
           Validators.minLength(1),
-          Validators.maxLength(2),
+          Validators.maxLength(1),
           isAlpha(),
         ])
       ),
@@ -255,7 +255,11 @@ export class AddEditProductoDialogComponent {
             : '',
           disabled: this.data.par_modo === 'R' || this.data.par_modo === 'U',
         },
-        Validators.compose([Validators.required])
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(1)
+        ])
       ),
       descripcion_fuente_ingreso: new UntypedFormControl(
         {
@@ -277,7 +281,8 @@ export class AddEditProductoDialogComponent {
         },
         Validators.compose([
           Validators.required,
-          Validators.minLength(3),
+          Validators.minLength(1),
+          Validators.minLength(8),
           notOnlySpaces(),
         ])
       ),

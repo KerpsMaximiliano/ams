@@ -7,7 +7,7 @@ import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 })
 export class MotivoMovimientoFilterComponent {
   @Output() public search: EventEmitter<string> = new EventEmitter<string>();
-  @ViewChild('selectOptions') public selectOptions: any;
+  @ViewChild('select') public select: any;
 
   constructor() {}
 
@@ -15,14 +15,14 @@ export class MotivoMovimientoFilterComponent {
     this.search.emit(
       JSON.stringify({
         par_modo: 'O',
-        tipo_motivo: this.selectOptions?.value,
+        tipo_motivo: this.select?.value,
         descripcion: value,
       })
     );
   }
 
   public clear(inputElement: HTMLInputElement): void {
-    this.selectOptions.value = '';
+    this.select.value = '';
     inputElement.value = '';
   }
 }

@@ -32,12 +32,12 @@
     <div class="buttons-container">
       <button class="primary-button icon-button btn" type="button" (click)="getLocalidades()"
         [disabled]="!selectDepartamento?.value">
-        <mat-icon>done</mat-icon>
+        <mat-icon> done </mat-icon>
         Buscar
       </button>
       <button class="primary-button icon-button btn" type="button" (click)="clear()" [disabled]="
       !selectProvincia?.value && !selectDepartamento?.value">
-        <mat-icon>close</mat-icon>
+        <mat-icon> close </mat-icon>
         Limpiar
       </button>
     </div>
@@ -80,7 +80,7 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
 
-    <mat-paginator [pageSize]="5" showFirstLastButtons stiky aria-label="Controles de paginación."
+    <mat-paginator [pageSize]="5" showFirstLastButtons aria-label="Controles de paginación."
       [ngClass]="{'d-none': !dataSource || this.dataSource.data.length < 5 }">
     </mat-paginator>
   </section>
