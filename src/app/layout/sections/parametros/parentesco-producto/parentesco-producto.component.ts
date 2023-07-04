@@ -57,6 +57,12 @@ export class ParentescoProductoComponent implements OnInit, OnDestroy {
     }
   }
 
+  public back(): void {
+    this.utilService.openLoading();
+    this.router.navigate(['parametros/productos']);
+    return;
+  }
+
   public new(): void {
     const dialogRef = this.openDialog(
       'CREAR PARENTESCO POR PRODUCTO',

@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 // * Services
@@ -20,7 +20,7 @@ import { AddEditProductoDialogComponent } from './components/add-edit-producto-d
   templateUrl: './producto.component.html',
   styleUrls: ['./producto.component.scss'],
 })
-export class ProductoComponent implements OnDestroy {
+export class ProductoComponent implements OnInit, AfterViewInit, OnDestroy {
   private dataSubscription: Subscription | undefined;
   public dataSent: IProducto[];
 
@@ -30,6 +30,25 @@ export class ProductoComponent implements OnDestroy {
     private utilService: UtilService,
     private dialog: MatDialog
   ) {}
+
+  ngOnInit(): void {
+    this.productoService.setRoute(true);
+    if (this.productoService.getRoute()) {
+      if (this.productoService.get()) {
+        this.getData(
+          JSON.stringify({
+            par_modo: 'R',
+            codigo_producto: this.productoService.get().codigo_producto,
+          })
+        );
+        this.edit(this.productoService.get());
+      }
+    }
+  }
+
+  ngAfterViewInit(): void {
+    this.utilService.closeLoading();
+  }
 
   ngOnDestroy(): void {
     if (this.dataSubscription) {

@@ -16,6 +16,7 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class ProductoService {
+  private redirecting: boolean = false;
   private product: IProducto;
 
   constructor(
@@ -29,6 +30,14 @@ export class ProductoService {
 
   public set(product: IProducto): void {
     this.product = product;
+  }
+
+  public getRoute(): boolean {
+    return this.redirecting;
+  }
+
+  public setRoute(value: boolean): void {
+    this.redirecting = value;
   }
 
   CRUD(body: string): Observable<IProductoResponse> {
