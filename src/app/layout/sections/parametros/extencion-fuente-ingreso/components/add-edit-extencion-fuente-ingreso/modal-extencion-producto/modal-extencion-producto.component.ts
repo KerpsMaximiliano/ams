@@ -46,6 +46,7 @@ export class ModalExtencionProductoComponent {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
+
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
@@ -65,7 +66,7 @@ export class ModalExtencionProductoComponent {
     this._utils.openLoading();
 
     this._productoService
-      .getProductoCRUD(
+      .CRUD(
         JSON.stringify({
           par_modo: 'P',
         })
