@@ -14,7 +14,6 @@ import { UtilService } from 'src/app/core/services/util.service';
 // * Validators
 import {
   getErrorMessage,
-  isNumeric,
   notOnlySpaces,
 } from 'src/app/core/validators/character.validator';
 
@@ -51,17 +50,15 @@ export class AddEditSubMotivoMovimientoProductoDialogComponent {
       }
     }
     this.setUpForm();
-    console.log(this.data);
-    
   }
 
   public confirm(): void {
     if (this.formGroup.valid) {
       this.dataSharingService.sendData({
         par_modo: this.data.par_modo,
-        codigo_producto: this.data.codigo_producto,
-        tipo_motivo: this.data.movimiento.tipo_motivo,
-        codigo_motivo: this.data.movimiento.codigo_movimiento,
+        producto: this.data.codigo_producto,
+        codigo_motivo: this.data.movimiento.codigo_motivo,
+        movimiento: this.data.movimiento.tipo_motivo,
         codigo_submotivo: this.data.codigo_submotivo
           ? this.data.codigo_submotivo
           : 0,

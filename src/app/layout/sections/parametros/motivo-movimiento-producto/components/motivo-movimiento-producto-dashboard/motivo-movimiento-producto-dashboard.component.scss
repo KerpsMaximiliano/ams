@@ -10,7 +10,7 @@
 .mat-column-otra_cobertura.mat-header-cell,
 .mat-column-otra_cobertura.mat-cell {
   text-align: left !important;
-  padding-left: 2vw;
+  padding-left: 1vw;
   word-break: break-all;
 }
 
@@ -20,14 +20,14 @@
 .mat-column-codigo_motivo.mat-header-cell,
 .mat-column-codigo_motivo.mat-cell {
   text-align: right !important;
-  padding-right: 2vw;
+  padding-right: 1vw;
 }
 
 /*
  * Ancho máximo por columna individual de todas las columnas.
  */
  
- .mat-column-codigo_motivo.mat-header-cell,
+.mat-column-codigo_motivo.mat-header-cell,
 .mat-column-codigo_motivo.mat-cell {
   min-width: 60px;
 }
@@ -63,3 +63,4 @@
 .d-none {
   display: none;
 }
+

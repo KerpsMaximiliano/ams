@@ -65,26 +65,26 @@ export class MotivoMovimientoProductoDashboardComponent {
     if (type) {
       switch (value) {
         case 'N':
-          return 'N-NADA';
+          return 'NADA';
         case 'F':
-          return 'F-FECHA';
+          return 'FECHA';
         case 'T':
-          return 'T-TEXTO';
+          return 'TEXTO';
         case 'S':
-          return 'S-SUBMOTIVO';
+          return 'SUBMOTIVO';
         default:
           return 'S/N';
       }
     } else {
       switch (value) {
         case 'A':
-          return 'A-ALTA';
+          return 'ALTA';
         case 'B':
-          return 'B-BAJA';
+          return 'BAJA';
         case 'S':
-          return 'S-SUSPENDIDO';
+          return 'SUSPENDIDO';
         case 'O':
-          return 'O-OSP';
+          return 'OSP';
         default:
           return 'S/N';
       }

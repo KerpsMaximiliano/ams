@@ -2,6 +2,8 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
+  OnInit,
   Output,
   SimpleChanges,
   ViewChild,
@@ -19,7 +21,7 @@ import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
   templateUrl: './sub-motivo-movimiento-producto-dashboard.component.html',
   styleUrls: ['./sub-motivo-movimiento-producto-dashboard.component.scss'],
 })
-export class SubMotivoMovimientoProductoDashboardComponent {
+export class SubMotivoMovimientoProductoDashboardComponent implements OnInit, OnChanges {
   public displayedColumns: string[] = [
     'codigo_submotivo',
     'descripcion',

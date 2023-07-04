@@ -30,7 +30,6 @@ export class SubMotivoMovimientoProductoComponent implements OnInit, OnDestroy {
   private producto: IProducto;
   public motivoMovimientoProducto: IMotivoMovimientoProducto;
   public dataSent: ISubMotivoMovimientoProducto[];
-
   constructor(
     private dataSharingService: DataSharingService,
     private subMotivoMovimientoProductoService: SubMotivoMovimientoProductoService,
@@ -157,7 +156,7 @@ export class SubMotivoMovimientoProductoComponent implements OnInit, OnDestroy {
   ): void {
     this.utilService.openLoading();
     this.subMotivoMovimientoProductoService.CRUD(data).subscribe({
-      next: () => {
+      next: (res: any) => {
         this.utilService.notification(successMessage, 'success');
         dialogRef.close();
         this.getSubMotivoMovimiento(
@@ -166,7 +165,7 @@ export class SubMotivoMovimientoProductoComponent implements OnInit, OnDestroy {
             movimiento: this.motivoMovimientoProducto.tipo_motivo,
             codigo_motivo: this.motivoMovimientoProducto.codigo_motivo,
             producto: this.motivoMovimientoProducto.id_producto,
-            descripcion: data?.descripcion,
+            codigo_submotivo: res?.dataset.codigo_submotivo,
           })
         );
       },

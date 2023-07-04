@@ -5,6 +5,8 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
+
+// * Interfaces
 import { IProducto } from 'src/app/core/models/producto.interface';
 
 @Component({
@@ -13,7 +15,7 @@ import { IProducto } from 'src/app/core/models/producto.interface';
   styleUrls: ['./motivo-movimiento-producto-filter.component.scss'],
 })
 export class MotivoMovimientoProductoFilterComponent {
-  public tipos: string[] = ['A-ALTA', 'B-BAJA', 'S-SUSPENDIDO', 'O-OSP'];
+  public tipos: string[] = ['ALTA', 'BAJA', 'SUSPENDIDO', 'OSP'];
 
   @Input() public producto: IProducto;
   @Output() public search: EventEmitter<any> = new EventEmitter<any>();

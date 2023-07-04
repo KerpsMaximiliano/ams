@@ -37,7 +37,6 @@ import { SetMotivoDialogComponent } from './set-motivo-dialog/set-motivo-dialog.
   styleUrls: ['./add-edit-motivo-movimiento-producto-dialog.component.scss'],
 })
 export class AddEditMotivoMovimientoProductoDialogComponent {
-  private element: IDialog[];
   public formGroup: UntypedFormGroup;
   public getErrorMessage = getErrorMessage;
 
@@ -80,6 +79,7 @@ export class AddEditMotivoMovimientoProductoDialogComponent {
         JSON.stringify({
           par_modo: 'O',
           tipo_motivo: this.formGroup.get('tipo_motivo')?.value,
+          id_producto: this.data.producto.codigo_producto,
           descripcion: '',
         })
       )
@@ -135,7 +135,7 @@ export class AddEditMotivoMovimientoProductoDialogComponent {
       descripcion: new UntypedFormControl(
         {
           value: this.data.descripcion ? this.data.descripcion.trim() : '',
-          disabled: this.data.par_modo === 'U' || this.data.par_modo === 'R',
+          disabled: this.data.par_modo === 'R' || this.data.par_modo === 'U',
         },
         Validators.compose([
           Validators.required,
@@ -149,7 +149,7 @@ export class AddEditMotivoMovimientoProductoDialogComponent {
           value: this.data.datos_adicionales
             ? this.data.datos_adicionales.trim()
             : '',
-          disabled: this.data.par_modo === 'U' || this.data.par_modo === 'R',
+          disabled: this.data.par_modo === 'R',
         },
         Validators.compose([
           Validators.required,
@@ -163,7 +163,7 @@ export class AddEditMotivoMovimientoProductoDialogComponent {
           value: this.data.otra_cobertura
             ? this.data.otra_cobertura.trim()
             : '',
-          disabled: this.data.par_modo == 'U' || this.data.par_modo === 'R',
+          disabled: this.data.par_modo === 'R',
         },
         Validators.compose([
           Validators.required,

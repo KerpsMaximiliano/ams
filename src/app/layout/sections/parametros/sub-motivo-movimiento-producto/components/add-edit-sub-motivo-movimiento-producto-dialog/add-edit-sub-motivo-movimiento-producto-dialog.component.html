@@ -1,5 +1,5 @@
 <div class="dialog-title">
-  <h2>{{ data.title | uppercase }}</h2>
+  <h2 tabindex="0">{{ data.title | uppercase }}</h2>
 </div>
 <div class="dialog-content">
   <form class="form-datos" [formGroup]="formGroup">
@@ -25,7 +25,7 @@
     <div class="seeker-fields-container">
       <h3> MOTIVO DE MOVIMIENTO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput [value]="data.descripcion" required disabled />
+        <input matInput [value]="data.movimiento.descripcion" required disabled />
       </mat-form-field>
     </div>
 
