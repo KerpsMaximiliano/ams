@@ -96,113 +96,111 @@
         </mat-error>
       </mat-form-field>
     </div>
-    <div class="seeker-fields-container">
-      <div class="content-coeficiente">
-        <div class="content-part">
-          <h3>COEFICIENTE 1</h3>
-          <mat-form-field class="seeker-form-field" appearance="outline">
-            <input
-              matInput
-              formControlName="coeficiente_uno"
-              type="number"
-              min="0.00"
-              step="0.01"
-              max="1"
-            />
-            <mat-error
-              *ngIf="
-                formGroup.get('coeficiente_uno')?.invalid &&
-                formGroup.get('coeficiente_uno')?.touched
-              "
-            >
-              {{ getErrorMessage(formGroup.get("coeficiente_uno")) }}
-            </mat-error>
-          </mat-form-field>
-        </div>
-        <div class="content-part">
-          <h3>COEFICIENTE 2</h3>
-          <mat-form-field class="seeker-form-field" appearance="outline">
-            <input
-              matInput
-              formControlName="coeficiente_dos"
-              type="number"
-              min="0"
-              step="0.01"
-              max="1"
-            />
-            <mat-error
-              *ngIf="
-                formGroup.get('coeficiente_dos')?.invalid &&
-                formGroup.get('coeficiente_dos')?.touched
-              "
-            >
-              {{ getErrorMessage(formGroup.get("coeficiente_dos")) }}
-            </mat-error>
-          </mat-form-field>
-        </div>
-        <div class="content-part">
-          <h3>COEFICIENTE 3</h3>
-          <mat-form-field class="seeker-form-field" appearance="outline">
-            <input
-              matInput
-              formControlName="coeficiente_tres"
-              type="number"
-              min="0"
-              step="0.01"
-              max="1"
-            />
-            <mat-error
-              *ngIf="
-                formGroup.get('coeficiente_tres')?.invalid &&
-                formGroup.get('coeficiente_tres')?.touched
-              "
-            >
-              {{ getErrorMessage(formGroup.get("coeficiente_tres")) }}
-            </mat-error>
-          </mat-form-field>
-        </div>
-        <div class="content-part">
-          <h3>COEFICIENTE 4</h3>
-          <mat-form-field class="seeker-form-field" appearance="outline">
-            <input
-              matInput
-              formControlName="coeficiente_cuatro"
-              type="number"
-              min="0"
-              step="0.01"
-              max="1"
-            />
-            <mat-error
-              *ngIf="
-                formGroup.get('coeficiente_cuatro')?.invalid &&
-                formGroup.get('coeficiente_cuatro')?.touched
-              "
-            >
-              {{ getErrorMessage(formGroup.get("coeficiente_cuatro")) }}
-            </mat-error>
-          </mat-form-field>
-        </div>
-        <div class="content-part">
-          <h3>COEFICIENTE 5</h3>
-          <mat-form-field class="seeker-form-field" appearance="outline">
-            <input
-              matInput
-              formControlName="coeficiente_cinco"
-              type="number"
-              min="0"
-              step="0.01"
-              max="1"
-            />
-            <mat-error
-              *ngIf="
-                formGroup.get('coeficiente_cinco')?.invalid &&
-                formGroup.get('coeficiente_cinco')?.touched
-              "
-            >
-              {{ getErrorMessage(formGroup.get("coeficiente_cinco")) }}
-            </mat-error>
-          </mat-form-field>
-        </div>
+    <div class="content-coeficiente">
+      <div class="content-part">
+        <h3>COEFICIENTE 1</h3>
+        <mat-form-field class="seeker-form-field1" appearance="outline">
+          <input
+            matInput
+            formControlName="coeficiente_uno"
+            type="number"
+            min="0.00"
+            step="0.01"
+            max="1"
+          />
+          <mat-error
+            *ngIf="
+              formGroup.get('coeficiente_uno')?.invalid &&
+              formGroup.get('coeficiente_uno')?.touched
+            "
+          >
+            {{ getErrorMessage(formGroup.get("coeficiente_uno")) }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="content-part">
+        <h3>COEFICIENTE 2</h3>
+        <mat-form-field class="seeker-form-field1" appearance="outline">
+          <input
+            matInput
+            formControlName="coeficiente_dos"
+            type="number"
+            min="0"
+            step="0.01"
+            max="1"
+          />
+          <mat-error
+            *ngIf="
+              formGroup.get('coeficiente_dos')?.invalid &&
+              formGroup.get('coeficiente_dos')?.touched
+            "
+          >
+            {{ getErrorMessage(formGroup.get("coeficiente_dos")) }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="content-part">
+        <h3>COEFICIENTE 3</h3>
+        <mat-form-field class="seeker-form-field1" appearance="outline">
+          <input
+            matInput
+            formControlName="coeficiente_tres"
+            type="number"
+            min="0"
+            step="0.01"
+            max="1"
+          />
+          <mat-error
+            *ngIf="
+              formGroup.get('coeficiente_tres')?.invalid &&
+              formGroup.get('coeficiente_tres')?.touched
+            "
+          >
+            {{ getErrorMessage(formGroup.get("coeficiente_tres")) }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="content-part">
+        <h3>COEFICIENTE 4</h3>
+        <mat-form-field class="seeker-form-field1" appearance="outline">
+          <input
+            matInput
+            formControlName="coeficiente_cuatro"
+            type="number"
+            min="0"
+            step="0.01"
+            max="1"
+          />
+          <mat-error
+            *ngIf="
+              formGroup.get('coeficiente_cuatro')?.invalid &&
+              formGroup.get('coeficiente_cuatro')?.touched
+            "
+          >
+            {{ getErrorMessage(formGroup.get("coeficiente_cuatro")) }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="content-part">
+        <h3>COEFICIENTE 5</h3>
+        <mat-form-field class="seeker-form-field1" appearance="outline">
+          <input
+            matInput
+            formControlName="coeficiente_cinco"
+            type="number"
+            min="0"
+            step="0.01"
+            max="1"
+          />
+          <mat-error
+            *ngIf="
+              formGroup.get('coeficiente_cinco')?.invalid &&
+              formGroup.get('coeficiente_cinco')?.touched
+            "
+          >
+            {{ getErrorMessage(formGroup.get("coeficiente_cinco")) }}
+          </mat-error>
+        </mat-form-field>
       </div>
     </div>
     <div *ngIf="data.edit; else other_content" class="buttons-container">

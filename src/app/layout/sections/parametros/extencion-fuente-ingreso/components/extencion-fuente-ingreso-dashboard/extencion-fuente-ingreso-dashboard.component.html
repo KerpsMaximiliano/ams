@@ -17,11 +17,15 @@
       </ng-container>
       <ng-container matColumnDef="monto_desde">
         <th mat-header-cell *matHeaderCellDef>Remuneracion desde ($)</th>
-        <td mat-cell *matCellDef="let param">{{ param.remuneracion_desde }}</td>
+        <td mat-cell *matCellDef="let param">
+          {{ param.remuneracion_desde | number : "1.2-2" }}
+        </td>
       </ng-container>
       <ng-container matColumnDef="monto_hasta">
         <th mat-header-cell *matHeaderCellDef>Remuneracion hasta ($)</th>
-        <td mat-cell *matCellDef="let param">{{ param.remuneracion_hasta }}</td>
+        <td mat-cell *matCellDef="let param">
+          {{ param.remuneracion_hasta | number : "1.2-2" }}
+        </td>
       </ng-container>
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef>Acciones</th>
