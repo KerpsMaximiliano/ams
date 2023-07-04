@@ -60,7 +60,7 @@
             </mat-option>
           </mat-select>
           <mat-error *ngIf="formGroup.get('tipo_producto')?.invalid && formGroup.get('tipo_producto')?.touched">
-            {{ getErrorMessage(formGroup.get("tipo_producto")) }}
+            {{ getErrorMessage(formGroup.get('tipo_producto')) }}
           </mat-error>
         </mat-form-field>
       </div>
@@ -206,15 +206,20 @@
         <mat-icon> open_in_new_down </mat-icon>
         Parentescos
       </button>
-      <button class="primary-button icon-button" type="submit" (click)="redirectTo('parametros/movimiento-producto')"
-        *ngIf="data.par_modo === 'U'" mat-dialog-close>
+      <button class="primary-button icon-button" type="submit"
+        (click)="redirectTo('parametros/motivo-movimiento-producto')" *ngIf="data.par_modo === 'U'" mat-dialog-close>
         <mat-icon> open_in_new_down </mat-icon>
         Motivos
       </button>
+      <button class="primary-button icon-button" type="submit" (click)="redirectTo('parametros/unificacion-aportes')"
+        *ngIf="data.par_modo === 'U'" mat-dialog-close>
+        <mat-icon> open_in_new_down </mat-icon>
+        Unificación
+      </button>
       <button class="primary-button icon-button " type="button" (click)="setStatus()"
-        *ngIf="this.data.par_modo === 'U' && btnStatus">
-        <mat-icon> {{ this.status ? 'done_all': 'remove_done' }} </mat-icon>
-        {{ this.status ? 'Alta' : 'Baja' }}
+        *ngIf="this.data.par_modo === 'U' && visibilidad">
+        <mat-icon> {{ this.estado ? 'remove_done' : 'done_all' }} </mat-icon>
+        {{ this.estado ? 'Baja' : 'Reactivar' }}
       </button>
       <button [class]="formGroup.invalid ? 'primary-button icon-button disabled' : 'primary-button icon-button'"
         type="submit" (click)="confirm()">

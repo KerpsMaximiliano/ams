@@ -85,17 +85,13 @@ export class ProductoComponent implements OnDestroy {
       },
       error: (err: any) => {
         this.utilService.closeLoading();
-        if (err.status == 0) {
-          this.utilService.notification('Error de conexión.', 'error');
-        } else {
-          this.utilService.notification(
-            `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
-            'error'
-          );
-        }
-        if (err.status == 404) {
-          this.dataSent = [];
-        }
+        err.status === 0
+          ? this.utilService.notification('Error de conexión.', 'error')
+          : this.utilService.notification(
+              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+              'error'
+            );
+        if (err.status == 404) this.dataSent = [];
       },
       complete: () => {
         this.utilService.closeLoading();
@@ -121,7 +117,9 @@ export class ProductoComponent implements OnDestroy {
         tipo_producto: data?.tipo_producto,
         codigo_fuente_ingreso: data?.codigo_fuente_ingreso,
         numero_empresa_factura: data?.numero_empresa_factura,
-        fecha_baja_producto: data?.fecha_baja_producto,
+        fecha_baja_producto: data?.fecha_baja_producto
+          ? data?.fecha_baja_producto
+          : 0,
         codigo_obra_social: data?.codigo_obra_social,
         producto_administrador: data?.producto_administrador,
         // * Datos sin resolución.
@@ -174,14 +172,12 @@ export class ProductoComponent implements OnDestroy {
       },
       error: (err: any) => {
         this.utilService.closeLoading();
-        if (err.status === 0) {
-          this.utilService.notification('Error de conexión.', 'error');
-        } else {
-          this.utilService.notification(
-            `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
-            'error'
-          );
-        }
+        err.status === 0
+          ? this.utilService.notification('Error de conexión.', 'error')
+          : this.utilService.notification(
+              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+              'error'
+            );
       },
     });
   }

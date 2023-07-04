@@ -1,8 +1,18 @@
 import { Component, Inject } from '@angular/core';
+import { Router } from '@angular/router';
 
 // * Services
 import { DataSharingService } from 'src/app/core/services/data-sharing.service';
 import { UtilService } from 'src/app/core/services/util.service';
+import { ProductoService } from 'src/app/core/services/producto.service';
+import { FuenteIngresoService } from 'src/app/core/services/fuente-ingreso.service';
+
+// * Interfaces
+import { IFuenteIngreso } from 'src/app/core/models/fuente-ingreso.interface';
+import {
+  IProducto,
+  IProductoObraSocial,
+} from 'src/app/core/models/producto.interface';
 
 // * Form
 import {
@@ -21,15 +31,8 @@ import {
 
 // * Material
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-import { IFuenteIngreso } from 'src/app/core/models/fuente-ingreso.interface';
-import { FuenteIngresoService } from 'src/app/core/services/fuente-ingreso.service';
-import {
-  IProducto,
-  IProductoObraSocial,
-} from 'src/app/core/models/producto.interface';
-import { ProductoService } from 'src/app/core/services/producto.service';
-import { Router } from '@angular/router';
-import { IDialog } from 'src/app/core/models/dialog.interface';
+
+// * Components
 import { SetProductoPrimarioDialogComponent } from './set-producto-primario-dialog/set-producto-primario-dialog.component';
 import { SetFuenteIngresoDialogComponent } from './set-fuente-ingreso-dialog/set-fuente-ingreso-dialog.component';
 import { SetObraSocialDialogComponent } from './set-obra-social-dialog/set-obra-social-dialog.component';
@@ -42,10 +45,10 @@ import { SetObraSocialDialogComponent } from './set-obra-social-dialog/set-obra-
 export class AddEditProductoDialogComponent {
   private element: any[];
   private date: number;
-  public formGroup: UntypedFormGroup;
   public getErrorMessage = getErrorMessage;
-  public status: boolean = false;
-  public btnStatus: boolean = false;
+  public formGroup: UntypedFormGroup;
+  public visibilidad: boolean = false;
+  public estado: boolean = false;
 
   constructor(
     private dataSharingService: DataSharingService,
@@ -58,17 +61,7 @@ export class AddEditProductoDialogComponent {
   ) {
     this.setUpForm();
     this.configureValidators();
-    if (this.data.par_modo !== 'C') {
-      this.data.fecha_baja_producto === 0
-        ? (this.status = false)
-        : (this.status = true);
-      this.date = this.formatDate(new Date());
-      this.compareDate(this.data.fecha_baja_producto, this.date)
-        ? (this.btnStatus = false)
-        : (this.btnStatus = true);
-    } else {
-      this.data.fecha_baja_producto = 0;
-    }
+    this.configureButton();
   }
 
   public confirm(): void {
@@ -137,20 +130,39 @@ export class AddEditProductoDialogComponent {
   }
 
   public setStatus(): void {
-    if (this.data.fecha_baja_producto == 0) {
-      this.data.fecha_baja_producto = this.date;
-      this.status = true;
-    } else {
-      if (this.compareDate(this.data.fecha_baja_producto, this.date)) {
-        this.data.fecha_baja_producto = 0;
-        this.status = false;
+    if (this.formGroup.valid) {
+      this.data.par_modo = 'D';
+      if (this.data.fecha_baja_producto === 0) {
+        this.data.fecha_baja_producto = this.date;
+      } else {
+        if (this.compareDate(this.data.fecha_baja_producto, this.date)) {
+          this.data.fecha_baja_producto = 0;
+        }
       }
+      this.confirm();
+    } else {
+      this.formGroup.markAllAsTouched();
     }
   }
 
   public redirectTo(url: string): void {
     this.productoService.set(this.data);
     this.router.navigate([url]);
+  }
+
+  private configureButton(): void {
+    if (this.data.par_modo === 'U') {
+      this.date = this.formatDate(new Date());
+      if (
+        this.data.fecha_baja_producto === 0 ||
+        this.compareDate(this.data.fecha_baja_producto, this.date)
+      ) {
+        this.visibilidad = true;
+      }
+      if (this.data.fecha_baja_producto === 0) {
+        this.estado = true;
+      }
+    }
   }
 
   private compareDate(date1: number, date2: number): boolean {
@@ -165,15 +177,14 @@ export class AddEditProductoDialogComponent {
     const month2: number = Number(strDate2.slice(4, 6));
     const day2: number = Number(strDate2.slice(6, 8));
 
-    if (year1 < year2) {
-      return false;
-    } else if (year1 === year2 && month1 < month2) {
-      return false;
-    } else if (year1 === year2 && month1 === month2 && day1 < day2) {
+    if (
+      date1 === date2 ||
+      (year1 === year2 && month1 === month2 && day1 === day2 - 1)
+    ) {
+      return true;
+    } else {
       return false;
     }
-
-    return true;
   }
 
   private formatDate(date: Date): number {

@@ -33,9 +33,9 @@ import { ProductoComponent } from './producto/producto.component';
 // 21 - PARENTESCOS
 import { ParentescoProductoComponent } from './parentesco-producto/parentesco-producto.component';
 // 22 - MOTIVO DE MOVIMIENTO POR PRODUCTO
-import { MovimientoProductoComponent } from './movimiento-producto/movimiento-producto.component';
-// 23 - SUBMOTIVO DE MOVIMIENTO
-import { SubmotivoMovimientoComponent } from './submotivo-movimiento/submotivo-movimiento.component';
+import { MotivoMovimientoProductoComponent } from './motivo-movimiento-producto/motivo-movimiento-producto.component';
+// 23 - SUB MOTIVO DE MOVIMIENTO POR PRODUCTO
+import { SubMotivoMovimientoProductoComponent } from './sub-motivo-movimiento-producto/sub-motivo-movimiento-producto.component';
 // 24 - UNIFICACION DE APORTES
 import { UnificadorAportesComponent } from './unificador-aportes/unificador-aportes.component';
 
@@ -101,12 +101,12 @@ const routes: Routes = [
     component: ParentescoProductoComponent,
   },
   {
-    path: 'parametros/movimiento-producto',
-    component: MovimientoProductoComponent,
+    path: 'parametros/motivo-movimiento-producto',
+    component: MotivoMovimientoProductoComponent,
   },
   {
-    path: 'parametros/submotivo-movimiento',
-    component: SubmotivoMovimientoComponent,
+    path: 'parametros/sub-motivo-movimiento-producto',
+    component: SubMotivoMovimientoProductoComponent,
   },
   {
     path: 'parametros/unificacion-aportes',

@@ -1,0 +1,61 @@
+
+/*
+ * Texto alineado a la izquierda.
+*/
+.mat-column-descripcion.mat-header-cell,
+.mat-column-descripcion.mat-cell {
+  text-align: left !important;
+  padding-left: 1vw;
+  word-break: break-all;
+}
+
+/*
+ * Número y fecha alineado a la derecha.
+*/
+.mat-column-codigo_submotivo.mat-header-cell,
+.mat-column-codigo_submotivo.mat-cell {
+  text-align: right !important;
+  padding-right: 1vw;
+}
+
+/*
+ * Ancho máximo por columna individual de todas las columnas.
+*/
+
+.mat-column-codigo_submotivo.mat-header-cell,
+.mat-column-codigo_submotivo.mat-cell {
+  min-width: 170px;
+}
+
+.mat-column-descripcion.mat-header-cell,
+.mat-column-descripcion.mat-cell {
+  width: 100%;
+  min-width: 230px;
+}
+
+.mat-column-estado.mat-header-cell,
+.mat-column-estado.mat-cell {
+  min-width: 70px;
+}
+
+.mat-column-actions.mat-header-cell,
+.mat-column-actions.mat-cell {
+  min-width: 100px;
+}
+
+/*
+ * Oculta la tabla y paginación hasta que existan datos.
+*/
+.d-none {
+  display: none;
+}
+
+/*
+ * Genera el espacio que corresponde al botón que no esta disponible.
+*/
+.no-edit {
+  display: inline-block;
+  vertical-align: bottom;
+  width: 40px;
+  height: 44.09px;
+}

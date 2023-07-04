@@ -1,52 +1,52 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 
 // * Services
 import { DataSharingService } from 'src/app/core/services/data-sharing.service';
 import { UtilService } from 'src/app/core/services/util.service';
-import { ProductoService } from 'src/app/core/services/producto.service';
-import { ParentescoProductoService } from 'src/app/core/services/parentesco-producto.service';
+import { SubMotivoMovimientoProductoService } from 'src/app/core/services/sub-motivo-movimiento-producto.service';
+import { MotivoMovimientoProductoService } from 'src/app/core/services/motivo-movimiento-producto.service';
 
 // * Interfaces
-import { IProducto } from 'src/app/core/models/producto.interface';
-import {
-  IParentesco,
-  IParentescoProducto,
-} from 'src/app/core/models/parentesco-producto.interface';
+import { ISubMotivoMovimientoProducto } from 'src/app/core/models/sub-motivo-movimiento.interface';
+import { IMotivoMovimientoProducto } from 'src/app/core/models/motivo-movimiento-producto.interface';
 
 // * Material
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
-// * Componentes
-import { AddEditParentescoProductoDialogComponent } from './components/add-edit-parentesco-producto-dialog/add-edit-parentesco-producto-dialog.component';
+// * Components
+import { AddEditSubMotivoMovimientoProductoDialogComponent } from './components/add-edit-sub-motivo-movimiento-producto-dialog/add-edit-sub-motivo-movimiento-producto-dialog.component';
+import { ProductoService } from 'src/app/core/services/producto.service';
+import { IProducto } from 'src/app/core/models/producto.interface';
 
 @Component({
-  selector: 'app-parentesco-producto',
-  templateUrl: './parentesco-producto.component.html',
-  styleUrls: ['./parentesco-producto.component.scss'],
+  selector: 'app-sub-motivo-movimiento-producto',
+  templateUrl: './sub-motivo-movimiento-producto.component.html',
+  styleUrls: ['./sub-motivo-movimiento-producto.component.scss'],
 })
-export class ParentescoProductoComponent implements OnInit, OnDestroy {
+export class SubMotivoMovimientoProductoComponent implements OnInit, OnDestroy {
   private dataSubscription: Subscription | undefined;
-  public dataSent: IParentescoProducto[];
-  public parentescos: IParentesco[];
-  public producto: IProducto;
+  private producto: IProducto;
+  public motivoMovimientoProducto: IMotivoMovimientoProducto;
+  public dataSent: ISubMotivoMovimientoProducto[];
 
   constructor(
     private dataSharingService: DataSharingService,
+    private subMotivoMovimientoProductoService: SubMotivoMovimientoProductoService,
+    private motivoMovimientoProductoService: MotivoMovimientoProductoService,
     private productoService: ProductoService,
-    private parentescoProductoService: ParentescoProductoService,
     private utilService: UtilService,
-    private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router
   ) {
+    this.motivoMovimientoProducto = this.motivoMovimientoProductoService.get();
     this.producto = this.productoService.get();
-    this.parentescos = this.parentescoProductoService.get();
   }
 
   ngOnInit(): void {
-    if (!this.producto) {
-      this.router.navigate(['parametros/productos']);
+    if (!this.motivoMovimientoProducto) {
+      this.router.navigate(['parametros/movimiento-producto']);
       return;
     }
   }
@@ -59,7 +59,7 @@ export class ParentescoProductoComponent implements OnInit, OnDestroy {
 
   public new(): void {
     const dialogRef = this.openDialog(
-      'CREAR PARENTESCO POR PRODUCTO',
+      'CREAR SUBMOTIVO DE MOVIMIENTO',
       'C',
       true
     );
@@ -68,7 +68,7 @@ export class ParentescoProductoComponent implements OnInit, OnDestroy {
       .subscribe((res) => {
         this.performCRUD(
           res,
-          'El parentesco se ha creado exitosamente. ',
+          'El submotivo de movimiento se ha creado exitosamente.',
           dialogRef
         );
       });
@@ -78,9 +78,9 @@ export class ParentescoProductoComponent implements OnInit, OnDestroy {
     });
   }
 
-  public edit(data: IParentescoProducto): void {
+  public edit(data: ISubMotivoMovimientoProducto): void {
     const dialogRef = this.openDialog(
-      'EDITAR PARENTESCO POR PRODUCTO',
+      'EDITAR SUBMOTIVO DE MOVIMIENTO',
       'U',
       true,
       data
@@ -90,7 +90,7 @@ export class ParentescoProductoComponent implements OnInit, OnDestroy {
       .subscribe((res) => {
         this.performCRUD(
           res,
-          'El parentesco por producto se ha editado exitosamente.',
+          'El submotivo se ha editado extiosamente. ',
           dialogRef
         );
       });
@@ -100,17 +100,17 @@ export class ParentescoProductoComponent implements OnInit, OnDestroy {
     });
   }
 
-  public view(data: IParentescoProducto): void {
-    this.openDialog('VER PARENTESCO POR PRODUCTO', 'R', false, data);
+  public view(data: ISubMotivoMovimientoProducto): void {
+    this.openDialog('VER SUBMOTIVO DE MOVIMIENTO', 'R', false, data);
   }
 
-  public getData(value: string): void {
+  public getSubMotivoMovimiento(value: string): void {
     this.utilService.openLoading();
-    this.parentescoProductoService.CRUD(value).subscribe({
+    this.subMotivoMovimientoProductoService.CRUD(value).subscribe({
       next: (res: any) => {
         this.dataSent = Array.isArray(res.dataset)
-          ? (res.dataset as IParentescoProducto[])
-          : [res.dataset as IParentescoProducto];
+          ? (res.dataset as ISubMotivoMovimientoProducto[])
+          : [res.dataset as ISubMotivoMovimientoProducto];
       },
       error: (err: any) => {
         this.utilService.closeLoading();
@@ -132,20 +132,20 @@ export class ParentescoProductoComponent implements OnInit, OnDestroy {
     title: string,
     par_modo: string,
     edit: boolean,
-    data?: IParentescoProducto
-  ): MatDialogRef<AddEditParentescoProductoDialogComponent, any> {
-    return this.dialog.open(AddEditParentescoProductoDialogComponent, {
+    data?: ISubMotivoMovimientoProducto
+  ): MatDialogRef<AddEditSubMotivoMovimientoProductoDialogComponent, any> {
+    return this.dialog.open(AddEditSubMotivoMovimientoProductoDialogComponent, {
       data: {
         title: title,
         edit: edit,
         par_modo: par_modo,
-        producto: this.producto,
-        parentescos: this.parentescos,
-        codigo_parentesco: data?.codigo_parentesco,
+        movimiento: this.motivoMovimientoProducto,
+        codigo_motivo: this.motivoMovimientoProducto.codigo_motivo,
+        codigo_producto: this.motivoMovimientoProducto.id_producto,
+        producto: this.producto.descripcion_producto,
+        codigo_submotivo: data?.codigo_submotivo,
         descripcion: data?.descripcion,
-        permite_darse_baja: data?.permite_darse_baja,
-        pide_fecha_enlace: data?.pide_fecha_enlace,
-        codigo_parentesco_afip: data?.codigo_afip,
+        fecha_vigencia: data?.fecha_vigencia ? data?.fecha_vigencia : 0,
       },
     });
   }
@@ -156,15 +156,17 @@ export class ParentescoProductoComponent implements OnInit, OnDestroy {
     dialogRef: MatDialogRef<any, any>
   ): void {
     this.utilService.openLoading();
-    this.parentescoProductoService.CRUD(data).subscribe({
+    this.subMotivoMovimientoProductoService.CRUD(data).subscribe({
       next: () => {
         this.utilService.notification(successMessage, 'success');
         dialogRef.close();
-        this.getData(
+        this.getSubMotivoMovimiento(
           JSON.stringify({
             par_modo: 'R',
-            codigo_parentesco: data.codigo_parentesco,
-            producto: this.producto.codigo_producto,
+            movimiento: this.motivoMovimientoProducto.tipo_motivo,
+            codigo_motivo: this.motivoMovimientoProducto.codigo_motivo,
+            producto: this.motivoMovimientoProducto.id_producto,
+            descripcion: data?.descripcion,
           })
         );
       },

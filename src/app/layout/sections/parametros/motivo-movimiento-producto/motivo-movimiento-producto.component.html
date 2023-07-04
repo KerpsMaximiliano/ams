@@ -1,0 +1,15 @@
+<section class="browse-section">
+  <div class="section-header">
+    <h2> Motivo de movimiento por producto #{{ producto.codigo_producto }} </h2>
+    <button class="new-button icon-button" (click)="new()">
+      <mat-icon> add </mat-icon>
+      Nuevo
+    </button>
+  </div>
+  <div class="section-content">
+    <app-motivo-movimiento-producto-filter (search)="getData($event)"
+      [producto]="producto"></app-motivo-movimiento-producto-filter>
+    <app-motivo-movimiento-producto-dashboard [receivedData]="dataSent" (viewEvent)="view($event)"
+      (editEvent)="edit($event)"></app-motivo-movimiento-producto-dashboard>
+  </div>
+</section>

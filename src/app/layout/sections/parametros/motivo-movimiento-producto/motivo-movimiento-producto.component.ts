@@ -1,35 +1,50 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 // * Services
 import { DataSharingService } from 'src/app/core/services/data-sharing.service';
 import { UtilService } from 'src/app/core/services/util.service';
-import { ObraSocialService } from 'src/app/core/services/obra-social.service';
+import { ProductoService } from 'src/app/core/services/producto.service';
+import { MotivoMovimientoProductoService } from 'src/app/core/services/motivo-movimiento-producto.service';
 
 // * Interfaces
-import { IObraSocial } from 'src/app/core/models/obra-social.interface';
+import { IProducto } from 'src/app/core/models/producto.interface';
+import { IMotivoMovimientoProducto } from 'src/app/core/models/motivo-movimiento-producto.interface';
 
 // * Material
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
-// * Components
-import { AddEditObraSocialDialogComponent } from './components/add-edit-obra-social-dialog/add-edit-obra-social-dialog.component';
+// * Componentes
+import { AddEditMotivoMovimientoProductoDialogComponent } from './components/add-edit-motivo-movimiento-producto-dialog/add-edit-motivo-movimiento-producto-dialog.component';
 
 @Component({
-  selector: 'app-obra-social',
-  templateUrl: './obra-social.component.html',
-  styleUrls: ['./obra-social.component.scss'],
+  selector: 'app-motivo-movimiento-producto',
+  templateUrl: './motivo-movimiento-producto.component.html',
+  styleUrls: ['./motivo-movimiento-producto.component.scss'],
 })
-export class ObraSocialComponent implements OnDestroy {
-  public dataSent: IObraSocial[] = [];
+export class MotivoMovimientoProductoComponent implements OnInit, OnDestroy {
   private dataSubscription: Subscription | undefined;
+  public dataSent: IMotivoMovimientoProducto[];
+  public producto: IProducto;
 
   constructor(
     private dataSharingService: DataSharingService,
-    private obraSocialService: ObraSocialService,
+    private productoService: ProductoService,
+    private motivoMovimientoProductoService: MotivoMovimientoProductoService,
     private utilService: UtilService,
+    private router: Router,
     private dialog: MatDialog
-  ) {}
+  ) {
+    this.producto = this.productoService.get();
+  }
+
+  ngOnInit(): void {
+    if (!this.producto) {
+      this.router.navigate(['parametros/productos']);
+      return;
+    }
+  }
 
   ngOnDestroy(): void {
     if (this.dataSubscription) {
@@ -38,13 +53,17 @@ export class ObraSocialComponent implements OnDestroy {
   }
 
   public new(): void {
-    const dialogRef = this.openDialog('CREAR OBRA SOCIAL', 'C', true);
+    const dialogRef = this.openDialog(
+      'CREAR MOTIVO DE MOVIMIENTO POR PRODUCTO',
+      'C',
+      true
+    );
     this.dataSubscription = this.dataSharingService
       .getData()
       .subscribe((res) => {
         this.performCRUD(
           res,
-          'La obra social se ha creado exitosamente.',
+          'El motivo de movimiento por producto se ha creado exitosamente. ',
           dialogRef
         );
       });
@@ -54,14 +73,19 @@ export class ObraSocialComponent implements OnDestroy {
     });
   }
 
-  public edit(data: IObraSocial): void {
-    const dialogRef = this.openDialog('EDITAR OBRA SOCIAL', 'U', true, data);
+  public edit(data: IMotivoMovimientoProducto): void {
+    const dialogRef = this.openDialog(
+      'EDITAR MOTIVO DE MOVIMIENTO POR PRODUCTO',
+      'U',
+      true,
+      data
+    );
     this.dataSubscription = this.dataSharingService
       .getData()
       .subscribe((res) => {
         this.performCRUD(
           res,
-          'La obra social se ha editado exitosamente.',
+          'El motivo de movimiento por producto se ha creado exitosamente. ',
           dialogRef
         );
       });
@@ -71,17 +95,17 @@ export class ObraSocialComponent implements OnDestroy {
     });
   }
 
-  public view(data: IObraSocial): void {
-    this.openDialog('VER OBRA SOCIAL', 'R', false, data);
+  public view(data: IMotivoMovimientoProducto): void {
+    this.openDialog('VER MOTIVO DE MOVIMIENTO POR PRODUCTO', 'R', false, data);
   }
 
   public getData(value: string): void {
     this.utilService.openLoading();
-    this.obraSocialService.CRUD(value).subscribe({
+    this.motivoMovimientoProductoService.CRUD(value).subscribe({
       next: (res: any) => {
         this.dataSent = Array.isArray(res.dataset)
-          ? (res.dataset as IObraSocial[])
-          : [res.dataset as IObraSocial];
+          ? (res.dataset as IMotivoMovimientoProducto[])
+          : [res.dataset as IMotivoMovimientoProducto];
       },
       error: (err: any) => {
         this.utilService.closeLoading();
@@ -103,21 +127,20 @@ export class ObraSocialComponent implements OnDestroy {
     title: string,
     par_modo: string,
     edit: boolean,
-    data?: IObraSocial
-  ): MatDialogRef<AddEditObraSocialDialogComponent, any> {
-    return this.dialog.open(AddEditObraSocialDialogComponent, {
+    data?: IMotivoMovimientoProducto
+  ): MatDialogRef<AddEditMotivoMovimientoProductoDialogComponent, any> {
+    return this.dialog.open(AddEditMotivoMovimientoProductoDialogComponent, {
       data: {
         title: title,
         edit: edit,
         par_modo: par_modo,
-        codigo: data?.codigo,
+        producto: this.producto,
+        id_producto: data?.id_producto,
+        codigo_motivo: data?.codigo_motivo,
+        tipo_motivo: data?.tipo_motivo,
         descripcion: data?.descripcion,
-        propone_fecha_patologia: data?.propone_fecha_patologia,
-        tipo_fecha_patologia: data?.tipo_fecha_patologia,
-        tipo_obra_social_prepaga: data?.tipo_obra_social_prepaga,
-        nro_registro: data?.nro_registro,
-        similar_SMP: data?.similar_SMP,
-        omite_R420: data?.omite_R420,
+        datos_adicionales: data?.datos_adicionales,
+        otra_cobertura: data?.otra_cobertura,
       },
     });
   }
@@ -128,14 +151,16 @@ export class ObraSocialComponent implements OnDestroy {
     dialogRef: MatDialogRef<any, any>
   ): void {
     this.utilService.openLoading();
-    this.obraSocialService.CRUD(data).subscribe({
+    this.motivoMovimientoProductoService.CRUD(data).subscribe({
       next: () => {
         this.utilService.notification(successMessage, 'success');
         dialogRef.close();
         this.getData(
           JSON.stringify({
             par_modo: 'R',
-            codigo: data.codigo,
+            id_producto: data.id_producto,
+            codigo_motivo: data.codigo_motivo,
+            tipo_motivo: data.tipo_motivo[0],
           })
         );
       },

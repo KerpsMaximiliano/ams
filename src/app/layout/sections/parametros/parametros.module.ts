@@ -90,16 +90,16 @@ import { ParentescoProductoComponent } from './parentesco-producto/parentesco-pr
 import { ParentescoProductoFilterComponent } from './parentesco-producto/components/parentesco-producto-filter/parentesco-producto-filter.component';
 import { ParentescoProductoDashboardComponent } from './parentesco-producto/components/parentesco-producto-dashboard/parentesco-producto-dashboard.component';
 // 22 - MOTIVO DE MOVIMIENTO POR PRODUCTO
-import { AddEditMovimientoProductoDialogComponent } from './movimiento-producto/components/add-edit-movimiento-producto-dialog/add-edit-movimiento-producto-dialog.component';
-import { MovimientoProductoComponent } from './movimiento-producto/movimiento-producto.component';
-import { MovimientoProductoDashboardComponent } from './movimiento-producto/components/movimiento-producto-dashboard/movimiento-producto-dashboard.component';
-import { MovimientoProductoFilterComponent } from './movimiento-producto/components/movimiento-producto-filter/movimiento-producto-filter.component';
-import { SetMotivoDialogComponent } from './movimiento-producto/components/add-edit-movimiento-producto-dialog/set-motivo-dialog/set-motivo-dialog.component';
-// 23 - SUBMOTIVO DE MOVIMIENTO
-import { SubmotivoMovimientoComponent } from './submotivo-movimiento/submotivo-movimiento.component';
-import { SubmotivoMovimientoFilterComponent } from './submotivo-movimiento/components/submotivo-movimiento-filter/submotivo-movimiento-filter.component';
-import { SubmotivoMovimientoDashboardComponent } from './submotivo-movimiento/components/submotivo-movimiento-dashboard/submotivo-movimiento-dashboard.component';
-import { AddEditSubmotivoMovimientoComponent } from './submotivo-movimiento/components/add-edit-submotivo-movimiento/add-edit-submotivo-movimiento.component';
+import { AddEditMotivoMovimientoProductoDialogComponent } from './motivo-movimiento-producto/components/add-edit-motivo-movimiento-producto-dialog/add-edit-motivo-movimiento-producto-dialog.component';
+import { MotivoMovimientoProductoComponent } from './motivo-movimiento-producto/motivo-movimiento-producto.component';
+import { MotivoMovimientoProductoDashboardComponent } from './motivo-movimiento-producto/components/motivo-movimiento-producto-dashboard/motivo-movimiento-producto-dashboard.component';
+import { MotivoMovimientoProductoFilterComponent } from './motivo-movimiento-producto/components/motivo-movimiento-producto-filter/motivo-movimiento-producto-filter.component';
+import { SetMotivoDialogComponent } from './motivo-movimiento-producto/components/add-edit-motivo-movimiento-producto-dialog/set-motivo-dialog/set-motivo-dialog.component';
+// 23 - SUB MOTIVO DE MOVIMIENTO POR PRODUCTO
+import { AddEditSubMotivoMovimientoProductoDialogComponent } from './sub-motivo-movimiento-producto/components/add-edit-sub-motivo-movimiento-producto-dialog/add-edit-sub-motivo-movimiento-producto-dialog.component';
+import { SubMotivoMovimientoProductoDashboardComponent } from './sub-motivo-movimiento-producto/components/sub-motivo-movimiento-producto-dashboard/sub-motivo-movimiento-producto-dashboard.component';
+import { SubmotivoMovimientoProductoFilterComponent } from './sub-motivo-movimiento-producto/components/sub-motivo-movimiento-producto-filter/sub-motivo-movimiento-producto-filter.component';
+import { SubMotivoMovimientoProductoComponent } from './sub-motivo-movimiento-producto/sub-motivo-movimiento-producto.component';
 // 24 - UNIFICACION DE APORTES
 import { UnificadorAportesComponent } from './unificador-aportes/unificador-aportes.component';
 import { UnificadorAporteDashboardComponent } from './unificador-aportes/components/unificador-aporte-dashboard/unificador-aporte-dashboard.component';
@@ -190,16 +190,16 @@ import { ModalProductoComponent } from './unificador-aportes/components/add-edit
     ParentescoProductoDashboardComponent,
     AddEditParentescoProductoDialogComponent,
     // 22 - MOTIVO DE MOVIMIENTO POR PRODUCTO
-    AddEditMovimientoProductoDialogComponent,
-    MovimientoProductoDashboardComponent,
-    MovimientoProductoFilterComponent,
-    MovimientoProductoComponent,
+    AddEditMotivoMovimientoProductoDialogComponent,
+    MotivoMovimientoProductoDashboardComponent,
+    MotivoMovimientoProductoFilterComponent,
+    MotivoMovimientoProductoComponent,
     SetMotivoDialogComponent,
-    // 23 - SUBMOTIVO DE MOVIMIENTO
-    SubmotivoMovimientoComponent,
-    SubmotivoMovimientoFilterComponent,
-    SubmotivoMovimientoDashboardComponent,
-    AddEditSubmotivoMovimientoComponent,
+    // 23 - SUB MOTIVO DE MOVIMIENTO POR PRODUCTO
+    SubMotivoMovimientoProductoComponent,
+    SubmotivoMovimientoProductoFilterComponent,
+    SubMotivoMovimientoProductoDashboardComponent,
+    AddEditSubMotivoMovimientoProductoDialogComponent,
     // 24 - UNIFICACION DE APORTES
     UnificadorAportesComponent,
     UnificadorAporteDashboardComponent,
