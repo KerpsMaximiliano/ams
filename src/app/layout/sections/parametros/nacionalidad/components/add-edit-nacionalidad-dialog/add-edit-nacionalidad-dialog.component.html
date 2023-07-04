@@ -3,7 +3,7 @@
 </div>
 
 <div class="dialog-content">
-  <form class="form-datos" [formGroup]="formGroup" (ngSubmit)="confirm()">
+  <form class="form-datos" [formGroup]="formGroup">
     <div class="seeker-fields-container">
       <h3> Código </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
@@ -28,7 +28,7 @@
     <div class="seeker-fields-container">
       <h3> Sistema anterior </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="codigo_sistema_anterior">
+        <input matInput formControlName="codigo_sistema_anterior" required minlength="1" maxlength="3">
         <mat-error
           *ngIf="formGroup.get('codigo_sistema_anterior')?.invalid && formGroup.get('codigo_sistema_anterior')?.touched">
           {{ getErrorMessage(formGroup.get("codigo_sistema_anterior")) }}
@@ -41,7 +41,8 @@
         <mat-icon> close </mat-icon>
         Cancelar
       </button>
-      <button class="primary-button icon-button" type="submit" [disabled]="formGroup.invalid">
+      <button [class]="formGroup.invalid ? 'primary-button icon-button disabled' : 'primary-button icon-button'"
+      type="submit" (click)="confirm()">
         <mat-icon> done </mat-icon>
         Guardar
       </button>

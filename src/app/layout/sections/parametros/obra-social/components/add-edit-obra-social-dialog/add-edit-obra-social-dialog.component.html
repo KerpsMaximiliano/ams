@@ -3,7 +3,7 @@
 </div>
 
 <div class="dialog-content">
-  <form class="form-datos" [formGroup]="formGroup" (ngSubmit)="confirm()">
+  <form class="form-datos" [formGroup]="formGroup">
     <div class="seeker-fields-container">
       <h3> CÓDIGO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
@@ -26,9 +26,9 @@
 
     <div class="seeker-fields-container">
       <h3> PROPONE FECHA PATOLOGÍA </h3>
-      <mat-form-field class="seeker-form-field" required appearance="outline">
-        <mat-select formControlName="propone_fecha_patologia" (selectionChange)="changeProponeFechaPatologia()" required
-          disableOptionCentering>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <mat-select formControlName="propone_fecha_patologia" (selectionChange)="changeProponeFechaPatologia()"
+         required minlength="1" maxlength="3" disableOptionCentering>
           <mat-option [value]="'S'"> SI </mat-option>
           <mat-option [value]="'N'"> NO </mat-option>
         </mat-select>
@@ -43,7 +43,7 @@
       <h3> TIPO FECHA PATOLOGÍA </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
         <mat-select formControlName="tipo_fecha_patologia"
-          [required]="formGroup.get('propone_fecha_patologia')?.value == 'S'" disableOptionCentering>
+          [required]="formGroup.get('propone_fecha_patologia')?.value == 'S'" minlength="1" maxlength="2" disableOptionCentering>
           <mat-option [value]="'FI'" [disabled]="formGroup.get('propone_fecha_patologia')?.value != 'S'">
             FECHA DE INGRESO AL SERVICIO
           </mat-option>
@@ -61,7 +61,7 @@
     <div class="seeker-fields-container">
       <h3> TIPO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <mat-select formControlName="tipo_obra_social_prepaga" required disableOptionCentering>
+        <mat-select formControlName="tipo_obra_social_prepaga" required minlength="1" maxlength="1" disableOptionCentering>
           <mat-option [value]="'O'"> O.SOCIAL </mat-option>
           <mat-option [value]="'P'"> PREPAGA </mat-option>
           <mat-option [value]="'A'"> AMBAS </mat-option>
@@ -85,8 +85,8 @@
 
     <div class="seeker-fields-container">
       <h3> SIMILAR SMP </h3>
-      <mat-form-field class="seeker-form-field" required appearance="outline">
-        <mat-select formControlName="similar_SMP" disableOptionCentering required>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <mat-select formControlName="similar_SMP" required minlength="1" maxlength="1" disableOptionCentering>
           <mat-option [value]="'S'"> SI </mat-option>
           <mat-option [value]="'N'"> NO </mat-option>
         </mat-select>
@@ -98,8 +98,8 @@
 
     <div class="seeker-fields-container">
       <h3> OMITE RESOLUCIÓN 420 </h3>
-      <mat-form-field class="seeker-form-field" required appearance="outline">
-        <mat-select formControlName="omite_R420" disableOptionCentering required>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <mat-select formControlName="omite_R420" required minlength="1" maxlength="1" disableOptionCentering>
           <mat-option [value]="'S'"> SI </mat-option>
           <mat-option [value]="'N'"> NO </mat-option>
         </mat-select>
@@ -114,7 +114,8 @@
         <mat-icon> close </mat-icon>
         Cancelar
       </button>
-      <button class="primary-button icon-button" type="submit" [disabled]="formGroup.invalid">
+      <button [class]="formGroup.invalid ? 'primary-button icon-button disabled' : 'primary-button icon-button'"
+      type="submit" (click)="confirm()">
         <mat-icon> done </mat-icon>
         Guardar
       </button>

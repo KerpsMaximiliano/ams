@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 
 // * Services
 import { DataSharingService } from 'src/app/core/services/data-sharing.service';
@@ -28,18 +28,17 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./add-edit-provincia-dialog.component.scss'],
 })
 export class AddEditProvinciaDialogComponent {
-  public formGroup: UntypedFormGroup;
   public getErrorMessage = getErrorMessage;
+  public formGroup: UntypedFormGroup;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private dataSharingService: DataSharingService
+    private dataSharingService: DataSharingService,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.setUpForm();
   }
 
   public confirm(): void {
-    this.formGroup.markAllAsTouched();
     if (this.formGroup.valid) {
       this.dataSharingService.sendData({
         par_modo: this.data.par_modo,
@@ -49,6 +48,8 @@ export class AddEditProvinciaDialogComponent {
         codigo_provincia: this.formGroup.get('codigo_provincia')?.value,
         flete_transportista: this.formGroup.get('flete_transportista')?.value,
       });
+    } else {
+      this.formGroup.markAllAsTouched();
     }
   }
 
@@ -80,6 +81,17 @@ export class AddEditProvinciaDialogComponent {
           notOnlySpaces(),
         ])
       ),
+      codigo_provincia: new UntypedFormControl(
+        {
+          value: this.data.codigo_provincia,
+          disabled: this.data.par_modo === 'R',
+        },
+        Validators.compose([
+          Validators.minLength(1),
+          Validators.maxLength(2),
+          isNumeric(),
+        ])
+      ),
       codifica_altura: new UntypedFormControl(
         {
           value: this.data.codifica_altura,
@@ -90,17 +102,6 @@ export class AddEditProvinciaDialogComponent {
           Validators.minLength(1),
           Validators.maxLength(1),
           isAlpha(),
-        ])
-      ),
-      codigo_provincia: new UntypedFormControl(
-        {
-          value: this.data.codigo_provincia,
-          disabled: this.data.par_modo === 'R',
-        },
-        Validators.compose([
-          Validators.minLength(1),
-          Validators.maxLength(2),
-          isNumeric(),
         ])
       ),
       flete_transportista: new UntypedFormControl(

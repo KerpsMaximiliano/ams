@@ -106,9 +106,9 @@ input[type="number"] {
 
 .mat-select-panel-wrap {
   /* max-width: fit-content; */
-  margin-top: 12px !important;
-  max-width: 95%;
-  padding-left: 8px;
+  margin-top: 16px !important;
+  /* max-width: 96%;
+  padding-left: 8px;*/
   padding-top: 16px;
 }
 
@@ -217,7 +217,7 @@ body {
 //Sections
 
 .browse-section {
-  padding: 0.5rem 1rem;
+  padding: 1rem 1rem;
   margin-top: 3.5rem;
 }
 
@@ -363,7 +363,7 @@ button {
   &.icon-button {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
 
     .mat-icon {
       width: 18px;

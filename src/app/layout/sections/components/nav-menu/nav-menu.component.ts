@@ -65,7 +65,7 @@ export class NavMenuComponent {
           icon: 'keyboard_arrow_right',
         },
         {
-        // 11 - FUENTES DE INGRESO
+          // 11 - FUENTES DE INGRESO
           title: 'Fuentes de ingreso',
           url: '/parametros/fuentes-ingreso',
           icon: 'keyboard_arrow_right',
@@ -107,15 +107,15 @@ export class NavMenuComponent {
           icon: 'keyboard_arrow_right',
         },
         {
-          // 32 - EXTENCION DE FUENTES DE INGRESOS
-          title: 'Extencion Fuente de Ingreso',
-          url: '/parametros/extencion-fuente-ingreso',
+          // 20 - PRODUCTOS
+          title: 'Productos',
+          url: '/parametros/productos',
           icon: 'keyboard_arrow_right',
         },
         {
-          // 20 - PRODUCTOS
-          title: 'PRODUCTOS',
-          url: '/parametros/productos',
+          // 32 - EXTENCION DE FUENTES DE INGRESOS
+          title: 'Extencion Fuente de Ingreso',
+          url: '/parametros/extencion-fuente-ingreso',
           icon: 'keyboard_arrow_right',
         },
       ],

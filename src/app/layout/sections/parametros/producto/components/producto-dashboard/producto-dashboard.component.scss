@@ -3,32 +3,11 @@
 */
 th.mat-header-cell:first-of-type,
 td.mat-cell:first-of-type {
-  padding-left: 0px !important;
-}
-
-/*
- * Espacio mínimo a ambos lados de todas las columnas.
-*/
-.mat-column-codigo_producto.mat-header-cell,
-.mat-column-codigo_producto.mat-cell,
-.mat-column-descripcion_producto.mat-header-cell,
-.mat-column-descripcion_producto.mat-cell,
-.mat-column-tipo_producto.mat-header-cell,
-.mat-column-tipo_producto.mat-cell,
-.mat-column-clase_producto.mat-header-cell,
-.mat-column-clase_producto.mat-cell,
-.mat-column-estado.mat-header-cell,
-.mat-column-estado.mat-cell {
-  padding-left: 0.5vw !important;
-  padding-right: 0.5vw !important;
+  padding-left: 0px;
 }
 
 /*
  * Texto alineado a la izquierda.
- * Producto (descripcion_producto).
- * Tipo (tipo_producto).
- * Clase (clase_producto).
- * Estado (estado).                 // ! Verificar.
 */
 .mat-column-descripcion_producto.mat-header-cell,
 .mat-column-descripcion_producto.mat-cell,
@@ -36,30 +15,21 @@ td.mat-cell:first-of-type {
 .mat-column-tipo_producto.mat-cell,
 .mat-column-clase_producto.mat-header-cell,
 .mat-column-clase_producto.mat-cell,
-.mat-column-estado.mat-header-cell,
-.mat-column-estado.mat-cell {
+.mat-column-fecha_baja_producto.mat-header-cell,
+.mat-column-fecha_baja_producto.mat-cell {
   text-align: left !important;
-  padding-left: 1vw !important;
+  padding-left: 1vw;
+  word-break: break-all;
 }
 
 /*
  * Número y fecha alineado a la derecha.
- * Código (codigo_producto).
 */
 .mat-column-codigo_producto.mat-header-cell,
 .mat-column-codigo_producto.mat-cell {
   text-align: right !important;
-  padding-right: 1vw !important;
-}
-
-/*
- * Iconos alineados al centro.
- * Acciones (actions).
-*/
-.mat-column-actions.mat-header-cell,
-.mat-column-actions.mat-cell {
-  width: 15% !important;
-  text-align: center !important;
+  padding-right: 1vw;
+  word-break: break-all;
 }
 
 /*
@@ -67,21 +37,30 @@ td.mat-cell:first-of-type {
 */
 .mat-column-codigo_producto.mat-header-cell,
 .mat-column-codigo_producto.mat-cell,
+.mat-column-fecha_baja_producto.mat-cell,
+.mat-column-fecha_baja_producto.mat-header-cell {
+  min-width: 100px;
+}
+
 .mat-column-tipo_producto.mat-header-cell,
-.mat-column-tipo_producto.mat-cell,
-.mat-column-estado.mat-header-cell,
-.mat-column-estado.mat-cell {
-  width: 10% !important;
+.mat-column-tipo_producto.mat-cell {
+  min-width: 120px;
 }
 
 .mat-column-descripcion_producto.mat-header-cell,
 .mat-column-descripcion_producto.mat-cell {
-  width: 35% !important;
+  min-width: 80px;
+  width: 100%;
 }
 
 .mat-column-clase_producto.mat-header-cell,
 .mat-column-clase_producto.mat-cell {
-  width: 20% !important;
+  min-width: 180px;
+}
+
+.mat-column-actions.mat-header-cell,
+.mat-column-actions.mat-cell {
+  min-width: 130px;
 }
 
 /*
@@ -104,9 +83,9 @@ td.mat-cell:first-of-type {
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   justify-content: center;
   align-items: center;
-  height: 48px;
+  height: 40px;
   gap: 1vw;
-  padding: 0rem 5vw;
+  padding: 0rem 3vw;
   background-color: #dddddd;
 }
 
@@ -115,38 +94,24 @@ td.mat-cell:first-of-type {
   font-size: 0.95rem !important;
 }
 
-.num {
-  text-align: right !important;
-  padding-right: 1vw !important;
-}
-
-.text {
+.detailExpand-item {
   text-align: left !important;
   padding-left: 1vw !important;
 }
 
 .detailExpand-element {
-  // box-shadow: 0px 0px 0px 2px rgb(211, 211, 211) !important;
-  // -webkit-box-shadow: 0px 0px 0px 2px rgb(211, 211, 211) !important;
-  // -moz-box-shadow: 0px 0px 0px 2px rgb(211, 211, 211) !important;
   position: relative;
   z-index: 1;
   transition: 300ms all !important;
 }
 
 .selected {
-  box-shadow: 0px 0px 0px 2px rgb(150, 150, 150) !important;
-  -webkit-box-shadow: 0px 0px 0px 2px rgb(150, 150, 150) !important;
-  -moz-box-shadow: 0px 0px 0px 2px rgb(150, 150, 150) !important;
   position: relative;
   z-index: 1;
 }
 
 .hover-row:hover {
   background-color: #efefef !important;
-  // box-shadow: 0px 0px 0px 2px rgb(211, 211, 211) !important;
-  // -webkit-box-shadow: 0px 0px 0px 2px rgb(211, 211, 211) !important;
-  // -moz-box-shadow: 0px 0px 0px 2px rgb(211, 211, 211) !important;
   position: relative;
   z-index: 2;
 }
@@ -168,4 +133,11 @@ tr.detailExpand-element:not(.detailExpanded-row):active {
 
 .detailExpand-element td {
   border-bottom-width: 0;
+}
+
+/*
+ * Oculta la tabla y paginación hasta que existan datos.
+*/
+.d-none {
+  display: none;
 }

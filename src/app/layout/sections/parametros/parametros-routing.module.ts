@@ -28,10 +28,18 @@ import { FuenteIngresoComponent } from './fuente-ingreso/fuente-ingreso.componen
 import { ObraSocialComponent } from './obra-social/obra-social.component';
 // 13 - PREGUNTAS DE DECLARACIONES JURADS
 import { PreguntaDDJJComponent } from './pregunta-ddjj/pregunta-ddjj.component';
-// 32 - EXTENCION FUENTES DE INGRESOS
-import { ExtencionFuenteIngresoComponent } from './extencion-fuente-ingreso/extencion-fuente-ingreso.component';
 // 20 - PRODUCTO
 import { ProductoComponent } from './producto/producto.component';
+// 21 - PARENTESCOS
+import { ParentescoProductoComponent } from './parentesco-producto/parentesco-producto.component';
+// 22 - MOTIVO DE MOVIMIENTO POR PRODUCTO
+import { MotivoMovimientoProductoComponent } from './motivo-movimiento-producto/motivo-movimiento-producto.component';
+// 23 - SUB MOTIVO DE MOVIMIENTO POR PRODUCTO
+import { SubMotivoMovimientoProductoComponent } from './sub-motivo-movimiento-producto/sub-motivo-movimiento-producto.component';
+// 24 - UNIFICACION DE APORTES
+import { UnificadorAportesComponent } from './unificador-aportes/unificador-aportes.component';
+// 32 - EXTENCION FUENTES DE INGRESOS
+import { ExtencionFuenteIngresoComponent } from './extencion-fuente-ingreso/extencion-fuente-ingreso.component';
 
 const routes: Routes = [
   {
@@ -87,12 +95,28 @@ const routes: Routes = [
     component: PreguntaDDJJComponent,
   },
   {
-    path: 'parametros/extencion-fuente-ingreso',
-    component: ExtencionFuenteIngresoComponent,
-  },
-  {
     path: 'parametros/productos',
     component: ProductoComponent,
+  },
+  {
+    path: 'parametros/parentesco-producto',
+    component: ParentescoProductoComponent,
+  },
+  {
+    path: 'parametros/motivo-movimiento-producto',
+    component: MotivoMovimientoProductoComponent,
+  },
+  {
+    path: 'parametros/sub-motivo-movimiento-producto',
+    component: SubMotivoMovimientoProductoComponent,
+  },
+  {
+    path: 'parametros/unificacion-aportes',
+    component: UnificadorAportesComponent,
+  },
+  {
+    path: 'parametros/extencion-fuente-ingreso',
+    component: ExtencionFuenteIngresoComponent,
   },
 ];
 

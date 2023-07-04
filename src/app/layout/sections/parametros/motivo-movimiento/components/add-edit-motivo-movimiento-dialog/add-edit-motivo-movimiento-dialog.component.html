@@ -3,15 +3,15 @@
 </div>
 
 <div class="dialog-content">
-  <form class="form-datos" [formGroup]="formGroup" (ngSubmit)="confirm()">
+  <form class="form-datos" [formGroup]="formGroup">
     <div class="seeker-fields-container">
       <h3> TIPO DE MOVIMIENTO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
         <mat-select formControlName="tipo_motivo" required minlenght="1" maxlenght="1" disableOptionCentering>
-          <mat-option [value]="'A'"> A-ALTA </mat-option>
-          <mat-option [value]="'B'"> B-BAJA </mat-option>
-          <mat-option [value]="'S'"> S-SUSPENSIÓN </mat-option>
-          <mat-option [value]="'O'"> O-OSP </mat-option>
+          <mat-option [value]="'A'"> ALTA </mat-option>
+          <mat-option [value]="'B'"> BAJA </mat-option>
+          <mat-option [value]="'S'"> SUSPENSIÓN </mat-option>
+          <mat-option [value]="'O'"> OSP </mat-option>
         </mat-select>
         <mat-error *ngIf="formGroup.get('tipo_motivo')?.invalid && formGroup.get('tipo_motivo')?.touched">
           {{ getErrorMessage(formGroup.get('tipo_motivo')) }}
@@ -42,7 +42,7 @@
     <div class="seeker-fields-container">
       <h3> VIGENCIA DESDE </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="fecha_inicio_vigencia" class="date-input" type="date" [max]="fecha_hoy">
+        <input matInput class="date-input" formControlName="fecha_inicio_vigencia" required minlength="1" maxlength="8" type="date" [max]="fecha_hoy">
         <mat-error
           *ngIf="formGroup.get('fecha_inicio_vigencia')?.invalid && formGroup.get('fecha_inicio_vigencia')?.touched">
           {{ getErrorMessage(formGroup.get('fecha_inicio_vigencia')) }}
@@ -80,7 +80,8 @@
         <mat-icon> {{ this.status? 'done_all': 'remove_done' }} </mat-icon>
         {{ this.status? 'Alta': 'Baja' }}
       </button>
-      <button class="primary-button icon-button  btn-w" type="submit" [disabled]="formGroup.invalid">
+      <button [class]="formGroup.invalid ? 'primary-button icon-button disabled' : 'primary-button icon-button'"
+      type="submit" (click)="confirm()">
         <mat-icon> done </mat-icon>
         Guardar
       </button>

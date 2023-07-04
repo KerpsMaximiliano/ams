@@ -36,9 +36,9 @@ export class AddEditMotivoMovimientoDialogComponent {
   public status: boolean;
 
   constructor(
-    public datePipe: DatePipe,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private dataSharingService: DataSharingService
+    private dataSharingService: DataSharingService,
+    private datePipe: DatePipe,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     const fechaEndPicker = this.calcularFecha(new Date());
 
@@ -52,7 +52,6 @@ export class AddEditMotivoMovimientoDialogComponent {
   }
 
   public confirm(): void {
-    this.formGroup.markAllAsTouched();
     if (this.formGroup.valid) {
       const fecha = this.datePipe.transform(
         this.calcularFecha(
@@ -69,6 +68,8 @@ export class AddEditMotivoMovimientoDialogComponent {
         fecha_inicio_vigencia: Number(fecha),
         fecha_fin_vigencia: this.fecha_fin !== undefined ? this.fecha_fin : 0,
       });
+    } else {
+      this.formGroup.markAllAsTouched();
     }
   }
 
@@ -113,18 +114,6 @@ export class AddEditMotivoMovimientoDialogComponent {
 
   private setUpForm(): void {
     this.formGroup = new UntypedFormGroup({
-      id_motivo: new UntypedFormControl(
-        {
-          value: this.data.id_motivo,
-          disabled: this.data.par_modo === 'U' || this.data.par_modo === 'R',
-        },
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(1),
-          Validators.maxLength(2),
-          isNumeric(),
-        ])
-      ),
       tipo_motivo: new UntypedFormControl(
         {
           value: this.data.tipo_motivo ? this.data.tipo_motivo.trim() : '',
@@ -135,6 +124,18 @@ export class AddEditMotivoMovimientoDialogComponent {
           Validators.minLength(1),
           Validators.maxLength(1),
           isAlpha(),
+        ])
+      ),
+      id_motivo: new UntypedFormControl(
+        {
+          value: this.data.id_motivo,
+          disabled: this.data.par_modo === 'U' || this.data.par_modo === 'R',
+        },
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(2),
+          isNumeric(),
         ])
       ),
       descripcion: new UntypedFormControl(
@@ -149,6 +150,20 @@ export class AddEditMotivoMovimientoDialogComponent {
           notOnlySpaces(),
         ])
       ),
+      fecha_inicio_vigencia: new UntypedFormControl(
+        {
+          value:
+            this.data.par_modo !== 'C'
+              ? this.calcularValor(this.data.fecha_inicio_vigencia)
+              : this.data.fecha_inicio_vigencia,
+          disabled: this.data.par_modo === 'R',
+        },
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(8)
+        ])
+      ),
       datos_adic_SN: new UntypedFormControl(
         {
           value: this.data.datos_adic_SN ? this.data.datos_adic_SN.trim() : '',
@@ -160,16 +175,6 @@ export class AddEditMotivoMovimientoDialogComponent {
           Validators.maxLength(1),
           isAlpha(),
         ])
-      ),
-      fecha_inicio_vigencia: new UntypedFormControl(
-        {
-          value:
-            this.data.par_modo !== 'C'
-              ? this.calcularValor(this.data.fecha_inicio_vigencia)
-              : this.data.fecha_inicio_vigencia,
-          disabled: this.data.par_modo === 'R',
-        },
-        Validators.compose([Validators.required])
       ),
     });
   }

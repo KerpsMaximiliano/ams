@@ -7,7 +7,6 @@ import { ParametrosRoutingModule } from './parametros-routing.module';
 
 // * Material
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatStepperModule } from '@angular/material/stepper';
 
 // * Components
 // 01 - PROVINCIAS
@@ -77,17 +76,42 @@ import { AddEditPreguntaDDJJDialogComponent } from './pregunta-ddjj/components/a
 import { PreguntaDDJJComponent } from './pregunta-ddjj/pregunta-ddjj.component';
 import { PreguntaDDJJDashboardComponent } from './pregunta-ddjj/components/pregunta-ddjj-dashboard/pregunta-ddjj-dashboard.component';
 import { PreguntaDDJJFilterComponent } from './pregunta-ddjj/components/pregunta-ddjj-filter/pregunta-ddjj-filter.component';
+// 20 - PRODUCTOS
+import { AddEditProductoDialogComponent } from './producto/components/add-edit-producto-dialog/add-edit-producto-dialog.component';
+import { SetProductoPrimarioDialogComponent } from './producto/components/add-edit-producto-dialog/set-producto-primario-dialog/set-producto-primario-dialog.component';
+import { SetFuenteIngresoDialogComponent } from './producto/components/add-edit-producto-dialog/set-fuente-ingreso-dialog/set-fuente-ingreso-dialog.component';
+import { SetObraSocialDialogComponent } from './producto/components/add-edit-producto-dialog/set-obra-social-dialog/set-obra-social-dialog.component';
+import { ProductoComponent } from './producto/producto.component';
+import { ProductoDashboardComponent } from './producto/components/producto-dashboard/producto-dashboard.component';
+import { ProductoFilterComponent } from './producto/components/producto-filter/producto-filter.component';
+// 21 - PARENTESCO POR PRODUCTOS
+import { AddEditParentescoProductoDialogComponent } from './parentesco-producto/components/add-edit-parentesco-producto-dialog/add-edit-parentesco-producto-dialog.component';
+import { ParentescoProductoComponent } from './parentesco-producto/parentesco-producto.component';
+import { ParentescoProductoFilterComponent } from './parentesco-producto/components/parentesco-producto-filter/parentesco-producto-filter.component';
+import { ParentescoProductoDashboardComponent } from './parentesco-producto/components/parentesco-producto-dashboard/parentesco-producto-dashboard.component';
+// 22 - MOTIVO DE MOVIMIENTO POR PRODUCTO
+import { AddEditMotivoMovimientoProductoDialogComponent } from './motivo-movimiento-producto/components/add-edit-motivo-movimiento-producto-dialog/add-edit-motivo-movimiento-producto-dialog.component';
+import { MotivoMovimientoProductoComponent } from './motivo-movimiento-producto/motivo-movimiento-producto.component';
+import { MotivoMovimientoProductoDashboardComponent } from './motivo-movimiento-producto/components/motivo-movimiento-producto-dashboard/motivo-movimiento-producto-dashboard.component';
+import { MotivoMovimientoProductoFilterComponent } from './motivo-movimiento-producto/components/motivo-movimiento-producto-filter/motivo-movimiento-producto-filter.component';
+import { SetMotivoDialogComponent } from './motivo-movimiento-producto/components/add-edit-motivo-movimiento-producto-dialog/set-motivo-dialog/set-motivo-dialog.component';
+// 23 - SUB MOTIVO DE MOVIMIENTO POR PRODUCTO
+import { AddEditSubMotivoMovimientoProductoDialogComponent } from './sub-motivo-movimiento-producto/components/add-edit-sub-motivo-movimiento-producto-dialog/add-edit-sub-motivo-movimiento-producto-dialog.component';
+import { SubMotivoMovimientoProductoDashboardComponent } from './sub-motivo-movimiento-producto/components/sub-motivo-movimiento-producto-dashboard/sub-motivo-movimiento-producto-dashboard.component';
+import { SubmotivoMovimientoProductoFilterComponent } from './sub-motivo-movimiento-producto/components/sub-motivo-movimiento-producto-filter/sub-motivo-movimiento-producto-filter.component';
+import { SubMotivoMovimientoProductoComponent } from './sub-motivo-movimiento-producto/sub-motivo-movimiento-producto.component';
+// 24 - UNIFICACION DE APORTES
+import { UnificadorAportesComponent } from './unificador-aportes/unificador-aportes.component';
+import { UnificadorAporteDashboardComponent } from './unificador-aportes/components/unificador-aporte-dashboard/unificador-aporte-dashboard.component';
+import { UnificadorAporteFilterComponent } from './unificador-aportes/components/unificador-aporte-filter/unificador-aporte-filter.component';
+import { AddEditUnificadorAporteComponent } from './unificador-aportes/components/add-edit-unificador-aporte/add-edit-unificador-aporte.component';
+import { ModalProductoComponent } from './unificador-aportes/components/add-edit-unificador-aporte/modal-producto/modal-producto.component';
 // 32 - EXTENCION DE FUENTES DE INGRESOS
 import { ExtencionFuenteIngresoComponent } from './extencion-fuente-ingreso/extencion-fuente-ingreso.component';
 import { ExtencionFuenteIngresoDashboardComponent } from './extencion-fuente-ingreso/components/extencion-fuente-ingreso-dashboard/extencion-fuente-ingreso-dashboard.component';
 import { ExtencionFuenteIngresoFilterComponent } from './extencion-fuente-ingreso/components/extencion-fuente-ingreso-filter/extencion-fuente-ingreso-filter.component';
 import { AddEditExtencionFuenteIngresoComponent } from './extencion-fuente-ingreso/components/add-edit-extencion-fuente-ingreso/add-edit-extencion-fuente-ingreso.component';
 import { ModalExtencionProductoComponent } from './extencion-fuente-ingreso/components/add-edit-extencion-fuente-ingreso/modal-extencion-producto/modal-extencion-producto.component';
-// 20 - PRODUCTO
-import { AddEditProductoDialogComponent } from './producto/components/add-edit-producto-dialog/add-edit-producto-dialog.component';
-import { ProductoComponent } from './producto/producto.component';
-import { ProductoDashboardComponent } from './producto/components/producto-dashboard/producto-dashboard.component';
-import { ProductoFilterComponent } from './producto/components/producto-filter/producto-filter.component';
 
 @NgModule({
   declarations: [
@@ -127,6 +151,7 @@ import { ProductoFilterComponent } from './producto/components/producto-filter/p
     FormaPagoComponent,
     FormaPagoDashboardComponent,
     FormaPagoFilterComponent,
+    ModalFuenteIngresoComponent,
     // 08 - CONDICIONES DE IVA
     AddEditCondicionIvaDialogComponent,
     CondicionIvaComponent,
@@ -147,7 +172,6 @@ import { ProductoFilterComponent } from './producto/components/producto-filter/p
     AddEditFuenteIngresoDialogComponent,
     FuenteIngresoFilterComponent,
     FuenteIngresoDashboardComponent,
-    ModalFuenteIngresoComponent,
     // 12 - OBRAS SOCIALES
     AddEditObraSocialDialogComponent,
     ObraSocialDashboardComponent,
@@ -158,24 +182,48 @@ import { ProductoFilterComponent } from './producto/components/producto-filter/p
     PreguntaDDJJComponent,
     PreguntaDDJJDashboardComponent,
     PreguntaDDJJFilterComponent,
+    // 20 - PRODUCTO
+    AddEditProductoDialogComponent,
+    SetProductoPrimarioDialogComponent,
+    SetFuenteIngresoDialogComponent,
+    SetObraSocialDialogComponent,
+    ProductoComponent,
+    ProductoDashboardComponent,
+    ProductoFilterComponent,
+    // 21 - PARENTESCO POR PRODUCTO
+    ParentescoProductoComponent,
+    ParentescoProductoFilterComponent,
+    ParentescoProductoDashboardComponent,
+    AddEditParentescoProductoDialogComponent,
+    // 22 - MOTIVO DE MOVIMIENTO POR PRODUCTO
+    AddEditMotivoMovimientoProductoDialogComponent,
+    MotivoMovimientoProductoDashboardComponent,
+    MotivoMovimientoProductoFilterComponent,
+    MotivoMovimientoProductoComponent,
+    SetMotivoDialogComponent,
+    // 23 - SUB MOTIVO DE MOVIMIENTO POR PRODUCTO
+    SubMotivoMovimientoProductoComponent,
+    SubmotivoMovimientoProductoFilterComponent,
+    SubMotivoMovimientoProductoDashboardComponent,
+    AddEditSubMotivoMovimientoProductoDialogComponent,
+    // 24 - UNIFICACION DE APORTES
+    UnificadorAportesComponent,
+    UnificadorAporteDashboardComponent,
+    UnificadorAporteFilterComponent,
+    AddEditUnificadorAporteComponent,
+    ModalProductoComponent,
     // 32 - EXTENCION FUENTES DE INGRESOS
     ExtencionFuenteIngresoComponent,
     ExtencionFuenteIngresoDashboardComponent,
     ExtencionFuenteIngresoFilterComponent,
     AddEditExtencionFuenteIngresoComponent,
     ModalExtencionProductoComponent,
-    // 20 - PRODUCTO
-    AddEditProductoDialogComponent,
-    ProductoComponent,
-    ProductoDashboardComponent,
-    ProductoFilterComponent,
   ],
   imports: [
     CommonModule,
     ParametrosRoutingModule,
     SharedModule,
     MatAutocompleteModule,
-    MatStepperModule,
   ],
 })
 export class ParametrosModule {}

@@ -41,11 +41,11 @@ export class ExtencionFuenteIngresoFilterComponent {
   }
 
   cargaDatos() {
-    this.searchForm.get('codigo_fuente_ingreso')?.setValue(
-      this.fuenteIngreso?.codigo
+    this.searchForm.get('codigo_fuente_ingreso')?.setValue(51
+      // this.fuenteIngreso?.codigo
     );
-    this.searchForm.get('fuente_ingreso')?.setValue(
-      this.fuenteIngreso?.fuenteIngreso
+    this.searchForm.get('fuente_ingreso')?.setValue('prueba'
+      // this.fuenteIngreso?.fuenteIngreso
     );
     this.searchForm.get('fuente_ingreso')?.disable;
   }

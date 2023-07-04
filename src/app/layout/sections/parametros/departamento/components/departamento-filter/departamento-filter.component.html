@@ -9,7 +9,7 @@
         <div class="seeker-fields-container">
           <mat-form-field class="seeker-form-field">
             <mat-label class="seeker-label"> Seleccione una provincia </mat-label>
-            <mat-select #selectOptions [disabled]="!provincias" disableOptionCentering>
+            <mat-select #select [disabled]="!provincias" disableOptionCentering>
               <mat-option *ngFor="let provincia of provincias" [value]="provincia?.codigo">
                 {{ provincia?.nombre_provincia }}
               </mat-option>
@@ -17,20 +17,20 @@
           </mat-form-field>
 
           <mat-form-field class="seeker-form-field">
-            <mat-label class="seeker-label" for="descripcion"> Ingrese el departamento </mat-label>
+            <mat-label class="seeker-label" for="descripcion"> Ingrese un departamento </mat-label>
             <input matInput class="seeker-input" (keydown.enter)="performSearch(input.value)" #input maxlength="30"
-              [disabled]="!selectOptions?.value" />
+              [disabled]="!select?.value" />
           </mat-form-field>
         </div>
 
         <div class="buttons-container">
           <button class="primary-button icon-button" type="button" (click)="performSearch(input.value)" [disabled]="
-          !selectOptions?.value">
+          !select?.value">
             <mat-icon> done </mat-icon>
             Buscar
           </button>
           <button class="primary-button icon-button" type="button" (click)="clear(input)" [disabled]="
-            !selectOptions?.value" [disabled]="input.value.length === 0">
+            !select?.value" [disabled]="input.value.length === 0">
             <mat-icon> close </mat-icon>
             Limpiar
           </button>

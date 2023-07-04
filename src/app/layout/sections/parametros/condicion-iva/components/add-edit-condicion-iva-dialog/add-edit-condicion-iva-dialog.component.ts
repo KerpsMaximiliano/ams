@@ -15,6 +15,7 @@ import {
   isNumeric,
   getErrorMessage,
   notOnlySpaces,
+  isAlpha,
 } from 'src/app/core/validators/character.validator';
 
 // * Material
@@ -37,7 +38,6 @@ export class AddEditCondicionIvaDialogComponent {
   }
 
   public confirm(): void {
-    this.formGroup.markAllAsTouched();
     if (this.formGroup.valid) {
       this.dataSharingService.sendData({
         par_modo: this.data.par_modo,
@@ -46,6 +46,8 @@ export class AddEditCondicionIvaDialogComponent {
         descripcion_reducida: this.formGroup.get('descripcion_reducida')?.value,
         formulario_AB: this.formGroup.get('formulario_AB')?.value,
       });
+    } else {
+      this.formGroup.markAllAsTouched();
     }
   }
 
@@ -91,13 +93,14 @@ export class AddEditCondicionIvaDialogComponent {
       ),
       formulario_AB: new UntypedFormControl(
         {
-          value: this.data.formulario_AB,
+          value: this.data.formulario_AB ? this.data.formulario_AB.trim() : '',
           disabled: this.data.par_modo === 'R',
         },
         Validators.compose([
           Validators.required,
           Validators.minLength(1),
           Validators.maxLength(1),
+          isAlpha(),
         ])
       ),
     });

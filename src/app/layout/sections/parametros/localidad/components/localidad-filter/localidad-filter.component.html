@@ -10,7 +10,7 @@
           <mat-label class="seeker-label">
             Seleccione una provincia
           </mat-label>
-          <mat-select #provincia required [disabled]="!provincias" disableOptionCentering>
+          <mat-select #selectProvincia required [disabled]="!provincias" disableOptionCentering>
             <mat-option *ngFor="let provincia of provincias" [value]="provincia.codigo"
               (click)="getDepartamentos(provincia.codigo)">
               {{ provincia.nombre_provincia }}
@@ -22,7 +22,7 @@
           <mat-label class="seeker-label">
             Seleccione un departamento
           </mat-label>
-          <mat-select #departamento [disabled]="!provincia?.value" disableOptionCentering>
+          <mat-select #selectDepartamento [disabled]="!selectProvincia?.value" disableOptionCentering>
             <mat-option *ngFor="let departamento of departamentos" [value]="departamento.codigo_departamento">
               {{ departamento.descripcion }}
             </mat-option>
@@ -33,26 +33,26 @@
       <div class="seeker-fields-container">
         <mat-form-field class="seeker-form-field">
           <mat-label class="seeker-label"> Ingrese una localidad </mat-label>
-          <input matInput #localidad class="seeker-input" (keydown.enter)="performSearch(localidad, codigo)"
-            maxlength="30" [disabled]="!provincia?.value || !departamento?.value" />
+          <input matInput #inputLocalidad class="seeker-input" (keydown.enter)="performSearch(inputLocalidad, inputCodigo)"
+            maxlength="30" [disabled]="!selectProvincia?.value || !selectDepartamento?.value" />
         </mat-form-field>
 
         <mat-form-field class="seeker-form-field">
           <mat-label class="seeker-label"> Ingrese un código postal </mat-label>
-          <input matInput class="seeker-input" #codigo maxlength="7" [disabled]="!provincia?.value"
-            (keydown)="validateNumberInput($event)" (keydown.enter)="performSearch(localidad, codigo)"
+          <input matInput class="seeker-input" #inputCodigo maxlength="7" [disabled]="!selectProvincia?.value"
+            (keydown)="validateNumberInput($event)" (keydown.enter)="performSearch(inputLocalidad, inputCodigo)"
             (paste)="handlePaste($event)" />
         </mat-form-field>
       </div>
 
       <div class=" buttons-container">
         <button class="primary-button icon-button" type="button"
-          [disabled]="!departamento?.value && codigo.value.length=== 0" (click)="performSearch(localidad, codigo)">
+          [disabled]="!selectDepartamento?.value && inputCodigo.value.length=== 0" (click)="performSearch(inputLocalidad, inputCodigo)">
           <mat-icon> done </mat-icon>
           Buscar
         </button>
-        <button class="primary-button icon-button" type="button" (click)="clear(localidad, codigo)"
-          [disabled]="!provincia?.value && !departamento?.value && localidad.value.length === 0 && codigo.value.length === 0">
+        <button class="primary-button icon-button" type="button" (click)="clear(inputLocalidad, inputCodigo)"
+          [disabled]="!selectProvincia?.value && !selectDepartamento?.value && inputLocalidad.value.length === 0 && inputCodigo.value.length === 0">
           <mat-icon> close </mat-icon>
           Limpiar
         </button>

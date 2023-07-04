@@ -5,6 +5,8 @@ import {
   SimpleChanges,
   EventEmitter,
   Output,
+  OnChanges,
+  OnInit,
 } from '@angular/core';
 
 // * Interfaces
@@ -19,7 +21,7 @@ import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
   templateUrl: './obra-social-dashboard.component.html',
   styleUrls: ['./obra-social-dashboard.component.scss'],
 })
-export class ObraSocialDashboardComponent {
+export class ObraSocialDashboardComponent implements OnInit, OnChanges {
   public displayedColumns: string[] = [
     'codigo',
     'descripcion',

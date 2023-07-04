@@ -32,14 +32,13 @@ export class AddEditObraSocialDialogComponent {
   public getErrorMessage = getErrorMessage;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private dataSharingService: DataSharingService
+    private dataSharingService: DataSharingService,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.setUpForm();
   }
 
   public confirm(): void {
-    this.formGroup.markAllAsTouched();
     if (this.formGroup.valid) {
       this.dataSharingService.sendData({
         par_modo: this.data.par_modo,
@@ -54,6 +53,8 @@ export class AddEditObraSocialDialogComponent {
         similar_SMP: this.formGroup.get('similar_SMP')?.value,
         omite_R420: this.formGroup.get('omite_R420')?.value,
       });
+    } else {
+      this.formGroup.markAllAsTouched();
     }
   }
 

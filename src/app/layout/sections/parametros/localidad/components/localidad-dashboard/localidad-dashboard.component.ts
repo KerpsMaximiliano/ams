@@ -42,6 +42,7 @@ export class LocalidadDashboardComponent implements OnInit, OnChanges {
     new EventEmitter<ILocalidad>();
 
   constructor(private matPaginatorIntl: MatPaginatorIntl) {}
+
   ngOnInit(): void {
     this.configurePaginator();
   }

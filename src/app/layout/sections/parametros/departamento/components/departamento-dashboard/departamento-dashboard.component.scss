@@ -12,7 +12,7 @@ td.mat-cell:first-of-type {
 .mat-column-codigo_departamento.mat-header-cell,
 .mat-column-codigo_departamento.mat-cell {
   text-align: right !important;
-  padding-right: 1vw;
+  padding-right: 2vw;
 }
 
 /*
@@ -23,7 +23,7 @@ td.mat-cell:first-of-type {
 .mat-column-descripcion_reducida.mat-header-cell,
 .mat-column-descripcion_reducida.mat-cell {
   text-align: left !important;
-  padding-left: 1vw;
+  padding-left: 2vw;
   word-break: break-all;
 }
 
@@ -32,23 +32,23 @@ td.mat-cell:first-of-type {
 */
 .mat-column-codigo_departamento.mat-header-cell,
 .mat-column-codigo_departamento.mat-cell {
-  min-width: 100px;
+  min-width: 120px;
 }
 
 .mat-column-descripcion.mat-header-cell,
 .mat-column-descripcion.mat-cell {
   min-width: 120px;
-  width: 55%;
+  width: 100%;
 }
 
 .mat-column-descripcion_reducida.mat-header-cell,
 .mat-column-descripcion_reducida.mat-cell {
-  width: 45%;
+  min-width: 170px;
 }
 
 .mat-column-actions.mat-header-cell,
 .mat-column-actions.mat-cell {
-  min-width: 100px;
+  min-width: 150px;
 }
 
 /*

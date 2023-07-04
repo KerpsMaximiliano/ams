@@ -185,10 +185,15 @@ export class AddEditExtencionFuenteIngresoComponent {
     ModalNuevoProductoComponent.afterClosed().subscribe({
       next: (res: any) => {
         if (res) {
-          this.formGroup.get('producto')?.setValue(res.codigo_producto);
-          this.formGroup
-            .get('producto_des')
-            ?.setValue(res.descripcion_producto);
+          if (this.formGroup.get('producto')?.enabled){
+            this.formGroup.get('producto')?.setValue(res.codigo_producto);
+            this.formGroup
+              .get('producto_des')
+              ?.setValue(res.descripcion_producto);
+          }
+          else {
+            this._utils.notification('No se puede cambiar el producto', 'error')
+          }
         }
       },
     });

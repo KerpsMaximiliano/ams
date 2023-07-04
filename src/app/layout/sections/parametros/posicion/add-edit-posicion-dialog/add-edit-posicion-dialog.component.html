@@ -3,7 +3,7 @@
 </div>
 
 <div class="dialog-content">
-  <form class="form-datos" [formGroup]="formGroup" (ngSubmit)="confirm()">
+  <form class="form-datos" [formGroup]="formGroup">
     <div class="seeker-fields-container">
       <h3> CÓDIGO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
@@ -28,7 +28,7 @@
       <h3> LOCALIDAD </h3>
       <div class="content">
         <mat-form-field class="seeker-form-field" appearance="outline">
-          <input matInput formControlName="localidad" #inputLocalidad readonly required />
+          <input matInput formControlName="localidad" #localidad required minlength="3" maxlength="30" readonly />
           <mat-error *ngIf="formGroup.get('localidad')?.invalid && formGroup.get('localidad')?.touched">
             {{ getErrorMessage(formGroup.get("localidad")) }}
           </mat-error>
@@ -37,7 +37,7 @@
           <div class="icon" (click)="searchLocalidad()">
             <mat-icon class="material-symbols-outlined"> search </mat-icon>
           </div>
-          <div class="icon" (click)="clearLocalidad(inputLocalidad)">
+          <div class="icon" (click)="clear(localidad, 'localidad')" *ngIf="formGroup.get('localidad')?.value">
             <mat-icon class="material-symbols-outlined"> close </mat-icon>
           </div>
         </ng-container>
@@ -57,7 +57,7 @@
     <div class="seeker-fields-container">
       <h3> CONTROL DE RECHAZO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <mat-select formControlName="control_rechazo" required disableOptionCentering>
+        <mat-select formControlName="control_rechazo" required minlength="1" maxlength="30" disableOptionCentering>
           <mat-option [value]="'S'"> SI </mat-option>
           <mat-option [value]="'N'"> NO </mat-option>
         </mat-select>
@@ -70,7 +70,7 @@
     <div class="seeker-fields-container">
       <h3> HABILITADO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <mat-select formControlName="yes_no" required disableOptionCentering>
+        <mat-select formControlName="yes_no" required minlength="1" maxlength="1" disableOptionCentering>
           <mat-option [value]="'S'"> SI </mat-option>
           <mat-option [value]="'N'"> NO </mat-option>
         </mat-select>
@@ -98,7 +98,8 @@
           {{ data.fecha_vigencia === 0 ? 'Baja' : 'Alta' }}
         </button>
       </div>
-      <button class="primary-button icon-button btn-w" type="submit" [disabled]="formGroup.invalid">
+      <button [class]="formGroup.invalid ? 'primary-button icon-button disabled' : 'primary-button icon-button'"
+        type="submit" (click)="confirm()">
         <mat-icon> done </mat-icon>
         Guardar
       </button>

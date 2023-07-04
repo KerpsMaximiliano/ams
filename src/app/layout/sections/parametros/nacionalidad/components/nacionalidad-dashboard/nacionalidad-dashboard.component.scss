@@ -1,12 +1,4 @@
 /*
- * Evita un espaciado innecesario en la primer columna.
-*/
-th.mat-header-cell:first-of-type,
-td.mat-cell:first-of-type {
-  padding-left: 0px !important;
-}
-
-/*
  * Número y fecha alineado a la derecha.
 */
 .mat-column-codigo_nacionalidad_nuevo.mat-header-cell,
@@ -23,34 +15,32 @@ td.mat-cell:first-of-type {
 .mat-column-descripcion.mat-header-cell,
 .mat-column-descripcion.mat-cell {
   text-align: left !important;
-  padding-left: 1vw;
+  padding-left: 3vw;
   word-break: break-all;
 }
 
 /*
  * Tamaño de columnas.
 */
-
 .mat-column-codigo_nacionalidad_nuevo.mat-header-cell,
 .mat-column-codigo_nacionalidad_nuevo.mat-cell {
-  min-width: 100px;
+  min-width: 120px;
 }
 
 .mat-column-descripcion.mat-header-cell,
 .mat-column-descripcion.mat-cell {
-  min-width: 150px;
-  width: 60%;
+  min-width: 120px;
+  width: 100%;
 }
 
 .mat-column-codigo_sistema_anterior.mat-header-cell,
 .mat-column-codigo_sistema_anterior.mat-cell {
-  min-width: 160px;
-  width: 40%;
+  min-width: 170px;
 }
 
 .mat-column-actions.mat-header-cell,
 .mat-column-actions.mat-cell {
-  min-width: 100px;
+  min-width: 150px;
 }
 
 /*

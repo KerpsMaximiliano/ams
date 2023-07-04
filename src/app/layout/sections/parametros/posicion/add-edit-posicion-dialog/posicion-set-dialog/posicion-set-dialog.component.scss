@@ -7,7 +7,9 @@
 }
 
 .dialog-content {
-  min-height: 580px;
+  display: flex;
+  flex-direction: column;
+  min-height: 590px;
   min-width: 650px;
   background-color: #fff;
 }
@@ -17,7 +19,7 @@
 }
 
 .buttons-container {
-  margin-top: 0rem;
+  margin-top: auto;
   margin-bottom: 0.5rem;
 }
 
@@ -74,8 +76,8 @@ td.mat-cell:first-of-type {
 /*
  * Tamaño de columnas.
 */
-.mat-column-codigo_posicion.mat-header-cell,
-.mat-column-codigo_posicion.mat-cell {
+.mat-column-codigo_postal.mat-header-cell,
+.mat-column-codigo_postal.mat-cell {
   width: 20%;
 }
 

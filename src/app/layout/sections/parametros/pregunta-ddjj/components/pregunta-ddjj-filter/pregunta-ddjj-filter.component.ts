@@ -7,7 +7,7 @@ import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 })
 export class PreguntaDDJJFilterComponent {
   @Output() public search: EventEmitter<string> = new EventEmitter<string>();
-  @ViewChild('selectOptions') public selectOptions: any;
+  @ViewChild('select') public select: any;
 
   isCleanButtonDisabled = true;
 
@@ -17,12 +17,12 @@ export class PreguntaDDJJFilterComponent {
     this.search.emit(
       JSON.stringify({
         par_modo: 'O',
-        modelo_formulario: this.selectOptions?.value || '',
+        modelo_formulario: this.select?.value || '',
       })
     );
   }
 
   public clear(): void {
-    this.selectOptions.value = '';
+    this.select.value = '';
   }
 }

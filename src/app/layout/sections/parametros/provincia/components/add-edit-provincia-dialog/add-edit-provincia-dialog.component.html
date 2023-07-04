@@ -3,7 +3,7 @@
 </div>
 
 <div class="dialog-content">
-  <form class="form-datos" [formGroup]="formGroup" (ngSubmit)="confirm()">
+  <form class="form-datos" [formGroup]="formGroup">
     <div class="seeker-fields-container">
       <h3> CÓDIGO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
@@ -37,7 +37,7 @@
     <div class="seeker-fields-container">
       <h3> ¿CODIFICA ALTURA Y CALLES? </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <mat-select formControlName="codifica_altura" required disableOptionCentering>
+        <mat-select formControlName="codifica_altura" required minlength="1" maxlength="1" disableOptionCentering>
           <mat-option [value]="'S'"> SI </mat-option>
           <mat-option [value]="'N'"> NO </mat-option>
         </mat-select>
@@ -50,7 +50,7 @@
     <div class="seeker-fields-container">
       <h3> PORCENTAJE DE FLETE A TRANSPORTISTA </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="flete_transportista" required minlength="1" maxlength="6" step="0.001"
+        <input matInput formControlName="flete_transportista" required minlength="1" maxlength="6" 
           [max]="999">
         <mat-error
           *ngIf="formGroup.get('flete_transportista')?.invalid && formGroup.get('flete_transportista')?.touched">
@@ -64,7 +64,8 @@
         <mat-icon> close </mat-icon>
         Cancelar
       </button>
-      <button class="primary-button icon-button" type="submit" [disabled]="formGroup.invalid">
+      <button [class]="formGroup.invalid ? 'primary-button icon-button disabled' : 'primary-button icon-button'"
+      type="submit" (click)="confirm()">
         <mat-icon> done </mat-icon>
         Guardar
       </button>

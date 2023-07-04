@@ -38,7 +38,6 @@ export class AddEditTipoDocumentoDialogComponent {
   }
 
   public confirm(): void {
-    this.formGroup.markAllAsTouched();
     if (this.formGroup.valid) {
       this.dataSharingService.sendData({
         par_modo: this.data.par_modo,
@@ -47,6 +46,8 @@ export class AddEditTipoDocumentoDialogComponent {
         descripcion_reducida: this.formGroup.get('descripcion_reducida')?.value,
         control_cuit: this.formGroup.get('control_cuit')?.value,
       });
+    } else {
+      this.formGroup.markAllAsTouched();
     }
   }
 

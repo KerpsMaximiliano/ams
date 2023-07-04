@@ -38,7 +38,7 @@
     <div class="seeker-fields-container">
       <h3> CONTROL DE CUIT </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <mat-select formControlName="control_cuit" required disableOptionCentering>
+        <mat-select formControlName="control_cuit" required minlength="1" maxlength="1" disableOptionCentering>
           <mat-option [value]="'S'"> SI </mat-option>
           <mat-option [value]="'N'"> NO </mat-option>
         </mat-select>
@@ -53,7 +53,8 @@
         <mat-icon> close </mat-icon>
         Cancelar
       </button>
-      <button class="primary-button icon-button" type="submit" [disabled]="formGroup.invalid">
+      <button [class]="formGroup.invalid ? 'primary-button icon-button disabled' : 'primary-button icon-button'"
+      type="submit" (click)="confirm()">
         <mat-icon> done </mat-icon>
         Guardar
       </button>

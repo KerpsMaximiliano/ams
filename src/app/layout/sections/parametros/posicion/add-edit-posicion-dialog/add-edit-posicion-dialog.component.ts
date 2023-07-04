@@ -88,12 +88,12 @@ export class AddEditPosicionDialogComponent implements OnInit {
     });
   }
 
-  public clearLocalidad(inputElement: HTMLInputElement): void {
+  public clear(inputElement: HTMLInputElement, controlName: string): void {
     inputElement.value = '';
+    this.formGroup.get(controlName)?.setValue('');
   }
 
   public confirm(): void {
-    this.formGroup.markAllAsTouched();
     if (this.formGroup.valid) {
       this.dataSharingService.sendData({
         par_modo: this.data.par_modo,
@@ -107,6 +107,8 @@ export class AddEditPosicionDialogComponent implements OnInit {
         fecha_vigencia: this.data.fecha_vigencia ? this.data.fecha_vigencia : 0,
         letra_provincia: this.data.letra_provincia,
       });
+    } else {
+      this.formGroup.markAllAsTouched();
     }
   }
 
@@ -212,14 +214,12 @@ export class AddEditPosicionDialogComponent implements OnInit {
           },
           error: (err: any) => {
             this.utilService.closeLoading();
-            if (err.status === 0) {
-              this.utilService.notification('Error de conexión.', 'error');
-            } else {
-              this.utilService.notification(
-                `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
-                'error'
-              );
-            }
+            err.status === 0
+              ? this.utilService.notification('Error de conexión.', 'error')
+              : this.utilService.notification(
+                  `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+                  'error'
+                );
           },
           complete: () => {
             this.utilService.closeLoading();

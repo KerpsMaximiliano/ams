@@ -20,10 +20,10 @@ td.mat-cell:first-of-type {
 /*
  * Texto alineado a la izquierda.
 */
-.mat-column-tipo_motivo.mat-header-cell,
 .mat-column-descripcion.mat-header-cell,
-.mat-column-tipo_motivo.mat-cell,
 .mat-column-descripcion.mat-cell,
+.mat-column-tipo_motivo.mat-header-cell,
+.mat-column-tipo_motivo.mat-cell,
 .mat-column-datos_adic_SN.mat-header-cell,
 .mat-column-datos_adic_SN.mat-cell,
 .mat-column-estado.mat-header-cell,
@@ -43,18 +43,18 @@ td.mat-cell:first-of-type {
 
 .mat-column-descripcion.mat-header-cell,
 .mat-column-descripcion.mat-cell {
-  min-width: 60px;
+  min-width: 70px;
   width: 100%;
 }
 
 .mat-column-tipo_motivo.mat-header-cell,
 .mat-column-tipo_motivo.mat-cell {
-  min-width: 160px;
+  min-width: 170px;
 }
 
-.mat-column-datos_adic_SN.mat-cell.mat-header-cell,
+.mat-column-datos_adic_SN.mat-header-cell,
 .mat-column-datos_adic_SN.mat-cell {
-  min-width: 180px;
+  min-width: 170px;
 }
 
 .mat-column-fecha_inicio_vigencia.mat-header-cell,
@@ -64,7 +64,7 @@ td.mat-cell:first-of-type {
 
 .mat-column-estado.mat-header-cell,
 .mat-column-estado.mat-cell {
-  min-width: 100px;
+  min-width: 80px;
 }
 
 .mat-column-actions.mat-header-cell,

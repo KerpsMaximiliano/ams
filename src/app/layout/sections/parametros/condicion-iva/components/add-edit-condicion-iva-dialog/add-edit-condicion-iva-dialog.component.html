@@ -4,7 +4,7 @@
 
 <div class="dialog-content">
 
-  <form class="form-datos" [formGroup]="formGroup" (ngSubmit)="confirm()">
+  <form class="form-datos" [formGroup]="formGroup">
     <div class="seeker-fields-container">
       <h3> CÓDIGO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
@@ -39,7 +39,7 @@
     <div class="seeker-fields-container">
       <h3> FORMULARIO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <mat-select formControlName="formulario_AB" required disableOptionCentering>
+        <mat-select formControlName="formulario_AB" required minlength="1" maxlength="1" disableOptionCentering>
           <mat-option [value]="'A'"> A </mat-option>
           <mat-option [value]="'B'"> B </mat-option>
         </mat-select>
@@ -54,7 +54,8 @@
         <mat-icon> close </mat-icon>
         Cancelar
       </button>
-      <button class="primary-button icon-button" type="submit" [disabled]="formGroup.invalid">
+      <button [class]="formGroup.invalid ? 'primary-button icon-button disabled' : 'primary-button icon-button'"
+      type="submit" (click)="confirm()">
         <mat-icon> done </mat-icon>
         Guardar
       </button>

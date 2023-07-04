@@ -42,15 +42,10 @@ export class ModalExtencionProductoComponent {
     this.getProductos(this.data.producto_cod);
   }
 
-  // ngAfterViewInit() {
-  //    this.dataSource.paginator = this.paginator;
-  // }
-
   // * filtro
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
@@ -73,7 +68,6 @@ export class ModalExtencionProductoComponent {
       .getProductoCRUD(
         JSON.stringify({
           par_modo: 'P',
-          // descripcion: '',
         })
       )
       .subscribe({

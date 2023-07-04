@@ -19,3 +19,17 @@
   color: #635f5f !important;
   user-select: text !important;
 }
+
+/*
+  * Estilos del boton "Guardar" para que este deshabilitado.
+*/
+.disabled {
+  opacity: 0.5;
+  pointer-events: pointer;
+  cursor: not-allowed;
+  filter: grayscale(100%);
+}
+
+.disabled:hover {
+  filter: grayscale(100%);
+}

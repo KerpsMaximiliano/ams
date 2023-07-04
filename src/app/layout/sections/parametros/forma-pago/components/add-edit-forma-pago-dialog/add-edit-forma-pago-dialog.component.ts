@@ -46,7 +46,6 @@ export class AddEditFormaPagoDialogComponent {
   }
 
   public confirm(): void {
-    this.formGroup.markAllAsTouched();
     if (this.formGroup.valid) {
       this.dataSharingService.sendData({
         par_modo: this.data.par_modo,
@@ -61,6 +60,8 @@ export class AddEditFormaPagoDialogComponent {
         codigo_tarjeta_de_baja: this.formGroup.get('codigo_tarjeta_de_baja')
           ?.value,
       });
+    } else {
+      this.formGroup.markAllAsTouched();
     }
   }
 

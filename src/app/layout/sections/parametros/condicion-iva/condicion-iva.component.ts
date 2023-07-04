@@ -90,17 +90,13 @@ export class CondicionIvaComponent implements OnDestroy {
       },
       error: (err: any) => {
         this.utilService.closeLoading();
-        if (err.status == 0) {
-          this.utilService.notification('Error de conexión.', 'error');
-        } else {
-          this.utilService.notification(
-            `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
-            'error'
-          );
-        }
-        if (err.status == 404) {
-          this.dataSent = [];
-        }
+        err.status === 0
+          ? this.utilService.notification('Error de conexión.', 'error')
+          : this.utilService.notification(
+              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+              'error'
+            );
+        if (err.status == 404) this.dataSent = [];
       },
       complete: () => {
         this.utilService.closeLoading();
@@ -146,14 +142,12 @@ export class CondicionIvaComponent implements OnDestroy {
       },
       error: (err: any) => {
         this.utilService.closeLoading();
-        if (err.status === 0) {
-          this.utilService.notification('Error de conexión.', 'error');
-        } else {
-          this.utilService.notification(
-            `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
-            'error'
-          );
-        }
+        err.status === 0
+          ? this.utilService.notification('Error de conexión.', 'error')
+          : this.utilService.notification(
+              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+              'error'
+            );
       },
     });
   }

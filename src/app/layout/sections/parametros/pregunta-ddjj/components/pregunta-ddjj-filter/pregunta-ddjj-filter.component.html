@@ -11,7 +11,7 @@
             <mat-label class="seeker-label">
               Seleccione un modelo
             </mat-label>
-            <mat-select #selectOptions required disableOptionCentering>
+            <mat-select #select required disableOptionCentering>
               <mat-option [value]="'A1'"> ALTA </mat-option>
               <mat-option [value]="'M'"> MODIFICACIÓN </mat-option>
             </mat-select>
@@ -20,11 +20,11 @@
 
         <div class="buttons-container">
           <button class="primary-button icon-button" type="button" (click)="performSearch()"
-            [disabled]="!selectOptions?.value">
+            [disabled]="!select?.value">
             <mat-icon> done </mat-icon>
             Buscar
           </button>
-          <button class="primary-button icon-button" type="button" (click)="clear()" [disabled]="!selectOptions?.value">
+          <button class="primary-button icon-button" type="button" (click)="clear()" [disabled]="!select?.value">
             <mat-icon> close </mat-icon>
             Limpiar
           </button>

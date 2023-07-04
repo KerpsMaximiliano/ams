@@ -37,16 +37,15 @@ export class AddEditLocalidadDialogComponent {
   public departamentos: IDepartamento[];
 
   constructor(
+    private dataSharingService: DataSharingService,
     private departamentoService: DepartamentoService,
     private utilService: UtilService,
-    private dataSharingService: DataSharingService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.setUpForm();
   }
 
   public confirm(): void {
-    this.formGroup.markAllAsTouched();
     if (this.formGroup.valid) {
       this.dataSharingService.sendData({
         par_modo: this.data.par_modo,
@@ -62,6 +61,8 @@ export class AddEditLocalidadDialogComponent {
         ingreso_ticket: this.formGroup.get('ingreso_ticket')?.value,
         visitado_auditor: this.formGroup.get('visitado_auditor')?.value,
       });
+    } else {
+      this.formGroup.markAllAsTouched();
     }
   }
 
@@ -154,28 +155,44 @@ export class AddEditLocalidadDialogComponent {
           value: this.data.letra_provincia,
           disabled: this.data.par_modo === 'R',
         },
-        Validators.compose([Validators.required])
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(1)
+        ])
       ),
       codigo_departamento: new UntypedFormControl(
         {
           value: this.data.codigo_departamento,
           disabled: this.data.par_modo === 'R',
         },
-        Validators.compose([Validators.required])
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(3)
+        ])
       ),
       zona_promocion: new UntypedFormControl(
         {
           value: this.data.zona_promocion,
           disabled: this.data.par_modo === 'R',
         },
-        Validators.compose([Validators.required])
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(2)
+        ])
       ),
       zona_envio: new UntypedFormControl(
         {
           value: this.data.zona_envio ? this.data.zona_envio.trim() : '',
           disabled: this.data.par_modo === 'R',
         },
-        Validators.compose([Validators.required])
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(10)
+        ])
       ),
       ingreso_ticket: new UntypedFormControl(
         {
@@ -184,7 +201,11 @@ export class AddEditLocalidadDialogComponent {
             : '',
           disabled: this.data.par_modo === 'R',
         },
-        Validators.compose([Validators.required])
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(1)
+        ])
       ),
       visitado_auditor: new UntypedFormControl(
         {
@@ -193,7 +214,11 @@ export class AddEditLocalidadDialogComponent {
             : '',
           disabled: this.data.par_modo === 'R',
         },
-        Validators.compose([Validators.required])
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(1)
+        ])
       ),
     });
   }

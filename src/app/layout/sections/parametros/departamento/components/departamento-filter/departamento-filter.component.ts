@@ -19,7 +19,7 @@ export class DepartamentoFilterComponent {
 
   @Output() public search: EventEmitter<any> = new EventEmitter<any>();
 
-  @ViewChild('selectOptions') public selectOptions: any;
+  @ViewChild('select') public select: any;
 
   constructor() {}
 
@@ -27,14 +27,14 @@ export class DepartamentoFilterComponent {
     this.search.emit(
       JSON.stringify({
         par_modo: 'O',
-        letra_provincia: this.selectOptions?.value,
+        letra_provincia: this.select?.value,
         descripcion: value,
       })
     );
   }
 
   public clear(inputElement: HTMLInputElement): void {
-    this.selectOptions.value = '';
+    this.select.value = '';
     inputElement.value = '';
   }
 }

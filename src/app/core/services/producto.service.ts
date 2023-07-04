@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { EnvironmentService } from './environment.service';
 
 // * Interfaces
-import { IProductoResponse } from '../models/producto.interface';
+import { IProducto, IProductoResponse } from '../models/producto.interface';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -16,12 +16,31 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class ProductoService {
+  private redirecting: boolean = false;
+  private product: IProducto;
+
   constructor(
     private http: HttpClient,
     private environmentService: EnvironmentService
   ) {}
 
-  getProductoCRUD(body: string): Observable<IProductoResponse> {
+  public get(): IProducto {
+    return this.product;
+  }
+
+  public set(product: IProducto): void {
+    this.product = product;
+  }
+
+  public getRoute(): boolean {
+    return this.redirecting;
+  }
+
+  public setRoute(value: boolean): void {
+    this.redirecting = value;
+  }
+
+  CRUD(body: string): Observable<IProductoResponse> {
     return this.http.post<IProductoResponse>(
       `${this.environmentService.api}/abmproductos`,
       body,

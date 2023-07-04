@@ -1,0 +1,55 @@
+<section>
+  <table mat-table [dataSource]="dataSource" [ngClass]="{'d-none': !dataSource }">
+    <ng-container class="mat-row" *matNoDataRow>
+      <td class="mat-cell no-data-cell" [attr.colspan]="displayedColumns.length"
+        *ngIf="this.dataSource.data.length === 0">
+        No se encontraron resultados
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="codigo_motivo">
+      <th mat-header-cell *matHeaderCellDef> Código </th>
+      <td mat-cell *matCellDef="let param"> {{ param.codigo_motivo }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="descripcion">
+      <th mat-header-cell *matHeaderCellDef> Motivo </th>
+      <td mat-cell *matCellDef="let param"> {{ param.descripcion }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="tipo_motivo">
+      <th mat-header-cell *matHeaderCellDef> Tipo de Movimiento </th>
+      <td mat-cell *matCellDef="let param"> {{ text(param.tipo_motivo[0], false) }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="datos_adicionales">
+      <th mat-header-cell *matHeaderCellDef> ¿Datos adicionales? </th>
+      <td mat-cell *matCellDef="let param"> {{ text(param.datos_adicionales[0], true)}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="otra_cobertura">
+      <th mat-header-cell *matHeaderCellDef> ¿Otra cobertura? </th>
+      <td mat-cell *matCellDef="let param"> {{ param.otra_cobertura === 'S'? 'Si': param.otra_cobertura === 'N'? 'No':
+        'S/N'}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef> Acciones </th>
+      <td mat-cell *matCellDef="let element">
+        <button class="action-button" (click)="view(element)">
+          <mat-icon class="edit-icon" aria-label="false"> visibility </mat-icon>
+        </button>
+        <button class="action-button" (click)="edit(element)">
+          <mat-icon class="delete-icon" aria-label="false"> edit </mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[10, 20, 30]" [pageSize]="10" showFirstLastButtons
+    aria-label="Controles de paginación." [ngClass]="{'d-none': !dataSource || this.dataSource.data.length < 10 }">
+  </mat-paginator>
+</section>

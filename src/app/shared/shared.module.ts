@@ -30,6 +30,7 @@ import {
   MAT_RADIO_DEFAULT_OPTIONS,
 } from '@angular/material/radio';
 import { FormsModule } from '@angular/forms';
+import { MatStepperModule } from '@angular/material/stepper';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { FormsModule } from '@angular/forms';
     // MatDatepickerModule,
     MatRadioModule,
     FormsModule,
+    MatStepperModule,
   ],
   providers: [
     {
