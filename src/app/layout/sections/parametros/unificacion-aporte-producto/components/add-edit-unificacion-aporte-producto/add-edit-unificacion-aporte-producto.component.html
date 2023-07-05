@@ -4,25 +4,21 @@
 <div class="dialog-content">
   <form class="form-datos" [formGroup]="formGroup">
     <div class="seeker-fields-container">
-      <h3> PRODUCTO PRINCIPAL </h3>
+      <h3> PRODUCTO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput class="seeker-input" disabled />
+        <input matInput class="seeker-input" />
       </mat-form-field>
     </div>
 
     <div class="seeker-fields-container">
-      <h3> SUBPRODUCTO PRINCIPAL </h3>
+      <h3> SUBPRODUCTO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input
-          matInput
-          class="seeker-input"
-          formControlName="subproducto_principal"
-        />
+        <input matInput class="seeker-input" />
       </mat-form-field>
     </div>
 
     <div class="seeker-fields-container">
-      <h3> PRODUCTO SECUNDARIO </h3>
+      <h3> PRODUCTO UNIFICADO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
         <input
           matInput
@@ -41,7 +37,7 @@
     </div>
 
     <div class="seeker-fields-container">
-      <h3> SUBPRODUCTO SECUNDARIO </h3>
+      <h3> SUBPRODUCTO UNIFICADO </h3>
       <div class="content">
         <mat-form-field class="seeker-form-field" appearance="outline">
           <input matInput formControlName="subproducto_secundario" />
