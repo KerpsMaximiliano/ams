@@ -1,0 +1,20 @@
+<section class="browse-section">
+  <div class="section-header">
+    <h2>COEFICIENTES DE FUENTE DE INGRESO</h2>
+    <button
+      class="new-button icon-button"
+      (click)="nuevaExtencionFuenteIngreso()"
+      [disabled]="validarBoton()"
+    >
+      <mat-icon> add </mat-icon>
+      Nuevo
+    </button>
+  </div>
+
+  <div class="section-content">
+    <app-extencion-fuente-ingreso-filter
+      (searchEvent)="handleSearch($event)"
+    ></app-extencion-fuente-ingreso-filter>
+    <app-extencion-fuente-ingreso-dashboard></app-extencion-fuente-ingreso-dashboard>
+  </div>
+</section>

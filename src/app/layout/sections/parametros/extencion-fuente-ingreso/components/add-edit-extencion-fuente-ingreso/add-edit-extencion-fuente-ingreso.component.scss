@@ -1,0 +1,39 @@
+// * contenedor de coeficientes
+.content-coeficiente {
+  display: flex;
+  text-align: center !important;
+  justify-content: space-between !important;
+  margin: 1rem;
+}
+// * coeficientes
+.content-part {
+  display: block;
+  max-width: 17% !important;
+}
+
+.seeker-form-field1 {
+  max-width: 75% !important;
+}
+
+.content {
+  display: flex;
+  gap: 1rem;
+}
+
+.seeker-fields-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+// * iconos de busqueda y eliminacion
+.icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 7px;
+  padding: 0.35rem;
+  color: white;
+  background-color: var(--sancor-blue);
+  margin: 0px 0px 16px;
+  cursor: pointer;
+}

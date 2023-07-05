@@ -106,6 +106,12 @@ import { UnificadorAporteDashboardComponent } from './unificador-aportes/compone
 import { UnificadorAporteFilterComponent } from './unificador-aportes/components/unificador-aporte-filter/unificador-aporte-filter.component';
 import { AddEditUnificadorAporteComponent } from './unificador-aportes/components/add-edit-unificador-aporte/add-edit-unificador-aporte.component';
 import { ModalProductoComponent } from './unificador-aportes/components/add-edit-unificador-aporte/modal-producto/modal-producto.component';
+// 32 - EXTENCION DE FUENTES DE INGRESOS
+import { ExtencionFuenteIngresoComponent } from './extencion-fuente-ingreso/extencion-fuente-ingreso.component';
+import { ExtencionFuenteIngresoDashboardComponent } from './extencion-fuente-ingreso/components/extencion-fuente-ingreso-dashboard/extencion-fuente-ingreso-dashboard.component';
+import { ExtencionFuenteIngresoFilterComponent } from './extencion-fuente-ingreso/components/extencion-fuente-ingreso-filter/extencion-fuente-ingreso-filter.component';
+import { AddEditExtencionFuenteIngresoComponent } from './extencion-fuente-ingreso/components/add-edit-extencion-fuente-ingreso/add-edit-extencion-fuente-ingreso.component';
+import { ModalExtencionProductoComponent } from './extencion-fuente-ingreso/components/add-edit-extencion-fuente-ingreso/modal-extencion-producto/modal-extencion-producto.component';
 
 @NgModule({
   declarations: [
@@ -124,7 +130,7 @@ import { ModalProductoComponent } from './unificador-aportes/components/add-edit
     NacionalidadComponent,
     NacionalidadDashboardComponent,
     NacionalidadFilterComponent,
-    // 04 - DEPARTAMENTOS
+    // 04 - DEPARTAMENTO
     AddEditDepartamentoDialogComponent,
     DepartamentoComponent,
     DepartamentoDashboardComponent,
@@ -206,6 +212,12 @@ import { ModalProductoComponent } from './unificador-aportes/components/add-edit
     UnificadorAporteFilterComponent,
     AddEditUnificadorAporteComponent,
     ModalProductoComponent,
+    // 32 - EXTENCION FUENTES DE INGRESOS
+    ExtencionFuenteIngresoComponent,
+    ExtencionFuenteIngresoDashboardComponent,
+    ExtencionFuenteIngresoFilterComponent,
+    AddEditExtencionFuenteIngresoComponent,
+    ModalExtencionProductoComponent,
   ],
   imports: [
     CommonModule,

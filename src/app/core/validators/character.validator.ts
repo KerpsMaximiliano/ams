@@ -113,3 +113,20 @@ export function getErrorMessage(control: any) {
   }
   return '';
 }
+
+// Verificar
+export function isAlphanumericWithSlash(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    let regex = /^[a-zA-Z0-9\/]*$/;
+    return regex.test(control.value)
+      ? null
+      : { notAlphanumericWithSlash: true };
+  };
+}
+
+export function notOnlySpacesValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    let regex = /^\s+$/;
+    return regex.test(control.value) ? { notOnlySpaces: true } : null;
+  };
+}
