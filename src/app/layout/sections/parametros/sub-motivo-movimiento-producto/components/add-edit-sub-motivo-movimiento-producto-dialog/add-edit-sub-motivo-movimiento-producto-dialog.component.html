@@ -29,7 +29,7 @@
       </mat-form-field>
     </div>
 
-    <div class="seeker-fields-container" *ngIf="this.data.par_modo !== 'C'">
+    <div class="seeker-fields-container" *ngIf="this.data.par_modo === 'R'">
       <h3> CÓDIGO DE SUBMOTIVO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
         <input matInput [value]="data.codigo_submotivo" required disabled />
