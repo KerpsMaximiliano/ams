@@ -1,6 +1,6 @@
 import { IResponse } from './response.interface';
 
-export interface IUnificacionAporte {
+export interface IUnificacionAporteProducto {
   par_modo: string;
   producto_principal: string;
   producto_principal_cod: number;
@@ -13,4 +13,4 @@ export interface IUnificacionAporte {
   unifica_aportes: string;
 }
 
-export type IUnificacionAporteResponse = IResponse<IUnificacionAporte[]>;
+export type IUnificacionAporteProductoResponse = IResponse<IUnificacionAporteProducto[]>;

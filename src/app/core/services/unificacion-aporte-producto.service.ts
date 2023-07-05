@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { EnvironmentService } from './environment.service';
 
 // * Interfaces
-import { IUnificacionAporteResponse } from '../models/unificacion-aportes.interface';
+import { IUnificacionAporteProductoResponse } from '../models/unificacion-aporte-producto.interface';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -15,7 +15,7 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root',
 })
-export class unificacionAporteService {
+export class UnificacionAporteProductoService {
   producto: producto = {
     codigo_producto: 44,
     descripcion_producto: 'H*ola',
@@ -38,8 +38,8 @@ export class unificacionAporteService {
     return this.producto;
   }
 
-  CRUD(body: any): Observable<IUnificacionAporteResponse> {
-    return this.http.post<IUnificacionAporteResponse>(
+  CRUD(body: any): Observable<IUnificacionAporteProductoResponse> {
+    return this.http.post<IUnificacionAporteProductoResponse>(
       `${this.environmentService.api}/abmunificacionaportes`,
       body,
       httpOptions

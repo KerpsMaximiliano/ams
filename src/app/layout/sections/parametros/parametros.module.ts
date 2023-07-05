@@ -101,11 +101,11 @@ import { SubMotivoMovimientoProductoDashboardComponent } from './sub-motivo-movi
 import { SubmotivoMovimientoProductoFilterComponent } from './sub-motivo-movimiento-producto/components/sub-motivo-movimiento-producto-filter/sub-motivo-movimiento-producto-filter.component';
 import { SubMotivoMovimientoProductoComponent } from './sub-motivo-movimiento-producto/sub-motivo-movimiento-producto.component';
 // 24 - UNIFICACION DE APORTES
-import { UnificadorAportesComponent } from './unificador-aportes/unificador-aportes.component';
-import { UnificadorAporteDashboardComponent } from './unificador-aportes/components/unificador-aporte-dashboard/unificador-aporte-dashboard.component';
-import { UnificadorAporteFilterComponent } from './unificador-aportes/components/unificador-aporte-filter/unificador-aporte-filter.component';
-import { AddEditUnificadorAporteComponent } from './unificador-aportes/components/add-edit-unificador-aporte/add-edit-unificador-aporte.component';
-import { ModalProductoComponent } from './unificador-aportes/components/add-edit-unificador-aporte/modal-producto/modal-producto.component';
+import { UnificacionAporteProductoComponent } from './unificacion-aporte-producto/unificacion-aporte-producto.component';
+import { UnificacionAporteProductoDashboardComponent } from './unificacion-aporte-producto/components/unificador-aporte-dashboard/unificacion-aporte-producto-dashboard.component';
+import { UnificacionAporteProductoFilterComponent } from './unificacion-aporte-producto/components/unificacion-aporte-producto-filter/unificacion-aporte-producto-filter.component';
+import { AddEditUnificacionAporteProductoComponent } from './unificacion-aporte-producto/components/add-edit-unificacion-aporte-producto/add-edit-unificacion-aporte-producto.component';
+import { SetProductoDialogComponent } from './unificacion-aporte-producto/components/add-edit-unificacion-aporte-producto/set-producto-dialog/set-producto-dialog.component';
 // 32 - EXTENCION DE FUENTES DE INGRESOS
 import { ExtencionFuenteIngresoComponent } from './extencion-fuente-ingreso/extencion-fuente-ingreso.component';
 import { ExtencionFuenteIngresoDashboardComponent } from './extencion-fuente-ingreso/components/extencion-fuente-ingreso-dashboard/extencion-fuente-ingreso-dashboard.component';
@@ -207,11 +207,11 @@ import { ModalExtencionProductoComponent } from './extencion-fuente-ingreso/comp
     SubMotivoMovimientoProductoDashboardComponent,
     AddEditSubMotivoMovimientoProductoDialogComponent,
     // 24 - UNIFICACION DE APORTES
-    UnificadorAportesComponent,
-    UnificadorAporteDashboardComponent,
-    UnificadorAporteFilterComponent,
-    AddEditUnificadorAporteComponent,
-    ModalProductoComponent,
+    UnificacionAporteProductoComponent,
+    UnificacionAporteProductoDashboardComponent,
+    UnificacionAporteProductoFilterComponent,
+    AddEditUnificacionAporteProductoComponent,
+    SetProductoDialogComponent,
     // 32 - EXTENCION FUENTES DE INGRESOS
     ExtencionFuenteIngresoComponent,
     ExtencionFuenteIngresoDashboardComponent,

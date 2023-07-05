@@ -6,21 +6,21 @@
       </mat-expansion-panel-header>
       <div class="seeker-fields-container">
         <mat-form-field class="seeker-form-field">
-          <mat-label class="seeker-label">Producto</mat-label>
+          <mat-label class="seeker-label"> Producto </mat-label>
           <input
             matInput
             [value]="producto.descripcion_producto"
             class="seeker-input"
-            disabled="true"
+            disabled
           />
         </mat-form-field>
         <mat-form-field class="seeker-form-field">
-          <mat-label class="seeker-label">Subproducto</mat-label>
+          <mat-label class="seeker-label"> Subproducto </mat-label>
           <input
             matInput
             [value]="producto.descripcion_producto_sub || ''"
             class="seeker-input"
-            disabled="true"
+            disabled
           />
         </mat-form-field>
       </div>
@@ -28,9 +28,9 @@
         <button
           class="primary-button icon-button"
           type="button"
-          (click)="search()"
+          (click)="performSearch()"
         >
-          <mat-icon>done</mat-icon>
+          <mat-icon> done </mat-icon>
           Buscar
         </button>
       </div>

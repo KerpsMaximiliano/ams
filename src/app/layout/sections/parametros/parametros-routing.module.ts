@@ -37,7 +37,7 @@ import { MotivoMovimientoProductoComponent } from './motivo-movimiento-producto/
 // 23 - SUB MOTIVO DE MOVIMIENTO POR PRODUCTO
 import { SubMotivoMovimientoProductoComponent } from './sub-motivo-movimiento-producto/sub-motivo-movimiento-producto.component';
 // 24 - UNIFICACION DE APORTES
-import { UnificadorAportesComponent } from './unificador-aportes/unificador-aportes.component';
+import { UnificacionAporteProductoComponent } from './unificacion-aporte-producto/unificacion-aporte-producto.component';
 // 32 - EXTENCION FUENTES DE INGRESOS
 import { ExtencionFuenteIngresoComponent } from './extencion-fuente-ingreso/extencion-fuente-ingreso.component';
 
@@ -111,8 +111,8 @@ const routes: Routes = [
     component: SubMotivoMovimientoProductoComponent,
   },
   {
-    path: 'parametros/unificacion-aportes',
-    component: UnificadorAportesComponent,
+    path: 'parametros/unificacion-aportes-producto',
+    component: UnificacionAporteProductoComponent,
   },
   {
     path: 'parametros/extencion-fuente-ingreso',

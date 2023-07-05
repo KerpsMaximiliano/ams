@@ -1,46 +1,28 @@
 <div class="dialog-title">
-  <h2>{{ data.title | uppercase }}</h2>
+  <h2 tabindex="0">{{ data.title | uppercase }}</h2>
 </div>
 <div class="dialog-content">
-  <form class="form-datos" [formGroup]="formGroup" (ngSubmit)="confirm()">
+  <form class="form-datos" [formGroup]="formGroup">
     <div class="seeker-fields-container">
-      <h3>PRODUCTO PRINCIPAL</h3>
+      <h3> PRODUCTO PRINCIPAL </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input
-          matInput
-          class="seeker-input"
-          formControlName="producto_principal"
-        />
-        <!-- <mat-error
-          *ngIf="
-            formGroup.get('producto_principal')?.invalid &&
-            formGroup.get('producto_principal')?.touched
-          "
-        >
-          {{ getErrorMessage(formGroup.get("producto_principal")) }}
-        </mat-error> -->
+        <input matInput class="seeker-input" disabled />
       </mat-form-field>
     </div>
+
     <div class="seeker-fields-container">
-      <h3>SUBPRODUCTO PRINCIPAL</h3>
+      <h3> SUBPRODUCTO PRINCIPAL </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
         <input
           matInput
           class="seeker-input"
           formControlName="subproducto_principal"
         />
-        <!-- <mat-error
-          *ngIf="
-            formGroup.get('subproducto_principal')?.invalid &&
-            formGroup.get('subproducto_principal')?.touched
-          "
-        >
-          {{ getErrorMessage(formGroup.get("subproducto_principal")) }}
-        </mat-error> -->
       </mat-form-field>
     </div>
+
     <div class="seeker-fields-container">
-      <h3>PRODUCTO SECUNDARIO</h3>
+      <h3> PRODUCTO SECUNDARIO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
         <input
           matInput
@@ -57,8 +39,9 @@
         </mat-error>
       </mat-form-field>
     </div>
+
     <div class="seeker-fields-container">
-      <h3>SUBPRODUCTO SECUNDARIO</h3>
+      <h3> SUBPRODUCTO SECUNDARIO </h3>
       <div class="content">
         <mat-form-field class="seeker-form-field" appearance="outline">
           <input matInput formControlName="subproducto_secundario" />
@@ -71,39 +54,33 @@
             {{ getErrorMessage(formGroup.get("subproducto_secundario")) }}
           </mat-error>
         </mat-form-field>
-        <div class="icon">
-          <mat-icon class="material-symbols-outlined" (click)="getProducto()"
-            >search</mat-icon
-          >
-        </div>
-        <div class="icon">
-          <mat-icon class="material-symbols-outlined" (click)="limpiar()"
-            >close</mat-icon
-          >
-        </div>
+        <ng-container *ngIf="data.par_modo === 'C'">
+          <div class="icon">
+            <mat-icon class="material-symbols-outlined" (click)="getProducto()"> search </mat-icon>
+          </div>
+          <div class="icon">
+            <mat-icon class="material-symbols-outlined" (click)="clear()"> close </mat-icon>
+          </div>
+        </ng-container>
       </div>
     </div>
     <div *ngIf="data.edit; else other_content" class="buttons-container">
-      <button
-        class="primary-button icon-button"
-        type="button"
-        (click)="closeDialog()"
-      >
-        <mat-icon>close</mat-icon>
+      <button class="primary-button icon-button" type="button" mat-dialog-close>
+        <mat-icon> close </mat-icon>
         Cancelar
       </button>
       <button
-        class="primary-button icon-button"
+        [class]="formGroup.invalid ? 'primary-button icon-button disabled' : 'primary-button icon-button'"
         type="submit"
         [disabled]="formGroup.invalid"
-      >
-        <mat-icon>done</mat-icon>
+        (click)="confirm()">
+        <mat-icon> done </mat-icon>
         Guardar
       </button>
     </div>
     <ng-template #other_content>
       <button class="primary-button icon-button right" mat-dialog-close>
-        <mat-icon>done</mat-icon>
+        <mat-icon> done </mat-icon>
         Aceptar
       </button>
     </ng-template>
