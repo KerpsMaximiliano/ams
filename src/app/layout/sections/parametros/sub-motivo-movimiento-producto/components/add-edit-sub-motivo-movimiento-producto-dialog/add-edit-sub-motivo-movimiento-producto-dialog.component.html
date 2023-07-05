@@ -62,8 +62,8 @@
         Cancelar
       </button>
       <button class="primary-button icon-button" (click)="setStatus()" *ngIf="this.data.par_modo === 'U'">
-        <mat-icon> {{ this.estado ? 'done_all' : 'remove_done' }} </mat-icon>
-        {{ data.fecha_vigencia === 0 ? 'BAJA' : 'ACTIVO' }}
+        <mat-icon> done_all </mat-icon>
+        BAJA
       </button>
       <button [class]="formGroup.invalid ? 'primary-button icon-button disabled' : 'primary-button icon-button'"
         type="submit" (click)="confirm()">

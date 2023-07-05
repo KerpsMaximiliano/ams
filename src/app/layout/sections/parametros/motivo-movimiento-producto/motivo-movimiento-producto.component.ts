@@ -44,6 +44,20 @@ export class MotivoMovimientoProductoComponent implements OnInit, OnDestroy {
       this.router.navigate(['parametros/productos']);
       return;
     }
+    this.productoService.setRoute(true);
+    if (this.productoService.getRoute()) {
+      if (this.productoService.get()) {
+        this.getData(
+          JSON.stringify({
+            par_modo: 'R',
+            id_producto: this.motivoMovimientoProductoService.get().id_producto,
+            codigo_motivo: this.motivoMovimientoProductoService.get().codigo_motivo,
+            tipo_motivo: this.motivoMovimientoProductoService.get().tipo_motivo[0],
+          })
+        );
+        this.edit(this.motivoMovimientoProductoService.get());
+      }
+    }
   }
 
   ngOnDestroy(): void {

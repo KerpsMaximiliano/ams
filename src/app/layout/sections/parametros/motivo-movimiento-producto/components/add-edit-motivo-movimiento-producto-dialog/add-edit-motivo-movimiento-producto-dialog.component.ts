@@ -184,7 +184,7 @@ export class AddEditMotivoMovimientoProductoDialogComponent {
     });
     modal.afterClosed().subscribe({
       next: (res: any) => {
-        this.data.codigo_motivo = res?.id_motivo;
+        this.data.codigo_motivo = res?.codigo_motivo;
         (this.data.tipo_motivo = res?.tipo_motivo),
           (this.data.descripcion = res?.descripcion);
         this.formGroup

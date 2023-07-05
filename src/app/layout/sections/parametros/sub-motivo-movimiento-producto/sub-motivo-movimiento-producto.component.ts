@@ -7,18 +7,18 @@ import { DataSharingService } from 'src/app/core/services/data-sharing.service';
 import { UtilService } from 'src/app/core/services/util.service';
 import { SubMotivoMovimientoProductoService } from 'src/app/core/services/sub-motivo-movimiento-producto.service';
 import { MotivoMovimientoProductoService } from 'src/app/core/services/motivo-movimiento-producto.service';
+import { ProductoService } from 'src/app/core/services/producto.service';
 
 // * Interfaces
 import { ISubMotivoMovimientoProducto } from 'src/app/core/models/sub-motivo-movimiento.interface';
 import { IMotivoMovimientoProducto } from 'src/app/core/models/motivo-movimiento-producto.interface';
+import { IProducto } from 'src/app/core/models/producto.interface';
 
 // * Material
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 // * Components
 import { AddEditSubMotivoMovimientoProductoDialogComponent } from './components/add-edit-sub-motivo-movimiento-producto-dialog/add-edit-sub-motivo-movimiento-producto-dialog.component';
-import { ProductoService } from 'src/app/core/services/producto.service';
-import { IProducto } from 'src/app/core/models/producto.interface';
 
 @Component({
   selector: 'app-sub-motivo-movimiento-producto',
@@ -30,6 +30,7 @@ export class SubMotivoMovimientoProductoComponent implements OnInit, OnDestroy {
   private producto: IProducto;
   public motivoMovimientoProducto: IMotivoMovimientoProducto;
   public dataSent: ISubMotivoMovimientoProducto[];
+
   constructor(
     private dataSharingService: DataSharingService,
     private subMotivoMovimientoProductoService: SubMotivoMovimientoProductoService,
@@ -54,6 +55,12 @@ export class SubMotivoMovimientoProductoComponent implements OnInit, OnDestroy {
     if (this.dataSubscription) {
       this.dataSubscription.unsubscribe();
     }
+  }
+
+  public back(): void {
+    this.utilService.openLoading();
+    this.router.navigate(['parametros/motivo-movimiento-producto']);
+    return;
   }
 
   public new(): void {

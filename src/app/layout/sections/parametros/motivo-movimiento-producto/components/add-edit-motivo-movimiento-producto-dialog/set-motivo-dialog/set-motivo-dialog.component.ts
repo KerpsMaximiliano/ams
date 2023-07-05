@@ -17,7 +17,7 @@ import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confi
   styleUrls: ['./set-motivo-dialog.component.scss'],
 })
 export class SetMotivoDialogComponent implements OnInit {
-  public displayedColumns: string[] = ['id_motivo', 'descripcion', 'actions'];
+  public displayedColumns: string[] = ['codigo_motivo', 'descripcion', 'actions'];
   public dataSource: MatTableDataSource<IProducto>;
   public motivoMovimiento: any;
 
@@ -37,7 +37,7 @@ export class SetMotivoDialogComponent implements OnInit {
 
   public confirm(): void {
     this.dialogRef.close({
-      id_motivo: this.motivoMovimiento.id_motivo,
+      codigo_motivo: this.motivoMovimiento.codigo_motivo,
       tipo_motivo: this.motivoMovimiento.tipo_motivo,
       descripcion: this.motivoMovimiento.descripcion,
     });
