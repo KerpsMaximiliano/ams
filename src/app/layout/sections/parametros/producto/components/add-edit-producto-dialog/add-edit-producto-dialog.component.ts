@@ -179,6 +179,7 @@ export class AddEditProductoDialogComponent {
 
   public redirectTo(url: string): void {
     this.productoService.set(this.data);
+    this.productoService.setBack(false);
     this.router.navigate([url]);
   }
 
