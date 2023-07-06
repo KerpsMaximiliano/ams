@@ -1,0 +1,483 @@
+<div class="dialog-title" [tabIndex]="0">
+  <h2>{{ data.title | uppercase }}</h2>
+</div>
+
+<div class="dialog-content">
+  <mat-stepper linear #stepper class="stepper">
+    <mat-step [stepControl]="formInitial">
+      <form [formGroup]="formInitial">
+        <ng-template matStepLabel>Primero</ng-template>
+
+        <div class="seeker-fields-container">
+          <h3>CÓDIGO</h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <input
+              matInput
+              formControlName="id_empresa"
+              [readonly]="!data.edit"
+              
+            />
+            <mat-error
+              *ngIf="
+                formInitial.get('id_empresa')?.invalid &&
+                formInitial.get('id_empresa')?.touched
+              "
+            >
+              {{ getErrorMessage(formInitial.get("id_empresa")) }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="seeker-fields-container">
+          <h3>EMPRESA</h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <input
+              matInput
+              formControlName="descripcion"
+              required
+              
+              [readonly]="!data.edit"
+            />
+            <mat-error
+              *ngIf="
+                formInitial.get('descripcion')?.invalid &&
+                formInitial.get('descripcion')?.touched
+              "
+            >
+              {{ getErrorMessage(formInitial.get("descripcion")) }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="seeker-fields-container">
+          <h3>CALLE</h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <input
+              matInput
+              formControlName="calle"
+              required
+              
+              [readonly]="!data.edit"
+            />
+            <mat-error
+              *ngIf="
+                formInitial.get('calle')?.invalid &&
+                formInitial.get('calle')?.touched
+              "
+            >
+              {{ getErrorMessage(formInitial.get("calle")) }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="seeker-fields-container">
+          <h3>NUMERO PUERTA</h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <input
+              matInput
+              formControlName="nro_puerta"
+              required
+              
+              [readonly]="!data.edit"
+            />
+            <mat-error
+              *ngIf="
+                formInitial.get('nro_puerta')?.invalid &&
+                formInitial.get('nro_puerta')?.touched
+              "
+            >
+              {{ getErrorMessage(formInitial.get("nro_puerta")) }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="seeker-fields-container">
+          <h3>PISO</h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <input
+              matInput
+              formControlName="piso"
+              required
+              
+              [readonly]="!data.edit"
+            />
+            <mat-error
+              *ngIf="
+                formInitial.get('piso')?.invalid &&
+                formInitial.get('piso')?.touched
+              "
+            >
+              {{ getErrorMessage(formInitial.get("piso")) }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="seeker-fields-container">
+          <h3>DEPARTAMENTO</h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <input
+              matInput
+              formControlName="departamento"
+              required
+              
+              [readonly]="!data.edit"
+            />
+            <mat-error
+              *ngIf="
+                formInitial.get('departamento')?.invalid &&
+                formInitial.get('departamento')?.touched
+              "
+            >
+              {{ getErrorMessage(formInitial.get("departamento")) }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- Botones -->
+        <div class="buttons-container">
+          <button class="primary-button icon-button" (click)="closeDialog()">
+            Cancelar
+          </button>
+          <button
+            class="primary-button icon-button"
+            [disabled]="formInitial.invalid"
+            matStepperNext
+          >
+            Siguiente
+          </button>
+        </div>
+        <!-- Botones -->
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="formSecond">
+      <form [formGroup]="formSecond">
+        <ng-template matStepLabel>Segundo</ng-template>
+
+        <!-- ! consultar!! 
+        <div class="seeker-fields-container">
+          <h3>LOCALIDAD</h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <input
+              matInput
+              formControlName="calle"
+              required
+              
+              [readonly]="!data.edit"
+            />
+            <mat-error
+              *ngIf="
+                formInitial.get('calle')?.invalid &&
+                formInitial.get('calle')?.touched
+              "
+            >
+              {{ getErrorMessage(formInitial.get("calle")) }}
+            </mat-error>
+          </mat-form-field>
+        </div>-->
+
+        <div class="seeker-fields-container">
+          <h3>TELEFONO</h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <input
+              matInput
+              formControlName="nro_tel"
+              required
+              
+              [readonly]="!data.edit"
+            />
+            <mat-error
+              *ngIf="
+                formSecond.get('nro_tel')?.invalid &&
+                formSecond.get('nro_tel')?.touched
+              "
+            >
+              {{ getErrorMessage(formSecond.get("nro_tel")) }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="seeker-fields-container">
+          <h3>NUMERO DE FAX</h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <input
+              matInput
+              formControlName="nro_fax"
+              required
+              
+              [readonly]="!data.edit"
+            />
+            <mat-error
+              *ngIf="
+                formSecond.get('nro_fax')?.invalid &&
+                formSecond.get('nro_fax')?.touched
+              "
+            >
+              {{ getErrorMessage(formSecond.get("nro_fax")) }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="seeker-fields-container">
+          <h3>CORREO ELECTRONICO</h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <input
+              matInput
+              formControlName="email"
+              required
+              
+              [readonly]="!data.edit"
+            />
+            <mat-error
+              *ngIf="
+                formSecond.get('email')?.invalid &&
+                formSecond.get('email')?.touched
+              "
+            >
+              {{ getErrorMessage(formSecond.get("email")) }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- Botones -->
+        <div class="buttons-container">
+          <button class="primary-button icon-button" (click)="closeDialog()">
+            Cancelar
+          </button>
+          <button class="primary-button icon-button" matStepperPrevious>
+            Anterior
+          </button>
+          <button
+            class="primary-button icon-button"
+            matStepperNext
+            [disabled]="formSecond.invalid"
+          >
+            Siguiente
+          </button>
+        </div>
+        <!-- Botones -->
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="formThird">
+      <form [formGroup]="formThird">
+        <ng-template matStepLabel> Tercero </ng-template>
+
+        <div class="seeker-fields-container">
+          <h3>CODIGO IVA</h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <input
+              matInput
+              formControlName="codigo_iva"
+              required
+              
+              [readonly]="!data.edit"
+            />
+            <mat-error
+              *ngIf="
+                formSecond.get('codigo_iva')?.invalid &&
+                formSecond.get('codigo_iva')?.touched
+              "
+            >
+              {{ getErrorMessage(formSecond.get("codigo_iva")) }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="seeker-fields-container">
+          <h3>CUIT</h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <input
+              matInput
+              formControlName="cuit"
+              required
+              
+              [readonly]="!data.edit"
+            />
+            <mat-error
+              *ngIf="
+                formSecond.get('cuit')?.invalid &&
+                formSecond.get('cuit')?.touched
+              "
+            >
+              {{ getErrorMessage(formSecond.get("cuit")) }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="seeker-fields-container">
+          <h3>FECHA VENCIMIENTO CUIT</h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <input
+              matInput
+              formControlName="fecha_vto_cuit"
+              required
+              
+              [readonly]="!data.edit"
+            />
+            <mat-error
+              *ngIf="
+                formSecond.get('fecha_vto_cuit')?.invalid &&
+                formSecond.get('fecha_vto_cuit')?.touched
+              "
+            >
+              {{ getErrorMessage(formSecond.get("fecha_vto_cuit")) }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="seeker-fields-container">
+          <h3>CUENTA BANCO AMS</h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <input
+              matInput
+              formControlName="cta_banco_ams"
+              required
+              
+              [readonly]="!data.edit"
+            />
+            <mat-error
+              *ngIf="
+                formSecond.get('cta_banco_ams')?.invalid &&
+                formSecond.get('cta_banco_ams')?.touched
+              "
+            >
+              {{ getErrorMessage(formSecond.get("cta_banco_ams")) }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- Botones -->
+        <div class="buttons-container">
+          <button class="primary-button icon-button" (click)="closeDialog()">
+            Cancelar
+          </button>
+          <button class="primary-button icon-button" matStepperPrevious>
+            Anterior
+          </button>
+          <button
+            class="primary-button icon-button"
+            matStepperNext
+            [disabled]="formThird.invalid"
+          >
+            Siguiente
+          </button>
+        </div>
+        <!-- Botones -->
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="formFinal">
+      <form [formGroup]="formFinal">
+        <ng-template matStepLabel> Cuarto </ng-template>
+
+        <div class="seeker-fields-container">
+          <h3>COMPROBANTE A GENERAR</h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <mat-select formControlName="comprobante_generar" required>
+              <mat-option [value]="'R'"> Resumen </mat-option>
+              <mat-option [value]="'F'"> Factura </mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="
+                formSecond.get('comprobante_generar')?.invalid &&
+                formSecond.get('comprobante_generar')?.touched
+              "
+            >
+              {{ getErrorMessage(formSecond.get("comprobante_generar")) }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="seeker-fields-container">
+          <h3>TRABAJA CON REF. CONTAB.</h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <mat-select formControlName="fact_cr_elec" required>
+              <mat-option [value]="'S'"> SI </mat-option>
+              <mat-option [value]="'N'"> NO </mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="
+                formFinal.get('fact_cr_elec')?.invalid &&
+                formFinal.get('fact_cr_elec')?.touched
+              "
+            >
+              {{ getErrorMessage(formFinal.get("fact_cr_elec")) }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="seeker-fields-container">
+          <h3>FACTURA CRED. ELECTRONICA</h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <mat-select formControlName="fact_cr_elec" required>
+              <mat-option [value]="'S'"> SI </mat-option>
+              <mat-option [value]="'N'"> NO </mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="
+                formFinal.get('fact_cr_elec')?.invalid &&
+                formFinal.get('fact_cr_elec')?.touched
+              "
+            >
+              {{ getErrorMessage(formFinal.get("fact_cr_elec")) }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="seeker-fields-container">
+          <h3>MODO LIQUIDACION</h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <mat-select formControlName="modo" required
+            (selectionChange)="validarModo()">
+              <mat-option [value]="'A'"> ANTICIPADA </mat-option>
+              <mat-option [value]="'V'"> VENCIDO </mat-option>
+              <mat-option [value]="'W'"> VENCIDO 2 M </mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="
+                formFinal.get('modo')?.invalid && formFinal.get('modo')?.touched
+              "
+            >
+              {{ getErrorMessage(formFinal.get("modo")) }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div *ngIf="data.edit; else other_content" class="buttons-container">
+          <button
+            class="primary-button icon-button"
+            type="button"
+            (click)="closeDialog()"
+          >
+            <mat-icon> close </mat-icon>
+            Cancelar
+          </button>
+          <button class="primary-button icon-button" matStepperPrevious>
+            Anterior
+          </button>
+          <button
+            class="primary-button icon-button"
+            type="submit"
+            [disabled]="formFinal.invalid"
+            (click)="confirm()"
+          >
+            <mat-icon> done </mat-icon>
+            Guardar
+          </button>
+        </div>
+
+        <ng-template #other_content>
+          <div class="buttons-container">
+            <button class="primary-button icon-button">
+              <mat-icon> done </mat-icon>
+              Aceptar
+            </button>
+            <button class="primary-button icon-button" matStepperPrevious>
+              Anterior
+            </button>
+          </div>
+        </ng-template>
+      </form>
+    </mat-step>
+  </mat-stepper>
+  <div *ngIf="data.edit; else other_content" class="buttons-container">
+    <button class="primary-button icon-button" type="button">
+      Datos Comercio
+    </button>
+    <button class="primary-button icon-button" type="button">Pagos Link</button>
+  </div>
+</div>

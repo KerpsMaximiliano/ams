@@ -112,6 +112,10 @@ import { ExtencionFuenteIngresoDashboardComponent } from './extencion-fuente-ing
 import { ExtencionFuenteIngresoFilterComponent } from './extencion-fuente-ingreso/components/extencion-fuente-ingreso-filter/extencion-fuente-ingreso-filter.component';
 import { AddEditExtencionFuenteIngresoComponent } from './extencion-fuente-ingreso/components/add-edit-extencion-fuente-ingreso/add-edit-extencion-fuente-ingreso.component';
 import { ModalExtencionProductoComponent } from './extencion-fuente-ingreso/components/add-edit-extencion-fuente-ingreso/modal-extencion-producto/modal-extencion-producto.component';
+import { EmpresaFacturaComponent } from './empresa-factura/empresa-factura.component';
+import { EmpresaFacturaFilterComponent } from './empresa-factura/components/empresa-factura-filter/empresa-factura-filter.component';
+import { EmpresaFacturaDashboardComponent } from './empresa-factura/components/empresa-factura-dashboard/empresa-factura-dashboard.component';
+import { AddEditEmpresaFacturaComponent } from './empresa-factura/components/add-edit-empresa-factura/add-edit-empresa-factura.component';
 
 @NgModule({
   declarations: [
@@ -218,6 +222,10 @@ import { ModalExtencionProductoComponent } from './extencion-fuente-ingreso/comp
     ExtencionFuenteIngresoFilterComponent,
     AddEditExtencionFuenteIngresoComponent,
     ModalExtencionProductoComponent,
+    EmpresaFacturaComponent,
+    EmpresaFacturaFilterComponent,
+    EmpresaFacturaDashboardComponent,
+    AddEditEmpresaFacturaComponent,
   ],
   imports: [
     CommonModule,

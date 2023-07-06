@@ -1,0 +1,41 @@
+<section class="seeker-section">
+  <mat-accordion>
+    <mat-expansion-panel class="mat-elevation-z1">
+      <mat-expansion-panel-header floating>
+        <mat-panel-title> Opciones de búsqueda </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="seeker-fields-container">
+        <mat-form-field class="seeker-form-field">
+          <mat-label class="seeker-label"> Empresa que Factura </mat-label>
+          <mat-select #select disableOptionCentering>
+            <mat-option
+              *ngFor="let empresa of listaEmpresasFacturan"
+              [value]="empresa.descripcion"
+            >
+              {{ empresa.descripcion }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="buttons-container">
+        <button
+          class="primary-button icon-button"
+          type="button"
+          (click)="search()"
+        >
+          <mat-icon> done </mat-icon>
+          Buscar
+        </button>
+        <button
+          class="primary-button icon-button"
+          type="button"
+          [disabled]="!select?.value"
+          (click)="clear()"
+        >
+          <mat-icon> close </mat-icon>
+          Limpiar
+        </button>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</section>
