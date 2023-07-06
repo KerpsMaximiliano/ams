@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 
 // * Interfaces
-import { IProducto } from 'src/app/core/models/producto.interface';
+import { IProductoAdministrador } from 'src/app/core/models/producto-administrador.interface';
 
 // * Material
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -10,7 +10,6 @@ import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 
 // * Components
 import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
-import { IProductoAdministrador } from 'src/app/core/models/producto-administrador.interface';
 
 @Component({
   selector: 'app-set-producto-dialog',
@@ -19,10 +18,8 @@ import { IProductoAdministrador } from 'src/app/core/models/producto-administrad
 })
 export class SetProductoDialogComponent implements OnInit {
   public displayedColumns: string[] = [
-    'codigo_producto',
-    'descripcion_producto',
-    'producto_administrador',
-    'descripcion_producto_administrador',
+    'codigo_subproducto',
+    'descripcion_subproducto',
     'actions',
   ];
   public dataSource: MatTableDataSource<IProductoAdministrador>;
@@ -44,10 +41,10 @@ export class SetProductoDialogComponent implements OnInit {
 
   public confirm(): void {
     this.dialogRef.close({
-      producto_principal: this.showGuardarButton.producto_principal,
-      subproducto_principal: this.showGuardarButton.subproducto_principal,
-      producto_secundario: this.showGuardarButton.producto_secundario,
-      unifica_aportes: this.showGuardarButton.unifica_aportes,
+      codigo_producto: this.showGuardarButton.producto_principal_cod,
+      descripcicon_producto:this.showGuardarButton.producto_principal,
+      codigo_subproducto: this.showGuardarButton.subproducto_principal_cod,
+      descripcion_subproducto: this.showGuardarButton.subproducto_principal,
     });
   }
 

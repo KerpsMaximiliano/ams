@@ -3,17 +3,19 @@ import {
   Component,
   OnDestroy,
   OnInit,
-  ViewChild,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 // * Services
 import { DataSharingService } from 'src/app/core/services/data-sharing.service';
 import { UtilService } from 'src/app/core/services/util.service';
 import { UnificacionAporteProductoService } from 'src/app/core/services/unificacion-aporte-producto.service';
+import { ProductoService } from 'src/app/core/services/producto.service';
 
 // * Interfaces
 import { IUnificacionAporteProducto } from 'src/app/core/models/unificacion-aporte-producto.interface';
+import { IProducto } from 'src/app/core/models/producto.interface';
 
 // * Material
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -30,18 +32,25 @@ export class UnificacionAporteProductoComponent implements OnInit, AfterViewInit
   private dataSubscription: Subscription | undefined;
   public dataSent: IUnificacionAporteProducto[];
 
-  producto: any;
+  public producto: IProducto;
 
   constructor(
     private dataSharingService: DataSharingService,
     private unificacionAporteProductoService: UnificacionAporteProductoService,
+    private productoService: ProductoService,
     private utilService: UtilService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router,
   ) {
-    this.producto = this.unificacionAporteProductoService.get();
+    this.producto = this.productoService.get();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (!this.producto) {
+      this.router.navigate(['parametros/productos']);
+      return;
+    }
+  }
 
   ngAfterViewInit(): void {
     this.utilService.closeLoading();
@@ -137,8 +146,8 @@ export class UnificacionAporteProductoComponent implements OnInit, AfterViewInit
         par_modo: par_modo,
         producto_principal_cod: this.producto?.codigo_producto,
         producto_principal: this.producto?.descripcion_producto,
-        subproducto_principal_cod: this.producto?.codigo_producto_sub,
-        subproducto_principal: this.producto?.descripcion_producto_sub,
+        subproducto_principal_cod: this.producto?.codigo_producto,
+        subproducto_principal: this.producto?.descripcion_producto,
         producto_secundario: data?.producto_secundario,
         producto_secundario_cod: data?.producto_secundario_cod,
         subproducto_secundario: data?.subproducto_secundario,
@@ -160,11 +169,7 @@ export class UnificacionAporteProductoComponent implements OnInit, AfterViewInit
         dialogRef.close();
         this.getData(
           JSON.stringify({
-            par_modo: 'R',
-            producto_principal_cod: this.producto?.codigo_producto,
-            subproducto_principal_cod: this.producto?.codigo_producto_sub,
-            producto_secundario_cod: data?.producto_secundario_cod,
-            subproducto_secundario_cod: data?.subproducto_secundario_cod,
+            par_modo: 'R'
           })
         );
       },

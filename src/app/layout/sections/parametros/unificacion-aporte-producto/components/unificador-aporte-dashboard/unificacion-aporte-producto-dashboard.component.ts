@@ -13,6 +13,7 @@ import { IUnificacionAporteProducto } from 'src/app/core/models/unificacion-apor
 // * Material
 import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-unificacion-aporte-producto-dashboard',
@@ -26,6 +27,8 @@ export class UnificacionAporteProductoDashboardComponent {
     new EventEmitter<IUnificacionAporteProducto>();
   @Output() public editEvent: EventEmitter<IUnificacionAporteProducto> =
     new EventEmitter<IUnificacionAporteProducto>();
+  @Output() public deletedEvent: EventEmitter<IUnificacionAporteProducto> =
+    new EventEmitter<IUnificacionAporteProducto>();
 
   public displayedColumns = [
     'producto_principal',
@@ -38,7 +41,8 @@ export class UnificacionAporteProductoDashboardComponent {
 
   @ViewChild(MatPaginator, { static: true }) public paginator!: MatPaginator;
 
-  constructor(private matPaginatorIntl: MatPaginatorIntl) {}
+  constructor(private matPaginatorIntl: MatPaginatorIntl,
+              private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.configurePaginator();
@@ -57,6 +61,10 @@ export class UnificacionAporteProductoDashboardComponent {
 
   public edit(element: IUnificacionAporteProducto): void {
     this.editEvent.emit(element);
+  }
+
+  public deleted(element: IUnificacionAporteProducto): void{
+    this.deletedEvent.emit(element)
   }
 
   private configurePaginator(): void {

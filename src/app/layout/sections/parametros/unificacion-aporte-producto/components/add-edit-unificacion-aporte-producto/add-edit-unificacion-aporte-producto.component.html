@@ -6,14 +6,14 @@
     <div class="seeker-fields-container">
       <h3> PRODUCTO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput class="seeker-input" />
+        <input matInput class="seeker-input" [value]="producto.descripcion_producto ? producto.descripcion_producto.trim(): producto.codigo_producto" disabled />
       </mat-form-field>
     </div>
 
     <div class="seeker-fields-container">
       <h3> SUBPRODUCTO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput class="seeker-input" />
+        <input matInput class="seeker-input" [value]="producto.descripcion_producto_administrador ? producto.descripcion_producto_administrador.trim(): producto.producto_administrador" disabled />
       </mat-form-field>
     </div>
 
@@ -23,15 +23,15 @@
         <input
           matInput
           class="seeker-input"
-          formControlName="producto_secundario"
+          formControlName="descripcion_producto"
         />
         <mat-error
           *ngIf="
-            formGroup.get('producto_secundario')?.invalid &&
-            formGroup.get('producto_secundario')?.touched
+            formGroup.get('descripcion_producto')?.invalid &&
+            formGroup.get('descripcion_producto')?.touched
           "
         >
-          {{ getErrorMessage(formGroup.get("producto_secundario")) }}
+          {{ getErrorMessage(formGroup.get("descripcion_producto")) }}
         </mat-error>
       </mat-form-field>
     </div>
@@ -40,14 +40,13 @@
       <h3> SUBPRODUCTO UNIFICADO </h3>
       <div class="content">
         <mat-form-field class="seeker-form-field" appearance="outline">
-          <input matInput formControlName="subproducto_secundario" />
+          <input matInput formControlName="descripcion_subproducto" />
           <mat-error
             *ngIf="
-              formGroup.get('subproducto_secundario')?.invalid &&
-              formGroup.get('subproducto_secundario')?.touched
-            "
+              formGroup.get('descripcion_subproducto')?.invalid &&
+              formGroup.get('descripcion_subproducto')?.touched"
           >
-            {{ getErrorMessage(formGroup.get("subproducto_secundario")) }}
+            {{ getErrorMessage(formGroup.get("descripcion_subproducto")) }}
           </mat-error>
         </mat-form-field>
         <ng-container *ngIf="data.par_modo === 'C'">
