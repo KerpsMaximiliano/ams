@@ -1,12 +1,17 @@
-.form-datos {
-  display: grid;
-  grid-template-columns: 1fr;
+h2 {
+  margin-bottom: 0rem;
 }
 
-.seeker-field-group {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+.dialog-content {
+  width: 550px;
+}
+
+.form-datos {
+  min-height: 358px;
+}
+
+.mtab {
+  margin-top: 1rem;
 }
 
 .seeker-fields-container {
@@ -14,10 +19,6 @@
   grid-template-columns: minmax(190px, 0.9fr) minmax(290px, 1.1fr);
   align-items: center;
   column-gap: 0rem;
-}
-
-.buttons-container {
-  margin-top: 0rem;
 }
 
 .content {

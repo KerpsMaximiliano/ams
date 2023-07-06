@@ -31,6 +31,7 @@ import {
 
 // * Material
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 // * Components
 import { SetProductoPrimarioDialogComponent } from './set-producto-primario-dialog/set-producto-primario-dialog.component';
@@ -49,6 +50,8 @@ export class AddEditProductoDialogComponent {
   public formGroup: UntypedFormGroup;
   public visibilidad: boolean = false;
   public estado: boolean = false;
+  public activeTabIndex = 0;
+  public dynamicHeight: boolean;
 
   constructor(
     private dataSharingService: DataSharingService,
@@ -62,6 +65,35 @@ export class AddEditProductoDialogComponent {
     this.setUpForm();
     this.configureValidators();
     this.configureButton();
+    if (this.data.par_modo !== 'C') {
+      this.formGroup.get('tipo_producto')?.value === 'S'
+        ? (this.dynamicHeight = false)
+        : (this.dynamicHeight = true);
+    } else {
+      this.dynamicHeight = false;
+    }
+  }
+
+  public toggleDynamicHeight(): void {
+    this.formGroup.get('tipo_producto')?.value === 'S'
+      ? (this.dynamicHeight = true)
+      : (this.dynamicHeight = false);
+  }
+
+  public nextStep(): void {
+    if (this.activeTabIndex === 0) {
+      this.activeTabIndex = 1;
+    }
+  }
+
+  public prevStep(): void {
+    if (this.activeTabIndex === 1) {
+      this.activeTabIndex = 0;
+    }
+  }
+
+  public tabChanged(event: MatTabChangeEvent): void {
+    this.activeTabIndex = event.index;
   }
 
   public confirm(): void {
