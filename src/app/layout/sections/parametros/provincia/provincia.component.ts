@@ -66,6 +66,10 @@ export class ProvinciaComponent implements OnDestroy {
         );
       });
     dialogRef.afterClosed().subscribe(() => {
+      this.getData(JSON.stringify({
+        par_modo: 'O',
+        nombre_provincia: ''
+      }))
       this.dataSharingService.unsubscribeData(this.dataSubscription!);
       this.dataSubscription = undefined;
     });
@@ -86,15 +90,18 @@ export class ProvinciaComponent implements OnDestroy {
       error: (err: any) => {
         this.utilService.closeLoading();
         err.status === 0
-          ? this.utilService.notification('Error de conexión.', 'error')
-          : this.utilService.notification(
+        ? this.utilService.notification('Error de conexión.', 'error')
+        : this.utilService.notification(
               `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
               'error'
-            );
-        if (err.status == 404) this.dataSent = [];
-      },
+              );
+              if (err.status == 404) this.dataSent = [];
+            },
       complete: () => {
         this.utilService.closeLoading();
+        if(JSON.parse(value).nombre_provincia.trim() === "" || JSON.parse(value).nombre_provincia === undefined) {
+          this.provinciaService.setProvincias(this.dataSent)
+        }
       },
     });
   }

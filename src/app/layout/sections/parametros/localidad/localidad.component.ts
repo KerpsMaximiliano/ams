@@ -46,7 +46,11 @@ export class LocalidadComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.getProvincias();
+    if(this.provinciaService.getProvincias() === undefined){
+      this.getProvincias();
+    } else {
+      this.provincias = this.provinciaService.getProvincias();
+    }
     this.getEnvios();
     this.getPromociones();
   }
@@ -217,6 +221,7 @@ export class LocalidadComponent implements OnInit, OnDestroy {
           }
         },
         complete: () => {
+          this.provinciaService.setProvincias(this.provincias)
           this.utilService.closeLoading();
         },
       });

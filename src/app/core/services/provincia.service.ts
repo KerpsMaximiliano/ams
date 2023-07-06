@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { EnvironmentService } from './environment.service';
 
 // * Interfaces
-import { IProvinciaResponse } from '../models/provincia.interface';
+import { IProvincia, IProvinciaResponse } from '../models/provincia.interface';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -15,6 +15,7 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class ProvinciaService {
+  private provincias: IProvincia[];
   constructor(
     private http: HttpClient,
     private environmentService: EnvironmentService
@@ -26,5 +27,13 @@ export class ProvinciaService {
       body,
       httpOptions
     );
+  }
+
+  public setProvincias(provincias: IProvincia[]): void {
+    this.provincias = provincias;
+  }
+
+  public getProvincias(): IProvincia[] {
+    return this.provincias;
   }
 }
