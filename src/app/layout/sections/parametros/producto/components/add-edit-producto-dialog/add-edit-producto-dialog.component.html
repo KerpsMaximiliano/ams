@@ -7,7 +7,13 @@
 
     <mat-tab-group [selectedIndex]="activeTabIndex" (selectedTabChange)="tabChanged($event)" mat-stretch-tabs
       [dynamicHeight]="dynamicHeight">
-      <mat-tab label="1">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="mat-tab-icon">
+            {{ activeTabIndex === 0 ? icon : 'arrow_circle_left' }}
+          </mat-icon>
+          <div class="mat-tab-text"> {{ activeTabIndex === 0 ? '' : 'Anterior' }} </div>
+        </ng-template>
 
         <div class="seeker-fields-container mt-1">
           <h3> CÓDIGO </h3>
@@ -83,7 +89,13 @@
 
       </mat-tab>
 
-      <mat-tab label="2">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <div class="mat-tab-text"> {{ activeTabIndex === 1 ? '' : 'Siguiente' }} </div>
+          <mat-icon class="mat-tab-icon">
+            {{ activeTabIndex === 1 ? icon : 'arrow_circle_right' }}
+          </mat-icon>
+        </ng-template>
 
         <div class="seeker-fields-container mt-1">
           <h3> CLASE </h3>
@@ -198,15 +210,8 @@
       </mat-tab>
     </mat-tab-group>
 
-    <div *ngIf="data.edit; else other_content" class="buttons-container">
-      <button class="primary-button icon-button" type="button" mat-dialog-close>
-        <mat-icon>close</mat-icon>
-        Cancelar
-      </button>
-      <button class="primary-button icon-button" type="button" (click)="prevStep()" *ngIf="activeTabIndex === 1">
-        <mat-icon>arrow_back_ios_new</mat-icon>
-        Anterior
-      </button>
+
+    <div *ngIf="data.edit" class="buttons-container">
       <button class="primary-button icon-button" type="submit" (click)="redirectTo('parametros/parentesco-producto')"
         *ngIf="data.par_modo === 'U'" mat-dialog-close>
         <mat-icon> open_in_new_down </mat-icon>
@@ -222,14 +227,17 @@
         <mat-icon> open_in_new_down </mat-icon>
         Unificación
       </button>
+    </div>
+
+    <div *ngIf="data.edit; else other_content" class="buttons-container">
+      <button class="primary-button icon-button" type="button" mat-dialog-close>
+        <mat-icon>close</mat-icon>
+        Cancelar
+      </button>
       <button class="primary-button icon-button " type="button" (click)="setStatus()"
         *ngIf="this.data.par_modo === 'U' && visibilidad">
         <mat-icon> {{ this.estado ? 'remove_done' : 'done_all' }} </mat-icon>
         {{ this.estado ? 'Baja' : 'Reactivar' }}
-      </button>
-      <button class="primary-button icon-button" type="button" (click)="nextStep()" *ngIf="activeTabIndex === 0">
-        <mat-icon>arrow_forward_ios</mat-icon>
-        Siguiente
       </button>
       <button [class]="formGroup.invalid ? 'primary-button icon-button disabled' : 'primary-button icon-button'"
         type="submit" (click)="confirm()">
@@ -243,14 +251,6 @@
         <button class="primary-button icon-button" mat-dialog-close>
           <mat-icon> done </mat-icon>
           Aceptar
-        </button>
-        <button class="primary-button icon-button" type="button" (click)="prevStep()" *ngIf="activeTabIndex === 1">
-          <mat-icon>arrow_back_ios_new</mat-icon>
-          Anterior
-        </button>
-        <button class="primary-button icon-button" type="button" (click)="nextStep()" *ngIf="activeTabIndex === 0">
-          <mat-icon>arrow_forward_ios</mat-icon>
-          Siguiente
         </button>
       </div>
     </ng-template>

@@ -52,6 +52,7 @@ export class AddEditProductoDialogComponent {
   public estado: boolean = false;
   public activeTabIndex = 0;
   public dynamicHeight: boolean;
+  public icon: string;
 
   constructor(
     private dataSharingService: DataSharingService,
@@ -72,6 +73,7 @@ export class AddEditProductoDialogComponent {
     } else {
       this.dynamicHeight = false;
     }
+    this.setIcon();
   }
 
   public toggleDynamicHeight(): void {
@@ -521,5 +523,22 @@ export class AddEditProductoDialogComponent {
         }
       },
     });
+  }
+
+  private setIcon(): void {
+    switch (this.data.par_modo) {
+      case 'C':
+        this.icon = 'add_box';
+        break;
+      case 'U':
+        this.icon = 'edit';
+        break;
+      case 'R':
+        this.icon = 'visibility';
+        break;
+      default:
+        this.icon = '';
+        break;
+    }
   }
 }
