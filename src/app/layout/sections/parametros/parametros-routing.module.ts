@@ -38,6 +38,8 @@ import { MotivoMovimientoProductoComponent } from './motivo-movimiento-producto/
 import { SubMotivoMovimientoProductoComponent } from './sub-motivo-movimiento-producto/sub-motivo-movimiento-producto.component';
 // 24 - UNIFICACION DE APORTES
 import { UnificadorAportesComponent } from './unificador-aportes/unificador-aportes.component';
+// 30 - REGLAS PARA MOVIMIENTOS PARA NOVEDADES AUTOMATICAS
+import { MvmtsNovedadesAutoComponent } from './mvmts-novedades-auto/mvmts-novedades-auto.component';
 // 32 - EXTENCION FUENTES DE INGRESOS
 import { ExtencionFuenteIngresoComponent } from './extencion-fuente-ingreso/extencion-fuente-ingreso.component';
 
@@ -113,6 +115,10 @@ const routes: Routes = [
   {
     path: 'parametros/unificacion-aportes',
     component: UnificadorAportesComponent,
+  },
+  {
+    path: 'parametros/mvmts-novedades-automaticas',
+    component: MvmtsNovedadesAutoComponent,
   },
   {
     path: 'parametros/extencion-fuente-ingreso',

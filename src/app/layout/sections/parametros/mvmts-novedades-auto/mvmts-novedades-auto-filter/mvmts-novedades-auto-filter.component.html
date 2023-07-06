@@ -1,0 +1,76 @@
+<section class="seeker-section">
+
+  <mat-accordion>
+    <mat-expansion-panel class="mat-elevation-z1">
+      <mat-expansion-panel-header floating>
+        <mat-panel-title> Opciones de búsqueda </mat-panel-title>
+      </mat-expansion-panel-header>
+      
+      <form>
+        <div class="seeker-fields-container">
+          <mat-form-field class="seeker-form-field">
+            <mat-label class="seeker-label"> Fuente de ingreso </mat-label>
+            <input matInput class="seeker-input" #inputCapita 
+            (keydown.enter)="performSearch($event, inputCapita, inputProducto, inputSubProd, inputPlan)"
+            readonly >
+          </mat-form-field>
+          <div class="icon" (click)="searchDialog('capita_origen', inputCapita, inputSubProd)">
+            <mat-icon class="material-symbols-outlined"> search </mat-icon>
+          </div>
+          <div [class]="inputCapita.value === ''
+                ? 'icon icon-disabled'
+                : 'icon'" >
+            <mat-icon class="material-symbols-outlined" (click)="clearInput('capita_origen', inputCapita, inputSubProd)"> close </mat-icon>
+          </div>
+        </div>
+
+        <div class="seeker-fields-container">
+          <mat-form-field class="seeker-form-field">
+            <mat-label class="seeker-label"> Producto </mat-label>
+            <input matInput class="seeker-input" #inputProducto 
+            (keydown.enter)="performSearch($event, inputCapita, inputProducto, inputSubProd, inputPlan)"
+            readonly >
+          </mat-form-field>
+          <div class="icon" (click)="searchDialog('producto', inputProducto, inputSubProd)">
+            <mat-icon class="material-symbols-outlined"> search </mat-icon>
+          </div>
+          <div [class]="inputProducto.value === ''
+                ? 'icon icon-disabled'
+                : 'icon'" >
+            <mat-icon class="material-symbols-outlined" (click)="clearInput('producto', inputProducto, inputSubProd)"> close </mat-icon>
+          </div>
+        </div>
+
+        <div class="seeker-fields-container">
+          <mat-form-field class="seeker-form-field">
+            <mat-label class="seeker-label" for="subproducto"> Ingrese el subproducto </mat-label>
+            <input matInput class="seeker-input" 
+            #inputSubProd 
+            (keydown.enter)="performSearch($event, inputCapita, inputProducto, inputSubProd, inputPlan)"
+            readonly>
+          </mat-form-field>
+        </div>
+
+        <div class="seeker-fields-container">
+          <mat-form-field class="seeker-form-field">
+            <mat-label class="seeker-label" for="descripcion"> Ingrese el plan </mat-label>
+            <input matInput class="seeker-input" #inputPlan (keydown.enter)="performSearch($event, inputCapita, inputProducto, inputSubProd, inputPlan)">
+          </mat-form-field>
+        </div>
+
+
+        <div class="buttons-container">
+          <button class="primary-button icon-button" type="button" (click)="performSearch($event, inputCapita, inputProducto, inputSubProd, inputPlan)" >
+            <mat-icon> done </mat-icon>
+            Buscar </button>
+            <button class="primary-button icon-button" type="button" 
+            (click)="clear(inputCapita, inputProducto, inputSubProd, inputPlan)" 
+            [disabled]="inputCapita.value.length === 0 && inputProducto.value.length === 0 && inputSubProd.value.length === 0 && inputPlan.value.length === 0">
+            <mat-icon> close </mat-icon>
+            Limpiar
+          </button>
+        </div>
+      </form>
+    </mat-expansion-panel>
+  </mat-accordion>
+</section>

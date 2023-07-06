@@ -106,6 +106,15 @@ import { UnificadorAporteDashboardComponent } from './unificador-aportes/compone
 import { UnificadorAporteFilterComponent } from './unificador-aportes/components/unificador-aporte-filter/unificador-aporte-filter.component';
 import { AddEditUnificadorAporteComponent } from './unificador-aportes/components/add-edit-unificador-aporte/add-edit-unificador-aporte.component';
 import { ModalProductoComponent } from './unificador-aportes/components/add-edit-unificador-aporte/modal-producto/modal-producto.component';
+// 30 - REGLAS PARA MOVIMIENTOS PARA NOVEDADES AUTOMATICAS
+import { AddEditMvmtsNovedadesAutoDialogComponent } from './mvmts-novedades-auto/add-edit-mvmts-novedades-auto-dialog/add-edit-mvmts-novedades-auto-dialog.component';
+import { MvmtsNovedadesAutoComponent } from './mvmts-novedades-auto/mvmts-novedades-auto.component';
+import { MvmtsNovedadesAutoDashboardComponent } from './mvmts-novedades-auto/mvmts-novedades-auto-dashboard/mvmts-novedades-auto-dashboard.component';
+import { MvmtsNovedadesAutoFilterComponent } from './mvmts-novedades-auto/mvmts-novedades-auto-filter/mvmts-novedades-auto-filter.component';
+import { ProdSubSetDialogComponent } from './mvmts-novedades-auto/add-edit-mvmts-novedades-auto-dialog/producto-set-dialog/producto-set-dialog.component';
+import { PlanSetDialogComponent } from './mvmts-novedades-auto/add-edit-mvmts-novedades-auto-dialog/plan-set-dialog/plan-set-dialog.component';
+import { FuenteIngresoSetDialogComponent } from './mvmts-novedades-auto/add-edit-mvmts-novedades-auto-dialog/fuente-ingreso-set-dialog/fuente-ingreso-set-dialog.component';
+import { MotivMovimientoSetDialogComponent } from './mvmts-novedades-auto/add-edit-mvmts-novedades-auto-dialog/motivo-movimiento-set-dialog/motivo-movimiento-set-dialog.component';
 // 32 - EXTENCION DE FUENTES DE INGRESOS
 import { ExtencionFuenteIngresoComponent } from './extencion-fuente-ingreso/extencion-fuente-ingreso.component';
 import { ExtencionFuenteIngresoDashboardComponent } from './extencion-fuente-ingreso/components/extencion-fuente-ingreso-dashboard/extencion-fuente-ingreso-dashboard.component';
@@ -212,6 +221,16 @@ import { ModalExtencionProductoComponent } from './extencion-fuente-ingreso/comp
     UnificadorAporteFilterComponent,
     AddEditUnificadorAporteComponent,
     ModalProductoComponent,
+    // 30 - REGLAS PARA MOVIMIENTOS PARA NOVEDADES AUTOMATICAS
+    AddEditMvmtsNovedadesAutoDialogComponent,
+    MvmtsNovedadesAutoDashboardComponent,
+    MvmtsNovedadesAutoFilterComponent,
+    MvmtsNovedadesAutoComponent,
+    ProdSubSetDialogComponent,
+    PlanSetDialogComponent,
+    FuenteIngresoSetDialogComponent,
+    MotivMovimientoSetDialogComponent,
+
     // 32 - EXTENCION FUENTES DE INGRESOS
     ExtencionFuenteIngresoComponent,
     ExtencionFuenteIngresoDashboardComponent,

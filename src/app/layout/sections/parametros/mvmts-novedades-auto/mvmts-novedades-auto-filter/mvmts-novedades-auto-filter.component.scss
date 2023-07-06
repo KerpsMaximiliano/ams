@@ -1,0 +1,32 @@
+.icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 7px;
+  padding: 0.35rem;
+  color: white;
+  background-color: var(--sancor-blue);
+  margin: 0px 0px 16px;
+  cursor: pointer;
+}
+
+/* 
+  Estilos para limpiar el valor de un campo(modal)
+*/
+
+.icon-disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  filter: grayscale(100%);
+}
+
+.disabled {
+  opacity: 0.5;
+  pointer-events: pointer;
+  cursor: not-allowed;
+  filter: grayscale(100%);
+}
+
+.disabled:hover {
+  filter: grayscale(100%);
+}

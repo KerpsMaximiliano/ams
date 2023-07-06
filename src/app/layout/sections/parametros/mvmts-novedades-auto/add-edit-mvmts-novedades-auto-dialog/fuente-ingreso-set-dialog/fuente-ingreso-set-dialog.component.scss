@@ -1,0 +1,99 @@
+/* Corrección tamaño modal */
+::ng-deep .mat-dialog-container {
+  padding: 1rem;
+  background-color: #f1f1f1;
+  height: 100%;
+  width: 100%;
+}
+
+.dialog-content {
+  min-height: 570px;
+  min-width: 650px;
+  background-color: #f1f1f1;
+}
+
+.seeker-fields-container {
+  margin-top: 1.2rem;
+}
+
+.buttons-container {
+  margin-top: 0rem;
+  margin-bottom: 0.5rem;
+}
+
+.table-container {
+  margin-bottom: 0.3rem;
+}
+
+tr.mat-header-row {
+  height: 3rem;
+}
+
+tr.mat-row {
+  height: 2.7rem;
+}
+
+::ng-deep .mat-paginator-container {
+  min-height: 3rem !important;
+  max-height: 3rem !important;
+}
+
+.btn {
+  width: 100%;
+  max-width: 130px;
+}
+
+/*
+ * Texto alineado a la izquierda.
+*/
+.mat-column-descripcion.mat-header-cell,
+.mat-column-descripcion.mat-cell {
+  text-align: left !important;
+  padding-left: 1vw;
+  word-break: break-all;
+}
+
+/*
+ * Número y fecha alineado a la derecha.
+*/
+.mat-column-codigo_fuente_ingreso.mat-header-cell,
+.mat-column-codigo_fuente_ingreso.mat-cell {
+  text-align: right !important;
+  padding-right: 1vw;
+}
+
+/*
+ * Tamaño de columnas.
+*/
+.mat-column-codigo_fuente_ingreso.mat-header-cell,
+.mat-column-codigo_fuente_ingreso.mat-cell {
+  min-width: 60px;
+  width: 20%;
+}
+
+.mat-column-descripcion.mat-header-cell,
+.mat-column-descripcion.mat-cell {
+  min-width: 110px;
+  width: 80%;
+}
+
+.mat-column-actions.mat-header-cell,
+.mat-column-actions.mat-cell {
+  min-width: 100px;
+}
+
+/*
+ * Oculta la paginación y el botón confirmar hasta que existan datos.
+*/
+.d-none {
+  display: none;
+}
+
+/*
+ * Cambia el tamaño y los espacios del filtro.
+*/
+.filter-container {
+  width: 47%;
+  margin-top: 0.3rem;
+  margin-bottom: 0.3rem;
+}
