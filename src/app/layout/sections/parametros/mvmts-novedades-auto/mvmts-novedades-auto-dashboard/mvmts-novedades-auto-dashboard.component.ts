@@ -7,6 +7,7 @@ import {
   Output,
 } from '@angular/core';
 
+// * Animations
 import {
   animate,
   state,
@@ -38,6 +39,15 @@ import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
   ]
 })
 export class MvmtsNovedadesAutoDashboardComponent {
+  @ViewChild(MatPaginator, { static: true }) public paginator!: MatPaginator;
+
+  @Input() public receivedData: IMvmtsNovedadesAuto[] = [];
+
+  @Output() public viewEvent: EventEmitter<IMvmtsNovedadesAuto> =
+    new EventEmitter<IMvmtsNovedadesAuto>();
+  @Output() public editEvent: EventEmitter<IMvmtsNovedadesAuto> =
+    new EventEmitter<IMvmtsNovedadesAuto>();
+
   public displayedColumns: string[] = [
     'capita_origen',
     'producto_origen',
@@ -45,21 +55,13 @@ export class MvmtsNovedadesAutoDashboardComponent {
     'plan_origen',
     'capita_rel',
     'actions',
-  ];
-  columnsToDisplayWithExpand = [...this.displayedColumns];
-  expandedElement: any | null;
-
+  ];  
+  public columnsToDisplayWithExpand = [...this.displayedColumns];
+  public expandedElement: any | null;
   public dataSource: MatTableDataSource<IMvmtsNovedadesAuto>;
-  @ViewChild(MatPaginator, { static: true }) public paginator!: MatPaginator;
-
-  @Input() public receivedData: IMvmtsNovedadesAuto[] = [];
-  @Output() public viewEvent: EventEmitter<IMvmtsNovedadesAuto> =
-    new EventEmitter<IMvmtsNovedadesAuto>();
-  @Output() public editEvent: EventEmitter<IMvmtsNovedadesAuto> =
-    new EventEmitter<IMvmtsNovedadesAuto>();
-
 
   constructor(private matPaginatorIntl: MatPaginatorIntl) {}
+  
   ngOnInit(): void {
     this.configurePaginator();
   }

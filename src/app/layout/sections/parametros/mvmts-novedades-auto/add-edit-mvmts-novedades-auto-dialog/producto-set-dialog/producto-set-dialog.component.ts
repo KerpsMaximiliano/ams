@@ -26,6 +26,7 @@ import { ConfirmDialogComponent } from '../../../../components/confirm-dialog/co
   styleUrls: ['./producto-set-dialog.component.scss'],
 })
 export class ProdSubSetDialogComponent implements OnInit {
+  @ViewChild(MatPaginator, { static: true }) public paginator!: MatPaginator;
   public displayedColumns: string[] = [
     'codigo_producto',
     'descripcion_producto',
@@ -34,12 +35,9 @@ export class ProdSubSetDialogComponent implements OnInit {
     'actions',
   ];
   public dataSource: MatTableDataSource<IProductoAdministrador>;
-
-  @ViewChild(MatPaginator, { static: true }) public paginator!: MatPaginator;
-
   public productos: IProductoAdministrador[];
 
-  showGuardarButton: any;
+  public showGuardarButton: any;
 
   constructor(
     private producto: ProductoService,

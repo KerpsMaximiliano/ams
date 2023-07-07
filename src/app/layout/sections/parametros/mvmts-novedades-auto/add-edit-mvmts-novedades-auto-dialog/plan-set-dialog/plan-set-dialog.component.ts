@@ -21,19 +21,17 @@ import { ConfirmDialogComponent } from '../../../../components/confirm-dialog/co
   styleUrls: ['./plan-set-dialog.component.scss'],
 })
 export class PlanSetDialogComponent implements OnInit {
+  @ViewChild(MatPaginator, { static: true }) public paginator!: MatPaginator;
   public displayedColumns: string[] = [
     'codigo_producto',
     'plan',
     'descripcion',
     'actions',
   ];
+
   public dataSource: MatTableDataSource<IPlan>;
-
-  @ViewChild(MatPaginator, { static: true }) public paginator!: MatPaginator;
-
   public plan: IPlan[];
-
-  showGuardarButton: any;
+  public showGuardarButton: any;
 
   constructor(
     private mvmtsAutoService: MvmtsNovedadesAutoService,
@@ -41,15 +39,30 @@ export class PlanSetDialogComponent implements OnInit {
     private utils: UtilService,
     public dialogRef: MatDialogRef<ConfirmDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {}
+  ) { }
 
   ngOnInit(): void {
+    this.getPlanes()
     this.configurePaginator();
   }
 
-  public getPlanes(value: string): void {
-    if(value !== ''){
-    this.showGuardarButton = undefined;
+  public confirm(): void {
+    this.dialogRef.close({
+      plan: this.showGuardarButton.plan,
+      descripcion: this.showGuardarButton.descripcion,
+    });
+  }
+
+  public clear(input: HTMLInputElement) {
+    input.value = '';
+  }
+
+  public applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  private getPlanes(): void {
     this.utils.openLoading();
     this.mvmtsAutoService
       .CRUD(
@@ -63,8 +76,8 @@ export class PlanSetDialogComponent implements OnInit {
           this.plan = Array.isArray(res.dataset)
             ? (res.dataset as IPlan[])
             : res.dataset
-            ? [res.dataset as IPlan]
-            : [];
+              ? [res.dataset as IPlan]
+              : [];
           this.dataSource = new MatTableDataSource<IPlan>(this.plan);
           this.dataSource.paginator = this.paginator;
         },
@@ -88,23 +101,6 @@ export class PlanSetDialogComponent implements OnInit {
           this.utils.closeLoading();
         },
       });
-    }
-  }
-
-  public confirm(): void {
-    this.dialogRef.close({
-      plan: this.showGuardarButton.plan,
-      descripcion: this.showGuardarButton.descripcion,
-    });
-  }
-
-  public clear(input: HTMLInputElement) {
-    input.value = '';
-  }
-
-  public applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   private configurePaginator(): void {

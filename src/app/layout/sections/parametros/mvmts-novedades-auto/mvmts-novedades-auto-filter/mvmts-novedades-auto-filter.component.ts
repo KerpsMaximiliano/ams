@@ -3,8 +3,12 @@ import {
   EventEmitter,
   Output,
 } from '@angular/core';
-import { FuenteIngresoSetDialogComponent } from '../add-edit-mvmts-novedades-auto-dialog/fuente-ingreso-set-dialog/fuente-ingreso-set-dialog.component';
+
+// * Material
 import { MatDialog } from '@angular/material/dialog';
+
+// * Components
+import { FuenteIngresoSetDialogComponent } from '../add-edit-mvmts-novedades-auto-dialog/fuente-ingreso-set-dialog/fuente-ingreso-set-dialog.component';
 import { ProdSubSetDialogComponent } from '../add-edit-mvmts-novedades-auto-dialog/producto-set-dialog/producto-set-dialog.component';
 
 
@@ -14,7 +18,6 @@ import { ProdSubSetDialogComponent } from '../add-edit-mvmts-novedades-auto-dial
   styleUrls: ['./mvmts-novedades-auto-filter.component.scss'],
 })
 export class MvmtsNovedadesAutoFilterComponent {
-
   @Output() search: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(private dialog: MatDialog) {}

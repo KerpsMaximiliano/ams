@@ -26,19 +26,16 @@ import { ConfirmDialogComponent } from '../../../../components/confirm-dialog/co
   styleUrls: ['./motivo-movimiento-set-dialog.component.scss'],
 })
 export class MotivMovimientoSetDialogComponent implements OnInit {
+  @ViewChild(MatPaginator, { static: true }) public paginator!: MatPaginator;
+  @ViewChild('selectMovimiento') selectMovimiento: any;
   public displayedColumns = [
     'id_motivo',
     'descripcion',
     'actions',
   ];
   public dataSource: MatTableDataSource<IMotivoMovimiento>;
-
-  @ViewChild(MatPaginator, { static: true }) public paginator!: MatPaginator;
-  @ViewChild('selectMovimiento') selectMovimiento: any;
-
   public movimientos: IMotivoMovimiento[];
-
-  showGuardarButton: any;
+  public showGuardarButton: any;
 
   constructor(
     private movimientoService: MotivoMovimientoService,

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 // * Services
@@ -21,13 +21,12 @@ import { MvmtsNovedadesAutoDashboardComponent } from './mvmts-novedades-auto-das
   templateUrl: './mvmts-novedades-auto.component.html',
   styleUrls: ['./mvmts-novedades-auto.component.scss'],
 })
-export class MvmtsNovedadesAutoComponent implements OnInit, OnDestroy {
+export class MvmtsNovedadesAutoComponent implements OnDestroy {
   private dataSubscription: Subscription | undefined;
   @ViewChild(MvmtsNovedadesAutoDashboardComponent)
   dashboard: MvmtsNovedadesAutoDashboardComponent;
   
-  dataSent: IMvmtsNovedadesAuto[];
-  request: boolean = false;
+  public dataSent: IMvmtsNovedadesAuto[];
 
   constructor(
     private dataSharingService: DataSharingService,
@@ -36,9 +35,6 @@ export class MvmtsNovedadesAutoComponent implements OnInit, OnDestroy {
     private dialog: MatDialog
   ) {}
 
-  ngOnInit(): void {
-  }
-
   ngOnDestroy(): void {
     if (this.dataSubscription) {
       this.dataSubscription.unsubscribe();
@@ -46,7 +42,7 @@ export class MvmtsNovedadesAutoComponent implements OnInit, OnDestroy {
   }
 
   public new(): void {
-    const dialogRef = this.openDialog('CREAR REGLAS PARA MOVIMIENTOS PARA NOVEDADES AUTOMÁTICAS', 'C', true);
+    const dialogRef = this.openDialog('CREAR REGLAS PARA MOVIMIENTOS', 'C', true);
     this.dataSubscription = this.dataSharingService
     .getData()
     .subscribe((res) => {
@@ -63,7 +59,7 @@ export class MvmtsNovedadesAutoComponent implements OnInit, OnDestroy {
   }
 
   public edit(data: IMvmtsNovedadesAuto): void {
-    const dialogRef = this.openDialog('EDITAR REGLAS PARA MOVIMIENTOS PARA NOVEDADES AUTOMÁTICAS', 'U', true, data);
+    const dialogRef = this.openDialog('EDITAR REGLAS PARA MOVIMIENTOS', 'U', true, data);
     this.dataSubscription = this.dataSharingService
       .getData()
       .subscribe((res) => {
@@ -80,7 +76,7 @@ export class MvmtsNovedadesAutoComponent implements OnInit, OnDestroy {
   }
 
   public view(data: IMvmtsNovedadesAuto): void {
-    this.openDialog('VER REGLA PARA MOVIMIENTOS PARA NOVEDADES AUTOMÁTICAS', 'R', false, data);
+    this.openDialog('VER REGLA PARA MOVIMIENTOS', 'R', false, data);
   }
 
   public getMvmts(value: string): void {

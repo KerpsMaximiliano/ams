@@ -45,7 +45,7 @@ export class FuenteIngresoSetDialogComponent implements OnInit {
   ngOnInit(): void {
     this.configurePaginator();
   }
-
+  
   public getFuenteIngreso(descripcion: string, desc_empresa: string): void {
     this.showGuardarButton = undefined;
     this.utils.openLoading();
