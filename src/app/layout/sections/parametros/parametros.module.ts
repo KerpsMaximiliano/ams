@@ -111,10 +111,10 @@ import { AddEditMvmtsNovedadesAutoDialogComponent } from './mvmts-novedades-auto
 import { MvmtsNovedadesAutoComponent } from './mvmts-novedades-auto/mvmts-novedades-auto.component';
 import { MvmtsNovedadesAutoDashboardComponent } from './mvmts-novedades-auto/mvmts-novedades-auto-dashboard/mvmts-novedades-auto-dashboard.component';
 import { MvmtsNovedadesAutoFilterComponent } from './mvmts-novedades-auto/mvmts-novedades-auto-filter/mvmts-novedades-auto-filter.component';
-import { ProdSubSetDialogComponent } from './mvmts-novedades-auto/add-edit-mvmts-novedades-auto-dialog/producto-set-dialog/producto-set-dialog.component';
-import { PlanSetDialogComponent } from './mvmts-novedades-auto/add-edit-mvmts-novedades-auto-dialog/plan-set-dialog/plan-set-dialog.component';
-import { FuenteIngresoSetDialogComponent } from './mvmts-novedades-auto/add-edit-mvmts-novedades-auto-dialog/fuente-ingreso-set-dialog/fuente-ingreso-set-dialog.component';
-import { MotivMovimientoSetDialogComponent } from './mvmts-novedades-auto/add-edit-mvmts-novedades-auto-dialog/motivo-movimiento-set-dialog/motivo-movimiento-set-dialog.component';
+import { SetProdSubDialogComponent } from './mvmts-novedades-auto/add-edit-mvmts-novedades-auto-dialog/set-producto-dialog/set-producto-dialog.component';
+import { SetPlanDialogComponent } from './mvmts-novedades-auto/add-edit-mvmts-novedades-auto-dialog/set-plan-dialog/set-plan-dialog.component';
+import { FuenteIngresoSetDialogComponent } from './mvmts-novedades-auto/add-edit-mvmts-novedades-auto-dialog/set-fuente-ingreso-dialog/set-fuente-ingreso-dialog.component';
+import { SetMotivMovimientoDialogComponent } from './mvmts-novedades-auto/add-edit-mvmts-novedades-auto-dialog/set-motivo-movimiento-dialog/set-motivo-movimiento-dialog.component';
 // 32 - EXTENCION DE FUENTES DE INGRESOS
 import { ExtencionFuenteIngresoComponent } from './extencion-fuente-ingreso/extencion-fuente-ingreso.component';
 import { ExtencionFuenteIngresoDashboardComponent } from './extencion-fuente-ingreso/components/extencion-fuente-ingreso-dashboard/extencion-fuente-ingreso-dashboard.component';
@@ -226,11 +226,10 @@ import { ModalExtencionProductoComponent } from './extencion-fuente-ingreso/comp
     MvmtsNovedadesAutoDashboardComponent,
     MvmtsNovedadesAutoFilterComponent,
     MvmtsNovedadesAutoComponent,
-    ProdSubSetDialogComponent,
-    PlanSetDialogComponent,
+    SetProdSubDialogComponent,
+    SetPlanDialogComponent,
     FuenteIngresoSetDialogComponent,
-    MotivMovimientoSetDialogComponent,
-
+    SetMotivMovimientoDialogComponent,
     // 32 - EXTENCION FUENTES DE INGRESOS
     ExtencionFuenteIngresoComponent,
     ExtencionFuenteIngresoDashboardComponent,

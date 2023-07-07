@@ -2,10 +2,10 @@ import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 
 // * Services
 import { UtilService } from 'src/app/core/services/util.service';
-import { FuenteIngresoService } from 'src/app/core/services/fuente-ingreso.service';
+import { MvmtsNovedadesAutoService } from 'src/app/core/services/mvmts-novedades-auto.service';
 
 // * Interfaces
-import { IFuenteIngreso } from 'src/app/core/models/fuente-ingreso.interface';
+import { IPlan } from 'src/app/core/models/mvmts-novedades-auto.interface';
 
 // * Material
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -16,62 +16,72 @@ import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { ConfirmDialogComponent } from '../../../../components/confirm-dialog/confirm-dialog.component';
 
 @Component({
-  selector: 'app-fuente-ingreso-set-dialog',
-  templateUrl: './fuente-ingreso-set-dialog.component.html',
-  styleUrls: ['./fuente-ingreso-set-dialog.component.scss'],
+  selector: 'app-set-plan-dialog',
+  templateUrl: './set-plan-dialog.component.html',
+  styleUrls: ['./set-plan-dialog.component.scss'],
 })
-export class FuenteIngresoSetDialogComponent implements OnInit {
+export class SetPlanDialogComponent implements OnInit {
+  @ViewChild(MatPaginator, { static: true }) public paginator!: MatPaginator;
   public displayedColumns: string[] = [
-    'codigo_fuente_ingreso',
+    'codigo_producto',
+    'plan',
     'descripcion',
     'actions',
   ];
-  public dataSource: MatTableDataSource<IFuenteIngreso>;
 
-  @ViewChild(MatPaginator, { static: true }) public paginator!: MatPaginator;
-
-  public fuentesIngreso: IFuenteIngreso[];
-
-  showGuardarButton: any;
+  public dataSource: MatTableDataSource<IPlan>;
+  public plan: IPlan[];
+  public showGuardarButton: any;
 
   constructor(
-    private fuenteIngresoService: FuenteIngresoService,
+    private mvmtsAutoService: MvmtsNovedadesAutoService,
     private matPaginatorIntl: MatPaginatorIntl,
     private utils: UtilService,
     public dialogRef: MatDialogRef<ConfirmDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {}
+  ) { }
 
   ngOnInit(): void {
+    this.getPlanes()
     this.configurePaginator();
   }
-  
-  public getFuenteIngreso(descripcion: string, desc_empresa: string): void {
-    this.showGuardarButton = undefined;
+
+  public confirm(): void {
+    this.dialogRef.close({
+      plan: this.showGuardarButton.plan,
+      descripcion: this.showGuardarButton.descripcion,
+    });
+  }
+
+  public applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  private getPlanes(): void {
     this.utils.openLoading();
-    this.fuenteIngresoService
+    this.mvmtsAutoService
       .CRUD(
         JSON.stringify({
-          par_modo: 'O',
-          descripcion: descripcion,
-          desc_empresa: desc_empresa
+          par_modo: 'P',
+          producto_origen: this.data.codigo_producto,
         })
       )
       .subscribe({
         next: (res: any) => {
-          this.fuentesIngreso = Array.isArray(res.dataset)
-            ? (res.dataset as IFuenteIngreso[])
+          this.plan = Array.isArray(res.dataset)
+            ? (res.dataset as IPlan[])
             : res.dataset
-            ? [res.dataset as IFuenteIngreso]
-            : [];
-          this.dataSource = new MatTableDataSource<IFuenteIngreso>(this.fuentesIngreso);
+              ? [res.dataset as IPlan]
+              : [];
+          this.dataSource = new MatTableDataSource<IPlan>(this.plan);
           this.dataSource.paginator = this.paginator;
         },
         error: (err: any) => {
           this.utils.closeLoading();
           if (err.status === 404) {
-            this.fuentesIngreso = [];
-            this.dataSource = new MatTableDataSource<IFuenteIngreso>(this.fuentesIngreso);
+            this.plan = [];
+            this.dataSource = new MatTableDataSource<IPlan>(this.plan);
             this.dataSource.paginator = this.paginator;
           } else {
             const errorMessage =
@@ -82,23 +92,11 @@ export class FuenteIngresoSetDialogComponent implements OnInit {
           }
         },
         complete: () => {
-          this.dataSource = new MatTableDataSource<IFuenteIngreso>(this.fuentesIngreso);
+          this.dataSource = new MatTableDataSource<IPlan>(this.plan);
           this.dataSource.paginator = this.paginator;
           this.utils.closeLoading();
         },
       });
-  }
-
-  public confirm(): void {
-    this.dialogRef.close({
-      codigo_fuente_ingreso: this.showGuardarButton.codigo_fuente_ingreso,
-      descripcion: this.showGuardarButton.descripcion,
-    });
-  }
-
-  public clear(descripcion: HTMLInputElement, desc_empresa: HTMLInputElement) {
-    descripcion.value = '';
-    desc_empresa.value = '';
   }
 
   private configurePaginator(): void {

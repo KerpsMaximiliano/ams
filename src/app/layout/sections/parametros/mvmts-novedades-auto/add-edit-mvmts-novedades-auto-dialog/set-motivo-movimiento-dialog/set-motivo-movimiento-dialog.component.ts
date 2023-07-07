@@ -1,11 +1,16 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  Inject,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 
 // * Services
 import { UtilService } from 'src/app/core/services/util.service';
-import { MvmtsNovedadesAutoService } from 'src/app/core/services/mvmts-novedades-auto.service';
+import { MotivoMovimientoService } from 'src/app/core/services/motivo-movimiento.service';
 
 // * Interfaces
-import { IPlan } from 'src/app/core/models/mvmts-novedades-auto.interface';
+import { IMotivoMovimiento } from 'src/app/core/models/motivo-movimiento.interface';
 
 // * Material
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -16,76 +21,64 @@ import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { ConfirmDialogComponent } from '../../../../components/confirm-dialog/confirm-dialog.component';
 
 @Component({
-  selector: 'app-plan-set-dialog',
-  templateUrl: './plan-set-dialog.component.html',
-  styleUrls: ['./plan-set-dialog.component.scss'],
+  selector: 'app-set-motivo-movimiento-dialog',
+  templateUrl: './set-motivo-movimiento-dialog.component.html',
+  styleUrls: ['./set-motivo-movimiento-dialog.component.scss'],
 })
-export class PlanSetDialogComponent implements OnInit {
+export class SetMotivMovimientoDialogComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) public paginator!: MatPaginator;
-  public displayedColumns: string[] = [
-    'codigo_producto',
-    'plan',
+  @ViewChild('selectMovimiento') selectMovimiento: any;
+  public displayedColumns = [
+    'id_motivo',
     'descripcion',
     'actions',
   ];
-
-  public dataSource: MatTableDataSource<IPlan>;
-  public plan: IPlan[];
+  public dataSource: MatTableDataSource<IMotivoMovimiento>;
+  public movimientos: IMotivoMovimiento[];
   public showGuardarButton: any;
 
   constructor(
-    private mvmtsAutoService: MvmtsNovedadesAutoService,
+    private movimientoService: MotivoMovimientoService,
     private matPaginatorIntl: MatPaginatorIntl,
     private utils: UtilService,
     public dialogRef: MatDialogRef<ConfirmDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-    this.getPlanes()
     this.configurePaginator();
   }
 
-  public confirm(): void {
-    this.dialogRef.close({
-      plan: this.showGuardarButton.plan,
-      descripcion: this.showGuardarButton.descripcion,
-    });
-  }
-
-  public clear(input: HTMLInputElement) {
-    input.value = '';
-  }
-
-  public applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
-
-  private getPlanes(): void {
+  public getMovimientos(value: string): void {
+    this.showGuardarButton = null;
     this.utils.openLoading();
-    this.mvmtsAutoService
+    this.movimientoService
       .CRUD(
         JSON.stringify({
-          par_modo: 'P',
-          producto_origen: this.data.codigo_producto,
+          par_modo: 'O',
+          tipo_motivo: this.selectMovimiento.value,
+          descripcion: value
         })
       )
       .subscribe({
         next: (res: any) => {
-          this.plan = Array.isArray(res.dataset)
-            ? (res.dataset as IPlan[])
+          this.movimientos = Array.isArray(res.dataset)
+            ? (res.dataset as IMotivoMovimiento[])
             : res.dataset
-              ? [res.dataset as IPlan]
-              : [];
-          this.dataSource = new MatTableDataSource<IPlan>(this.plan);
+            ? [res.dataset as IMotivoMovimiento]
+            : [];
+          this.dataSource = new MatTableDataSource<IMotivoMovimiento>(
+            this.movimientos
+          );
           this.dataSource.paginator = this.paginator;
         },
         error: (err: any) => {
           this.utils.closeLoading();
           if (err.status === 404) {
-            this.plan = [];
-            this.dataSource = new MatTableDataSource<IPlan>(this.plan);
+            this.movimientos = [];
+            this.dataSource = new MatTableDataSource<IMotivoMovimiento>(
+              this.movimientos
+            );
             this.dataSource.paginator = this.paginator;
           } else {
             const errorMessage =
@@ -96,11 +89,24 @@ export class PlanSetDialogComponent implements OnInit {
           }
         },
         complete: () => {
-          this.dataSource = new MatTableDataSource<IPlan>(this.plan);
+          this.dataSource = new MatTableDataSource<IMotivoMovimiento>(
+            this.movimientos
+          );
           this.dataSource.paginator = this.paginator;
           this.utils.closeLoading();
         },
       });
+  }
+
+  public confirm(): void {
+    this.dialogRef.close({
+      id_motivo: this.showGuardarButton.id_motivo,
+      descripcion: this.showGuardarButton.descripcion,
+    });
+  }
+
+  public clear(input: HTMLInputElement) {
+    input.value = '';
   }
 
   private configurePaginator(): void {

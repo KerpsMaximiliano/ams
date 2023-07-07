@@ -45,9 +45,7 @@
 
       <ng-container matColumnDef="codigo_fuente_ingreso">
         <th mat-header-cell *matHeaderCellDef> Código </th>
-        <td mat-cell *matCellDef="let param">
-          {{ param.codigo_fuente_ingreso }}
-        </td>
+        <td mat-cell *matCellDef="let param"> {{ param.codigo_fuente_ingreso }} </td>
       </ng-container>
 
       <ng-container matColumnDef="descripcion">
@@ -73,10 +71,14 @@
     </mat-paginator>
   </section>
 
-  <ng-container *ngIf="showGuardarButton">
-    <button class="primary-button icon-button btn" type="button" (click)="confirm()">
+  <div class="buttons-container">
+    <button class="primary-button icon-button" type="button" mat-dialog-close>
+      <mat-icon> close </mat-icon>
+      Cancelar
+    </button>
+    <button class="primary-button icon-button btn" type="button" (click)="confirm()" *ngIf="showGuardarButton">
       <mat-icon> done </mat-icon>
       Guardar
     </button>
-  </ng-container>
+  </div>
 </div>

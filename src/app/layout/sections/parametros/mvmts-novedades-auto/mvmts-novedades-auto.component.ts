@@ -42,7 +42,7 @@ export class MvmtsNovedadesAutoComponent implements OnDestroy {
   }
 
   public new(): void {
-    const dialogRef = this.openDialog('CREAR REGLAS PARA MOVIMIENTOS', 'C', true);
+    const dialogRef = this.openDialog('CREAR REGLAS PARA MOVIMIENTOS PARA', ' NOVEDADES AUTOMÁTICAS', 'C', true);
     this.dataSubscription = this.dataSharingService
     .getData()
     .subscribe((res) => {
@@ -59,13 +59,13 @@ export class MvmtsNovedadesAutoComponent implements OnDestroy {
   }
 
   public edit(data: IMvmtsNovedadesAuto): void {
-    const dialogRef = this.openDialog('EDITAR REGLAS PARA MOVIMIENTOS', 'U', true, data);
+    const dialogRef = this.openDialog('EDITAR REGLAS PARA MOVIMIENTOS PARA',' NOVEDADES AUTOMÁTICAS' , 'U', true, data);
     this.dataSubscription = this.dataSharingService
       .getData()
       .subscribe((res) => {
         this.performCRUD(
           res,
-          'La regla para movimiento de novedades automáticas se ha editado exitosamente.',
+          'La regla para movimientos de novedades automáticas se ha editado exitosamente.',
           dialogRef
         );
       });
@@ -76,7 +76,7 @@ export class MvmtsNovedadesAutoComponent implements OnDestroy {
   }
 
   public view(data: IMvmtsNovedadesAuto): void {
-    this.openDialog('VER REGLA PARA MOVIMIENTOS', 'R', false, data);
+    this.openDialog('VER REGLA PARA MOVIMIENTOS PARA', ' NOVEDADES AUTOMÁTICAS', 'R', false, data);
   }
 
   public getMvmts(value: string): void {
@@ -109,6 +109,7 @@ export class MvmtsNovedadesAutoComponent implements OnDestroy {
 
   private openDialog(
     title: string,
+    title2: string,
     par_modo: string,
     edit: boolean,
     data?: IMvmtsNovedadesAuto
@@ -116,12 +117,13 @@ export class MvmtsNovedadesAutoComponent implements OnDestroy {
     return this.dialog.open(AddEditMvmtsNovedadesAutoDialogComponent, {
       data: {
         title: title,
+        title2: title2,
         edit: edit,
         par_modo: par_modo,
         capita_origen: data?.capita_origen,
         producto_origen: data?.producto_origen,
         sub_producto_origen: data?.sub_producto_origen,
-        plan_origen: data?.plan_origen,
+        plan_origen: data?.plan_origen ? data?.plan_origen.trim() : '',
         mov_origen: data?.mov_origen,
         monotributo: data?.monotributo,
         capita_rel: data?.capita_rel,

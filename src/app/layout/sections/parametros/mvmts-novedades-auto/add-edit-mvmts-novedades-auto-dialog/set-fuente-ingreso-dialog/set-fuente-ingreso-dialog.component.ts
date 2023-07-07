@@ -1,16 +1,11 @@
-import {
-  Component,
-  Inject,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 
 // * Services
 import { UtilService } from 'src/app/core/services/util.service';
-import { ProductoService } from 'src/app/core/services/producto.service';
+import { FuenteIngresoService } from 'src/app/core/services/fuente-ingreso.service';
 
 // * Interfaces
-import { IProductoAdministrador } from 'src/app/core/models/producto-administrador.interface';
+import { IFuenteIngreso } from 'src/app/core/models/fuente-ingreso.interface';
 
 // * Material
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -21,26 +16,23 @@ import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { ConfirmDialogComponent } from '../../../../components/confirm-dialog/confirm-dialog.component';
 
 @Component({
-  selector: 'app-producto-set-dialog',
-  templateUrl: './producto-set-dialog.component.html',
-  styleUrls: ['./producto-set-dialog.component.scss'],
+  selector: 'app-set-fuente-ingreso-dialog',
+  templateUrl: './set-fuente-ingreso-dialog.component.html',
+  styleUrls: ['./set-fuente-ingreso-dialog.component.scss'],
 })
-export class ProdSubSetDialogComponent implements OnInit {
+export class FuenteIngresoSetDialogComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) public paginator!: MatPaginator;
   public displayedColumns: string[] = [
-    'codigo_producto',
-    'descripcion_producto',
-    'producto_administrador',
-    'descripcion_producto_administrador',
+    'codigo_fuente_ingreso',
+    'descripcion',
     'actions',
   ];
-  public dataSource: MatTableDataSource<IProductoAdministrador>;
-  public productos: IProductoAdministrador[];
-
+  public dataSource: MatTableDataSource<IFuenteIngreso>;
+  public fuentesIngreso: IFuenteIngreso[];
   public showGuardarButton: any;
 
   constructor(
-    private producto: ProductoService,
+    private fuenteIngresoService: FuenteIngresoService,
     private matPaginatorIntl: MatPaginatorIntl,
     private utils: UtilService,
     public dialogRef: MatDialogRef<ConfirmDialogComponent>,
@@ -49,37 +41,34 @@ export class ProdSubSetDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.configurePaginator();
-    this.getProductos()
   }
-
-  public getProductos(): void {
-    this.showGuardarButton = null;
+  
+  public getFuenteIngreso(descripcion: string, desc_empresa: string): void {
+    this.showGuardarButton = undefined;
     this.utils.openLoading();
-    this.producto
+    this.fuenteIngresoService
       .CRUD(
         JSON.stringify({
-          par_modo: 'A'
+          par_modo: 'O',
+          descripcion: descripcion,
+          desc_empresa: desc_empresa
         })
       )
       .subscribe({
         next: (res: any) => {
-          this.productos = Array.isArray(res.dataset)
-            ? (res.dataset as IProductoAdministrador[])
+          this.fuentesIngreso = Array.isArray(res.dataset)
+            ? (res.dataset as IFuenteIngreso[])
             : res.dataset
-            ? [res.dataset as IProductoAdministrador]
+            ? [res.dataset as IFuenteIngreso]
             : [];
-          this.dataSource = new MatTableDataSource<IProductoAdministrador>(
-            this.productos
-          );
+          this.dataSource = new MatTableDataSource<IFuenteIngreso>(this.fuentesIngreso);
           this.dataSource.paginator = this.paginator;
         },
         error: (err: any) => {
           this.utils.closeLoading();
           if (err.status === 404) {
-            this.productos = [];
-            this.dataSource = new MatTableDataSource<IProductoAdministrador>(
-              this.productos
-            );
+            this.fuentesIngreso = [];
+            this.dataSource = new MatTableDataSource<IFuenteIngreso>(this.fuentesIngreso);
             this.dataSource.paginator = this.paginator;
           } else {
             const errorMessage =
@@ -90,9 +79,7 @@ export class ProdSubSetDialogComponent implements OnInit {
           }
         },
         complete: () => {
-          this.dataSource = new MatTableDataSource<IProductoAdministrador>(
-            this.productos
-          );
+          this.dataSource = new MatTableDataSource<IFuenteIngreso>(this.fuentesIngreso);
           this.dataSource.paginator = this.paginator;
           this.utils.closeLoading();
         },
@@ -101,19 +88,14 @@ export class ProdSubSetDialogComponent implements OnInit {
 
   public confirm(): void {
     this.dialogRef.close({
-      codigo_producto: this.showGuardarButton.codigo_producto,
-      descripcion_producto: this.showGuardarButton.descripcion_producto,
-      producto_administrador: this.showGuardarButton.producto_administrador,
-      descripcion_producto_administrador: this.showGuardarButton.descripcion_producto_administrador,
+      codigo_fuente_ingreso: this.showGuardarButton.codigo_fuente_ingreso,
+      descripcion: this.showGuardarButton.descripcion ? this.showGuardarButton.descripcion.trim() : '',
     });
   }
 
-  public clear() {
-  }
-
-  public applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+  public clear(descripcion: HTMLInputElement, desc_empresa: HTMLInputElement) {
+    descripcion.value = '';
+    desc_empresa.value = '';
   }
 
   private configurePaginator(): void {

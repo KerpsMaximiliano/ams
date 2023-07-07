@@ -5,6 +5,8 @@ import {
   SimpleChanges,
   EventEmitter,
   Output,
+  OnChanges,
+  OnInit,
 } from '@angular/core';
 
 // * Animations
@@ -38,7 +40,7 @@ import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
     ]),
   ]
 })
-export class MvmtsNovedadesAutoDashboardComponent {
+export class MvmtsNovedadesAutoDashboardComponent implements OnInit, OnChanges {
   @ViewChild(MatPaginator, { static: true }) public paginator!: MatPaginator;
 
   @Input() public receivedData: IMvmtsNovedadesAuto[] = [];
@@ -67,7 +69,6 @@ export class MvmtsNovedadesAutoDashboardComponent {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(this.receivedData)
     if (changes['receivedData'] && !changes['receivedData'].firstChange) {
       this.dataSource = new MatTableDataSource<IMvmtsNovedadesAuto>(this.receivedData);
       this.dataSource.paginator = this.paginator;

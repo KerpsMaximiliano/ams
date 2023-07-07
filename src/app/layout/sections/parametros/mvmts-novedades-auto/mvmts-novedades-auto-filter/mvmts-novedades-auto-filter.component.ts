@@ -8,8 +8,8 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 
 // * Components
-import { FuenteIngresoSetDialogComponent } from '../add-edit-mvmts-novedades-auto-dialog/fuente-ingreso-set-dialog/fuente-ingreso-set-dialog.component';
-import { ProdSubSetDialogComponent } from '../add-edit-mvmts-novedades-auto-dialog/producto-set-dialog/producto-set-dialog.component';
+import { FuenteIngresoSetDialogComponent } from '../add-edit-mvmts-novedades-auto-dialog/set-fuente-ingreso-dialog/set-fuente-ingreso-dialog.component';
+import { SetProdSubDialogComponent } from '../add-edit-mvmts-novedades-auto-dialog/set-producto-dialog/set-producto-dialog.component';
 
 
 @Component({
@@ -19,6 +19,8 @@ import { ProdSubSetDialogComponent } from '../add-edit-mvmts-novedades-auto-dial
 })
 export class MvmtsNovedadesAutoFilterComponent {
   @Output() search: EventEmitter<any> = new EventEmitter<any>();
+  private codigo_fuente_ingreso: Number;
+  public booleanPlan: boolean = false;
 
   constructor(private dialog: MatDialog) {}
 
@@ -42,14 +44,16 @@ export class MvmtsNovedadesAutoFilterComponent {
     inputPlan.value = '';
   }
 
-  public clearInput(campo: string, input: HTMLInputElement, input2: HTMLInputElement): void{
+  public clearInput(campo: string, inputCapita: HTMLInputElement, inputProducto: HTMLInputElement, inputSubProd: HTMLInputElement): void{
     switch(campo){
       case 'capita_origen':
-        input.value = '';
+        inputCapita.value = '';
+        inputProducto.value = '';
+        inputSubProd.value = '';
         break;
       case 'producto':
-        input.value = '';
-        input2.value = '';
+        inputProducto.value = '';
+        inputSubProd.value = '';
         break;
     }
   }
@@ -67,22 +71,25 @@ export class MvmtsNovedadesAutoFilterComponent {
           next: (res) => {
             if (res) {
               input.value = res.descripcion;
+              this.codigo_fuente_ingreso = res.codigo_fuente_ingreso;
             }
           },
         });
         break;
       case 'producto':
-        const modalSetProd = this.dialog.open(ProdSubSetDialogComponent, {
+        const modalSetProd = this.dialog.open(SetProdSubDialogComponent, {
           data: {
-            title: 'SELECCIONE PRODUCTO - SUBPRODUCTO',
+            title: 'SELECCIONE PRODUCTO',
             edit: true,
+            codigo_fuente_ingreso: this.codigo_fuente_ingreso 
           },
         });
         modalSetProd.afterClosed().subscribe({
           next: (res) => {
             if (res) {
-             input.value = res.descripcion_producto;
-             input2.value = res.descripcion_producto_administrador;
+             input2.value = res.descripcion_producto ? res.descripcion_producto.trim() : '';
+             input.value = res.descripcion_producto_administrador ? res.descripcion_producto_administrador.trim() : '';
+             this.booleanPlan = true;
             }
           },
         });

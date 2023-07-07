@@ -113,8 +113,8 @@ export class NavMenuComponent {
           icon: 'keyboard_arrow_right',
         },
         {
-          // 30
-          title: 'Reglas automaticas',
+          // 30 - REGLAS PARA MOVIMIENTOS PARA NOVEDADES AUTOMATICAS
+          title: 'Reglas para movimientos',
           url: '/parametros/mvmts-novedades-automaticas',
           icon: 'keyboard_arrow_right',
         },

@@ -72,15 +72,19 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
 
-    <mat-paginator [pageSize]="5" showFirstLastButtons sticky aria-label="Controles de paginación."
+    <mat-paginator [pageSize]="5" showFirstLastButtons aria-label="Controles de paginación."
       [ngClass]="{'d-none': !dataSource || this.dataSource.data.length < 5 }">
     </mat-paginator>
   </section>
 
-  <ng-container *ngIf="showGuardarButton">
-    <button class="primary-button icon-button btn" type="button" (click)="confirm()">
-      <mat-icon>done</mat-icon>
+  <div class="buttons-container">
+    <button class="primary-button icon-button" type="button" mat-dialog-close>
+      <mat-icon> close </mat-icon>
+      Cancelar
+    </button>
+    <button class="primary-button icon-button btn" type="button" (click)="confirm()" *ngIf="showGuardarButton">
+      <mat-icon> done </mat-icon>
       Guardar
     </button>
-  </ng-container>
+  </div>
 </div>

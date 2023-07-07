@@ -1,15 +1,17 @@
 /* Corrección tamaño modal */
 ::ng-deep .mat-dialog-container {
   padding: 1rem;
-  background-color: #f1f1f1;
+  background-color: #fff;
   height: 100%;
   width: 100%;
 }
 
 .dialog-content {
-  min-height: 570px;
+  display: flex;
+  flex-direction: column;
+  min-height: 525px;
   min-width: 650px;
-  background-color: #f1f1f1;
+  background-color: #fff;
 }
 
 .seeker-fields-container {
@@ -17,7 +19,7 @@
 }
 
 .buttons-container {
-  margin-top: 0rem;
+  margin-top: auto;
   margin-bottom: 0.5rem;
 }
 
@@ -43,9 +45,12 @@ tr.mat-row {
   max-width: 130px;
 }
 
+
 /*
  * Texto alineado a la izquierda.
 */
+.mat-column-plan.mat-header-cell,
+.mat-column-plan.mat-cell,
 .mat-column-descripcion.mat-header-cell,
 .mat-column-descripcion.mat-cell {
   text-align: left !important;
@@ -56,8 +61,8 @@ tr.mat-row {
 /*
  * Número y fecha alineado a la derecha.
 */
-.mat-column-codigo_fuente_ingreso.mat-header-cell,
-.mat-column-codigo_fuente_ingreso.mat-cell {
+.mat-column-codigo_producto.mat-header-cell,
+.mat-column-codigo_producto.mat-cell {
   text-align: right !important;
   padding-right: 1vw;
 }
@@ -65,16 +70,21 @@ tr.mat-row {
 /*
  * Tamaño de columnas.
 */
-.mat-column-codigo_fuente_ingreso.mat-header-cell,
-.mat-column-codigo_fuente_ingreso.mat-cell {
+.mat-column-codigo_producto.mat-header-cell,
+.mat-column-codigo_producto.mat-cell {
   min-width: 60px;
-  width: 20%;
 }
 
 .mat-column-descripcion.mat-header-cell,
 .mat-column-descripcion.mat-cell {
-  min-width: 110px;
-  width: 80%;
+  min-width: 80px;
+  width: 50%;
+}
+
+.mat-column-plan.mat-header-cell,
+.mat-column-plan.mat-cell {
+  min-width: 50px;
+  width: 50%;
 }
 
 .mat-column-actions.mat-header-cell,

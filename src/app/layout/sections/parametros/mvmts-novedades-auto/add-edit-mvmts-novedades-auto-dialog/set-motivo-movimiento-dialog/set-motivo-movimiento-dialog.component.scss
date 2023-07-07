@@ -1,15 +1,17 @@
 /* Corrección tamaño modal */
 ::ng-deep .mat-dialog-container {
   padding: 1rem;
-  background-color: #f1f1f1;
+  background-color: #fff;
   height: 100%;
   width: 100%;
 }
 
 .dialog-content {
-  min-height: 570px;
+  display: flex;
+  flex-direction: column;
+  min-height: 525px;
   min-width: 650px;
-  background-color: #f1f1f1;
+  background-color: #fff;
 }
 
 .seeker-fields-container {
@@ -17,7 +19,7 @@
 }
 
 .buttons-container {
-  margin-top: 0rem;
+  margin-top: auto;
   margin-bottom: 0.5rem;
 }
 
@@ -42,6 +44,7 @@ tr.mat-row {
   width: 100%;
   max-width: 130px;
 }
+
 
 /*
  * Texto alineado a la izquierda.

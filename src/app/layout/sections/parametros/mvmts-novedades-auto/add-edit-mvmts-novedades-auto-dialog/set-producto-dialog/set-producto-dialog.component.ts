@@ -7,10 +7,10 @@ import {
 
 // * Services
 import { UtilService } from 'src/app/core/services/util.service';
-import { MotivoMovimientoService } from 'src/app/core/services/motivo-movimiento.service';
+import { ProductoService } from 'src/app/core/services/producto.service';
 
 // * Interfaces
-import { IMotivoMovimiento } from 'src/app/core/models/motivo-movimiento.interface';
+import { IProductoAdministrador } from 'src/app/core/models/producto-administrador.interface';
 
 // * Material
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -21,24 +21,26 @@ import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { ConfirmDialogComponent } from '../../../../components/confirm-dialog/confirm-dialog.component';
 
 @Component({
-  selector: 'app-motivo-movimiento-set-dialog',
-  templateUrl: './motivo-movimiento-set-dialog.component.html',
-  styleUrls: ['./motivo-movimiento-set-dialog.component.scss'],
+  selector: 'app-set-producto-dialog',
+  templateUrl: './set-producto-dialog.component.html',
+  styleUrls: ['./set-producto-dialog.component.scss'],
 })
-export class MotivMovimientoSetDialogComponent implements OnInit {
+export class SetProdSubDialogComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) public paginator!: MatPaginator;
-  @ViewChild('selectMovimiento') selectMovimiento: any;
-  public displayedColumns = [
-    'id_motivo',
-    'descripcion',
+  public displayedColumns: string[] = [
+    'codigo_producto',
+    'descripcion_producto',
+    'producto_administrador',
+    'descripcion_producto_administrador',
     'actions',
   ];
-  public dataSource: MatTableDataSource<IMotivoMovimiento>;
-  public movimientos: IMotivoMovimiento[];
+  public dataSource: MatTableDataSource<IProductoAdministrador>;
+  public productos: IProductoAdministrador[];
+
   public showGuardarButton: any;
 
   constructor(
-    private movimientoService: MotivoMovimientoService,
+    private producto: ProductoService,
     private matPaginatorIntl: MatPaginatorIntl,
     private utils: UtilService,
     public dialogRef: MatDialogRef<ConfirmDialogComponent>,
@@ -47,37 +49,51 @@ export class MotivMovimientoSetDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.configurePaginator();
+    this.getProductos()
   }
 
-  public getMovimientos(value: string): void {
+  public confirm(): void {
+    this.dialogRef.close({
+      codigo_producto: this.showGuardarButton.codigo_producto,
+      descripcion_producto: this.showGuardarButton.descripcion_producto ? this.showGuardarButton.descripcion_producto.trim() : '',
+      producto_administrador: this.showGuardarButton.producto_administrador,
+      descripcion_producto_administrador: this.showGuardarButton.descripcion_producto_administrador ? this.showGuardarButton.descripcion_producto_administrador.trim() : '',
+    });
+  }
+
+  public applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  private getProductos(): void {
     this.showGuardarButton = null;
     this.utils.openLoading();
-    this.movimientoService
+    this.producto
       .CRUD(
         JSON.stringify({
-          par_modo: 'O',
-          tipo_motivo: this.selectMovimiento.value,
-          descripcion: value
+          par_modo: 'F',
+          codigo_fuente_ingreso: this.data.codigo_fuente_ingreso
         })
       )
       .subscribe({
         next: (res: any) => {
-          this.movimientos = Array.isArray(res.dataset)
-            ? (res.dataset as IMotivoMovimiento[])
+          this.productos = Array.isArray(res.dataset)
+            ? (res.dataset as IProductoAdministrador[])
             : res.dataset
-            ? [res.dataset as IMotivoMovimiento]
+            ? [res.dataset as IProductoAdministrador]
             : [];
-          this.dataSource = new MatTableDataSource<IMotivoMovimiento>(
-            this.movimientos
+          this.dataSource = new MatTableDataSource<IProductoAdministrador>(
+            this.productos
           );
           this.dataSource.paginator = this.paginator;
         },
         error: (err: any) => {
           this.utils.closeLoading();
           if (err.status === 404) {
-            this.movimientos = [];
-            this.dataSource = new MatTableDataSource<IMotivoMovimiento>(
-              this.movimientos
+            this.productos = [];
+            this.dataSource = new MatTableDataSource<IProductoAdministrador>(
+              this.productos
             );
             this.dataSource.paginator = this.paginator;
           } else {
@@ -89,24 +105,13 @@ export class MotivMovimientoSetDialogComponent implements OnInit {
           }
         },
         complete: () => {
-          this.dataSource = new MatTableDataSource<IMotivoMovimiento>(
-            this.movimientos
+          this.dataSource = new MatTableDataSource<IProductoAdministrador>(
+            this.productos
           );
           this.dataSource.paginator = this.paginator;
           this.utils.closeLoading();
         },
       });
-  }
-
-  public confirm(): void {
-    this.dialogRef.close({
-      id_motivo: this.showGuardarButton.id_motivo,
-      descripcion: this.showGuardarButton.descripcion,
-    });
-  }
-
-  public clear(input: HTMLInputElement) {
-    input.value = '';
   }
 
   private configurePaginator(): void {
