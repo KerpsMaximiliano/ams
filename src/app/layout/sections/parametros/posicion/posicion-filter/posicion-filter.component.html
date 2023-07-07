@@ -1,0 +1,43 @@
+<section class="seeker-section">
+  <mat-accordion>
+    <mat-expansion-panel class="mat-elevation-z1">
+      <mat-expansion-panel-header floating>
+        <mat-panel-title> Opciones de búsqueda </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <form>
+        <div class="seeker-fields-container">
+          <mat-form-field class="seeker-form-field">
+            <mat-label class="seeker-label">
+              Seleccione una provincia
+            </mat-label>
+            <mat-select #select [disabled]="!provincias" disableOptionCentering>
+              <mat-option *ngFor="let provincia of provincias" [value]="provincia.codigo">
+                {{ provincia.nombre_provincia }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field class="seeker-form-field">
+            <mat-label class="seeker-label"> Ingrese una posición </mat-label>
+            <input matInput class="seeker-input" (keydown.enter)="performSearch(input.value)" #input maxlength="30"
+              [disabled]="!select?.value" />
+          </mat-form-field>
+        </div>
+
+        <div class="buttons-container">
+          <button class="primary-button icon-button" type="button" (click)="performSearch(input.value)" [disabled]="
+          !select?.value">
+            <mat-icon> done </mat-icon>
+            Buscar
+          </button>
+          <button class="primary-button icon-button" type="button" (click)="clear(input)" [disabled]="
+            !select?.value" [disabled]="input.value.length === 0">
+            <mat-icon> close </mat-icon>
+            Limpiar
+          </button>
+        </div>
+      </form>
+    </mat-expansion-panel>
+  </mat-accordion>
+</section>

@@ -1,0 +1,74 @@
+/*
+ * Evita un espaciado innecesario en la primer columna.
+*/
+th.mat-header-cell:first-of-type,
+td.mat-cell:first-of-type {
+  padding-left: 0px;
+}
+
+/*
+ * Texto alineado a la izquierda.
+*/
+.mat-column-primer_texto_preg.mat-header-cell,
+.mat-column-primer_texto_preg.mat-cell,
+.mat-column-segundo_texto_preg.mat-header-cell,
+.mat-column-segundo_texto_preg.mat-cell,
+.mat-column-pide_fecha.mat-header-cell,
+.mat-column-pide_fecha.mat-cell,
+.mat-column-yes_no.mat-header-cell,
+.mat-column-yes_no.mat-cell {
+  text-align: left !important;
+  padding-left: 1vw;
+  word-break: break-all;
+}
+
+/*
+ * Número y fecha alineado a la derecha.
+*/
+.mat-column-nro_preg.mat-header-cell,
+.mat-column-nro_preg.mat-cell {
+  text-align: right !important;
+  padding-right: 1vw;
+}
+
+/*
+ * Tamaño de columnas.
+*/
+.mat-column-nro_preg.mat-header-cell,
+.mat-column-nro_preg.mat-cell {
+  min-width: 100px;
+}
+
+.mat-column-primer_texto_preg.mat-header-cell,
+.mat-column-primer_texto_preg.mat-cell {
+  min-width: 110px;
+  width: 50%;
+}
+
+.mat-column-segundo_texto_preg.mat-header-cell,
+.mat-column-segundo_texto_preg.mat-cell {
+  min-width: 130px;
+  width: 50%;
+}
+
+.mat-column-pide_fecha.mat-header-cell,
+.mat-column-pide_fecha.mat-cell {
+  min-width: 100px;
+}
+
+.mat-column-yes_no.mat-header-cell,
+.mat-column-yes_no.mat-cell {
+  min-width: 100px;
+}
+
+.mat-column-actions.mat-header-cell,
+.mat-column-actions.mat-cell {
+  min-width: 100px;
+}
+
+/*
+ * Oculta la tabla y paginación hasta que existan datos.
+*/
+.d-none {
+  display: none;
+}

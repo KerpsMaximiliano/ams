@@ -1,0 +1,93 @@
+/*
+ * Evita un espaciado innecesario en la primer columna.
+*/
+th.mat-header-cell:first-of-type,
+td.mat-cell:first-of-type {
+  padding-left: 0px !important;
+}
+
+/*
+ * Número y fecha alineado a la derecha.
+*/
+.mat-column-codigo.mat-header-cell,
+.mat-column-codigo.mat-cell {
+  text-align: right !important;
+  padding-right: 1vw;
+}
+
+/*
+ * Texto alineado a la izquierda.
+*/
+.mat-column-forma_pago.mat-header-cell,
+.mat-column-forma_pago.mat-cell,
+.mat-column-description.mat-header-cell,
+.mat-column-description.mat-cell,
+.mat-column-nombre_tarjeta_nemot.mat-header-cell,
+.mat-column-nombre_tarjeta_nemot.mat-cell,
+.mat-column-desc_banco.mat-header-cell,
+.mat-column-desc_banco.mat-cell,
+.mat-column-codigo_tarjeta_de_baja.mat-header-cell,
+.mat-column-codigo_tarjeta_de_baja.mat-cell {
+  text-align: left !important;
+  padding-left: 1vw;
+  word-break: break-all;
+}
+
+/*
+ * Tamaño de columnas.
+*/
+.mat-column-codigo.mat-header-cell,
+.mat-column-codigo.mat-cell {
+  min-width: 100px;
+}
+
+.mat-column-forma_pago.mat-header-cell,
+.mat-column-forma_pago.mat-cell {
+  min-width: 130px;
+  width: 20%;
+}
+
+.mat-column-description.mat-header-cell,
+.mat-column-description.mat-cell {
+  min-width: 110px;
+  width: 35%;
+}
+
+.mat-column-nombre_tarjeta_nemot.mat-header-cell,
+.mat-column-nombre_tarjeta_nemot.mat-cell {
+  min-width: 110px;
+  width: 10%;
+}
+
+.mat-column-desc_banco.mat-header-cell,
+.mat-column-desc_banco.mat-cell {
+  min-width: 50px;
+  width: 35%;
+}
+
+.mat-column-codigo_tarjeta_de_baja.mat-header-cell,
+.mat-column-codigo_tarjeta_de_baja.mat-cell {
+  min-width: 80px;
+}
+
+.mat-column-actions.mat-header-cell,
+.mat-column-actions.mat-cell {
+  min-width: 100px;
+}
+
+/*
+ * Oculta la tabla y paginación hasta que existan datos.
+*/
+.d-none {
+  display: none;
+}
+
+/*
+ * Genera el espacio que corresponde al botón que no esta disponible.
+*/
+.no-edit {
+  display: inline-block;
+  vertical-align: bottom;
+  width: 40px;
+  height: 44.09px;
+}

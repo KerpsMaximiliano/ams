@@ -1,5 +1,5 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 // * Services
@@ -21,7 +21,7 @@ export class EstadoCivilService {
     private environmentService: EnvironmentService
   ) {}
 
-  getEstadoCivilCRUD(body: string): Observable<IEstadoCivilResponse> {
+  CRUD(body: string): Observable<IEstadoCivilResponse> {
     return this.http.post<IEstadoCivilResponse>(
       `${this.environmentService.api}/abmestadocivil`,
       body,

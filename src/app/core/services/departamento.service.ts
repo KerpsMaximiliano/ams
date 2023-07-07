@@ -1,23 +1,31 @@
-import { HttpClient, HttpHeaders, } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+
+// * Services
 import { EnvironmentService } from './environment.service';
-import { Departamento, DepartamentoResponse } from '../models/departamento';
+
+// * Interfaces
+import { IDepartamentoResponse } from '../models/departamento.interface';
 
 const httpOptions = {
-  headers: new HttpHeaders({'Content-Type': 'application/json'})
-}
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+};
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DepartamentoService {
-  
-  URL: string = '/abmdepartamentos';
+  constructor(
+    private http: HttpClient,
+    private environmentService: EnvironmentService
+  ) {}
 
-  constructor(private http: HttpClient, private environmentService: EnvironmentService) { }  
-
-  departamentoCRUD(body:string): Observable<DepartamentoResponse | Departamento> {
-    return this.http.post<DepartamentoResponse>(`${this.environmentService.api}`+this.URL, body, httpOptions);
+  CRUD(body: string): Observable<IDepartamentoResponse> {
+    return this.http.post<IDepartamentoResponse>(
+      `${this.environmentService.api}/abmdepartamentos`,
+      body,
+      httpOptions
+    );
   }
 }

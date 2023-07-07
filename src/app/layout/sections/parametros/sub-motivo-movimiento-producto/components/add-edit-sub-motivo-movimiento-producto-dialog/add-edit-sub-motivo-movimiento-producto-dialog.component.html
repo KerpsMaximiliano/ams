@@ -1,0 +1,82 @@
+<div class="dialog-title">
+  <h2 tabindex="0">{{ data.title | uppercase }}</h2>
+</div>
+<div class="dialog-content">
+  <form class="form-datos" [formGroup]="formGroup">
+    <div class="seeker-fields-container">
+      <h3> PRODUCTO </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <input matInput [value]="data.producto" required disabled />
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3> TIPO DE MOVIMIENTO </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <mat-select [value]="data.movimiento.tipo_motivo" required disabled disableOptionCentering>
+          <mat-option [value]="'A'"> Alta </mat-option>
+          <mat-option [value]="'B'"> Baja </mat-option>
+          <mat-option [value]="'S'"> Susp </mat-option>
+          <mat-option [value]="'O'"> Osp </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3> MOTIVO DE MOVIMIENTO </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <input matInput [value]="data.movimiento.descripcion" required disabled />
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container" *ngIf="this.data.par_modo === 'R'">
+      <h3> CÓDIGO DE SUBMOTIVO </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <input matInput [value]="data.codigo_submotivo" required disabled />
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3> SUBMOTIVO DE MOVIMIENTO </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <input matInput formControlName="descripcion" required minlength="1" maxlength="60" />
+        <mat-error *ngIf="
+            formGroup.get('descripcion')?.invalid &&
+            formGroup.get('descripcion')?.touched
+          ">
+          {{ getErrorMessage(formGroup.get("descripcion")) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container" *ngIf="data.par_modo !== 'C'">
+      <h3> ESTADO </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <input matInput [value]="data.fecha_vigencia === 0 ? 'ACTIVO' : 'BAJA'" disabled />
+      </mat-form-field>
+    </div>
+
+    <div *ngIf="data.edit; else other_content" class="buttons-container">
+      <button class="primary-button icon-button" type="button" mat-dialog-close>
+        <mat-icon> close </mat-icon>
+        Cancelar
+      </button>
+      <button class="primary-button icon-button" (click)="setStatus()" *ngIf="this.data.par_modo === 'U'">
+        <mat-icon> done_all </mat-icon>
+        BAJA
+      </button>
+      <button [class]="formGroup.invalid ? 'primary-button icon-button disabled' : 'primary-button icon-button'"
+        type="submit" (click)="confirm()">
+        <mat-icon> done </mat-icon>
+        Guardar
+      </button>
+    </div>
+
+    <ng-template #other_content>
+      <button class="primary-button icon-button right" mat-dialog-close>
+        <mat-icon> done </mat-icon>
+        Aceptar
+      </button>
+    </ng-template>
+  </form>
+</div>

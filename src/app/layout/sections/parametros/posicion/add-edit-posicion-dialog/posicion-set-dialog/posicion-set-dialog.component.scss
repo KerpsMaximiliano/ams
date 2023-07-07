@@ -1,0 +1,108 @@
+/* Corrección tamaño modal */
+::ng-deep .mat-dialog-container {
+  padding: 1rem;
+  background-color: #fff;
+  height: 100%;
+  width: 100%;
+}
+
+.dialog-content {
+  display: flex;
+  flex-direction: column;
+  min-height: 590px;
+  min-width: 650px;
+  background-color: #fff;
+}
+
+.seeker-fields-container {
+  margin-top: 1.2rem;
+}
+
+.buttons-container {
+  margin-top: auto;
+  margin-bottom: 0.5rem;
+}
+
+.table-container {
+  margin-bottom: 0.3rem;
+}
+
+tr.mat-header-row {
+  height: 3rem;
+}
+
+tr.mat-row {
+  height: 2.7rem;
+}
+
+::ng-deep .mat-paginator-container {
+  min-height: 3rem !important;
+  max-height: 3rem !important;
+}
+
+.btn {
+  width: 100%;
+  max-width: 130px;
+}
+
+/*
+ * Evita un espaciado innecesario en la primer columna.
+*/
+th.mat-header-cell:first-of-type,
+td.mat-cell:first-of-type {
+  padding-left: 0px !important;
+}
+
+/*
+ * Texto alineado a la izquierda.
+*/
+.mat-column-descripcion.mat-header-cell,
+.mat-column-descripcion.mat-cell {
+  text-align: left !important;
+  padding-left: 3vw;
+  word-break: break-all;
+}
+
+/*
+ * Número y fecha alineado a la derecha.
+*/
+.mat-column-codigo_postal.mat-header-cell,
+.mat-column-codigo_postal.mat-cell {
+  text-align: right !important;
+  padding-right: 3vw;
+  word-break: break-all;
+}
+
+/*
+ * Tamaño de columnas.
+*/
+.mat-column-codigo_postal.mat-header-cell,
+.mat-column-codigo_postal.mat-cell {
+  width: 20%;
+}
+
+.mat-column-descripcion.mat-header-cell,
+.mat-column-descripcion.mat-cell {
+  width: 60%;
+}
+
+.mat-column-actions.mat-header-cell,
+.mat-column-actions.mat-cell {
+  width: 20%;
+}
+
+/*
+ * Oculta la paginación y el botón confirmar hasta que existan datos.
+*/
+.d-none {
+  display: none;
+}
+
+/*
+ * Cambia el tamaño y los espacios del filtro.
+*/
+.filter-container {
+  width: 47%;
+  margin-top: 0.3rem;
+  margin-bottom: 0.3rem;
+}

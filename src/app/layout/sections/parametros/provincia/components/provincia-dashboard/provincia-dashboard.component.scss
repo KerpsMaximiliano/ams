@@ -1,0 +1,65 @@
+/*
+ * Texto alineado a la izquierda.
+*/
+.mat-column-codigo.mat-header-cell,
+.mat-column-codigo.mat-cell,
+.mat-column-nombre_provincia.mat-header-cell,
+.mat-column-nombre_provincia.mat-cell,
+.mat-column-codifica_altura.mat-header-cell,
+.mat-column-codifica_altura.mat-cell {
+  text-align: left !important;
+  padding-left: 2vw;
+  word-break: break-all;
+}
+
+/*
+ * Número y fecha alineado a la derecha.
+*/
+.mat-column-codigo_provincia.mat-header-cell,
+.mat-column-codigo_provincia.mat-cell,
+.mat-column-flete_transportista.mat-header-cell,
+.mat-column-flete_transportista.mat-cell {
+  text-align: right !important;
+  padding-right: 2vw;
+}
+
+/*
+ * Tamaño de columnas.
+*/
+.mat-column-codigo.mat-header-cell,
+.mat-column-codigo.mat-cell {
+  min-width: 90px;
+}
+
+.mat-column-nombre_provincia.mat-header-cell,
+.mat-column-nombre_provincia.mat-cell {
+  min-width: 90px;
+  width: 100%;
+}
+
+.mat-column-codigo_provincia.mat-header-cell,
+.mat-column-codigo_provincia.mat-cell {
+  min-width: 175px;
+}
+.mat-column-codifica_altura.mat-header-cell,
+.mat-column-codifica_altura.mat-cell {
+  min-width: 160px;
+}
+
+.mat-column-flete_transportista.mat-header-cell,
+.mat-column-flete_transportista.mat-cell {
+  min-width: 125px;
+  padding-left: 2vw;
+}
+
+.mat-column-actions.mat-header-cell,
+.mat-column-actions.mat-cell {
+  min-width: 100px;
+}
+
+/*
+ * Oculta la tabla y paginación hasta que existan datos.
+*/
+.d-none {
+  display: none;
+}

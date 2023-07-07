@@ -1,0 +1,14 @@
+<section class="browse-section">
+  <div class="section-header">
+    <h2>Unificacion de Aportes</h2>
+    <button class="new-button icon-button" (click)="nuevaUnificacionAportes()">
+      <mat-icon>add</mat-icon>
+      Nuevo
+    </button>
+  </div>
+  <div class="section-content">
+    <app-unificador-aporte-filter (searchEvent)="handleSearch()">
+    </app-unificador-aporte-filter>
+    <app-unificador-aporte-dashboard></app-unificador-aporte-dashboard>
+  </div>
+</section>

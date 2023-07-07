@@ -1,0 +1,76 @@
+/*
+ * Texto alineado a la izquierda.
+*/
+.mat-column-descripcion.mat-header-cell,
+.mat-column-descripcion.mat-cell,
+.mat-column-permite_darse_baja.mat-header-cell,
+.mat-column-permite_darse_baja.mat-cell,
+.mat-column-pide_fecha_enlace.mat-header-cell,
+.mat-column-pide_fecha_enlace.mat-cell {
+  text-align: left !important;
+  padding-left: 1vw;
+  word-break: break-all;
+}
+
+/*
+ * Número y fecha alineado a la derecha.
+*/
+.mat-column-codigo_parentesco.mat-header-cell,
+.mat-column-codigo_parentesco.mat-cell,
+.mat-column-codigo_afip.mat-header-cell,
+.mat-column-codigo_afip.mat-cell {
+  text-align: right !important;
+  padding-right: 1vw;
+}
+
+/*
+ * Ancho máximo por columna individual de todas las columnas.
+*/
+
+.mat-column-codigo_parentesco.mat-header-cell,
+.mat-column-codigo_parentesco.mat-cell {
+  min-width: 70px;
+}
+
+.mat-column-descripcion.mat-header-cell,
+.mat-column-descripcion.mat-cell {
+  min-width: 100px;
+  width: 100%;
+}
+
+.mat-column-permite_darse_baja.mat-header-cell,
+.mat-column-permite_darse_baja.mat-cell {
+  min-width: 140px;
+}
+
+.mat-column-pide_fecha_enlace.mat-header-cell,
+.mat-column-pide_fecha_enlace.mat-cell {
+  min-width: 160px;
+}
+
+.mat-column-codigo_afip.mat-header-cell,
+.mat-column-codigo_afip.mat-cell {
+  min-width: 110px;
+}
+
+.mat-column-actions.mat-header-cell,
+.mat-column-actions.mat-cell {
+  min-width: 100px;
+}
+
+/*
+ * Oculta la tabla y paginación hasta que existan datos.
+*/
+.d-none {
+  display: none;
+}
+
+/*
+ * Genera el espacio que corresponde al botón que no esta disponible.
+*/
+.no-edit {
+  display: inline-block;
+  vertical-align: bottom;
+  width: 40px;
+  height: 44.09px;
+}

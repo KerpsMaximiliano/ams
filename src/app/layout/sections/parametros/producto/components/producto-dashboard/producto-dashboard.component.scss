@@ -1,0 +1,143 @@
+/*
+ * Evita un espaciado innecesario en la primer columna.
+*/
+th.mat-header-cell:first-of-type,
+td.mat-cell:first-of-type {
+  padding-left: 0px;
+}
+
+/*
+ * Texto alineado a la izquierda.
+*/
+.mat-column-descripcion_producto.mat-header-cell,
+.mat-column-descripcion_producto.mat-cell,
+.mat-column-tipo_producto.mat-header-cell,
+.mat-column-tipo_producto.mat-cell,
+.mat-column-clase_producto.mat-header-cell,
+.mat-column-clase_producto.mat-cell,
+.mat-column-fecha_baja_producto.mat-header-cell,
+.mat-column-fecha_baja_producto.mat-cell {
+  text-align: left !important;
+  padding-left: 1vw;
+  word-break: break-all;
+}
+
+/*
+ * Número y fecha alineado a la derecha.
+*/
+.mat-column-codigo_producto.mat-header-cell,
+.mat-column-codigo_producto.mat-cell {
+  text-align: right !important;
+  padding-right: 1vw;
+  word-break: break-all;
+}
+
+/*
+ * Ancho máximo por columna individual de todas las columnas menos las 'Acciones' (actions).
+*/
+.mat-column-codigo_producto.mat-header-cell,
+.mat-column-codigo_producto.mat-cell,
+.mat-column-fecha_baja_producto.mat-cell,
+.mat-column-fecha_baja_producto.mat-header-cell {
+  min-width: 100px;
+}
+
+.mat-column-tipo_producto.mat-header-cell,
+.mat-column-tipo_producto.mat-cell {
+  min-width: 120px;
+}
+
+.mat-column-descripcion_producto.mat-header-cell,
+.mat-column-descripcion_producto.mat-cell {
+  min-width: 80px;
+  width: 100%;
+}
+
+.mat-column-clase_producto.mat-header-cell,
+.mat-column-clase_producto.mat-cell {
+  min-width: 180px;
+}
+
+.mat-column-actions.mat-header-cell,
+.mat-column-actions.mat-cell {
+  min-width: 130px;
+}
+
+/*
+ * Estilo del panel expandible.
+*/
+.detailExpand {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: 14px;
+  overflow: hidden;
+}
+
+.detailExpand-container,
+.detailExpand-list {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  gap: 1vw;
+  padding: 0rem 3vw;
+  background-color: #dddddd;
+}
+
+.detailExpand-container {
+  font-weight: 500;
+  font-size: 0.95rem !important;
+}
+
+.detailExpand-item {
+  text-align: left !important;
+  padding-left: 1vw !important;
+}
+
+.detailExpand-element {
+  position: relative;
+  z-index: 1;
+  transition: 300ms all !important;
+}
+
+.selected {
+  position: relative;
+  z-index: 1;
+}
+
+.hover-row:hover {
+  background-color: #efefef !important;
+  position: relative;
+  z-index: 2;
+}
+
+/*
+ * Estilos propios de Material.
+*/
+tr.detailExpand-row {
+  height: 0;
+}
+
+tr.detailExpand-element:not(.detailExpanded-row):hover {
+  background: whitesmoke;
+}
+
+tr.detailExpand-element:not(.detailExpanded-row):active {
+  background: #efefef;
+}
+
+.detailExpand-element td {
+  border-bottom-width: 0;
+}
+
+/*
+ * Oculta la tabla y paginación hasta que existan datos.
+*/
+.d-none {
+  display: none;
+}

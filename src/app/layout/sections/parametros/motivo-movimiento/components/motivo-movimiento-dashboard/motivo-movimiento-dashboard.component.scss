@@ -1,0 +1,90 @@
+/*
+ * Evita un espaciado innecesario en la primer columna.
+*/
+th.mat-header-cell:first-of-type,
+td.mat-cell:first-of-type {
+  padding-left: 0px !important;
+}
+
+/*
+ * Número y fecha alineado a la derecha.
+*/
+.mat-column-id_motivo.mat-header-cell,
+.mat-column-id_motivo.mat-cell,
+.mat-column-fecha_inicio_vigencia.mat-header-cell,
+.mat-column-fecha_inicio_vigencia.mat-cell {
+  text-align: right !important;
+  padding-right: 1vw;
+}
+
+/*
+ * Texto alineado a la izquierda.
+*/
+.mat-column-descripcion.mat-header-cell,
+.mat-column-descripcion.mat-cell,
+.mat-column-tipo_motivo.mat-header-cell,
+.mat-column-tipo_motivo.mat-cell,
+.mat-column-datos_adic_SN.mat-header-cell,
+.mat-column-datos_adic_SN.mat-cell,
+.mat-column-estado.mat-header-cell,
+.mat-column-estado.mat-cell {
+  text-align: left !important;
+  padding-left: 1vw;
+  word-break: break-all;
+}
+
+/*
+ * Tamaño de columnas.
+*/
+.mat-column-id_motivo.mat-header-cell,
+.mat-column-id_motivo.mat-cell {
+  min-width: 100px;
+}
+
+.mat-column-descripcion.mat-header-cell,
+.mat-column-descripcion.mat-cell {
+  min-width: 70px;
+  width: 100%;
+}
+
+.mat-column-tipo_motivo.mat-header-cell,
+.mat-column-tipo_motivo.mat-cell {
+  min-width: 170px;
+}
+
+.mat-column-datos_adic_SN.mat-header-cell,
+.mat-column-datos_adic_SN.mat-cell {
+  min-width: 170px;
+}
+
+.mat-column-fecha_inicio_vigencia.mat-header-cell,
+.mat-column-fecha_inicio_vigencia.mat-cell {
+  min-width: 140px;
+}
+
+.mat-column-estado.mat-header-cell,
+.mat-column-estado.mat-cell {
+  min-width: 80px;
+}
+
+.mat-column-actions.mat-header-cell,
+.mat-column-actions.mat-cell {
+  min-width: 100px;
+}
+
+/*
+ * Oculta la tabla y paginación hasta que existan datos.
+*/
+.d-none {
+  display: none;
+}
+
+/*
+ * Genera el espacio que corresponde al botón que no esta disponible.
+*/
+.no-edit {
+  display: inline-block;
+  vertical-align: bottom;
+  width: 40px;
+  height: 44.09px;
+}

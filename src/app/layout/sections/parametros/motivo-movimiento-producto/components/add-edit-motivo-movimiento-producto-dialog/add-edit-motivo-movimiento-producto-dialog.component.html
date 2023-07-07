@@ -1,0 +1,119 @@
+<div class="dialog-title" [tabIndex]="0">
+  <h2>{{ data.title | uppercase}}</h2>
+</div>
+
+<div class="dialog-content">
+  <form class="form-datos" [formGroup]="formGroup">
+    <div class="seeker-fields-container">
+      <h3> PRODUCTO </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <input matInput disabled [value]="data.producto.codigo_producto">
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3> TIPO DE MOVIMIENTO </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <mat-select formControlName="tipo_motivo" minlength="1" maxlength="1" required disableOptionCentering
+          (selectionChange)="clear(input, 'descripcion')">
+          <mat-option [value]="'A'">
+            ALTA
+          </mat-option>
+          <mat-option [value]="'B'">
+            BAJA
+          </mat-option>
+          <mat-option [value]="'S'">
+            SUSPENDIDO
+          </mat-option>
+          <mat-option [value]="'O'">
+            OSP
+          </mat-option>
+        </mat-select>
+        <mat-error
+          *ngIf="formGroup.get('tipo_motivo')?.invalid && formGroup.get('tipo_motivo')?.touched">{{getErrorMessage(formGroup.get('tipo_motivo'))}}</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3> MOTIVO </h3>
+      <div class="content">
+        <mat-form-field class="seeker-form-field" appearance="outline">
+          <input matInput formControlName="descripcion" required minlength="3" maxlength="30" readonly #input>
+          <mat-error
+            *ngIf="formGroup.get('descripcion')?.invalid">{{getErrorMessage(formGroup.get('descripcion'))}}</mat-error>
+        </mat-form-field>
+        <ng-container *ngIf="data.par_modo === 'C'">
+          <div class="icon" (click)="getMotivoMovimientoProducto()" *ngIf="formGroup.get('tipo_motivo')?.value">
+            <mat-icon class="material-symbols-outlined"> search </mat-icon>
+          </div>
+          <div class="icon" (click)="clear(input, 'descripcion')" *ngIf="formGroup.get('descripcion')?.value">
+            <mat-icon class="material-symbols-outlined"> close </mat-icon>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3> ¿DATOS ADICIONALES? </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <mat-select formControlName="datos_adicionales" required minlength="1" maxlength="1" disableOptionCentering>
+          <mat-option [value]="'F'">
+            FECHA
+          </mat-option>
+          <mat-option [value]="'S'">
+            SUBMOTIVO
+          </mat-option>
+          <mat-option [value]="'T'">
+            TEXTO
+          </mat-option>
+          <mat-option [value]="'N'">
+            NADA
+          </mat-option>
+        </mat-select>
+        <mat-error
+          *ngIf="formGroup.get('datos_adicionales')?.invalid && formGroup.get('datos_adicionales')?.touched">{{getErrorMessage(formGroup.get('datos_adicionales'))}}</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3> ¿OTRA COBERTURA? </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <mat-select formControlName="otra_cobertura" required minlength="1" maxlength="1" disableOptionCentering>
+          <mat-option [value]="'S'">
+            SI
+          </mat-option>
+          <mat-option [value]="'N'">
+            NO
+          </mat-option>
+        </mat-select>
+        <mat-error
+          *ngIf="formGroup.get('otra_cobertura')?.invalid && formGroup.get('otra_cobertura')?.touched">{{getErrorMessage(formGroup.get('otra_cobertura'))}}</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div *ngIf="data.edit; else other_content" class="buttons-container">
+      <button class="primary-button icon-button" type="button" mat-dialog-close>
+        <mat-icon> close </mat-icon>
+        Cancelar
+      </button>
+      <button class="primary-button icon-button fix" type="submit"
+        (click)="redirectTo('parametros/sub-motivo-movimiento-producto')" *ngIf="data.par_modo === 'U'"
+        mat-dialog-close>
+        <mat-icon> open_in_new_down </mat-icon>
+        Sub motivos de movimiento por producto
+      </button>
+      <button [class]="formGroup.invalid ? 'primary-button icon-button disabled' : 'primary-button icon-button'"
+        type="submit" (click)="confirm()">
+        <mat-icon> done </mat-icon>
+        Guardar
+      </button>
+    </div>
+
+    <ng-template #other_content>
+      <button class="primary-button icon-button" mat-dialog-close>
+        <mat-icon> done </mat-icon>
+        Aceptar
+      </button>
+    </ng-template>
+  </form>
+</div>

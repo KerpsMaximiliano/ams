@@ -1,0 +1,260 @@
+<div class="dialog-title">
+  <h2 tabindex="0">{{ data.title | uppercase }}</h2>
+</div>
+
+<div class="dialog-content">
+  <form class="form-datos" [formGroup]="formGroup">
+
+    <mat-tab-group [selectedIndex]="activeTabIndex" (selectedTabChange)="tabChanged($event)" mat-stretch-tabs
+      [dynamicHeight]="dynamicHeight">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="mat-tab-icon">
+            {{ activeTabIndex === 0 ? icon : 'arrow_circle_left' }}
+          </mat-icon>
+          <div class="mat-tab-text"> {{ activeTabIndex === 0 ? '' : 'Anterior' }} </div>
+        </ng-template>
+
+        <div class="seeker-fields-container mt-1">
+          <h3> CÓDIGO </h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <input matInput formControlName="codigo_producto" required minlength="1" maxlength="4" />
+            <mat-error *ngIf="formGroup.get('codigo_producto')?.invalid && formGroup.get('codigo_producto')?.touched">
+              {{ getErrorMessage(formGroup.get("codigo_producto")) }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="seeker-fields-container">
+          <h3> DESCRIPCIÓN </h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <input matInput formControlName="descripcion_producto" required minlength="3" maxlength="30" />
+            <mat-error
+              *ngIf="formGroup.get('descripcion_producto')?.invalid && formGroup.get('descripcion_producto')?.touched">
+              {{ getErrorMessage(formGroup.get("descripcion_producto")) }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="seeker-fields-container">
+          <h3> ABREVIATURA </h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <input matInput formControlName="descripcion_reducida" required minlength="3" maxlength="10" />
+            <mat-error
+              *ngIf="formGroup.get('descripcion_reducida')?.invalid && formGroup.get('descripcion_reducida')?.touched">
+              {{ getErrorMessage(formGroup.get("descripcion_reducida")) }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="seeker-fields-container">
+          <h3> TIPO </h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <mat-select formControlName="tipo_producto" required minlength="1" maxlength="1" disableOptionCentering>
+              <mat-option [value]="'P'" (click)="toggleDynamicHeight()">
+                PRIMARIO
+              </mat-option>
+              <mat-option [value]="'S'" (click)="toggleDynamicHeight()">
+                SECUNDARIO
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="formGroup.get('tipo_producto')?.invalid && formGroup.get('tipo_producto')?.touched">
+              {{ getErrorMessage(formGroup.get('tipo_producto')) }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="seeker-fields-container" *ngIf="formGroup.get('tipo_producto')?.value === 'S'">
+          <h3> ADMINISTRADO POR </h3>
+          <div class="content">
+            <mat-form-field class="seeker-form-field" appearance="outline">
+              <input matInput formControlName="descripcion_producto_administrador" #inputDescripcionProducto readonly
+                required />
+              <mat-error
+                *ngIf="formGroup.get('descripcion_producto_administrador')?.invalid && formGroup.get('descripcion_producto_administrador')?.touched">
+                {{ getErrorMessage(formGroup.get("descripcion_producto_administrador")) }}
+              </mat-error>
+            </mat-form-field>
+            <ng-container *ngIf="data.par_modo === 'C'">
+              <div class="icon" (click)="setElement(1)">
+                <mat-icon class="material-symbols-outlined"> search </mat-icon>
+              </div>
+              <div class="icon" (click)="clear(inputDescripcionProducto, 'descripcion_producto_administrador')"
+                *ngIf="formGroup.get('descripcion_producto_administrador')?.value">
+                <mat-icon class="material-symbols-outlined"> close </mat-icon>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+
+      </mat-tab>
+
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <div class="mat-tab-text"> {{ activeTabIndex === 1 ? '' : 'Siguiente' }} </div>
+          <mat-icon class="mat-tab-icon">
+            {{ activeTabIndex === 1 ? icon : 'arrow_circle_right' }}
+          </mat-icon>
+        </ng-template>
+
+        <div class="seeker-fields-container mt-1">
+          <h3> CLASE </h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <mat-select formControlName="clase_producto" required minlength="1" maxlength="1" disableOptionCentering>
+              <mat-option [value]="'S'">
+                SALUD
+              </mat-option>
+              <mat-option [value]="'L'">
+                CUOTA SOCIAL
+              </mat-option>
+              <mat-option [value]="'B'">
+                SUBSIDIO
+              </mat-option>
+              <mat-option [value]="'G'">
+                SUBSIDIO QUIRURGICO
+              </mat-option>
+              <mat-option [value]="'O'">
+                SOS (EMERGENCIA)
+              </mat-option>
+              <mat-option [value]="'V'">
+                VIDA
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="formGroup.get('clase_producto')?.invalid && formGroup.get('clase_producto')?.touched">
+              {{ getErrorMessage(formGroup.get("clase_producto")) }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="seeker-fields-container">
+          <h3> FUENTE DE INGRESO </h3>
+          <div class="content">
+            <mat-form-field class="seeker-form-field" appearance="outline">
+              <input matInput formControlName="descripcion_fuente_ingreso" required minlength="3"
+                #inputDescripcionFuente readonly />
+              <mat-error
+                *ngIf="formGroup.get('descripcion_fuente_ingreso')?.invalid && formGroup.get('descripcion_fuente_ingreso')?.touched">
+                {{ getErrorMessage(formGroup.get("descripcion_fuente_ingreso")) }}
+              </mat-error>
+            </mat-form-field>
+            <ng-container *ngIf="data.par_modo === 'C'">
+              <div class="icon" (click)="setElement(2)">
+                <mat-icon class="material-symbols-outlined"> search </mat-icon>
+              </div>
+              <div class="icon" (click)="clear(inputDescripcionFuente, 'descripcion_fuente_ingreso')"
+                *ngIf="formGroup.get('descripcion_fuente_ingreso')?.value">
+                <mat-icon class="material-symbols-outlined"> close </mat-icon>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+
+        <div class="seeker-fields-container">
+          <h3> EMPRESA QUE FACTURA </h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <mat-select formControlName="numero_empresa_factura" required minlength="1" maxlength="8"
+              disableOptionCentering>
+              <mat-option [value]="2">
+                Asociacion Mutual Sancor
+              </mat-option>
+              <mat-option [value]="3">
+                O.S.S.A.C.R.A.
+              </mat-option>
+              <mat-option [value]="4">
+                OspersaAms
+              </mat-option>
+              <mat-option [value]="1">
+                SanCor Medicina Privada S.A.
+              </mat-option>
+              <mat-option [value]="5">
+                STAFF
+              </mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="formGroup.get('numero_empresa_factura')?.invalid && formGroup.get('numero_empresa_factura')?.touched">
+              {{ getErrorMessage(formGroup.get("numero_empresa_factura")) }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="seeker-fields-container">
+          <h3> OBRA SOCIAL </h3>
+          <div class="content">
+            <mat-form-field class="seeker-form-field" appearance="outline">
+              <input matInput formControlName="descripcion_obra_social" required minlength="3" #inputObraSocial
+                readonly />
+              <mat-error
+                *ngIf="formGroup.get('descripcion_obra_social')?.invalid && formGroup.get('descripcion_obra_social')?.touched">
+                {{ getErrorMessage(formGroup.get("descripcion_obra_social")) }}
+              </mat-error>
+            </mat-form-field>
+            <ng-container *ngIf="data.par_modo === 'C'">
+              <div class="icon" (click)="setElement(3)">
+                <mat-icon class="material-symbols-outlined"> search </mat-icon>
+              </div>
+              <div class="icon" (click)="clear(inputObraSocial, 'descripcion_obra_social')"
+                *ngIf="formGroup.get('descripcion_obra_social')?.value">
+                <mat-icon class="material-symbols-outlined"> close </mat-icon>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+
+        <div class="seeker-fields-container" *ngIf="data.par_modo !== 'C'">
+          <h3> ESTADO </h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <input matInput [value]="data.fecha_baja_producto === 0 ? 'ACTIVO' : 'BAJA'" disabled>
+          </mat-form-field>
+        </div>
+
+      </mat-tab>
+    </mat-tab-group>
+
+
+    <div *ngIf="data.edit" class="buttons-container">
+      <button class="primary-button icon-button" type="submit" (click)="redirectTo('parametros/parentesco-producto')"
+        *ngIf="data.par_modo === 'U'" mat-dialog-close>
+        <mat-icon> open_in_new_down </mat-icon>
+        Parentescos
+      </button>
+      <button class="primary-button icon-button" type="submit"
+        (click)="redirectTo('parametros/motivo-movimiento-producto')" *ngIf="data.par_modo === 'U'" mat-dialog-close>
+        <mat-icon> open_in_new_down </mat-icon>
+        Motivos
+      </button>
+      <button class="primary-button icon-button" type="submit" (click)="redirectTo('parametros/unificacion-aportes')"
+        *ngIf="data.par_modo === 'U'" mat-dialog-close>
+        <mat-icon> open_in_new_down </mat-icon>
+        Unificación
+      </button>
+    </div>
+
+    <div *ngIf="data.edit; else other_content" class="buttons-container">
+      <button class="primary-button icon-button" type="button" mat-dialog-close>
+        <mat-icon>close</mat-icon>
+        Cancelar
+      </button>
+      <button class="primary-button icon-button " type="button" (click)="setStatus()"
+        *ngIf="this.data.par_modo === 'U' && visibilidad">
+        <mat-icon> {{ this.estado ? 'remove_done' : 'done_all' }} </mat-icon>
+        {{ this.estado ? 'Baja' : 'Reactivar' }}
+      </button>
+      <button [class]="formGroup.invalid ? 'primary-button icon-button disabled' : 'primary-button icon-button'"
+        type="submit" (click)="confirm()">
+        <mat-icon> done </mat-icon>
+        Guardar
+      </button>
+    </div>
+
+    <ng-template #other_content>
+      <div class="buttons-container">
+        <button class="primary-button icon-button" mat-dialog-close>
+          <mat-icon> done </mat-icon>
+          Aceptar
+        </button>
+      </div>
+    </ng-template>
+  </form>
+
+
+</div>

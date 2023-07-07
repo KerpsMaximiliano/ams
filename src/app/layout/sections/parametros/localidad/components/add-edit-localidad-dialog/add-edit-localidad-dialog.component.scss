@@ -1,0 +1,28 @@
+/*
+ * MODAL: Formulario deshabilitado.
+ * Borde: '::ng-deep .mat-form-field-disabled .mat-form-field-outline'.
+ * Texto inputs: '::ng-deep .mat-form-field-disabled .mat-input-element'.
+ * Texto select: '::ng-deep .mat-form-field-disabled .mat-select-value'.
+ * Texto seleccionable: '.mat-form-field-disabled'.
+*/
+::ng-deep .mat-form-field-disabled .mat-form-field-outline,
+::ng-deep .mat-form-field-disabled .mat-input-element,
+::ng-deep .mat-form-field-disabled .mat-select-value,
+.mat-form-field-disabled {
+  color: #635f5f !important;
+  user-select: text !important;
+}
+
+/*
+ * Estilos del boton "Guardar" para que este deshabilitado.
+*/
+.disabled {
+  opacity: 0.5;
+  pointer-events: pointer;
+  cursor: not-allowed;
+  filter: grayscale(100%);
+}
+
+.disabled:hover {
+  filter: grayscale(100%);
+}

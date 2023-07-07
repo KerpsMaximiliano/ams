@@ -1,4 +1,4 @@
-import { Response } from './response';
+import { IResponse } from './response.interface';
 
 export interface IEstadoCivil {
   par_modo: string;
@@ -6,4 +6,4 @@ export interface IEstadoCivil {
   description: string;
 }
 
-export type IEstadoCivilResponse = Response<IEstadoCivil[]>;
+export type IEstadoCivilResponse = IResponse<IEstadoCivil[]>;

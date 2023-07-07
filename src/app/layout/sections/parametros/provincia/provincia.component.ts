@@ -1,69 +1,150 @@
-import { MatDialog } from '@angular/material/dialog';
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
+
+// * Services
+import { DataSharingService } from 'src/app/core/services/data-sharing.service';
 import { UtilService } from 'src/app/core/services/util.service';
-import { ProvinciaDashboardComponent } from './components/provincia-dashboard/provincia-dashboard.component'; 
-import { AddEditProvinciaDialogComponent } from './components/edit-provincia-dialog/add-edit-provincia-dialog.component'; 
 import { ProvinciaService } from 'src/app/core/services/provincia.service';
-import { Provincia } from 'src/app/core/models/provincia';
+
+// * Interfaces
+import { IProvincia } from 'src/app/core/models/provincia.interface';
+
+// * Material
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+
+// * Components
+import { AddEditProvinciaDialogComponent } from './components/add-edit-provincia-dialog/add-edit-provincia-dialog.component';
 
 @Component({
   selector: 'app-provincia',
   templateUrl: './provincia.component.html',
-  styleUrls: ['./provincia.component.scss']
+  styleUrls: ['./provincia.component.scss'],
 })
-export class ProvinciaComponent {
+export class ProvinciaComponent implements OnDestroy {
+  private dataSubscription: Subscription | undefined;
+  public dataSent: IProvincia[] = [];
 
-  @ViewChild(ProvinciaDashboardComponent) dashboard: ProvinciaDashboardComponent;
+  constructor(
+    private dataSharingService: DataSharingService,
+    private provinciaService: ProvinciaService,
+    private utilService: UtilService,
+    private dialog: MatDialog
+  ) {}
 
-  constructor(private provinciaService: ProvinciaService,
-              private utils: UtilService,
-              private dialog: MatDialog) {}
-
-  ngOnInit(): void {
+  ngOnDestroy(): void {
+    if (this.dataSubscription) {
+      this.dataSubscription.unsubscribe();
+    }
   }
 
-  public handleSearch(inputValue: any): void {
-    this.dashboard.filter(inputValue);
-  }
-
-  public nuevaProvincia(tipoProvincia?:Provincia): void {
-    const modalNuevaProvincia = this.dialog.open(AddEditProvinciaDialogComponent, {
-      data: {
-        title: `CREAR PROVINCIA`,
-        edit: true,
-        codigo: tipoProvincia?.codigo,
-        nombre_provincia: tipoProvincia?.nombre_provincia,
-        codifica_altura: tipoProvincia?.codifica_altura,
-        codigo_provincia: tipoProvincia?.codigo_provincia,
-        flete_transportista: tipoProvincia?.flete_transportista,
-        par_modo: 'I'
-      }
+  public new(): void {
+    const dialogRef = this.openDialog('CREAR PROVINCIA', 'C', true);
+    this.dataSubscription = this.dataSharingService
+      .getData()
+      .subscribe((res) => {
+        this.performCRUD(
+          res,
+          'La provincia se ha creado exitosamente.',
+          dialogRef
+        );
+      });
+    dialogRef.afterClosed().subscribe(() => {
+      this.dataSharingService.unsubscribeData(this.dataSubscription!);
+      this.dataSubscription = undefined;
     });
+  }
 
-    modalNuevaProvincia.afterClosed().subscribe({
-      next:(res) => {
-        if (res) {
-          this.utils.openLoading();
-          this.provinciaService.provinciaCRUD(res).subscribe({
-            next: () => {
-              this.utils.notification("La Provincia se ha creado exitosamente", 'success')
-            },
-            error: (err:any) => {
-              this.utils.closeLoading();
-              (err.status == 0)
-                ? this.utils.notification('Error de conexion', 'error') 
-                : this.utils.notification(`Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`, 'error')
-              this.nuevaProvincia(res);
-            },
-            complete: () => {
-              this.utils.closeLoading();
-              setTimeout(() => {
-                this.handleSearch(res.nombre_provincia.trim());
-              }, 300);
-            }
-          });
-        }
-      }
-    })
+  public edit(data: IProvincia): void {
+    const dialogRef = this.openDialog('EDITAR PROVINCIA', 'U', true, data);
+    this.dataSubscription = this.dataSharingService
+      .getData()
+      .subscribe((res) => {
+        this.performCRUD(
+          res,
+          'La provincia se ha editado exitosamente.',
+          dialogRef
+        );
+      });
+    dialogRef.afterClosed().subscribe(() => {
+      this.dataSharingService.unsubscribeData(this.dataSubscription!);
+      this.dataSubscription = undefined;
+    });
+  }
+
+  public view(data: IProvincia): void {
+    this.openDialog('VER PROVINCIA', 'R', false, data);
+  }
+
+  public getData(value: string): void {
+    this.utilService.openLoading();
+    this.provinciaService.CRUD(value).subscribe({
+      next: (res: any) => {
+        this.dataSent = Array.isArray(res.dataset)
+          ? (res.dataset as IProvincia[])
+          : [res.dataset as IProvincia];
+      },
+      error: (err: any) => {
+        this.utilService.closeLoading();
+        err.status === 0
+          ? this.utilService.notification('Error de conexión.', 'error')
+          : this.utilService.notification(
+              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+              'error'
+            );
+        if (err.status == 404) this.dataSent = [];
+      },
+      complete: () => {
+        this.utilService.closeLoading();
+      },
+    });
+  }
+
+  private openDialog(
+    title: string,
+    par_modo: string,
+    edit: boolean,
+    data?: IProvincia
+  ): MatDialogRef<AddEditProvinciaDialogComponent, any> {
+    return this.dialog.open(AddEditProvinciaDialogComponent, {
+      data: {
+        title: title,
+        edit: edit,
+        par_modo: par_modo,
+        codigo: data?.codigo,
+        nombre_provincia: data?.nombre_provincia,
+        codifica_altura: data?.codifica_altura,
+        codigo_provincia: data?.codigo_provincia,
+        flete_transportista: data?.flete_transportista,
+      },
+    });
+  }
+
+  private performCRUD(
+    data: any,
+    successMessage: string,
+    dialogRef: MatDialogRef<any, any>
+  ): void {
+    this.utilService.openLoading();
+    this.provinciaService.CRUD(data).subscribe({
+      next: () => {
+        this.utilService.notification(successMessage, 'success');
+        dialogRef.close();
+        this.getData(
+          JSON.stringify({
+            par_modo: 'R',
+            codigo: data.codigo,
+          })
+        );
+      },
+      error: (err: any) => {
+        this.utilService.closeLoading();
+        err.status === 0
+          ? this.utilService.notification('Error de conexión.', 'error')
+          : this.utilService.notification(
+              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+              'error'
+            );
+      },
+    });
   }
 }

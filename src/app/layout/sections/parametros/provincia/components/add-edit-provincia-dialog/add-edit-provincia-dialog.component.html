@@ -1,0 +1,83 @@
+<div class="dialog-title" [tabIndex]="0">
+  <h2> {{ data.title | uppercase }} </h2>
+</div>
+
+<div class="dialog-content">
+  <form class="form-datos" [formGroup]="formGroup">
+    <div class="seeker-fields-container">
+      <h3> CÓDIGO </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <input matInput formControlName="codigo" required minlength="1" maxlength="1">
+        <mat-error *ngIf="formGroup.get('codigo')?.invalid && formGroup.get('codigo')?.touched">
+          {{ getErrorMessage(formGroup.get('codigo')) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3> PROVINCIA </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <input matInput formControlName="nombre_provincia" required minlength="3" maxlength="30">
+        <mat-error *ngIf="formGroup.get('nombre_provincia')?.invalid && formGroup.get('nombre_provincia')?.touched">
+          {{ getErrorMessage(formGroup.get('nombre_provincia')) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3> CÓDIGO ALTERNATIVO </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <input matInput formControlName="codigo_provincia" required minlength="1" maxlength="2">
+        <mat-error *ngIf="formGroup.get('codigo_provincia')?.invalid && formGroup.get('codigo_provincia')?.touched">
+          {{ getErrorMessage(formGroup.get('codigo_provincia')) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3> ¿CODIFICA ALTURA Y CALLES? </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <mat-select formControlName="codifica_altura" required minlength="1" maxlength="1" disableOptionCentering>
+          <mat-option [value]="'S'"> SI </mat-option>
+          <mat-option [value]="'N'"> NO </mat-option>
+        </mat-select>
+        <mat-error *ngIf="formGroup.get('codifica_altura')?.invalid && formGroup.get('codifica_altura')?.touched">
+          {{ getErrorMessage(formGroup.get('codifica_altura')) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3> PORCENTAJE DE FLETE A TRANSPORTISTA </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <input matInput formControlName="flete_transportista" required minlength="1" maxlength="6" 
+          [max]="999">
+        <mat-error
+          *ngIf="formGroup.get('flete_transportista')?.invalid && formGroup.get('flete_transportista')?.touched">
+          {{ getErrorMessage(formGroup.get('flete_transportista')) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div *ngIf="data.edit; else other_content" class="buttons-container">
+      <button class="primary-button icon-button" type="button" mat-dialog-close>
+        <mat-icon> close </mat-icon>
+        Cancelar
+      </button>
+      <button [class]="formGroup.invalid ? 'primary-button icon-button disabled' : 'primary-button icon-button'"
+      type="submit" (click)="confirm()">
+        <mat-icon> done </mat-icon>
+        Guardar
+      </button>
+    </div>
+
+    <ng-template #other_content>
+      <div class="buttons-container">
+        <button class="primary-button icon-button" mat-dialog-close>
+          <mat-icon> done </mat-icon>
+          Aceptar
+        </button>
+      </div>
+    </ng-template>
+  </form>
+</div>

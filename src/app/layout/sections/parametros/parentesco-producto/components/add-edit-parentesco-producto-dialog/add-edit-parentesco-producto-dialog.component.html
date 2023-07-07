@@ -1,0 +1,98 @@
+<div class="dialog-title" tabindex="0">
+  <h2> {{ data.title | uppercase }} </h2>
+</div>
+
+<div class="dialog-content">
+  <form class="form-datos" [formGroup]="formGroup">
+    <div class="seeker-fields-container">
+      <h3> PRODUCTO </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <input matInput [value]="data.producto.descripcion_producto" disabled>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3> CÓDIGO PARENTESCO </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <input matInput formControlName="codigo_parentesco" required minlength="1" maxlength="2">
+        <mat-error *ngIf="formGroup.get('codigo_parentesco')?.invalid && formGroup.get('codigo_parentesco')?.touched">
+          {{getErrorMessage(formGroup.get('codigo_parentesco'))}}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3> DESCRIPCIÓN </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <input matInput formControlName="descripcion" required minlength="3" maxlength="30">
+        <mat-error *ngIf="formGroup.get('descripcion')?.invalid && formGroup.get('descripcion')?.touched">
+          {{getErrorMessage(formGroup.get('descripcion'))}}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3> ¿PERMITE DARSE DE BAJA? </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <mat-select formControlName="permite_darse_baja" required minlength="1" maxlength="1" disableOptionCentering>
+          <mat-option [value]="'S'"> SI </mat-option>
+          <mat-option [value]="'N'"> NO </mat-option>
+        </mat-select>
+        <mat-error *ngIf="formGroup.get('permite_darse_baja')?.invalid && formGroup.get('permite_darse_baja')?.touched">
+          {{ getErrorMessage(formGroup.get('permite_darse_baja')) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3> ¿PIDE FECHA DE ENLACE? </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <mat-select formControlName="pide_fecha_enlace" required minlength="1" maxlength="1" disableOptionCentering>
+          <mat-option [value]="'S'"> SI </mat-option>
+          <mat-option [value]="'N'"> NO </mat-option>
+        </mat-select>
+        <mat-error *ngIf="formGroup.get('pide_fecha_enlace')?.invalid && formGroup.get('pide_fecha_enlace')?.touched">
+          {{ getErrorMessage(formGroup.get('pide_fecha_enlace')) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3> CÓDIGO AFIP </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <div *ngIf="this.data.par_modo === 'C'; else notCreate">
+          <mat-select formControlName="codigo_afip" required minlength="1" maxlength="2" disableOptionCentering>
+            <mat-option [value]="item" *ngFor="let item of data.parentescos">
+              {{ item.descripcion }}
+            </mat-option>
+          </mat-select>
+        </div>
+        <ng-template #notCreate>
+          <input matInput formControlName="codigo_afip">
+        </ng-template>
+        <mat-error *ngIf="formGroup.get('codigo_afip')?.invalid && formGroup.get('codigo_afip')?.touched">
+          {{ getErrorMessage(formGroup.get('codigo_afip')) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div *ngIf="data.edit; else other_content" class="buttons-container">
+      <button class="primary-button icon-button" type="button" mat-dialog-close>
+        <mat-icon> close </mat-icon>
+        Cancelar
+      </button>
+      <button [class]="formGroup.invalid ? 'primary-button icon-button disabled' : 'primary-button icon-button'"
+      type="submit" (click)="confirm()">
+        <mat-icon> done </mat-icon>
+        Guardar
+      </button>
+    </div>
+
+    <ng-template #other_content>
+      <button class="primary-button icon-button" mat-dialog-close>
+        <mat-icon> done </mat-icon>
+        Aceptar
+      </button>
+    </ng-template>
+  </form>
+</div>

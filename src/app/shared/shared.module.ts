@@ -24,19 +24,22 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
-
+import {
+  MatRadioModule,
+  MAT_RADIO_DEFAULT_OPTIONS,
+} from '@angular/material/radio';
+import { FormsModule } from '@angular/forms';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
   declarations: [
     SuccessComponent,
     ErrorComponent,
     InformationComponent,
-    LoaderComponent
+    LoaderComponent,
   ],
-  imports: [
-    CommonModule,
-    MatProgressSpinnerModule
-  ],
+  imports: [CommonModule, MatProgressSpinnerModule],
   exports: [
     MatToolbarModule,
     MatMenuModule,
@@ -54,7 +57,17 @@ import { MatSelectModule } from '@angular/material/select';
     MatSortModule,
     MatDialogModule,
     MatSnackBarModule,
-    MatSelectModule 
-  ]
+    MatSelectModule,
+    MatRadioModule,
+    FormsModule,
+    MatStepperModule,
+    MatTabsModule,
+  ],
+  providers: [
+    {
+      provide: MAT_RADIO_DEFAULT_OPTIONS,
+      useValue: { color: 'primary' },
+    },
+  ],
 })
-export class SharedModule { }
+export class SharedModule {}

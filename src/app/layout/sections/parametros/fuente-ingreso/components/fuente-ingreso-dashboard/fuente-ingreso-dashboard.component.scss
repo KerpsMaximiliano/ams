@@ -1,0 +1,22 @@
+.mat-column-descripcion.mat-header-cell,
+.mat-column-descripcion.mat-cell,
+.mat-column-empresa_asociada.mat-header-cell,
+.mat-column-empresa_asociada.mat-cell {
+  text-align: left !important;
+  padding-left: 1vw !important;
+}
+
+.mat-column-codigo_fuente_ingreso.mat-header-cell,
+.mat-column-codigo_fuente_ingreso.mat-cell,
+.mat-column-dia_corte.mat-header-cell,
+.mat-column-dia_corte.mat-cell {
+  text-align: right !important;
+  padding-right: 1vw !important;
+}
+
+/*
+ * Oculta la paginación hasta que la tabla tenga datos.
+*/
+.hide-paginator {
+  display: none;
+}

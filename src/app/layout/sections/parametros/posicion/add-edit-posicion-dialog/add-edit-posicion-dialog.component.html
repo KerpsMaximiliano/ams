@@ -1,0 +1,115 @@
+<div class="dialog-title" [tabIndex]="0">
+  <h2> {{ data.title | uppercase }} </h2>
+</div>
+
+<div class="dialog-content">
+  <form class="form-datos" [formGroup]="formGroup">
+    <div class="seeker-fields-container">
+      <h3> CÓDIGO </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <input matInput formControlName="codigo_posicion" required minlength="1" maxlength="3">
+        <mat-error *ngIf="formGroup.get('codigo_posicion')?.invalid && formGroup.get('codigo_posicion')?.touched">
+          {{ getErrorMessage(formGroup.get('codigo_posicion')) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3> POSICIÓN </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <input matInput formControlName="descripcion" required minlength="3" maxlength="30">
+        <mat-error *ngIf="formGroup.get('descripcion')?.invalid && formGroup.get('descripcion')?.touched">
+          {{ getErrorMessage(formGroup.get('descripcion')) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3> LOCALIDAD </h3>
+      <div class="content">
+        <mat-form-field class="seeker-form-field" appearance="outline">
+          <input matInput formControlName="localidad" #localidad required minlength="3" maxlength="30" readonly />
+          <mat-error *ngIf="formGroup.get('localidad')?.invalid && formGroup.get('localidad')?.touched">
+            {{ getErrorMessage(formGroup.get("localidad")) }}
+          </mat-error>
+        </mat-form-field>
+        <ng-container *ngIf="data.edit">
+          <div class="icon" (click)="searchLocalidad()">
+            <mat-icon class="material-symbols-outlined"> search </mat-icon>
+          </div>
+          <div class="icon" (click)="clear(localidad, 'localidad')" *ngIf="formGroup.get('localidad')?.value">
+            <mat-icon class="material-symbols-outlined"> close </mat-icon>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3> DOMICILIO </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <input matInput formControlName="domicilio" required minlength="3" maxlength="50">
+        <mat-error *ngIf="formGroup.get('domicilio')?.invalid && formGroup.get('domicilio')?.touched">
+          {{ getErrorMessage(formGroup.get('domicilio')) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3> CONTROL DE RECHAZO </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <mat-select formControlName="control_rechazo" required minlength="1" maxlength="30" disableOptionCentering>
+          <mat-option [value]="'S'"> SI </mat-option>
+          <mat-option [value]="'N'"> NO </mat-option>
+        </mat-select>
+        <mat-error *ngIf="formGroup.get('control_rechazo')?.invalid && formGroup.get('control_rechazo')?.touched">
+          {{ getErrorMessage(formGroup.get('control_rechazo')) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3> HABILITADO </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <mat-select formControlName="yes_no" required minlength="1" maxlength="1" disableOptionCentering>
+          <mat-option [value]="'S'"> SI </mat-option>
+          <mat-option [value]="'N'"> NO </mat-option>
+        </mat-select>
+        <mat-error *ngIf="formGroup.get('yes_no')?.invalid && formGroup.get('yes_no')?.touched">
+          {{ getErrorMessage(formGroup.get('yes_no')) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container" *ngIf="data.par_modo === 'R' || data.par_modo === 'U'">
+      <h3> ESTADO </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <input matInput [value]="data.fecha_vigencia === 0 ? 'ACTIVO' : 'BAJA'" disabled>
+      </mat-form-field>
+    </div>
+
+    <div *ngIf="data.edit; else other_content" class="buttons-container">
+      <button class="primary-button icon-button btn-w" type="button" mat-dialog-close>
+        <mat-icon> close </mat-icon>
+        Cancelar
+      </button>
+      <div *ngIf="data.par_modo === 'U'">
+        <button type="button" class="primary-button icon-button btn-w" (click)="setDate()">
+          <mat-icon> {{ data.fecha_vigencia === 0 ? 'remove_done' : 'done_all' }} </mat-icon>
+          {{ data.fecha_vigencia === 0 ? 'Baja' : 'Alta' }}
+        </button>
+      </div>
+      <button [class]="formGroup.invalid ? 'primary-button icon-button disabled' : 'primary-button icon-button'"
+        type="submit" (click)="confirm()">
+        <mat-icon> done </mat-icon>
+        Guardar
+      </button>
+    </div>
+
+    <ng-template #other_content>
+      <button class="primary-button icon-button" mat-dialog-close>
+        <mat-icon> done </mat-icon>
+        Aceptar
+      </button>
+    </ng-template>
+  </form>
+</div>

@@ -6,10 +6,7 @@ import { Observable } from 'rxjs';
 import { EnvironmentService } from './environment.service';
 
 // * Interfaces
-import {
-  ITipoDocumento,
-  ITipoDocumentoResponse,
-} from '../models/tipo-documento.interface';
+import { ITipoDocumentoResponse } from '../models/tipo-documento.interface';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -24,42 +21,11 @@ export class TipoDocumentoService {
     private environmentService: EnvironmentService
   ) {}
 
-  getDocumentByDesc(body: string): Observable<ITipoDocumentoResponse> {
-    console.log(body);
+  CRUD(body: string): Observable<ITipoDocumentoResponse> {
     return this.http.post<ITipoDocumentoResponse>(
       `${this.environmentService.api}/abmtipodocumento`,
       body,
       httpOptions
     );
-  }
-
-  getDocumentById(body: string): Observable<ITipoDocumentoResponse> {
-    return this.http.post<ITipoDocumentoResponse>(
-      `${this.environmentService.api}/abmtipodocumento`,
-      body,
-      httpOptions
-    );
-  }
-
-  addDocument(data: ITipoDocumento): Observable<ITipoDocumento> {
-    let body = JSON.stringify(data);
-    return this.http.post<ITipoDocumento>(
-      `${this.environmentService.api}/abmtipodocumento`,
-      body,
-      httpOptions
-    );
-  }
-
-  editDocument(data: ITipoDocumento): Observable<ITipoDocumento> {
-    let body = JSON.stringify(data);
-    return this.http.post<ITipoDocumento>(
-      `${this.environmentService.api}/abmtipodocumento`,
-      body,
-      httpOptions
-    );
-  }
-
-  deleteParametro(id: number) {
-    return this.http.delete(`${this.environmentService.api}/parametros/${id}`);
   }
 }

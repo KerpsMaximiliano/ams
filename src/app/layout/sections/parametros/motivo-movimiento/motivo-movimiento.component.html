@@ -1,0 +1,15 @@
+<section class="browse-section">
+  <div class="section-header">
+    <h2> Motivos de movimientos </h2>
+    <button class="new-button icon-button" (click)="new()">
+      <mat-icon> add </mat-icon>
+      Nuevo
+    </button>
+  </div>
+
+  <div class="section-content">
+    <app-motivo-movimiento-filter (search)="getData($event)"></app-motivo-movimiento-filter>
+    <app-motivo-movimiento-dashboard [receivedData]="dataSent" (viewEvent)="view($event)"
+      (editEvent)="edit($event)"></app-motivo-movimiento-dashboard>
+  </div>
+</section>

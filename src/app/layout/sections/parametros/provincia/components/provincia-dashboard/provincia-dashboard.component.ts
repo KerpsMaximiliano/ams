@@ -1,146 +1,81 @@
-import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import {
+  Component,
+  Input,
+  ViewChild,
+  OnInit,
+  OnChanges,
+  SimpleChanges,
+  EventEmitter,
+  Output,
+} from '@angular/core';
+
+// * Interfaces
+import { IProvincia } from 'src/app/core/models/provincia.interface';
+
+// * Material
+import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
-import { MatSort, Sort } from '@angular/material/sort';
-import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { Provincia } from 'src/app/core/models/provincia';
-import { ProvinciaService } from 'src/app/core/services/provincia.service';
-import { UtilService } from 'src/app/core/services/util.service';
-import { AddEditProvinciaDialogComponent } from '../edit-provincia-dialog/add-edit-provincia-dialog.component'; 
 
 @Component({
   selector: 'app-provincia-dashboard',
   templateUrl: './provincia-dashboard.component.html',
-  styleUrls: ['./provincia-dashboard.component.scss']
+  styleUrls: ['./provincia-dashboard.component.scss'],
 })
-export class ProvinciaDashboardComponent {
-
-  @ViewChild(MatSort) sort: MatSort = new MatSort();
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator =
-    new MatPaginator(new MatPaginatorIntl(), this.cdr);
-  @ViewChild(MatTable) table!: MatTable<any>;
-
+export class ProvinciaDashboardComponent implements OnInit, OnChanges {
   public displayedColumns: string[] = [
     'codigo',
     'nombre_provincia',
     'codigo_provincia',
     'codifica_altura',
     'flete_transportista',
-    'actions'
+    'actions',
   ];
+  public dataSource: MatTableDataSource<IProvincia>;
 
-  public dataSource: MatTableDataSource<Provincia>;
-  public searchText: string;
-  public provincia: Provincia[] = [];
+  @ViewChild(MatPaginator, { static: true }) public paginator!: MatPaginator;
 
-  constructor(private provinciaService: ProvinciaService,
-              private utils: UtilService,
-              private _liveAnnouncer: LiveAnnouncer,
-              private cdr: ChangeDetectorRef,
-              private dialog: MatDialog) { }
+  @Input() public receivedData: IProvincia[] = [];
+  @Output() public viewEvent: EventEmitter<IProvincia> =
+    new EventEmitter<IProvincia>();
+  @Output() public editEvent: EventEmitter<IProvincia> =
+    new EventEmitter<IProvincia>();
+
+  constructor(private matPaginatorIntl: MatPaginatorIntl) {}
 
   ngOnInit(): void {
-    this.paginator._intl.itemsPerPageLabel = 'Elementos por página';
+    this.configurePaginator();
   }
 
-  private getProvincia(): void {
-    this.utils.openLoading();
-    let body = JSON.stringify({
-      par_modo: "C",
-      nombre_provincia: this.searchText
-    });
-    this.provinciaService.provinciaCRUD(body).subscribe({
-      next:(res:any) => {
-        this.provincia = res.dataset as Provincia[];
-        this.dataSource = new MatTableDataSource<Provincia>(this.provincia);
-        this.dataSource.sort = this.sort;
-        setTimeout(() => {
-          this.dataSource.paginator = this.paginator;
-          this.paginator._intl.getRangeLabel = (): string => {
-            return "Página " +  (this.paginator.pageIndex + 1) + " de " +  this.paginator.length
-          }
-        }, 100)
-      },
-      error:(err: any) => {
-        this.utils.closeLoading();
-        (err.status == 0)
-          ? this.utils.notification('Error de conexion', 'error') 
-          : this.utils.notification(`Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`, 'error')
-      },
-      complete: () => {
-        this.utils.closeLoading();
-      }
-    });
-  }
-
-  public announceSortChange(sortState: Sort): void {
-    if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    } else {
-      this._liveAnnouncer.announce('Sorting cleared');
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['receivedData'] && !changes['receivedData'].firstChange) {
+      this.dataSource = new MatTableDataSource<IProvincia>(this.receivedData);
+      this.dataSource.paginator = this.paginator;
     }
   }
 
-  public editProvincia(tipoProvincia: Provincia): void {
-    const modalNuevaProvincia = this.dialog.open(AddEditProvinciaDialogComponent, {
-      data: {
-        title: `EDITAR PROVINCIA`,
-        par_modo: "U",
-        codigo: tipoProvincia?.codigo,
-        nombre_provincia: tipoProvincia?.nombre_provincia,
-        codifica_altura: tipoProvincia?.codifica_altura,
-        codigo_provincia: tipoProvincia?.codigo_provincia,
-        flete_transportista: tipoProvincia?.flete_transportista,
-        edit: true
-      }
-    });
-
-    modalNuevaProvincia.afterClosed().subscribe({
-      next:(res) => {
-        if (res) {
-          this.utils.openLoading();
-          this.provinciaService.provinciaCRUD(res).subscribe({
-            next: () => {
-              this.utils.notification("La Provincia se ha editado extiosamente", 'success')
-            },
-            error: (err) => {
-              this.utils.closeLoading();
-              (err.status == 0)
-                ? this.utils.notification('Error de conexion', 'error') 
-                : this.utils.notification(`Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`, 'error')
-              this.editProvincia(res)
-            },
-            complete: () => {
-              this.searchText = res.nombre_provincia.trim();
-              this.utils.closeLoading();
-              setTimeout(() => {
-                this.getProvincia();
-              }, 300);
-            }
-          });
-        }
-      }
-    });
+  public view(element: IProvincia): void {
+    this.viewEvent.emit(element);
   }
 
-  public viewProvincia(tipoProvincia: Provincia): void {
-    this.dialog.open(AddEditProvinciaDialogComponent, {
-      data: {
-        title: `VER PROVINCIA`,
-        id_tabla: 9,
-        codigo: tipoProvincia?.codigo,
-        nombre_provincia: tipoProvincia?.nombre_provincia,
-        codifica_altura: tipoProvincia?.codifica_altura,
-        codigo_provincia: tipoProvincia?.codigo_provincia,
-        flete_transportista: tipoProvincia?.flete_transportista,
-        edit: false
-      }
-    });
+  public edit(element: IProvincia): void {
+    this.editEvent.emit(element);
   }
 
-  public filter(data: string):void {    
-    this.searchText = data;
-    this.getProvincia();
+  private configurePaginator(): void {
+    this.paginator._intl = this.matPaginatorIntl;
+    this.paginator._intl.itemsPerPageLabel = 'Elementos por página: ';
+    this.paginator._intl.nextPageLabel = 'Página siguiente.';
+    this.paginator._intl.previousPageLabel = 'Página anterior.';
+    this.paginator._intl.firstPageLabel = 'Primer página.';
+    this.paginator._intl.lastPageLabel = 'Última página.';
+    this.paginator._intl.getRangeLabel = (
+      page: number,
+      pageSize: number,
+      length: number
+    ): string => {
+      return length
+        ? `Página ${page + 1} de ${Math.ceil(length / pageSize)}`
+        : 'Página 0 de 0';
+    };
   }
 }

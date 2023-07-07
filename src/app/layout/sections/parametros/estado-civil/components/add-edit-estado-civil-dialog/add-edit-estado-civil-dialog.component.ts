@@ -1,20 +1,24 @@
 import { Component, Inject } from '@angular/core';
 
-// * Form
+// * Services
+import { DataSharingService } from 'src/app/core/services/data-sharing.service';
+
+// * Forms
 import {
   UntypedFormControl,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 
-// * Validations
-import { isAlphanumericWithSpaces, isAlphanumeric } from 'src/app/core/validators/character.validator';
+// * Validators
+import {
+  getErrorMessage,
+  notOnlySpaces,
+  isAlpha,
+} from 'src/app/core/validators/character.validator';
 
 // * Material
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-
-// * Components
-import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-add-edit-estado-civil-dialog',
@@ -23,15 +27,25 @@ import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confi
 })
 export class AddEditEstadoCivilDialogComponent {
   public formGroup: UntypedFormGroup;
+  public getErrorMessage = getErrorMessage;
 
   constructor(
-    public dialogRef: MatDialogRef<ConfirmDialogComponent>,
+    private dataSharingService: DataSharingService,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {}
-
-  ngOnInit(): void {
+  ) {
     this.setUpForm();
-    if (this.data.codigo_estado_civil) this.setFormValues();
+  }
+
+  public confirm(): void {
+    if (this.formGroup.valid) {
+      this.dataSharingService.sendData({
+        par_modo: this.data.par_modo,
+        codigo_estado_civil: this.formGroup.get('codigo_estado_civil')?.value,
+        description: this.formGroup.get('description')?.value,
+      });
+    } else {
+      this.formGroup.markAllAsTouched();
+    }
   }
 
   private setUpForm(): void {
@@ -39,65 +53,27 @@ export class AddEditEstadoCivilDialogComponent {
       codigo_estado_civil: new UntypedFormControl(
         {
           value: this.data.codigo_estado_civil,
-          disabled: this.data.par_modo === 'U',
+          disabled: this.data.par_modo === 'U' || this.data.par_modo === 'R',
         },
-        Validators.compose([
+        [
           Validators.required,
           Validators.minLength(1),
           Validators.maxLength(1),
-          isAlphanumeric(),
-        ])
+          isAlpha(),
+        ]
       ),
       description: new UntypedFormControl(
-        '',
-        Validators.compose([
+        {
+          value: this.data.description ? this.data.description.trim() : '',
+          disabled: this.data.par_modo === 'R',
+        },
+        [
           Validators.required,
-          Validators.minLength(1),
+          Validators.minLength(3),
           Validators.maxLength(20),
-          isAlphanumericWithSpaces(),
-        ])
+          notOnlySpaces(),
+        ]
       ),
     });
-  }
-
-  private setFormValues(): void {
-    this.formGroup
-      .get('codigo_estado_civil')
-      ?.setValue(this.data.codigo_estado_civil);
-    this.formGroup.get('description')?.setValue(this.data.description);
-  }
-
-  closeDialog(): void {
-    this.dialogRef.close(false);
-  }
-
-  public confirm(): void {
-    this.formGroup.markAllAsTouched();
-    if (this.formGroup.valid) {
-      this.dialogRef.close({
-        par_modo: this.data.par_modo,
-        codigo_estado_civil: this.formGroup.get('codigo_estado_civil')?.value,
-        description: this.formGroup.get('description')?.value,
-      });
-    }
-  }
-
-  getErrorMessage(control: any): string {
-    if (control.errors?.['required']) {
-      return `Campo requerido.`;
-    } else {
-      if ((control.errors?.['notAlphanumeric'] || control.errors?.['notAlphanumericWithSpaces']) && control.value != '' && control.value != null) {
-        return `Solo se aceptan letras y números.`;
-      }
-
-      if (control.errors?.['maxlength']) {
-        return `No puede contener más de ${control.errors?.['maxlength'].requiredLength} caracteres.`;
-      }
-
-      if (control.errors?.['minlength']) {
-        return `Debe contener al menos ${control.errors?.['minlength'].requiredLength} caracteres.`;
-      }
-    }
-    return '';
   }
 }

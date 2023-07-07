@@ -1,12 +1,11 @@
-import { Response } from "./response";
+import { IResponse } from './response.interface';
 
-export interface CondicionIva {
-    par_modo: string,
-    id: number;
-    descripcion: string;
-    descripcion_reducida: string;
-    formulario_AB: string;
-    codigo_de_IVA: string;
+export interface ICondicionIva {
+  par_modo: string;
+  codigo_de_IVA: string;
+  descripcion: string;
+  descripcion_reducida: string;
+  formulario_AB: string;
 }
 
-export type CondicionIvaResponse = Response<CondicionIva[]>;
+export type ICondicionIvaResponse = IResponse<ICondicionIva[]>;

@@ -1,23 +1,25 @@
 import { Component, Inject } from '@angular/core';
 
-// * Form
+// * Services
+import { DataSharingService } from 'src/app/core/services/data-sharing.service';
+
+// * Forms
 import {
   UntypedFormControl,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 
-// * Material
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-
 // * Validations
 import {
-  isAlphanumericWithSpaces,
   isNumeric,
+  getErrorMessage,
+  notOnlySpaces,
+  isAlpha,
 } from 'src/app/core/validators/character.validator';
 
-// * Components
-import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
+// * Material
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-add-edit-tipo-documento-dialog',
@@ -26,116 +28,81 @@ import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confi
 })
 export class AddEditTipoDocumentoDialogComponent {
   public formGroup: UntypedFormGroup;
+  public getErrorMessage = getErrorMessage;
 
   constructor(
-    public dialogRef: MatDialogRef<ConfirmDialogComponent>,
+    private dataSharingService: DataSharingService,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {}
-
-  ngOnInit(): void {
-    console.log(this.data);
-
+  ) {
     this.setUpForm();
-    if (this.data.id) this.setFormValues();
+  }
+
+  public confirm(): void {
+    if (this.formGroup.valid) {
+      this.dataSharingService.sendData({
+        par_modo: this.data.par_modo,
+        tipo_de_documento: this.formGroup.get('tipo_de_documento')?.value,
+        descripcion: this.formGroup.get('descripcion')?.value,
+        descripcion_reducida: this.formGroup.get('descripcion_reducida')?.value,
+        control_cuit: this.formGroup.get('control_cuit')?.value,
+      });
+    } else {
+      this.formGroup.markAllAsTouched();
+    }
   }
 
   private setUpForm(): void {
     this.formGroup = new UntypedFormGroup({
-      id: new UntypedFormControl(
-        '',
+      tipo_de_documento: new UntypedFormControl(
+        {
+          value: this.data.tipo_de_documento,
+          disabled: this.data.par_modo === 'U' || this.data.par_modo === 'R',
+        },
         Validators.compose([
           Validators.required,
           Validators.minLength(1),
           Validators.maxLength(2),
-          isNumeric,
+          isNumeric(),
         ])
       ),
-      tipo: new UntypedFormControl(
-        '',
+      descripcion: new UntypedFormControl(
+        {
+          value: this.data.descripcion ? this.data.descripcion.trim() : '',
+          disabled: this.data.par_modo === 'R',
+        },
         Validators.compose([
           Validators.required,
           Validators.minLength(3),
           Validators.maxLength(20),
-          isAlphanumericWithSpaces(),
+          notOnlySpaces(),
         ])
       ),
-      abreviatura: new UntypedFormControl(
-        '',
+      descripcion_reducida: new UntypedFormControl(
+        {
+          value: this.data.descripcion_reducida
+            ? this.data.descripcion_reducida.trim()
+            : '',
+          disabled: this.data.par_modo === 'R',
+        },
         Validators.compose([
           Validators.required,
           Validators.minLength(1),
           Validators.maxLength(3),
-          isAlphanumericWithSpaces(),
+          notOnlySpaces(),
         ])
       ),
-      cuit: new UntypedFormControl(
-        { value: 'N', disabled: !this.data.edit },
+      control_cuit: new UntypedFormControl(
+        {
+          value: this.data.control_cuit ? this.data.control_cuit.trim() : '',
+          disabled: this.data.par_modo === 'R',
+        },
         Validators.compose([
           Validators.required,
           Validators.minLength(1),
-          Validators.maxLength(2),
+          Validators.maxLength(1),
+          isAlpha(),
         ])
       ),
     });
-  }
-
-  private setFormValues(): void {
-    this.formGroup.get('id')?.setValue(this.data.id == 99 ? '' : this.data.id);
-    this.formGroup.get('tipo')?.setValue(this.data.tipo);
-    this.formGroup.get('abreviatura')?.setValue(this.data.abreviatura);
-    this.data.cuit
-      ? this.formGroup.get('cuit')?.setValue(this.data.cuit)
-      : this.formGroup.get('cuit')?.setValue('N');
-  }
-
-  closeDialog(): void {
-    this.dialogRef.close(false);
-  }
-
-  public confirm(): void {
-    this.formGroup.markAllAsTouched();
-    if (this.formGroup.valid) {
-      this.data.id != 99
-        ? this.dialogRef.close({
-            par_modo: 'U',
-            id: this.data.id,
-            descripcion: this.formGroup.get('tipo')?.value,
-            descripcion_reducida: this.formGroup.get('abreviatura')?.value,
-            control_cuit: this.formGroup.get('cuit')?.value,
-            tipo_de_documento: this.data.tipo_documento,
-          })
-        : this.dialogRef.close({
-            par_modo: 'I',
-            id: this.data.id,
-            descripcion: this.formGroup.get('tipo')?.value,
-            descripcion_reducida: this.formGroup.get('abreviatura')?.value,
-            control_cuit: this.formGroup.get('cuit')?.value,
-            tipo_de_documento: 3,
-          });
-    }
-  }
-
-  getErrorMessage(control: any): string {
-    if (control.errors?.['required']) {
-      return `Campo requerido`;
-    } else {
-      if (control.errors?.['maxlength']) {
-        return `No puede contener más de ${control.errors?.['maxlength'].requiredLength} caracteres`;
-      }
-
-      if (control.errors?.['minlength']) {
-        return `Debe contener al menos ${control.errors?.['minlength'].requiredLength} caracteres`;
-      }
-
-      if (
-        (control.errors?.['notAlphanumeric'] ||
-          control.errors?.['notAlphanumericWithSpaces']) &&
-        control.value != '' &&
-        control.value != null
-      ) {
-        return `No puede contener caracteres especiales`;
-      }
-    }
-    return '';
   }
 }

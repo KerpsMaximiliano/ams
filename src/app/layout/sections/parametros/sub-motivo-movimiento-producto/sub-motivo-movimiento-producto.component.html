@@ -1,0 +1,22 @@
+<section class="browse-section">
+  <div class="section-header">
+    <h2> Submotivo de movimiento </h2>
+    <div class="section-header-item">
+      <button class="primary-button icon-button" (click)="back()">
+        <mat-icon> arrow_back </mat-icon>
+        Volver
+      </button>
+      <button class="new-button icon-button" (click)="new()">
+        <mat-icon> add </mat-icon>
+        Nuevo
+      </button>
+    </div>
+  </div>
+
+  <div class="section-content">
+    <app-sub-motivo-movimiento-producto-filter (search)="getSubMotivoMovimiento($event)"
+      [motivoMovimientoProducto]="motivoMovimientoProducto"></app-sub-motivo-movimiento-producto-filter>
+    <app-sub-motivo-movimiento-producto-dashboard [receivedData]="dataSent" (viewEvent)="view($event)"
+      (editEvent)="edit($event)"></app-sub-motivo-movimiento-producto-dashboard>
+  </div>
+</section>
