@@ -111,6 +111,7 @@ import { AddEditAtributosRelacionCapitaPlanDialogComponent } from './atributos-r
 import { AtributosRelacionCapitaPlanComponent } from './atributos-relacion-capita-plan/atributos-relacion-capita-plan.component';
 import { AtributosRelacionCapitaPlanDashboardComponent } from './atributos-relacion-capita-plan/components/atributos-relacion-capita-plan-dashboard/atributos-relacion-capita-plan-dashboard.component';
 import { AtributosRelacionCapitaPlanFilterComponent } from './atributos-relacion-capita-plan/components/atributos-relacion-capita-plan-filter/atributos-relacion-capita-plan-filter.component';
+import { AtributosRelacionCapitaPlanSetProductoDialogComponent } from './atributos-relacion-capita-plan/components/atributos-relacion-capita-plan-set-producto-dialog/atributos-relacion-capita-plan-set-producto-dialog.component';
 // 32 - EXTENCION DE FUENTES DE INGRESOS
 import { ExtencionFuenteIngresoComponent } from './extencion-fuente-ingreso/extencion-fuente-ingreso.component';
 import { ExtencionFuenteIngresoDashboardComponent } from './extencion-fuente-ingreso/components/extencion-fuente-ingreso-dashboard/extencion-fuente-ingreso-dashboard.component';
@@ -222,6 +223,7 @@ import { ModalExtencionProductoComponent } from './extencion-fuente-ingreso/comp
     AtributosRelacionCapitaPlanComponent,
     AtributosRelacionCapitaPlanDashboardComponent,
     AtributosRelacionCapitaPlanFilterComponent,
+    AtributosRelacionCapitaPlanSetProductoDialogComponent,
     // 32 - EXTENCION FUENTES DE INGRESOS
     ExtencionFuenteIngresoComponent,
     ExtencionFuenteIngresoDashboardComponent,

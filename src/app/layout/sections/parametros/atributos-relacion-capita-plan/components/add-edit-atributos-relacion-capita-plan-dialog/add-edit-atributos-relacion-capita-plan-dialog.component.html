@@ -1,115 +1,415 @@
-<div class="dialog-title" [tabIndex]="0">
-  <h2>{{ data.title | uppercase }}</h2>
+<div class="dialog-title">
+  <h2 tabindex="0">{{ data.title | uppercase }}</h2>
 </div>
 
 <div class="dialog-content">
-  <form class="form-datos" [formGroup]="formGroup" (ngSubmit)="confirm()">
-    <div class="seeker-fields-container">
-      <h3>NÚMERO DE PREGUNTA</h3>
-      <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="nro_preg" />
-        <mat-error *ngIf="formGroup.get('nro_preg')?.invalid && formGroup.get('nro_preg')?.touched">{{getErrorMessage(formGroup.get('nro_preg'))}}</mat-error>
-      </mat-form-field>
-    </div>
+  <form class="form-datos" [formGroup]="formGroup">
+    <mat-tab-group [selectedIndex]="activeTabIndex" (selectedTabChange)="tabChanged($event)" mat-stretch-tabs
+      dynamicHeight>
+      <mat-tab>
+        <div class="seeker-fields-container mt-1">
+          <h3> FUENTE DE INGRESO ADMINISTRADORA </h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <input matInput formControlName="descripcion_fuente_adm_mixta" />
+            <mat-error
+              *ngIf="formGroup.get('descripcion_fuente_adm_mixta')?.invalid && formGroup.get('descripcion_fuente_adm_mixta')?.touched">
+              {{ getErrorMessage(formGroup.get("descripcion_fuente_adm_mixta")) }}
+            </mat-error>
+          </mat-form-field>
+        </div>
 
-    <div class="seeker-fields-container">
-      <h3>MODELO DE FORMULARIO</h3>
-      <mat-form-field class="seeker-form-field" required appearance="outline">
-        <mat-select formControlName="modelo_formulario">
-          <mat-option [value]="'A1'"> ALTA </mat-option>
-          <mat-option [value]="'M'"> MODIFICACIÓN </mat-option>
-        </mat-select>
-        <mat-error *ngIf="
-            formGroup.get('modelo_formulario')?.invalid &&
-            formGroup.get('modelo_formulario')?.touched
-          ">
-          {{ getErrorMessage(formGroup.get("modelo_formulario")) }}
-        </mat-error>
-      </mat-form-field>
-    </div>
+        <div class="seeker-fields-container">
+          <h3> FUENTE DE INGRESO SUBORDINADA </h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <input matInput formControlName="descripcion_fuente_subordinada" />
+            <mat-error
+              *ngIf="formGroup.get('descripcion_fuente_subordinada')?.invalid && formGroup.get('descripcion_fuente_subordinada')?.touched">
+              {{ getErrorMessage(formGroup.get("descripcion_fuente_subordinada")) }}
+            </mat-error>
+          </mat-form-field>
+        </div>
 
-    <div class="seeker-fields-container">
-      <h3>LÍNEAS DE PREGUNTAS</h3>
-      <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="cantidad_lineas_resp" maxlength="1" minlength="1" required />
-        <mat-error *ngIf="
-            formGroup.get('cantidad_lineas_resp')?.invalid &&
-            formGroup.get('cantidad_lineas_resp')?.touched
-          ">{{
-          getErrorMessage(formGroup.get("cantidad_lineas_resp"))
-          }}</mat-error>
-      </mat-form-field>
-    </div>
+        <div class="cont">
+          <div>
+            <div class="seeker-fields-container">
+              <h3> PRODUCTO </h3>
+              <mat-form-field class="seeker-form-field" appearance="outline">
+                <input matInput class="seeker-input" placeholder="Busque un producto/subproducto"
+                  formControlName="descripcion_producto_administrador" #descripcionProducto readonly>
+              </mat-form-field>
+            </div>
 
-    <div class="seeker-fields-container">
-      <h3>PIDE FECHA</h3>
-      <mat-form-field class="seeker-form-field" required appearance="outline">
-        <mat-select formControlName="pide_fecha">
-          <mat-option [value]="'S'"> SI </mat-option>
-          <mat-option [value]="'N'"> NO </mat-option>
-        </mat-select>
-        <mat-error *ngIf="
-            formGroup.get('pide_fecha')?.invalid &&
-            formGroup.get('pide_fecha')?.touched
-          ">{{ getErrorMessage(formGroup.get("pide_fecha")) }}</mat-error>
-      </mat-form-field>
-    </div>
+            <div class="seeker-fields-container">
+              <h3> SUBPRODUCTO </h3>
+              <mat-form-field class="seeker-form-field" appearance="outline">
+                <input matInput class="seeker-input" formControlName="descripcion_producto_administrador"
+                  [placeholder]="descripcionProducto.value ? '' : 'Busque un producto/subproducto'"
+                  #descripcionSubproducto readonly>
+              </mat-form-field>
+            </div>
+          </div>
 
-    <div class="seeker-fields-container">
-      <h3>PIDE SI/NO</h3>
-      <mat-form-field class="seeker-form-field" required appearance="outline">
-        <mat-select formControlName="yes_no">
-          <mat-option [value]="'S'"> SI </mat-option>
-          <mat-option [value]="'N'"> NO </mat-option>
-        </mat-select>
-        <mat-error *ngIf="
-            formGroup.get('yes_no')?.invalid && formGroup.get('yes_no')?.touched
-          ">{{ getErrorMessage(formGroup.get("yes_no")) }}</mat-error>
-      </mat-form-field>
-    </div>
+          <div class="icon-container">
+            <div class="icon" (click)="getProducto()">
+              <mat-icon class="material-symbols-outlined"> search </mat-icon>
+            </div>
+            <div class="icon"
+              (click)="clear(descripcionProducto, 'descripcion_producto_administrador', descripcionSubproducto, 'descripcion_producto_subordinado')">
+              <mat-icon class="material-symbols-outlined"> close </mat-icon>
+            </div>
+          </div>
+        </div>
 
-    <div class="seeker-fields-container">
-      <h3>PRIMER LÍNEA</h3>
-      <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="primer_texto_preg" required minlength="1" maxlength="50" />
-        <mat-error *ngIf="
-            formGroup.get('primer_texto_preg')?.invalid &&
-            formGroup.get('primer_texto_preg')?.touched
-          ">{{ getErrorMessage(formGroup.get("primer_texto_preg")) }}</mat-error>
-      </mat-form-field>
-    </div>
+        <div class="seeker-fields-container">
+          <h3> PLAN </h3>
+          <div class="content">
+            <mat-form-field class="seeker-form-field" appearance="outline">
+              <input matInput formControlName="descripcion_plan" required minlength="3" #descripcionPlan readonly />
+              <mat-error
+                *ngIf="formGroup.get('descripcion_plan')?.invalid && formGroup.get('descripcion_plan')?.touched">
+                {{ getErrorMessage(formGroup.get("descripcion_plan")) }}
+              </mat-error>
+            </mat-form-field>
+            <ng-container *ngIf="data.par_modo === 'C'">
+              <div class="icon">
+                <mat-icon class="material-symbols-outlined"> search </mat-icon>
+              </div>
+              <div class="icon" (click)="clear(descripcionPlan, 'descripcion_plan')"
+                *ngIf="formGroup.get('descripcion_plan')?.value">
+                <mat-icon class="material-symbols-outlined"> close </mat-icon>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </mat-tab>
 
-    <div class="seeker-fields-container">
-      <h3>SEGUNDA LÍNEA</h3>
-      <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="segundo_texto_preg" maxlength="50" />
-        <mat-error *ngIf="
-            formGroup.get('segundo_texto_preg')?.invalid &&
-            formGroup.get('segundo_texto_preg')?.touched
-          ">{{ getErrorMessage(formGroup.get("segundo_texto_preg")) }}</mat-error>
-      </mat-form-field>
-    </div>
+      <mat-tab>
+        <div class="seeker-fields-container mt-1">
+          <h3> GENERACIÓN DE LIQUIDACIÓN </h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <mat-select formControlName="genera_liquidacion" required minlength="1" maxlength="1"
+              disableOptionCentering>
+              <mat-option [value]="'S'">
+                SI
+              </mat-option>
+              <mat-option [value]="'N'">
+                NO
+              </mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="formGroup.get('genera_liquidacion')?.invalid && formGroup.get('genera_liquidacion')?.touched">
+              {{ getErrorMessage(formGroup.get('genera_liquidacion')) }}
+            </mat-error>
+          </mat-form-field>
+        </div>
 
-    <mat-error *ngIf="formGroup.hasError('selectsInvalid') && (formGroup.get('pide_fecha')?.touched || formGroup.get('yes_no')?.touched)">
-      No es posible solicitar Fecha y Si/No a la vez.
-    </mat-error>
+        <div class="seeker-fields-container">
+          <h3> MOD. CARGA AFILIACIÓN </h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <mat-select formControlName="mod_carga_afiliacion" required minlength="1" maxlength="1"
+              disableOptionCentering>
+              <mat-option [value]="'S'">
+                SI
+              </mat-option>
+              <mat-option [value]="'N'">
+                NO
+              </mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="formGroup.get('mod_carga_afiliacion')?.invalid && formGroup.get('mod_carga_afiliacion')?.touched">
+              {{ getErrorMessage(formGroup.get('mod_carga_afiliacion')) }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="seeker-fields-container">
+          <h3> SOLICITA DD.JJ. </h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <mat-select formControlName="solicita_ddjj" required minlength="1" maxlength="1" disableOptionCentering>
+              <mat-option [value]="'S'">
+                SI
+              </mat-option>
+              <mat-option [value]="'N'">
+                NO
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="formGroup.get('solicita_ddjj')?.invalid && formGroup.get('solicita_ddjj')?.touched">
+              {{ getErrorMessage(formGroup.get('solicita_ddjj')) }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="seeker-fields-container">
+          <h3> ¿LIQUIDA MENSUALMENTE? </h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <mat-select formControlName="liquida_mensualmente" required minlength="1" maxlength="1"
+              disableOptionCentering>
+              <mat-option [value]="'S'">
+                SI
+              </mat-option>
+              <mat-option [value]="'N'">
+                NO
+              </mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="formGroup.get('liquida_mensualmente')?.invalid && formGroup.get('liquida_mensualmente')?.touched">
+              {{ getErrorMessage(formGroup.get('liquida_mensualmente')) }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="seeker-fields-container">
+          <h3> CALCULO DE COMISIÓN </h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <mat-select formControlName="calcula_comision_SN" required minlength="1" maxlength="1"
+              disableOptionCentering>
+              <mat-option [value]="'S'">
+                SI
+              </mat-option>
+              <mat-option [value]="'N'">
+                NO
+              </mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="formGroup.get('calcula_comision_SN')?.invalid && formGroup.get('calcula_comision_SN')?.touched">
+              {{ getErrorMessage(formGroup.get('calcula_comision_SN')) }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </mat-tab>
+
+      <mat-tab>
+        <div class="seeker-fields-container mt-1">
+          <h3> RECUPERA A OBRA SOCIAL </h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <mat-select formControlName="calcula_comision_SN" required minlength="1" maxlength="1"
+              disableOptionCentering>
+              <mat-option [value]="2">
+                2
+              </mat-option>
+              <mat-option [value]="9">
+                9
+              </mat-option>
+              <mat-option [value]="'S'">
+                S
+              </mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="formGroup.get('calcula_comision_SN')?.invalid && formGroup.get('calcula_comision_SN')?.touched">
+              {{ getErrorMessage(formGroup.get('calcula_comision_SN')) }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="seeker-fields-container">
+          <h3> REASEGURO </h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <mat-select formControlName="reaseguro_SN" required minlength="1" maxlength="1" disableOptionCentering>
+              <mat-option [value]="'S'">
+                SI
+              </mat-option>
+              <mat-option [value]="'N'">
+                NO
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="formGroup.get('reaseguro_SN')?.invalid && formGroup.get('reaseguro_SN')?.touched">
+              {{ getErrorMessage(formGroup.get('reaseguro_SN')) }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="seeker-fields-container">
+          <h3> LEGAJO </h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <mat-select formControlName="legajo" required minlength="1" maxlength="1" disableOptionCentering>
+              <mat-option [value]="1">
+                SI
+              </mat-option>
+              <mat-option [value]="0">
+                NO
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="formGroup.get('legajo')?.invalid && formGroup.get('legajo')?.touched">
+              {{ getErrorMessage(formGroup.get('legajo')) }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="seeker-fields-container">
+          <h3> ZONA </h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <mat-select formControlName="zona" required minlength="1" maxlength="1" disableOptionCentering>
+              <mat-option [value]="1">
+                SI
+              </mat-option>
+              <mat-option [value]="0">
+                NO
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="formGroup.get('zona')?.invalid && formGroup.get('zona')?.touched">
+              {{ getErrorMessage(formGroup.get('zona')) }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="seeker-fields-container">
+          <h3> DIVISIÓN </h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <mat-select formControlName="division" required minlength="1" maxlength="1" disableOptionCentering>
+              <mat-option [value]="1">
+                SI
+              </mat-option>
+              <mat-option [value]="0">
+                NO
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="formGroup.get('division')?.invalid && formGroup.get('division')?.touched">
+              {{ getErrorMessage(formGroup.get('division')) }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </mat-tab>
+
+      <mat-tab>
+        <div class="seeker-fields-container mt-1">
+          <h3> SECCIÓN </h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <mat-select formControlName="seccion" required minlength="1" maxlength="1" disableOptionCentering>
+              <mat-option [value]="1">
+                SI
+              </mat-option>
+              <mat-option [value]="0">
+                NO
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="formGroup.get('seccion')?.invalid && formGroup.get('seccion')?.touched">
+              {{ getErrorMessage(formGroup.get('seccion')) }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="seeker-fields-container">
+          <h3> SUBSECCIÓN </h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <mat-select formControlName="subseccion" required minlength="1" maxlength="1" disableOptionCentering>
+              <mat-option [value]="1">
+                SI
+              </mat-option>
+              <mat-option [value]="0">
+                NO
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="formGroup.get('subseccion')?.invalid && formGroup.get('subseccion')?.touched">
+              {{ getErrorMessage(formGroup.get('subseccion')) }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="seeker-fields-container">
+          <h3> VAL. CÓDIGO EMPRESA </h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <mat-select formControlName="val_cod_empresa" required minlength="1" maxlength="1" disableOptionCentering>
+              <mat-option [value]="1">
+                SI
+              </mat-option>
+              <mat-option [value]="0">
+                NO
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="formGroup.get('val_cod_empresa')?.invalid && formGroup.get('val_cod_empresa')?.touched">
+              {{ getErrorMessage(formGroup.get('val_cod_empresa')) }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="seeker-fields-container">
+          <h3> CONTROLA DECLARACIONES JURADAS </h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <mat-select formControlName="controla_dec_juradas" required minlength="1" maxlength="1"
+              disableOptionCentering>
+              <mat-option [value]="'S'">
+                SI
+              </mat-option>
+              <mat-option [value]="'N'">
+                NO
+              </mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="formGroup.get('controla_dec_juradas')?.invalid && formGroup.get('controla_dec_juradas')?.touched">
+              {{ getErrorMessage(formGroup.get('controla_dec_juradas')) }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="seeker-fields-container">
+          <h3> MODELO DEC. JURADA VIGENTE </h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <mat-select formControlName="modelo_dec_jurada_vig" required minlength="1" maxlength="2"
+              disableOptionCentering>
+              <mat-option [value]="'A1'">
+                ALTA
+              </mat-option>
+              <mat-option [value]="'M'">
+                MODIFICACIÓN
+              </mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="formGroup.get('modelo_dec_jurada_vig')?.invalid && formGroup.get('modelo_dec_jurada_vig')?.touched">
+              {{ getErrorMessage(formGroup.get('modelo_dec_jurada_vig')) }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="seeker-fields-container">
+          <h3> MODELO CUEST. BAJA VIGENTE </h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <mat-select formControlName="modelo_cuest_baja_vig" required minlength="1" maxlength="2"
+              disableOptionCentering>
+              <mat-option [value]="'A1'">
+                ALTA
+              </mat-option>
+              <mat-option [value]="'M'">
+                MODIFICACIÓN
+              </mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="formGroup.get('modelo_cuest_baja_vig')?.invalid && formGroup.get('modelo_cuest_baja_vig')?.touched">
+              {{ getErrorMessage(formGroup.get('modelo_cuest_baja_vig')) }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
 
     <div *ngIf="data.edit; else other_content" class="buttons-container">
-      <button class="primary-button icon-button" type="button" (click)="closeDialog()">
+      <button class="primary-button icon-button" type="button" mat-dialog-close>
         <mat-icon>close</mat-icon>
         Cancelar
       </button>
-      <button class="primary-button icon-button" type="submit" [disabled]="formGroup.invalid">
-        <mat-icon>done</mat-icon>
+      <button class="primary-button icon-button" type="button" [disabled]="activeTabIndex === 0" (click)="prevStep()">
+        <mat-icon>close</mat-icon>
+        Anterior
+      </button>
+      <button class="primary-button icon-button" type="button" [disabled]="activeTabIndex === 3" (click)="nextStep()">
+        <mat-icon>close</mat-icon>
+        Siguiente
+      </button>
+      <button [class]="formGroup.invalid ? 'primary-button icon-button disabled' : 'primary-button icon-button'"
+        type="submit" (click)="confirm()">
+        <mat-icon> done </mat-icon>
         Guardar
       </button>
     </div>
 
     <ng-template #other_content>
-      <button class="primary-button icon-button" mat-dialog-close>
-        <mat-icon>done</mat-icon>
-        Aceptar
-      </button>
+      <div class="buttons-container">
+        <button class="primary-button icon-button" mat-dialog-close>
+          <mat-icon> done </mat-icon>
+          Aceptar
+        </button>
+      </div>
     </ng-template>
   </form>
+
+
 </div>

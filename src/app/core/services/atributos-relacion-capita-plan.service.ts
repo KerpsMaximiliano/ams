@@ -1,12 +1,12 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 // * Services
 import { EnvironmentService } from './environment.service';
 
 // * Interfaces
-import { IAtributosRelacionCapitaPlan, IAtributosRelacionCapitaPlanResponse } from '../models/atributos-relacion-capita-plan.interface';
+import { IAtributosRelacionCapitaPlanResponse } from '../models/atributos-relacion-capita-plan.interface';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -21,11 +21,9 @@ export class AtributosRelacionCapitaPlanService {
     private environmentService: EnvironmentService
   ) {}
 
-  getAtributosRelacionCapitaPlanCRUD(
-    body: string
-  ): Observable<IAtributosRelacionCapitaPlanResponse | IAtributosRelacionCapitaPlan> {
+  CRUD(body: string): Observable<IAtributosRelacionCapitaPlanResponse> {
     return this.http.post<IAtributosRelacionCapitaPlanResponse>(
-      `${this.environmentService.api}/`, // * Verificar
+      `${this.environmentService.api}/abmatribrelcapitas`,
       body,
       httpOptions
     );

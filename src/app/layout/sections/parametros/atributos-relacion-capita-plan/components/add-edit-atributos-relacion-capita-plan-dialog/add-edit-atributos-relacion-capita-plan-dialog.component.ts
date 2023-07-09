@@ -1,182 +1,410 @@
 import { Component, Inject } from '@angular/core';
+import { Router } from '@angular/router';
 
-// * Form - Validations
+// * Services
+import { DataSharingService } from 'src/app/core/services/data-sharing.service';
+import { UtilService } from 'src/app/core/services/util.service';
+import { ProductoService } from 'src/app/core/services/producto.service';
+
+// * Interfaces
+import { IProducto } from 'src/app/core/models/producto.interface';
+
+// * Form
 import {
   UntypedFormControl,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
+
+// * Validations
 import {
+  getErrorMessage,
+  isAlpha,
+  isAlphanumeric,
   isNumeric,
-  notZeroValidator,
+  notOnlySpaces,
 } from 'src/app/core/validators/character.validator';
 
 // * Material
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 // * Components
-import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
-import { Observable } from 'rxjs';
+import { AtributosRelacionCapitaPlanSetProductoDialogComponent } from '../atributos-relacion-capita-plan-set-producto-dialog/atributos-relacion-capita-plan-set-producto-dialog.component';
 
 @Component({
-  selector: 'app-add-edit-preguntas-ddjj-dialog',
-  templateUrl: './add-edit-atributos-relacion-capita-plan-dialog.component.html',
-  styleUrls: ['./add-edit-atributos-relacion-capita-plan-dialog.component.scss'],
+  selector: 'app-add-edit-atributos-relacion-capita-plan-dialog',
+  templateUrl:
+    './add-edit-atributos-relacion-capita-plan-dialog.component.html',
+  styleUrls: [
+    './add-edit-atributos-relacion-capita-plan-dialog.component.scss',
+  ],
 })
 export class AddEditAtributosRelacionCapitaPlanDialogComponent {
+  public getErrorMessage = getErrorMessage;
   public formGroup: UntypedFormGroup;
+  public activeTabIndex: number = 0;
+  public icon: string;
 
   constructor(
-    public dialogRef: MatDialogRef<ConfirmDialogComponent>,
+    private dataSharingService: DataSharingService,
+    private productoService: ProductoService,
+    private utilService: UtilService,
+    private dialog: MatDialog,
+    private router: Router,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {}
-
-  ngOnInit(): void {
+  ) {
     this.setUpForm();
-    if (this.data.nro_preg !== undefined) {
-      if (this.data.nro_preg > 0) {
-        this.formGroup.get('nro_preg')?.setValue(this.data.nro_preg);
-        this.setFormValues();
-        if (this.data.par_modo === 'C' && this.data.edit !== true) {
-          this.formGroup.disable();
-        }
-      } else {
-        this.formGroup.get('nro_preg')?.setValue(0);
-      }
-      this.formGroup.get('nro_preg')?.disable();
+    this.setIcon();
+    console.log(this.activeTabIndex);
+  }
+
+  public nextStep(): void {
+    if (this.activeTabIndex !== 3) {
+      this.activeTabIndex += 1;
+      console.log(this.activeTabIndex);
     }
+  }
+
+  public prevStep(): void {
+    if (this.activeTabIndex !== 0) {
+      this.activeTabIndex -= 1;
+      console.log(this.activeTabIndex);
+    }
+  }
+
+  public tabChanged(event: MatTabChangeEvent): void {
+    this.activeTabIndex = event.index;
+  }
+
+  public confirm(): void {
+    if (this.formGroup.valid) {
+      this.dataSharingService.sendData({
+        par_modo: this.data.par_modo,
+      });
+    } else {
+      this.formGroup.markAllAsTouched();
+    }
+  }
+
+  public clear(
+    inputElementOne: HTMLInputElement,
+    controlNameOne: string,
+    inputElementTwo?: HTMLInputElement,
+    controlNameTwo?: string
+  ): void {
+    inputElementOne.value = '';
+    this.formGroup.get(controlNameOne)?.setValue('');
+    if (inputElementTwo) inputElementTwo.value = '';
+    if (controlNameTwo) this.formGroup.get(controlNameTwo)?.setValue('');
   }
 
   private setUpForm(): void {
     this.formGroup = new UntypedFormGroup({
-      modelo_formulario: new UntypedFormControl(
-        '',
-        Validators.compose([Validators.required])
-      ),
-
-      nro_preg: new UntypedFormControl(''),
-
-      cantidad_lineas_resp: new UntypedFormControl(
-        '',
+      descripcion_fuente_adm_mixta: new UntypedFormControl({
+        value: this.data.descripcion_fuente_adm_mixta,
+        disabled: true,
+      }),
+      descripcion_fuente_subordinada: new UntypedFormControl({
+        value: this.data.descripcion_fuente_subordinada,
+        disabled: true,
+      }),
+      descripcion_producto_administrador: new UntypedFormControl({
+        value: this.data.descripcion_producto_administrador
+          ? this.data.descripcion_producto_administrador.trim()
+          : '',
+        disabled: this.data.par_modo === 'R' || this.data.par_modo === 'U',
+      }),
+      descripcion_producto_subordinado: new UntypedFormControl({
+        value: this.data.descripcion_producto
+          ? this.data.descripcion_producto.trim()
+          : '',
+        disabled: this.data.par_modo === 'R' || this.data.par_modo === 'U',
+      }),
+      descripcion_plan: new UntypedFormControl({
+        value: this.data.descripcion_plan,
+        disabled: this.data.par_modo === 'R' || this.data.par_modo === 'U',
+      }),
+      genera_liquidacion: new UntypedFormControl(
+        {
+          value: this.data.genera_liquidacion
+            ? this.data.genera_liquidacion.trim()
+            : '',
+          disabled: this.data.par_modo === 'R',
+        },
         Validators.compose([
           Validators.required,
           Validators.minLength(1),
           Validators.maxLength(1),
-          notZeroValidator(),
-          isNumeric(),
+          isAlpha(),
         ])
       ),
-
-      pide_fecha: new UntypedFormControl(
-        '',
-        Validators.compose([Validators.required])
-      ),
-      yes_no: new UntypedFormControl(
-        '',
-        Validators.compose([Validators.required])
-      ),
-
-      primer_texto_preg: new UntypedFormControl(
-        '',
+      mod_carga_afiliacion: new UntypedFormControl(
+        {
+          value: this.data.mod_carga_afiliacion
+            ? this.data.mod_carga_afiliacion.trim()
+            : '',
+          disabled: this.data.par_modo === 'R',
+        },
         Validators.compose([
           Validators.required,
           Validators.minLength(1),
-          Validators.maxLength(50),
+          Validators.maxLength(1),
+          isAlpha(),
         ])
       ),
-
-      segundo_texto_preg: new UntypedFormControl(
-        '',
-        Validators.compose([Validators.maxLength(50)])
+      solicita_ddjj: new UntypedFormControl(
+        {
+          value: this.data.solicita_ddjj ? this.data.solicita_ddjj.trim() : '',
+          disabled: this.data.par_modo === 'R',
+        },
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(1),
+          isAlpha(),
+        ])
+      ),
+      liquida_mensualmente: new UntypedFormControl(
+        {
+          value: this.data.liquida_mensualmente
+            ? this.data.liquida_mensualmente.trim()
+            : '',
+          disabled: this.data.par_modo === 'R',
+        },
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(1),
+          isAlpha(),
+        ])
+      ),
+      calcula_comision_SN: new UntypedFormControl(
+        {
+          value: this.data.calcula_comision_SN
+            ? this.data.calcula_comision_SN.trim()
+            : '',
+          disabled: this.data.par_modo === 'R',
+        },
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(1),
+          isAlpha(),
+        ])
+      ),
+      reaseguro_SN: new UntypedFormControl(
+        {
+          value: this.data.reaseguro_SN ? this.data.reaseguro_SN.trim() : '',
+          disabled: this.data.par_modo === 'R',
+        },
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(1),
+          isAlpha(),
+        ])
+      ),
+      legajo: new UntypedFormControl(
+        {
+          value: this.data.legajo ? this.data.legajo.trim() : '',
+          disabled: this.data.par_modo === 'R',
+        },
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(1),
+          isNumeric(),
+        ])
+      ),
+      zona: new UntypedFormControl(
+        {
+          value: this.data.zona ? this.data.zona.trim() : '',
+          disabled: this.data.par_modo === 'R',
+        },
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(1),
+          isNumeric(),
+        ])
+      ),
+      division: new UntypedFormControl(
+        {
+          value: this.data.division ? this.data.division.trim() : '',
+          disabled: this.data.par_modo === 'R',
+        },
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(1),
+          isNumeric(),
+        ])
+      ),
+      seccion: new UntypedFormControl(
+        {
+          value: this.data.seccion ? this.data.seccion.trim() : '',
+          disabled: this.data.par_modo === 'R',
+        },
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(1),
+          isNumeric(),
+        ])
+      ),
+      subseccion: new UntypedFormControl(
+        {
+          value: this.data.subseccion ? this.data.subseccion.trim() : '',
+          disabled: this.data.par_modo === 'R',
+        },
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(1),
+          isNumeric(),
+        ])
+      ),
+      val_cod_empresa: new UntypedFormControl(
+        {
+          value: this.data.val_cod_empresa
+            ? this.data.val_cod_empresa.trim()
+            : '',
+          disabled: this.data.par_modo === 'R',
+        },
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(1),
+          isNumeric(),
+        ])
+      ),
+      controla_dec_juradas: new UntypedFormControl(
+        {
+          value: this.data.controla_dec_juradas
+            ? this.data.controla_dec_juradas.trim()
+            : '',
+          disabled: this.data.par_modo === 'R',
+        },
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(1),
+          isAlpha(),
+        ])
+      ),
+      modelo_dec_jurada_vig: new UntypedFormControl(
+        {
+          value: this.data.modelo_dec_jurada_vig
+            ? this.data.modelo_dec_jurada_vig.trim()
+            : '',
+          disabled: this.data.par_modo === 'R',
+        },
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(2),
+          isAlphanumeric(),
+        ])
+      ),
+      modelo_cuest_baja_vig: new UntypedFormControl(
+        {
+          value: this.data.modelo_cuest_baja_vig
+            ? this.data.modelo_cuest_baja_vig.trim()
+            : '',
+          disabled: this.data.par_modo === 'R',
+        },
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(2),
+          isAlphanumeric(),
+        ])
+      ),
+      recupera_Ob_Soc: new UntypedFormControl(
+        {
+          value: this.data.recupera_Ob_Soc
+            ? this.data.recupera_Ob_Soc.trim()
+            : '',
+          disabled: this.data.par_modo === 'R',
+        },
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          isAlphanumeric(),
+        ])
       ),
     });
   }
 
-  private exclusiveSelects(): string {
-    return `No pueden ser iguales.`;
+  public getProducto(): void {
+    this.utilService.openLoading();
+    this.productoService
+      .CRUD(
+        JSON.stringify({
+          par_modo: 'A',
+        })
+      )
+      .subscribe({
+        next: (res: any) => {
+          let data: IProducto[] = Array.isArray(res.dataset)
+            ? (res.dataset as IProducto[])
+            : [res.dataset as IProducto];
+          this.setProducto(data);
+        },
+        error: (err: any) => {
+          this.utilService.closeLoading();
+          err.status == 0
+            ? this.utilService.notification('Error de conexión. ', 'error')
+            : this.utilService.notification(
+                `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+                'error'
+              );
+        },
+        complete: () => {
+          this.utilService.closeLoading();
+        },
+      });
   }
 
-  private setFormValues(): void {
-    if (this.data.modelo_formulario !== undefined) {
-      this.formGroup.patchValue({
-        modelo_formulario: this.data.modelo_formulario.trim(),
-      });
-      if (this.data.nro_preg > 0 && this.data.par_modo === 'U') {
-        this.formGroup.get('modelo_formulario')?.disable();
+  private setProducto(data: IProducto[]): void {
+    const modal = this.dialog.open(
+      AtributosRelacionCapitaPlanSetProductoDialogComponent,
+      {
+        data: {
+          title: 'SELECCIONE UN PRODUCTO/SUBPRODUCTO',
+          data: data,
+        },
       }
-    }
-
-    if (this.data.cantidad_lineas_resp !== undefined) {
-      this.formGroup
-        .get('cantidad_lineas_resp')
-        ?.setValue(this.data.cantidad_lineas_resp);
-    }
-
-    if (this.data.pide_fecha !== undefined) {
-      this.formGroup.patchValue({
-        pide_fecha: this.data.pide_fecha,
-      });
-    }
-
-    if (this.data.yes_no !== undefined) {
-      this.formGroup.patchValue({
-        yes_no: this.data.yes_no,
-      });
-    }
-
-    if (this.data.primer_texto_preg !== undefined) {
-      this.formGroup
-        .get('primer_texto_preg')
-        ?.setValue(this.data.primer_texto_preg);
-    }
-
-    if (this.data.segundo_texto_preg !== undefined) {
-      this.formGroup
-        .get('segundo_texto_preg')
-        ?.setValue(this.data.segundo_texto_preg);
-    }
+    );
+    modal.afterClosed().subscribe({
+      next: (res) => {
+        if (res) {
+          // this.data.producto_administrador = res?.codigo_producto;
+          // this.data.descripcion_producto_administrador =
+          //   res?.descripcion_producto;
+          // this.formGroup
+          //   .get('descripcion_producto_administrador')
+          //   ?.setValue(res?.descripcion_producto);
+        }
+      },
+    });
   }
 
-  closeDialog(): void {
-    this.dialogRef.close(false);
-  }
-
-  public confirm(): void {
-    this.formGroup.markAllAsTouched();
-    if (this.formGroup.valid) {
-      this.dialogRef.close({
-        par_modo: this.data.par_modo,
-        modelo_formulario: this.formGroup.get('modelo_formulario')?.value,
-        nro_preg: this.formGroup.get('nro_preg')?.value,
-        cantidad_lineas_resp: this.formGroup.get('cantidad_lineas_resp')?.value,
-        pide_fecha: this.formGroup.get('pide_fecha')?.value,
-        yes_no: this.formGroup.get('yes_no')?.value,
-        primer_texto_preg: this.formGroup.get('primer_texto_preg')?.value,
-        segundo_texto_preg: this.formGroup.get('segundo_texto_preg')?.value,
-      });
+  private setIcon(): void {
+    switch (this.data.par_modo) {
+      case 'C':
+        this.icon = 'add_box';
+        break;
+      case 'U':
+        this.icon = 'edit';
+        break;
+      case 'R':
+        this.icon = 'visibility';
+        break;
+      default:
+        this.icon = '';
+        break;
     }
-  }
-
-  getErrorMessage(control: any): string {
-    if (control.errors?.['required']) {
-      return `Campo requerido`;
-    } else {
-      if (control.errors?.['maxlength']) {
-        return `No puede contener más de ${control.errors?.['maxlength'].requiredLength} caracteres`;
-      }
-      if (control.errors?.['minlength']) {
-        return `Debe contener al menos ${control.errors?.['minlength'].requiredLength} caracteres`;
-      }
-      if (control.errors?.['notOnlySpacesValidator']) {
-        return `No puede contener solo espacios`;
-      }
-      if (control.errors?.['notNumeric']) {
-        return `Solo puede contener numeros.`;
-      }
-      if (control.errors?.['notZero']) {
-        return `No puede ser cero.`;
-      }
-    }
-    return '';
   }
 }

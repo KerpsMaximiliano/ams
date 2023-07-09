@@ -4,55 +4,70 @@
       <mat-expansion-panel-header floating>
         <mat-panel-title> Opciones de búsqueda </mat-panel-title>
       </mat-expansion-panel-header>
-
       <form>
-        <div class="filter-content">
-          <h3> Fuente de Ingreso Administradora </h3>
+        <div class="seeker-fields-container pb-none">
+          <h4> Fuente de ingreso administradora </h4>
           <mat-form-field class="seeker-form-field" appearance="outline">
-            <mat-label class="seeker-label" for=""></mat-label>
-            <input matInput class="seeker-input" disabled />
+            <input matInput class="seeker-input" [value]="this.fuenteIngreso.descripcion" disabled>
           </mat-form-field>
         </div>
 
-        <div class="filter-content">
-          <h3> Fuente de Ingreso Subordinada </h3>
+        <div class="seeker-fields-container pb-none">
+          <h4> Fuente de ingreso subordinada </h4>
           <mat-form-field class="seeker-form-field" appearance="outline">
-            <mat-label class="seeker-label" for=""></mat-label>
-            <input matInput class="seeker-input" disabled />
+            <input matInput class="seeker-input" [value]="this.fuenteIngreso" disabled>
           </mat-form-field>
         </div>
 
-        <div class="filter-content">
-          <h3> Producto </h3>
-          <mat-form-field class="seeker-form-field" appearance="outline">
-            <mat-label class="seeker-label" for=""></mat-label>
-            <input matInput class="seeker-input" #input />
-          </mat-form-field>
+        <div class="cont">
+          <div>
+            <div class="seeker-fields-container pb-none">
+              <h4> Producto </h4>
+              <mat-form-field class="seeker-form-field" appearance="outline">
+                <input matInput class="seeker-input" placeholder="Busque un producto/subproducto" disabled
+                  #descripcionProducto>
+              </mat-form-field>
+            </div>
+
+            <div class="seeker-fields-container pb-none">
+              <h4> Subproducto </h4>
+              <mat-form-field class="seeker-form-field" appearance="outline">
+                <input matInput class="seeker-input"
+                  [placeholder]="descripcionProducto.value ? '' : 'Busque un producto/subproducto'" disabled
+                  #descripcionSubproducto>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="icon-container">
+            <div class="icon" (click)="getProducto()">
+              <mat-icon class="material-symbols-outlined"> search </mat-icon>
+            </div>
+            <div class="icon" (click)="clear(descripcionProducto, descripcionSubproducto)">
+              <mat-icon class="material-symbols-outlined"> close </mat-icon>
+            </div>
+          </div>
         </div>
 
-        <div class="filter-content">
-          <h3> Subproducto </h3>
+        <div class="seeker-fields-container pb-none">
+          <h4> Plan </h4>
           <mat-form-field class="seeker-form-field" appearance="outline">
-            <mat-label class="seeker-label" for=""></mat-label>
-            <input matInput class="seeker-input" />
-          </mat-form-field>
-        </div>
-
-        <div class="filter-content">
-          <h3> Plan </h3>
-          <mat-form-field class="seeker-form-field" appearance="outline">
-            <mat-label class="seeker-label" for=""></mat-label>
-            <input matInput class="seeker-input" />
+            <input matInput class="seeker-input" #plan placeholder="Ingrese la descripción del plan"
+              (keydown.enter)="performSearch(plan.value)"
+              [disabled]="descripcionProducto.value.length === 0 && descripcionSubproducto.value.length === 0">
           </mat-form-field>
         </div>
 
         <div class="buttons-container">
-          <button class="primary-button icon-button" type="button" (click)="search()" [disabled]="input.value.length === 0">
-            <mat-icon>done</mat-icon>
+          <button class="primary-button icon-button" type="button"
+            [disabled]="descripcionProducto.value.length === 0 && descripcionSubproducto.value.length === 0"
+            (click)="performSearch(plan.value)">
+            <mat-icon> done </mat-icon>
             Buscar
           </button>
-          <button class="primary-button icon-button" type="button" (click)="clean()" [disabled]="!selectOptions?.value">
-            <mat-icon>close</mat-icon>
+          <button class="primary-button icon-button" type="button" (click)="clearFilter(plan)"
+            [disabled]="plan.value.length === 0">
+            <mat-icon> close </mat-icon>
             Limpiar
           </button>
         </div>

@@ -1,6 +1,55 @@
-.filter-content {
-    display: grid;
-    grid-template-columns: minmax(300px, 40%) minmax(300px, 60%);
-    justify-content: center;
-    align-items: center;
+/*
+  * MODAL: Formulario deshabilitado.
+  * Borde: '::ng-deep .mat-form-field-disabled .mat-form-field-outline'.
+  * Texto inputs: '::ng-deep .mat-form-field-disabled .mat-input-element'.
+  * Texto select: '::ng-deep .mat-form-field-disabled .mat-select-value'.
+  * Texto seleccionable: '.mat-form-field-disabled'.
+*/
+::ng-deep .mat-form-field-disabled .mat-form-field-outline,
+::ng-deep .mat-form-field-disabled .mat-input-element,
+::ng-deep .mat-form-field-disabled .mat-select-value,
+.mat-form-field-disabled {
+  color: #635f5f !important;
+  user-select: text !important;
+}
+
+/*
+  * Elimina el padding-bottom de los .mat-fomr-field-wrapper dentro de la
+  * clase 'seeker-fields-container ya que no es requerido.
+*/
+::ng-deep .pb-none .mat-form-field-wrapper {
+  padding-bottom: 0rem;
+}
+
+.seeker-fields-container {
+  align-items: center;
+  width: 100%;
+}
+
+h4 {
+  margin-bottom: 0rem;
+  min-width: 225px;
+}
+
+.cont {
+  display: grid;
+  grid-template-columns: 1fr 120px;
+}
+
+.icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 7px;
+  padding: 0.35rem;
+  background-color: var(--sancor-blue);
+  color: #fff;
+  cursor: pointer;
 }
