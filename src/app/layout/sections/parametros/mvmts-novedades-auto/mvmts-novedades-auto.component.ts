@@ -14,7 +14,6 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 // * Components
 import { AddEditMvmtsNovedadesAutoDialogComponent } from './components/add-edit-mvmts-novedades-auto-dialog/add-edit-mvmts-novedades-auto-dialog.component';
-import { MvmtsNovedadesAutoDashboardComponent } from './components/mvmts-novedades-auto-dashboard/mvmts-novedades-auto-dashboard.component';
 
 @Component({
   selector: 'app-mvmts-novedades-auto-automaticas',
@@ -23,8 +22,6 @@ import { MvmtsNovedadesAutoDashboardComponent } from './components/mvmts-novedad
 })
 export class MvmtsNovedadesAutoComponent implements OnDestroy {
   private dataSubscription: Subscription | undefined;
-  @ViewChild(MvmtsNovedadesAutoDashboardComponent)
-  
   public dataSent: IMvmtsNovedadesAuto[];
 
   constructor(

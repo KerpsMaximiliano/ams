@@ -1,9 +1,5 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 
-// * Services
-import { UtilService } from 'src/app/core/services/util.service';
-import { FuenteIngresoService } from 'src/app/core/services/fuente-ingreso.service';
-
 // * Interfaces
 import { IFuenteIngreso } from 'src/app/core/models/fuente-ingreso.interface';
 
@@ -32,16 +28,16 @@ export class FuenteIngresoSetDialogComponent implements OnInit {
   public showGuardarButton: any;
 
   constructor(
-    private fuenteIngresoService: FuenteIngresoService,
     private matPaginatorIntl: MatPaginatorIntl,
-    private utils: UtilService,
     public dialogRef: MatDialogRef<ConfirmDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
   ngOnInit(): void {
     this.configurePaginator();
-    this.getFuenteIngreso();
+    this.dataSource = new MatTableDataSource<IFuenteIngreso>(this.data.data);
+    this.dataSource.paginator = this.paginator;
+
   }
 
   public applyFilter(event: Event) {
@@ -54,49 +50,6 @@ export class FuenteIngresoSetDialogComponent implements OnInit {
       codigo_fuente_ingreso: this.showGuardarButton.codigo_fuente_ingreso,
       descripcion: this.showGuardarButton.descripcion ? this.showGuardarButton.descripcion.trim() : '',
     });
-  }
-
-  private getFuenteIngreso(): void {
-    this.showGuardarButton = undefined;
-    this.utils.openLoading();
-    this.fuenteIngresoService
-      .CRUD(
-        JSON.stringify({
-          par_modo: 'O',
-          descripcion: '',
-          desc_empresa: ''
-        })
-      )
-      .subscribe({
-        next: (res: any) => {
-          this.fuentesIngreso = Array.isArray(res.dataset)
-            ? (res.dataset as IFuenteIngreso[])
-            : res.dataset
-            ? [res.dataset as IFuenteIngreso]
-            : [];
-          this.dataSource = new MatTableDataSource<IFuenteIngreso>(this.fuentesIngreso);
-          this.dataSource.paginator = this.paginator;
-        },
-        error: (err: any) => {
-          this.utils.closeLoading();
-          if (err.status === 404) {
-            this.fuentesIngreso = [];
-            this.dataSource = new MatTableDataSource<IFuenteIngreso>(this.fuentesIngreso);
-            this.dataSource.paginator = this.paginator;
-          } else {
-            const errorMessage =
-              err.status === 0
-                ? 'Error de conexión.'
-                : `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`;
-            this.utils.notification(errorMessage, 'error');
-          }
-        },
-        complete: () => {
-          this.dataSource = new MatTableDataSource<IFuenteIngreso>(this.fuentesIngreso);
-          this.dataSource.paginator = this.paginator;
-          this.utils.closeLoading();
-        },
-      });
   }
 
   private configurePaginator(): void {

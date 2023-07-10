@@ -5,10 +5,6 @@ import {
   ViewChild,
 } from '@angular/core';
 
-// * Services
-import { UtilService } from 'src/app/core/services/util.service';
-import { ProductoService } from 'src/app/core/services/producto.service';
-
 // * Interfaces
 import { IProductoAdministrador } from 'src/app/core/models/producto-administrador.interface';
 
@@ -40,16 +36,15 @@ export class SetProdSubDialogComponent implements OnInit {
   public showGuardarButton: any;
 
   constructor(
-    private producto: ProductoService,
     private matPaginatorIntl: MatPaginatorIntl,
-    private utils: UtilService,
     public dialogRef: MatDialogRef<ConfirmDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
   ngOnInit(): void {
     this.configurePaginator();
-    this.getProductos()
+    this.dataSource = new MatTableDataSource<IProductoAdministrador>(this.data.data);
+    this.dataSource.paginator = this.paginator;
   }
 
   public confirm(): void {
@@ -64,54 +59,6 @@ export class SetProdSubDialogComponent implements OnInit {
   public applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
-
-  private getProductos(): void {
-    this.showGuardarButton = null;
-    this.utils.openLoading();
-    this.producto
-      .CRUD(
-        JSON.stringify({
-          par_modo: 'F',
-          codigo_fuente_ingreso: this.data.codigo_fuente_ingreso
-        })
-      )
-      .subscribe({
-        next: (res: any) => {
-          this.productos = Array.isArray(res.dataset)
-            ? (res.dataset as IProductoAdministrador[])
-            : res.dataset
-            ? [res.dataset as IProductoAdministrador]
-            : [];
-          this.dataSource = new MatTableDataSource<IProductoAdministrador>(
-            this.productos
-          );
-          this.dataSource.paginator = this.paginator;
-        },
-        error: (err: any) => {
-          this.utils.closeLoading();
-          if (err.status === 404) {
-            this.productos = [];
-            this.dataSource = new MatTableDataSource<IProductoAdministrador>(
-              this.productos
-            );
-            this.dataSource.paginator = this.paginator;
-          } else {
-            const errorMessage =
-              err.status === 0
-                ? 'Error de conexión.'
-                : `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`;
-            this.utils.notification(errorMessage, 'error');
-          }
-        },
-        complete: () => {
-          this.dataSource = new MatTableDataSource<IProductoAdministrador>(
-            this.productos
-          );
-          this.dataSource.paginator = this.paginator;
-          this.utils.closeLoading();
-        },
-      });
   }
 
   private configurePaginator(): void {

@@ -41,26 +41,26 @@ import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
   ]
 })
 export class MvmtsNovedadesAutoDashboardComponent implements OnInit, OnChanges {
-  @ViewChild(MatPaginator, { static: true }) public paginator!: MatPaginator;
-
+  
   @Input() public receivedData: IMvmtsNovedadesAuto[] = [];
-
+  
   @Output() private viewEvent: EventEmitter<IMvmtsNovedadesAuto> =
-    new EventEmitter<IMvmtsNovedadesAuto>();
+  new EventEmitter<IMvmtsNovedadesAuto>();
   @Output() private editEvent: EventEmitter<IMvmtsNovedadesAuto> =
     new EventEmitter<IMvmtsNovedadesAuto>();
-
-  public displayedColumns: string[] = [
-    'capita_origen',
-    'producto_origen',
-    'sub_producto_origen',
-    'plan_origen',
-    'capita_rel',
-    'actions',
-  ];  
-  public columnsToDisplayWithExpand = [...this.displayedColumns];
-  public expandedElement: any | null;
-  public dataSource: MatTableDataSource<IMvmtsNovedadesAuto>;
+    
+    public displayedColumns: string[] = [
+      'capita_origen',
+      'producto_origen',
+      'sub_producto_origen',
+      'plan_origen',
+      'capita_rel',
+      'actions',
+    ];  
+    public columnsToDisplayWithExpand = [...this.displayedColumns];
+    public expandedElement: any | null;
+    public dataSource: MatTableDataSource<IMvmtsNovedadesAuto>;
+    @ViewChild(MatPaginator, { static: true }) public paginator!: MatPaginator;
 
   constructor(private matPaginatorIntl: MatPaginatorIntl) {}
   

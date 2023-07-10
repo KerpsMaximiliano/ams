@@ -23,20 +23,16 @@
   background-color: var(--sancor-blue);
 }
 
-.form-datos{
-  width: 100%!important;
-}
-
-.h2 {
-  margin-bottom: 0rem;
+::ng-deep .mat-tab-label {
+  height: 3px !important;
 }
 
 .dialog-content {
-  width: 700px;
+  width: 650px;
+  min-height: 393px;
 }
 
 .mat-tab-text {
-  margin-bottom: 0rem;
   padding: 0rem 0.3rem;
   font: 400 18px / 36px Roboto, "Helvetica Neue", sans-serif;
 }
@@ -50,9 +46,22 @@
   color: var(--sancor-blue);
 }
 
+.cont {
+  display: grid;
+  grid-template-columns: 1fr 80px;
+  gap: 0.2rem;
+}
+
+.icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
 .seeker-fields-container {
   display: grid;
-  grid-template-columns: minmax(190px, 0.9fr) minmax(290px, 1.1fr);
+  grid-template-columns: 260px 1fr;
   align-items: center;
   column-gap: 0rem;
 }
@@ -68,25 +77,46 @@
   width: 130px;
 }
 
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 1, "wght" 700, "GRAD" 200, "opsz" 48;
+  color: #fff;
+}
+
+.cont {
+  display: grid;
+  grid-template-columns: 1fr 80px;
+  gap: 0.5rem;
+}
+
+.icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.notValue{
+  border-radius: 7px;
+  padding: 0.35rem;
+  margin: 0px 0px 16px;
+}
+
 .icon {
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 7px;
   padding: 0.35rem;
-  background-color: var(--sancor-blue);
   margin: 0px 0px 16px;
-  cursor: pointer;
-}
-
-.material-symbols-outlined {
-  font-variation-settings: "FILL" 1, "wght" 700, "GRAD" 200, "opsz" 48;
+  background-color: var(--sancor-blue);
   color: #fff;
+  cursor: pointer;
 }
 
 .fix{
   pointer-events: none;
 }
+
 /*
   * Estilos del boton "Guardar" para que este deshabilitado.
 */

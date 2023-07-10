@@ -40,7 +40,7 @@ export class SetMotivMovimientoDialogComponent implements OnInit {
   constructor(
     private movimientoService: MotivoMovimientoService,
     private matPaginatorIntl: MatPaginatorIntl,
-    private utils: UtilService,
+    private utilService: UtilService,
     public dialogRef: MatDialogRef<ConfirmDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
@@ -51,7 +51,7 @@ export class SetMotivMovimientoDialogComponent implements OnInit {
 
   public getMovimientos(value: string): void {
     this.showGuardarButton = null;
-    this.utils.openLoading();
+    this.utilService.openLoading();
     this.movimientoService
       .CRUD(
         JSON.stringify({
@@ -73,7 +73,7 @@ export class SetMotivMovimientoDialogComponent implements OnInit {
           this.dataSource.paginator = this.paginator;
         },
         error: (err: any) => {
-          this.utils.closeLoading();
+          this.utilService.closeLoading();
           if (err.status === 404) {
             this.movimientos = [];
             this.dataSource = new MatTableDataSource<IMotivoMovimiento>(
@@ -85,7 +85,7 @@ export class SetMotivMovimientoDialogComponent implements OnInit {
               err.status === 0
                 ? 'Error de conexión.'
                 : `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`;
-            this.utils.notification(errorMessage, 'error');
+            this.utilService.notification(errorMessage, 'error');
           }
         },
         complete: () => {
@@ -93,7 +93,7 @@ export class SetMotivMovimientoDialogComponent implements OnInit {
             this.movimientos
           );
           this.dataSource.paginator = this.paginator;
-          this.utils.closeLoading();
+          this.utilService.closeLoading();
         },
       });
   }

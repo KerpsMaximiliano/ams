@@ -1,18 +1,11 @@
 /* Corrección tamaño modal */
 ::ng-deep .mat-dialog-container {
-  padding: 1rem;
   background-color: #fff;
-  height: 100%;
-  width: 100%;
 }
 
 .dialog-content {
   width: 650px;
   min-height: 398px;
-}
-
-.seeker-fields-container {
-  margin-top: 1.2rem;
 }
 
 .buttons-container {
@@ -93,6 +86,5 @@ tr.mat-row {
 */
 .filter-container {
   width: 47%;
-  margin-top: 0.3rem;
   margin-bottom: 0.3rem;
 }
