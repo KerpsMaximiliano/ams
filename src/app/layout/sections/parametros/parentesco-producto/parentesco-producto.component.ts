@@ -59,6 +59,7 @@ export class ParentescoProductoComponent implements OnInit, OnDestroy {
 
   public back(): void {
     this.utilService.openLoading();
+    this.productoService.setBack(true);
     this.router.navigate(['parametros/productos']);
     return;
   }

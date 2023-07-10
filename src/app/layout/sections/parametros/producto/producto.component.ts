@@ -33,7 +33,7 @@ export class ProductoComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     this.productoService.setRoute(true);
-    if (this.productoService.getRoute()) {
+    if (this.productoService.getRoute() && this.productoService.getBack()) {
       if (this.productoService.get()) {
         this.getData(
           JSON.stringify({
@@ -54,6 +54,7 @@ export class ProductoComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.dataSubscription) {
       this.dataSubscription.unsubscribe();
     }
+    this.productoService.setBack(false);
   }
 
   public new(): void {

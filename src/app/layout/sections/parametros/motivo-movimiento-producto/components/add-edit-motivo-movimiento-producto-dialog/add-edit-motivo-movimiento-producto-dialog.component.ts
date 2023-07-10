@@ -30,6 +30,7 @@ import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 
 // * Components
 import { SetMotivoDialogComponent } from './set-motivo-dialog/set-motivo-dialog.component';
+import { ProductoService } from 'src/app/core/services/producto.service';
 
 @Component({
   selector: 'app-add-edit-motivo-movimiento-producto-dialog',
@@ -43,6 +44,7 @@ export class AddEditMotivoMovimientoProductoDialogComponent {
   constructor(
     private dataSharingService: DataSharingService,
     private motivoMovimientoProductoService: MotivoMovimientoProductoService,
+    private productoService: ProductoService,
     private utilService: UtilService,
     private dialog: MatDialog,
     private router: Router,
@@ -115,6 +117,7 @@ export class AddEditMotivoMovimientoProductoDialogComponent {
       datos_adicionales: this.data.datos_adicionales,
       otra_cobertura: this.data.otra_cobertura,
     };
+    this.productoService.setBack(false);
     this.motivoMovimientoProductoService.set(data);
     this.router.navigate([url]);
   }

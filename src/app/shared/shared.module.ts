@@ -32,6 +32,8 @@ import {
 import { FormsModule } from '@angular/forms';
 import { MatStepperModule } from '@angular/material/stepper';
 
+import { MatTabsModule } from '@angular/material/tabs';
+
 @NgModule({
   declarations: [
     SuccessComponent,
@@ -62,6 +64,7 @@ import { MatStepperModule } from '@angular/material/stepper';
     MatRadioModule,
     FormsModule,
     MatStepperModule,
+    MatTabsModule,
   ],
   providers: [
     {
