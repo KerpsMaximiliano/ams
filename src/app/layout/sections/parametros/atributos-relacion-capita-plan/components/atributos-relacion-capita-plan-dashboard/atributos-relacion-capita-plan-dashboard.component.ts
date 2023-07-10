@@ -24,7 +24,12 @@ import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 export class AtributosRelacionCapitaPlanDashboardComponent
   implements OnInit, OnChanges
 {
-  public displayedColumns: string[] = ['actions'];
+  public displayedColumns: string[] = [
+    'plan_producto_cap_adm',
+    'descripcion',
+    'genera_liquidacion',
+    'actions',
+  ];
   public dataSource: MatTableDataSource<IAtributosRelacionCapitaPlan>;
   @ViewChild(MatPaginator, { static: true }) public paginator!: MatPaginator;
 

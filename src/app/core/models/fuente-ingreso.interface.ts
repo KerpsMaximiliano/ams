@@ -41,6 +41,7 @@ export interface IFuenteIngreso {
   es_subord: null;
   es_mixta: null;
   id_excluido: null;
+  descripcion_fuente_adm_mixta: string;
 }
 
 export type IFuenteIngresoResponse = IResponse<IFuenteIngreso[]>;

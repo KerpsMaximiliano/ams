@@ -55,21 +55,17 @@ export class AddEditAtributosRelacionCapitaPlanDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.setUpForm();
-    this.setIcon();
-    console.log(this.activeTabIndex);
   }
 
   public nextStep(): void {
     if (this.activeTabIndex !== 3) {
       this.activeTabIndex += 1;
-      console.log(this.activeTabIndex);
     }
   }
 
   public prevStep(): void {
     if (this.activeTabIndex !== 0) {
       this.activeTabIndex -= 1;
-      console.log(this.activeTabIndex);
     }
   }
 
@@ -95,36 +91,95 @@ export class AddEditAtributosRelacionCapitaPlanDialogComponent {
   ): void {
     inputElementOne.value = '';
     this.formGroup.get(controlNameOne)?.setValue('');
-    if (inputElementTwo) inputElementTwo.value = '';
-    if (controlNameTwo) this.formGroup.get(controlNameTwo)?.setValue('');
+    if (inputElementTwo) {
+      inputElementTwo.value = '';
+    }
+    if (controlNameTwo) {
+      this.formGroup.get(controlNameTwo)?.setValue('');
+    }
+  }
+
+  public getProducto(): void {
+    this.utilService.openLoading();
+    this.productoService
+      .CRUD(
+        JSON.stringify({
+          par_modo: 'A',
+        })
+      )
+      .subscribe({
+        next: (res: any) => {
+          let data: IProducto[] = Array.isArray(res.dataset)
+            ? (res.dataset as IProducto[])
+            : [res.dataset as IProducto];
+          this.setProducto(data);
+        },
+        error: (err: any) => {
+          this.utilService.closeLoading();
+          err.status == 0
+            ? this.utilService.notification('Error de conexión. ', 'error')
+            : this.utilService.notification(
+                `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+                'error'
+              );
+        },
+        complete: () => {
+          this.utilService.closeLoading();
+        },
+      });
   }
 
   private setUpForm(): void {
     this.formGroup = new UntypedFormGroup({
-      descripcion_fuente_adm_mixta: new UntypedFormControl({
-        value: this.data.descripcion_fuente_adm_mixta,
-        disabled: true,
-      }),
+      descripcion_fuente_adm_mixta: new UntypedFormControl(
+        {
+          value: this.data.fuenteIngreso.descripcion_fuente_adm_mixta
+            ? this.data.fuenteIngreso.descripcion_fuente_adm_mixta.trim()
+            : this.data.fuenteIngreso.descripcion
+            ? this.data.fuenteIngreso.descripcion.trim()
+            : '',
+          disabled: true,
+        },
+        Validators.required
+      ),
       descripcion_fuente_subordinada: new UntypedFormControl({
-        value: this.data.descripcion_fuente_subordinada,
+        value: this.data.fuenteIngreso.descripcion_fuente_adm_mixta
+          ? this.data.fuenteIngreso.descripcion_fuente_subordinada
+            ? this.data.fuenteIngreso.descripcion_fuente_subordinada.trim()
+            : ''
+          : '',
         disabled: true,
       }),
-      descripcion_producto_administrador: new UntypedFormControl({
-        value: this.data.descripcion_producto_administrador
-          ? this.data.descripcion_producto_administrador.trim()
-          : '',
-        disabled: this.data.par_modo === 'R' || this.data.par_modo === 'U',
-      }),
+      descripcion_producto_administrador: new UntypedFormControl(
+        {
+          value: this.data.descripcion_producto_administrador
+            ? this.data.descripcion_producto_administrador.trim()
+            : this.data.descripcion_producto_subordinado
+            ? this.data.descripcion_producto_subordinado.trim()
+            : '',
+          disabled: this.data.par_modo === 'R' || this.data.par_modo === 'U',
+        },
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(3),
+          notOnlySpaces(),
+        ])
+      ),
       descripcion_producto_subordinado: new UntypedFormControl({
-        value: this.data.descripcion_producto
-          ? this.data.descripcion_producto.trim()
+        value: this.data.fuenteIngreso.descripcion_producto_administrador
+          ? this.data.descripcion_producto_subordinado
+            ? this.data.descripcion_producto_subordinado.trim()
+            : ''
           : '',
         disabled: this.data.par_modo === 'R' || this.data.par_modo === 'U',
       }),
-      descripcion_plan: new UntypedFormControl({
-        value: this.data.descripcion_plan,
-        disabled: this.data.par_modo === 'R' || this.data.par_modo === 'U',
-      }),
+      descripcion_plan: new UntypedFormControl(
+        {
+          value: this.data.descripcion_plan,
+          disabled: this.data.par_modo === 'R' || this.data.par_modo === 'U',
+        },
+        Validators.compose([Validators.required])
+      ),
       genera_liquidacion: new UntypedFormControl(
         {
           value: this.data.genera_liquidacion
@@ -337,37 +392,8 @@ export class AddEditAtributosRelacionCapitaPlanDialogComponent {
     });
   }
 
-  public getProducto(): void {
-    this.utilService.openLoading();
-    this.productoService
-      .CRUD(
-        JSON.stringify({
-          par_modo: 'A',
-        })
-      )
-      .subscribe({
-        next: (res: any) => {
-          let data: IProducto[] = Array.isArray(res.dataset)
-            ? (res.dataset as IProducto[])
-            : [res.dataset as IProducto];
-          this.setProducto(data);
-        },
-        error: (err: any) => {
-          this.utilService.closeLoading();
-          err.status == 0
-            ? this.utilService.notification('Error de conexión. ', 'error')
-            : this.utilService.notification(
-                `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
-                'error'
-              );
-        },
-        complete: () => {
-          this.utilService.closeLoading();
-        },
-      });
-  }
-
   private setProducto(data: IProducto[]): void {
+    1;
     const modal = this.dialog.open(
       AtributosRelacionCapitaPlanSetProductoDialogComponent,
       {
@@ -380,31 +406,30 @@ export class AddEditAtributosRelacionCapitaPlanDialogComponent {
     modal.afterClosed().subscribe({
       next: (res) => {
         if (res) {
-          // this.data.producto_administrador = res?.codigo_producto;
-          // this.data.descripcion_producto_administrador =
-          //   res?.descripcion_producto;
-          // this.formGroup
-          //   .get('descripcion_producto_administrador')
-          //   ?.setValue(res?.descripcion_producto);
+          this.data.producto_administrador = res.producto_administrador
+            ? res.producto_administrador || res.codigo_producto
+            : 0;
+          this.formGroup
+            .get('descripcion_producto_administrador')
+            ?.setValue(
+              res.descripcion_producto_administrador
+                ? res.descripcion_producto_administrador ||
+                    res.descripcion_producto
+                : ''
+            );
+
+          this.data.codigo_producto = res.producto_administrador
+            ? res.codigo_producto || 0
+            : 0;
+          this.formGroup
+            .get('descripcion_producto_subordinado')
+            ?.setValue(
+              res.descripcion_producto_administrador
+                ? res.descripcion_producto || ''
+                : ''
+            );
         }
       },
     });
-  }
-
-  private setIcon(): void {
-    switch (this.data.par_modo) {
-      case 'C':
-        this.icon = 'add_box';
-        break;
-      case 'U':
-        this.icon = 'edit';
-        break;
-      case 'R':
-        this.icon = 'visibility';
-        break;
-      default:
-        this.icon = '';
-        break;
-    }
   }
 }

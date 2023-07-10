@@ -35,14 +35,18 @@
               <h3> PRODUCTO </h3>
               <mat-form-field class="seeker-form-field" appearance="outline">
                 <input matInput class="seeker-input" placeholder="Busque un producto/subproducto"
-                  formControlName="descripcion_producto_administrador" #descripcionProducto readonly>
+                  formControlName="descripcion_producto_administrador" #descripcionProducto readonly required>
+                <mat-error
+                  *ngIf="formGroup.get('descripcion_producto_administrador')?.invalid && formGroup.get('descripcion_producto_administrador')?.touched">
+                  {{ getErrorMessage(formGroup.get("descripcion_producto_administrador")) }}
+                </mat-error>
               </mat-form-field>
             </div>
 
             <div class="seeker-fields-container">
               <h3> SUBPRODUCTO </h3>
               <mat-form-field class="seeker-form-field" appearance="outline">
-                <input matInput class="seeker-input" formControlName="descripcion_producto_administrador"
+                <input matInput class="seeker-input" formControlName="descripcion_producto_subordinado"
                   [placeholder]="descripcionProducto.value ? '' : 'Busque un producto/subproducto'"
                   #descripcionSubproducto readonly>
               </mat-form-field>

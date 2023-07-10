@@ -41,26 +41,35 @@ export class AtributosRelacionCapitaPlanFilterComponent {
   ) {}
 
   public performSearch(value: string): void {
-    // this.search.emit(
-    //   JSON.stringify({
-    //     par_modo: 'O',
-    //     codigo_fuente_adm_mixta: this.fuenteIngreso.codigo_fuente_admin,
-    //     cod_fuente_subordinada: this.fuenteIngreso.codigo_fuente_ingreso,
-    //     producto_cap_adm: this.codigoProducto,
-    //     prodcuto_cap_sub: this.codigoSubproducto,
-    //     descripcion: value,
-    //   })
-    // );
+    let codigo;
+
+    this.fuenteIngreso.codigo_fuente_admin
+      ? (codigo = this.fuenteIngreso.codigo_fuente_admin)
+      : (codigo = this.fuenteIngreso.codigo_fuente_ingreso);
+
     this.search.emit(
       JSON.stringify({
         par_modo: 'O',
-        codigo_fuente_adm_mixta: 1,
-        cod_fuente_subordinada: 0,
-        producto_cap_adm: 16,
-        prodcuto_cap_sub: 0,
-        descripcion: 'programa',
+        codigo_fuente_adm_mixta: codigo,
+        cod_fuente_subordinada: this.fuenteIngreso.codigo_fuente_admin
+          ? this.fuenteIngreso.codigo_fuente_ingreso
+          : 0,
+        producto_cap_adm: this.codigoProducto,
+        prodcuto_cap_sub: this.codigoSubproducto,
+        descripcion: value,
       })
     );
+
+    // this.search.emit(
+    //   JSON.stringify({
+    //     par_modo: 'O',
+    //     codigo_fuente_adm_mixta: 1,
+    //     cod_fuente_subordinada: 0,
+    //     producto_cap_adm: 16,
+    //     prodcuto_cap_sub: 0,
+    //     descripcion: 'programa',
+    //   })
+    // );
   }
 
   public clearFilter(inputElement: HTMLInputElement): void {
@@ -72,7 +81,10 @@ export class AtributosRelacionCapitaPlanFilterComponent {
     this.productoService
       .CRUD(
         JSON.stringify({
-          par_modo: 'A',
+          par_modo: 'F',
+          codigo_fuente_ingreso: this.fuenteIngreso.codigo_fuente_admin
+            ? this.fuenteIngreso.codigo_fuente_admin
+            : this.fuenteIngreso.codigo_fuente_ingreso,
         })
       )
       .subscribe({
@@ -110,13 +122,21 @@ export class AtributosRelacionCapitaPlanFilterComponent {
     modal.afterClosed().subscribe({
       next: (res) => {
         if (res) {
-          this.codigoProducto = res?.producto_administrador;
+          this.codigoProducto = res.producto_administrador
+            ? res.producto_administrador
+            : res.codigo_producto;
           this.descripcionProducto.nativeElement.value =
-            res?.descripcion_producto_administrador;
+            res.descripcion_producto_administrador
+              ? res.descripcion_producto_administrador
+              : res.descripcion_producto;
 
-          this.codigoSubproducto = res?.codigo_producto;
+          this.codigoSubproducto = res.producto_administrador
+            ? res.codigo_producto
+            : 0;
           this.descripcionSubproducto.nativeElement.value =
-            res?.descripcion_producto;
+            res.descripcion_producto_administrador
+              ? res.descripcion_producto
+              : '';
         }
       },
     });

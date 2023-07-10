@@ -1,17 +1,18 @@
-/* Corrección tamaño modal */
+/* Corrección color dialog */
 ::ng-deep .mat-dialog-container {
-  padding: 1rem;
   background-color: #fff;
-  height: 100%;
-  width: 100%;
 }
 
 .dialog-content {
   display: flex;
   flex-direction: column;
-  min-height: 590px;
-  min-width: 650px;
+  min-height: 505px;
+  min-width: 750px;
   background-color: #fff;
+}
+
+h2 {
+  margin-bottom: 0rem;
 }
 
 .seeker-fields-container {
@@ -56,39 +57,48 @@ td.mat-cell:first-of-type {
 /*
  * Texto alineado a la izquierda.
 */
-.mat-column-descripcion.mat-header-cell,
-.mat-column-descripcion.mat-cell {
+.mat-column-descripcion_producto_administrador.mat-header-cell,
+.mat-column-descripcion_producto_administrador.mat-cell,
+.mat-column-descripcion_producto.mat-header-cell,
+.mat-column-descripcion_producto.mat-cell {
   text-align: left !important;
-  padding-left: 3vw;
+  padding-left: 1vw;
   word-break: break-all;
 }
 
 /*
  * Número y fecha alineado a la derecha.
 */
-.mat-column-codigo.mat-header-cell,
-.mat-column-codigo.mat-cell {
+.mat-column-producto_administrador.mat-header-cell,
+.mat-column-producto_administrador.mat-cell,
+.mat-column-codigo_producto.mat-header-cell,
+.mat-column-codigo_producto.mat-cell {
   text-align: right !important;
-  padding-right: 3vw;
+  padding-right: 1vw;
   word-break: break-all;
 }
 
 /*
  * Tamaño de columnas.
 */
-.mat-column-codigo.mat-header-cell,
-.mat-column-codigo.mat-cell {
-  width: 20%;
+.mat-column-producto_administrador.mat-header-cell,
+.mat-column-producto_administrador.mat-cell,
+.mat-column-codigo_producto.mat-header-cell,
+.mat-column-codigo_producto.mat-cell {
+  min-width: 90px;
 }
 
-.mat-column-descripcion.mat-header-cell,
-.mat-column-descripcion.mat-cell {
-  width: 60%;
+.mat-column-descripcion_producto_administrador.mat-header-cell,
+.mat-column-descripcion_producto_administrador.mat-cell,
+.mat-column-descripcion_producto.mat-header-cell,
+.mat-column-descripcion_producto.mat-cell {
+  min-width: 150px;
+  width: 50%;
 }
 
 .mat-column-actions.mat-header-cell,
 .mat-column-actions.mat-cell {
-  width: 20%;
+  min-width: 100px;
 }
 
 /*

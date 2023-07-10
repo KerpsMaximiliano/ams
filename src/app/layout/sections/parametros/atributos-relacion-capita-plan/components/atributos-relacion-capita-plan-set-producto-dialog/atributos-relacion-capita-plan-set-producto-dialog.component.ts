@@ -23,6 +23,8 @@ export class AtributosRelacionCapitaPlanSetProductoDialogComponent
   implements OnInit
 {
   public displayedColumns: string[] = [
+    'producto_administrador',
+    'descripcion_producto_administrador',
     'codigo_producto',
     'descripcion_producto',
     'actions',
@@ -36,9 +38,7 @@ export class AtributosRelacionCapitaPlanSetProductoDialogComponent
     private matPaginatorIntl: MatPaginatorIntl,
     public dialogRef: MatDialogRef<ConfirmDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {
-    console.log(this.data);
-  }
+  ) {}
 
   ngOnInit(): void {
     this.configurePaginator();
@@ -48,11 +48,19 @@ export class AtributosRelacionCapitaPlanSetProductoDialogComponent
 
   public confirm(): void {
     this.dialogRef.close({
-      producto_administrador: this.producto.producto_administrador,
-      descripcion_producto_administrador:
-        this.producto.descripcion_producto_administrador,
-      codigo_producto: this.producto.codigo_producto,
-      descripcion_producto: this.producto.descripcion_producto,
+      producto_administrador: this.producto.producto_administrador
+        ? this.producto.producto_administrador
+        : 0,
+      descripcion_producto_administrador: this.producto
+        .descripcion_producto_administrador
+        ? this.producto.descripcion_producto_administrador
+        : '',
+      codigo_producto: this.producto.codigo_producto
+        ? this.producto.codigo_producto
+        : 0,
+      descripcion_producto: this.producto.descripcion_producto
+        ? this.producto.descripcion_producto
+        : '',
     });
   }
 

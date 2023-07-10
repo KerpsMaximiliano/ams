@@ -78,6 +78,7 @@ export class AtributosRelacionCapitaPlanComponent implements OnInit, OnDestroy {
       es_subord: null,
       es_mixta: null,
       id_excluido: null,
+      descripcion_fuente_adm_mixta: '',
     };
   }
 
@@ -96,7 +97,7 @@ export class AtributosRelacionCapitaPlanComponent implements OnInit, OnDestroy {
 
   public back(): void {
     this.utilService.openLoading();
-    // this.fuenteIngresoService.setBack(true);
+    this.fuenteIngresoService.setBack(true);
     this.router.navigate(['parametros/fuente-ingreso']);
     return;
   }
@@ -188,6 +189,7 @@ export class AtributosRelacionCapitaPlanComponent implements OnInit, OnDestroy {
         title: title,
         edit: edit,
         par_modo: par_modo,
+        fuenteIngreso: this.fuenteIngreso,
         codigo_fuente_adm_mixta: data?.codigo_fuente_adm_mixta,
         cod_fuente_subordinada: data?.cod_fuente_subordinada,
         producto_cap_adm: data?.producto_cap_adm,
@@ -227,6 +229,11 @@ export class AtributosRelacionCapitaPlanComponent implements OnInit, OnDestroy {
         this.getData(
           JSON.stringify({
             par_modo: 'R',
+            codigo_fuente_adm_mixta: data.codigo_fuente_adm_mixta,
+            cod_fuente_subordinada: data.cod_fuente_subordinada,
+            producto_cap_adm: data.producto_cap_adm,
+            prodocto_cap_sub: data.producto_cap_sub,
+            plan_producto_cap_adm: data.plan_producto_cap_adm,
           })
         );
       },
