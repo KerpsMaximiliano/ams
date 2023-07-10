@@ -1,0 +1,85 @@
+<section class="seeker-section">
+
+  <mat-accordion>
+    <mat-expansion-panel class="mat-elevation-z1">
+      <mat-expansion-panel-header floating>
+        <mat-panel-title> Opciones de búsqueda </mat-panel-title>
+      </mat-expansion-panel-header>
+      
+      <form>
+        <div class="cont">
+          <div>
+            <div class="seeker-fields-container pb-none">
+              <h4> Fuente de ingreso </h4>
+              <mat-form-field class="seeker-form-field" appearance="outline">
+                <input matInput class="seeker-input" placeholder="Seleccione una fuente de ingreso" disabled #inputCapita 
+                (keydown.enter)="performSearch($event, inputCapita, descripcionProducto, descripcionSubproducto, inputPlan)"
+                readonly >
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="icon-container">
+            <div class="icon" (click)="searchDialog('capita_origen', inputCapita, descripcionSubproducto)">
+              <mat-icon class="material-symbols-outlined"> search </mat-icon>
+            </div>
+            <div [class]="inputCapita.value ? 'icon' : 'icon disabled'">
+              <mat-icon class="material-symbols-outlined" (click)="clearInput('capita_origen', inputCapita, descripcionProducto, descripcionSubproducto, inputPlan)"> close </mat-icon>
+            </div>
+          </div>
+        </div>
+
+        <div class="cont">
+          <div>
+            <div class="seeker-fields-container pb-none">
+              <h4> Producto </h4>
+              <mat-form-field class="seeker-form-field" appearance="outline">
+                <input matInput class="seeker-input" placeholder="Busque un producto/subproducto" disabled
+                  #descripcionProducto>
+              </mat-form-field>
+            </div>
+
+            <div class="seeker-fields-container pb-none">
+              <h4> Subproducto </h4>
+              <mat-form-field class="seeker-form-field" appearance="outline">
+                <input matInput class="seeker-input"
+                  [placeholder]="descripcionProducto.value ? '' : 'Busque un producto/subproducto'" disabled
+                  #descripcionSubproducto>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="icon-container">
+            <div [class]="inputCapita.value ? 'icon' : 'icon disabled'" (click)="searchDialog('producto', descripcionProducto, descripcionSubproducto)">
+              <mat-icon class="material-symbols-outlined"> search </mat-icon>
+            </div>
+            <div [class]="descripcionProducto.value || descripcionSubproducto.value ? 'icon' : 'icon disabled'" (click)="clearInput('producto', inputCapita, descripcionProducto, descripcionSubproducto, inputPlan)">
+              <mat-icon class="material-symbols-outlined"> close </mat-icon>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="seeker-fields-container pb-none">
+          <h4> Plan </h4>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <input matInput class="seeker-input" placeholder="Ingrese un plan" #inputPlan 
+            [disabled]="!booleanPlan"
+            (keydown.enter)="performSearch($event, inputCapita, descripcionProducto, descripcionSubproducto, inputPlan)">
+          </mat-form-field>
+        </div>
+
+        <div class="buttons-container">
+          <button class="primary-button icon-button" type="button" (click)="performSearch($event, inputCapita, descripcionProducto, descripcionSubproducto, inputPlan)" >
+            <mat-icon> done </mat-icon>
+            Buscar </button>
+            <button class="primary-button icon-button" type="button" 
+            (click)="clearInput('limpiar', inputCapita, descripcionProducto, descripcionSubproducto, inputPlan)" 
+            [disabled]="inputPlan.value.length === 0">
+            <mat-icon> close </mat-icon>
+            Limpiar
+          </button>
+        </div>
+      </form>
+    </mat-expansion-panel>
+  </mat-accordion>
+</section>

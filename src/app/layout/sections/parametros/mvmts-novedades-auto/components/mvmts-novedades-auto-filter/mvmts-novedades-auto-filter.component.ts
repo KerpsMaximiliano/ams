@@ -8,9 +8,8 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 
 // * Components
-import { FuenteIngresoSetDialogComponent } from '../add-edit-mvmts-novedades-auto-dialog/set-fuente-ingreso-dialog/set-fuente-ingreso-dialog.component';
-import { SetProdSubDialogComponent } from '../add-edit-mvmts-novedades-auto-dialog/set-producto-dialog/set-producto-dialog.component';
-
+import { FuenteIngresoSetDialogComponent } from '../set-fuente-ingreso-dialog/set-fuente-ingreso-dialog.component';
+import { SetProdSubDialogComponent } from '../set-producto-dialog/set-producto-dialog.component';
 
 @Component({
   selector: 'app-mvmts-novedades-auto-filter',
@@ -18,8 +17,8 @@ import { SetProdSubDialogComponent } from '../add-edit-mvmts-novedades-auto-dial
   styleUrls: ['./mvmts-novedades-auto-filter.component.scss'],
 })
 export class MvmtsNovedadesAutoFilterComponent {
-  @Output() search: EventEmitter<any> = new EventEmitter<any>();
   private codigo_fuente_ingreso: Number;
+  @Output() private search: EventEmitter<any> = new EventEmitter<any>();
   public booleanPlan: boolean = false;
 
   constructor(private dialog: MatDialog) {}
@@ -37,14 +36,7 @@ export class MvmtsNovedadesAutoFilterComponent {
     );
   }
 
-  public clear(inputCapita: HTMLInputElement, inputProducto: HTMLInputElement, inputSubProd: HTMLInputElement, inputPlan: HTMLInputElement): void {
-    inputCapita.value = '';
-    inputProducto.value = '';
-    inputSubProd.value = '';
-    inputPlan.value = '';
-  }
-
-  public clearInput(campo: string, inputCapita: HTMLInputElement, inputProducto: HTMLInputElement, inputSubProd: HTMLInputElement): void{
+  public clearInput(campo: string, inputCapita: HTMLInputElement, inputProducto: HTMLInputElement, inputSubProd: HTMLInputElement, inputPlan: HTMLInputElement): void{
     switch(campo){
       case 'capita_origen':
         inputCapita.value = '';
@@ -55,6 +47,8 @@ export class MvmtsNovedadesAutoFilterComponent {
         inputProducto.value = '';
         inputSubProd.value = '';
         break;
+      case 'limpiar':
+        inputPlan.value = '';
     }
   }
 

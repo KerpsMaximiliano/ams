@@ -1,6 +1,5 @@
 <div class="dialog-title">
-  <h2 tabindex="0">{{ data.title | uppercase }}</h2>
-  <h2> {{ data.title2 | uppercase }} </h2>
+  <h2 class="h2" tabindex="0">{{ data.title | uppercase }}</h2>
 </div>
 
 <div class="dialog-content">
@@ -28,28 +27,27 @@
               <div class="icon" (click)="searchDialog('capita_origen')">
                 <mat-icon class="material-symbols-outlined"> search </mat-icon>
               </div>
-              <div class="icon" (click)="clearInput('capita_origen')" *ngIf="data.capita_origen">
+              <div [class]="data.capita_origen ? 'icon' : 'icon disabled fix'" (click)="clearInput('capita_origen')">
                 <mat-icon class="material-symbols-outlined"> close </mat-icon>
               </div>
             </ng-container>
           </div>
         </div>
 
-        <ng-container *ngIf="data.capita_origen">
-          <div class="seeker-fields-container">
-            <h3> PRODUCTO </h3>
+        <div class="seeker-fields-container">
+          <h3> PRODUCTO </h3>
           <div class="content">
             <mat-form-field class="seeker-form-field" appearance="outline">
-              <input matInput formControlName="producto_origen" readonly required (ngModelChange)="limpiar(3)" />
+              <input matInput formControlName="producto_origen" readonly [disabled]="data.capita_origen" required (ngModelChange)="limpiar(3)" />
               <mat-error *ngIf="formGroup.get('producto_origen')?.invalid">
                 {{ getErrorMessage(formGroup.get("producto_origen")) }}
               </mat-error>
             </mat-form-field>
             <ng-container *ngIf="this.data.par_modo === 'C'">
-              <div class="icon" (click)="searchDialog('producto_origen')">
+              <div [class]="data.capita_origen ? 'icon' : 'icon disabled fix'" (click)="searchDialog('producto_origen')">
                 <mat-icon class="material-symbols-outlined"> search </mat-icon>
               </div>
-              <div class="icon" (click)="clearInput('producto_origen')" *ngIf="data.producto_origen || data.sub_producto_origen">
+              <div [class]="data.producto_origen || data.sub_producto_origen ? 'icon' : 'icon disabled fix'" (click)="clearInput('producto_origen')">
                 <mat-icon class="material-symbols-outlined"> close </mat-icon>
               </div>
             </ng-container>
@@ -65,9 +63,8 @@
             </mat-error>
           </mat-form-field>
         </div>
-      </ng-container>
         
-        <div class="seeker-fields-container" *ngIf="data.producto_origen">
+        <div class="seeker-fields-container">
           <h3> PLAN </h3>
           <div class="content">
             <mat-form-field class="seeker-form-field" appearance="outline">
@@ -77,10 +74,10 @@
               </mat-error>
             </mat-form-field>
             <ng-container *ngIf="this.data.par_modo === 'C'">
-              <div class="icon" (click)="searchDialog('plan_origen')">
+              <div [class]=" data.producto_origen ? 'icon' : 'icon disabled fix'" (click)="searchDialog('plan_origen')">
                 <mat-icon class="material-symbols-outlined"> search </mat-icon>
               </div>
-              <div class="icon" (click)="clearInput('plan_origen')" *ngIf="this.formGroup.get('plan_origen')?.value">
+              <div [class]="this.formGroup.get('plan_origen')?.value ? 'icon' : 'icon disabled fix'" (click)="clearInput('plan_origen')">
                 <mat-icon class="material-symbols-outlined"> close </mat-icon>
               </div>
             </ng-container>
@@ -136,7 +133,7 @@
               <div class="icon" (click)="searchDialog('capita_rel')">
                 <mat-icon class="material-symbols-outlined"> search </mat-icon>
               </div>
-              <div class="icon" (click)="clearInput('capita_rel')" *ngIf="this.formGroup.get('capíta_rel')?.value">
+              <div [class]="this.formGroup.get('capíta_rel')?.value ? 'icon' : 'icon disabled fix'" (click)="clearInput('capita_rel')">
                 <mat-icon class="material-symbols-outlined"> close </mat-icon>
               </div>
             </ng-container>
@@ -153,21 +150,20 @@
           </mat-form-field>
         </div>
 
-        <ng-container *ngIf="data.capita_rel">
-          <div class="seeker-fields-container">
-            <h3> PRODUCTO </h3>
+        <div class="seeker-fields-container">
+          <h3> PRODUCTO </h3>
           <div class="content">
             <mat-form-field class="seeker-form-field" appearance="outline">
-              <input matInput formControlName="producto_relacionado" readonly required (ngModelChange)="limpiar(4)" />
+              <input matInput formControlName="producto_relacionado" readonly [disabled]="data.capita_rel" required (ngModelChange)="limpiar(4)" />
               <mat-error *ngIf="formGroup.get('producto_relacionado')?.invalid">
                 {{ getErrorMessage(formGroup.get("producto_relacionado")) }}
               </mat-error>
             </mat-form-field>
             <ng-container *ngIf="this.data.par_modo === 'C' || this.data.par_modo === 'U'">
-              <div class="icon" (click)="searchDialog('producto_relacionado')">
+              <div [class]="data.capita_rel ? 'icon' : 'icon disabled fix'" (click)="searchDialog('producto_relacionado')">
                 <mat-icon class="material-symbols-outlined"> search </mat-icon>
               </div>
-              <div class="icon" (click)="clearInput('producto_relacionado')" *ngIf="data.producto_relacionado || data.sub_prod_rel">
+              <div [class]="data.producto_relacionado || data.sub_prod_rel ? 'icon' : 'icon disabled fix'" (click)="clearInput('producto_relacionado')">
               <mat-icon class="material-symbols-outlined"> close </mat-icon>
             </div>
           </ng-container>
@@ -177,13 +173,12 @@
       <div class="seeker-fields-container">
         <h3> SUBPRODUCTO </h3>
         <mat-form-field class="seeker-form-field" appearance="outline">
-          <input matInput formControlName="sub_prod_rel" readonly required />
+          <input matInput formControlName="sub_prod_rel" readonly [disabled]="data.capita_rel" required />
           <mat-error *ngIf="formGroup.get('sub_prod_rel')?.invalid">
             {{ getErrorMessage(formGroup.get("sub_prod_rel")) }}
           </mat-error>
         </mat-form-field>
       </div>
-    </ng-container>
       
       <div class="seeker-fields-container">
         <h3> MOVIMIENTO </h3>
@@ -240,7 +235,7 @@
           </mat-form-field>
         </div>
 
-        <div class="seeker-fields-container" *ngIf="this.formGroup.get('producto_relacionado')?.value">
+        <div class="seeker-fields-container">
           <h3> PLAN </h3>
           <div class="content">
             <mat-form-field class="seeker-form-field" appearance="outline">
@@ -249,10 +244,10 @@
                 {{ getErrorMessage(formGroup.get("plan_cambio")) }} </mat-error>
             </mat-form-field>
             <ng-container *ngIf="this.data.par_modo === 'C' || this.data.par_modo === 'U'">
-              <div class="icon" (click)="searchDialog('plan_cambio')">
+              <div [class]="this.formGroup.get('producto_relacionado')?.value ? 'icon' : 'icon disabled fix'" (click)="searchDialog('plan_cambio')">
                 <mat-icon class="material-symbols-outlined"> search </mat-icon>
               </div>
-              <div class="icon" (click)="clearInput('plan_cambio')" *ngIf="data.plan_cambio">
+              <div [class]="data.plan_cambio ? 'icon' : 'icon disabled fix'" (click)="clearInput('plan_cambio')">
                 <mat-icon class="material-symbols-outlined"> close </mat-icon>
               </div>
             </ng-container>
@@ -286,7 +281,7 @@
               <div class="icon" (click)="searchDialog('motivo_movimiento')">
                 <mat-icon class="material-symbols-outlined"> search </mat-icon>
               </div>
-              <div class="icon" (click)="clearInput('codigo_motivo')" *ngIf="data.codigo_motivo">
+              <div [class]="data.codigo_motivo ? 'icon' : 'icon disabled fix'" (click)="clearInput('codigo_motivo')">
                 <mat-icon class="material-symbols-outlined"> close </mat-icon>
               </div>
             </ng-container>
@@ -309,7 +304,6 @@
     <ng-template #other_content>
       <div class="buttons-container">
         <button class="primary-button icon-button" mat-dialog-close>
-          <mat-icon> done </mat-icon>
           Aceptar
         </button>
       </div>

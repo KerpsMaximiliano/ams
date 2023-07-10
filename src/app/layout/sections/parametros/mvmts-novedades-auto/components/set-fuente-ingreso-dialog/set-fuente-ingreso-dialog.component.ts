@@ -1,16 +1,11 @@
-import {
-  Component,
-  Inject,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 
 // * Services
 import { UtilService } from 'src/app/core/services/util.service';
-import { MotivoMovimientoService } from 'src/app/core/services/motivo-movimiento.service';
+import { FuenteIngresoService } from 'src/app/core/services/fuente-ingreso.service';
 
 // * Interfaces
-import { IMotivoMovimiento } from 'src/app/core/models/motivo-movimiento.interface';
+import { IFuenteIngreso } from 'src/app/core/models/fuente-ingreso.interface';
 
 // * Material
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -21,24 +16,23 @@ import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { ConfirmDialogComponent } from '../../../../components/confirm-dialog/confirm-dialog.component';
 
 @Component({
-  selector: 'app-set-motivo-movimiento-dialog',
-  templateUrl: './set-motivo-movimiento-dialog.component.html',
-  styleUrls: ['./set-motivo-movimiento-dialog.component.scss'],
+  selector: 'app-set-fuente-ingreso-dialog',
+  templateUrl: './set-fuente-ingreso-dialog.component.html',
+  styleUrls: ['./set-fuente-ingreso-dialog.component.scss'],
 })
-export class SetMotivMovimientoDialogComponent implements OnInit {
+export class FuenteIngresoSetDialogComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) public paginator!: MatPaginator;
-  @ViewChild('selectMovimiento') selectMovimiento: any;
-  public displayedColumns = [
-    'id_motivo',
+  public displayedColumns: string[] = [
+    'codigo_fuente_ingreso',
     'descripcion',
     'actions',
   ];
-  public dataSource: MatTableDataSource<IMotivoMovimiento>;
-  public movimientos: IMotivoMovimiento[];
+  public dataSource: MatTableDataSource<IFuenteIngreso>;
+  public fuentesIngreso: IFuenteIngreso[];
   public showGuardarButton: any;
 
   constructor(
-    private movimientoService: MotivoMovimientoService,
+    private fuenteIngresoService: FuenteIngresoService,
     private matPaginatorIntl: MatPaginatorIntl,
     private utils: UtilService,
     public dialogRef: MatDialogRef<ConfirmDialogComponent>,
@@ -47,38 +41,47 @@ export class SetMotivMovimientoDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.configurePaginator();
+    this.getFuenteIngreso();
   }
 
-  public getMovimientos(value: string): void {
-    this.showGuardarButton = null;
+  public applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+  
+  public confirm(): void {
+    this.dialogRef.close({
+      codigo_fuente_ingreso: this.showGuardarButton.codigo_fuente_ingreso,
+      descripcion: this.showGuardarButton.descripcion ? this.showGuardarButton.descripcion.trim() : '',
+    });
+  }
+
+  private getFuenteIngreso(): void {
+    this.showGuardarButton = undefined;
     this.utils.openLoading();
-    this.movimientoService
+    this.fuenteIngresoService
       .CRUD(
         JSON.stringify({
           par_modo: 'O',
-          tipo_motivo: this.selectMovimiento.value,
-          descripcion: value
+          descripcion: '',
+          desc_empresa: ''
         })
       )
       .subscribe({
         next: (res: any) => {
-          this.movimientos = Array.isArray(res.dataset)
-            ? (res.dataset as IMotivoMovimiento[])
+          this.fuentesIngreso = Array.isArray(res.dataset)
+            ? (res.dataset as IFuenteIngreso[])
             : res.dataset
-            ? [res.dataset as IMotivoMovimiento]
+            ? [res.dataset as IFuenteIngreso]
             : [];
-          this.dataSource = new MatTableDataSource<IMotivoMovimiento>(
-            this.movimientos
-          );
+          this.dataSource = new MatTableDataSource<IFuenteIngreso>(this.fuentesIngreso);
           this.dataSource.paginator = this.paginator;
         },
         error: (err: any) => {
           this.utils.closeLoading();
           if (err.status === 404) {
-            this.movimientos = [];
-            this.dataSource = new MatTableDataSource<IMotivoMovimiento>(
-              this.movimientos
-            );
+            this.fuentesIngreso = [];
+            this.dataSource = new MatTableDataSource<IFuenteIngreso>(this.fuentesIngreso);
             this.dataSource.paginator = this.paginator;
           } else {
             const errorMessage =
@@ -89,24 +92,11 @@ export class SetMotivMovimientoDialogComponent implements OnInit {
           }
         },
         complete: () => {
-          this.dataSource = new MatTableDataSource<IMotivoMovimiento>(
-            this.movimientos
-          );
+          this.dataSource = new MatTableDataSource<IFuenteIngreso>(this.fuentesIngreso);
           this.dataSource.paginator = this.paginator;
           this.utils.closeLoading();
         },
       });
-  }
-
-  public confirm(): void {
-    this.dialogRef.close({
-      id_motivo: this.showGuardarButton.id_motivo,
-      descripcion: this.showGuardarButton.descripcion,
-    });
-  }
-
-  public clear(input: HTMLInputElement) {
-    input.value = '';
   }
 
   private configurePaginator(): void {

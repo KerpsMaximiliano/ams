@@ -45,9 +45,9 @@ export class MvmtsNovedadesAutoDashboardComponent implements OnInit, OnChanges {
 
   @Input() public receivedData: IMvmtsNovedadesAuto[] = [];
 
-  @Output() public viewEvent: EventEmitter<IMvmtsNovedadesAuto> =
+  @Output() private viewEvent: EventEmitter<IMvmtsNovedadesAuto> =
     new EventEmitter<IMvmtsNovedadesAuto>();
-  @Output() public editEvent: EventEmitter<IMvmtsNovedadesAuto> =
+  @Output() private editEvent: EventEmitter<IMvmtsNovedadesAuto> =
     new EventEmitter<IMvmtsNovedadesAuto>();
 
   public displayedColumns: string[] = [

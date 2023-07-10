@@ -14,11 +14,11 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dial
 import { MatTabChangeEvent } from '@angular/material/tabs';
 
 // * Components
-import { SetProdSubDialogComponent } from './set-producto-dialog/set-producto-dialog.component';
+import { SetProdSubDialogComponent } from '../set-producto-dialog/set-producto-dialog.component';
 import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
 import { SetMotivMovimientoDialogComponent } from './set-motivo-movimiento-dialog/set-motivo-movimiento-dialog.component';
 import { SetPlanDialogComponent } from './set-plan-dialog/set-plan-dialog.component';
-import { FuenteIngresoSetDialogComponent } from './set-fuente-ingreso-dialog/set-fuente-ingreso-dialog.component';
+import { FuenteIngresoSetDialogComponent } from '../set-fuente-ingreso-dialog/set-fuente-ingreso-dialog.component';
 
 @Component({
   selector: 'app-add-edit-mvmts-novedades-auto-dialog',
@@ -43,7 +43,8 @@ export class AddEditMvmtsNovedadesAutoDialogComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<ConfirmDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private dataSharingService: DataSharingService,
-              private dialog: MatDialog) { 
+              private dialog: MatDialog) 
+              { 
                 this.setIcon();
               }
 

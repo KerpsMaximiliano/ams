@@ -3,38 +3,12 @@
     <h2>{{ data.title | uppercase }}</h2>
   </div>
 
-  <form>
-    <div class="seeker-fields-container">
-      <mat-form-field class="seeker-form-field">
-        <mat-label class="seeker-label"> Ingrese una descripcion </mat-label>
-        <input matInput class="seeker-input" (keydown.enter)="getFuenteIngreso(inputDescripcion.value, inputDescEmpresa.value)"
-          #inputDescripcion maxlength="10" />
-      </mat-form-field>
-      <mat-form-field class="seeker-form-field">
-        <mat-label class="seeker-label">
-          Ingrese una descripcion de empresa
-        </mat-label>
-        <input matInput class="seeker-input" (keydown.enter)="getFuenteIngreso(inputDescripcion.value, inputDescEmpresa.value)"
-          #inputDescEmpresa maxlength="10" />
-      </mat-form-field>
-    </div>
-
-    <div class="buttons-container">
-      <button class="primary-button icon-button btn" type="button"
-        (click)="getFuenteIngreso(inputDescripcion.value, inputDescEmpresa.value)">
-        <mat-icon> done </mat-icon>
-        Buscar
-      </button>
-
-      <button class="primary-button icon-button btn" type="button" (click)="clear(inputDescripcion, inputDescEmpresa)"
-        [disabled]="inputDescripcion.value.length === 0 && inputDescEmpresa.value.length === 0">
-        <mat-icon> close </mat-icon>
-        Limpiar
-      </button>
-    </div>
-  </form>
-
   <section class="table-container">
+    <mat-form-field appearance="standard" class="filter-container">
+      <mat-label> Ingrese la descripción </mat-label>
+      <input matInput (keyup)="applyFilter($event)" #input [disabled]="!dataSource">
+    </mat-form-field>
+
     <table mat-table [dataSource]="dataSource">
       <ng-container class="mat-row" *matNoDataRow>
         <td class="mat-cell no-data-cell" [attr.colspan]="displayedColumns.length"

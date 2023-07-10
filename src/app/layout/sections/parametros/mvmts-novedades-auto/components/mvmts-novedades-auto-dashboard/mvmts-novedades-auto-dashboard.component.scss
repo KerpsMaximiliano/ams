@@ -65,7 +65,7 @@ td.mat-cell:first-of-type {
 
 .mat-column-actions.mat-header-cell,
 .mat-column-actions.mat-cell {
-  min-width: 160px;
+  min-width: 200px;
 }
 
 /*
@@ -102,7 +102,7 @@ td.mat-cell:first-of-type {
 .detailExpand-list {
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   justify-content: center;
   align-items: center;
   height: 40px;

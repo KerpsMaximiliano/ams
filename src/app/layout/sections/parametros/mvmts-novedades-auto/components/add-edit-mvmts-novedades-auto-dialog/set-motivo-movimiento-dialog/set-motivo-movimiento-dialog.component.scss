@@ -7,11 +7,8 @@
 }
 
 .dialog-content {
-  display: flex;
-  flex-direction: column;
-  min-height: 525px;
-  min-width: 650px;
-  background-color: #fff;
+  width: 650px;
+  min-height: 398px;
 }
 
 .seeker-fields-container {
@@ -45,11 +42,12 @@ tr.mat-row {
   max-width: 130px;
 }
 
+
 /*
  * Texto alineado a la izquierda.
 */
-.mat-column-descripcion.mat-header-cell,
-.mat-column-descripcion.mat-cell {
+.mat-column-descripcion_producto.mat-header-cell,
+.mat-column-descripcion_producto.mat-cell{
   text-align: left !important;
   padding-left: 1vw;
   word-break: break-all;
@@ -58,8 +56,8 @@ tr.mat-row {
 /*
  * Número y fecha alineado a la derecha.
 */
-.mat-column-codigo_fuente_ingreso.mat-header-cell,
-.mat-column-codigo_fuente_ingreso.mat-cell {
+.mat-column-id_motivo.mat-header-cell,
+.mat-column-id_motivo.mat-cell {
   text-align: right !important;
   padding-right: 1vw;
 }
@@ -67,11 +65,13 @@ tr.mat-row {
 /*
  * Tamaño de columnas.
 */
-.mat-column-codigo_fuente_ingreso.mat-header-cell,
-.mat-column-codigo_fuente_ingreso.mat-cell {
+
+.mat-column-id_motivo.mat-header-cell,
+.mat-column-id_motivo.mat-cell {
   min-width: 60px;
   width: 20%;
 }
+
 
 .mat-column-descripcion.mat-header-cell,
 .mat-column-descripcion.mat-cell {

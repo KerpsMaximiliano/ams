@@ -107,14 +107,14 @@ import { UnificadorAporteFilterComponent } from './unificador-aportes/components
 import { AddEditUnificadorAporteComponent } from './unificador-aportes/components/add-edit-unificador-aporte/add-edit-unificador-aporte.component';
 import { ModalProductoComponent } from './unificador-aportes/components/add-edit-unificador-aporte/modal-producto/modal-producto.component';
 // 30 - REGLAS PARA MOVIMIENTOS PARA NOVEDADES AUTOMATICAS
-import { AddEditMvmtsNovedadesAutoDialogComponent } from './mvmts-novedades-auto/add-edit-mvmts-novedades-auto-dialog/add-edit-mvmts-novedades-auto-dialog.component';
+import { AddEditMvmtsNovedadesAutoDialogComponent } from './mvmts-novedades-auto/components/add-edit-mvmts-novedades-auto-dialog/add-edit-mvmts-novedades-auto-dialog.component';
 import { MvmtsNovedadesAutoComponent } from './mvmts-novedades-auto/mvmts-novedades-auto.component';
-import { MvmtsNovedadesAutoDashboardComponent } from './mvmts-novedades-auto/mvmts-novedades-auto-dashboard/mvmts-novedades-auto-dashboard.component';
-import { MvmtsNovedadesAutoFilterComponent } from './mvmts-novedades-auto/mvmts-novedades-auto-filter/mvmts-novedades-auto-filter.component';
-import { SetProdSubDialogComponent } from './mvmts-novedades-auto/add-edit-mvmts-novedades-auto-dialog/set-producto-dialog/set-producto-dialog.component';
-import { SetPlanDialogComponent } from './mvmts-novedades-auto/add-edit-mvmts-novedades-auto-dialog/set-plan-dialog/set-plan-dialog.component';
-import { FuenteIngresoSetDialogComponent } from './mvmts-novedades-auto/add-edit-mvmts-novedades-auto-dialog/set-fuente-ingreso-dialog/set-fuente-ingreso-dialog.component';
-import { SetMotivMovimientoDialogComponent } from './mvmts-novedades-auto/add-edit-mvmts-novedades-auto-dialog/set-motivo-movimiento-dialog/set-motivo-movimiento-dialog.component';
+import { MvmtsNovedadesAutoDashboardComponent } from './mvmts-novedades-auto/components/mvmts-novedades-auto-dashboard/mvmts-novedades-auto-dashboard.component';
+import { MvmtsNovedadesAutoFilterComponent } from './mvmts-novedades-auto/components/mvmts-novedades-auto-filter/mvmts-novedades-auto-filter.component';
+import { SetProdSubDialogComponent } from './mvmts-novedades-auto/components/set-producto-dialog/set-producto-dialog.component';
+import { SetPlanDialogComponent } from './mvmts-novedades-auto/components/add-edit-mvmts-novedades-auto-dialog/set-plan-dialog/set-plan-dialog.component';
+import { FuenteIngresoSetDialogComponent } from './mvmts-novedades-auto/components/set-fuente-ingreso-dialog/set-fuente-ingreso-dialog.component';
+import { SetMotivMovimientoDialogComponent } from './mvmts-novedades-auto/components/add-edit-mvmts-novedades-auto-dialog/set-motivo-movimiento-dialog/set-motivo-movimiento-dialog.component';
 // 32 - EXTENCION DE FUENTES DE INGRESOS
 import { ExtencionFuenteIngresoComponent } from './extencion-fuente-ingreso/extencion-fuente-ingreso.component';
 import { ExtencionFuenteIngresoDashboardComponent } from './extencion-fuente-ingreso/components/extencion-fuente-ingreso-dashboard/extencion-fuente-ingreso-dashboard.component';

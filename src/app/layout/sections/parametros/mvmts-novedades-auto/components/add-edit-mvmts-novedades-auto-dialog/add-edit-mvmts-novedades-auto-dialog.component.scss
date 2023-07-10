@@ -27,12 +27,12 @@
   width: 100%!important;
 }
 
-h2 {
+.h2 {
   margin-bottom: 0rem;
 }
 
 .dialog-content {
-  width: 550px;
+  width: 700px;
 }
 
 .mat-tab-text {
@@ -84,6 +84,9 @@ h2 {
   color: #fff;
 }
 
+.fix{
+  pointer-events: none;
+}
 /*
   * Estilos del boton "Guardar" para que este deshabilitado.
 */

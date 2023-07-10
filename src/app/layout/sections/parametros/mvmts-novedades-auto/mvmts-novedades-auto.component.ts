@@ -13,8 +13,8 @@ import { IMvmtsNovedadesAuto } from 'src/app/core/models/mvmts-novedades-auto.in
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 // * Components
-import { AddEditMvmtsNovedadesAutoDialogComponent } from './add-edit-mvmts-novedades-auto-dialog/add-edit-mvmts-novedades-auto-dialog.component';
-import { MvmtsNovedadesAutoDashboardComponent } from './mvmts-novedades-auto-dashboard/mvmts-novedades-auto-dashboard.component';
+import { AddEditMvmtsNovedadesAutoDialogComponent } from './components/add-edit-mvmts-novedades-auto-dialog/add-edit-mvmts-novedades-auto-dialog.component';
+import { MvmtsNovedadesAutoDashboardComponent } from './components/mvmts-novedades-auto-dashboard/mvmts-novedades-auto-dashboard.component';
 
 @Component({
   selector: 'app-mvmts-novedades-auto-automaticas',
@@ -24,7 +24,6 @@ import { MvmtsNovedadesAutoDashboardComponent } from './mvmts-novedades-auto-das
 export class MvmtsNovedadesAutoComponent implements OnDestroy {
   private dataSubscription: Subscription | undefined;
   @ViewChild(MvmtsNovedadesAutoDashboardComponent)
-  dashboard: MvmtsNovedadesAutoDashboardComponent;
   
   public dataSent: IMvmtsNovedadesAuto[];
 
@@ -42,7 +41,7 @@ export class MvmtsNovedadesAutoComponent implements OnDestroy {
   }
 
   public new(): void {
-    const dialogRef = this.openDialog('CREAR REGLAS PARA MOVIMIENTOS PARA', ' NOVEDADES AUTOMÁTICAS', 'C', true);
+    const dialogRef = this.openDialog('CREAR REGLAS PARA MOVIMIENTOS PARA NOVEDADES AUTOMÁTICAS', 'C', true);
     this.dataSubscription = this.dataSharingService
     .getData()
     .subscribe((res) => {
@@ -59,7 +58,7 @@ export class MvmtsNovedadesAutoComponent implements OnDestroy {
   }
 
   public edit(data: IMvmtsNovedadesAuto): void {
-    const dialogRef = this.openDialog('EDITAR REGLAS PARA MOVIMIENTOS PARA',' NOVEDADES AUTOMÁTICAS' , 'U', true, data);
+    const dialogRef = this.openDialog('EDITAR REGLAS PARA MOVIMIENTOS PARA NOVEDADES AUTOMÁTICAS' , 'U', true, data);
     this.dataSubscription = this.dataSharingService
       .getData()
       .subscribe((res) => {
@@ -76,7 +75,7 @@ export class MvmtsNovedadesAutoComponent implements OnDestroy {
   }
 
   public view(data: IMvmtsNovedadesAuto): void {
-    this.openDialog('VER REGLA PARA MOVIMIENTOS PARA', ' NOVEDADES AUTOMÁTICAS', 'R', false, data);
+    this.openDialog('VER REGLA PARA MOVIMIENTOS PARA NOVEDADES AUTOMÁTICAS', 'R', false, data);
   }
 
   public getMvmts(value: string): void {
@@ -109,7 +108,6 @@ export class MvmtsNovedadesAutoComponent implements OnDestroy {
 
   private openDialog(
     title: string,
-    title2: string,
     par_modo: string,
     edit: boolean,
     data?: IMvmtsNovedadesAuto
@@ -117,7 +115,6 @@ export class MvmtsNovedadesAutoComponent implements OnDestroy {
     return this.dialog.open(AddEditMvmtsNovedadesAutoDialogComponent, {
       data: {
         title: title,
-        title2: title2,
         edit: edit,
         par_modo: par_modo,
         capita_origen: data?.capita_origen,

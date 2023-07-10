@@ -7,11 +7,8 @@
 }
 
 .dialog-content {
-  display: flex;
-  flex-direction: column;
-  min-height: 525px;
-  min-width: 650px;
-  background-color: #fff;
+  width: 650px;
+  min-height: 398px;
 }
 
 .seeker-fields-container {
@@ -48,10 +45,8 @@ tr.mat-row {
 /*
  * Texto alineado a la izquierda.
 */
-.mat-column-descripcion_producto.mat-header-cell,
-.mat-column-descripcion_producto.mat-cell,
-.mat-column-descripcion_producto_administrador.mat-header-cell,
-.mat-column-descripcion_producto_administrador.mat-cell {
+.mat-column-descripcion.mat-header-cell,
+.mat-column-descripcion.mat-cell {
   text-align: left !important;
   padding-left: 1vw;
   word-break: break-all;
@@ -60,10 +55,8 @@ tr.mat-row {
 /*
  * Número y fecha alineado a la derecha.
 */
-.mat-column-codigo_producto.mat-header-cell,
-.mat-column-codigo_producto.mat-cell,
-.mat-column-producto_administrador.mat-header-cell,
-.mat-column-producto_administrador.mat-cell {
+.mat-column-codigo_fuente_ingreso.mat-header-cell,
+.mat-column-codigo_fuente_ingreso.mat-cell {
   text-align: right !important;
   padding-right: 1vw;
 }
@@ -71,27 +64,16 @@ tr.mat-row {
 /*
  * Tamaño de columnas.
 */
-.mat-column-codigo_producto.mat-header-cell,
-.mat-column-codigo_producto.mat-cell {
+.mat-column-codigo_fuente_ingreso.mat-header-cell,
+.mat-column-codigo_fuente_ingreso.mat-cell {
   min-width: 60px;
+  width: 20%;
 }
 
-.mat-column-descripcion_producto.mat-header-cell,
-.mat-column-descripcion_producto.mat-cell {
-  min-width: 80px;
-  width: 50%;
-}
-
-.mat-column-producto_administrador.mat-header-cell,
-.mat-column-producto_administrador.mat-cell {
-  min-width: 60px;
-}
-
-
-.mat-column-descripcion_producto_administrador.mat-header-cell,
-.mat-column-descripcion_producto_administrador.mat-cell {
+.mat-column-descripcion.mat-header-cell,
+.mat-column-descripcion.mat-cell {
   min-width: 110px;
-  width: 50%;
+  width: 80%;
 }
 
 .mat-column-actions.mat-header-cell,
