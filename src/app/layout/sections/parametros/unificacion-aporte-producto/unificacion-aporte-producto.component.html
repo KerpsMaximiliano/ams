@@ -7,7 +7,8 @@
     </button>
   </div>
   <div class="section-content">
-    <app-unificacion-aporte-producto-filter (search)="getData($event)"></app-unificacion-aporte-producto-filter>
-    <app-unificacion-aporte-producto-dashboard [receivedData]="dataSent" (viewEvent)="view($event)" (editEvent)="edit($event)"></app-unificacion-aporte-producto-dashboard>
+    <app-unificacion-aporte-producto-filter></app-unificacion-aporte-producto-filter>
+    <app-unificacion-aporte-producto-dashboard [receivedData]="dataSent"
+      (deleteEvent)="delete($event)"></app-unificacion-aporte-producto-dashboard>
   </div>
 </section>

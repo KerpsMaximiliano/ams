@@ -6,7 +6,10 @@ import { Observable } from 'rxjs';
 import { EnvironmentService } from './environment.service';
 
 // * Interfaces
-import { IUnificacionAporteProductoResponse } from '../models/unificacion-aporte-producto.interface';
+import {
+  IUnificacionAporteProducto,
+  IUnificacionAporteProductoResponse,
+} from '../models/unificacion-aporte-producto.interface';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -16,12 +19,22 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class UnificacionAporteProductoService {
+  private unificacionAporteProducto: IUnificacionAporteProducto[];
+
   constructor(
     private http: HttpClient,
     private environmentService: EnvironmentService
   ) {}
 
-  CRUD(body: any): Observable<IUnificacionAporteProductoResponse> {
+  public get(): IUnificacionAporteProducto[] {
+    return this.unificacionAporteProducto;
+  }
+
+  public set(unificacionAporteProducto: IUnificacionAporteProducto[]): void {
+    this.unificacionAporteProducto = unificacionAporteProducto;
+  }
+
+  public CRUD(body: any): Observable<IUnificacionAporteProductoResponse> {
     return this.http.post<IUnificacionAporteProductoResponse>(
       `${this.environmentService.api}/abmunificacionaportes`,
       body,

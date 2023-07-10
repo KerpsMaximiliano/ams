@@ -2,6 +2,8 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
+  OnInit,
   Output,
   SimpleChanges,
   ViewChild,
@@ -13,36 +15,33 @@ import { IUnificacionAporteProducto } from 'src/app/core/models/unificacion-apor
 // * Material
 import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-unificacion-aporte-producto-dashboard',
   templateUrl: './unificacion-aporte-producto-dashboard.component.html',
   styleUrls: ['./unificacion-aporte-producto-dashboard.component.scss'],
 })
-export class UnificacionAporteProductoDashboardComponent {
-  @Input() public receivedData: IUnificacionAporteProducto[] = [];
-
-  @Output() public viewEvent: EventEmitter<IUnificacionAporteProducto> =
-    new EventEmitter<IUnificacionAporteProducto>();
-  @Output() public editEvent: EventEmitter<IUnificacionAporteProducto> =
-    new EventEmitter<IUnificacionAporteProducto>();
-  @Output() public deletedEvent: EventEmitter<IUnificacionAporteProducto> =
-    new EventEmitter<IUnificacionAporteProducto>();
-
+export class UnificacionAporteProductoDashboardComponent
+  implements OnInit, OnChanges
+{
   public displayedColumns = [
-    'producto_principal',
-    'producto',
-    'subproducto_principal',
-    'subproducto',
+    'producto_secundario_codigo',
+    'producto_secundario_descripcion',
+    'subproducto_secundario_codigo',
+    'subproducto_secundario_descripcion',
+    'unifica_aportes',
     'actions',
   ];
   public dataSource: MatTableDataSource<IUnificacionAporteProducto>;
 
+  @Input() public receivedData: IUnificacionAporteProducto[] = [];
+
+  @Output() public deleteEvent: EventEmitter<IUnificacionAporteProducto> =
+    new EventEmitter<IUnificacionAporteProducto>();
+
   @ViewChild(MatPaginator, { static: true }) public paginator!: MatPaginator;
 
-  constructor(private matPaginatorIntl: MatPaginatorIntl,
-              private dialog: MatDialog) {}
+  constructor(private matPaginatorIntl: MatPaginatorIntl) {}
 
   ngOnInit(): void {
     this.configurePaginator();
@@ -50,21 +49,15 @@ export class UnificacionAporteProductoDashboardComponent {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['receivedData'] && !changes['receivedData'].firstChange) {
-      this.dataSource = new MatTableDataSource<IUnificacionAporteProducto>(this.receivedData);
+      this.dataSource = new MatTableDataSource<IUnificacionAporteProducto>(
+        this.receivedData
+      );
       this.dataSource.paginator = this.paginator;
     }
   }
 
-  public view(element: IUnificacionAporteProducto): void {
-    this.viewEvent.emit(element);
-  }
-
-  public edit(element: IUnificacionAporteProducto): void {
-    this.editEvent.emit(element);
-  }
-
-  public deleted(element: IUnificacionAporteProducto): void{
-    this.deletedEvent.emit(element)
+  public delete(element: IUnificacionAporteProducto): void {
+    this.deleteEvent.emit(element);
   }
 
   private configurePaginator(): void {

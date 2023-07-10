@@ -113,6 +113,12 @@ export class NavMenuComponent {
           icon: 'keyboard_arrow_right',
         },
         {
+          // 24 - UNIFICACIÓN DE APORTES POR PRODUCTO
+          title: 'Unificación de aportes por producto',
+          url: '/parametros/unificacion-aportes-producto',
+          icon: 'keyboard_arrow_right',
+        },
+        {
           // 32 - EXTENCION DE FUENTES DE INGRESOS
           title: 'Extencion Fuente de Ingreso',
           url: '/parametros/extencion-fuente-ingreso',

@@ -102,7 +102,7 @@ import { SubmotivoMovimientoProductoFilterComponent } from './sub-motivo-movimie
 import { SubMotivoMovimientoProductoComponent } from './sub-motivo-movimiento-producto/sub-motivo-movimiento-producto.component';
 // 24 - UNIFICACION DE APORTES
 import { UnificacionAporteProductoComponent } from './unificacion-aporte-producto/unificacion-aporte-producto.component';
-import { UnificacionAporteProductoDashboardComponent } from './unificacion-aporte-producto/components/unificador-aporte-dashboard/unificacion-aporte-producto-dashboard.component';
+import { UnificacionAporteProductoDashboardComponent } from './unificacion-aporte-producto/components/unificacion-aporte-producto-dashboard/unificacion-aporte-producto-dashboard.component';
 import { UnificacionAporteProductoFilterComponent } from './unificacion-aporte-producto/components/unificacion-aporte-producto-filter/unificacion-aporte-producto-filter.component';
 import { AddEditUnificacionAporteProductoComponent } from './unificacion-aporte-producto/components/add-edit-unificacion-aporte-producto/add-edit-unificacion-aporte-producto.component';
 import { SetProductoDialogComponent } from './unificacion-aporte-producto/components/add-edit-unificacion-aporte-producto/set-producto-dialog/set-producto-dialog.component';

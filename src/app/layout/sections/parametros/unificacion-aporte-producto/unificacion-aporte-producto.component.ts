@@ -1,9 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -28,7 +23,9 @@ import { AddEditUnificacionAporteProductoComponent } from './components/add-edit
   templateUrl: './unificacion-aporte-producto.component.html',
   styleUrls: ['./unificacion-aporte-producto.component.scss'],
 })
-export class UnificacionAporteProductoComponent implements OnInit, AfterViewInit, OnDestroy {
+export class UnificacionAporteProductoComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
   private dataSubscription: Subscription | undefined;
   public dataSent: IUnificacionAporteProducto[];
 
@@ -40,7 +37,7 @@ export class UnificacionAporteProductoComponent implements OnInit, AfterViewInit
     private productoService: ProductoService,
     private utilService: UtilService,
     private dialog: MatDialog,
-    private router: Router,
+    private router: Router
   ) {
     this.producto = this.productoService.get();
   }
@@ -50,6 +47,7 @@ export class UnificacionAporteProductoComponent implements OnInit, AfterViewInit
       this.router.navigate(['parametros/productos']);
       return;
     }
+    this.dataSent = this.unificacionAporteProductoService.get();
   }
 
   ngAfterViewInit(): void {
@@ -83,30 +81,13 @@ export class UnificacionAporteProductoComponent implements OnInit, AfterViewInit
     });
   }
 
-  public edit(data: IUnificacionAporteProducto): void {
-    const dialogRef = this.openDialog(
-      'EDITAR UNIFICACION DE APORTE POR PRODUCTO',
-      'U',
-      true,
+  public delete(data: IUnificacionAporteProducto): void {
+    this.openDialog(
+      '¿SEGURO QUÉ QUIERE ELIMINAR LA UNIFICACIÓN DE APORTE POR PRODUCTO?',
+      'D',
+      false,
       data
     );
-    this.dataSubscription = this.dataSharingService
-      .getData()
-      .subscribe((res: any) => {
-        this.performCRUD(
-          res,
-          'La unificación de aporte por producto se ha editado exitosamente. ',
-          dialogRef
-        );
-      });
-    dialogRef.afterClosed().subscribe(() => {
-      this.dataSharingService.unsubscribeData(this.dataSubscription!);
-      this.dataSubscription = undefined;
-    });
-  }
-
-  public view(data: IUnificacionAporteProducto): void {
-    this.openDialog('VER UNIFICACIÓN DE APORTE POR PRODUCTO', 'R', false, data);
   }
 
   public getData(value: string): void {
@@ -169,7 +150,7 @@ export class UnificacionAporteProductoComponent implements OnInit, AfterViewInit
         dialogRef.close();
         this.getData(
           JSON.stringify({
-            par_modo: 'R'
+            par_modo: 'R',
           })
         );
       },

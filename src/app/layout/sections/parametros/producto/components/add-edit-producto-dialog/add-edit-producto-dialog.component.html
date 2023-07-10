@@ -201,18 +201,18 @@
         <mat-icon>close</mat-icon>
         Cancelar
       </button>
-      <button class="primary-button icon-button" type="submit" (click)="redirectTo('parametros/parentesco-producto')"
+      <button class="primary-button icon-button" type="button" (click)="redirectTo('parametros/parentesco-producto')"
         *ngIf="data.par_modo === 'U'" mat-dialog-close>
         <mat-icon> open_in_new_down </mat-icon>
         Parentescos
       </button>
-      <button class="primary-button icon-button" type="submit"
+      <button class="primary-button icon-button" type="button"
         (click)="redirectTo('parametros/motivo-movimiento-producto')" *ngIf="data.par_modo === 'U'" mat-dialog-close>
         <mat-icon> open_in_new_down </mat-icon>
         Motivos
       </button>
-      <button class="primary-button icon-button" type="submit" (click)="redirectTo('parametros/unificacion-aportes')"
-        *ngIf="data.par_modo === 'U'" mat-dialog-close>
+      <button class="primary-button icon-button" type="button" (click)="redirectToUnificacionAporteProducto()"
+        *ngIf="data.par_modo === 'U' && data.tipo_producto === 'S'">
         <mat-icon> open_in_new_down </mat-icon>
         Unificación
       </button>
