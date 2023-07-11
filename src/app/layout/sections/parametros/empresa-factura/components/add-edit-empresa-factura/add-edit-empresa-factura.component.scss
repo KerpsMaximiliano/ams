@@ -1,27 +1,142 @@
-.dialog-content {
-  min-width: 600px;
-  padding: 1rem;
+// .dialog-content {
+//   min-width: 600px;
+//   padding: 1rem;
+// }
+
+// /* 1/2 Comienzo ----------------------------------------------------------------------------------------------------- */
+// /*
+//    * Ajustes al contenido distinto (título, campo de entrada | selector y, iconos 'buscar' y 'cancelar'). Selectores:
+//    * .seeker-fields-container (contenedor).
+//    * .content (contenido funcional). No incluye el título.
+//    * .icon (contenedor de icono).
+//    * .material-symbols-outlined (estilo de material icon).
+//   */
+// .seeker-fields-container {
+//   display: grid;
+//   grid-template-columns: 0.8fr 1.2fr;
+//   gap: 1rem;
+// }
+
+// .content {
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   gap: 1rem;
+// }
+
+// .icon {
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   border-radius: 7px;
+//   padding: 0.35rem;
+//   background-color: var(--sancor-blue);
+//   margin: 0px 0px 16px;
+//   cursor: pointer;
+// }
+
+// .material-symbols-outlined {
+//   font-variation-settings: "FILL" 1, "wght" 700, "GRAD" 200, "opsz" 48;
+//   color: var(--background-white);
+// }
+
+// /*
+//   * Estilos del boton "Guardar" para que este deshabilitado.
+// */
+// .disabled {
+//   opacity: 0.5;
+//   pointer-events: pointer;
+//   cursor: not-allowed;
+//   filter: grayscale(100%);
+// }
+
+// .disabled:hover {
+//   filter: grayscale(100%);
+// }
+
+/*
+ * MODAL: Formulario deshabilitado.
+ * Borde: '::ng-deep .mat-form-field-disabled .mat-form-field-outline'.
+ * Texto inputs: '::ng-deep .mat-form-field-disabled .mat-input-element'.
+ * Texto select: '::ng-deep .mat-form-field-disabled .mat-select-value'.
+ * Texto seleccionable: '.mat-form-field-disabled'.
+*/
+::ng-deep .mat-form-field-disabled .mat-form-field-outline,
+::ng-deep .mat-form-field-disabled .mat-input-element,
+::ng-deep .mat-form-field-disabled .mat-select-value,
+.mat-form-field-disabled {
+  color: #635f5f !important;
+  user-select: text !important;
 }
 
-/* 1/2 Comienzo ----------------------------------------------------------------------------------------------------- */
-/*
-   * Ajustes al contenido distinto (título, campo de entrada | selector y, iconos 'buscar' y 'cancelar'). Selectores:
-   * .seeker-fields-container (contenedor).
-   * .content (contenido funcional). No incluye el título.
-   * .icon (contenedor de icono).
-   * .material-symbols-outlined (estilo de material icon).
-  */
+::ng-deep .mat-tab-label:not(:focus) {
+  background-color: #f1f1f1;
+  color: var(--sancor-blue);
+  opacity: 1;
+}
+
+::ng-deep .mat-tab-group.mat-primary .mat-ink-bar {
+  background-color: var(--sancor-blue);
+}
+
+::ng-deep .mat-tab-label {
+  height: 3px !important;
+}
+
+.dialog-content {
+  width: 650px;
+  min-height: 260px;
+}
+
+.mat-tab-text {
+  margin-bottom: 0rem;
+  padding: 0rem 0.3rem;
+  font: 400 18px / 36px Roboto, "Helvetica Neue", sans-serif;
+}
+
+.mat-tab-icon {
+  font-variation-settings: "FILL" 1, "wght" 700, "GRAD" 200, "opsz" 48;
+}
+
+.mat-tab-icon {
+  background-color: #f1f1f1;
+  color: var(--sancor-blue);
+}
+
 .seeker-fields-container {
   display: grid;
-  grid-template-columns: 0.8fr 1.2fr;
-  gap: 1rem;
+  grid-template-columns: 315px 1fr;
+  align-items: center;
+  column-gap: 0rem;
 }
 
 .content {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
+  gap: 0.3rem;
+}
+
+.primary-button {
+  width: 130px;
+}
+
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 1, "wght" 700, "GRAD" 200, "opsz" 48;
+  color: #fff;
+}
+
+.cont {
+  display: grid;
+  grid-template-columns: 1fr 75px;
+  gap: 0.3rem;
+}
+
+.icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.3rem;
 }
 
 .icon {
@@ -30,12 +145,26 @@
   align-items: center;
   border-radius: 7px;
   padding: 0.35rem;
-  background-color: var(--sancor-blue);
   margin: 0px 0px 16px;
+  background-color: var(--sancor-blue);
+  color: #fff;
   cursor: pointer;
 }
 
-.material-symbols-outlined {
-  font-variation-settings: "FILL" 1, "wght" 700, "GRAD" 200, "opsz" 48;
-  color: var(--background-white);
+/*
+  * Estilos del boton "Guardar" para que este deshabilitado.
+*/
+.fix {
+  pointer-events: none;
+}
+
+.disabled {
+  opacity: 0.5;
+  pointer-events: pointer;
+  cursor: not-allowed;
+  filter: grayscale(100%);
+}
+
+.disabled:hover {
+  filter: grayscale(100%);
 }

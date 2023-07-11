@@ -1,13 +1,15 @@
 <div class="dialog-title" [tabIndex]="0">
-  <h2>{{ data.title | uppercase }}</h2>
+  <h2 tabindex="0">{{ data.title | uppercase }}</h2>
 </div>
 
 <div class="dialog-content">
-  <mat-stepper linear #stepper class="stepper">
-    <mat-step [stepControl]="formInitial">
-      <form [formGroup]="formInitial">
-        <ng-template matStepLabel>Primero</ng-template>
-
+  <form class="form-datos" [formGroup]="formGroup">
+    <mat-tab-group
+      [selectedIndex]="activeTabIndex"
+      (selectedTabChange)="tabChanged($event)"
+      mat-stretch-tabs
+    >
+      <mat-tab>
         <div class="seeker-fields-container">
           <h3>EMPRESA</h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
@@ -19,11 +21,11 @@
             />
             <mat-error
               *ngIf="
-                formInitial.get('descripcion')?.invalid &&
-                formInitial.get('descripcion')?.touched
+                formGroup.get('descripcion')?.invalid &&
+                formGroup.get('descripcion')?.touched
               "
             >
-              {{ getErrorMessage(formInitial.get("descripcion")) }}
+              {{ getErrorMessage(formGroup.get("descripcion")) }}
             </mat-error>
           </mat-form-field>
         </div>
@@ -39,11 +41,11 @@
             />
             <mat-error
               *ngIf="
-                formInitial.get('calle')?.invalid &&
-                formInitial.get('calle')?.touched
+                formGroup.get('calle')?.invalid &&
+                formGroup.get('calle')?.touched
               "
             >
-              {{ getErrorMessage(formInitial.get("calle")) }}
+              {{ getErrorMessage(formGroup.get("calle")) }}
             </mat-error>
           </mat-form-field>
         </div>
@@ -59,11 +61,11 @@
             />
             <mat-error
               *ngIf="
-                formInitial.get('nro_puerta')?.invalid &&
-                formInitial.get('nro_puerta')?.touched
+                formGroup.get('nro_puerta')?.invalid &&
+                formGroup.get('nro_puerta')?.touched
               "
             >
-              {{ getErrorMessage(formInitial.get("nro_puerta")) }}
+              {{ getErrorMessage(formGroup.get("nro_puerta")) }}
             </mat-error>
           </mat-form-field>
         </div>
@@ -79,11 +81,10 @@
             />
             <mat-error
               *ngIf="
-                formInitial.get('piso')?.invalid &&
-                formInitial.get('piso')?.touched
+                formGroup.get('piso')?.invalid && formGroup.get('piso')?.touched
               "
             >
-              {{ getErrorMessage(formInitial.get("piso")) }}
+              {{ getErrorMessage(formGroup.get("piso")) }}
             </mat-error>
           </mat-form-field>
         </div>
@@ -99,35 +100,16 @@
             />
             <mat-error
               *ngIf="
-                formInitial.get('departamento')?.invalid &&
-                formInitial.get('departamento')?.touched
+                formGroup.get('departamento')?.invalid &&
+                formGroup.get('departamento')?.touched
               "
             >
-              {{ getErrorMessage(formInitial.get("departamento")) }}
+              {{ getErrorMessage(formGroup.get("departamento")) }}
             </mat-error>
           </mat-form-field>
         </div>
-
-        <!-- Botones -->
-        <div class="buttons-container">
-          <button class="primary-button icon-button" (click)="closeDialog()">
-            Cancelar
-          </button>
-          <button
-            class="primary-button icon-button"
-            [disabled]="formInitial.invalid"
-            matStepperNext
-          >
-            Siguiente
-          </button>
-        </div>
-        <!-- Botones -->
-      </form>
-    </mat-step>
-    <mat-step [stepControl]="formSecond">
-      <form [formGroup]="formSecond">
-        <ng-template matStepLabel>Segundo</ng-template>
-
+      </mat-tab>
+      <mat-tab>
         <div class="seeker-fields-container">
           <h3>LOCALIDAD</h3>
           <div class="content">
@@ -142,21 +124,24 @@
               />
               <mat-error
                 *ngIf="
-                  formSecond.get('localidad')?.invalid &&
-                  formSecond.get('localidad')?.touched
+                  formGroup.get('localidad')?.invalid &&
+                  formGroup.get('localidad')?.touched
                 "
               >
-                {{ getErrorMessage(formSecond.get("localidad")) }}
+                {{ getErrorMessage(formGroup.get("localidad")) }}
               </mat-error>
             </mat-form-field>
             <ng-container *ngIf="data.edit">
-              <div class="icon" (click)="searchLocalidad()">
+              <div (click)="searchLocalidad()" class="icon">
                 <mat-icon class="material-symbols-outlined"> search </mat-icon>
               </div>
               <div
-                class="icon"
                 (click)="clear()"
-                *ngIf="formSecond.get('localidad')?.value"
+                [class]="
+                  formGroup.get('localidad')?.value
+                    ? 'icon'
+                    : 'icon disabled fix'
+                "
               >
                 <mat-icon class="material-symbols-outlined"> close </mat-icon>
               </div>
@@ -175,11 +160,11 @@
             />
             <mat-error
               *ngIf="
-                formSecond.get('nro_tel')?.invalid &&
-                formSecond.get('nro_tel')?.touched
+                formGroup.get('nro_tel')?.invalid &&
+                formGroup.get('nro_tel')?.touched
               "
             >
-              {{ getErrorMessage(formSecond.get("nro_tel")) }}
+              {{ getErrorMessage(formGroup.get("nro_tel")) }}
             </mat-error>
           </mat-form-field>
         </div>
@@ -195,11 +180,11 @@
             />
             <mat-error
               *ngIf="
-                formSecond.get('nro_fax')?.invalid &&
-                formSecond.get('nro_fax')?.touched
+                formGroup.get('nro_fax')?.invalid &&
+                formGroup.get('nro_fax')?.touched
               "
             >
-              {{ getErrorMessage(formSecond.get("nro_fax")) }}
+              {{ getErrorMessage(formGroup.get("nro_fax")) }}
             </mat-error>
           </mat-form-field>
         </div>
@@ -215,38 +200,16 @@
             />
             <mat-error
               *ngIf="
-                formSecond.get('email')?.invalid &&
-                formSecond.get('email')?.touched
+                formGroup.get('email')?.invalid &&
+                formGroup.get('email')?.touched
               "
             >
-              {{ getErrorMessage(formSecond.get("email")) }}
+              {{ getErrorMessage(formGroup.get("email")) }}
             </mat-error>
           </mat-form-field>
         </div>
-
-        <!-- Botones -->
-        <div class="buttons-container">
-          <button class="primary-button icon-button" (click)="closeDialog()">
-            Cancelar
-          </button>
-          <button class="primary-button icon-button" matStepperPrevious>
-            Anterior
-          </button>
-          <button
-            class="primary-button icon-button"
-            matStepperNext
-            [disabled]="formSecond.invalid"
-          >
-            Siguiente
-          </button>
-        </div>
-        <!-- Botones -->
-      </form>
-    </mat-step>
-    <mat-step [stepControl]="formThird">
-      <form [formGroup]="formThird">
-        <ng-template matStepLabel> Tercero </ng-template>
-
+      </mat-tab>
+      <mat-tab>
         <div class="seeker-fields-container">
           <h3>CODIGO IVA</h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
@@ -258,11 +221,11 @@
             />
             <mat-error
               *ngIf="
-                formSecond.get('codigo_iva')?.invalid &&
-                formSecond.get('codigo_iva')?.touched
+                formGroup.get('codigo_iva')?.invalid &&
+                formGroup.get('codigo_iva')?.touched
               "
             >
-              {{ getErrorMessage(formSecond.get("codigo_iva")) }}
+              {{ getErrorMessage(formGroup.get("codigo_iva")) }}
             </mat-error>
           </mat-form-field>
         </div>
@@ -277,11 +240,10 @@
             />
             <mat-error
               *ngIf="
-                formSecond.get('cuit')?.invalid &&
-                formSecond.get('cuit')?.touched
+                formGroup.get('cuit')?.invalid && formGroup.get('cuit')?.touched
               "
             >
-              {{ getErrorMessage(formSecond.get("cuit")) }}
+              {{ getErrorMessage(formGroup.get("cuit")) }}
             </mat-error>
           </mat-form-field>
         </div>
@@ -296,11 +258,11 @@
             />
             <mat-error
               *ngIf="
-                formSecond.get('fecha_vto_cuit')?.invalid &&
-                formSecond.get('fecha_vto_cuit')?.touched
+                formGroup.get('fecha_vto_cuit')?.invalid &&
+                formGroup.get('fecha_vto_cuit')?.touched
               "
             >
-              {{ getErrorMessage(formSecond.get("fecha_vto_cuit")) }}
+              {{ getErrorMessage(formGroup.get("fecha_vto_cuit")) }}
             </mat-error>
           </mat-form-field>
         </div>
@@ -315,38 +277,16 @@
             />
             <mat-error
               *ngIf="
-                formSecond.get('cta_banco_ams')?.invalid &&
-                formSecond.get('cta_banco_ams')?.touched
+                formGroup.get('cta_banco_ams')?.invalid &&
+                formGroup.get('cta_banco_ams')?.touched
               "
             >
-              {{ getErrorMessage(formSecond.get("cta_banco_ams")) }}
+              {{ getErrorMessage(formGroup.get("cta_banco_ams")) }}
             </mat-error>
           </mat-form-field>
         </div>
-
-        <!-- Botones -->
-        <div class="buttons-container">
-          <button class="primary-button icon-button" (click)="closeDialog()">
-            Cancelar
-          </button>
-          <button class="primary-button icon-button" matStepperPrevious>
-            Anterior
-          </button>
-          <button
-            class="primary-button icon-button"
-            matStepperNext
-            [disabled]="formThird.invalid"
-          >
-            Siguiente
-          </button>
-        </div>
-        <!-- Botones -->
-      </form>
-    </mat-step>
-    <mat-step [stepControl]="formFinal">
-      <form [formGroup]="formFinal">
-        <ng-template matStepLabel> Cuarto </ng-template>
-
+      </mat-tab>
+      <mat-tab>
         <div class="seeker-fields-container">
           <h3>COMPROBANTE A GENERAR</h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
@@ -356,11 +296,11 @@
             </mat-select>
             <mat-error
               *ngIf="
-                formSecond.get('comprobante_generar')?.invalid &&
-                formSecond.get('comprobante_generar')?.touched
+                formGroup.get('comprobante_generar')?.invalid &&
+                formGroup.get('comprobante_generar')?.touched
               "
             >
-              {{ getErrorMessage(formSecond.get("comprobante_generar")) }}
+              {{ getErrorMessage(formGroup.get("comprobante_generar")) }}
             </mat-error>
           </mat-form-field>
         </div>
@@ -374,11 +314,11 @@
             </mat-select>
             <mat-error
               *ngIf="
-                formFinal.get('trabaja_ref_cont')?.invalid &&
-                formFinal.get('trabaja_ref_cont')?.touched
+                formGroup.get('trabaja_ref_cont')?.invalid &&
+                formGroup.get('trabaja_ref_cont')?.touched
               "
             >
-              {{ getErrorMessage(formFinal.get("trabaja_ref_cont")) }}
+              {{ getErrorMessage(formGroup.get("trabaja_ref_cont")) }}
             </mat-error>
           </mat-form-field>
         </div>
@@ -392,11 +332,11 @@
             </mat-select>
             <mat-error
               *ngIf="
-                formFinal.get('fact_cr_elec')?.invalid &&
-                formFinal.get('fact_cr_elec')?.touched
+                formGroup.get('fact_cr_elec')?.invalid &&
+                formGroup.get('fact_cr_elec')?.touched
               "
             >
-              {{ getErrorMessage(formFinal.get("fact_cr_elec")) }}
+              {{ getErrorMessage(formGroup.get("fact_cr_elec")) }}
             </mat-error>
           </mat-form-field>
         </div>
@@ -411,54 +351,70 @@
             </mat-select>
             <mat-error
               *ngIf="
-                formFinal.get('modo')?.invalid && formFinal.get('modo')?.touched
+                formGroup.get('modo')?.invalid && formGroup.get('modo')?.touched
               "
             >
-              {{ getErrorMessage(formFinal.get("modo")) }}
+              {{ getErrorMessage(formGroup.get("modo")) }}
             </mat-error>
           </mat-form-field>
         </div>
-        <div *ngIf="data.edit; else other_content" class="buttons-container">
-          <button
-            class="primary-button icon-button"
-            type="button"
-            (click)="closeDialog()"
-          >
-            <mat-icon> close </mat-icon>
-            Cancelar
-          </button>
-          <button class="primary-button icon-button" matStepperPrevious>
-            Anterior
-          </button>
-          <button
-            class="primary-button icon-button"
-            type="submit"
-            [disabled]="formFinal.invalid"
-            (click)="confirm()"
-          >
-            <mat-icon> done </mat-icon>
-            Guardar
-          </button>
-        </div>
+      </mat-tab>
+    </mat-tab-group>
+    <div *ngIf="data.edit; else other_content" class="buttons-container">
+      <button class="primary-button icon-button" type="button" mat-dialog-close>
+        <mat-icon>close</mat-icon>
+        Cancelar
+      </button>
+      <button
+        class="primary-button icon-button"
+        type="button"
+        [disabled]="activeTabIndex === 0"
+        (click)="prevStep()"
+      >
+        <mat-icon>close</mat-icon>
+        Anterior
+      </button>
+      <button
+        class="primary-button icon-button"
+        type="button"
+        [disabled]="activeTabIndex === 3"
+        (click)="nextStep()"
+      >
+        <mat-icon>close</mat-icon>
+        Siguiente
+      </button>
+      <button
+        [class]="
+          formGroup.invalid
+            ? 'primary-button icon-button disabled'
+            : 'primary-button icon-button'
+        "
+        type="submit"
+        (click)="confirm()"
+      >
+        <mat-icon> done </mat-icon>
+        Guardar
+      </button>
+    </div>
 
-        <ng-template #other_content>
-          <div class="buttons-container">
-            <button class="primary-button icon-button">
-              <mat-icon> done </mat-icon>
-              Aceptar
-            </button>
-            <button class="primary-button icon-button" matStepperPrevious>
-              Anterior
-            </button>
-          </div>
-        </ng-template>
-      </form>
-    </mat-step>
-  </mat-stepper>
-  <div *ngIf="data.par_modo == 'U'" class="buttons-container">
-    <button class="primary-button icon-button" type="button">
-      Datos Comercio
-    </button>
-    <button class="primary-button icon-button" type="button">Pagos Link</button>
-  </div>
+    <ng-template #other_content>
+      <div class="buttons-container">
+        <button class="primary-button icon-button">
+          <mat-icon> done </mat-icon>
+          Aceptar
+        </button>
+        <button class="primary-button icon-button" matStepperPrevious>
+          Anterior
+        </button>
+      </div>
+    </ng-template>
+    <div *ngIf="data.par_modo == 'U'" class="buttons-container">
+      <button class="primary-button icon-button" type="button">
+        Datos Comercio
+      </button>
+      <button class="primary-button icon-button" type="button">
+        Pagos Link
+      </button>
+    </div>
+  </form>
 </div>

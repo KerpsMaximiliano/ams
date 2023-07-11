@@ -18,7 +18,7 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrls: ['./empresa-factura-dashboard.component.scss'],
 })
 export class EmpresaFacturaDashboardComponent {
-  public displayedColumns: string[] = ['codigo', 'name', 'actions'];
+  public displayedColumns: string[] = ['id_empresa', 'name', 'actions'];
   public dataSource: MatTableDataSource<IEmpresaFactura>;
 
   @ViewChild(MatPaginator, { static: true }) public paginator!: MatPaginator;

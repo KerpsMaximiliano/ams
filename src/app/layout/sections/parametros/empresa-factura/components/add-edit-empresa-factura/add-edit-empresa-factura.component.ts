@@ -27,6 +27,7 @@ import {
   MAT_DIALOG_DATA,
   MatDialog,
 } from '@angular/material/dialog';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 // * Components
 import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
@@ -39,12 +40,12 @@ import { ModalLocalidadComponent } from './modal-localidad/modal-localidad.compo
 })
 export class AddEditEmpresaFacturaComponent {
   empresaFactura: IEmpresaFactura[];
-  public formInitial: UntypedFormGroup;
-  public formSecond: UntypedFormGroup;
-  public formThird: UntypedFormGroup;
-  public formFinal: UntypedFormGroup;
+  public formGroup: UntypedFormGroup;
   public getErrorMessage = getErrorMessage;
   public listaModo: IEmpresaFactura;
+  public activeTabIndex = 0;
+  public icon: string;
+
   constructor(
     public dialogRef: MatDialogRef<ConfirmDialogComponent>,
     private utils: UtilService,
@@ -52,21 +53,19 @@ export class AddEditEmpresaFacturaComponent {
     public empresaFacturaService: EmpresaFacturaService,
     public localidadService: LocalidadService,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {}
+  ) {
+    this.setUpForm();
+  }
 
   ngOnInit() {
-    this.setUpForm();
     if (this.data.id_empresa !== undefined) {
       this.setFormValues();
       this.loadModo();
       this.loadLocalidad();
       if (this.data.par_modo === 'C' && this.data.edit !== true) {
-        this.formInitial.disable();
-        this.formSecond.disable();
-        this.formThird.disable();
-        this.formFinal.disable();
+        this.formGroup.disable();
       }
-      this.formInitial.get('id_empresa')?.disable();
+      this.formGroup.get('id_empresa')?.disable();
     }
   }
 
@@ -81,7 +80,7 @@ export class AddEditEmpresaFacturaComponent {
       )
       .subscribe({
         next: (res: any) => {
-          this.formFinal.get('modo')?.setValue(res.dataset.modo);
+          this.formGroup.get('modo')?.setValue(res.dataset.modo);
         },
         error: (err: any) => {
           err.status == 0
@@ -97,7 +96,7 @@ export class AddEditEmpresaFacturaComponent {
   // * carga los formularios
   private setUpForm(): void {
     // * primer formulario
-    this.formInitial = new UntypedFormGroup({
+    this.formGroup = new UntypedFormGroup({
       id_empresa: new UntypedFormControl(
         this.data.id_empresa ? this.data.id_empresa : ''
       ),
@@ -125,9 +124,6 @@ export class AddEditEmpresaFacturaComponent {
         this.data.departamento ? this.data.departamento.trim() : '',
         Validators.compose([Validators.required, Validators.maxLength(5)])
       ),
-    });
-    // * segunto formulario
-    this.formSecond = new UntypedFormGroup({
       localidad: new UntypedFormControl(
         '',
         Validators.compose([Validators.required, Validators.maxLength(30)])
@@ -154,9 +150,6 @@ export class AddEditEmpresaFacturaComponent {
           Validators.email,
         ])
       ),
-    });
-    // * tercer formulario
-    this.formThird = new UntypedFormGroup({
       codigo_iva: new UntypedFormControl(
         this.data.codigo_iva ? this.data.codigo_iva : '',
         Validators.compose([
@@ -185,9 +178,6 @@ export class AddEditEmpresaFacturaComponent {
         this.data.cta_banco_ams ? this.data.cta_banco_ams.trim() : '',
         Validators.compose([Validators.required, Validators.maxLength(50)])
       ),
-    });
-    // * ultimo formulario
-    this.formFinal = new UntypedFormGroup({
       comprobante_generar: new UntypedFormControl(
         this.data.comprobante_generar
           ? this.data.comprobante_generar.trim()
@@ -251,6 +241,22 @@ export class AddEditEmpresaFacturaComponent {
     });
   }
 
+  public nextStep(): void {
+    if (this.activeTabIndex !== 3) {
+      this.activeTabIndex += 1;
+    }
+  }
+
+  public prevStep(): void {
+    if (this.activeTabIndex !== 0) {
+      this.activeTabIndex -= 1;
+    }
+  }
+
+  public tabChanged(event: MatTabChangeEvent): void {
+    this.activeTabIndex = event.index;
+  }
+
   loadLocalidad() {
     this.localidadService
       .CRUD(
@@ -262,7 +268,7 @@ export class AddEditEmpresaFacturaComponent {
       )
       .subscribe({
         next: (res: any) => {
-          this.formSecond
+          this.formGroup
             .get('localidad')
             ?.setValue(res.dataset.descripcion.trim());
         },
@@ -298,9 +304,9 @@ export class AddEditEmpresaFacturaComponent {
     modalSetLocalidad.afterClosed().subscribe({
       next: (res) => {
         if (res) {
-          this.formSecond.get('localidad')?.setValue(res.descripcion);
-          this.formSecond.get('codigo_postal')?.setValue(res.codigo_postal);
-          this.formSecond
+          this.formGroup.get('localidad')?.setValue(res.descripcion);
+          this.formGroup.get('codigo_postal')?.setValue(res.codigo_postal);
+          this.formGroup
             .get('sub_codigo_postal')
             ?.setValue(res.sub_codigo_postal);
         }
@@ -309,9 +315,9 @@ export class AddEditEmpresaFacturaComponent {
   }
 
   public clear(): void {
-    this.formSecond.get('localidad')?.setValue('');
-    this.formSecond.get('codigo_postal')?.setValue('');
-    this.formSecond.get('sub_codigo_postal')?.setValue('');
+    this.formGroup.get('localidad')?.setValue('');
+    this.formGroup.get('codigo_postal')?.setValue('');
+    this.formGroup.get('sub_codigo_postal')?.setValue('');
   }
 
   public closeDialog(): void {
@@ -320,64 +326,81 @@ export class AddEditEmpresaFacturaComponent {
 
   public confirm(): void {
     if (
-      this.formInitial.valid &&
-      this.formSecond.valid &&
-      this.formThird.valid &&
-      this.formFinal.valid
+      this.formGroup.valid &&
+      this.formGroup.valid &&
+      this.formGroup.valid &&
+      this.formGroup.valid
     ) {
       this.dialogRef.close({
         empresa: {
           par_modo: this.data.par_modo,
-          id_empresa: this.formInitial.get('id_empresa')?.value
-            ? this.formInitial.get('id_empresa')?.value
+          id_empresa: this.formGroup.get('id_empresa')?.value
+            ? this.formGroup.get('id_empresa')?.value
             : 0,
-          descripcion: this.formInitial.get('descripcion')?.value,
-          calle: this.formInitial.get('calle')?.value,
-          nro_puerta: parseInt(this.formInitial.get('nro_puerta')?.value),
-          piso: parseInt(this.formInitial.get('piso')?.value),
-          departamento: this.formInitial.get('departamento')?.value,
+          descripcion: this.formGroup.get('descripcion')?.value,
+          calle: this.formGroup.get('calle')?.value,
+          nro_puerta: parseInt(this.formGroup.get('nro_puerta')?.value),
+          piso: parseInt(this.formGroup.get('piso')?.value),
+          departamento: this.formGroup.get('departamento')?.value,
 
-          codigo_postal: parseInt(this.formSecond.get('codigo_postal')?.value),
+          codigo_postal: parseInt(this.formGroup.get('codigo_postal')?.value),
           sub_codigo_postal: parseInt(
-            this.formSecond.get('sub_codigo_postal')?.value
+            this.formGroup.get('sub_codigo_postal')?.value
           ),
-          nro_tel: this.formSecond.get('nro_tel')?.value,
-          nro_fax: this.formSecond.get('nro_fax')?.value,
-          email: this.formSecond.get('email')?.value,
+          nro_tel: this.formGroup.get('nro_tel')?.value,
+          nro_fax: this.formGroup.get('nro_fax')?.value,
+          email: this.formGroup.get('email')?.value,
 
-          codigo_iva: parseInt(this.formThird.get('codigo_iva')?.value),
-          cuit: parseInt(this.formThird.get('cuit')?.value),
-          fecha_vto_cuit: parseInt(this.formThird.get('fecha_vto_cuit')?.value),
-          cta_banco_ams: this.formThird.get('cta_banco_ams')?.value,
+          codigo_iva: parseInt(this.formGroup.get('codigo_iva')?.value),
+          cuit: parseInt(this.formGroup.get('cuit')?.value),
+          fecha_vto_cuit: parseInt(this.formGroup.get('fecha_vto_cuit')?.value),
+          cta_banco_ams: this.formGroup.get('cta_banco_ams')?.value,
 
-          comprobante_generar: this.formFinal.get('comprobante_generar')?.value,
-          trabaja_ref_cont: this.formFinal.get('trabaja_ref_cont')?.value,
-          fact_cr_elec: this.formFinal.get('fact_cr_elec')?.value,
+          comprobante_generar: this.formGroup.get('comprobante_generar')?.value,
+          trabaja_ref_cont: this.formGroup.get('trabaja_ref_cont')?.value,
+          fact_cr_elec: this.formGroup.get('fact_cr_elec')?.value,
 
           // * datos para el back end
-          campo_desc1: this.formFinal.get('campo_desc1')?.value,
-          campo_desc2: this.formFinal.get('campo_desc2')?.value,
-          cbu_nro: this.formFinal.get('cbu_nro')?.value,
-          codigo_postal_arg: this.formFinal.get('codigo_postal_arg')?.value,
-          codigo_sicone: this.formFinal.get('codigo_sicone')?.value,
+          campo_desc1: this.formGroup.get('campo_desc1')?.value,
+          campo_desc2: this.formGroup.get('campo_desc2')?.value,
+          cbu_nro: this.formGroup.get('cbu_nro')?.value,
+          codigo_postal_arg: this.formGroup.get('codigo_postal_arg')?.value,
+          codigo_sicone: this.formGroup.get('codigo_sicone')?.value,
           fecha_inicio_act: parseInt(
-            this.formFinal.get('fecha_inicio_act')?.value
+            this.formGroup.get('fecha_inicio_act')?.value
           ),
-          gen_min_como_empr: this.formFinal.get('gen_min_como_empr')?.value,
-          moneda1: parseInt(this.formFinal.get('moneda1')?.value),
-          moneda2: parseInt(this.formFinal.get('moneda2')?.value),
-          nro_inscripcion_igb: this.formFinal.get('nro_inscripcion_igb')?.value,
-          ref_contable_acreedora1: this.formFinal.get('ref_contable_acreedora1')
+          gen_min_como_empr: this.formGroup.get('gen_min_como_empr')?.value,
+          moneda1: parseInt(this.formGroup.get('moneda1')?.value),
+          moneda2: parseInt(this.formGroup.get('moneda2')?.value),
+          nro_inscripcion_igb: this.formGroup.get('nro_inscripcion_igb')?.value,
+          ref_contable_acreedora1: this.formGroup.get('ref_contable_acreedora1')
             ?.value,
-          ref_contable_acreedora2: this.formFinal.get('ref_contable_acreedora2')
+          ref_contable_acreedora2: this.formGroup.get('ref_contable_acreedora2')
             ?.value,
         },
         modo: {
-          modo: this.formFinal.get('modo')?.value,
+          modo: this.formGroup.get('modo')?.value,
         },
       });
     } else {
-      this.formInitial.markAllAsTouched();
+      this.formGroup.markAllAsTouched();
+    }
+  }
+
+  private setIcon(): void {
+    switch (this.data.par_modo) {
+      case 'C':
+        this.icon = 'add_box';
+        break;
+      case 'U':
+        this.icon = 'edit';
+        break;
+      case 'R':
+        this.icon = 'visibility';
+        break;
+      default:
+        this.icon = '';
+        break;
     }
   }
 }

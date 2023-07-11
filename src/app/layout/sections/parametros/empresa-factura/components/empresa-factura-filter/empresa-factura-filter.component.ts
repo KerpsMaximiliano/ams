@@ -10,9 +10,6 @@ import { getErrorMessage } from 'src/app/core/validators/character.validator';
 export class EmpresaFacturaFilterComponent {
   @Output() public search: EventEmitter<string> = new EventEmitter<string>();
 
-  @ViewChild('input') public input: any;
-  public getErrorMessage = getErrorMessage;
-
   constructor() {}
 
   ngOnInit() {}
