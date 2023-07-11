@@ -8,14 +8,17 @@
         <div class="seeker-fields-container pb-none">
           <h4> Fuente de ingreso administradora </h4>
           <mat-form-field class="seeker-form-field" appearance="outline">
-            <input matInput class="seeker-input" [value]="this.fuenteIngreso.descripcion" disabled>
+            <input matInput #descripcionFuenteIngresoAdministradora
+              [value]="this.fuenteIngreso.descripcion_fuente_adm_mixta ? this.fuenteIngreso.descripcion_fuente_adm_mixta : this.fuenteIngreso.descripcion"
+              disabled>
           </mat-form-field>
         </div>
 
         <div class="seeker-fields-container pb-none">
           <h4> Fuente de ingreso subordinada </h4>
           <mat-form-field class="seeker-form-field" appearance="outline">
-            <input matInput class="seeker-input" [value]="this.fuenteIngreso" disabled>
+            <input matInput
+              [value]="this.fuenteIngreso.descripcion_fuente_adm_mixta ? this.fuenteIngreso.descripcion : ''" disabled>
           </mat-form-field>
         </div>
 
@@ -40,10 +43,12 @@
           </div>
 
           <div class="icon-container">
-            <div class="icon" (click)="getProducto()">
+            <div (click)="getProducto()"
+              [class]="descripcionFuenteIngresoAdministradora.value  ? 'icon' : 'icon disabled fix'">
               <mat-icon class="material-symbols-outlined"> search </mat-icon>
             </div>
-            <div class="icon" (click)="clear(descripcionProducto, descripcionSubproducto)">
+            <div (click)="clear(descripcionProducto, descripcionSubproducto)"
+              [class]="descripcionProducto.value || descripcionSubproducto.value  ? 'icon' : 'icon disabled fix'">
               <mat-icon class="material-symbols-outlined"> close </mat-icon>
             </div>
           </div>
@@ -59,13 +64,9 @@
         </div>
 
         <div class="buttons-container">
-          <!-- <button class="primary-button icon-button" type="button"
+          <button class="primary-button icon-button" type="button"
             [disabled]="descripcionProducto.value.length === 0 && descripcionSubproducto.value.length === 0"
             (click)="performSearch(plan.value)">
-            <mat-icon> done </mat-icon>
-            Buscar
-          </button> -->
-          <button class="primary-button icon-button" type="button" (click)="performSearch(plan.value)">
             <mat-icon> done </mat-icon>
             Buscar
           </button>

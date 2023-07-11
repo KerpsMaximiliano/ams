@@ -54,3 +54,18 @@ h4 {
   color: #fff;
   cursor: pointer;
 }
+
+.fix {
+  pointer-events: none;
+}
+
+.disabled {
+  opacity: 0.5;
+  pointer-events: pointer;
+  cursor: not-allowed;
+  filter: grayscale(100%);
+}
+
+.disabled:hover {
+  filter: grayscale(100%);
+}

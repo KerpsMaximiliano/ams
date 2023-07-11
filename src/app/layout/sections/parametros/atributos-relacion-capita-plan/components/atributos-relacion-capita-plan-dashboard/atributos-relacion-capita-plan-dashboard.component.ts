@@ -26,7 +26,7 @@ export class AtributosRelacionCapitaPlanDashboardComponent
 {
   public displayedColumns: string[] = [
     'plan_producto_cap_adm',
-    'descripcion',
+    'descripcion_plan',
     'genera_liquidacion',
     'actions',
   ];

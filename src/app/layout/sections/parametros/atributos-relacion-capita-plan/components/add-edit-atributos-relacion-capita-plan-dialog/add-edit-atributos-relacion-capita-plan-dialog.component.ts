@@ -153,12 +153,10 @@ export class AddEditAtributosRelacionCapitaPlanDialogComponent {
           : '',
         disabled: true,
       }),
-      descripcion_producto_administrador: new UntypedFormControl(
+      descripcion_producto: new UntypedFormControl(
         {
-          value: this.data.descripcion_producto_administrador
-            ? this.data.descripcion_producto_administrador.trim()
-            : this.data.descripcion_producto_subordinado
-            ? this.data.descripcion_producto_subordinado.trim()
+          value: this.data.descripcion_producto
+            ? this.data.descripcion_producto.trim()
             : '',
           disabled: this.data.par_modo === 'R' || this.data.par_modo === 'U',
         },
@@ -168,17 +166,17 @@ export class AddEditAtributosRelacionCapitaPlanDialogComponent {
           notOnlySpaces(),
         ])
       ),
-      descripcion_producto_subordinado: new UntypedFormControl({
-        value: this.data.fuenteIngreso.descripcion_producto_administrador
-          ? this.data.descripcion_producto_subordinado
-            ? this.data.descripcion_producto_subordinado.trim()
-            : ''
+      descripcion_subproducto: new UntypedFormControl({
+        value: this.data.descripcion_subproducto
+          ? this.data.descripcion_subproducto.trim()
           : '',
         disabled: this.data.par_modo === 'R' || this.data.par_modo === 'U',
       }),
       descripcion_plan: new UntypedFormControl(
         {
-          value: this.data.descripcion_plan,
+          value: this.data.descripcion_plan
+            ? this.data.descripcion_plan.trim()
+            : '',
           disabled: this.data.par_modo === 'R' || this.data.par_modo === 'U',
         },
         Validators.compose([Validators.required])
@@ -409,26 +407,24 @@ export class AddEditAtributosRelacionCapitaPlanDialogComponent {
     modal.afterClosed().subscribe({
       next: (res) => {
         if (res) {
-          this.data.producto_administrador = res.producto_administrador
-            ? res.producto_administrador || res.codigo_producto
-            : 0;
+          this.data.producto_administrador =
+            res?.producto_administrador || res?.codigo_producto || 0;
           this.formGroup
             .get('descripcion_producto_administrador')
             ?.setValue(
-              res.descripcion_producto_administrador
-                ? res.descripcion_producto_administrador ||
-                    res.descripcion_producto
-                : ''
+              res?.descripcion_producto_administrador.trim() ||
+                res?.descripcion_producto.trim() ||
+                ''
             );
 
           this.data.codigo_producto = res.producto_administrador
-            ? res.codigo_producto || 0
+            ? res?.codigo_producto
             : 0;
           this.formGroup
             .get('descripcion_producto_subordinado')
             ?.setValue(
-              res.descripcion_producto_administrador
-                ? res.descripcion_producto || ''
+              res?.descripcion_producto_administrador
+                ? res?.descripcion_producto.trim()
                 : ''
             );
         }

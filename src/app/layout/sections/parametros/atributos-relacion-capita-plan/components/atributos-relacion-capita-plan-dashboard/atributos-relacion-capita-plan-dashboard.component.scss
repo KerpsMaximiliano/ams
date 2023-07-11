@@ -9,62 +9,48 @@ td.mat-cell:first-of-type {
 /*
  * Texto alineado a la izquierda.
 */
-/* .mat-column-primer_texto_preg.mat-header-cell,
-.mat-column-primer_texto_preg.mat-cell,
-.mat-column-segundo_texto_preg.mat-header-cell,
-.mat-column-segundo_texto_preg.mat-cell,
-.mat-column-pide_fecha.mat-header-cell,
-.mat-column-pide_fecha.mat-cell,
-.mat-column-yes_no.mat-header-cell,
-.mat-column-yes_no.mat-cell {
+.mat-column-descripcion_plan.mat-header-cell,
+.mat-column-descripcion_plan.mat-cell,
+.mat-column-genera_liquidacion.mat-header-cell,
+.mat-column-genera_liquidacion.mat-cell {
   text-align: left !important;
-  padding-left: 1vw;
+  padding-left: 3vw;
   word-break: break-all;
-} */
+}
 
 /*
  * Número y fecha alineado a la derecha.
 */
-/* .mat-column-nro_preg.mat-header-cell,
-.mat-column-nro_preg.mat-cell {
+.mat-column-plan_producto_cap_adm.mat-header-cell,
+.mat-column-plan_producto_cap_adm.mat-cell {
   text-align: right !important;
-  padding-right: 1vw;
-} */
+  padding-right: 3vw;
+}
 
 /*
  * Tamaño de columnas.
 */
-/* .mat-column-nro_preg.mat-header-cell,
-.mat-column-nro_preg.mat-cell {
-  min-width: 100px;
+.mat-column-plan_producto_cap_adm.mat-header-cell,
+.mat-column-plan_producto_cap_adm.mat-cell {
+  min-width: 150px;
 }
 
-.mat-column-primer_texto_preg.mat-header-cell,
-.mat-column-primer_texto_preg.mat-cell {
-  min-width: 110px;
-  width: 50%;
+.mat-column-descripcion_plan.mat-header-cell,
+.mat-column-descripcion_plan.mat-cell {
+  min-width: 300px;
+  width: 65%;
 }
 
-.mat-column-segundo_texto_preg.mat-header-cell,
-.mat-column-segundo_texto_preg.mat-cell {
-  min-width: 130px;
-  width: 50%;
-}
-
-.mat-column-pide_fecha.mat-header-cell,
-.mat-column-pide_fecha.mat-cell {
-  min-width: 100px;
-}
-
-.mat-column-yes_no.mat-header-cell,
-.mat-column-yes_no.mat-cell {
-  min-width: 100px;
+.mat-column-genera_liquidacion.mat-header-cell,
+.mat-column-genera_liquidacion.mat-cell {
+  min-width: 200px;
+  width: 35%;
 }
 
 .mat-column-actions.mat-header-cell,
 .mat-column-actions.mat-cell {
-  min-width: 100px;
-} */
+  min-width: 170px;
+}
 
 /*
  * Oculta la tabla y paginación hasta que existan datos.

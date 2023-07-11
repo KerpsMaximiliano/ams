@@ -23,7 +23,9 @@ export interface IAtributosRelacionCapitaPlan {
   controla_dec_juradas: string;
   modelo_dec_jurada_vig: string;
   modelo_cuest_baja_vig: string;
-  descripcion: string;
+  descripcion_plan: string;
+  descripcion_producto: string;
+  descripcion_subproducto: string;
 }
 
 export type IAtributosRelacionCapitaPlanResponse = Response<

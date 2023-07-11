@@ -76,6 +76,11 @@
   gap: 0.3rem;
 }
 
+.no-cont {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
 .icon-container {
   display: flex;
   justify-content: center;

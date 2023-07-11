@@ -29,16 +29,16 @@
           </mat-form-field>
         </div>
 
-        <div class="cont">
+        <div [class]="data.par_modo === 'C' ? 'cont' : 'no-cont'">
           <div>
             <div class="seeker-fields-container">
               <h3> PRODUCTO </h3>
               <mat-form-field class="seeker-form-field" appearance="outline">
                 <input matInput class="seeker-input" placeholder="Busque un producto/subproducto."
-                  formControlName="descripcion_producto_administrador" #descripcionProducto readonly required>
+                  formControlName="descripcion_producto" #descripcionProducto readonly required>
                 <mat-error
-                  *ngIf="formGroup.get('descripcion_producto_administrador')?.invalid && formGroup.get('descripcion_producto_administrador')?.touched">
-                  {{ getErrorMessage(formGroup.get("descripcion_producto_administrador")) }}
+                  *ngIf="formGroup.get('descripcion_producto')?.invalid && formGroup.get('descripcion_producto')?.touched">
+                  {{ getErrorMessage(formGroup.get("descripcion_producto")) }}
                 </mat-error>
               </mat-form-field>
             </div>
@@ -46,14 +46,14 @@
             <div class="seeker-fields-container">
               <h3> SUBPRODUCTO </h3>
               <mat-form-field class="seeker-form-field" appearance="outline">
-                <input matInput class="seeker-input" formControlName="descripcion_producto_subordinado"
+                <input matInput class="seeker-input" formControlName="descripcion_subproducto"
                   [placeholder]="descripcionProducto.value ? '' : 'Busque un producto/subproducto.'"
                   #descripcionSubproducto readonly>
               </mat-form-field>
             </div>
           </div>
 
-          <div class="icon-container">
+          <div class="icon-container" *ngIf="data.par_modo === 'C'">
             <div (click)="getProducto()"
               [class]="formGroup.get('descripcion_fuente_adm_mixta')?.value  ? 'icon' : 'icon disabled fix'">
               <mat-icon class="material-symbols-outlined"> search </mat-icon>
@@ -79,8 +79,7 @@
               </mat-error>
             </mat-form-field>
             <ng-container *ngIf="data.par_modo !== 'R'">
-              <div class="icon"
-                [class]="formGroup.get('descripcion_producto_administrador')?.value ? 'icon' : 'icon disabled fix'">
+              <div [class]="formGroup.get('descripcion_producto_administrador')?.value ? 'icon' : 'icon disabled fix'">
                 <mat-icon class="material-symbols-outlined"> search </mat-icon>
               </div>
               <div (click)="clear(descripcionPlan, 'descripcion_plan')"
@@ -231,10 +230,10 @@
           <h3> LEGAJO </h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
             <mat-select formControlName="legajo" required minlength="1" maxlength="1" disableOptionCentering>
-              <mat-option [value]="1">
+              <mat-option [value]="'1'">
                 SI
               </mat-option>
-              <mat-option [value]="0">
+              <mat-option [value]="'0'">
                 NO
               </mat-option>
             </mat-select>
@@ -248,10 +247,10 @@
           <h3> ZONA </h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
             <mat-select formControlName="zona" required minlength="1" maxlength="1" disableOptionCentering>
-              <mat-option [value]="1">
+              <mat-option [value]="'1'">
                 SI
               </mat-option>
-              <mat-option [value]="0">
+              <mat-option [value]="'0'">
                 NO
               </mat-option>
             </mat-select>
@@ -265,10 +264,10 @@
           <h3> DIVISIÓN </h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
             <mat-select formControlName="division" required minlength="1" maxlength="1" disableOptionCentering>
-              <mat-option [value]="1">
+              <mat-option [value]="'1'">
                 SI
               </mat-option>
-              <mat-option [value]="0">
+              <mat-option [value]="'0'">
                 NO
               </mat-option>
             </mat-select>
@@ -284,10 +283,10 @@
           <h3> SECCIÓN </h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
             <mat-select formControlName="seccion" required minlength="1" maxlength="1" disableOptionCentering>
-              <mat-option [value]="1">
+              <mat-option [value]="'1'">
                 SI
               </mat-option>
-              <mat-option [value]="0">
+              <mat-option [value]="'0'">
                 NO
               </mat-option>
             </mat-select>
@@ -301,10 +300,10 @@
           <h3> SUBSECCIÓN </h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
             <mat-select formControlName="subseccion" required minlength="1" maxlength="1" disableOptionCentering>
-              <mat-option [value]="1">
+              <mat-option [value]="'1'">
                 SI
               </mat-option>
-              <mat-option [value]="0">
+              <mat-option [value]="'0'">
                 NO
               </mat-option>
             </mat-select>
@@ -318,10 +317,10 @@
           <h3> VAL. CÓDIGO EMPRESA </h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
             <mat-select formControlName="val_cod_empresa" required minlength="1" maxlength="1" disableOptionCentering>
-              <mat-option [value]="1">
+              <mat-option [value]="'1'">
                 SI
               </mat-option>
-              <mat-option [value]="0">
+              <mat-option [value]="'0'">
                 NO
               </mat-option>
             </mat-select>
@@ -392,15 +391,15 @@
 
     <div *ngIf="data.edit; else other_content" class="buttons-container">
       <button class="primary-button icon-button" type="button" mat-dialog-close>
-        <mat-icon>close</mat-icon>
+        <mat-icon> close </mat-icon>
         Cancelar
       </button>
       <button class="primary-button icon-button" type="button" [disabled]="activeTabIndex === 0" (click)="prevStep()">
-        <mat-icon>close</mat-icon>
+        <mat-icon> arrow_back_ios </mat-icon>
         Anterior
       </button>
       <button class="primary-button icon-button" type="button" [disabled]="activeTabIndex === 3" (click)="nextStep()">
-        <mat-icon>close</mat-icon>
+        <mat-icon> arrow_forward_ios </mat-icon>
         Siguiente
       </button>
       <button [class]="formGroup.invalid ? 'primary-button icon-button disabled' : 'primary-button icon-button'"
@@ -415,6 +414,14 @@
         <button class="primary-button icon-button" mat-dialog-close>
           <mat-icon> done </mat-icon>
           Aceptar
+        </button>
+        <button class="primary-button icon-button" type="button" [disabled]="activeTabIndex === 0" (click)="prevStep()">
+          <mat-icon> arrow_back_ios </mat-icon>
+          Anterior
+        </button>
+        <button class="primary-button icon-button" type="button" [disabled]="activeTabIndex === 3" (click)="nextStep()">
+          <mat-icon> arrow_forward_ios </mat-icon>
+          Siguiente
         </button>
       </div>
     </ng-template>

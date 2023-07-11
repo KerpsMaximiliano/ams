@@ -78,7 +78,7 @@ export class AtributosRelacionCapitaPlanComponent implements OnInit, OnDestroy {
       es_subord: null,
       es_mixta: null,
       id_excluido: null,
-      descripcion_fuente_adm_mixta: '',
+      descripcion_fuente_adm_mixta: 'qweqew',
     };
   }
 
@@ -211,7 +211,9 @@ export class AtributosRelacionCapitaPlanComponent implements OnInit, OnDestroy {
         controla_dec_juradas: data?.controla_dec_juradas,
         modelo_dec_jurada_vig: data?.modelo_dec_jurada_vig,
         modelo_cuest_baja_vig: data?.modelo_cuest_baja_vig,
-        descripcion: data?.descripcion,
+        descripcion_plan: data?.descripcion_plan,
+        descripcion_producto: data?.descripcion_producto,
+        descripcion_subproducto: data?.descripcion_subproducto,
       },
     });
   }
