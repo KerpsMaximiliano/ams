@@ -51,7 +51,7 @@ export class AddEditEmpresaFacturaComponent {
     private dialog: MatDialog,
     public empresaFacturaService: EmpresaFacturaService,
     public localidadService: LocalidadService,
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
   ngOnInit() {
@@ -111,7 +111,11 @@ export class AddEditEmpresaFacturaComponent {
       ),
       nro_puerta: new UntypedFormControl(
         this.data.nro_puerta ? this.data.nro_puerta : '',
-        Validators.compose([Validators.required, Validators.maxLength(5), isNumeric()])
+        Validators.compose([
+          Validators.required,
+          Validators.maxLength(5),
+          isNumeric(),
+        ])
       ),
       piso: new UntypedFormControl(
         this.data.piso ? this.data.piso : '',
@@ -144,22 +148,38 @@ export class AddEditEmpresaFacturaComponent {
       ),
       email: new UntypedFormControl(
         this.data.email ? this.data.email.trim() : '',
-        Validators.compose([Validators.required, Validators.maxLength(50)])
+        Validators.compose([
+          Validators.required,
+          Validators.maxLength(50),
+          Validators.email,
+        ])
       ),
     });
     // * tercer formulario
     this.formThird = new UntypedFormGroup({
       codigo_iva: new UntypedFormControl(
         this.data.codigo_iva ? this.data.codigo_iva : '',
-        Validators.compose([Validators.required, Validators.maxLength(2), isNumeric()])
+        Validators.compose([
+          Validators.required,
+          Validators.maxLength(2),
+          isNumeric(),
+        ])
       ),
       cuit: new UntypedFormControl(
         this.data.cuit ? this.data.cuit : '',
-        Validators.compose([Validators.required, Validators.maxLength(11), isNumeric()])
+        Validators.compose([
+          Validators.required,
+          Validators.maxLength(11),
+          isNumeric(),
+        ])
       ),
       fecha_vto_cuit: new UntypedFormControl(
         this.data.fecha_vto_cuit ? this.data.fecha_vto_cuit : 0,
-        Validators.compose([Validators.required, Validators.maxLength(8), isNumeric()])
+        Validators.compose([
+          Validators.required,
+          Validators.maxLength(8),
+          isNumeric(),
+        ])
       ),
       cta_banco_ams: new UntypedFormControl(
         this.data.cta_banco_ams ? this.data.cta_banco_ams.trim() : '',
@@ -204,7 +224,7 @@ export class AddEditEmpresaFacturaComponent {
         this.data.codigo_sicone ? this.data.codigo_sicone.trim() : ''
       ),
       fecha_inicio_act: new UntypedFormControl(
-        this.data.fecha_inicio_act ? this.data.fecha_inicio_act : 0,
+        this.data.fecha_inicio_act ? this.data.fecha_inicio_act : 0
       ),
       gen_min_como_empr: new UntypedFormControl(
         this.data.gen_min_como_empr ? this.data.gen_min_como_empr.trim() : 'S'
@@ -340,7 +360,9 @@ export class AddEditEmpresaFacturaComponent {
           cbu_nro: this.formFinal.get('cbu_nro')?.value,
           codigo_postal_arg: this.formFinal.get('codigo_postal_arg')?.value,
           codigo_sicone: this.formFinal.get('codigo_sicone')?.value,
-          fecha_inicio_act: parseInt(this.formFinal.get('fecha_inicio_act')?.value),
+          fecha_inicio_act: parseInt(
+            this.formFinal.get('fecha_inicio_act')?.value
+          ),
           gen_min_como_empr: this.formFinal.get('gen_min_como_empr')?.value,
           moneda1: parseInt(this.formFinal.get('moneda1')?.value),
           moneda2: parseInt(this.formFinal.get('moneda2')?.value),
@@ -354,8 +376,7 @@ export class AddEditEmpresaFacturaComponent {
           modo: this.formFinal.get('modo')?.value,
         },
       });
-    }
-    else {
+    } else {
       this.formInitial.markAllAsTouched();
     }
   }
