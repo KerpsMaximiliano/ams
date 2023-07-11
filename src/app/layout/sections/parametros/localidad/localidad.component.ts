@@ -35,7 +35,7 @@ export class LocalidadComponent implements OnInit, OnDestroy {
   public provincias: IProvincia[];
   public departamentos: IDepartamento[];
   public dataSent: ILocalidad[] = [];
-  public request: boolean = false;
+  public request: boolean;
 
   constructor(
     private dataSharingService: DataSharingService,
@@ -43,9 +43,12 @@ export class LocalidadComponent implements OnInit, OnDestroy {
     private localidadService: LocalidadService,
     private utilService: UtilService,
     private dialog: MatDialog
-  ) {}
+  ) {
+    this.request = false;
+  }
 
   ngOnInit(): void {
+    console.log(this.departamentos)
     if(this.provinciaService.getProvincias() === undefined){
       this.getProvincias();
     } else {
@@ -124,6 +127,7 @@ export class LocalidadComponent implements OnInit, OnDestroy {
   }
 
   public onDepartamentosLoaded(departamentos: IDepartamento[]): void {
+    this.request = true;
     this.departamentos = departamentos;
   }
 
@@ -242,7 +246,6 @@ export class LocalidadComponent implements OnInit, OnDestroy {
         },
         error: (err: any) => {
           this.utilService.closeLoading();
-          this.request = false;
           if (err.status === 0) {
             this.utilService.notification('Error de conexión.', 'error');
           } else {
@@ -273,7 +276,6 @@ export class LocalidadComponent implements OnInit, OnDestroy {
         },
         error: (err: any) => {
           this.utilService.closeLoading();
-          this.request = false;
           if (err.status === 0) {
             this.utilService.notification('Error de conexión.', 'error');
           } else {

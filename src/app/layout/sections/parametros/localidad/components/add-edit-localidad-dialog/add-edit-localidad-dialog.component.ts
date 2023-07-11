@@ -24,6 +24,7 @@ import {
 
 // * Material
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-edit-localidad-dialog',
@@ -33,7 +34,8 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class AddEditLocalidadDialogComponent {
   public getErrorMessage = getErrorMessage;
   public formGroup: UntypedFormGroup;
-
+  public activeTabIndex: number = 0;
+  public booleanDep: boolean = false;
   public departamentos: IDepartamento[];
 
   constructor(
@@ -44,6 +46,23 @@ export class AddEditLocalidadDialogComponent {
   ) {
     this.setUpForm();
   }
+
+  public nextStep(): void {
+    if (this.activeTabIndex !== 2) {
+      this.activeTabIndex += 1;
+    }
+  }
+
+  public prevStep(): void {
+    if (this.activeTabIndex !== 0) {
+      this.activeTabIndex -= 1;
+    }
+  }
+
+  public tabChanged(event: MatTabChangeEvent): void {
+    this.activeTabIndex = event.index;
+  }
+
 
   public confirm(): void {
     if (this.formGroup.valid) {
@@ -81,6 +100,7 @@ export class AddEditLocalidadDialogComponent {
           this.data.departamentos = Array.isArray(res.dataset)
             ? (res.dataset as IDepartamento[])
             : [res.dataset as IDepartamento];
+          this.booleanDep = true;
         },
         error: (err: any) => {
           this.utilService.closeLoading();

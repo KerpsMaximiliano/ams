@@ -63,6 +63,7 @@ export class LocalidadFilterComponent {
     this.selectDepartamento.value = '';
     if (localidad) localidad.value = '';
     if (codigo) codigo.value = '';
+    this.loadDepartamentos.emit(undefined);
   }
 
   public getDepartamentos(value: string): void {
