@@ -104,7 +104,10 @@ export class AddEditAtributosRelacionCapitaPlanDialogComponent {
     this.productoService
       .CRUD(
         JSON.stringify({
-          par_modo: 'A',
+          par_modo: 'F',
+          codigo_fuente_ingreso: this.data.fuenteIngreso.codigo_fuente_admin
+            ? this.data.fuenteIngreso.codigo_fuente_admin
+            : this.data.fuenteIngreso.codigo_fuente_ingreso,
         })
       )
       .subscribe({

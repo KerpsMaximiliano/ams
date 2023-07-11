@@ -72,15 +72,15 @@
 
 .cont {
   display: grid;
-  grid-template-columns: 1fr 80px;
-  gap: 0.5rem;
+  grid-template-columns: 1fr 75px;
+  gap: 0.3rem;
 }
 
 .icon-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.3rem;
 }
 
 .icon {
@@ -98,6 +98,10 @@
 /*
   * Estilos del boton "Guardar" para que este deshabilitado.
 */
+.fix {
+  pointer-events: none;
+}
+
 .disabled {
   opacity: 0.5;
   pointer-events: pointer;

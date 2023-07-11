@@ -59,9 +59,13 @@
         </div>
 
         <div class="buttons-container">
-          <button class="primary-button icon-button" type="button"
+          <!-- <button class="primary-button icon-button" type="button"
             [disabled]="descripcionProducto.value.length === 0 && descripcionSubproducto.value.length === 0"
             (click)="performSearch(plan.value)">
+            <mat-icon> done </mat-icon>
+            Buscar
+          </button> -->
+          <button class="primary-button icon-button" type="button" (click)="performSearch(plan.value)">
             <mat-icon> done </mat-icon>
             Buscar
           </button>

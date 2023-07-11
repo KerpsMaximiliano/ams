@@ -33,14 +33,15 @@ h4 {
 
 .cont {
   display: grid;
-  grid-template-columns: 1fr 120px;
+  grid-template-columns: 1fr 100px;
+  gap: 0.3rem;
 }
 
 .icon-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
+  gap: 0.7rem;
 }
 
 .icon {

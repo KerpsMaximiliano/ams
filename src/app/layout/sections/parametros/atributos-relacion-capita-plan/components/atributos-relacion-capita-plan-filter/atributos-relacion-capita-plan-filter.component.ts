@@ -50,26 +50,17 @@ export class AtributosRelacionCapitaPlanFilterComponent {
     this.search.emit(
       JSON.stringify({
         par_modo: 'O',
-        codigo_fuente_adm_mixta: codigo,
+        codigo_fuente_adm_mixta: this.fuenteIngreso.codigo_fuente_admin
+          ? this.fuenteIngreso.codigo_fuente_admin
+          : this.fuenteIngreso.codigo_fuente_ingreso || 0,
         cod_fuente_subordinada: this.fuenteIngreso.codigo_fuente_admin
-          ? this.fuenteIngreso.codigo_fuente_ingreso
+          ? this.fuenteIngreso.codigo_fuente_ingreso || 0
           : 0,
         producto_cap_adm: this.codigoProducto,
         prodcuto_cap_sub: this.codigoSubproducto,
         descripcion: value,
       })
     );
-
-    // this.search.emit(
-    //   JSON.stringify({
-    //     par_modo: 'O',
-    //     codigo_fuente_adm_mixta: 1,
-    //     cod_fuente_subordinada: 0,
-    //     producto_cap_adm: 16,
-    //     prodcuto_cap_sub: 0,
-    //     descripcion: 'programa',
-    //   })
-    // );
   }
 
   public clearFilter(inputElement: HTMLInputElement): void {
