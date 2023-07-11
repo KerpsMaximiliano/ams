@@ -42,8 +42,8 @@ tr.mat-row {
 /*
  * Texto alineado a la izquierda.
 */
-.mat-column-descripcion_producto.mat-header-cell,
-.mat-column-descripcion_producto.mat-cell{
+.mat-column-descripcion.mat-header-cell,
+.mat-column-descripcion.mat-cell{
   text-align: left !important;
   padding-left: 1vw;
   word-break: break-all;

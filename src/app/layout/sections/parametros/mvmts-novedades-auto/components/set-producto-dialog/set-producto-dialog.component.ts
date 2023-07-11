@@ -24,10 +24,10 @@ import { ConfirmDialogComponent } from '../../../../components/confirm-dialog/co
 export class SetProdSubDialogComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) public paginator!: MatPaginator;
   public displayedColumns: string[] = [
-    'codigo_producto',
-    'descripcion_producto',
     'producto_administrador',
     'descripcion_producto_administrador',
+    'codigo_producto',
+    'descripcion_producto',
     'actions',
   ];
   public dataSource: MatTableDataSource<IProductoAdministrador>;
