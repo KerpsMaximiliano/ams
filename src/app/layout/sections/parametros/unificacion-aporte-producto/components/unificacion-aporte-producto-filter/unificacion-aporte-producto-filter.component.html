@@ -7,11 +7,15 @@
       <div class="seeker-fields-container pb-none">
         <h4> Producto </h4>
         <mat-form-field class="seeker-form-field" appearance="outline">
-          <input matInput class="seeker-input" [value]="this.producto.descripcion_producto_administrador" disabled>
+          <input matInput class="seeker-input"
+            [value]="this.producto.descripcion_producto_administrador ? this.producto.descripcion_producto_administrador : this.producto.descripcion_producto || ''"
+            disabled>
         </mat-form-field>
         <h4> Subproducto </h4>
         <mat-form-field class="seeker-form-field" appearance="outline">
-          <input matInput class="seeker-input" [value]="this.producto.descripcion_producto" disabled>
+          <input matInput class="seeker-input"
+            [value]="this.producto.descripcion_producto_administrador ? this.producto.descripcion_producto || '' : ''"
+            disabled>
         </mat-form-field>
       </div>
     </mat-expansion-panel>

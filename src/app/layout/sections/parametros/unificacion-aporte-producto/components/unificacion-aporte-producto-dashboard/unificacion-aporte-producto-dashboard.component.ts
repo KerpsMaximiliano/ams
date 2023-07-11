@@ -25,16 +25,16 @@ export class UnificacionAporteProductoDashboardComponent
   implements OnInit, OnChanges
 {
   public displayedColumns = [
-    'producto_secundario_codigo',
-    'producto_secundario_descripcion',
-    'subproducto_secundario_codigo',
-    'subproducto_secundario_descripcion',
+    'producto_secundario',
+    'producto_principal_descripcion',
+    'subproducto_secundario',
+    'subproducto_principal_descripcion',
     'unifica_aportes',
     'actions',
   ];
   public dataSource: MatTableDataSource<IUnificacionAporteProducto>;
 
-  @Input() public receivedData: IUnificacionAporteProducto[] = [];
+  @Input() public receivedData: IUnificacionAporteProducto[];
 
   @Output() public deleteEvent: EventEmitter<IUnificacionAporteProducto> =
     new EventEmitter<IUnificacionAporteProducto>();
@@ -45,10 +45,15 @@ export class UnificacionAporteProductoDashboardComponent
 
   ngOnInit(): void {
     this.configurePaginator();
+    this.dataSource = new MatTableDataSource<IUnificacionAporteProducto>(
+      this.receivedData
+    );
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['receivedData'] && !changes['receivedData'].firstChange) {
+      console.log(this.receivedData);
+
       this.dataSource = new MatTableDataSource<IUnificacionAporteProducto>(
         this.receivedData
       );

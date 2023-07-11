@@ -9,10 +9,12 @@ td.mat-cell:first-of-type {
 /*
  * Texto alineado a la izquierda.
 */
-.mat-column-producto.mat-header-cell,
-.mat-column-producto.mat-cell,
-.mat-column-subproducto.mat-header-cell,
-.mat-column-subproducto.mat-cell {
+.mat-column-producto_principal_descripcion.mat-header-cell,
+.mat-column-producto_principal_descripcion.mat-cell,
+.mat-column-subproducto_principal_descripcion.mat-header-cell,
+.mat-column-subproducto_principal_descripcion.mat-cell,
+.mat-column-unifica_aportes.mat-header-cell,
+.mat-column-unifica_aportes.mat-cell {
   text-align: left !important;
   padding-left: 1vw;
   word-break: break-all;
@@ -21,10 +23,10 @@ td.mat-cell:first-of-type {
 /*
  * Número y fecha alineado a la derecha.
 */
-.mat-column-subproducto_principal.mat-header-cell,
-.mat-column-subproducto_principal.mat-cell,
-.mat-column-producto_principal.mat-header-cell,
-.mat-column-producto_principal.mat-cell {
+.mat-column-producto_secundario.mat-header-cell,
+.mat-column-producto_secundario.mat-cell,
+.mat-column-subproducto_secundario.mat-header-cell,
+.mat-column-subproducto_secundario.mat-cell {
   text-align: right !important;
   padding-right: 1vw;
   word-break: break-all;
@@ -33,29 +35,39 @@ td.mat-cell:first-of-type {
 /*
  * Ancho máximo por columna individual de todas las columnas menos las 'Acciones' (actions).
 */
-.mat-column-producto_principal.mat-header-cell,
-.mat-column-producto_principal.mat-cell{
+.mat-column-producto_secundario.mat-header-cell,
+.mat-column-producto_secundario.mat-cell {
+  min-width: 140px;
+}
+
+.mat-column-producto_principal_descripcion.mat-header-cell,
+.mat-column-producto_principal_descripcion.mat-cell {
   min-width: 170px;
 }
 
-.mat-column-producto.mat-cell,
-.mat-column-producto.mat-header-cell {
-  width: 50%;
-  min-width: 80px;
+.mat-column-subproducto_secundario.mat-header-cell,
+.mat-column-subproducto_secundario.mat-cell {
+  min-width: 160px;
 }
 
-.mat-column-subproducto_principal.mat-header-cell,
-.mat-column-subproducto_principal.mat-cell {
-  min-width: 180px;
+.mat-column-subproducto_principal_descripcion.mat-header-cell,
+.mat-column-subproducto_principal_descripcion.mat-cell {
+  min-width: 200px;
 }
 
-.mat-column-subproducto.mat-header-cell,
-.mat-column-subproducto.mat-cell {
-  width: 50%;
-  min-width: 120px;
+.mat-column-unifica_aportes.mat-header-cell,
+.mat-column-unifica_aportes.mat-cell {
+  min-width: 190px;
 }
 
 .mat-column-actions.mat-header-cell,
 .mat-column-actions.mat-cell {
   min-width: 130px;
+}
+
+/*
+ * Oculta la tabla y paginación hasta que existan datos.
+*/
+.d-none {
+  display: none;
 }

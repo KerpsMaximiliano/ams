@@ -164,8 +164,12 @@ export class AddEditProductoDialogComponent {
       .CRUD(
         JSON.stringify({
           par_modo: 'O',
-          producto_principal: this.data.producto_administrador,
-          subproducto_principal: this.data.codigo_producto,
+          producto_principal: this.data.producto_administrador
+            ? this.data.producto_administrador
+            : this.data.codigo_producto || 0,
+          subproducto_principal: this.data.producto_administrador
+            ? this.data.codigo_producto || 0
+            : 0,
         })
       )
       .subscribe({
