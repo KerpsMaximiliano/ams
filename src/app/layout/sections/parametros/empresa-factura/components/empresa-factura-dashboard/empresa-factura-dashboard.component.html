@@ -1,7 +1,6 @@
 <section>
   <div *ngIf="dataSource">
     <table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows>
-      <!-- (matSortChange)="announceSortChange($event)" -->
       <ng-container class="mat-row" *matNoDataRow>
         <td
           class="mat-cell no-data-cell"

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 // * Services
 import { UtilService } from 'src/app/core/services/util.service';
@@ -11,51 +11,29 @@ import { IEmpresaFactura } from 'src/app/core/models/empresa-factura.interface';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 // * Components
-import { EmpresaFacturaFilterComponent } from './components/empresa-factura-filter/empresa-factura-filter.component';
-import { EmpresaFacturaDashboardComponent } from './components/empresa-factura-dashboard/empresa-factura-dashboard.component';
 import { AddEditEmpresaFacturaComponent } from './components/add-edit-empresa-factura/add-edit-empresa-factura.component';
-import { DataSharingService } from 'src/app/core/services/data-sharing.service';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-empresa-factura',
   templateUrl: './empresa-factura.component.html',
   styleUrls: ['./empresa-factura.component.scss'],
 })
-export class EmpresaFacturaComponent implements OnInit, OnDestroy {
-  private dataSubscription: Subscription | undefined;
+export class EmpresaFacturaComponent implements OnInit {
   public descripcion: string;
   public dataSent: IEmpresaFactura[] = [];
 
   constructor(
     private empresaFacturaService: EmpresaFacturaService,
     private utilService: UtilService,
-    private dataSharingService: DataSharingService,
     private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {}
 
-  ngOnDestroy(): void {
-    if (this.dataSubscription) {
-      this.dataSubscription.unsubscribe();
-    }
-  }
-
   public new(): void {
     const dialogRef = this.openDialog('CREAR EMPRESA QUE FACTURA', 'C', true);
-    // this.dataSubscription = this.dataSharingService
-    //   .getData()
-    //   .subscribe((res) => {});
     dialogRef.afterClosed().subscribe((res) => {
-      console.log(res);
-      this.performCRUD(
-        res,
-        'La localidad se ha creado exitosamente.',
-        dialogRef
-      );
-      // this.dataSharingService.unsubscribeData(this.dataSubscription!);
-      // this.dataSubscription = undefined;
+      this.performCRUD(res, 'La Empresa se ha creado exitosamente.', dialogRef);
     });
   }
 
@@ -66,24 +44,12 @@ export class EmpresaFacturaComponent implements OnInit, OnDestroy {
       true,
       data
     );
-    // this.dataSubscription = this.dataSharingService
-    //   .getData()
-    //   .subscribe((res) => {
-    //     this.performCRUD(
-    //       res,
-    //       'La localidad se ha editado exitosamente.',
-    //       dialogRef
-    //     );
-    //   });
     dialogRef.afterClosed().subscribe((res) => {
-      console.log(res);
       this.performCRUD(
         res,
-        'La localidad se ha creado exitosamente.',
+        'La Empresa se ha editado exitosamente.',
         dialogRef
       );
-      // this.dataSharingService.unsubscribeData(this.dataSubscription!);
-      // this.dataSubscription = undefined;
     });
   }
 
@@ -189,32 +155,34 @@ export class EmpresaFacturaComponent implements OnInit, OnDestroy {
     successMessage: string,
     dialogRef: MatDialogRef<any, any>
   ): void {
-    this.utilService.openLoading();
-    this.empresaFacturaService.CRUD(data.empresa).subscribe({
-      next: (res) => {
-        this.utilService.notification(successMessage, 'success');
-        this.validarModo(data.modo.modo, res);
-        dialogRef.close();
-        this.getEmpresaFactura(
-          JSON.stringify({
-            par_modo: 'O',
-            descripcion: data.empresa.descripcion,
-          })
-        );
-      },
-      error: (err: any) => {
-        this.utilService.closeLoading();
-        err.status === 0
-          ? this.utilService.notification('Error de conexión.', 'error')
-          : this.utilService.notification(
-              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
-              'error'
-            );
-      },
-      complete:() => {
+    if (data) {
+      this.utilService.openLoading();
+      this.empresaFacturaService.CRUD(data.empresa).subscribe({
+        next: (res) => {
+          this.utilService.notification(successMessage, 'success');
+          this.validarModo(data.modo.modo, res);
+          dialogRef.close();
+          this.getEmpresaFactura(
+            JSON.stringify({
+              par_modo: 'O',
+              descripcion: data.empresa.descripcion,
+            })
+          );
+        },
+        error: (err: any) => {
           this.utilService.closeLoading();
-      },
-    });
+          err.status === 0
+            ? this.utilService.notification('Error de conexión.', 'error')
+            : this.utilService.notification(
+                `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+                'error'
+              );
+        },
+        complete: () => {
+          this.utilService.closeLoading();
+        },
+      });
+    }
   }
 
   public filter(data: string): void {

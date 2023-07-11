@@ -13,6 +13,7 @@ import { IEmpresaFactura } from 'src/app/core/models/empresa-factura.interface';
 // * Services
 import { UtilService } from 'src/app/core/services/util.service';
 import { EmpresaFacturaService } from 'src/app/core/services/empresa-factura.service';
+import { LocalidadService } from 'src/app/core/services/localidad.service';
 
 // * Validations
 import {
@@ -30,7 +31,6 @@ import {
 // * Components
 import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
 import { ModalLocalidadComponent } from './modal-localidad/modal-localidad.component';
-import { LocalidadService } from 'src/app/core/services/localidad.service';
 
 @Component({
   selector: 'app-add-edit-empresa-factura',
@@ -49,9 +49,9 @@ export class AddEditEmpresaFacturaComponent {
     public dialogRef: MatDialogRef<ConfirmDialogComponent>,
     private utils: UtilService,
     private dialog: MatDialog,
-    @Inject(MAT_DIALOG_DATA) public data: any,
     public empresaFacturaService: EmpresaFacturaService,
-    public localidadService: LocalidadService
+    public localidadService: LocalidadService,
+    @Inject(MAT_DIALOG_DATA) public data: any,
   ) {}
 
   ngOnInit() {
@@ -94,32 +94,6 @@ export class AddEditEmpresaFacturaComponent {
       });
   }
 
-  validarModo() {
-    console.log(this.formFinal);
-
-    //   this.empresaFacturaService
-    //     .CRUD(
-    //       JSON.stringify({
-    //         par_modo: 'M',
-    //         id_empresa: this.formInitial.get('id_empresa')?.value,
-    //         modo: this.formFinal.get('modo')?.value,
-    //       })
-    //     )
-    //     .subscribe({
-    //       next: (res: any) => {
-    //         this.utils.notification(res.estado.Mensaje);
-    //       },
-    //       error: (err: any) => {
-    //         err.status == 0
-    //           ? this.utils.notification('Error de conexión. ', 'error')
-    //           : this.utils.notification(
-    //               `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}. `,
-    //               'error'
-    //             );
-    //       },
-    //     });
-  }
-
   // * carga los formularios
   private setUpForm(): void {
     // * primer formulario
@@ -137,11 +111,11 @@ export class AddEditEmpresaFacturaComponent {
       ),
       nro_puerta: new UntypedFormControl(
         this.data.nro_puerta ? this.data.nro_puerta : '',
-        Validators.compose([Validators.required, Validators.maxLength(5)])
+        Validators.compose([Validators.required, Validators.maxLength(5), isNumeric()])
       ),
       piso: new UntypedFormControl(
         this.data.piso ? this.data.piso : '',
-        Validators.compose([Validators.maxLength(2)])
+        Validators.compose([Validators.maxLength(2), isNumeric()])
       ),
       departamento: new UntypedFormControl(
         this.data.departamento ? this.data.departamento.trim() : '',
@@ -177,18 +151,18 @@ export class AddEditEmpresaFacturaComponent {
     this.formThird = new UntypedFormGroup({
       codigo_iva: new UntypedFormControl(
         this.data.codigo_iva ? this.data.codigo_iva : '',
-        Validators.compose([Validators.required, Validators.maxLength(2)])
+        Validators.compose([Validators.required, Validators.maxLength(2), isNumeric()])
       ),
       cuit: new UntypedFormControl(
         this.data.cuit ? this.data.cuit : '',
-        Validators.compose([Validators.required, Validators.maxLength(11)])
+        Validators.compose([Validators.required, Validators.maxLength(11), isNumeric()])
       ),
       fecha_vto_cuit: new UntypedFormControl(
         this.data.fecha_vto_cuit ? this.data.fecha_vto_cuit : 0,
-        Validators.compose([Validators.required, Validators.maxLength(8)])
+        Validators.compose([Validators.required, Validators.maxLength(8), isNumeric()])
       ),
       cta_banco_ams: new UntypedFormControl(
-        this.data.cta_banco_ams ? this.data.cta_banco_ams : '',
+        this.data.cta_banco_ams ? this.data.cta_banco_ams.trim() : '',
         Validators.compose([Validators.required, Validators.maxLength(50)])
       ),
     });
@@ -380,6 +354,9 @@ export class AddEditEmpresaFacturaComponent {
           modo: this.formFinal.get('modo')?.value,
         },
       });
+    }
+    else {
+      this.formInitial.markAllAsTouched();
     }
   }
 }

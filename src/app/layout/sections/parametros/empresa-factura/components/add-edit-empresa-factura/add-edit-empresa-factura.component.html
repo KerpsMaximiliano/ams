@@ -8,25 +8,6 @@
       <form [formGroup]="formInitial">
         <ng-template matStepLabel>Primero</ng-template>
 
-        <!-- <div class="seeker-fields-container">
-          <h3>CÓDIGO</h3>
-          <mat-form-field class="seeker-form-field" appearance="outline">
-            <input
-              matInput
-              formControlName="id_empresa"
-              [readonly]="!data.edit"
-            />
-            <mat-error
-              *ngIf="
-                formInitial.get('id_empresa')?.invalid &&
-                formInitial.get('id_empresa')?.touched
-              "
-            >
-              {{ getErrorMessage(formInitial.get("id_empresa")) }}
-            </mat-error>
-          </mat-form-field>
-        </div> -->
-
         <div class="seeker-fields-container">
           <h3>EMPRESA</h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
@@ -423,11 +404,7 @@
         <div class="seeker-fields-container">
           <h3>MODO LIQUIDACION</h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
-            <mat-select
-              formControlName="modo"
-              required
-              (selectionChange)="validarModo()"
-            >
+            <mat-select formControlName="modo" required>
               <mat-option [value]="'A'"> ANTICIPADA </mat-option>
               <mat-option [value]="'V'"> VENCIDO </mat-option>
               <mat-option [value]="'W'"> VENCIDO 2 M </mat-option>
