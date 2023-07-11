@@ -1,0 +1,41 @@
+.dialog-content {
+  min-width: 600px;
+  padding: 1rem;
+}
+
+/* 1/2 Comienzo ----------------------------------------------------------------------------------------------------- */
+/*
+   * Ajustes al contenido distinto (título, campo de entrada | selector y, iconos 'buscar' y 'cancelar'). Selectores:
+   * .seeker-fields-container (contenedor).
+   * .content (contenido funcional). No incluye el título.
+   * .icon (contenedor de icono).
+   * .material-symbols-outlined (estilo de material icon).
+  */
+.seeker-fields-container {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: 1rem;
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 7px;
+  padding: 0.35rem;
+  background-color: var(--sancor-blue);
+  margin: 0px 0px 16px;
+  cursor: pointer;
+}
+
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 1, "wght" 700, "GRAD" 200, "opsz" 48;
+  color: var(--background-white);
+}

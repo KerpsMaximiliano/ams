@@ -1,11 +1,6 @@
 import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
-// * Interface
-import { IEmpresaFactura } from 'src/app/core/models/empresa-factura.interface';
-// * service
-import { EmpresaFacturaService } from 'src/app/core/services/empresa-factura.service';
 // * Validator
 import { getErrorMessage } from 'src/app/core/validators/character.validator';
-// * Components
 
 @Component({
   selector: 'app-empresa-factura-filter',
@@ -13,43 +8,25 @@ import { getErrorMessage } from 'src/app/core/validators/character.validator';
   styleUrls: ['./empresa-factura-filter.component.scss'],
 })
 export class EmpresaFacturaFilterComponent {
-  @Output() public searchEvent: EventEmitter<string> =
-    new EventEmitter<string>();
-  @ViewChild('select') public select: any;
-  public getErrorMessage = getErrorMessage;
-  listaEmpresasFacturan: IEmpresaFactura[];
+  @Output() public search: EventEmitter<string> = new EventEmitter<string>();
 
-  constructor(private _empresaFacturaService: EmpresaFacturaService) {
-    this.cargaDatos();
-  }
+  @ViewChild('input') public input: any;
+  public getErrorMessage = getErrorMessage;
+
+  constructor() {}
 
   ngOnInit() {}
 
-  cargaDatos() {
-    this._empresaFacturaService
-      .CRUD(
-        JSON.stringify({
-          par_modo: 'O',
-          descripcion: '',
-        })
-      )
-      .subscribe({
-        next: (res: any) => {
-          this.listaEmpresasFacturan = res.dataset;
-        },
-      });
-  }
-
-  public search() {
-    this.searchEvent.emit(
+  public searching(input: string) {
+    this.search.emit(
       JSON.stringify({
         par_modo: 'O',
-        descripcion: this.select?.value,
+        descripcion: input,
       })
     );
   }
 
-  public clear(): void {
-    this.select.value = '';
+  public clear(input: HTMLInputElement): void {
+    input.value = '';
   }
 }

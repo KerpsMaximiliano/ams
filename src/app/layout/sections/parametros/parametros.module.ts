@@ -116,6 +116,7 @@ import { EmpresaFacturaComponent } from './empresa-factura/empresa-factura.compo
 import { EmpresaFacturaFilterComponent } from './empresa-factura/components/empresa-factura-filter/empresa-factura-filter.component';
 import { EmpresaFacturaDashboardComponent } from './empresa-factura/components/empresa-factura-dashboard/empresa-factura-dashboard.component';
 import { AddEditEmpresaFacturaComponent } from './empresa-factura/components/add-edit-empresa-factura/add-edit-empresa-factura.component';
+import { ModalLocalidadComponent } from './empresa-factura/components/add-edit-empresa-factura/modal-localidad/modal-localidad.component';
 
 @NgModule({
   declarations: [
@@ -226,6 +227,7 @@ import { AddEditEmpresaFacturaComponent } from './empresa-factura/components/add
     EmpresaFacturaFilterComponent,
     EmpresaFacturaDashboardComponent,
     AddEditEmpresaFacturaComponent,
+    ModalLocalidadComponent,
   ],
   imports: [
     CommonModule,

@@ -15,7 +15,10 @@ import { UtilService } from 'src/app/core/services/util.service';
 import { EmpresaFacturaService } from 'src/app/core/services/empresa-factura.service';
 
 // * Validations
-import { getErrorMessage } from 'src/app/core/validators/character.validator';
+import {
+  getErrorMessage,
+  isNumeric,
+} from 'src/app/core/validators/character.validator';
 
 // * Material
 import {
@@ -26,7 +29,8 @@ import {
 
 // * Components
 import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
-import { concat, merge, toArray } from 'rxjs';
+import { ModalLocalidadComponent } from './modal-localidad/modal-localidad.component';
+import { LocalidadService } from 'src/app/core/services/localidad.service';
 
 @Component({
   selector: 'app-add-edit-empresa-factura',
@@ -46,14 +50,16 @@ export class AddEditEmpresaFacturaComponent {
     private utils: UtilService,
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    public _empresaFacturaService: EmpresaFacturaService
+    public empresaFacturaService: EmpresaFacturaService,
+    public localidadService: LocalidadService
   ) {}
 
   ngOnInit() {
     this.setUpForm();
     if (this.data.id_empresa !== undefined) {
       this.setFormValues();
-      this.cargaDatos();
+      this.loadModo();
+      this.loadLocalidad();
       if (this.data.par_modo === 'C' && this.data.edit !== true) {
         this.formInitial.disable();
         this.formSecond.disable();
@@ -65,8 +71,8 @@ export class AddEditEmpresaFacturaComponent {
   }
 
   // * carga de la lista
-  private cargaDatos(): void {
-    this._empresaFacturaService
+  private loadModo(): void {
+    this.empresaFacturaService
       .CRUD(
         JSON.stringify({
           par_modo: 'E',
@@ -75,7 +81,6 @@ export class AddEditEmpresaFacturaComponent {
       )
       .subscribe({
         next: (res: any) => {
-          console.log(res);
           this.formFinal.get('modo')?.setValue(res.dataset.modo);
         },
         error: (err: any) => {
@@ -90,28 +95,29 @@ export class AddEditEmpresaFacturaComponent {
   }
 
   validarModo() {
-    this._empresaFacturaService
-      .CRUD(
-        JSON.stringify({
-          par_modo: 'M',
-          id_empresa: this.formInitial.get('id_empresa')?.value,
-          modo: this.formFinal.get('modo')?.value,
-        })
-      )
-      .subscribe({
-        next: (res: any) => {
-          console.log(res);
-          this.utils.notification(res.estado.Mensaje);
-        },
-        error: (err: any) => {
-          err.status == 0
-            ? this.utils.notification('Error de conexión. ', 'error')
-            : this.utils.notification(
-                `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}. `,
-                'error'
-              );
-        },
-      });
+    console.log(this.formFinal);
+
+    //   this.empresaFacturaService
+    //     .CRUD(
+    //       JSON.stringify({
+    //         par_modo: 'M',
+    //         id_empresa: this.formInitial.get('id_empresa')?.value,
+    //         modo: this.formFinal.get('modo')?.value,
+    //       })
+    //     )
+    //     .subscribe({
+    //       next: (res: any) => {
+    //         this.utils.notification(res.estado.Mensaje);
+    //       },
+    //       error: (err: any) => {
+    //         err.status == 0
+    //           ? this.utils.notification('Error de conexión. ', 'error')
+    //           : this.utils.notification(
+    //               `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}. `,
+    //               'error'
+    //             );
+    //       },
+    //     });
   }
 
   // * carga los formularios
@@ -119,8 +125,7 @@ export class AddEditEmpresaFacturaComponent {
     // * primer formulario
     this.formInitial = new UntypedFormGroup({
       id_empresa: new UntypedFormControl(
-        this.data.id_empresa ? this.data.id_empresa : '',
-        Validators.compose([Validators.required, Validators.maxLength(8)])
+        this.data.id_empresa ? this.data.id_empresa : ''
       ),
       descripcion: new UntypedFormControl(
         this.data.descripcion ? this.data.descripcion.trim() : '',
@@ -145,10 +150,16 @@ export class AddEditEmpresaFacturaComponent {
     });
     // * segunto formulario
     this.formSecond = new UntypedFormGroup({
-      // localidad: new UntypedFormControl(
-      //   this.data.localidad ? this.data.localidad : '',
-      //   Validators.compose([Validators.required, Validators.maxLength(5)])
-      // ),
+      localidad: new UntypedFormControl(
+        '',
+        Validators.compose([Validators.required, Validators.maxLength(30)])
+      ),
+      codigo_postal: new UntypedFormControl(
+        this.data.codigo_postal ? this.data.codigo_postal : 0
+      ),
+      sub_codigo_postal: new UntypedFormControl(
+        this.data.sub_codigo_postal ? this.data.sub_codigo_postal : 0
+      ),
       nro_tel: new UntypedFormControl(
         this.data.nro_tel ? this.data.nro_tel.trim() : '',
         Validators.compose([Validators.required, Validators.maxLength(50)])
@@ -173,7 +184,7 @@ export class AddEditEmpresaFacturaComponent {
         Validators.compose([Validators.required, Validators.maxLength(11)])
       ),
       fecha_vto_cuit: new UntypedFormControl(
-        this.data.fecha_vto_cuit ? this.data.fecha_vto_cuit : '',
+        this.data.fecha_vto_cuit ? this.data.fecha_vto_cuit : 0,
         Validators.compose([Validators.required, Validators.maxLength(8)])
       ),
       cta_banco_ams: new UntypedFormControl(
@@ -198,10 +209,9 @@ export class AddEditEmpresaFacturaComponent {
         Validators.compose([Validators.required])
       ),
       modo: new UntypedFormControl(
-        this.data.modo ? this.data.modo : '',
-        Validators.compose([Validators.required])
+        this.data.modo ? this.data.modo : ''
+        // Validators.compose([Validators.required])
       ),
-      // });
 
       // * datos sin front
       campo_desc1: new UntypedFormControl(
@@ -213,9 +223,6 @@ export class AddEditEmpresaFacturaComponent {
       cbu_nro: new UntypedFormControl(
         this.data.cbu_nro ? this.data.cbu_nro.trim() : ''
       ),
-      codigo_postal: new UntypedFormControl(
-        this.data.codigo_postal ? this.data.codigo_postal : ''
-      ),
       codigo_postal_arg: new UntypedFormControl(
         this.data.codigo_postal_arg ? this.data.codigo_postal_arg.trim() : ''
       ),
@@ -223,19 +230,19 @@ export class AddEditEmpresaFacturaComponent {
         this.data.codigo_sicone ? this.data.codigo_sicone.trim() : ''
       ),
       fecha_inicio_act: new UntypedFormControl(
-        this.data.fecha_inicio_act ? this.data.fecha_inicio_act.trim() : ''
+        this.data.fecha_inicio_act ? this.data.fecha_inicio_act : 0,
       ),
       gen_min_como_empr: new UntypedFormControl(
-        this.data.gen_min_como_empr ? this.data.gen_min_como_empr.trim() : ''
+        this.data.gen_min_como_empr ? this.data.gen_min_como_empr.trim() : 'S'
       ),
       moneda1: new UntypedFormControl(
-        this.data.moneda1 ? this.data.moneda1 : ''
+        this.data.moneda1 ? this.data.moneda1 : 0
       ),
       moneda2: new UntypedFormControl(
-        this.data.moneda2 ? this.data.moneda2 : ''
+        this.data.moneda2 ? this.data.moneda2 : 0
       ),
       nro_inscripcion_igb: new UntypedFormControl(
-        this.data.nro_inscripcion_igb ? this.data.nro_inscripcion_igb : ''
+        this.data.nro_inscripcion_igb ? this.data.nro_inscripcion_igb : 0
       ),
       ref_contable_acreedora1: new UntypedFormControl(
         this.data.ref_contable_acreedora1
@@ -247,10 +254,33 @@ export class AddEditEmpresaFacturaComponent {
           ? this.data.ref_contable_acreedora2.trim()
           : ''
       ),
-      sub_codigo_postal: new UntypedFormControl(
-        this.data.sub_codigo_postal ? this.data.sub_codigo_postal : ''
-      ),
     });
+  }
+
+  loadLocalidad() {
+    this.localidadService
+      .CRUD(
+        JSON.stringify({
+          par_modo: 'L',
+          codigo_postal: this.data.codigo_postal,
+          sub_codigo_postal: this.data.sub_codigo_postal,
+        })
+      )
+      .subscribe({
+        next: (res: any) => {
+          this.formSecond
+            .get('localidad')
+            ?.setValue(res.dataset.descripcion.trim());
+        },
+        error: (err: any) => {
+          err.status == 0
+            ? this.utils.notification('Error de conexión. ', 'error')
+            : this.utils.notification(
+                `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}. `,
+                'error'
+              );
+        },
+      });
   }
 
   private setFormValues(): void {}
@@ -262,9 +292,32 @@ export class AddEditEmpresaFacturaComponent {
   public pagoLink() {}
 
   // * limpia los datos de las localidad
-  public limpiar(tipo: string): void {
-    //   this.formFinal.get('codigo_postal')?.setValue(0);
-    //   this.formFinal.get('subcodigo_postal')?.setValue(0);
+  public searchLocalidad(): void {
+    const modalSetLocalidad = this.dialog.open(ModalLocalidadComponent, {
+      data: {
+        title: 'SELECCIONE UNA LOCALIDAD',
+        edit: true,
+        codigo_postal: this.data.codigo_postal,
+        sub_codigo_postal: this.data.sub_codigo_postal,
+      },
+    });
+    modalSetLocalidad.afterClosed().subscribe({
+      next: (res) => {
+        if (res) {
+          this.formSecond.get('localidad')?.setValue(res.descripcion);
+          this.formSecond.get('codigo_postal')?.setValue(res.codigo_postal);
+          this.formSecond
+            .get('sub_codigo_postal')
+            ?.setValue(res.sub_codigo_postal);
+        }
+      },
+    });
+  }
+
+  public clear(): void {
+    this.formSecond.get('localidad')?.setValue('');
+    this.formSecond.get('codigo_postal')?.setValue('');
+    this.formSecond.get('sub_codigo_postal')?.setValue('');
   }
 
   public closeDialog(): void {
@@ -279,48 +332,53 @@ export class AddEditEmpresaFacturaComponent {
       this.formFinal.valid
     ) {
       this.dialogRef.close({
-        par_modo: this.data.par_modo,
-        id_empresa: parseInt(this.formInitial.get('id_empresa')?.value),
-        descripcion: this.formInitial.get('descripcion')?.value,
-        calle: this.formInitial.get('calle')?.value,
-        nro_puerta: this.formInitial.get('nro_puerta')?.value,
-        piso: this.formInitial.get('piso')?.value
-          ? parseInt(this.formInitial.get('piso')?.value)
-          : parseInt(this.formInitial.get('id_empresa')?.value),
-        departamento: this.formInitial.get('departamento')?.value,
+        empresa: {
+          par_modo: this.data.par_modo,
+          id_empresa: this.formInitial.get('id_empresa')?.value
+            ? this.formInitial.get('id_empresa')?.value
+            : 0,
+          descripcion: this.formInitial.get('descripcion')?.value,
+          calle: this.formInitial.get('calle')?.value,
+          nro_puerta: parseInt(this.formInitial.get('nro_puerta')?.value),
+          piso: parseInt(this.formInitial.get('piso')?.value),
+          departamento: this.formInitial.get('departamento')?.value,
 
-        localidad: this.formSecond.get('localidad')?.value,
-        nro_tel: this.formSecond.get('nro_tel')?.value,
-        nro_fax: this.formSecond.get('nro_fax')?.value,
-        email: this.formSecond.get('email')?.value,
+          codigo_postal: parseInt(this.formSecond.get('codigo_postal')?.value),
+          sub_codigo_postal: parseInt(
+            this.formSecond.get('sub_codigo_postal')?.value
+          ),
+          nro_tel: this.formSecond.get('nro_tel')?.value,
+          nro_fax: this.formSecond.get('nro_fax')?.value,
+          email: this.formSecond.get('email')?.value,
 
-        codigo_iva: this.formThird.get('codigo_iva')?.value,
-        cuit: this.formThird.get('cuit')?.value,
-        fecha_vto_cuit: this.formThird.get('fecha_vto_cuit')?.value,
-        cta_banco_ams: this.formThird.get('cta_banco_ams')?.value,
+          codigo_iva: parseInt(this.formThird.get('codigo_iva')?.value),
+          cuit: parseInt(this.formThird.get('cuit')?.value),
+          fecha_vto_cuit: parseInt(this.formThird.get('fecha_vto_cuit')?.value),
+          cta_banco_ams: this.formThird.get('cta_banco_ams')?.value,
 
-        comprobante_generar: this.formThird.get('comprobante_generar')?.value,
-        trabaja_ref_cont: this.formFinal.get('trabaja_ref_cont')?.value,
-        fact_cr_elec: this.formFinal.get('fact_cr_elec')?.value,
-        modo: this.formFinal.get('modo')?.value,
+          comprobante_generar: this.formFinal.get('comprobante_generar')?.value,
+          trabaja_ref_cont: this.formFinal.get('trabaja_ref_cont')?.value,
+          fact_cr_elec: this.formFinal.get('fact_cr_elec')?.value,
 
-        // * datos para el back end
-        campo_desc1: this.formFinal.get('campo_desc1')?.value,
-        campo_desc2: this.formFinal.get('campo_desc2')?.value,
-        cbu_nro: this.formFinal.get('cbu_nro')?.value,
-        codigo_postal: this.formFinal.get('codigo_postal')?.value,
-        codigo_postal_arg: this.formFinal.get('codigo_postal_arg')?.value,
-        codigo_sicone: this.formFinal.get('codigo_sicone')?.value,
-        fecha_inicio_act: this.formFinal.get('fecha_inicio_act')?.value,
-        gen_min_como_empr: this.formFinal.get('gen_min_como_empr')?.value,
-        moneda1: this.formFinal.get('moneda1')?.value,
-        moneda2: this.formFinal.get('moneda2')?.value,
-        nro_inscripcion_igb: this.formFinal.get('nro_inscripcion_igb')?.value,
-        ref_contable_acreedora1: this.formFinal.get('ref_contable_acreedora1')
-          ?.value,
-        ref_contable_acreedora2: this.formFinal.get('ref_contable_acreedora2')
-          ?.value,
-        sub_codigo_postal: this.formFinal.get('sub_codigo_postal')?.value,
+          // * datos para el back end
+          campo_desc1: this.formFinal.get('campo_desc1')?.value,
+          campo_desc2: this.formFinal.get('campo_desc2')?.value,
+          cbu_nro: this.formFinal.get('cbu_nro')?.value,
+          codigo_postal_arg: this.formFinal.get('codigo_postal_arg')?.value,
+          codigo_sicone: this.formFinal.get('codigo_sicone')?.value,
+          fecha_inicio_act: parseInt(this.formFinal.get('fecha_inicio_act')?.value),
+          gen_min_como_empr: this.formFinal.get('gen_min_como_empr')?.value,
+          moneda1: parseInt(this.formFinal.get('moneda1')?.value),
+          moneda2: parseInt(this.formFinal.get('moneda2')?.value),
+          nro_inscripcion_igb: this.formFinal.get('nro_inscripcion_igb')?.value,
+          ref_contable_acreedora1: this.formFinal.get('ref_contable_acreedora1')
+            ?.value,
+          ref_contable_acreedora2: this.formFinal.get('ref_contable_acreedora2')
+            ?.value,
+        },
+        modo: {
+          modo: this.formFinal.get('modo')?.value,
+        },
       });
     }
   }

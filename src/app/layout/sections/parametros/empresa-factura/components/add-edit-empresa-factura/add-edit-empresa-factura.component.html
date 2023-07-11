@@ -8,14 +8,13 @@
       <form [formGroup]="formInitial">
         <ng-template matStepLabel>Primero</ng-template>
 
-        <div class="seeker-fields-container">
+        <!-- <div class="seeker-fields-container">
           <h3>CÓDIGO</h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
             <input
               matInput
               formControlName="id_empresa"
               [readonly]="!data.edit"
-              
             />
             <mat-error
               *ngIf="
@@ -26,7 +25,7 @@
               {{ getErrorMessage(formInitial.get("id_empresa")) }}
             </mat-error>
           </mat-form-field>
-        </div>
+        </div> -->
 
         <div class="seeker-fields-container">
           <h3>EMPRESA</h3>
@@ -35,7 +34,6 @@
               matInput
               formControlName="descripcion"
               required
-              
               [readonly]="!data.edit"
             />
             <mat-error
@@ -56,7 +54,6 @@
               matInput
               formControlName="calle"
               required
-              
               [readonly]="!data.edit"
             />
             <mat-error
@@ -77,7 +74,6 @@
               matInput
               formControlName="nro_puerta"
               required
-              
               [readonly]="!data.edit"
             />
             <mat-error
@@ -98,7 +94,6 @@
               matInput
               formControlName="piso"
               required
-              
               [readonly]="!data.edit"
             />
             <mat-error
@@ -119,7 +114,6 @@
               matInput
               formControlName="departamento"
               required
-              
               [readonly]="!data.edit"
             />
             <mat-error
@@ -153,27 +147,41 @@
       <form [formGroup]="formSecond">
         <ng-template matStepLabel>Segundo</ng-template>
 
-        <!-- ! consultar!! 
         <div class="seeker-fields-container">
           <h3>LOCALIDAD</h3>
-          <mat-form-field class="seeker-form-field" appearance="outline">
-            <input
-              matInput
-              formControlName="calle"
-              required
-              
-              [readonly]="!data.edit"
-            />
-            <mat-error
-              *ngIf="
-                formInitial.get('calle')?.invalid &&
-                formInitial.get('calle')?.touched
-              "
-            >
-              {{ getErrorMessage(formInitial.get("calle")) }}
-            </mat-error>
-          </mat-form-field>
-        </div>-->
+          <div class="content">
+            <mat-form-field class="seeker-form-field" appearance="outline">
+              <input
+                matInput
+                formControlName="localidad"
+                required
+                minlength="3"
+                maxlength="30"
+                readonly
+              />
+              <mat-error
+                *ngIf="
+                  formSecond.get('localidad')?.invalid &&
+                  formSecond.get('localidad')?.touched
+                "
+              >
+                {{ getErrorMessage(formSecond.get("localidad")) }}
+              </mat-error>
+            </mat-form-field>
+            <ng-container *ngIf="data.edit">
+              <div class="icon" (click)="searchLocalidad()">
+                <mat-icon class="material-symbols-outlined"> search </mat-icon>
+              </div>
+              <div
+                class="icon"
+                (click)="clear()"
+                *ngIf="formSecond.get('localidad')?.value"
+              >
+                <mat-icon class="material-symbols-outlined"> close </mat-icon>
+              </div>
+            </ng-container>
+          </div>
+        </div>
 
         <div class="seeker-fields-container">
           <h3>TELEFONO</h3>
@@ -182,7 +190,6 @@
               matInput
               formControlName="nro_tel"
               required
-              
               [readonly]="!data.edit"
             />
             <mat-error
@@ -203,7 +210,6 @@
               matInput
               formControlName="nro_fax"
               required
-              
               [readonly]="!data.edit"
             />
             <mat-error
@@ -224,7 +230,6 @@
               matInput
               formControlName="email"
               required
-              
               [readonly]="!data.edit"
             />
             <mat-error
@@ -268,7 +273,6 @@
               matInput
               formControlName="codigo_iva"
               required
-              
               [readonly]="!data.edit"
             />
             <mat-error
@@ -288,7 +292,6 @@
               matInput
               formControlName="cuit"
               required
-              
               [readonly]="!data.edit"
             />
             <mat-error
@@ -308,7 +311,6 @@
               matInput
               formControlName="fecha_vto_cuit"
               required
-              
               [readonly]="!data.edit"
             />
             <mat-error
@@ -328,7 +330,6 @@
               matInput
               formControlName="cta_banco_ams"
               required
-              
               [readonly]="!data.edit"
             />
             <mat-error
@@ -386,17 +387,17 @@
         <div class="seeker-fields-container">
           <h3>TRABAJA CON REF. CONTAB.</h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
-            <mat-select formControlName="fact_cr_elec" required>
+            <mat-select formControlName="trabaja_ref_cont" required>
               <mat-option [value]="'S'"> SI </mat-option>
               <mat-option [value]="'N'"> NO </mat-option>
             </mat-select>
             <mat-error
               *ngIf="
-                formFinal.get('fact_cr_elec')?.invalid &&
-                formFinal.get('fact_cr_elec')?.touched
+                formFinal.get('trabaja_ref_cont')?.invalid &&
+                formFinal.get('trabaja_ref_cont')?.touched
               "
             >
-              {{ getErrorMessage(formFinal.get("fact_cr_elec")) }}
+              {{ getErrorMessage(formFinal.get("trabaja_ref_cont")) }}
             </mat-error>
           </mat-form-field>
         </div>
@@ -422,8 +423,11 @@
         <div class="seeker-fields-container">
           <h3>MODO LIQUIDACION</h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
-            <mat-select formControlName="modo" required
-            (selectionChange)="validarModo()">
+            <mat-select
+              formControlName="modo"
+              required
+              (selectionChange)="validarModo()"
+            >
               <mat-option [value]="'A'"> ANTICIPADA </mat-option>
               <mat-option [value]="'V'"> VENCIDO </mat-option>
               <mat-option [value]="'W'"> VENCIDO 2 M </mat-option>
@@ -474,7 +478,7 @@
       </form>
     </mat-step>
   </mat-stepper>
-  <div *ngIf="data.edit; else other_content" class="buttons-container">
+  <div *ngIf="data.par_modo == 'U'" class="buttons-container">
     <button class="primary-button icon-button" type="button">
       Datos Comercio
     </button>

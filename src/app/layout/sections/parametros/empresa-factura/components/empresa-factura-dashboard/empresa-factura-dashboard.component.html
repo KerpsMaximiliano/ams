@@ -1,12 +1,7 @@
 <section>
   <div *ngIf="dataSource">
-    <table
-      mat-table
-      [dataSource]="dataSource"
-      matSort
-      (matSortChange)="announceSortChange($event)"
-      multiTemplateDataRows
-    >
+    <table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows>
+      <!-- (matSortChange)="announceSortChange($event)" -->
       <ng-container class="mat-row" *matNoDataRow>
         <td
           class="mat-cell no-data-cell"
@@ -30,12 +25,12 @@
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef>Acciones</th>
         <td mat-cell *matCellDef="let param">
-          <button class="action-button" (click)="viewEmpresaFactura(param)">
+          <button class="action-button" (click)="view(param)">
             <mat-icon class="edit-icon" aria-label="false">
               visibility
             </mat-icon>
           </button>
-          <button class="action-button" (click)="editEmpresaFactura(param)">
+          <button class="action-button" (click)="edit(param)">
             <mat-icon class="delete-icon" aria-label="false"> edit </mat-icon>
           </button>
         </td>

@@ -7,21 +7,14 @@
       <div class="seeker-fields-container">
         <mat-form-field class="seeker-form-field">
           <mat-label class="seeker-label"> Empresa que Factura </mat-label>
-          <mat-select #select disableOptionCentering>
-            <mat-option
-              *ngFor="let empresa of listaEmpresasFacturan"
-              [value]="empresa.descripcion"
-            >
-              {{ empresa.descripcion }}
-            </mat-option>
-          </mat-select>
+          <input matInput #input (keydown.enter)="searching(input.value)"/>
         </mat-form-field>
       </div>
       <div class="buttons-container">
         <button
           class="primary-button icon-button"
           type="button"
-          (click)="search()"
+          (click)="searching(input.value)"
         >
           <mat-icon> done </mat-icon>
           Buscar
@@ -29,8 +22,8 @@
         <button
           class="primary-button icon-button"
           type="button"
-          [disabled]="!select?.value"
-          (click)="clear()"
+          [disabled]="!input?.value"
+          (click)="clear(input)"
         >
           <mat-icon> close </mat-icon>
           Limpiar
