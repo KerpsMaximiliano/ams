@@ -4,8 +4,10 @@ import { Component, Inject } from '@angular/core';
 import { DataSharingService } from 'src/app/core/services/data-sharing.service';
 import { UtilService } from 'src/app/core/services/util.service';
 import { DepartamentoService } from 'src/app/core/services/departamento.service';
+import { PosicionService } from 'src/app/core/services/posicion.service';
 
 // * Interfaces
+import { IPosicion } from 'src/app/core/models/posicion.interface';
 import { IDepartamento } from 'src/app/core/models/departamento.interface';
 
 // * Forms
@@ -19,12 +21,15 @@ import {
 import {
   isNumeric,
   getErrorMessage,
-  notOnlySpaces,
+  notOnlySpaces
 } from 'src/app/core/validators/character.validator';
 
 // * Material
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatTabChangeEvent } from '@angular/material/tabs';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { MatTabChangeEvent } from '@angular/material/tabs';;
+
+// * Components
+import { LocalidadSetDialogComponent } from './localidad-set-posicion-dialog/localidad-set-posicion-dialog.component';
 
 @Component({
   selector: 'app-edit-localidad-dialog',
@@ -41,6 +46,8 @@ export class AddEditLocalidadDialogComponent {
   constructor(
     private dataSharingService: DataSharingService,
     private departamentoService: DepartamentoService,
+    private posicionService: PosicionService,
+    private dialog: MatDialog,
     private utilService: UtilService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
@@ -63,7 +70,6 @@ export class AddEditLocalidadDialogComponent {
     this.activeTabIndex = event.index;
   }
 
-
   public confirm(): void {
     if (this.formGroup.valid) {
       this.dataSharingService.sendData({
@@ -72,9 +78,9 @@ export class AddEditLocalidadDialogComponent {
         sub_codigo_postal: this.formGroup.get('sub_codigo_postal')?.value,
         descripcion: this.formGroup.get('descripcion')?.value,
         cant_habitantes: this.formGroup.get('cant_habitantes')?.value,
-        letra_provincia: this.formGroup.get('letra_provincia')?.value,
+        letra_provincia: this.data.letra_provincia,
         codigo_departamento: this.formGroup.get('codigo_departamento')?.value,
-        posicion_referente: this.formGroup.get('posicion_referente')?.value,
+        posicion_referente: this.data.posicion_referente,
         zona_promocion: this.formGroup.get('zona_promocion')?.value,
         zona_envio: this.formGroup.get('zona_envio')?.value,
         ingreso_ticket: this.formGroup.get('ingreso_ticket')?.value,
@@ -122,7 +128,66 @@ export class AddEditLocalidadDialogComponent {
       });
   }
 
+  public getPosicion(): void {
+    this.utilService.openLoading();
+    this.data.letra_provincia = this.data.departamentos[0].letra_provincia;
+    this.posicionService
+      .CRUD(
+        JSON.stringify({
+          par_modo: 'O',
+          descripcion: '',
+          letra_provincia: this.data.letra_provincia,
+        })
+      )
+      .subscribe({
+        next: (res: any) => {
+          let data: IPosicion[] = Array.isArray(res.dataset)
+            ? (res.dataset as IPosicion[])
+            : [res.dataset as IPosicion];
+          this.setPosicion(data);
+        },
+        error: (err: any) => {
+          this.utilService.closeLoading();
+          err.status == 0
+            ? this.utilService.notification('Error de conexión. ', 'error')
+            : this.utilService.notification(
+                `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+                'error'
+              );
+        },
+        complete: () => {
+          this.utilService.closeLoading();
+        },
+      });
+
+  }
+
+  public clear(){
+    this.formGroup.get('desc_position')?.setValue(undefined);
+    this.data.posicion_referente = undefined;
+  }
+
+  private setPosicion(data: IPosicion[]){
+    const modalCapita = this.dialog.open(LocalidadSetDialogComponent, {
+      data: {
+        title: 'SELECCIONE UNA POSICIÓN',
+        data: data,
+      },
+    });
+    modalCapita.afterClosed().subscribe({
+      next: (res) => {
+        if (res) {
+          this.data.posicion_referente = res.posicion_referente;
+          this.formGroup
+            .get('desc_position')
+            ?.setValue(res.descripcion ? res.descripcion.trim() : ' ');
+        }
+      },
+    });
+  }
+
   private setUpForm(): void {
+    console.log(this.data.desc_position)
     this.formGroup = new UntypedFormGroup({
       codigo_postal: new UntypedFormControl(
         {
@@ -170,17 +235,6 @@ export class AddEditLocalidadDialogComponent {
           isNumeric(),
         ])
       ),
-      letra_provincia: new UntypedFormControl(
-        {
-          value: this.data.letra_provincia,
-          disabled: this.data.par_modo === 'R',
-        },
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(1),
-          Validators.maxLength(1)
-        ])
-      ),
       codigo_departamento: new UntypedFormControl(
         {
           value: this.data.codigo_departamento,
@@ -190,6 +244,15 @@ export class AddEditLocalidadDialogComponent {
           Validators.required,
           Validators.minLength(1),
           Validators.maxLength(3)
+        ])
+      ),
+      desc_position: new UntypedFormControl(
+        {
+          value: this.data.desc_position,
+          disabled: this.data.par_modo === 'R',
+        },
+        Validators.compose([
+          Validators.required
         ])
       ),
       zona_promocion: new UntypedFormControl(
@@ -205,7 +268,7 @@ export class AddEditLocalidadDialogComponent {
       ),
       zona_envio: new UntypedFormControl(
         {
-          value: this.data.zona_envio ? this.data.zona_envio.trim() : '',
+          value: this.data.zona_envio ? this.data.zona_envio : '',
           disabled: this.data.par_modo === 'R',
         },
         Validators.compose([

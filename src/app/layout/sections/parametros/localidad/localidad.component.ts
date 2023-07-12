@@ -29,13 +29,14 @@ import { AddEditLocalidadDialogComponent } from './components/add-edit-localidad
 })
 export class LocalidadComponent implements OnInit, OnDestroy {
   private dataSubscription: Subscription | undefined;
-  private promociones: IPromocion[];
-  private envios: IEnvio[];
-
+  
+  public promociones: IPromocion[];
+  public envios: IEnvio[];
   public provincias: IProvincia[];
   public departamentos: IDepartamento[];
   public dataSent: ILocalidad[] = [];
-  public request: boolean;
+  public request: boolean = true;
+  public placeholder: string = 'Seleccione una provincia. ';
 
   constructor(
     private dataSharingService: DataSharingService,
@@ -43,19 +44,24 @@ export class LocalidadComponent implements OnInit, OnDestroy {
     private localidadService: LocalidadService,
     private utilService: UtilService,
     private dialog: MatDialog
-  ) {
-    this.request = false;
-  }
+  ) {}
 
   ngOnInit(): void {
-    console.log(this.departamentos)
     if(this.provinciaService.getProvincias() === undefined){
       this.getProvincias();
     } else {
       this.provincias = this.provinciaService.getProvincias();
     }
-    this.getEnvios();
-    this.getPromociones();
+    if(this.provinciaService.getEnvios() === undefined){
+      this.getEnvios();
+    } else {
+      this.envios = this.provinciaService.getEnvios()
+    }
+    if(this.provinciaService.getPromociones() === undefined){
+      this.getPromociones();
+    } else {
+      this.promociones = this.provinciaService.getPromociones();
+    }
   }
 
   ngOnDestroy(): void {
@@ -127,7 +133,7 @@ export class LocalidadComponent implements OnInit, OnDestroy {
   }
 
   public onDepartamentosLoaded(departamentos: IDepartamento[]): void {
-    this.request = true;
+    this.request = false
     this.departamentos = departamentos;
   }
 
@@ -138,7 +144,6 @@ export class LocalidadComponent implements OnInit, OnDestroy {
     data?: ILocalidad
   ): MatDialogRef<AddEditLocalidadDialogComponent, any> {
     return this.dialog.open(AddEditLocalidadDialogComponent, {
-      // Verificar interfaz. 2 propiedades: null. 1 porpiedad: ¿Necesaria?.
       data: {
         title: title,
         edit: edit,
@@ -150,18 +155,18 @@ export class LocalidadComponent implements OnInit, OnDestroy {
         codigo_postal: data?.codigo_postal,
         sub_codigo_postal: data?.sub_codigo_postal,
         descripcion: data?.descripcion,
-        desc_prov: data?.desc_prov, // ?
+        desc_prov: data?.desc_prov,
         letra_provincia: data?.letra_provincia,
-        flete_transporte: data?.flete_transporte,
-        posicion_referente: data?.posicion_referente, // !
+        posicion_referente: data?.posicion_referente,
         visitado_auditor: data?.visitado_auditor,
         zona_promocion: data?.zona_promocion,
-        desc_depto: data?.desc_depto, // ?
+        desc_depto: data?.desc_depto,
         codigo_departamento: data?.codigo_departamento,
         zona_envio: data?.zona_envio,
         ingreso_ticket: data?.ingreso_ticket,
         zona_atencion: data?.zona_atencion,
         cant_habitantes: data?.cant_habitantes,
+        desc_position: data?.desc_position
       },
     });
   }
@@ -210,11 +215,10 @@ export class LocalidadComponent implements OnInit, OnDestroy {
           this.provincias = Array.isArray(res.dataset)
             ? (res.dataset as IProvincia[])
             : [res.dataset as IProvincia];
-          this.request = true;
         },
         error: (err: any) => {
+          this.placeholder = 'No se han podido cargar las provincias.'
           this.utilService.closeLoading();
-          this.request = false;
           if (err.status === 0) {
             this.utilService.notification('Error de conexión.', 'error');
           } else {
@@ -240,9 +244,10 @@ export class LocalidadComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: (res: any) => {
-          this.promociones = Array.isArray(res.dataset)
+          this.provinciaService.setPromociones(Array.isArray(res.dataset)
             ? (res.dataset as IPromocion[])
-            : [res.dataset as IPromocion];
+            : [res.dataset as IPromocion]);
+          this.promociones = this.provinciaService.getPromociones()
         },
         error: (err: any) => {
           this.utilService.closeLoading();
@@ -270,9 +275,10 @@ export class LocalidadComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: (res: any) => {
-          this.envios = Array.isArray(res.dataset)
+          this.provinciaService.setEnvios(Array.isArray(res.dataset)
             ? (res.dataset as IEnvio[])
-            : [res.dataset as IEnvio];
+            : [res.dataset as IEnvio]);
+          this.envios = this.provinciaService.getEnvios()
         },
         error: (err: any) => {
           this.utilService.closeLoading();

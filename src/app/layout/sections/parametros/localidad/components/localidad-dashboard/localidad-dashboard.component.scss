@@ -11,6 +11,8 @@ td.mat-cell:first-of-type {
 */
 .mat-column-codigo_postal.mat-header-cell,
 .mat-column-codigo_postal.mat-cell,
+.mat-column-sub_codigo_postal.mat-header-cell,
+.mat-column-sub_codigo_postal.mat-cell,
 .mat-column-cant_habitantes.mat-header-cell,
 .mat-column-cant_habitantes.mat-cell {
   text-align: right !important;
@@ -21,7 +23,13 @@ td.mat-cell:first-of-type {
  * Texto alineado a la izquierda.
 */
 .mat-column-descripcion.mat-header-cell,
-.mat-column-descripcion.mat-cell {
+.mat-column-descripcion.mat-cell,
+.mat-column-desc_prov.mat-header-cell,
+.mat-column-desc_prov.mat-cell,
+.mat-column-desc_depto.mat-header-cell,
+.mat-column-desc_depto.mat-cell,
+.mat-column-desc_position.mat-header-cell,
+.mat-column-desc_position.mat-cell {
   text-align: left !important;
   padding-left: 1vw;
   word-break: break-all;
@@ -32,23 +40,46 @@ td.mat-cell:first-of-type {
 */
 .mat-column-codigo_postal.mat-header-cell,
 .mat-column-codigo_postal.mat-cell {
-  min-width: 120px;
+  min-width: 80px;
+}
+
+.mat-column-sub_codigo_postal.mat-header-cell,
+.mat-column-sub_codigo_postal.mat-cell {
+  min-width: 70px;
 }
 
 .mat-column-descripcion.mat-header-cell,
 .mat-column-descripcion.mat-cell {
+  min-width: 120px;
+  width: 25%;
+}
+
+.mat-column-desc_prov.mat-header-cell,
+.mat-column-desc_prov.mat-cell {
+  min-width: 100px;
+  width: 25%;
+}
+
+.mat-column-desc_depto.mat-header-cell,
+.mat-column-desc_depto.mat-cell {
+  min-width: 120px;
+  width: 25%;
+}
+
+.mat-column-desc_position.mat-header-cell,
+.mat-column-desc_position.mat-cell {
+  width: 25%;
   min-width: 90px;
-  width: 100%;
 }
 
 .mat-column-cant_habitantes.mat-header-cell,
 .mat-column-cant_habitantes.mat-cell {
-  min-width: 150px;
+  min-width: 90px;
 }
 
 .mat-column-actions.mat-header-cell,
 .mat-column-actions.mat-cell {
-  min-width: 150px;
+  min-width: 110px;
 }
 
 /*

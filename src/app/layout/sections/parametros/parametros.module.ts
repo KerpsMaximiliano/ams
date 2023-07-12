@@ -112,6 +112,7 @@ import { ExtencionFuenteIngresoDashboardComponent } from './extencion-fuente-ing
 import { ExtencionFuenteIngresoFilterComponent } from './extencion-fuente-ingreso/components/extencion-fuente-ingreso-filter/extencion-fuente-ingreso-filter.component';
 import { AddEditExtencionFuenteIngresoComponent } from './extencion-fuente-ingreso/components/add-edit-extencion-fuente-ingreso/add-edit-extencion-fuente-ingreso.component';
 import { ModalExtencionProductoComponent } from './extencion-fuente-ingreso/components/add-edit-extencion-fuente-ingreso/modal-extencion-producto/modal-extencion-producto.component';
+import { LocalidadSetDialogComponent } from './localidad/components/add-edit-localidad-dialog/localidad-set-posicion-dialog/localidad-set-posicion-dialog.component';
 
 @NgModule({
   declarations: [
@@ -146,6 +147,7 @@ import { ModalExtencionProductoComponent } from './extencion-fuente-ingreso/comp
     LocalidadComponent,
     LocalidadDashboardComponent,
     LocalidadFilterComponent,
+    LocalidadSetDialogComponent,
     // 07 - FORMAS DE PAGO
     AddEditFormaPagoDialogComponent,
     FormaPagoComponent,
