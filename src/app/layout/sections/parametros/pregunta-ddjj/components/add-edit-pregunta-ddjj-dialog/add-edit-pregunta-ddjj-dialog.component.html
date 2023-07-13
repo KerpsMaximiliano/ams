@@ -1,93 +1,167 @@
 <div class="dialog-title" [tabIndex]="0">
-  <h2> {{ data.title | uppercase }} </h2>
+  <h2>{{ data.title | uppercase }}</h2>
 </div>
 
 <div class="dialog-content">
   <form class="form-datos" [formGroup]="formGroup">
-    <div class="seeker-fields-container">
-      <h3> NÚMERO </h3>
+    <!-- <div class="seeker-fields-container">
+      <h3>NÚMERO</h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="nro_preg" required minlength="1" maxlength="2" />
-        <mat-error *ngIf="formGroup.get('nro_preg')?.invalid && formGroup.get('nro_preg')?.touched">
-          {{ getErrorMessage(formGroup.get('nro_preg')) }}
+        <input
+          matInput
+          formControlName="nro_preg"
+          required
+          minlength="1"
+          maxlength="2"
+        />
+        <mat-error
+          *ngIf="
+            formGroup.get('nro_preg')?.invalid &&
+            formGroup.get('nro_preg')?.touched
+          "
+        >
+          {{ getErrorMessage(formGroup.get("nro_preg")) }}
         </mat-error>
       </mat-form-field>
-    </div>
+    </div> -->
 
     <div class="seeker-fields-container">
-      <h3> MODELO DE FORMULARIO </h3>
+      <h3>MODELO DE FORMULARIO</h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <mat-select formControlName="modelo_formulario" required minlength="1" maxlength="3" disableOptionCentering>
+        <mat-select
+          formControlName="modelo_formulario"
+          required
+          minlength="1"
+          maxlength="3"
+          disableOptionCentering
+        >
           <mat-option [value]="'A1'"> A1-ALTA </mat-option>
           <mat-option [value]="'M'"> M-MODIFICACIÓN </mat-option>
         </mat-select>
-        <mat-error *ngIf="formGroup.get('modelo_formulario')?.invalid && formGroup.get('modelo_formulario')?.touched">
+        <mat-error
+          *ngIf="
+            formGroup.get('modelo_formulario')?.invalid &&
+            formGroup.get('modelo_formulario')?.touched
+          "
+        >
           {{ getErrorMessage(formGroup.get("modelo_formulario")) }}
         </mat-error>
       </mat-form-field>
     </div>
 
     <div class="seeker-fields-container">
-      <h3> LÍNEAS DE PREGUNTAS </h3>
+      <h3>LÍNEAS DE RESPUESTA</h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="cantidad_lineas_resp" required minlength="1" maxlength="1" />
+        <input
+          matInput
+          formControlName="cantidad_lineas_resp"
+          required
+          minlength="1"
+          maxlength="1"
+        />
         <mat-error
-          *ngIf="formGroup.get('cantidad_lineas_resp')?.invalid && formGroup.get('cantidad_lineas_resp')?.touched">
+          *ngIf="
+            formGroup.get('cantidad_lineas_resp')?.invalid &&
+            formGroup.get('cantidad_lineas_resp')?.touched
+          "
+        >
           {{ getErrorMessage(formGroup.get("cantidad_lineas_resp")) }}
         </mat-error>
       </mat-form-field>
     </div>
 
     <div class="seeker-fields-container">
-      <h3> PRIMER LÍNEA </h3>
+      <h3>PRIMER LÍNEA</h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="primer_texto_preg" required minlength="3" maxlength="50" />
-        <mat-error *ngIf="formGroup.get('primer_texto_preg')?.invalid && formGroup.get('primer_texto_preg')?.touched">
+        <input
+          matInput
+          formControlName="primer_texto_preg"
+          required
+          minlength="3"
+          maxlength="50"
+        />
+        <mat-error
+          *ngIf="
+            formGroup.get('primer_texto_preg')?.invalid &&
+            formGroup.get('primer_texto_preg')?.touched
+          "
+        >
           {{ getErrorMessage(formGroup.get("primer_texto_preg")) }}
         </mat-error>
       </mat-form-field>
     </div>
 
     <div class="seeker-fields-container">
-      <h3> SEGUNDA LÍNEA </h3>
+      <h3>SEGUNDA LÍNEA</h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
         <input matInput formControlName="segundo_texto_preg" maxlength="50" />
-        <mat-error *ngIf="formGroup.get('segundo_texto_preg')?.invalid && formGroup.get('segundo_texto_preg')?.touched">
+        <mat-error
+          *ngIf="
+            formGroup.get('segundo_texto_preg')?.invalid &&
+            formGroup.get('segundo_texto_preg')?.touched
+          "
+        >
           {{ getErrorMessage(formGroup.get("segundo_texto_preg")) }}
         </mat-error>
       </mat-form-field>
     </div>
 
     <div class="seeker-fields-container">
-      <h3> PIDE FECHA </h3>
+      <h3>PIDE FECHA</h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <mat-select formControlName="pide_fecha" (selectionChange)="changeOption()" required minlength="1" maxlength="1"
-          disableOptionCentering>
+        <mat-select
+          formControlName="pide_fecha"
+          (selectionChange)="changeOption(true)"
+          required
+          minlength="1"
+          maxlength="1"
+          disableOptionCentering
+        >
           <mat-option [value]="'S'"> SI </mat-option>
           <mat-option [value]="'N'"> NO </mat-option>
         </mat-select>
-        <mat-error *ngIf="formGroup.get('pide_fecha')?.invalid && formGroup.get('pide_fecha')?.touched">
+        <mat-error
+          *ngIf="
+            formGroup.get('pide_fecha')?.invalid &&
+            formGroup.get('pide_fecha')?.touched
+          "
+        >
           {{ getErrorMessage(formGroup.get("pide_fecha")) }}
         </mat-error>
       </mat-form-field>
     </div>
 
     <div class="seeker-fields-container">
-      <h3> PIDE SI/NO </h3>
+      <h3>PIDE SI/NO</h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <mat-select formControlName="yes_no" (selectionChange)="changeOption()" required minlength="1" maxlength="1"
-          disableOptionCentering>
+        <mat-select
+          formControlName="yes_no"
+          (selectionChange)="changeOption(false)"
+          required
+          minlength="1"
+          maxlength="1"
+          disableOptionCentering
+        >
           <mat-option [value]="'S'"> SI </mat-option>
           <mat-option [value]="'N'"> NO </mat-option>
         </mat-select>
-        <mat-error *ngIf="formGroup.get('yes_no')?.invalid && formGroup.get('yes_no')?.touched">
+        <mat-error
+          *ngIf="
+            formGroup.get('yes_no')?.invalid && formGroup.get('yes_no')?.touched
+          "
+        >
           {{ getErrorMessage(formGroup.get("yes_no")) }}
         </mat-error>
       </mat-form-field>
     </div>
 
     <mat-error
-      *ngIf="formGroup.hasError('selectsInvalid') && (formGroup.get('pide_fecha')?.touched || formGroup.get('yes_no')?.touched)">
+      *ngIf="
+        formGroup.hasError('selectsInvalid') &&
+        (formGroup.get('pide_fecha')?.touched ||
+          formGroup.get('yes_no')?.touched)
+      "
+    >
       No es posible solicitar Fecha y Si/No a la vez.
     </mat-error>
 
@@ -96,8 +170,15 @@
         <mat-icon> close </mat-icon>
         Cancelar
       </button>
-      <button [class]="formGroup.invalid ? 'primary-button icon-button disabled' : 'primary-button icon-button'"
-      type="submit" (click)="confirm()">
+      <button
+        [class]="
+          formGroup.invalid
+            ? 'primary-button icon-button disabled'
+            : 'primary-button icon-button'
+        "
+        type="submit"
+        (click)="confirm()"
+      >
         <mat-icon> done </mat-icon>
         Guardar
       </button>

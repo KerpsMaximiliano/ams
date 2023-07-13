@@ -1,11 +1,11 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 // * Services
-import { UtilService } from 'src/app/core/services/util.service';
-import { FuenteIngresoService } from 'src/app/core/services/fuente-ingreso.service';
 
 // * Forms
 import { FormControl, FormGroup } from '@angular/forms';
+// * Interface
+import { IEmpresaFactura } from 'src/app/core/models/empresa-factura.interface';
 
 @Component({
   selector: 'app-fuente-ingreso-filter',
@@ -13,6 +13,7 @@ import { FormControl, FormGroup } from '@angular/forms';
   styleUrls: ['./fuente-ingreso-filter.component.scss'],
 })
 export class FuenteIngresoFilterComponent {
+  @Input() public datosEmpresas: IEmpresaFactura[];
   @Output() searchEvent: EventEmitter<any> = new EventEmitter<any>();
 
   searchForm = new FormGroup({
@@ -20,37 +21,11 @@ export class FuenteIngresoFilterComponent {
     descripcion: new FormControl(''),
     empresa_asociada: new FormControl(''),
   });
-  listEmpresas: any[];
+  listEmpresas: any;
 
-  constructor(
-    private utils: UtilService,
-    public fuenteIngresoService: FuenteIngresoService
-  ) {
-    this.cargaDatos('E', 'listEmpresas');
-  }
+  constructor() {}
 
   ngOnInit() {}
-
-  private cargaDatos(dato: string, consulta: string): void {
-    let body = {
-      par_modo: dato,
-    };
-    this.fuenteIngresoService.CRUD(JSON.stringify(body)).subscribe({
-      next: (res: any) => {
-        if (consulta == 'listEmpresas') {
-          this.listEmpresas = res.dataset;
-        }
-      },
-      error: (err: any) => {
-        err.status == 0
-          ? this.utils.notification('Error de conexión. ', 'error')
-          : this.utils.notification(
-              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}. `,
-              'error'
-            );
-      },
-    });
-  }
 
   public limpiar(): boolean {
     return this.searchForm.get('descripcion')?.value != '' ||

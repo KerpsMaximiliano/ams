@@ -1,5 +1,9 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, Input, inject } from '@angular/core';
+import { concat, toArray } from 'rxjs';
 
+// * Interface
+import { IFuenteIngreso } from 'src/app/core/models/fuente-ingreso.interface';
+import { IEmpresaFactura } from 'src/app/core/models/empresa-factura.interface';
 // * Forms
 import {
   UntypedFormControl,
@@ -20,12 +24,12 @@ import {
   MAT_DIALOG_DATA,
   MatDialog,
 } from '@angular/material/dialog';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 // * Components
 import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
 import { ModalFuenteIngresoComponent } from './modal-fuente-ingreso/modal-fuente-ingreso.component';
-import { IFuenteIngreso } from 'src/app/core/models/fuente-ingreso.interface';
-import { concat, merge, toArray } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-edit-fuente-ingreso-dialog',
@@ -33,12 +37,14 @@ import { concat, merge, toArray } from 'rxjs';
   styleUrls: ['./add-edit-fuente-ingreso-dialog.component.scss'],
 })
 export class AddEditFuenteIngresoDialogComponent {
-  fuenteIngresos: IFuenteIngreso[];
-  public formInitial: UntypedFormGroup;
-  public formSecond: UntypedFormGroup;
-  public formFinal: UntypedFormGroup;
   public getErrorMessage = getErrorMessage;
-  listEmpresas: { descripcion: string; id_empresa: number }[];
+  public formGroup: UntypedFormGroup;
+  public activeTabIndex: number = 0;
+  public icon: string;
+
+  fuenteIngresos: IFuenteIngreso[];
+
+  listEmpresas: IEmpresaFactura[];
   listConceptos: { id_concepto: number; descripcion: string }[];
   listComprobantes: { id_comprobante: string; descripcion: string }[];
   listTalonarios: { id_talonario: number; numero: number }[];
@@ -53,10 +59,11 @@ export class AddEditFuenteIngresoDialogComponent {
   dias: { d: number; dia: number }[];
   constructor(
     public dialogRef: MatDialogRef<ConfirmDialogComponent>,
-    private utils: UtilService,
+    private UtilService: UtilService,
     private dialog: MatDialog,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    public fuentesIngresoService: FuenteIngresoService
+    public fuentesIngresoService: FuenteIngresoService,
+    private router: Router,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.dias = [
       { d: 1, dia: 1 },
@@ -88,30 +95,27 @@ export class AddEditFuenteIngresoDialogComponent {
       { d: 27, dia: 27 },
       { d: 28, dia: 28 },
     ];
+    this.listEmpresas = data.datosEmpresa;
     this.cargaDatos();
-    // this.cargaDatos('A', 'listConceptos');
-    // this.cargaDatos('B', 'listComprobantes');
-    // this.cargaDatos('H', 'listTalonarios');
-    // this.cargaDatos('G', 'listCondicionV');
+    this.setUpForm();
+    this.getFuenteIngreso();
   }
 
   ngOnInit() {
-    this.setUpForm();
-    if (this.data.codigo_fuente_ingreso !== undefined) {
-      this.setFormValues();
-      if (this.data.par_modo === 'C' && this.data.edit !== true) {
-        this.formInitial.disable();
-        this.formSecond.disable();
-        this.formFinal.disable();
+    this.setFormValues();
+    if (this.data.par_modo === 'U' || this.data.par_modo === 'R') {
+      if (this.data.edit === false) {
+        this.formGroup.disable();
+      } else {
+        this.formGroup.get('codigo_fuente_ingreso')?.disable();
       }
-      this.formInitial.get('codigo_fuente_ingreso')?.disable();
+      this.filtroFuente();
     }
-    this.getFuenteIngreso();
   }
 
   // * crea una lista con las fuente de ingreso
   private getFuenteIngreso(): void {
-    this.utils.openLoading();
+    this.UtilService.openLoading();
     let body = {
       par_modo: 'O',
       descripcion: '',
@@ -123,50 +127,66 @@ export class AddEditFuenteIngresoDialogComponent {
         this.filtroFuente();
       },
       error: (err: any) => {
-        this.utils.closeLoading();
+        this.UtilService.closeLoading();
         err.status == 0
-          ? this.utils.notification('Error de conexión. ', 'error')
-          : this.utils.notification(
+          ? this.UtilService.notification('Error de conexión. ', 'error')
+          : this.UtilService.notification(
               `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}. `,
               'error'
             );
       },
       complete: () => {
-        this.utils.closeLoading();
+        this.UtilService.closeLoading();
       },
     });
   }
 
+  public nextStep(): void {
+    if (this.activeTabIndex !== 4) {
+      this.activeTabIndex += 1;
+    }
+  }
+
+  public prevStep(): void {
+    if (this.activeTabIndex !== 0) {
+      this.activeTabIndex -= 1;
+    }
+  }
+
+  public tabChanged(event: MatTabChangeEvent): void {
+    this.activeTabIndex = event.index;
+  }
+
   // * cambia el codigo de la fuente (administracion o adicional) por la descripcion
   public filtroFuente(): void {
-    this.formInitial.get('codigo_fuente_admin')?.value != 0
-      ? this.formInitial
+    this.formGroup.get('codigo_fuente_admin')?.value != 0
+      ? this.formGroup
           .get('codigo_fuente_admin_descripcion')
           ?.setValue(
             this.fuenteIngresos.find(
               (filtro) =>
                 filtro.codigo_fuente_ingreso ==
-                this.formInitial.get('codigo_fuente_admin')?.value
+                this.formGroup.get('codigo_fuente_admin')?.value
             )?.descripcion
           )
       : '';
-    this.formFinal.get('fuente_aporte_adicional')?.value != 0
-      ? this.formFinal
+    this.formGroup.get('fuente_aporte_adicional')?.value != 0
+      ? this.formGroup
           .get('fuente_aporte_adicional_descripcion')
           ?.setValue(
             this.fuenteIngresos.find(
               (filtro) =>
                 filtro.codigo_fuente_ingreso ==
-                this.formFinal.get('fuente_aporte_adicional')?.value
+                this.formGroup.get('fuente_aporte_adicional')?.value
             )?.descripcion
           )
       : '';
   }
 
   // * carga de las lista
-  private cargaDatos(): void {
+  private cargaDatos() {
+    this.UtilService.openLoading();
     concat(
-      this.fuentesIngresoService.CRUD(JSON.stringify({ par_modo: 'E' })),
       this.fuentesIngresoService.CRUD(JSON.stringify({ par_modo: 'A' })),
       this.fuentesIngresoService.CRUD(JSON.stringify({ par_modo: 'B' })),
       this.fuentesIngresoService.CRUD(JSON.stringify({ par_modo: 'H' })),
@@ -175,21 +195,21 @@ export class AddEditFuenteIngresoDialogComponent {
       .pipe(toArray())
       .subscribe({
         next: (res: any) => {
-          // * listEmpresas
-          this.listEmpresas = res[0].dataset;
           // * listConceptos
-          this.listConceptos = res[1].dataset;
+          this.listConceptos = res[0].dataset;
           // * listComprobantes
-          this.listComprobantes = res[2].dataset;
+          this.listComprobantes = res[1].dataset;
           // * listTalonarios
-          this.listTalonarios = res[3].dataset;
+          this.listTalonarios = res[2].dataset;
           // * listCondicionV
-          this.listCondicionV = res[4].dataset;
+          this.listCondicionV = res[3].dataset;
+          this.UtilService.closeLoading();
         },
         error: (err: any) => {
+          this.UtilService.closeLoading();
           err.status == 0
-            ? this.utils.notification('Error de conexión. ', 'error')
-            : this.utils.notification(
+            ? this.UtilService.notification('Error de conexión. ', 'error')
+            : this.UtilService.notification(
                 `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}. `,
                 'error'
               );
@@ -209,8 +229,8 @@ export class AddEditFuenteIngresoDialogComponent {
       },
       error: (err: any) => {
         err.status == 0
-          ? this.utils.notification('Error de conexión. ', 'error')
-          : this.utils.notification(
+          ? this.UtilService.notification('Error de conexión. ', 'error')
+          : this.UtilService.notification(
               `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}. `,
               'error'
             );
@@ -221,7 +241,7 @@ export class AddEditFuenteIngresoDialogComponent {
   // * carga los formularios
   private setUpForm(): void {
     // * primer formulario
-    this.formInitial = new UntypedFormGroup({
+    this.formGroup = new UntypedFormGroup({
       codigo_fuente_ingreso: new UntypedFormControl(
         this.data.codigo_fuente_ingreso ? this.data.codigo_fuente_ingreso : '',
         Validators.compose([Validators.required, Validators.maxLength(5)])
@@ -260,9 +280,6 @@ export class AddEditFuenteIngresoDialogComponent {
         this.data.controla_dec_jur ? this.data.controla_dec_jur.trim() : '',
         Validators.compose([Validators.required])
       ),
-    });
-    // * segunto formulario
-    this.formSecond = new UntypedFormGroup({
       concepto_aporte: new UntypedFormControl(
         this.data.concepto_aporte ? this.data.concepto_aporte : '',
         Validators.compose([Validators.required, Validators.maxLength(5)])
@@ -299,9 +316,6 @@ export class AddEditFuenteIngresoDialogComponent {
           : '',
         Validators.compose([Validators.required, Validators.maxLength(3)])
       ),
-    });
-    // * ultimo formulario
-    this.formFinal = new UntypedFormGroup({
       liquida_punitorio: new UntypedFormControl(
         this.data.liquida_punitorio ? this.data.liquida_punitorio.trim() : '',
         Validators.compose([Validators.required])
@@ -331,32 +345,32 @@ export class AddEditFuenteIngresoDialogComponent {
       condicion_aporte_adic_dec: new UntypedFormControl(
         this.data.condicion_aporte_adic_dec
           ? this.data.condicion_aporte_adic_dec
-          : '',
+          : 0,
         Validators.compose([Validators.maxLength(5)])
       ),
       fuente_aporte_adicional: new UntypedFormControl(
         this.data.fuente_aporte_adicional
           ? this.data.fuente_aporte_adicional
-          : '',
+          : 0,
         Validators.compose([Validators.maxLength(5)])
       ),
       fuente_aporte_adicional_descripcion: new UntypedFormControl(),
       concepto_aporte_adicional: new UntypedFormControl(
         this.data.concepto_aporte_adicional
           ? this.data.concepto_aporte_adicional
-          : '',
+          : 0,
         Validators.compose([Validators.maxLength(5)])
       ),
 
       // * datos sin front
       nro_solicitud: new UntypedFormControl(
-        this.data.nro_solicitud ? this.data.nro_solicitud : '',
+        this.data.nro_solicitud ? this.data.nro_solicitud : 0,
         Validators.compose([])
       ),
       fecha_ultima_liquidacion: new UntypedFormControl(
         this.data.fecha_ultima_liquidacion
           ? this.data.fecha_ultima_liquidacion
-          : '',
+          : 0,
         Validators.compose([Validators.maxLength(8)])
       ),
       sub_prog_calc: new UntypedFormControl(
@@ -369,52 +383,45 @@ export class AddEditFuenteIngresoDialogComponent {
           : '',
         Validators.compose([Validators.maxLength(2)])
       ),
-      numeracion_auto: new UntypedFormControl('', Validators.compose([])),
+      numeracion_auto: new UntypedFormControl(
+        this.data.numeracion_auto ? this.data.numeracion_auto.trim() : 'N'
+      ),
       selecciona_productos_liq: new UntypedFormControl(
         this.data.selecciona_productos_liq
           ? this.data.selecciona_productos_liq.trim()
-          : '',
+          : 'N',
         Validators.compose([])
       ),
       agrupador_capita: new UntypedFormControl(
-        this.data.agrupador_capita ? this.data.agrupador_capita : '',
+        this.data.agrupador_capita ? this.data.agrupador_capita : 0,
         Validators.compose([Validators.maxLength(5)])
       ),
-      liquidacion_mensual: new UntypedFormControl('', Validators.compose([])),
+      liquidacion_mensual: new UntypedFormControl(
+        this.data.liquidacion_mensual
+          ? this.data.liquidacion_mensual.trim()
+          : 'N'
+      ),
     });
   }
 
   // * valida los datos de la fuente de administracion
   public fuenteAdministradora() {
-    if (this.formInitial.get('tipo_fuente')?.value == 'A') {
-      this.formInitial.get('codigo_fuente_admin')?.setValue(0);
-      this.formInitial.get('codigo_fuente_admin_descripcion')?.setValue('');
+    if (this.formGroup.get('tipo_fuente')?.value == 'A') {
+      this.formGroup.get('codigo_fuente_admin')?.setValue(0);
+      this.formGroup.get('codigo_fuente_admin_descripcion')?.setValue('');
       this.mostrarAdministradora = false;
-    } else if (this.formInitial.get('tipo_fuente')?.value != 'A') {
+    } else if (this.formGroup.get('tipo_fuente')?.value != 'A') {
       this.mostrarAdministradora = true;
     }
   }
 
   private setFormValues(): void {}
 
-  // * envia los datos para CU 32
-  public coeficiente(): void {
-    let datos;
-    datos = {};
-    // * descomentar para enviar datos al CU 32
-    // this._unificadorAportes.set(data);
-    // this.dialogRef.close(false);
-    // this.router.navigateByUrl('/parametros/unificacion-aportes');
-  }
-
-  // * envia los datos para CU 31
-  public atributo() {
-    let datos;
-    datos = {};
-    // * descomentar para enviar datos al CU 31
-    // this._unificadorAportes.set(data);
-    // this.dialogRef.close(false);
-    // this.router.navigateByUrl('/parametros/unificacion-aportes');
+  // * envia los datos para CU 32 y CU 31
+  public redirectTo(url: string): void {
+    this.fuentesIngresoService.set(this.data);
+    this.fuentesIngresoService.setBack(false);
+    this.router.navigate([url]);
   }
 
   // * recupera los datos de las fuentes (administradora y adicional) del modal
@@ -428,12 +435,12 @@ export class AddEditFuenteIngresoDialogComponent {
       next: (res) => {
         if (res) {
           if (tipo == 'administrado') {
-            this.formInitial
+            this.formGroup
               .get('codigo_fuente_admin')
               ?.setValue(res.codigo_fuente_ingreso);
           }
           if (tipo == 'adicional') {
-            this.formFinal
+            this.formGroup
               .get('fuente_aporte_adicional')
               ?.setValue(res.codigo_fuente_ingreso);
           }
@@ -446,12 +453,12 @@ export class AddEditFuenteIngresoDialogComponent {
   // * limpia los datos de las fuentes (administradora y adicional)
   public limpiar(tipo: string): void {
     if (tipo == 'administrado') {
-      this.formInitial.get('codigo_fuente_admin')?.setValue(0);
-      this.formInitial.get('codigo_fuente_admin_descripcion')?.setValue('');
+      this.formGroup.get('codigo_fuente_admin')?.setValue(0);
+      this.formGroup.get('codigo_fuente_admin_descripcion')?.setValue('');
     }
     if (tipo == 'adicional') {
-      this.formFinal.get('fuente_aporte_adicional')?.setValue(0);
-      this.formFinal.get('fuente_aporte_adicional_descripcion')?.setValue('');
+      this.formGroup.get('fuente_aporte_adicional')?.setValue(0);
+      this.formGroup.get('fuente_aporte_adicional_descripcion')?.setValue('');
     }
     this.filtroFuente();
   }
@@ -461,70 +468,63 @@ export class AddEditFuenteIngresoDialogComponent {
   }
 
   public confirm(): void {
-    if (
-      this.formInitial.valid &&
-      this.formSecond.valid &&
-      this.formFinal.valid
-    ) {
+    if (this.formGroup.valid && this.formGroup.valid && this.formGroup.valid) {
       this.dialogRef.close({
         par_modo: this.data.par_modo,
         codigo_fuente_ingreso: parseInt(
-          this.formInitial.get('codigo_fuente_ingreso')?.value
+          this.formGroup.get('codigo_fuente_ingreso')?.value
         ),
-        descripcion: this.formInitial.get('descripcion')?.value,
-        descripcion_reducida: this.formInitial.get('descripcion_reducida')
-          ?.value,
-        tipo_fuente: this.formInitial.get('tipo_fuente')?.value,
-        codigo_fuente_admin: this.formInitial.get('codigo_fuente_admin')?.value
-          ? parseInt(this.formInitial.get('codigo_fuente_admin')?.value)
-          : parseInt(this.formInitial.get('codigo_fuente_ingreso')?.value),
-        empresa_asociada: this.formInitial.get('empresa_asociada')?.value,
-        solicita_ref: this.formInitial.get('solicita_ref')?.value,
-        dia_corte: this.formInitial.get('dia_corte')?.value,
-        controla_dec_jur: this.formInitial.get('controla_dec_jur')?.value,
+        descripcion: this.formGroup.get('descripcion')?.value,
+        descripcion_reducida: this.formGroup.get('descripcion_reducida')?.value,
+        tipo_fuente: this.formGroup.get('tipo_fuente')?.value,
+        codigo_fuente_admin: this.formGroup.get('codigo_fuente_admin')?.value
+          ? parseInt(this.formGroup.get('codigo_fuente_admin')?.value)
+          : parseInt(this.formGroup.get('codigo_fuente_ingreso')?.value),
+        empresa_asociada: this.formGroup.get('empresa_asociada')?.value,
+        solicita_ref: this.formGroup.get('solicita_ref')?.value,
+        dia_corte: this.formGroup.get('dia_corte')?.value,
+        controla_dec_jur: this.formGroup.get('controla_dec_jur')?.value,
 
-        concepto_aporte: this.formSecond.get('concepto_aporte')?.value,
-        condicion_venta: this.formSecond.get('condicion_venta')?.value,
-        concepto_arancel: this.formSecond.get('concepto_arancel')?.value,
-        comprobante_general: this.formSecond.get('comprobante_general')?.value,
-        ref_contable_asociada: this.formSecond.get('ref_contable_asociada')
+        concepto_aporte: this.formGroup.get('concepto_aporte')?.value,
+        condicion_venta: this.formGroup.get('condicion_venta')?.value,
+        concepto_arancel: this.formGroup.get('concepto_arancel')?.value,
+        comprobante_general: this.formGroup.get('comprobante_general')?.value,
+        ref_contable_asociada: this.formGroup.get('ref_contable_asociada')
           ?.value,
-        talonario: this.formSecond.get('talonario')?.value,
-        condicion_venta_venc: this.formSecond.get('condicion_venta_venc')
+        talonario: this.formGroup.get('talonario')?.value,
+        condicion_venta_venc: this.formGroup.get('condicion_venta_venc')?.value,
+        condicion_venta_dos_venc: this.formGroup.get('condicion_venta_dos_venc')
           ?.value,
-        condicion_venta_dos_venc: this.formSecond.get(
-          'condicion_venta_dos_venc'
-        )?.value,
 
-        liquida_punitorio: this.formFinal.get('liquida_punitorio')?.value,
-        liquida_reintegro: this.formFinal.get('liquida_reintegro')?.value,
-        liquida_planes_mix: this.formFinal.get('liquida_planes_mix')?.value,
-        liquida_planes_monotributo: this.formFinal.get(
+        liquida_punitorio: this.formGroup.get('liquida_punitorio')?.value,
+        liquida_reintegro: this.formGroup.get('liquida_reintegro')?.value,
+        liquida_planes_mix: this.formGroup.get('liquida_planes_mix')?.value,
+        liquida_planes_monotributo: this.formGroup.get(
           'liquida_planes_monotributo'
         )?.value,
-        agrupa_entidades: this.formFinal.get('agrupa_entidades')?.value,
-        aporte_adicional: this.formFinal.get('aporte_adicional')?.value,
-        fuente_aporte_adicional: this.formFinal.get('fuente_aporte_adicional')
+        agrupa_entidades: this.formGroup.get('agrupa_entidades')?.value,
+        aporte_adicional: this.formGroup.get('aporte_adicional')?.value,
+        fuente_aporte_adicional: this.formGroup.get('fuente_aporte_adicional')
           ?.value,
-        concepto_aporte_adicional: this.formFinal.get(
+        concepto_aporte_adicional: this.formGroup.get(
           'concepto_aporte_adicional'
         )?.value,
-        condicion_aporte_adic_dec: this.formFinal.get(
+        condicion_aporte_adic_dec: this.formGroup.get(
           'condicion_aporte_adic_dec'
         )?.value,
 
         // * datos para el back end
-        nro_solicitud: this.formFinal.get('nro_solicitud')?.value,
-        fecha_ultima_liquidacion: this.formFinal.get('fecha_ultima_liquidacion')
+        nro_solicitud: parseInt(this.formGroup.get('nro_solicitud')?.value),
+        fecha_ultima_liquidacion: this.formGroup.get('fecha_ultima_liquidacion')
           ?.value,
-        sub_prog_calc: this.formFinal.get('sub_prog_calc')?.value,
-        grupo_familiar_imprimir: this.formFinal.get('grupo_familiar_imprimir')
+        sub_prog_calc: this.formGroup.get('sub_prog_calc')?.value,
+        grupo_familiar_imprimir: this.formGroup.get('grupo_familiar_imprimir')
           ?.value,
-        numeracion_auto: this.formFinal.get('numeracion_auto')?.value,
-        selecciona_productos_liq: this.formFinal.get('selecciona_productos_liq')
+        numeracion_auto: this.formGroup.get('numeracion_auto')?.value,
+        selecciona_productos_liq: this.formGroup.get('selecciona_productos_liq')
           ?.value,
-        agrupador_capita: this.formFinal.get('agrupador_capita')?.value,
-        liquidacion_mensual: this.formFinal.get('liquidacion_mensual')?.value,
+        agrupador_capita: this.formGroup.get('agrupador_capita')?.value,
+        liquidacion_mensual: this.formGroup.get('liquidacion_mensual')?.value,
       });
     }
   }
