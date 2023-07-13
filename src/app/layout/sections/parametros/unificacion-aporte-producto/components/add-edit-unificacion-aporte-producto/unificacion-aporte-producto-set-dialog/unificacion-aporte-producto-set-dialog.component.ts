@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 
 // * Interfaces
-import { IProductoAdministrador } from 'src/app/core/models/producto-administrador.interface';
+import { IProducto } from 'src/app/core/models/producto.interface';
 
 // * Material
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -9,21 +9,23 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 
 // * Components
-import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent } from '../../../../../components/confirm-dialog/confirm-dialog.component';
 
 @Component({
-  selector: 'app-set-producto-dialog',
-  templateUrl: './set-producto-dialog.component.html',
-  styleUrls: ['./set-producto-dialog.component.scss'],
+  selector: 'app-unificacion-aporte-producto-set-dialog',
+  templateUrl: './unificacion-aporte-producto-set-dialog.component.html',
+  styleUrls: ['./unificacion-aporte-producto-set-dialog.component.scss'],
 })
-export class SetProductoDialogComponent implements OnInit {
+export class UnificacionAporteProductoSetDialogComponent implements OnInit {
   public displayedColumns: string[] = [
-    'codigo_subproducto',
-    'descripcion_subproducto',
+    'producto_principal',
+    'producto_principal_descripcion',
+    'subproducto_principal',
+    'subproducto_principal_descripcion',
     'actions',
   ];
-  public dataSource: MatTableDataSource<IProductoAdministrador>;
-  public showGuardarButton: any;
+  public dataSource: MatTableDataSource<IProducto>;
+  public producto: any;
 
   @ViewChild(MatPaginator, { static: true }) public paginator!: MatPaginator;
 
@@ -35,16 +37,33 @@ export class SetProductoDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.configurePaginator();
-    this.dataSource = new MatTableDataSource<IProductoAdministrador>(this.data.data);
+    this.dataSource = new MatTableDataSource<IProducto>(this.data.data);
     this.dataSource.paginator = this.paginator;
   }
 
   public confirm(): void {
     this.dialogRef.close({
-      codigo_producto: this.showGuardarButton.producto_principal_cod,
-      descripcicon_producto:this.showGuardarButton.producto_principal,
-      codigo_subproducto: this.showGuardarButton.subproducto_principal_cod,
-      descripcion_subproducto: this.showGuardarButton.subproducto_principal,
+      producto_secundario: this.producto.producto_administrador
+        ? this.producto.producto_administrador
+        : this.producto.codigo_producto,
+      producto_secundario_descripcion: this.producto
+        .descripcion_producto_administrador
+        ? this.producto.descripcion_producto_administrador
+        : this.producto.descripcion_producto
+        ? this.producto.descripcion_producto
+        : '',
+
+      subproducto_secundario: this.producto.producto_administrador
+        ? this.producto.codigo_producto
+          ? this.producto.codigo_producto
+          : 0
+        : 0,
+      subproducto_secundario_descripcion: this.producto
+        .descripcion_producto_administrador
+        ? this.producto.descripcion_producto
+          ? this.producto.descripcion_producto
+          : ''
+        : '',
     });
   }
 

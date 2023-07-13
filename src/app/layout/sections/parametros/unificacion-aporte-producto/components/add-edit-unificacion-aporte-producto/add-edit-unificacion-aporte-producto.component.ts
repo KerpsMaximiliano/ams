@@ -30,8 +30,7 @@ import {
 } from 'src/app/core/validators/character.validator';
 
 // * Components
-import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
-import { SetProductoDialogComponent } from './set-producto-dialog/set-producto-dialog.component';
+import { UnificacionAporteProductoSetDialogComponent } from './unificacion-aporte-producto-set-dialog/unificacion-aporte-producto-set-dialog.component';
 
 @Component({
   selector: 'app-add-edit-unificacion-aporte-producto',
@@ -49,7 +48,7 @@ export class AddEditUnificacionAporteProductoComponent {
     private utilService: UtilService,
     private productoService: ProductoService,
     private dialog: MatDialog,
-    public dialogRef: MatDialogRef<ConfirmDialogComponent>,
+
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.producto = this.productoService.get();
@@ -65,7 +64,7 @@ export class AddEditUnificacionAporteProductoComponent {
         subproducto_principal: this.data.subproducto_principal,
         producto_secundario: this.data.producto_secundario,
         subproducto_secundario: this.data.subproducto_secundario,
-        unifica_aportes: this.data.unifica_aportes,
+        unifica_aportes: this.formGroup.get('unifica_aportes')?.value,
       });
     } else {
       this.formGroup.markAllAsTouched();
@@ -120,25 +119,27 @@ export class AddEditUnificacionAporteProductoComponent {
   }
 
   private setProducto(data: IProducto[]): void {
-    const modal = this.dialog.open(SetProductoDialogComponent, {
-      data: {
-        title: 'SELECCIONE UN PRODUCTO/SUBPRODUCTO',
-        data: data,
-      },
-    });
+    const modal = this.dialog.open(
+      UnificacionAporteProductoSetDialogComponent,
+      {
+        data: {
+          title: 'SELECCIONE UN PRODUCTO/SUBPRODUCTO',
+          data: data,
+        },
+      }
+    );
     modal.afterClosed().subscribe({
       next: (res) => {
         if (res) {
-          this.data.producto_secundario = res?.producto_principal;
-
-          this.data.subproducto_principal = res?.producto_secundario;
-
+          this.data.producto_secundario = res?.producto_secundario;
           this.formGroup
             .get('descripcion_producto_secundario')
-            ?.setValue(res?.producto_principal_descripcion);
+            ?.setValue(res?.producto_secundario_descripcion);
+
+          this.data.subproducto_secundario = res?.subproducto_secundario;
           this.formGroup
             .get('descripcion_subproducto_secundario')
-            ?.setValue(res?.subproducto_principal_descripcion);
+            ?.setValue(res?.subproducto_secundario_descripcion);
         }
       },
     });
@@ -152,17 +153,24 @@ export class AddEditUnificacionAporteProductoComponent {
           : this.producto.descripcion_producto
           ? this.producto.descripcion_producto.trim()
           : '',
-
         disabled: true,
       }),
-      descripcion_subproducto_principal: new UntypedFormControl({
-        value: this.producto.descripcion_producto_administrador
-          ? this.producto.descripcion_producto
-            ? this.producto.descripcion_producto.trim()
-            : ''
-          : '',
-        disabled: true,
-      }),
+      descripcion_subproducto_principal: new UntypedFormControl(
+        {
+          value: this.producto.descripcion_producto_administrador
+            ? this.producto.descripcion_producto
+              ? this.producto.descripcion_producto.trim()
+              : ''
+            : '',
+          disabled: true,
+        },
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(30),
+          notOnlySpaces(),
+        ])
+      ),
       descripcion_producto_secundario: new UntypedFormControl(
         {
           value: this.data.producto_principal_descripcion
@@ -172,7 +180,12 @@ export class AddEditUnificacionAporteProductoComponent {
             : '',
           disabled: this.data.par_modo === 'D',
         },
-        Validators.required
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(30),
+          notOnlySpaces(),
+        ])
       ),
       descripcion_subproducto_secundario: new UntypedFormControl(
         {
@@ -183,14 +196,19 @@ export class AddEditUnificacionAporteProductoComponent {
             : '',
           disabled: this.data.par_modo === 'D',
         },
-        Validators.required
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(30),
+          notOnlySpaces(),
+        ])
       ),
       unifica_aportes: new UntypedFormControl(
         {
           value: this.data.unifica_aportes
             ? this.data.unifica_aportes.trim()
             : '',
-          disabled: this.data.par_modo === 'R',
+          disabled: this.data.par_modo === 'D',
         },
         Validators.compose([
           Validators.required,
@@ -212,7 +230,14 @@ export class AddEditUnificacionAporteProductoComponent {
 
         value
           ? control?.clearValidators()
-          : control?.setValidators(Validators.required);
+          : control?.setValidators(
+              Validators.compose([
+                Validators.required,
+                Validators.minLength(3),
+                Validators.maxLength(30),
+                notOnlySpaces(),
+              ])
+            );
 
         control?.updateValueAndValidity();
       });

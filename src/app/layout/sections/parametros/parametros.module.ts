@@ -105,7 +105,7 @@ import { UnificacionAporteProductoComponent } from './unificacion-aporte-product
 import { UnificacionAporteProductoDashboardComponent } from './unificacion-aporte-producto/components/unificacion-aporte-producto-dashboard/unificacion-aporte-producto-dashboard.component';
 import { UnificacionAporteProductoFilterComponent } from './unificacion-aporte-producto/components/unificacion-aporte-producto-filter/unificacion-aporte-producto-filter.component';
 import { AddEditUnificacionAporteProductoComponent } from './unificacion-aporte-producto/components/add-edit-unificacion-aporte-producto/add-edit-unificacion-aporte-producto.component';
-import { SetProductoDialogComponent } from './unificacion-aporte-producto/components/add-edit-unificacion-aporte-producto/set-producto-dialog/set-producto-dialog.component';
+import { UnificacionAporteProductoSetDialogComponent } from './unificacion-aporte-producto/components/add-edit-unificacion-aporte-producto/unificacion-aporte-producto-set-dialog/unificacion-aporte-producto-set-dialog.component';
 // 32 - EXTENCION DE FUENTES DE INGRESOS
 import { ExtencionFuenteIngresoComponent } from './extencion-fuente-ingreso/extencion-fuente-ingreso.component';
 import { ExtencionFuenteIngresoDashboardComponent } from './extencion-fuente-ingreso/components/extencion-fuente-ingreso-dashboard/extencion-fuente-ingreso-dashboard.component';
@@ -207,11 +207,11 @@ import { ModalExtencionProductoComponent } from './extencion-fuente-ingreso/comp
     SubMotivoMovimientoProductoDashboardComponent,
     AddEditSubMotivoMovimientoProductoDialogComponent,
     // 24 - UNIFICACION DE APORTES
+    AddEditUnificacionAporteProductoComponent,
     UnificacionAporteProductoComponent,
     UnificacionAporteProductoDashboardComponent,
     UnificacionAporteProductoFilterComponent,
-    AddEditUnificacionAporteProductoComponent,
-    SetProductoDialogComponent,
+    UnificacionAporteProductoSetDialogComponent,
     // 32 - EXTENCION FUENTES DE INGRESOS
     ExtencionFuenteIngresoComponent,
     ExtencionFuenteIngresoDashboardComponent,

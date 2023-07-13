@@ -23,7 +23,7 @@
 
 .seeker-fields-container {
   display: grid;
-  grid-template-columns: 150px 1fr;
+  grid-template-columns: 200px 1fr;
   align-items: center;
   column-gap: 0rem;
 }
@@ -31,7 +31,7 @@
 .cont {
   display: grid;
   grid-template-columns: 1fr 75px;
-  gap: 0.5rem;
+  gap: 1rem;
 }
 
 .no-cont {

@@ -88,12 +88,25 @@ export class UnificacionAporteProductoComponent
   }
 
   public delete(data: IUnificacionAporteProducto): void {
-    this.openDialog(
+    const dialogRef = this.openDialog(
       'ELIMINAR LA UNIFICACIÓN DE APORTE POR PRODUCTO',
       'D',
-      false,
+      true,
       data
     );
+    this.dataSubscription = this.dataSharingService
+      .getData()
+      .subscribe((res: any) => {
+        this.performCRUD(
+          res,
+          'La unificación de aporte por producto se ha eliminado exitosamente. ',
+          dialogRef
+        );
+      });
+    dialogRef.afterClosed().subscribe(() => {
+      this.dataSharingService.unsubscribeData(this.dataSubscription!);
+      this.dataSubscription = undefined;
+    });
   }
 
   private getData(value: string): void {
@@ -157,6 +170,15 @@ export class UnificacionAporteProductoComponent
       next: () => {
         this.utilService.notification(successMessage, 'success');
         dialogRef.close();
+        this.getData(
+          JSON.stringify({
+            par_modo: 'R',
+            producto_principal: data?.producto_principal,
+            subproducto_principal: data?.subproducto_principal,
+            producto_secundario: data?.producto_secundario,
+            subproducto_secundario: data?.subproducto_secundario,
+          })
+        );
       },
       error: (err: any) => {
         this.utilService.closeLoading();
