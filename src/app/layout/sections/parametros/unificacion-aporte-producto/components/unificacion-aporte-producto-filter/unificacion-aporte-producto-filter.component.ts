@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 // * Interfaces
 import { IProducto } from 'src/app/core/models/producto.interface';
@@ -12,9 +12,24 @@ import { ProductoService } from 'src/app/core/services/producto.service';
   styleUrls: ['./unificacion-aporte-producto-filter.component.scss'],
 })
 export class UnificacionAporteProductoFilterComponent {
+  @Output() public search: EventEmitter<string> = new EventEmitter<string>();
   public producto: IProducto;
 
   constructor(private productoService: ProductoService) {
     this.producto = this.productoService.get();
+  }
+
+  public performSearch(): void {
+    this.search.emit(
+      JSON.stringify({
+        par_modo: 'O',
+        producto_principal: this.producto.producto_administrador
+          ? this.producto.producto_administrador
+          : this.producto.codigo_producto,
+        subproducto_principal: this.producto.producto_administrador
+          ? this.producto.codigo_producto
+          : 0,
+      })
+    );
   }
 }

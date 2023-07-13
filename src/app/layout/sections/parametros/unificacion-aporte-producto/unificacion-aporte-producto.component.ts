@@ -109,7 +109,7 @@ export class UnificacionAporteProductoComponent
     });
   }
 
-  private getData(value: string): void {
+  public getData(value: string): void {
     this.utilService.openLoading();
     this.unificacionAporteProductoService.CRUD(value).subscribe({
       next: (res: any) => {
@@ -170,15 +170,27 @@ export class UnificacionAporteProductoComponent
       next: () => {
         this.utilService.notification(successMessage, 'success');
         dialogRef.close();
-        this.getData(
-          JSON.stringify({
-            par_modo: 'R',
-            producto_principal: data?.producto_principal,
-            subproducto_principal: data?.subproducto_principal,
-            producto_secundario: data?.producto_secundario,
-            subproducto_secundario: data?.subproducto_secundario,
-          })
-        );
+        if (data.par_modo === 'C') {
+          this.getData(
+            JSON.stringify({
+              par_modo: 'R',
+              producto_principal: data?.producto_principal,
+              subproducto_principal: data?.subproducto_principal,
+              producto_secundario: data?.producto_secundario,
+              subproducto_secundario: data?.subproducto_secundario,
+            })
+          );
+        } else {
+          if (data.par_modo === 'D') {
+            this.getData(
+              JSON.stringify({
+                par_modo: 'O',
+                producto_principal: data?.producto_principal,
+                subproducto_principal: data?.subproducto_principal,
+              })
+            );
+          }
+        }
       },
       error: (err: any) => {
         this.utilService.closeLoading();
@@ -188,6 +200,9 @@ export class UnificacionAporteProductoComponent
               `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
               'error'
             );
+      },
+      complete: () => {
+        this.utilService.closeLoading();
       },
     });
   }

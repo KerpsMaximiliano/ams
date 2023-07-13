@@ -18,10 +18,10 @@ import { ConfirmDialogComponent } from '../../../../../components/confirm-dialog
 })
 export class UnificacionSetProductoDialogComponent implements OnInit {
   public displayedColumns: string[] = [
-    'producto_principal',
-    'producto_principal_descripcion',
-    'subproducto_principal',
-    'subproducto_principal_descripcion',
+    'producto_administrador',
+    'descripcion_producto_administrador',
+    'codigo_producto',
+    'descripcion_producto',
     'actions',
   ];
   public dataSource: MatTableDataSource<IProducto>;
@@ -33,7 +33,9 @@ export class UnificacionSetProductoDialogComponent implements OnInit {
     private matPaginatorIntl: MatPaginatorIntl,
     public dialogRef: MatDialogRef<ConfirmDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {}
+  ) {
+    console.log(this.data);
+  }
 
   ngOnInit(): void {
     this.configurePaginator();

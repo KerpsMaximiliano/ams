@@ -53,7 +53,7 @@ export class AddEditUnificacionAporteProductoComponent {
   }
 
   public confirm(): void {
-    if (this.formGroup.valid) {
+    if (this.formGroup.valid || this.data.par_modo === 'D') {
       this.dataSharingService.sendData({
         par_modo: this.data.par_modo,
         producto_principal: this.data.producto_principal,
@@ -124,6 +124,8 @@ export class AddEditUnificacionAporteProductoComponent {
     modal.afterClosed().subscribe({
       next: (res) => {
         if (res) {
+          console.log(res);
+
           this.data.producto_secundario = res?.producto_secundario;
           this.formGroup
             .get('descripcion_producto_secundario')
