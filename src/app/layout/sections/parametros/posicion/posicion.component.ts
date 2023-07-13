@@ -37,7 +37,11 @@ export class PosicionComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.getProvincias();
+    if(this.provinciaService.getProvincias() === undefined){
+      this.getProvincias();
+    } else {
+      this.provincias = this.provinciaService.getProvincias();
+    }
   }
 
   ngOnDestroy(): void {
@@ -188,6 +192,7 @@ export class PosicionComponent implements OnInit, OnDestroy {
               );
         },
         complete: () => {
+          this.provinciaService.setProvincias(this.provincias)
           this.utilService.closeLoading();
         },
       });
