@@ -66,10 +66,6 @@ export class ProvinciaComponent implements OnDestroy {
         );
       });
     dialogRef.afterClosed().subscribe(() => {
-      this.getData(JSON.stringify({
-        par_modo: 'O',
-        nombre_provincia: ''
-      }))
       this.dataSharingService.unsubscribeData(this.dataSubscription!);
       this.dataSubscription = undefined;
     });
@@ -91,10 +87,10 @@ export class ProvinciaComponent implements OnDestroy {
         this.utilService.closeLoading();
         err.status === 0
         ? this.utilService.notification('Error de conexión.', 'error')
-        : this.utilService.notification(
+        : JSON.parse(value).par_modo !== 'O' ? this.utilService.notification(
               `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
               'error'
-              );
+              ) : ''
               if (err.status == 404) this.dataSent = [];
             },
       complete: () => {

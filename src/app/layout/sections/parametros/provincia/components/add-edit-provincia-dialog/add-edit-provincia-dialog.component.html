@@ -50,7 +50,7 @@
     <div class="seeker-fields-container">
       <h3> PORCENTAJE DE FLETE A TRANSPORTISTA </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="flete_transportista" required minlength="1" maxlength="6" 
+        <input matInput formControlName="flete_transportista" required minlength="1" maxlength="7" 
           [max]="999">
         <mat-error
           *ngIf="formGroup.get('flete_transportista')?.invalid && formGroup.get('flete_transportista')?.touched">
