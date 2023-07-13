@@ -9,11 +9,7 @@ import { ProductoService } from 'src/app/core/services/producto.service';
 import { IProducto } from 'src/app/core/models/producto.interface';
 
 // * Material
-import {
-  MatDialog,
-  MatDialogRef,
-  MAT_DIALOG_DATA,
-} from '@angular/material/dialog';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 // * Forms
 import {
@@ -30,7 +26,7 @@ import {
 } from 'src/app/core/validators/character.validator';
 
 // * Components
-import { UnificacionAporteProductoSetDialogComponent } from './unificacion-aporte-producto-set-dialog/unificacion-aporte-producto-set-dialog.component';
+import { UnificacionSetProductoDialogComponent } from './unificacion-set-producto-dialog/unificacion-set-producto-dialog.component';
 
 @Component({
   selector: 'app-add-edit-unificacion-aporte-producto',
@@ -119,15 +115,12 @@ export class AddEditUnificacionAporteProductoComponent {
   }
 
   private setProducto(data: IProducto[]): void {
-    const modal = this.dialog.open(
-      UnificacionAporteProductoSetDialogComponent,
-      {
-        data: {
-          title: 'SELECCIONE UN PRODUCTO/SUBPRODUCTO',
-          data: data,
-        },
-      }
-    );
+    const modal = this.dialog.open(UnificacionSetProductoDialogComponent, {
+      data: {
+        title: 'SELECCIONE UN PRODUCTO/SUBPRODUCTO',
+        data: data,
+      },
+    });
     modal.afterClosed().subscribe({
       next: (res) => {
         if (res) {

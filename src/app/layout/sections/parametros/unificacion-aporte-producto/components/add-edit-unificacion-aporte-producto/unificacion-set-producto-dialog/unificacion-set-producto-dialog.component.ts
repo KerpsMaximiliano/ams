@@ -12,11 +12,11 @@ import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { ConfirmDialogComponent } from '../../../../../components/confirm-dialog/confirm-dialog.component';
 
 @Component({
-  selector: 'app-unificacion-aporte-producto-set-dialog',
-  templateUrl: './unificacion-aporte-producto-set-dialog.component.html',
-  styleUrls: ['./unificacion-aporte-producto-set-dialog.component.scss'],
+  selector: 'app-unificacion-set-producto-dialog',
+  templateUrl: './unificacion-set-producto-dialog.component.html',
+  styleUrls: ['./unificacion-set-producto-dialog.component.scss'],
 })
-export class UnificacionAporteProductoSetDialogComponent implements OnInit {
+export class UnificacionSetProductoDialogComponent implements OnInit {
   public displayedColumns: string[] = [
     'producto_principal',
     'producto_principal_descripcion',
