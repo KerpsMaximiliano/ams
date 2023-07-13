@@ -76,6 +76,14 @@ export function isAlphanumericWithPointAndSpaces(): ValidatorFn {
   };
 }
 
+// Decimal.
+export function isDecimal(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    let regex = /^\d{1,3}(?:,\d{1,3})?$/;
+    return regex.test(control.value) ? null : { notDecimal: true };
+  };
+}
+
 export function getErrorMessage(control: any) {
   if (control.errors?.['required']) {
     return `Este campo es obligatorio.`;
@@ -109,6 +117,9 @@ export function getErrorMessage(control: any) {
     }
     if (control.errors?.['notPercentage']) {
       return `Debe ser un número que represente un porcentaje. Ej: 1.5`;
+    }
+    if (control.errors?.['notDecimal']) {
+      return `Debe ser un número que represente un decimal o un entero, maximo 3 enteros y 3 decimales. Ej: 121,525`;
     }
   }
   return '';

@@ -14,9 +14,9 @@ import {
 import {
   isAlpha,
   isNumeric,
-  isPercentage,
   notOnlySpaces,
   getErrorMessage,
+  isDecimal,
 } from 'src/app/core/validators/character.validator';
 
 // * Material
@@ -112,8 +112,8 @@ export class AddEditProvinciaDialogComponent {
         Validators.compose([
           Validators.required,
           Validators.minLength(1),
-          Validators.maxLength(6),
-          isPercentage(),
+          Validators.maxLength(7),
+          isDecimal(),
         ])
       ),
     });
