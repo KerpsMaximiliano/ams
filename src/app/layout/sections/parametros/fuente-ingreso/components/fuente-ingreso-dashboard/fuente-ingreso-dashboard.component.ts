@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, ViewChild } from '@angular/core';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 
 // * Services
@@ -7,6 +7,7 @@ import { FuenteIngresoService } from 'src/app/core/services/fuente-ingreso.servi
 
 // * Interfaces
 import { IFuenteIngreso } from 'src/app/core/models/fuente-ingreso.interface';
+import { IEmpresaFactura } from 'src/app/core/models/empresa-factura.interface';
 
 // * Material
 import { MatDialog } from '@angular/material/dialog';
@@ -33,6 +34,7 @@ export class FuenteIngresoDashboardComponent {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator =
     new MatPaginator(new MatPaginatorIntl(), this.cdr);
   @ViewChild(MatTable) table!: MatTable<any>;
+  @Input() public datosEmpresas: IEmpresaFactura[];
 
   public displayedColumns: string[] = [
     'codigo_fuente_ingreso',
@@ -45,7 +47,6 @@ export class FuenteIngresoDashboardComponent {
   public dataSource: MatTableDataSource<IFuenteIngreso>;
   public searchValue: searchValue;
   fuenteIngresos: IFuenteIngreso[];
-  listEmpresas: any[];
 
   constructor(
     private utils: UtilService,
@@ -56,22 +57,6 @@ export class FuenteIngresoDashboardComponent {
   ) {}
 
   ngOnInit() {
-    let body = {
-      par_modo: 'E',
-    };
-    this.fuentesIngresoService.CRUD(JSON.stringify(body)).subscribe({
-      next: (res: any) => {
-        this.listEmpresas = res.dataset;
-      },
-      error: (err: any) => {
-        err.status == 0
-          ? this.utils.notification('Error de conexión. ', 'error')
-          : this.utils.notification(
-              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}. `,
-              'error'
-            );
-      },
-    });
     this.paginator._intl.itemsPerPageLabel = 'Elementos por página: ';
     this.paginator._intl.nextPageLabel = 'Página siguiente.';
     this.paginator._intl.previousPageLabel = 'Página anterior.';
@@ -89,17 +74,12 @@ export class FuenteIngresoDashboardComponent {
   }
 
   public obtenerNombreEmpresa(id: number): string {
-    const empresa = this.listEmpresas.find((emp) => emp.id_empresa === id);
+    const empresa = this.datosEmpresas.find((emp) => emp.id_empresa === id);
     return empresa ? empresa.descripcion : '';
   }
 
-  private getFuenteIngreso(): void {
+  public getFuenteIngreso(body: any): void {
     this.utils.openLoading();
-    let body = {
-      par_modo: this.searchValue.par_modo,
-      descripcion: this.searchValue.descripcion,
-      desc_empresa: this.searchValue.empresa_asociada,
-    };
     this.fuentesIngresoService.CRUD(JSON.stringify(body)).subscribe({
       next: (res: any) => {
         res.dataset.length
@@ -176,6 +156,7 @@ export class FuenteIngresoDashboardComponent {
           liquidacion_mensual: fuenteIngreso?.liquidacion_mensual,
           condicion_venta_venc: fuenteIngreso?.condicion_venta_venc,
           condicion_venta_dos_venc: fuenteIngreso?.condicion_venta_dos_venc,
+          datosEmpresa: this.datosEmpresas,
         },
       }
     );
@@ -204,6 +185,11 @@ export class FuenteIngresoDashboardComponent {
             complete: () => {
               this.utils.closeLoading();
               setTimeout(() => {}, 300);
+              let body = {
+                par_modo: 'R',
+                codigo_fuente_ingreso: res.codigo_fuente_ingreso,
+              };
+              this.getFuenteIngreso(body);
             },
           });
         }
@@ -250,12 +236,19 @@ export class FuenteIngresoDashboardComponent {
         liquidacion_mensual: fuenteIngreso?.liquidacion_mensual,
         condicion_venta_venc: fuenteIngreso?.condicion_venta_venc,
         condicion_venta_dos_venc: fuenteIngreso?.condicion_venta_dos_venc,
+        datosEmpresa: this.datosEmpresas,
       },
     });
   }
 
   public filter(buscar: searchValue): void {
-    this.searchValue = buscar;
-    this.getFuenteIngreso();
+    let body = {
+      par_modo: buscar.par_modo,
+      descripcion: buscar.descripcion,
+      desc_empresa: buscar.empresa_asociada,
+    };
+    console.log(body);
+    
+    this.getFuenteIngreso(body);
   }
 }

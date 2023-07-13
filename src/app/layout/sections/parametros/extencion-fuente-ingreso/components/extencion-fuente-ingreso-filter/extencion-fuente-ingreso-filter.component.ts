@@ -1,6 +1,10 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 // * service
 import { ExtencionFuenteIngresoService } from 'src/app/core/services/extencion-fuente-ingreso.service';
+import { FuenteIngresoService } from 'src/app/core/services/fuente-ingreso.service';
+// * Interface
+import { IExtencionFuenteIngreso } from 'src/app/core/models/extencion-fuente-ingreso.interface';
+import { IFuenteIngreso } from 'src/app/core/models/fuente-ingreso.interface';
 // * Forms
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 // * Material
@@ -9,7 +13,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { getErrorMessage } from 'src/app/core/validators/character.validator';
 // * Components
 import { ModalExtencionProductoComponent } from '../add-edit-extencion-fuente-ingreso/modal-extencion-producto/modal-extencion-producto.component';
-import { IExtencionFuenteIngreso } from 'src/app/core/models/extencion-fuente-ingreso.interface';
 
 @Component({
   selector: 'app-extencion-fuente-ingreso-filter',
@@ -20,7 +23,7 @@ export class ExtencionFuenteIngresoFilterComponent {
   @Output() searchEvent: EventEmitter<any> = new EventEmitter<any>();
   public getErrorMessage = getErrorMessage;
   public listaFechas: IExtencionFuenteIngreso[];
-  public fuenteIngreso: { fuenteIngreso: string; codigo: number };
+  public fuenteIngreso: IFuenteIngreso;
   searchForm = new UntypedFormGroup({
     fuente_ingreso: new UntypedFormControl(),
     codigo_fuente_ingreso: new UntypedFormControl(),
@@ -31,9 +34,10 @@ export class ExtencionFuenteIngresoFilterComponent {
 
   constructor(
     private _extencionFuenteIngreso: ExtencionFuenteIngresoService,
+    private fuenteIngresoService: FuenteIngresoService,
     private dialog: MatDialog
   ) {
-    this.fuenteIngreso = this._extencionFuenteIngreso.get();
+    this.fuenteIngreso = this.fuenteIngresoService.get();
   }
 
   ngOnInit() {
@@ -42,10 +46,10 @@ export class ExtencionFuenteIngresoFilterComponent {
 
   cargaDatos() {
     this.searchForm.get('codigo_fuente_ingreso')?.setValue(
-      this.fuenteIngreso?.codigo
+      this.fuenteIngreso?.codigo_fuente_ingreso
     );
     this.searchForm.get('fuente_ingreso')?.setValue(
-      this.fuenteIngreso?.fuenteIngreso
+      this.fuenteIngreso?.descripcion
     );
     this.searchForm.get('fuente_ingreso')?.disable;
   }

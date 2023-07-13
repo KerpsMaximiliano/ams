@@ -10,6 +10,7 @@ import {
   IFuenteIngreso,
   IFuenteIngresoResponse,
 } from 'src/app/core/models/fuente-ingreso.interface';
+import { IEmpresaFactura } from 'src/app/core/models/empresa-factura.interface';
 
 // * Material
 import { MatDialog } from '@angular/material/dialog';
@@ -20,6 +21,7 @@ import {
   FuenteIngresoDashboardComponent,
   searchValue,
 } from './components/fuente-ingreso-dashboard/fuente-ingreso-dashboard.component';
+import { EmpresaFacturaService } from 'src/app/core/services/empresa-factura.service';
 
 @Component({
   selector: 'app-fuente-ingreso',
@@ -30,18 +32,52 @@ export class FuenteIngresoComponent {
   @ViewChild(FuenteIngresoDashboardComponent)
   dashboard: FuenteIngresoDashboardComponent;
   fuentesingreso$: Observable<IFuenteIngresoResponse>;
-  empresas$: Observable<any>;
+  datosEmpresa: IEmpresaFactura[] = [];
 
   constructor(
-    private utils: UtilService,
+    private utilService: UtilService,
     private dialog: MatDialog,
-    private fuenteIngresoService: FuenteIngresoService
-  ) {}
+    private fuenteIngresoService: FuenteIngresoService,
+    private empresaFacturaService: EmpresaFacturaService
+  ) {
+    this.loadEmpresa();
+  }
 
   ngOnInit() {}
 
-  public handleSearch(inputValue: searchValue): void {
+  public handleSearch(inputValue: any): void {
     this.dashboard.filter(inputValue);
+  }
+
+  loadEmpresa() {
+    this.utilService.openLoading();
+    this.empresaFacturaService
+      .CRUD(
+        JSON.stringify({
+          par_modo: 'O',
+          descripcion: '',
+        })
+      )
+      .subscribe({
+        next: (res: any) => {
+          console.log(res);
+
+          this.datosEmpresa = res.dataset;
+        },
+        error: (err: any) => {
+          this.utilService.closeLoading();
+          err.status === 0
+            ? this.utilService.notification('Error de conexión.', 'error')
+            : this.utilService.notification(
+                `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+                'error'
+              );
+          if (err.status == 404) this.datosEmpresa = [];
+        },
+        complete: () => {
+          this.utilService.closeLoading();
+        },
+      });
   }
 
   public nuevaFuenteIngreso(fuenteIngreso?: IFuenteIngreso): void {
@@ -85,6 +121,7 @@ export class FuenteIngresoComponent {
           liquidacion_mensual: fuenteIngreso?.liquidacion_mensual,
           condicion_venta_venc: fuenteIngreso?.condicion_venta_venc,
           condicion_venta_dos_venc: fuenteIngreso?.condicion_venta_dos_venc,
+          datosEmpresa: this.datosEmpresa,
         },
       }
     );
@@ -93,35 +130,35 @@ export class FuenteIngresoComponent {
       next: (res) => {
         if (res) {
           console.log(res);
-          
-          this.utils.openLoading();
+
+          this.utilService.openLoading();
           this.fuenteIngresoService.CRUD(res).subscribe({
             next: (res: any) => {
-              this.utils.notification(
+              this.utilService.notification(
                 'La fuente de ingreso se ha creado exitosamente. ',
                 'success'
               );
             },
             error: (err: any) => {
-              this.utils.closeLoading();
+              console.log(err);
+
+              this.utilService.closeLoading();
               err.status == 0
-                ? this.utils.notification('Error de conexión. ', 'error')
-                : this.utils.notification(
+                ? this.utilService.notification('Error de conexión. ', 'error')
+                : this.utilService.notification(
                     `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
                     'error'
                   );
               this.nuevaFuenteIngreso(res);
             },
             complete: () => {
-              this.utils.closeLoading();
+              this.utilService.closeLoading();
               setTimeout(() => {
-                this.handleSearch(
-                  {
-                    par_modo: 'R',
-                    descripcion: res.descripcion,
-                    empresa_asociada: res.empresa_asociada,
-                  }
-                );
+                let body = {
+                  par_modo: 'R',
+                  codigo_fuente_ingreso: res.codigo_fuente_ingreso,
+                };
+                this.dashboard.getFuenteIngreso(body);
               }, 300);
             },
           });
