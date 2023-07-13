@@ -66,10 +66,6 @@ export class ProvinciaComponent implements OnDestroy {
         );
       });
     dialogRef.afterClosed().subscribe(() => {
-      this.getData(JSON.stringify({
-        par_modo: 'O',
-        nombre_provincia: ''
-      }))
       this.dataSharingService.unsubscribeData(this.dataSubscription!);
       this.dataSubscription = undefined;
     });
