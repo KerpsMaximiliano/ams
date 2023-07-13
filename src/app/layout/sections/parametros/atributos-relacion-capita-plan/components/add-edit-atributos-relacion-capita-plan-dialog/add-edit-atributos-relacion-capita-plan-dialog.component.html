@@ -21,7 +21,8 @@
         <div class="seeker-fields-container">
           <h3> FUENTE DE INGRESO SUBORDINADA </h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
-            <input matInput formControlName="descripcion_fuente_subordinada" />
+            <input matInput formControlName="descripcion_fuente_subordinada"
+              placeholder="Sin fuente de ingreso subordinada." />
             <mat-error
               *ngIf="formGroup.get('descripcion_fuente_subordinada')?.invalid && formGroup.get('descripcion_fuente_subordinada')?.touched">
               {{ getErrorMessage(formGroup.get("descripcion_fuente_subordinada")) }}
@@ -34,7 +35,7 @@
             <div class="seeker-fields-container">
               <h3> PRODUCTO </h3>
               <mat-form-field class="seeker-form-field" appearance="outline">
-                <input matInput class="seeker-input" placeholder="Busque un producto/subproducto."
+                <input matInput class="seeker-input" placeholder="Seleccione un producto/subproducto."
                   formControlName="descripcion_producto" #descripcionProducto readonly required>
                 <mat-error
                   *ngIf="formGroup.get('descripcion_producto')?.invalid && formGroup.get('descripcion_producto')?.touched">
@@ -47,8 +48,12 @@
               <h3> SUBPRODUCTO </h3>
               <mat-form-field class="seeker-form-field" appearance="outline">
                 <input matInput class="seeker-input" formControlName="descripcion_subproducto"
-                  [placeholder]="descripcionProducto.value ? '' : 'Busque un producto/subproducto.'"
+                  [placeholder]="descripcionProducto.value ? 'Sin subproducto.' : 'Seleccione un producto/subproducto.'"
                   #descripcionSubproducto readonly>
+                <mat-error
+                  *ngIf="formGroup.get('descripcion_subproducto')?.invalid && formGroup.get('descripcion_subproducto')?.touched">
+                  {{ getErrorMessage(formGroup.get("descripcion_subproducto")) }}
+                </mat-error>
               </mat-form-field>
             </div>
           </div>
@@ -59,9 +64,9 @@
               <mat-icon class="material-symbols-outlined"> search </mat-icon>
             </div>
             <div
-              [class]="formGroup.get('descripcion_producto_administrador')?.value && formGroup.get('descripcion_fuente_adm_mixta')?.value  ? 'icon' : 'icon disabled fix'"
-              (click)="clear(descripcionProducto, 'descripcion_producto_administrador', descripcionSubproducto,
-            'descripcion_producto_subordinado')">
+              [class]="formGroup.get('descripcion_producto')?.value && formGroup.get('descripcion_fuente_adm_mixta')?.value  ? 'icon' : 'icon disabled fix'"
+              (click)="clear(descripcionProducto, 'descripcion_producto', descripcionSubproducto,
+            'descripcion_subproducto')">
               <mat-icon class="material-symbols-outlined"> close </mat-icon>
             </div>
           </div>
@@ -72,14 +77,16 @@
           <div class="content">
             <mat-form-field class="seeker-form-field" appearance="outline">
               <input matInput formControlName="descripcion_plan" required minlength="3" #descripcionPlan readonly
-                placeholder="Busque un plan." />
+                [placeholder]="formGroup.get('descripcion_producto')?.value ? 'Seleccione un plan.' : 'Debe seleccionar un producto/subproducto.'" />
               <mat-error
                 *ngIf="formGroup.get('descripcion_plan')?.invalid && formGroup.get('descripcion_plan')?.touched">
-                {{ getErrorMessage(formGroup.get("descripcion_plan")) }}
+                {{ formGroup.get('descripcion_producto')?.value ? getErrorMessage(formGroup.get("descripcion_plan")) :
+                'Producto/subproducto requerido.' }}
               </mat-error>
             </mat-form-field>
             <ng-container *ngIf="data.par_modo !== 'R'">
-              <div [class]="formGroup.get('descripcion_producto_administrador')?.value ? 'icon' : 'icon disabled fix'">
+              <div (click)="getProducto()"
+                [class]="formGroup.get('descripcion_producto')?.value ? 'icon' : 'icon disabled fix'">
                 <mat-icon class="material-symbols-outlined"> search </mat-icon>
               </div>
               <div (click)="clear(descripcionPlan, 'descripcion_plan')"

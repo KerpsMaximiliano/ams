@@ -17,7 +17,7 @@
         <div class="seeker-fields-container pb-none">
           <h4> Fuente de ingreso subordinada </h4>
           <mat-form-field class="seeker-form-field" appearance="outline">
-            <input matInput
+            <input matInput placeholder="Sin fuente de ingreso subordinada."
               [value]="this.fuenteIngreso.descripcion_fuente_adm_mixta ? this.fuenteIngreso.descripcion : ''" disabled>
           </mat-form-field>
         </div>
@@ -27,7 +27,7 @@
             <div class="seeker-fields-container pb-none">
               <h4> Producto </h4>
               <mat-form-field class="seeker-form-field" appearance="outline">
-                <input matInput class="seeker-input" placeholder="Busque un producto/subproducto" disabled
+                <input matInput class="seeker-input" placeholder="Seleccione un producto/subproducto" disabled
                   #descripcionProducto>
               </mat-form-field>
             </div>
@@ -36,8 +36,8 @@
               <h4> Subproducto </h4>
               <mat-form-field class="seeker-form-field" appearance="outline">
                 <input matInput class="seeker-input"
-                  [placeholder]="descripcionProducto.value ? '' : 'Busque un producto/subproducto'" disabled
-                  #descripcionSubproducto>
+                  [placeholder]="descripcionProducto.value ? 'Sin subproducto.' : 'Seleccione un producto/subproducto'"
+                  disabled #descripcionSubproducto>
               </mat-form-field>
             </div>
           </div>
@@ -57,8 +57,13 @@
         <div class="seeker-fields-container pb-none">
           <h4> Plan </h4>
           <mat-form-field class="seeker-form-field" appearance="outline">
-            <input matInput class="seeker-input" #plan placeholder="Ingrese la descripción del plan"
-              (keydown.enter)="performSearch(plan.value)"
+            <input matInput class="seeker-input" #descripcionPlan placeholder="Ingrese la descripción del plan"
+              (keydown.enter)="performSearch(codigoPlan.value, descripcionPlan.value)"
+              [disabled]="descripcionProducto.value.length === 0 && descripcionSubproducto.value.length === 0">
+          </mat-form-field>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <input matInput class="seeker-input" #codigoPlan placeholder="Ingrese el código del plan"
+              (keydown.enter)="performSearch(codigoPlan.value, descripcionPlan.value)"
               [disabled]="descripcionProducto.value.length === 0 && descripcionSubproducto.value.length === 0">
           </mat-form-field>
         </div>
@@ -66,12 +71,12 @@
         <div class="buttons-container">
           <button class="primary-button icon-button" type="button"
             [disabled]="descripcionProducto.value.length === 0 && descripcionSubproducto.value.length === 0"
-            (click)="performSearch(plan.value)">
+            (click)="performSearch(codigoPlan.value, descripcionPlan.value)">
             <mat-icon> done </mat-icon>
             Buscar
           </button>
-          <button class="primary-button icon-button" type="button" (click)="clearFilter(plan)"
-            [disabled]="plan.value.length === 0">
+          <button class="primary-button icon-button" type="button" (click)="clear(codigoPlan, descripcionPlan)"
+            [disabled]="codigoPlan.value.length === 0 && descripcionPlan.value.length === 0">
             <mat-icon> close </mat-icon>
             Limpiar
           </button>

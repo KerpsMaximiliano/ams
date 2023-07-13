@@ -190,8 +190,12 @@ export class AtributosRelacionCapitaPlanComponent implements OnInit, OnDestroy {
         edit: edit,
         par_modo: par_modo,
         fuenteIngreso: this.fuenteIngreso,
-        codigo_fuente_adm_mixta: data?.codigo_fuente_adm_mixta,
-        cod_fuente_subordinada: data?.cod_fuente_subordinada,
+        codigo_fuente_adm_mixta:
+          this.fuenteIngreso.codigo_fuente_admin ||
+          this.fuenteIngreso.codigo_fuente_ingreso,
+        cod_fuente_subordinada: this.fuenteIngreso.codigo_fuente_admin
+          ? this.fuenteIngreso.codigo_fuente_ingreso
+          : 0,
         producto_cap_adm: data?.producto_cap_adm,
         plan_producto_cap_adm: data?.plan_producto_cap_adm,
         producto_cap_sub: data?.producto_cap_sub,
@@ -234,7 +238,7 @@ export class AtributosRelacionCapitaPlanComponent implements OnInit, OnDestroy {
             codigo_fuente_adm_mixta: data.codigo_fuente_adm_mixta,
             cod_fuente_subordinada: data.cod_fuente_subordinada,
             producto_cap_adm: data.producto_cap_adm,
-            prodocto_cap_sub: data.producto_cap_sub,
+            producto_cap_sub: data.producto_cap_sub,
             plan_producto_cap_adm: data.plan_producto_cap_adm,
           })
         );
@@ -242,7 +246,7 @@ export class AtributosRelacionCapitaPlanComponent implements OnInit, OnDestroy {
       error: (err: any) => {
         this.utilService.closeLoading();
         err.status === 0
-          ? this.utilService.notification('Error de conexión.', 'error')
+          ? this.utilService.notification('Error de conexión. ', 'error')
           : this.utilService.notification(
               `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
               'error'

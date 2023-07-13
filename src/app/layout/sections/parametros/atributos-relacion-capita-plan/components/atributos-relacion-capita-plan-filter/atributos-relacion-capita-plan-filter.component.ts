@@ -40,32 +40,46 @@ export class AtributosRelacionCapitaPlanFilterComponent {
     private dialog: MatDialog
   ) {}
 
-  public performSearch(value: string): void {
-    let codigo;
-
-    this.fuenteIngreso.codigo_fuente_admin
-      ? (codigo = this.fuenteIngreso.codigo_fuente_admin)
-      : (codigo = this.fuenteIngreso.codigo_fuente_ingreso);
-
-    this.search.emit(
-      JSON.stringify({
-        par_modo: 'O',
-        codigo_fuente_adm_mixta:
-          this.fuenteIngreso.codigo_fuente_admin ||
-          this.fuenteIngreso.codigo_fuente_admin ||
-          0,
-        cod_fuente_subordinada: this.fuenteIngreso.codigo_fuente_admin
-          ? this.fuenteIngreso.codigo_fuente_ingreso
-          : 0,
-        producto_cap_adm: this.codigoProducto,
-        producto_cap_sub: this.codigoSubproducto,
-        descripcion_plan: value,
-      })
-    );
+  public performSearch(codigoPlan: string, descripcionPlan: string): void {
+    if (codigoPlan) {
+      this.search.emit(
+        JSON.stringify({
+          par_modo: 'R',
+          codigo_fuente_adm_mixta:
+            this.fuenteIngreso.codigo_fuente_admin ||
+            this.fuenteIngreso.codigo_fuente_ingreso,
+          cod_fuente_subordinada: this.fuenteIngreso.codigo_fuente_admin
+            ? this.fuenteIngreso.codigo_fuente_ingreso
+            : 0,
+          producto_cap_adm: this.codigoProducto,
+          producto_cap_sub: this.codigoSubproducto,
+          plan_producto_cap_adm: codigoPlan,
+        })
+      );
+    } else {
+      this.search.emit(
+        JSON.stringify({
+          par_modo: 'O',
+          codigo_fuente_adm_mixta:
+            this.fuenteIngreso.codigo_fuente_admin ||
+            this.fuenteIngreso.codigo_fuente_ingreso,
+          cod_fuente_subordinada: this.fuenteIngreso.codigo_fuente_admin
+            ? this.fuenteIngreso.codigo_fuente_ingreso
+            : 0,
+          producto_cap_adm: this.codigoProducto,
+          producto_cap_sub: this.codigoSubproducto,
+          descripcion_plan: descripcionPlan,
+        })
+      );
+    }
   }
 
-  public clearFilter(inputElement: HTMLInputElement): void {
-    inputElement.value = '';
+  public clear(
+    inputElementOne: HTMLInputElement,
+    inputElementTwo: HTMLInputElement
+  ): void {
+    inputElementOne.value = '';
+    inputElementTwo.value = '';
   }
 
   public getProducto(): void {
@@ -132,13 +146,5 @@ export class AtributosRelacionCapitaPlanFilterComponent {
         }
       },
     });
-  }
-
-  public clear(
-    inputElementOne: HTMLInputElement,
-    inputElementTwo: HTMLInputElement
-  ): void {
-    inputElementOne.value = '';
-    inputElementTwo.value = '';
   }
 }

@@ -1,5 +1,4 @@
 import { Component, Inject } from '@angular/core';
-import { Router } from '@angular/router';
 
 // * Services
 import { DataSharingService } from 'src/app/core/services/data-sharing.service';
@@ -51,10 +50,10 @@ export class AddEditAtributosRelacionCapitaPlanDialogComponent {
     private productoService: ProductoService,
     private utilService: UtilService,
     private dialog: MatDialog,
-    private router: Router,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.setUpForm();
+    this.configureValidators();
   }
 
   public nextStep(): void {
@@ -77,6 +76,32 @@ export class AddEditAtributosRelacionCapitaPlanDialogComponent {
     if (this.formGroup.valid) {
       this.dataSharingService.sendData({
         par_modo: this.data.par_modo,
+        codigo_fuente_adm_mixta: this.data?.codigo_fuente_adm_mixta,
+        cod_fuente_subordinada: this.data?.cod_fuente_subordinada,
+        producto_cap_adm: this.data?.producto_cap_adm,
+        producto_cap_sub: this.data?.producto_cap_sub,
+        // Desde usuario. Modificar formGroup 'plan_producto_cap_adm' por this.data. ...
+        plan_producto_cap_adm: this.formGroup.get('plan_producto_cap_adm')
+          ?.value,
+        genera_liquidacion: this.formGroup.get('genera_liquidacion')?.value,
+        mod_carga_afiliacion: this.formGroup.get('mod_carga_afiliacion')?.value,
+        solicita_ddjj: this.formGroup.get('solicita_ddjj')?.value,
+        liquida_mensualmente: this.formGroup.get('liquida_mensualmente')?.value,
+        calcula_comision_SN: this.formGroup.get('calcula_comision_SN')?.value,
+        recupera_Ob_Soc: this.formGroup.get('recupera_Ob_Soc')?.value,
+        reaseguro_SN: this.formGroup.get('reaseguro_SN')?.value,
+        legajo: this.formGroup.get('legajo')?.value,
+        zona: this.formGroup.get('zona')?.value,
+        division: this.formGroup.get('division')?.value,
+        seccion: this.formGroup.get('seccion')?.value,
+        subseccion: this.formGroup.get('subseccion')?.value,
+        val_cod_empresa: this.formGroup.get('val_cod_empresa')?.value,
+        controla_dec_juradas: this.formGroup.get('controla_dec_juradas')?.value,
+        modelo_dec_jurada_vig: this.formGroup.get('modelo_dec_jurada_vig')
+          ?.value,
+        modelo_cuest_baja_vig: this.formGroup.get('modelo_cuest_baja_vig')
+          ?.value,
+        descripcion_plan: this.formGroup.get('descripcion_plan')?.value,
       });
     } else {
       this.formGroup.markAllAsTouched();
@@ -105,9 +130,7 @@ export class AddEditAtributosRelacionCapitaPlanDialogComponent {
       .CRUD(
         JSON.stringify({
           par_modo: 'F',
-          codigo_fuente_ingreso: this.data.fuenteIngreso.codigo_fuente_admin
-            ? this.data.fuenteIngreso.codigo_fuente_admin
-            : this.data.fuenteIngreso.codigo_fuente_ingreso,
+          codigo_fuente_ingreso: this.data.codigo_fuente_adm_mixta,
         })
       )
       .subscribe({
@@ -132,6 +155,20 @@ export class AddEditAtributosRelacionCapitaPlanDialogComponent {
       });
   }
 
+  private configureValidators(): void {
+    this.formGroup
+      .get('descripcion_producto')
+      ?.valueChanges.subscribe((value) => {
+        const control = this.formGroup.get('descripcion_subproducto');
+
+        value
+          ? control?.clearValidators()
+          : control?.setValidators(Validators.required);
+
+        control?.updateValueAndValidity();
+      });
+  }
+
   private setUpForm(): void {
     this.formGroup = new UntypedFormGroup({
       descripcion_fuente_adm_mixta: new UntypedFormControl(
@@ -147,8 +184,8 @@ export class AddEditAtributosRelacionCapitaPlanDialogComponent {
       ),
       descripcion_fuente_subordinada: new UntypedFormControl({
         value: this.data.fuenteIngreso.descripcion_fuente_adm_mixta
-          ? this.data.fuenteIngreso.descripcion_fuente_subordinada
-            ? this.data.fuenteIngreso.descripcion_fuente_subordinada.trim()
+          ? this.data.fuenteIngreso.descripcion
+            ? this.data.fuenteIngreso.descripcion.trim()
             : ''
           : '',
         disabled: true,
@@ -166,12 +203,15 @@ export class AddEditAtributosRelacionCapitaPlanDialogComponent {
           notOnlySpaces(),
         ])
       ),
-      descripcion_subproducto: new UntypedFormControl({
-        value: this.data.descripcion_subproducto
-          ? this.data.descripcion_subproducto.trim()
-          : '',
-        disabled: this.data.par_modo === 'R' || this.data.par_modo === 'U',
-      }),
+      descripcion_subproducto: new UntypedFormControl(
+        {
+          value: this.data.descripcion_subproducto
+            ? this.data.descripcion_subproducto.trim()
+            : '',
+          disabled: this.data.par_modo === 'R' || this.data.par_modo === 'U',
+        },
+        Validators.required
+      ),
       descripcion_plan: new UntypedFormControl(
         {
           value: this.data.descripcion_plan
@@ -407,21 +447,22 @@ export class AddEditAtributosRelacionCapitaPlanDialogComponent {
     modal.afterClosed().subscribe({
       next: (res) => {
         if (res) {
-          this.data.producto_administrador =
+          this.data.producto_cap_adm =
             res?.producto_administrador || res?.codigo_producto || 0;
           this.formGroup
-            .get('descripcion_producto_administrador')
+            .get('descripcion_producto')
             ?.setValue(
               res?.descripcion_producto_administrador.trim() ||
                 res?.descripcion_producto.trim() ||
                 ''
             );
 
-          this.data.codigo_producto = res.producto_administrador
+          this.data.producto_cap_sub = res.producto_administrador
             ? res?.codigo_producto
             : 0;
+
           this.formGroup
-            .get('descripcion_producto_subordinado')
+            .get('descripcion_subproducto')
             ?.setValue(
               res?.descripcion_producto_administrador
                 ? res?.descripcion_producto.trim()

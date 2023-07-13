@@ -1,8 +1,3 @@
-/* Corrección color dialog */
-::ng-deep .mat-dialog-container {
-  background-color: #fff;
-}
-
 .dialog-content {
   display: flex;
   flex-direction: column;
@@ -34,11 +29,6 @@ tr.mat-header-row {
 
 tr.mat-row {
   height: 2.7rem;
-}
-
-::ng-deep .mat-paginator-container {
-  min-height: 3rem !important;
-  max-height: 3rem !important;
 }
 
 .btn {
@@ -99,13 +89,6 @@ td.mat-cell:first-of-type {
 .mat-column-actions.mat-header-cell,
 .mat-column-actions.mat-cell {
   min-width: 100px;
-}
-
-/*
- * Oculta la paginación y el botón confirmar hasta que existan datos.
-*/
-.d-none {
-  display: none;
 }
 
 /*
