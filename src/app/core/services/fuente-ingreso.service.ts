@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { EnvironmentService } from './environment.service';
 
 // * Interfaces
-import { IFuenteIngresoResponse } from '../models/fuente-ingreso.interface';
+import { IFuenteIngreso, IFuenteIngresoResponse } from '../models/fuente-ingreso.interface';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -16,10 +16,28 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class FuenteIngresoService {
+  fuenteIngreso: IFuenteIngreso;
+  back: boolean=false;
   constructor(
     private http: HttpClient,
     private environmentService: EnvironmentService
   ) {}
+
+  set(fuente_ingreso: IFuenteIngreso) {
+    this.fuenteIngreso = fuente_ingreso;
+  }
+
+  get() {
+    return this.fuenteIngreso;
+  }
+
+  public getBack(): boolean{
+    return this.back;
+  }
+
+  public setBack(value: boolean): void {
+    this.back = value;
+  }
 
   CRUD(body: string): Observable<IFuenteIngresoResponse> {
     return this.http.post<IFuenteIngresoResponse>(

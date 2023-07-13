@@ -17,6 +17,7 @@ const httpOptions = {
 })
 export class ProductoService {
   private redirecting: boolean = false;
+  private back: boolean = false;
   private product: IProducto;
 
   constructor(
@@ -38,6 +39,14 @@ export class ProductoService {
 
   public setRoute(value: boolean): void {
     this.redirecting = value;
+  }
+
+  public getBack(): boolean{
+    return this.back;
+  }
+
+  public setBack(value: boolean): void {
+    this.back = value;
   }
 
   CRUD(body: string): Observable<IProductoResponse> {

@@ -106,12 +106,22 @@ import { UnificacionAporteProductoDashboardComponent } from './unificacion-aport
 import { UnificacionAporteProductoFilterComponent } from './unificacion-aporte-producto/components/unificacion-aporte-producto-filter/unificacion-aporte-producto-filter.component';
 import { AddEditUnificacionAporteProductoComponent } from './unificacion-aporte-producto/components/add-edit-unificacion-aporte-producto/add-edit-unificacion-aporte-producto.component';
 import { UnificacionSetProductoDialogComponent } from './unificacion-aporte-producto/components/add-edit-unificacion-aporte-producto/unificacion-set-producto-dialog/unificacion-set-producto-dialog.component';
+// 30 - REGLAS PARA MOVIMIENTOS PARA NOVEDADES AUTOMATICAS
+import { AddEditMvmtsNovedadesAutoDialogComponent } from './mvmts-novedades-auto/components/add-edit-mvmts-novedades-auto-dialog/add-edit-mvmts-novedades-auto-dialog.component';
+import { MvmtsNovedadesAutoComponent } from './mvmts-novedades-auto/mvmts-novedades-auto.component';
+import { MvmtsNovedadesAutoDashboardComponent } from './mvmts-novedades-auto/components/mvmts-novedades-auto-dashboard/mvmts-novedades-auto-dashboard.component';
+import { MvmtsNovedadesAutoFilterComponent } from './mvmts-novedades-auto/components/mvmts-novedades-auto-filter/mvmts-novedades-auto-filter.component';
+import { SetProdSubDialogComponent } from './mvmts-novedades-auto/components/set-producto-dialog/set-producto-dialog.component';
+import { SetPlanDialogComponent } from './mvmts-novedades-auto/components/add-edit-mvmts-novedades-auto-dialog/set-plan-dialog/set-plan-dialog.component';
+import { FuenteIngresoSetDialogComponent } from './mvmts-novedades-auto/components/set-fuente-ingreso-dialog/set-fuente-ingreso-dialog.component';
+import { SetMotivMovimientoDialogComponent } from './mvmts-novedades-auto/components/add-edit-mvmts-novedades-auto-dialog/set-motivo-movimiento-dialog/set-motivo-movimiento-dialog.component';
 // 32 - EXTENCION DE FUENTES DE INGRESOS
 import { ExtencionFuenteIngresoComponent } from './extencion-fuente-ingreso/extencion-fuente-ingreso.component';
 import { ExtencionFuenteIngresoDashboardComponent } from './extencion-fuente-ingreso/components/extencion-fuente-ingreso-dashboard/extencion-fuente-ingreso-dashboard.component';
 import { ExtencionFuenteIngresoFilterComponent } from './extencion-fuente-ingreso/components/extencion-fuente-ingreso-filter/extencion-fuente-ingreso-filter.component';
 import { AddEditExtencionFuenteIngresoComponent } from './extencion-fuente-ingreso/components/add-edit-extencion-fuente-ingreso/add-edit-extencion-fuente-ingreso.component';
 import { ModalExtencionProductoComponent } from './extencion-fuente-ingreso/components/add-edit-extencion-fuente-ingreso/modal-extencion-producto/modal-extencion-producto.component';
+import { LocalidadSetDialogComponent } from './localidad/components/add-edit-localidad-dialog/localidad-set-posicion-dialog/localidad-set-posicion-dialog.component';
 
 @NgModule({
   declarations: [
@@ -146,6 +156,7 @@ import { ModalExtencionProductoComponent } from './extencion-fuente-ingreso/comp
     LocalidadComponent,
     LocalidadDashboardComponent,
     LocalidadFilterComponent,
+    LocalidadSetDialogComponent,
     // 07 - FORMAS DE PAGO
     AddEditFormaPagoDialogComponent,
     FormaPagoComponent,
@@ -212,6 +223,15 @@ import { ModalExtencionProductoComponent } from './extencion-fuente-ingreso/comp
     UnificacionAporteProductoDashboardComponent,
     UnificacionAporteProductoFilterComponent,
     UnificacionSetProductoDialogComponent,
+    // 30 - REGLAS PARA MOVIMIENTOS PARA NOVEDADES AUTOMATICAS
+    AddEditMvmtsNovedadesAutoDialogComponent,
+    MvmtsNovedadesAutoDashboardComponent,
+    MvmtsNovedadesAutoFilterComponent,
+    MvmtsNovedadesAutoComponent,
+    SetProdSubDialogComponent,
+    SetPlanDialogComponent,
+    FuenteIngresoSetDialogComponent,
+    SetMotivMovimientoDialogComponent,
     // 32 - EXTENCION FUENTES DE INGRESOS
     ExtencionFuenteIngresoComponent,
     ExtencionFuenteIngresoDashboardComponent,

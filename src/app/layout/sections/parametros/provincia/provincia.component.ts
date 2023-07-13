@@ -86,15 +86,18 @@ export class ProvinciaComponent implements OnDestroy {
       error: (err: any) => {
         this.utilService.closeLoading();
         err.status === 0
-          ? this.utilService.notification('Error de conexión.', 'error')
-          : this.utilService.notification(
+        ? this.utilService.notification('Error de conexión.', 'error')
+        : JSON.parse(value).par_modo !== 'O' ? this.utilService.notification(
               `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
               'error'
-            );
-        if (err.status == 404) this.dataSent = [];
-      },
+              ) : ''
+              if (err.status == 404) this.dataSent = [];
+            },
       complete: () => {
         this.utilService.closeLoading();
+        if(JSON.parse(value).nombre_provincia.trim() === "" || JSON.parse(value).nombre_provincia === undefined) {
+          this.provinciaService.setProvincias(this.dataSent)
+        }
       },
     });
   }

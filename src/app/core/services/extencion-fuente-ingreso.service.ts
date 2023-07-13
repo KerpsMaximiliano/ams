@@ -16,7 +16,6 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class ExtencionFuenteIngresoService {
-  fuenteIngreso: { fuenteIngreso: string; codigo: number };
   constructor(
     private http: HttpClient,
     private environmentService: EnvironmentService
@@ -28,13 +27,5 @@ export class ExtencionFuenteIngresoService {
       body,
       httpOptions
     );
-  }
-
-  set(fuente_ingreso: { fuenteIngreso: string; codigo: number }) {
-    this.fuenteIngreso = fuente_ingreso;
-  }
-
-  get() {
-    return this.fuenteIngreso;
   }
 }

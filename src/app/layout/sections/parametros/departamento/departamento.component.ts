@@ -26,7 +26,6 @@ export class DepartamentoComponent implements OnInit, OnDestroy {
   private dataSubscription: Subscription | undefined;
   public provincias: IProvincia[];
   public dataSent: IDepartamento[];
-  public request: boolean = false;
 
   constructor(
     private dataSharingService: DataSharingService,
@@ -37,7 +36,11 @@ export class DepartamentoComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.getProvincias();
+    if (this.provinciaService.getProvincias() === undefined) {
+      this.getProvincias();
+    } else {
+      this.provincias = this.provinciaService.getProvincias();
+    }
   }
 
   ngOnDestroy(): void {
@@ -141,7 +144,8 @@ export class DepartamentoComponent implements OnInit, OnDestroy {
         this.getDepartamento(
           JSON.stringify({
             par_modo: 'R',
-            tipo_de_documento: data.tipo_de_documento,
+            letra_provincia: data?.letra_provincia,
+            codigo_departamento: data?.codigo_departamento,
           })
         );
       },
@@ -171,7 +175,6 @@ export class DepartamentoComponent implements OnInit, OnDestroy {
           this.provincias = Array.isArray(res.dataset)
             ? (res.dataset as IProvincia[])
             : [res.dataset as IProvincia];
-          this.request = true;
         },
         error: (err: any) => {
           this.utilService.closeLoading();
@@ -183,6 +186,7 @@ export class DepartamentoComponent implements OnInit, OnDestroy {
               );
         },
         complete: () => {
+          this.provinciaService.setProvincias(this.provincias);
           this.utilService.closeLoading();
         },
       });

@@ -45,7 +45,7 @@ export class MotivoMovimientoProductoComponent implements OnInit, OnDestroy {
       return;
     }
     this.productoService.setRoute(true);
-    if (this.productoService.getRoute()) {
+    if (this.productoService.getRoute() && this.productoService.getBack()) {
       if (this.productoService.get()) {
         this.getData(
           JSON.stringify({
@@ -68,6 +68,7 @@ export class MotivoMovimientoProductoComponent implements OnInit, OnDestroy {
 
   public back(): void {
     this.utilService.openLoading();
+    this.productoService.setBack(true);
     this.router.navigate(['parametros/productos']);
     return;
   }
