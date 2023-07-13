@@ -17,9 +17,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 // * Components
 import { AddEditFuenteIngresoDialogComponent } from './components/add-edit-fuente-ingreso-dialog/add-edit-fuente-ingreso-dialog.component';
-import {
-  FuenteIngresoDashboardComponent
-} from './components/fuente-ingreso-dashboard/fuente-ingreso-dashboard.component';
+import { FuenteIngresoDashboardComponent } from './components/fuente-ingreso-dashboard/fuente-ingreso-dashboard.component';
 import { EmpresaFacturaService } from 'src/app/core/services/empresa-factura.service';
 
 @Component({
@@ -128,7 +126,7 @@ export class FuenteIngresoComponent {
         if (res) {
           this.utilService.openLoading();
           this.fuenteIngresoService.CRUD(res).subscribe({
-            next: (res: any) => {
+            next: () => {
               this.utilService.notification(
                 'La fuente de ingreso se ha creado exitosamente. ',
                 'success'

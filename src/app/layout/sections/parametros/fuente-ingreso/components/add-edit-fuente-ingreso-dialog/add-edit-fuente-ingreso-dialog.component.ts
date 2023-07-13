@@ -1,5 +1,5 @@
 import { Component, Inject, Input, inject } from '@angular/core';
-import { concat, toArray } from 'rxjs';
+import { concat, delay, toArray } from 'rxjs';
 
 // * Interface
 import { IFuenteIngreso } from 'src/app/core/models/fuente-ingreso.interface';
@@ -96,7 +96,6 @@ export class AddEditFuenteIngresoDialogComponent {
       { d: 28, dia: 28 },
     ];
     this.listEmpresas = data.datosEmpresa;
-    this.cargaDatos();
     this.setUpForm();
     this.getFuenteIngreso();
   }
@@ -127,7 +126,6 @@ export class AddEditFuenteIngresoDialogComponent {
         this.filtroFuente();
       },
       error: (err: any) => {
-        this.UtilService.closeLoading();
         err.status == 0
           ? this.UtilService.notification('Error de conexión. ', 'error')
           : this.UtilService.notification(
@@ -136,7 +134,7 @@ export class AddEditFuenteIngresoDialogComponent {
             );
       },
       complete: () => {
-        this.UtilService.closeLoading();
+        this.cargaDatos();
       },
     });
   }
@@ -184,7 +182,7 @@ export class AddEditFuenteIngresoDialogComponent {
   }
 
   // * carga de las lista
-  private cargaDatos() {
+  private async cargaDatos() {
     this.UtilService.openLoading();
     concat(
       this.fuentesIngresoService.CRUD(JSON.stringify({ par_modo: 'A' })),
@@ -203,16 +201,17 @@ export class AddEditFuenteIngresoDialogComponent {
           this.listTalonarios = res[2].dataset;
           // * listCondicionV
           this.listCondicionV = res[3].dataset;
-          this.UtilService.closeLoading();
         },
         error: (err: any) => {
-          this.UtilService.closeLoading();
           err.status == 0
             ? this.UtilService.notification('Error de conexión. ', 'error')
             : this.UtilService.notification(
                 `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}. `,
                 'error'
               );
+        },
+        complete: () => {
+          this.UtilService.closeLoading();
         },
       });
   }

@@ -8,6 +8,7 @@
       <td
         class="mat-cell no-data-cell"
         [attr.colspan]="displayedColumns.length"
+        *ngIf="this.dataSource.data.length === 0"
       >
         No se encontraron resultados
       </td>

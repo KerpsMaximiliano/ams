@@ -48,26 +48,28 @@ export class FuenteIngresoDashboardComponent {
   fuenteIngresos: IFuenteIngreso[];
 
   constructor(
-    private utils: UtilService,
+    private utilService: UtilService,
     private _liveAnnouncer: LiveAnnouncer,
     private cdr: ChangeDetectorRef,
     private dialog: MatDialog,
+    private matPaginatorIntl: MatPaginatorIntl,
     private fuentesIngresoService: FuenteIngresoService
   ) {}
 
   ngOnInit() {
+    this.paginator._intl = this.matPaginatorIntl;
     this.paginator._intl.itemsPerPageLabel = 'Elementos por página: ';
     this.paginator._intl.nextPageLabel = 'Página siguiente.';
     this.paginator._intl.previousPageLabel = 'Página anterior.';
     this.paginator._intl.firstPageLabel = 'Primer página.';
-    this.paginator._intl.lastPageLabel = 'Ultima página.';
+    this.paginator._intl.lastPageLabel = 'Última página.';
     this.paginator._intl.getRangeLabel = (
       page: number,
       pageSize: number,
       length: number
     ): string => {
       return length
-        ? 'Página ' + (page + 1) + ' de ' + Math.ceil(length / pageSize)
+        ? `Página ${page + 1} de ${Math.ceil(length / pageSize)}`
         : 'Página 0 de 0';
     };
   }
@@ -78,7 +80,7 @@ export class FuenteIngresoDashboardComponent {
   }
 
   public getFuenteIngreso(body: any): void {
-    this.utils.openLoading();
+    this.utilService.openLoading();
     this.fuentesIngresoService.CRUD(JSON.stringify(body)).subscribe({
       next: (res: any) => {
         res.dataset.length
@@ -91,16 +93,17 @@ export class FuenteIngresoDashboardComponent {
         this.dataSource.paginator = this.paginator;
       },
       error: (err: any) => {
-        this.utils.closeLoading();
-        err.status == 0
-          ? this.utils.notification('Error de conexión. ', 'error')
-          : this.utils.notification(
-              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}. `,
+        this.utilService.closeLoading();
+        err.status === 0
+          ? this.utilService.notification('Error de conexión.', 'error')
+          : this.utilService.notification(
+              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
               'error'
             );
+        this.dataSource = new MatTableDataSource();
       },
       complete: () => {
-        this.utils.closeLoading();
+        this.utilService.closeLoading();
       },
     });
   }
@@ -163,26 +166,26 @@ export class FuenteIngresoDashboardComponent {
     modalNuevoFuenteIngreso.afterClosed().subscribe({
       next: (res) => {
         if (res) {
-          this.utils.openLoading();
+          this.utilService.openLoading();
           this.fuentesIngresoService.CRUD(res).subscribe({
             next: () => {
-              this.utils.notification(
+              this.utilService.notification(
                 'La fuente de ingreso se ha editado extiosamente. ',
                 'success'
               );
             },
             error: (err: any) => {
-              this.utils.closeLoading();
+              this.utilService.closeLoading();
               err.status == 0
-                ? this.utils.notification('Error de conexión. ', 'error')
-                : this.utils.notification(
+                ? this.utilService.notification('Error de conexión. ', 'error')
+                : this.utilService.notification(
                     `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}. `,
                     'error'
                   );
               this.editFuenteIngreso(res);
             },
             complete: () => {
-              this.utils.closeLoading();
+              this.utilService.closeLoading();
               setTimeout(() => {}, 300);
               let body = {
                 par_modo: 'R',
