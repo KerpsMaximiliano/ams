@@ -45,7 +45,6 @@ export class FuenteIngresoDashboardComponent {
   ];
 
   public dataSource: MatTableDataSource<IFuenteIngreso>;
-  public searchValue: searchValue;
   fuenteIngresos: IFuenteIngreso[];
 
   constructor(
@@ -247,8 +246,6 @@ export class FuenteIngresoDashboardComponent {
       descripcion: buscar.descripcion,
       desc_empresa: buscar.empresa_asociada,
     };
-    console.log(body);
-    
     this.getFuenteIngreso(body);
   }
 }

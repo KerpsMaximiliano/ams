@@ -18,8 +18,7 @@ import { MatDialog } from '@angular/material/dialog';
 // * Components
 import { AddEditFuenteIngresoDialogComponent } from './components/add-edit-fuente-ingreso-dialog/add-edit-fuente-ingreso-dialog.component';
 import {
-  FuenteIngresoDashboardComponent,
-  searchValue,
+  FuenteIngresoDashboardComponent
 } from './components/fuente-ingreso-dashboard/fuente-ingreso-dashboard.component';
 import { EmpresaFacturaService } from 'src/app/core/services/empresa-factura.service';
 
@@ -60,8 +59,6 @@ export class FuenteIngresoComponent {
       )
       .subscribe({
         next: (res: any) => {
-          console.log(res);
-
           this.datosEmpresa = res.dataset;
         },
         error: (err: any) => {
@@ -129,8 +126,6 @@ export class FuenteIngresoComponent {
     modalNuevoFuenteIngreso.afterClosed().subscribe({
       next: (res) => {
         if (res) {
-          console.log(res);
-
           this.utilService.openLoading();
           this.fuenteIngresoService.CRUD(res).subscribe({
             next: (res: any) => {
@@ -140,8 +135,6 @@ export class FuenteIngresoComponent {
               );
             },
             error: (err: any) => {
-              console.log(err);
-
               this.utilService.closeLoading();
               err.status == 0
                 ? this.utilService.notification('Error de conexión. ', 'error')

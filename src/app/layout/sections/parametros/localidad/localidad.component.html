@@ -1,7 +1,7 @@
 <section class="browse-section">
   <div class="section-header">
     <h2> Localidades </h2>
-    <button class="new-button icon-button" (click)="new()" [disabled]="request === false">
+    <button class="new-button icon-button" (click)="new()" [disabled]="request">
       <mat-icon> add </mat-icon>
       Nuevo
     </button>
@@ -9,7 +9,7 @@
 
   <div class="section-content">
     <app-localidad-filter (search)="getLocalidad($event)" [provincias]="provincias"
-      (loadDepartamentos)="onDepartamentosLoaded($event)"></app-localidad-filter>
+      (loadDepartamentos)="onDepartamentosLoaded($event)" [placeholder]="placeholder"></app-localidad-filter>
     <app-localidad-dashboard [receivedData]="dataSent" (viewEvent)="view($event)"
       (editEvent)="edit($event)"></app-localidad-dashboard>
   </div>

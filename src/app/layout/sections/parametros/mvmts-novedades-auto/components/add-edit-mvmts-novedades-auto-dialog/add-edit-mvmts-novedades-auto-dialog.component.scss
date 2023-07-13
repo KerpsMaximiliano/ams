@@ -29,11 +29,10 @@
 
 .dialog-content {
   width: 650px;
-  min-height: 395px;
+  min-height: 393px;
 }
 
 .mat-tab-text {
-  margin-bottom: 0rem;
   padding: 0rem 0.3rem;
   font: 400 18px / 36px Roboto, "Helvetica Neue", sans-serif;
 }
@@ -47,9 +46,22 @@
   color: var(--sancor-blue);
 }
 
+.cont {
+  display: grid;
+  grid-template-columns: 1fr 80px;
+  gap: 0.2rem;
+}
+
+.icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
 .seeker-fields-container {
   display: grid;
-  grid-template-columns: 315px 1fr;
+  grid-template-columns: 260px 1fr;
   align-items: center;
   column-gap: 0rem;
 }
@@ -70,6 +82,25 @@
   color: #fff;
 }
 
+.cont {
+  display: grid;
+  grid-template-columns: 1fr 80px;
+  gap: 0.5rem;
+}
+
+.icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.notValue{
+  border-radius: 7px;
+  padding: 0.35rem;
+  margin: 0px 0px 16px;
+}
+
 .icon {
   display: flex;
   justify-content: center;
@@ -82,13 +113,13 @@
   cursor: pointer;
 }
 
-/*
-  * Estilos del boton "Guardar" para que este deshabilitado.
-*/
-.fix {
+.fix{
   pointer-events: none;
 }
 
+/*
+  * Estilos del boton "Guardar" para que este deshabilitado.
+*/
 .disabled {
   opacity: 0.5;
   pointer-events: pointer;
