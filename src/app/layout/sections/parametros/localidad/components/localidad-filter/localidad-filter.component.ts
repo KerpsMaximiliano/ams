@@ -60,7 +60,6 @@ export class LocalidadFilterComponent {
     if (localidad) localidad.value = '';
     if (codigo) codigo.value = '';
     this.request = true;
-    this.provincias = [];
     this.loadDepartamentos.emit(undefined);
   }
 

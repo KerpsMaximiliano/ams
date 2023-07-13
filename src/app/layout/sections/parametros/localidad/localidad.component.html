@@ -1,7 +1,7 @@
 <section class="browse-section">
   <div class="section-header">
     <h2> Localidades </h2>
-    <button class="new-button icon-button" (click)="new()" [disabled]="(departamentos === undefined || envios === undefined || promociones === undefined) && request">
+    <button class="new-button icon-button" (click)="new()" [disabled]="request">
       <mat-icon> add </mat-icon>
       Nuevo
     </button>

@@ -35,7 +35,7 @@ export class LocalidadComponent implements OnInit, OnDestroy {
   public provincias: IProvincia[];
   public departamentos: IDepartamento[];
   public dataSent: ILocalidad[] = [];
-  public request: boolean = true;
+  public request: boolean = false;
   public placeholder: string = 'Seleccione una provincia. ';
 
   constructor(
@@ -133,7 +133,6 @@ export class LocalidadComponent implements OnInit, OnDestroy {
   }
 
   public onDepartamentosLoaded(departamentos: IDepartamento[]): void {
-    this.request = false
     this.departamentos = departamentos;
   }
 
@@ -217,10 +216,11 @@ export class LocalidadComponent implements OnInit, OnDestroy {
             : [res.dataset as IProvincia];
         },
         error: (err: any) => {
+          this.request = true;
           this.placeholder = 'No se han podido cargar las provincias.'
           this.utilService.closeLoading();
           if (err.status === 0) {
-            this.utilService.notification('Error de conexión.', 'error');
+            this.utilService.notification('No se han podido cargar las provincias.');
           } else {
             this.utilService.notification(
               `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
@@ -251,8 +251,9 @@ export class LocalidadComponent implements OnInit, OnDestroy {
         },
         error: (err: any) => {
           this.utilService.closeLoading();
+          this.request = true;
           if (err.status === 0) {
-            this.utilService.notification('Error de conexión.', 'error');
+            this.utilService.notification('No se han podido cargar las promociones.');
           } else {
             this.utilService.notification(
               `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
@@ -282,8 +283,9 @@ export class LocalidadComponent implements OnInit, OnDestroy {
         },
         error: (err: any) => {
           this.utilService.closeLoading();
+          this.request = true;
           if (err.status === 0) {
-            this.utilService.notification('Error de conexión.', 'error');
+            this.utilService.notification('No se han podido cargar los envios.');
           } else {
             this.utilService.notification(
               `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,

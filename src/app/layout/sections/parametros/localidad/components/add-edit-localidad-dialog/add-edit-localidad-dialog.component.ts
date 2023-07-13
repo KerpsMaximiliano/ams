@@ -40,7 +40,7 @@ export class AddEditLocalidadDialogComponent {
   public getErrorMessage = getErrorMessage;
   public formGroup: UntypedFormGroup;
   public activeTabIndex: number = 0;
-  public booleanDep: boolean = false;
+  public booleanDep: boolean;
   public departamentos: IDepartamento[];
 
   constructor(
@@ -51,6 +51,7 @@ export class AddEditLocalidadDialogComponent {
     private utilService: UtilService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
+    this.booleanDep = true;
     this.setUpForm();
   }
 
@@ -78,7 +79,7 @@ export class AddEditLocalidadDialogComponent {
         sub_codigo_postal: this.formGroup.get('sub_codigo_postal')?.value,
         descripcion: this.formGroup.get('descripcion')?.value,
         cant_habitantes: this.formGroup.get('cant_habitantes')?.value,
-        letra_provincia: this.data.letra_provincia,
+        letra_provincia: this.formGroup.get('letra_provincia')?.value,
         codigo_departamento: this.formGroup.get('codigo_departamento')?.value,
         posicion_referente: this.data.posicion_referente,
         zona_promocion: this.formGroup.get('zona_promocion')?.value,
@@ -93,6 +94,8 @@ export class AddEditLocalidadDialogComponent {
 
   public getDepartamentos(value: string): void {
     this.utilService.openLoading();
+    console.log(value)
+    this.data.letra_provincia = value;
     this.departamentoService
       .CRUD(
         JSON.stringify({
@@ -103,10 +106,10 @@ export class AddEditLocalidadDialogComponent {
       )
       .subscribe({
         next: (res: any) => {
+          this.booleanDep = false;
           this.data.departamentos = Array.isArray(res.dataset)
             ? (res.dataset as IDepartamento[])
             : [res.dataset as IDepartamento];
-          this.booleanDep = true;
         },
         error: (err: any) => {
           this.utilService.closeLoading();
@@ -130,7 +133,6 @@ export class AddEditLocalidadDialogComponent {
 
   public getPosicion(): void {
     this.utilService.openLoading();
-    this.data.letra_provincia = this.data.departamentos[0].letra_provincia;
     this.posicionService
       .CRUD(
         JSON.stringify({
@@ -187,7 +189,6 @@ export class AddEditLocalidadDialogComponent {
   }
 
   private setUpForm(): void {
-    console.log(this.data.desc_position)
     this.formGroup = new UntypedFormGroup({
       codigo_postal: new UntypedFormControl(
         {
@@ -235,10 +236,21 @@ export class AddEditLocalidadDialogComponent {
           isNumeric(),
         ])
       ),
+      letra_provincia: new UntypedFormControl(
+        {
+          value: this.data.letra_provincia,
+          disabled: this.data.par_modo === 'R',
+        },
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(1)
+        ])
+      ),
       codigo_departamento: new UntypedFormControl(
         {
           value: this.data.codigo_departamento,
-          disabled: this.data.par_modo === 'R',
+          disabled: this.data.par_modo === 'R' || this.data.letra_provincia === undefined || this.data.letra_provincia === null,
         },
         Validators.compose([
           Validators.required,
