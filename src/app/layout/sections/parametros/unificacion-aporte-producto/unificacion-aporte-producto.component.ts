@@ -60,6 +60,12 @@ export class UnificacionAporteProductoComponent
     }
   }
 
+  public back(): void {
+    this.utilService.openLoading();
+    this.router.navigate(['parametros/productos']);
+    return;
+  }
+
   public new(): void {
     const dialogRef = this.openDialog(
       'CREAR UNIFICACIÓN DE APORTE POR PRODUCTO',
@@ -83,14 +89,14 @@ export class UnificacionAporteProductoComponent
 
   public delete(data: IUnificacionAporteProducto): void {
     this.openDialog(
-      '¿SEGURO QUÉ QUIERE ELIMINAR LA UNIFICACIÓN DE APORTE POR PRODUCTO?',
+      'ELIMINAR LA UNIFICACIÓN DE APORTE POR PRODUCTO',
       'D',
       false,
       data
     );
   }
 
-  public getData(value: string): void {
+  private getData(value: string): void {
     this.utilService.openLoading();
     this.unificacionAporteProductoService.CRUD(value).subscribe({
       next: (res: any) => {
@@ -125,15 +131,18 @@ export class UnificacionAporteProductoComponent
         title: title,
         edit: edit,
         par_modo: par_modo,
-        producto_principal_cod: this.producto?.codigo_producto,
-        producto_principal: this.producto?.descripcion_producto,
-        subproducto_principal_cod: this.producto?.codigo_producto,
-        subproducto_principal: this.producto?.descripcion_producto,
+        producto_principal: this.producto?.producto_administrador
+          ? this.producto?.producto_administrador
+          : this.producto?.codigo_producto,
+        subproducto_principal: this.producto?.producto_administrador
+          ? this.producto?.codigo_producto
+          : 0,
         producto_secundario: data?.producto_secundario,
-        producto_secundario_cod: data?.producto_secundario_cod,
         subproducto_secundario: data?.subproducto_secundario,
-        subproducto_secundario_cod: data?.subproducto_secundario_cod,
-        unifica_aporte: 'S',
+        producto_principal_descripcion: data?.producto_principal_descripcion,
+        subproducto_principal_descripcion:
+          data?.subproducto_principal_descripcion,
+        unifica_aportes: data?.unifica_aportes,
       },
     });
   }
@@ -148,11 +157,6 @@ export class UnificacionAporteProductoComponent
       next: () => {
         this.utilService.notification(successMessage, 'success');
         dialogRef.close();
-        this.getData(
-          JSON.stringify({
-            par_modo: 'R',
-          })
-        );
       },
       error: (err: any) => {
         this.utilService.closeLoading();

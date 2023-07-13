@@ -201,26 +201,26 @@
         <mat-icon>close</mat-icon>
         Cancelar
       </button>
-      <button class="primary-button icon-button" type="button" (click)="redirectTo('parametros/parentesco-producto')"
-        *ngIf="data.par_modo === 'U'" mat-dialog-close>
-        <mat-icon> open_in_new_down </mat-icon>
-        Parentescos
-      </button>
-      <button class="primary-button icon-button" type="button"
-        (click)="redirectTo('parametros/motivo-movimiento-producto')" *ngIf="data.par_modo === 'U'" mat-dialog-close>
-        <mat-icon> open_in_new_down </mat-icon>
-        Motivos
-      </button>
-      <button class="primary-button icon-button" type="button" (click)="redirectToUnificacionAporteProducto()"
-        *ngIf="data.par_modo === 'U'">
-        <mat-icon> open_in_new_down </mat-icon>
-        Unificación
-      </button>
-      <button class="primary-button icon-button " type="button" (click)="setStatus()"
-        *ngIf="this.data.par_modo === 'U' && visibilidad">
-        <mat-icon> {{ this.estado ? 'remove_done' : 'done_all' }} </mat-icon>
-        {{ this.estado ? 'Baja' : 'Reactivar' }}
-      </button>
+      <ng-container *ngIf="data.par_modo === 'U'">
+        <button class="primary-button icon-button" type="button" (click)="redirectTo('parametros/parentesco-producto')"
+          mat-dialog-close>
+          <mat-icon> open_in_new_down </mat-icon>
+          Parentescos
+        </button>
+        <button class="primary-button icon-button" type="button"
+          (click)="redirectTo('parametros/motivo-movimiento-producto')" mat-dialog-close>
+          <mat-icon> open_in_new_down </mat-icon>
+          Motivos
+        </button>
+        <button class="primary-button icon-button" type="button" (click)="redirectToUnificacionAporteProducto()">
+          <mat-icon> open_in_new_down </mat-icon>
+          Unificación
+        </button>
+        <button class="primary-button icon-button " type="button" (click)="setStatus()" *ngIf="visibilidad">
+          <mat-icon> {{ this.estado ? 'remove_done' : 'done_all' }} </mat-icon>
+          {{ this.estado ? 'Baja' : 'Reactivar' }}
+        </button>
+      </ng-container>
       <button [class]="formGroup.invalid ? 'primary-button icon-button disabled' : 'primary-button icon-button'"
         type="submit" (click)="confirm()">
         <mat-icon> done </mat-icon>

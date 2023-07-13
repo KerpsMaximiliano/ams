@@ -160,15 +160,16 @@ export class AddEditProductoDialogComponent {
 
   public redirectToUnificacionAporteProducto(): void {
     this.utilService.openLoading();
+    this.productoService.set(this.data);
     this.unificacionAporteProductoService
       .CRUD(
         JSON.stringify({
           par_modo: 'O',
           producto_principal: this.data.producto_administrador
             ? this.data.producto_administrador
-            : this.data.codigo_producto || 0,
+            : this.data.codigo_producto,
           subproducto_principal: this.data.producto_administrador
-            ? this.data.codigo_producto || 0
+            ? this.data.codigo_producto
             : 0,
         })
       )
@@ -178,7 +179,6 @@ export class AddEditProductoDialogComponent {
             ? (res.dataset as IUnificacionAporteProducto[])
             : [res.dataset as IUnificacionAporteProducto];
           this.unificacionAporteProductoService.set(data);
-          this.productoService.set(this.data);
           this.dialogRef.close();
           this.router.navigate(['parametros/unificacion-aportes-producto']);
         },
@@ -199,10 +199,9 @@ export class AddEditProductoDialogComponent {
                 'error'
               );
             }
+            this.dialogRef.close();
+            this.router.navigate(['parametros/unificacion-aportes-producto']);
           }
-        },
-        complete: () => {
-          this.utilService.closeLoading();
         },
       });
   }

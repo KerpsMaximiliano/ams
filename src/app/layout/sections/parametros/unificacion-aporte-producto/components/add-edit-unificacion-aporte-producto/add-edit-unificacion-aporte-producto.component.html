@@ -3,72 +3,69 @@
 </div>
 <div class="dialog-content">
   <form class="form-datos" [formGroup]="formGroup">
-    <div class="seeker-fields-container">
+    <div class="seeker-fields-container mt-1">
       <h3> PRODUCTO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput class="seeker-input" [value]="producto.descripcion_producto ? producto.descripcion_producto.trim(): producto.codigo_producto" disabled />
+        <input matInput formControlName="descripcion_producto_principal" />
       </mat-form-field>
     </div>
 
     <div class="seeker-fields-container">
       <h3> SUBPRODUCTO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput class="seeker-input" [value]="producto.descripcion_producto_administrador ? producto.descripcion_producto_administrador.trim(): producto.producto_administrador" disabled />
+        <input matInput formControlName="descripcion_subproducto_principal" placeholder="Sin subproducto." />
       </mat-form-field>
     </div>
 
-    <div class="seeker-fields-container">
-      <h3> PRODUCTO UNIFICADO </h3>
-      <mat-form-field class="seeker-form-field" appearance="outline">
-        <input
-          matInput
-          class="seeker-input"
-          formControlName="descripcion_producto"
-        />
-        <mat-error
-          *ngIf="
-            formGroup.get('descripcion_producto')?.invalid &&
-            formGroup.get('descripcion_producto')?.touched
-          "
-        >
-          {{ getErrorMessage(formGroup.get("descripcion_producto")) }}
-        </mat-error>
-      </mat-form-field>
-    </div>
+    <div [class]="data.par_modo === 'C' ? 'cont' : 'no-cont'">
+      <div>
+        <div class="seeker-fields-container">
+          <h3> PRODUCTO </h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <input matInput class="seeker-input" placeholder="Seleccione un producto/subproducto."
+              formControlName="descripcion_producto_secundario" #descripcionProducto readonly required>
+            <mat-error
+              *ngIf="formGroup.get('descripcion_producto_secundario')?.invalid && formGroup.get('descripcion_producto_secundario')?.touched">
+              {{ getErrorMessage(formGroup.get("descripcion_producto_secundario")) }}
+            </mat-error>
+          </mat-form-field>
+        </div>
 
-    <div class="seeker-fields-container">
-      <h3> SUBPRODUCTO UNIFICADO </h3>
-      <div class="content">
-        <mat-form-field class="seeker-form-field" appearance="outline">
-          <input matInput formControlName="descripcion_subproducto" />
-          <mat-error
-            *ngIf="
-              formGroup.get('descripcion_subproducto')?.invalid &&
-              formGroup.get('descripcion_subproducto')?.touched"
-          >
-            {{ getErrorMessage(formGroup.get("descripcion_subproducto")) }}
-          </mat-error>
-        </mat-form-field>
-        <ng-container *ngIf="data.par_modo === 'C'">
-          <div class="icon">
-            <mat-icon class="material-symbols-outlined" (click)="getProducto()"> search </mat-icon>
-          </div>
-          <div class="icon">
-            <mat-icon class="material-symbols-outlined" (click)="clear()"> close </mat-icon>
-          </div>
-        </ng-container>
+        <div class="seeker-fields-container">
+          <h3> SUBPRODUCTO </h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <input matInput class="seeker-input" formControlName="descripcion_subproducto_secundario"
+              [placeholder]="descripcionProducto.value ? 'Sin subproducto.' : 'Seleccione un producto/subproducto.'"
+              #descripcionSubproducto readonly>
+            <mat-error
+              *ngIf="formGroup.get('descripcion_subproducto_secundario')?.invalid && formGroup.get('descripcion_subproducto_secundario')?.touched">
+              {{ getErrorMessage(formGroup.get("descripcion_subproducto_secundario")) }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="icon-container" *ngIf="data.par_modo === 'C'">
+        <div (click)="getProducto()"
+          [class]="formGroup.get('descripcion_producto_principal')?.value  ? 'icon' : 'icon disabled fix'">
+          <mat-icon class="material-symbols-outlined"> search </mat-icon>
+        </div>
+        <div
+          [class]="formGroup.get('descripcion_producto_secundario')?.value || formGroup.get('descripcion_subproducto_secundario')?.value  ? 'icon' : 'icon disabled fix'"
+          (click)="clear(descripcionProducto, 'descripcion_producto_secundario', descripcionSubproducto,
+            'descripcion_subproducto_secundario')">
+          <mat-icon class="material-symbols-outlined"> close </mat-icon>
+        </div>
       </div>
     </div>
+
     <div *ngIf="data.edit; else other_content" class="buttons-container">
       <button class="primary-button icon-button" type="button" mat-dialog-close>
         <mat-icon> close </mat-icon>
         Cancelar
       </button>
-      <button
-        [class]="formGroup.invalid ? 'primary-button icon-button disabled' : 'primary-button icon-button'"
-        type="submit"
-        [disabled]="formGroup.invalid"
-        (click)="confirm()">
+      <button [class]="formGroup.invalid ? 'primary-button icon-button disabled' : 'primary-button icon-button'"
+        type="submit" [disabled]="formGroup.invalid" (click)="confirm()">
         <mat-icon> done </mat-icon>
         Guardar
       </button>

@@ -7,7 +7,6 @@ import { ProductoService } from 'src/app/core/services/producto.service';
 
 // * Interfaces
 import { IProducto } from 'src/app/core/models/producto.interface';
-import { IProductoAdministrador } from 'src/app/core/models/producto-administrador.interface';
 
 // * Material
 import {
@@ -26,6 +25,8 @@ import {
 // * Validators
 import {
   getErrorMessage,
+  isAlpha,
+  notOnlySpaces,
 } from 'src/app/core/validators/character.validator';
 
 // * Components
@@ -39,8 +40,8 @@ import { SetProductoDialogComponent } from './set-producto-dialog/set-producto-d
 })
 export class AddEditUnificacionAporteProductoComponent {
   private element: any;
-  public formGroup: UntypedFormGroup;
   public producto: IProducto;
+  public formGroup: UntypedFormGroup;
   public getErrorMessage = getErrorMessage;
 
   constructor(
@@ -53,29 +54,37 @@ export class AddEditUnificacionAporteProductoComponent {
   ) {
     this.producto = this.productoService.get();
     this.setUpForm();
+    this.configureValidators();
   }
 
   public confirm(): void {
     if (this.formGroup.valid) {
       this.dataSharingService.sendData({
         par_modo: this.data.par_modo,
-        producto_principal: this.producto.codigo_producto,
-        subproducto_principal: this.producto.producto_administrador,
-        producto_secundario: this.data.codigo_producto,
-        subproducto_secundario: this.data.codigo_subproducto,
-        unifica_aportes: 'S',
+        producto_principal: this.data.producto_principal,
+        subproducto_principal: this.data.subproducto_principal,
+        producto_secundario: this.data.producto_secundario,
+        subproducto_secundario: this.data.subproducto_secundario,
+        unifica_aportes: this.data.unifica_aportes,
       });
     } else {
       this.formGroup.markAllAsTouched();
     }
   }
 
-  public clear(): void {
-    if (this.data.edit) {
-      this.formGroup.get('descripcion_producto')?.setValue(null);
-      this.formGroup.get('descripcion_subproducto')?.setValue(null);
-      this.data.codigo_producto = null;
-      this.data.codigo_subproducto = null;
+  public clear(
+    inputElementOne: HTMLInputElement,
+    controlNameOne: string,
+    inputElementTwo?: HTMLInputElement,
+    controlNameTwo?: string
+  ): void {
+    inputElementOne.value = '';
+    this.formGroup.get(controlNameOne)?.setValue('');
+    if (inputElementTwo) {
+      inputElementTwo.value = '';
+    }
+    if (controlNameTwo) {
+      this.formGroup.get(controlNameTwo)?.setValue('');
     }
   }
 
@@ -85,8 +94,7 @@ export class AddEditUnificacionAporteProductoComponent {
     this.productoService
       .CRUD(
         JSON.stringify({
-          par_modo: "A",
-          codigo_producto: this.producto.codigo_producto
+          par_modo: 'P',
         })
       )
       .subscribe({
@@ -110,23 +118,27 @@ export class AddEditUnificacionAporteProductoComponent {
         },
       });
   }
-  
-  private setProducto(data: IProductoAdministrador[]): void {
+
+  private setProducto(data: IProducto[]): void {
     const modal = this.dialog.open(SetProductoDialogComponent, {
       data: {
-        title: 'SELECCIONE UN PRODUCTO ADMINISTADOR',
+        title: 'SELECCIONE UN PRODUCTO/SUBPRODUCTO',
         data: data,
       },
     });
     modal.afterClosed().subscribe({
       next: (res) => {
         if (res) {
-          this.data.codigo_producto = res?.codigo_producto;
-          this.data.descripcion_producto = res?.descripcion_producto;
-          this.data.codigo_subproducto = res?.codigo_subproducto;
-          this.data.descripcion_subproducto = res?.descripcion_subproducto;
-          this.formGroup.get('descripcion_producto')?.setValue(res?.descripcion_producto);
-          this.formGroup.get('descripcion_subproducto')?.setValue(res?.descripcion_subproducto);
+          this.data.producto_secundario = res?.producto_principal;
+
+          this.data.subproducto_principal = res?.producto_secundario;
+
+          this.formGroup
+            .get('descripcion_producto_secundario')
+            ?.setValue(res?.producto_principal_descripcion);
+          this.formGroup
+            .get('descripcion_subproducto_secundario')
+            ?.setValue(res?.subproducto_principal_descripcion);
         }
       },
     });
@@ -134,24 +146,75 @@ export class AddEditUnificacionAporteProductoComponent {
 
   private setUpForm(): void {
     this.formGroup = new UntypedFormGroup({
-      descripcion_subproducto: new UntypedFormControl({
-        value: this.data.descripcion_subproducto
-          ? this.data.descripcion_subproducto.trim()
+      descripcion_producto_principal: new UntypedFormControl({
+        value: this.producto.descripcion_producto_administrador
+          ? this.producto.descripcion_producto_administrador.trim()
+          : this.producto.descripcion_producto
+          ? this.producto.descripcion_producto.trim()
+          : '',
+
+        disabled: true,
+      }),
+      descripcion_subproducto_principal: new UntypedFormControl({
+        value: this.producto.descripcion_producto_administrador
+          ? this.producto.descripcion_producto
+            ? this.producto.descripcion_producto.trim()
+            : ''
           : '',
         disabled: true,
-      },
-      Validators.compose([
-        Validators.required,
-      ])
+      }),
+      descripcion_producto_secundario: new UntypedFormControl(
+        {
+          value: this.data.producto_principal_descripcion
+            ? this.data.producto_principal_descripcion.trim()
+            : this.data.subproducto_principal_descripcion
+            ? this.data.subproducto_principal_descripcion.trim()
+            : '',
+          disabled: this.data.par_modo === 'D',
+        },
+        Validators.required
       ),
-      codigo_subproducto: new UntypedFormControl({
-        value: this.data.codigo_subproducto,
-        disabled: true,
-      },
-      Validators.compose([
-        Validators.required,
-      ])
+      descripcion_subproducto_secundario: new UntypedFormControl(
+        {
+          value: this.data.producto_principal_descripcion
+            ? this.data.subproducto_principal_descripcion
+              ? this.data.subproducto_principal_descripcion.trim()
+              : ''
+            : '',
+          disabled: this.data.par_modo === 'D',
+        },
+        Validators.required
+      ),
+      unifica_aportes: new UntypedFormControl(
+        {
+          value: this.data.unifica_aportes
+            ? this.data.unifica_aportes.trim()
+            : '',
+          disabled: this.data.par_modo === 'R',
+        },
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(1),
+          isAlpha(),
+        ])
       ),
     });
+  }
+
+  private configureValidators(): void {
+    this.formGroup
+      .get('descripcion_producto_secundario')
+      ?.valueChanges.subscribe((value) => {
+        const control = this.formGroup.get(
+          'descripcion_subproducto_secundario'
+        );
+
+        value
+          ? control?.clearValidators()
+          : control?.setValidators(Validators.required);
+
+        control?.updateValueAndValidity();
+      });
   }
 }

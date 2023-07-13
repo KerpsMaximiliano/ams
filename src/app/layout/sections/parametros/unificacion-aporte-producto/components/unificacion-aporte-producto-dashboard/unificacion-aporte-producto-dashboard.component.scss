@@ -33,26 +33,21 @@ td.mat-cell:first-of-type {
 }
 
 /*
- * Ancho máximo por columna individual de todas las columnas menos las 'Acciones' (actions).
+ * Ancho mínimo por columna.
 */
 .mat-column-producto_secundario.mat-header-cell,
-.mat-column-producto_secundario.mat-cell {
-  min-width: 140px;
+.mat-column-producto_secundario.mat-cell,
+.mat-column-subproducto_secundario.mat-header-cell,
+.mat-column-subproducto_secundario.mat-cell {
+  min-width: 100px;
 }
 
 .mat-column-producto_principal_descripcion.mat-header-cell,
-.mat-column-producto_principal_descripcion.mat-cell {
-  min-width: 170px;
-}
-
-.mat-column-subproducto_secundario.mat-header-cell,
-.mat-column-subproducto_secundario.mat-cell {
-  min-width: 160px;
-}
-
+.mat-column-producto_principal_descripcion.mat-cell,
 .mat-column-subproducto_principal_descripcion.mat-header-cell,
 .mat-column-subproducto_principal_descripcion.mat-cell {
-  min-width: 200px;
+  min-width: 100px;
+  width: 50%;
 }
 
 .mat-column-unifica_aportes.mat-header-cell,
@@ -63,11 +58,4 @@ td.mat-cell:first-of-type {
 .mat-column-actions.mat-header-cell,
 .mat-column-actions.mat-cell {
   min-width: 130px;
-}
-
-/*
- * Oculta la tabla y paginación hasta que existan datos.
-*/
-.d-none {
-  display: none;
 }

@@ -48,12 +48,11 @@ export class UnificacionAporteProductoDashboardComponent
     this.dataSource = new MatTableDataSource<IUnificacionAporteProducto>(
       this.receivedData
     );
+    this.dataSource.paginator = this.paginator;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['receivedData'] && !changes['receivedData'].firstChange) {
-      console.log(this.receivedData);
-
       this.dataSource = new MatTableDataSource<IUnificacionAporteProducto>(
         this.receivedData
       );
