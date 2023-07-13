@@ -1,0 +1,79 @@
+/*
+ * MODAL: Formulario deshabilitado.
+ * Borde: '::ng-deep .mat-form-field-disabled .mat-form-field-outline'.
+ * Texto inputs: '::ng-deep .mat-form-field-disabled .mat-input-element'.
+ * Texto select: '::ng-deep .mat-form-field-disabled .mat-select-value'.
+ * Texto seleccionable: '.mat-form-field-disabled'.
+*/
+::ng-deep .mat-form-field-disabled .mat-form-field-outline,
+::ng-deep .mat-form-field-disabled .mat-input-element,
+::ng-deep .mat-form-field-disabled .mat-select-value,
+.mat-form-field-disabled {
+  color: #635f5f !important;
+  user-select: text !important;
+}
+
+.dialog-content {
+  width: 500px;
+}
+
+.primary-button {
+  width: 130px;
+}
+
+.seeker-fields-container {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  align-items: center;
+  column-gap: 0rem;
+}
+
+.cont {
+  display: grid;
+  grid-template-columns: 1fr 75px;
+  gap: 1rem;
+}
+
+.no-cont {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 7px;
+  padding: 0.35rem;
+  margin: 0px 0px 16px;
+  background-color: var(--sancor-blue);
+  color: #fff;
+  cursor: pointer;
+}
+
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 1, "wght" 700, "GRAD" 200, "opsz" 48;
+  color: #fff;
+}
+
+/*
+    * Estilos del boton "Guardar" para que este deshabilitado.
+  */
+
+.disabled {
+  opacity: 0.5;
+  pointer-events: pointer;
+  cursor: not-allowed;
+  filter: grayscale(100%);
+}
+
+.disabled:hover {
+  filter: grayscale(100%);
+}

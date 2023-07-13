@@ -101,11 +101,11 @@ import { SubMotivoMovimientoProductoDashboardComponent } from './sub-motivo-movi
 import { SubmotivoMovimientoProductoFilterComponent } from './sub-motivo-movimiento-producto/components/sub-motivo-movimiento-producto-filter/sub-motivo-movimiento-producto-filter.component';
 import { SubMotivoMovimientoProductoComponent } from './sub-motivo-movimiento-producto/sub-motivo-movimiento-producto.component';
 // 24 - UNIFICACION DE APORTES
-import { UnificadorAportesComponent } from './unificador-aportes/unificador-aportes.component';
-import { UnificadorAporteDashboardComponent } from './unificador-aportes/components/unificador-aporte-dashboard/unificador-aporte-dashboard.component';
-import { UnificadorAporteFilterComponent } from './unificador-aportes/components/unificador-aporte-filter/unificador-aporte-filter.component';
-import { AddEditUnificadorAporteComponent } from './unificador-aportes/components/add-edit-unificador-aporte/add-edit-unificador-aporte.component';
-import { ModalProductoComponent } from './unificador-aportes/components/add-edit-unificador-aporte/modal-producto/modal-producto.component';
+import { UnificacionAporteProductoComponent } from './unificacion-aporte-producto/unificacion-aporte-producto.component';
+import { UnificacionAporteProductoDashboardComponent } from './unificacion-aporte-producto/components/unificacion-aporte-producto-dashboard/unificacion-aporte-producto-dashboard.component';
+import { UnificacionAporteProductoFilterComponent } from './unificacion-aporte-producto/components/unificacion-aporte-producto-filter/unificacion-aporte-producto-filter.component';
+import { AddEditUnificacionAporteProductoComponent } from './unificacion-aporte-producto/components/add-edit-unificacion-aporte-producto/add-edit-unificacion-aporte-producto.component';
+import { UnificacionSetProductoDialogComponent } from './unificacion-aporte-producto/components/add-edit-unificacion-aporte-producto/unificacion-set-producto-dialog/unificacion-set-producto-dialog.component';
 // 30 - REGLAS PARA MOVIMIENTOS PARA NOVEDADES AUTOMATICAS
 import { AddEditMvmtsNovedadesAutoDialogComponent } from './mvmts-novedades-auto/components/add-edit-mvmts-novedades-auto-dialog/add-edit-mvmts-novedades-auto-dialog.component';
 import { MvmtsNovedadesAutoComponent } from './mvmts-novedades-auto/mvmts-novedades-auto.component';
@@ -218,11 +218,11 @@ import { LocalidadSetDialogComponent } from './localidad/components/add-edit-loc
     SubMotivoMovimientoProductoDashboardComponent,
     AddEditSubMotivoMovimientoProductoDialogComponent,
     // 24 - UNIFICACION DE APORTES
-    UnificadorAportesComponent,
-    UnificadorAporteDashboardComponent,
-    UnificadorAporteFilterComponent,
-    AddEditUnificadorAporteComponent,
-    ModalProductoComponent,
+    AddEditUnificacionAporteProductoComponent,
+    UnificacionAporteProductoComponent,
+    UnificacionAporteProductoDashboardComponent,
+    UnificacionAporteProductoFilterComponent,
+    UnificacionSetProductoDialogComponent,
     // 30 - REGLAS PARA MOVIMIENTOS PARA NOVEDADES AUTOMATICAS
     AddEditMvmtsNovedadesAutoDialogComponent,
     MvmtsNovedadesAutoDashboardComponent,

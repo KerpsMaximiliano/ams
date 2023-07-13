@@ -6,6 +6,7 @@ import { DataSharingService } from 'src/app/core/services/data-sharing.service';
 import { UtilService } from 'src/app/core/services/util.service';
 import { ProductoService } from 'src/app/core/services/producto.service';
 import { FuenteIngresoService } from 'src/app/core/services/fuente-ingreso.service';
+import { UnificacionAporteProductoService } from 'src/app/core/services/unificacion-aporte-producto.service';
 
 // * Interfaces
 import { IFuenteIngreso } from 'src/app/core/models/fuente-ingreso.interface';
@@ -13,6 +14,7 @@ import {
   IProducto,
   IProductoObraSocial,
 } from 'src/app/core/models/producto.interface';
+import { IUnificacionAporteProducto } from 'src/app/core/models/unificacion-aporte-producto.interface';
 
 // * Form
 import {
@@ -30,7 +32,11 @@ import {
 } from 'src/app/core/validators/character.validator';
 
 // * Material
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 
 // * Components
@@ -58,9 +64,11 @@ export class AddEditProductoDialogComponent {
     private dataSharingService: DataSharingService,
     private fuenteIngresoService: FuenteIngresoService,
     private productoService: ProductoService,
+    private unificacionAporteProductoService: UnificacionAporteProductoService,
     private utilService: UtilService,
     private dialog: MatDialog,
     private router: Router,
+    private dialogRef: MatDialogRef<AddEditProductoDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.setUpForm();
@@ -183,6 +191,54 @@ export class AddEditProductoDialogComponent {
     this.productoService.set(this.data);
     this.productoService.setBack(false);
     this.router.navigate([url]);
+  }
+
+  public redirectToUnificacionAporteProducto(): void {
+    this.utilService.openLoading();
+    this.productoService.set(this.data);
+    this.unificacionAporteProductoService
+      .CRUD(
+        JSON.stringify({
+          par_modo: 'O',
+          producto_principal: this.data.producto_administrador
+            ? this.data.producto_administrador
+            : this.data.codigo_producto,
+          subproducto_principal: this.data.producto_administrador
+            ? this.data.codigo_producto
+            : 0,
+        })
+      )
+      .subscribe({
+        next: (res: any) => {
+          let data: IUnificacionAporteProducto[] = Array.isArray(res.dataset)
+            ? (res.dataset as IUnificacionAporteProducto[])
+            : [res.dataset as IUnificacionAporteProducto];
+          this.unificacionAporteProductoService.set(data);
+          this.dialogRef.close();
+          this.router.navigate(['parametros/unificacion-aportes-producto']);
+        },
+        error: (err: any) => {
+          this.utilService.closeLoading();
+          if (err.status == 0) {
+            this.utilService.notification('Error de conexión.', 'error');
+          } else {
+            if (err.status == 404) {
+              this.unificacionAporteProductoService.set([]);
+              this.utilService.notification(
+                'No se han encontrado unificación de aportes por producto. ',
+                'error'
+              );
+            } else {
+              this.utilService.notification(
+                `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+                'error'
+              );
+            }
+            this.dialogRef.close();
+            this.router.navigate(['parametros/unificacion-aportes-producto']);
+          }
+        },
+      });
   }
 
   private configureButton(): void {

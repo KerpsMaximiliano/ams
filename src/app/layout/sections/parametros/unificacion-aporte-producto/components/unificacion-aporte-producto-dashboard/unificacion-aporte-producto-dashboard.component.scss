@@ -1,0 +1,61 @@
+/*
+ * Evita un espaciado innecesario en la primer columna.
+*/
+th.mat-header-cell:first-of-type,
+td.mat-cell:first-of-type {
+  padding-left: 0px;
+}
+
+/*
+ * Texto alineado a la izquierda.
+*/
+.mat-column-producto_principal_descripcion.mat-header-cell,
+.mat-column-producto_principal_descripcion.mat-cell,
+.mat-column-subproducto_principal_descripcion.mat-header-cell,
+.mat-column-subproducto_principal_descripcion.mat-cell,
+.mat-column-unifica_aportes.mat-header-cell,
+.mat-column-unifica_aportes.mat-cell {
+  text-align: left !important;
+  padding-left: 1vw;
+  word-break: break-all;
+}
+
+/*
+ * Número y fecha alineado a la derecha.
+*/
+.mat-column-producto_secundario.mat-header-cell,
+.mat-column-producto_secundario.mat-cell,
+.mat-column-subproducto_secundario.mat-header-cell,
+.mat-column-subproducto_secundario.mat-cell {
+  text-align: right !important;
+  padding-right: 1vw;
+  word-break: break-all;
+}
+
+/*
+ * Ancho mínimo por columna.
+*/
+.mat-column-producto_secundario.mat-header-cell,
+.mat-column-producto_secundario.mat-cell,
+.mat-column-subproducto_secundario.mat-header-cell,
+.mat-column-subproducto_secundario.mat-cell {
+  min-width: 100px;
+}
+
+.mat-column-producto_principal_descripcion.mat-header-cell,
+.mat-column-producto_principal_descripcion.mat-cell,
+.mat-column-subproducto_principal_descripcion.mat-header-cell,
+.mat-column-subproducto_principal_descripcion.mat-cell {
+  min-width: 100px;
+  width: 50%;
+}
+
+.mat-column-unifica_aportes.mat-header-cell,
+.mat-column-unifica_aportes.mat-cell {
+  min-width: 190px;
+}
+
+.mat-column-actions.mat-header-cell,
+.mat-column-actions.mat-cell {
+  min-width: 130px;
+}

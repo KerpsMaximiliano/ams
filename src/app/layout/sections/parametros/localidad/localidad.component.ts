@@ -29,13 +29,12 @@ import { AddEditLocalidadDialogComponent } from './components/add-edit-localidad
 })
 export class LocalidadComponent implements OnInit, OnDestroy {
   private dataSubscription: Subscription | undefined;
-  
+
   public promociones: IPromocion[];
   public envios: IEnvio[];
   public provincias: IProvincia[];
   public departamentos: IDepartamento[];
   public dataSent: ILocalidad[] = [];
-  public request: boolean = false;
   public placeholder: string = 'Seleccione una provincia. ';
 
   constructor(
@@ -47,17 +46,17 @@ export class LocalidadComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    if(this.provinciaService.getProvincias() === undefined){
+    if (this.provinciaService.getProvincias() === undefined) {
       this.getProvincias();
     } else {
       this.provincias = this.provinciaService.getProvincias();
     }
-    if(this.provinciaService.getEnvios() === undefined){
+    if (this.provinciaService.getEnvios() === undefined) {
       this.getEnvios();
     } else {
-      this.envios = this.provinciaService.getEnvios()
+      this.envios = this.provinciaService.getEnvios();
     }
-    if(this.provinciaService.getPromociones() === undefined){
+    if (this.provinciaService.getPromociones() === undefined) {
       this.getPromociones();
     } else {
       this.promociones = this.provinciaService.getPromociones();
@@ -165,7 +164,7 @@ export class LocalidadComponent implements OnInit, OnDestroy {
         ingreso_ticket: data?.ingreso_ticket,
         zona_atencion: data?.zona_atencion,
         cant_habitantes: data?.cant_habitantes,
-        desc_position: data?.desc_position
+        desc_position: data?.desc_position,
       },
     });
   }
@@ -216,8 +215,7 @@ export class LocalidadComponent implements OnInit, OnDestroy {
             : [res.dataset as IProvincia];
         },
         error: (err: any) => {
-          this.request = true;
-          this.placeholder = 'No se han podido cargar las provincias.'
+          this.placeholder = 'No se han podido cargar las provincias.';
           this.utilService.closeLoading();
           if (err.status === 0) {
             this.utilService.notification('Error de conexión.', 'error');
@@ -229,7 +227,7 @@ export class LocalidadComponent implements OnInit, OnDestroy {
           }
         },
         complete: () => {
-          this.provinciaService.setProvincias(this.provincias)
+          this.provinciaService.setProvincias(this.provincias);
           this.utilService.closeLoading();
         },
       });
@@ -244,14 +242,15 @@ export class LocalidadComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: (res: any) => {
-          this.provinciaService.setPromociones(Array.isArray(res.dataset)
-            ? (res.dataset as IPromocion[])
-            : [res.dataset as IPromocion]);
-          this.promociones = this.provinciaService.getPromociones()
+          this.provinciaService.setPromociones(
+            Array.isArray(res.dataset)
+              ? (res.dataset as IPromocion[])
+              : [res.dataset as IPromocion]
+          );
+          this.promociones = this.provinciaService.getPromociones();
         },
         error: (err: any) => {
           this.utilService.closeLoading();
-          this.request = true;
           if (err.status === 0) {
             this.utilService.notification('Error de conexión.', 'error');
           } else {
@@ -276,14 +275,15 @@ export class LocalidadComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: (res: any) => {
-          this.provinciaService.setEnvios(Array.isArray(res.dataset)
-            ? (res.dataset as IEnvio[])
-            : [res.dataset as IEnvio]);
-          this.envios = this.provinciaService.getEnvios()
+          this.provinciaService.setEnvios(
+            Array.isArray(res.dataset)
+              ? (res.dataset as IEnvio[])
+              : [res.dataset as IEnvio]
+          );
+          this.envios = this.provinciaService.getEnvios();
         },
         error: (err: any) => {
           this.utilService.closeLoading();
-          this.request = true;
           if (err.status === 0) {
             this.utilService.notification('Error de conexión.', 'error');
           } else {

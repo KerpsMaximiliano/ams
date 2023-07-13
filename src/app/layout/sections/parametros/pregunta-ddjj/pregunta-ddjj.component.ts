@@ -137,14 +137,14 @@ export class PreguntaDDJJComponent implements OnDestroy {
   ): void {
     this.utilService.openLoading();
     this.preguntasDDJJService.CRUD(data).subscribe({
-      next: () => {
+      next: (res: any) => {
         this.utilService.notification(successMessage, 'success');
         dialogRef.close();
         this.getData(
           JSON.stringify({
             par_modo: 'R',
-            modelo_formulario: data.modelo_formulario,
-            nro_preg: data.nro_preg,
+            modelo_formulario: res.dataset.modelo_formulario,
+            nro_preg: res.dataset.nro_preg,
           })
         );
       },

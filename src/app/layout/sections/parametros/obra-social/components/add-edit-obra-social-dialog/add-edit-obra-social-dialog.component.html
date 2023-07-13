@@ -27,8 +27,8 @@
     <div class="seeker-fields-container">
       <h3> PROPONE FECHA PATOLOGÍA </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <mat-select formControlName="propone_fecha_patologia" (selectionChange)="changeProponeFechaPatologia()"
-         required minlength="1" maxlength="3" disableOptionCentering>
+        <mat-select formControlName="propone_fecha_patologia" (selectionChange)="changeProponeFechaPatologia()" required
+          minlength="1" maxlength="3" disableOptionCentering>
           <mat-option [value]="'S'"> SI </mat-option>
           <mat-option [value]="'N'"> NO </mat-option>
         </mat-select>
@@ -39,11 +39,12 @@
       </mat-form-field>
     </div>
 
-    <div class="seeker-fields-container" *ngIf="this.formGroup.get('proponeFechaPatologia')?.value == 'S'">
+    <div class="seeker-fields-container" *ngIf="this.formGroup.get('propone_fecha_patologia')?.value == 'S'">
       <h3> TIPO FECHA PATOLOGÍA </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
         <mat-select formControlName="tipo_fecha_patologia"
-          [required]="formGroup.get('propone_fecha_patologia')?.value == 'S'" minlength="1" maxlength="2" disableOptionCentering>
+          [required]="formGroup.get('propone_fecha_patologia')?.value == 'S'" minlength="1" maxlength="2"
+          disableOptionCentering>
           <mat-option [value]="'FI'" [disabled]="formGroup.get('propone_fecha_patologia')?.value != 'S'">
             FECHA DE INGRESO AL SERVICIO
           </mat-option>
@@ -61,7 +62,8 @@
     <div class="seeker-fields-container">
       <h3> TIPO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <mat-select formControlName="tipo_obra_social_prepaga" required minlength="1" maxlength="1" disableOptionCentering>
+        <mat-select formControlName="tipo_obra_social_prepaga" required minlength="1" maxlength="1"
+          disableOptionCentering>
           <mat-option [value]="'O'"> O.SOCIAL </mat-option>
           <mat-option [value]="'P'"> PREPAGA </mat-option>
           <mat-option [value]="'A'"> AMBAS </mat-option>
@@ -115,7 +117,7 @@
         Cancelar
       </button>
       <button [class]="formGroup.invalid ? 'primary-button icon-button disabled' : 'primary-button icon-button'"
-      type="submit" (click)="confirm()">
+        type="submit" (click)="confirm()">
         <mat-icon> done </mat-icon>
         Guardar
       </button>
