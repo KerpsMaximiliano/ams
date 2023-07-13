@@ -26,7 +26,6 @@ export class PosicionComponent implements OnInit, OnDestroy {
   private dataSubscription: Subscription | undefined;
   public provincias: IProvincia[];
   public dataSent: IPosicion[];
-  public request: boolean = false;
 
   constructor(
     private dataSharingService: DataSharingService,
@@ -37,7 +36,7 @@ export class PosicionComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    if(this.provinciaService.getProvincias() === undefined){
+    if (this.provinciaService.getProvincias() === undefined) {
       this.getProvincias();
     } else {
       this.provincias = this.provinciaService.getProvincias();
@@ -180,7 +179,6 @@ export class PosicionComponent implements OnInit, OnDestroy {
           this.provincias = Array.isArray(res.dataset)
             ? (res.dataset as IProvincia[])
             : [res.dataset as IProvincia];
-          this.request = true;
         },
         error: (err: any) => {
           this.utilService.closeLoading();
@@ -192,7 +190,7 @@ export class PosicionComponent implements OnInit, OnDestroy {
               );
         },
         complete: () => {
-          this.provinciaService.setProvincias(this.provincias)
+          this.provinciaService.setProvincias(this.provincias);
           this.utilService.closeLoading();
         },
       });

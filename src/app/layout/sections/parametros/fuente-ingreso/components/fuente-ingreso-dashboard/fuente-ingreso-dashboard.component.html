@@ -2,8 +2,7 @@
   <table
     mat-table
     [dataSource]="dataSource"
-    matSort
-    (matSortChange)="announceSortChange($event)"
+    [ngClass]="{ 'd-none': !dataSource }"
   >
     <ng-container class="mat-row" *matNoDataRow>
       <td
@@ -66,7 +65,7 @@
     [pageSize]="10"
     showFirstLastButtons
     aria-label="Controles de paginación."
-    [ngClass]="{ 'hide-paginator': !dataSource }"
+    [ngClass]="{ 'd-none': !dataSource || this.dataSource.data.length < 10 }"
   >
   </mat-paginator>
 </section>

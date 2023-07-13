@@ -118,12 +118,6 @@ export class NavMenuComponent {
           url: '/parametros/mvmts-novedades-automaticas',
           icon: 'keyboard_arrow_right',
         },
-        {
-          // 32 - EXTENCION DE FUENTES DE INGRESOS
-          title: 'Extencion Fuente de Ingreso',
-          url: '/parametros/extencion-fuente-ingreso',
-          icon: 'keyboard_arrow_right',
-        },
       ],
     },
   ];

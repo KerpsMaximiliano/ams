@@ -6,16 +6,26 @@
       </mat-expansion-panel-header>
 
       <form [formGroup]="searchForm">
-        <div class="seeker-fields-container" (keyup.enter)="searchKeyUp($event)">
+        <div
+          class="seeker-fields-container"
+          (keyup.enter)="searchKeyUp($event)"
+        >
           <mat-form-field class="seeker-form-field">
             <mat-label class="seeker-label"> Fuente de ingreso </mat-label>
-            <input matInput class="seeker-input" formControlName="descripcion">
+            <input
+              matInput
+              class="seeker-input"
+              formControlName="descripcion"
+            />
           </mat-form-field>
 
           <mat-form-field class="seeker-form-field">
             <mat-label class="seeker-label"> Empresa que factura </mat-label>
-            <mat-select formControlName="empresa_asociada"><mat-option *ngFor="let empresa of listEmpresas"
-                [value]="empresa.descripcion">
+            <mat-select formControlName="empresa_asociada"
+              ><mat-option
+                *ngFor="let empresa of datosEmpresas"
+                [value]="empresa.descripcion"
+              >
                 {{ empresa.descripcion }}
               </mat-option>
             </mat-select>
@@ -23,12 +33,20 @@
         </div>
 
         <div class="buttons-container">
-          <button class="primary-button icon-button" type="button" (click)="search()">
+          <button
+            class="primary-button icon-button"
+            type="button"
+            (click)="search()"
+          >
             <mat-icon> done </mat-icon>
             Buscar
           </button>
-          <button class="primary-button icon-button" type="button"  [disabled]="limpiar()"
-          (click)="clearInputs()">
+          <button
+            class="primary-button icon-button"
+            type="button"
+            [disabled]="limpiar()"
+            (click)="clearInputs()"
+          >
             <mat-icon> close </mat-icon>
             Limpiar
           </button>
