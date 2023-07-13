@@ -220,10 +220,10 @@ export class LocalidadComponent implements OnInit, OnDestroy {
           this.placeholder = 'No se han podido cargar las provincias.'
           this.utilService.closeLoading();
           if (err.status === 0) {
-            this.utilService.notification('No se han podido cargar las provincias.');
+            this.utilService.notification('Error de conexión.', 'error');
           } else {
             this.utilService.notification(
-              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+              `Status Code ${err.error.estado.Codigo}: No se han podido cargar las provincias.`,
               'error'
             );
           }
@@ -253,7 +253,7 @@ export class LocalidadComponent implements OnInit, OnDestroy {
           this.utilService.closeLoading();
           this.request = true;
           if (err.status === 0) {
-            this.utilService.notification('No se han podido cargar las promociones.');
+            this.utilService.notification('Error de conexión.', 'error');
           } else {
             this.utilService.notification(
               `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
@@ -285,10 +285,10 @@ export class LocalidadComponent implements OnInit, OnDestroy {
           this.utilService.closeLoading();
           this.request = true;
           if (err.status === 0) {
-            this.utilService.notification('No se han podido cargar los envios.');
+            this.utilService.notification('Error de conexión.', 'error');
           } else {
             this.utilService.notification(
-              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+              `Status Code ${err.error.estado.Codigo}: No se han podido cargar los envios.`,
               'error'
             );
           }
