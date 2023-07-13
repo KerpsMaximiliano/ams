@@ -7,11 +7,15 @@
     <div class="seeker-fields-container">
       <h3> PROVINCIA </h3>
       <mat-form-field class="seeker-form-field" required appearance="outline">
-        <mat-select formControlName="nombre_provincia" disableOptionCentering required>
+        <mat-select formControlName="nombre_provincia" disableOptionCentering required
+          *ngIf="data.par_modo === 'C'; else prov">
           <mat-option *ngFor="let provincia of data.provincias" [value]="provincia.codigo">
             {{ provincia.nombre_provincia }}
           </mat-option>
         </mat-select>
+        <ng-template #prov>
+          <input matInput [value]="handleProvince(data.letra_provincia)" disabled>
+        </ng-template>
         <mat-error *ngIf="formGroup.get('nombre_provincia')?.invalid && formGroup.get('nombre_provincia')?.touched">
           {{ getErrorMessage(formGroup.get("nombre_provincia")) }}
         </mat-error>
@@ -57,7 +61,7 @@
         Cancelar
       </button>
       <button [class]="formGroup.invalid ? 'primary-button icon-button disabled' : 'primary-button icon-button'"
-      type="submit" (click)="confirm()">
+        type="submit" (click)="confirm()">
         <mat-icon> done </mat-icon>
         Guardar
       </button>

@@ -1,7 +1,7 @@
 <section class="browse-section">
   <div class="section-header">
     <h2> Posiciones </h2>
-    <button class="new-button icon-button" (click)="new()" [disabled]="request === false">
+    <button class="new-button icon-button" (click)="new()" [disabled]="!provincias">
       <mat-icon> add </mat-icon>
       Nuevo
     </button>
