@@ -1,22 +1,63 @@
-.mat-column-descripcion.mat-header-cell,
-.mat-column-descripcion.mat-cell,
-.mat-column-empresa_asociada.mat-header-cell,
-.mat-column-empresa_asociada.mat-cell {
-  text-align: left !important;
-  padding-left: 1vw !important;
+/*
+ * Evita un espaciado innecesario en la primer columna.
+*/
+th.mat-header-cell:first-of-type,
+td.mat-cell:first-of-type {
+  padding-left: 0px !important;
 }
 
+/*
+ * Número y fecha alineado a la derecha.
+*/
 .mat-column-codigo_fuente_ingreso.mat-header-cell,
 .mat-column-codigo_fuente_ingreso.mat-cell,
 .mat-column-dia_corte.mat-header-cell,
 .mat-column-dia_corte.mat-cell {
   text-align: right !important;
-  padding-right: 1vw !important;
+  padding-right: 2vw;
 }
 
 /*
- * Oculta la paginación hasta que la tabla tenga datos.
+ * Texto alineado a la izquierda.
 */
-.hide-paginator {
+.mat-column-descripcion.mat-header-cell,
+.mat-column-descripcion.mat-cell,
+.mat-column-empresa_asociada.mat-header-cell,
+.mat-column-empresa_asociada.mat-cell {
+  text-align: left !important;
+  padding-left: 2vw;
+  word-break: break-all;
+}
+
+/*
+ * Tamaño de columnas.
+*/
+.mat-column-codigo_fuente_ingreso.mat-header-cell,
+.mat-column-codigo_fuente_ingreso.mat-cell,
+.mat-column-dia_corte.mat-header-cell,
+.mat-column-dia_corte.mat-cell {
+  width: 20%;
+}
+
+.mat-column-descripcion.mat-header-cell,
+.mat-column-descripcion.mat-cell {
+  min-width: 120px;
+  width: 35%;
+}
+
+.mat-column-empresa_asociada.mat-header-cell,
+.mat-column-empresa_asociada.mat-cell {
+  width: 35%;
+}
+
+.mat-column-actions.mat-header-cell,
+.mat-column-actions.mat-cell {
+  min-width: 150px;
+}
+
+/*
+ * Oculta la tabla y paginación hasta que existan datos.
+*/
+.d-none {
   display: none;
 }

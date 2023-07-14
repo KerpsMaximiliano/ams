@@ -23,10 +23,10 @@
           <mat-form-field class="seeker-form-field" appearance="outline">
             <mat-select formControlName="forma_pago" placeholder="Seleccione una forma de pago." required minlength="1"
               maxlength="3" disableOptionCentering>
-              <mat-option [value]="'BSF'" (click)="changeBank()"> BSF - Débitos Automáticos NBSF </mat-option>
-              <mat-option [value]="'LNK'" (click)="changeBank()"> LNK - Pagos RED LINK </mat-option>
-              <mat-option [value]="'CBU'" (click)="changeBank()"> CBU - Transferencias a distintos bancos </mat-option>
-              <mat-option [value]="'TC '" (click)="changeBank()"> TC - Tarjetas de crédito a configurar </mat-option>
+              <mat-option [value]="'BSF'"> BSF - Débitos Automáticos NBSF </mat-option>
+              <mat-option [value]="'LNK'"> LNK - Pagos RED LINK </mat-option>
+              <mat-option [value]="'CBU'"> CBU - Transferencias a distintos bancos </mat-option>
+              <mat-option [value]="'TC '"> TC - Tarjetas de crédito a configurar </mat-option>
             </mat-select>
             <mat-error *ngIf="formGroup.get('forma_pago')?.invalid && formGroup.get('forma_pago')?.touched">
               {{ getErrorMessage(formGroup.get('forma_pago')) }}
@@ -38,18 +38,20 @@
           <h3> BANCO </h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
             <ng-container *ngIf="this.data.par_modo === 'C'; else isView">
-              <mat-select formControlName="codigo_banco" [disabled]="!formGroup.get('forma_pago')?.value" required
-                minlength="1" maxlength="3" disableOptionCentering>
-                <mat-option [value]="330"> Nuevo Banco de Santa Fe </mat-option>
-                <mat-option [value]="815"> Pagos RED LINK </mat-option>
-                <mat-option [value]="0"> Tarjeta de Crédito </mat-option>
+              <mat-select formControlName="codigo_banco"
+                [placeholder]="formGroup.get('forma_pago')?.value === 'TC ' ? 'No requiere un banco.' : 'Seleccione una forma de pago.'"
+                required minlength="1" maxlength="3" disableOptionCentering>
+                <ng-container *ngIf="formGroup.get('forma_pago')?.value !== 'CBU'">
+                  <mat-option [value]="330"> Nuevo Banco de Santa Fe </mat-option>
+                  <mat-option [value]="815"> Pagos RED LINK </mat-option>
+                  <mat-option [value]="0"> Tarjeta de Crédito </mat-option>
+                </ng-container>
                 <div *ngFor="let bank of banks">
                   <mat-option [value]="bank.codigo"> {{ bank.description }} </mat-option>
                 </div>
               </mat-select>
             </ng-container>
-            <mat-error
-              *ngIf="formGroup.get('codigo_banco')?.invalid && formGroup.get('codigo_banco')?.touched && !banco">
+            <mat-error *ngIf="formGroup.get('codigo_banco')?.invalid && formGroup.get('codigo_banco')?.touched">
               {{ getErrorMessage(formGroup.get('codigo_banco')) }}
             </mat-error>
             <ng-template #isView>
@@ -146,17 +148,17 @@
         <mat-icon> close </mat-icon>
         Cancelar
       </button>
-      <div *ngIf="data.par_modo === 'U'">
-        <button type="submit" (click)="changeStatus()"
-          [class]="formGroup.invalid ? 'primary-button icon-button disabled' : 'primary-button icon-button'">
-          <mat-icon> remove_done </mat-icon>
-          Baja
-        </button>
-      </div>
       <button class="primary-button icon-button" type="button" [disabled]="activeTabIndex === 0" (click)="prevStep()">
         <mat-icon> arrow_back_ios </mat-icon>
         Anterior
       </button>
+      <div *ngIf="data.par_modo === 'U'">
+        <button [class]="formGroup.invalid ? 'primary-button icon-button disabled' : 'primary-button icon-button'"
+          type="button" (click)="changeStatus()" *ngIf="this.data.par_modo === 'U'">
+          <mat-icon> {{ this.data.codigo_tarjeta_de_baja === 'S'? 'done_all' : 'remove_done' }} </mat-icon>
+          {{ data.codigo_tarjeta_de_baja === 'S' ? 'Alta' : 'Baja' }}
+        </button>
+      </div>
       <button class="primary-button icon-button" type="button" [disabled]="activeTabIndex === 1" (click)="nextStep()">
         <mat-icon> arrow_forward_ios </mat-icon>
         Siguiente
