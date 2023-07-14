@@ -43,10 +43,12 @@
             *ngIf="formGroup.get('descripcion')?.invalid">{{getErrorMessage(formGroup.get('descripcion'))}}</mat-error>
         </mat-form-field>
         <ng-container *ngIf="data.par_modo === 'C'">
-          <div class="icon" (click)="getMotivoMovimientoProducto()" *ngIf="formGroup.get('tipo_motivo')?.value">
+          <div [class]="formGroup.get('tipo_motivo')?.value ? 'icon' : 'icon disabled fixClick'"
+            (click)="getMotivoMovimientoProducto()">
             <mat-icon class="material-symbols-outlined"> search </mat-icon>
           </div>
-          <div class="icon" (click)="clear(input, 'descripcion')" *ngIf="formGroup.get('descripcion')?.value">
+          <div [class]="formGroup.get('descripcion')?.value ? 'icon' : 'icon disabled fixClick'"
+            (click)="clear(input, 'descripcion')">
             <mat-icon class="material-symbols-outlined"> close </mat-icon>
           </div>
         </ng-container>

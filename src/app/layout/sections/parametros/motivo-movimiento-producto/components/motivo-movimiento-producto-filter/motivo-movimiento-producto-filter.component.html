@@ -5,6 +5,14 @@
         <mat-panel-title> Opciones de búsqueda </mat-panel-title>
       </mat-expansion-panel-header>
       <form>
+        <div class="seeker-fields-container mid-width">
+          <h4> Producto </h4>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <input matInput #descripcionProducto
+              [value]="this.producto.descripcion_producto ? this.producto.descripcion_producto : ''" disabled>
+          </mat-form-field>
+        </div>
+
         <div class="seeker-fields-container">
           <mat-form-field class="seeker-form-field">
             <mat-label class="seeker-label">

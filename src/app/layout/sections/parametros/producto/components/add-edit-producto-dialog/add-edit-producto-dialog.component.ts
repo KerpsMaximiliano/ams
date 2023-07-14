@@ -82,7 +82,7 @@ export class AddEditProductoDialogComponent {
 
   public prevStep(): void {
     if (this.activeTabIndex === 1) {
-      this.activeTabIndex -= 0;
+      this.activeTabIndex -= 1;
     }
   }
 
@@ -387,17 +387,15 @@ export class AddEditProductoDialogComponent {
     this.formGroup.get('tipo_producto')?.valueChanges.subscribe((value) => {
       const control = this.formGroup.get('descripcion_producto_administrador');
 
-      if (!value) {
-        if (value === 'S') {
-          control?.setValidators([
-            Validators.required,
-            Validators.minLength(3),
-            Validators.maxLength(30),
-            notOnlySpaces(),
-          ]);
-        } else {
-          control?.clearValidators();
-        }
+      if (value === 'S') {
+        control?.setValidators([
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(30),
+          notOnlySpaces(),
+        ]);
+      } else {
+        control?.clearValidators();
       }
 
       control?.updateValueAndValidity();

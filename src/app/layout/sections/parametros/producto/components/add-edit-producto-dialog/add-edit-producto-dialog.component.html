@@ -58,22 +58,25 @@
         </div>
 
         <div class="seeker-fields-container">
-          <!-- *ngIf="formGroup.get('tipo_producto')?.value === 'S'" -->
           <h3> ADMINISTRADO POR </h3>
           <div class="content">
             <mat-form-field class="seeker-form-field" appearance="outline">
-              <input matInput formControlName="descripcion_producto_administrador" #inputDescripcionProducto readonly />
+              <input matInput formControlName="descripcion_producto_administrador" #inputDescripcionProducto readonly
+                [placeholder]="formGroup.get('tipo_producto')?.value !== 'P' ? 'Seleccione un producto administrador.' : 'Sin producto administrador.'" />
               <mat-error
                 *ngIf="formGroup.get('descripcion_producto_administrador')?.invalid && formGroup.get('descripcion_producto_administrador')?.touched">
                 {{ getErrorMessage(formGroup.get("descripcion_producto_administrador")) }}
               </mat-error>
             </mat-form-field>
             <ng-container *ngIf="data.par_modo === 'C'">
-              <div class="icon" (click)="setElement(1)">
-                <mat-icon class="material-symbols-outlined"> search </mat-icon>
+              <div [class]="formGroup.get('tipo_producto')?.value === 'S' ? 'icon' : 'icon disabled fix'"
+                (click)="setElement(1)">
+                <mat-icon class="material-symbols-outlined">
+                  search
+                </mat-icon>
               </div>
-              <div class="icon" (click)="clear(inputDescripcionProducto, 'descripcion_producto_administrador')"
-                *ngIf="formGroup.get('descripcion_producto_administrador')?.value">
+              <div (click)="clear(inputDescripcionProducto, 'descripcion_producto_administrador')"
+                [class]="formGroup.get('descripcion_producto_administrador')?.value ? 'icon' : 'icon disabled fix'">
                 <mat-icon class="material-symbols-outlined"> close </mat-icon>
               </div>
             </ng-container>
@@ -127,8 +130,8 @@
               <div class="icon" (click)="setElement(2)">
                 <mat-icon class="material-symbols-outlined"> search </mat-icon>
               </div>
-              <div class="icon" (click)="clear(inputDescripcionFuente, 'descripcion_fuente_ingreso')"
-                *ngIf="formGroup.get('descripcion_fuente_ingreso')?.value">
+              <div [class]="formGroup.get('descripcion_fuente_ingreso')?.value ? 'icon' : 'icon disabled fix'"
+                (click)="clear(inputDescripcionFuente, 'descripcion_fuente_ingreso')">
                 <mat-icon class="material-symbols-outlined"> close </mat-icon>
               </div>
             </ng-container>
@@ -178,8 +181,8 @@
               <div class="icon" (click)="setElement(3)">
                 <mat-icon class="material-symbols-outlined"> search </mat-icon>
               </div>
-              <div class="icon" (click)="clear(inputObraSocial, 'descripcion_obra_social')"
-                *ngIf="formGroup.get('descripcion_obra_social')?.value">
+              <div (click)="clear(inputObraSocial, 'descripcion_obra_social')"
+                [class]="formGroup.get('descripcion_obra_social')?.value ? 'icon' : 'icon disabled fix'">
                 <mat-icon class="material-symbols-outlined"> close </mat-icon>
               </div>
             </ng-container>
@@ -198,11 +201,6 @@
 
 
     <div *ngIf="data.edit" class="buttons-container">
-      <button class="primary-button icon-button " type="button" (click)="setStatus()"
-        *ngIf="this.data.par_modo === 'U' && visibilidad">
-        <mat-icon> {{ this.estado ? 'remove_done' : 'done_all' }} </mat-icon>
-        {{ this.estado ? 'Baja' : 'Reactivar' }}
-      </button>
       <button class="primary-button icon-button" type="submit" (click)="redirectTo('parametros/parentesco-producto')"
         *ngIf="data.par_modo === 'U'" mat-dialog-close>
         <mat-icon> open_in_new_down </mat-icon>
@@ -213,10 +211,15 @@
         <mat-icon> open_in_new_down </mat-icon>
         Motivos
       </button>
-      <button class="primary-button icon-button" type="submit" (click)="redirectTo('parametros/unificacion-aportes')"
+      <button class="primary-button icon-button" type="submit" (click)="redirectToUnificacionAporteProducto()"
         *ngIf="data.par_modo === 'U'" mat-dialog-close>
         <mat-icon> open_in_new_down </mat-icon>
         Unificación
+      </button>
+      <button class="primary-button icon-button " type="button" (click)="setStatus()"
+        *ngIf="this.data.par_modo === 'U' && visibilidad">
+        <mat-icon> {{ this.estado ? 'remove_done' : 'done_all' }} </mat-icon>
+        {{ this.estado ? 'Baja' : 'Reactivar' }}
       </button>
     </div>
 

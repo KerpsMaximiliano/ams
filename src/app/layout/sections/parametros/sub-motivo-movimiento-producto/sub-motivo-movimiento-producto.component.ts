@@ -27,7 +27,7 @@ import { AddEditSubMotivoMovimientoProductoDialogComponent } from './components/
 })
 export class SubMotivoMovimientoProductoComponent implements OnInit, OnDestroy {
   private dataSubscription: Subscription | undefined;
-  private producto: IProducto;
+  public producto: IProducto;
   public motivoMovimientoProducto: IMotivoMovimientoProducto;
   public dataSent: ISubMotivoMovimientoProducto[];
 
@@ -121,13 +121,18 @@ export class SubMotivoMovimientoProductoComponent implements OnInit, OnDestroy {
       },
       error: (err: any) => {
         this.utilService.closeLoading();
-        err.status === 0
-          ? this.utilService.notification('Error de conexión.', 'error')
-          : this.utilService.notification(
-              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
-              'error'
-            );
-        if (err.status == 404) this.dataSent = [];
+        if (err.status === 0) {
+          this.utilService.notification('Error de conexión.', 'error');
+        }
+        if (err.status === 404) {
+          this.dataSent = [];
+        }
+        if (err.status !== 0 && err.status !== 404) {
+          this.utilService.notification(
+            `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+            'error'
+          );
+        }
       },
       complete: () => {
         this.utilService.closeLoading();

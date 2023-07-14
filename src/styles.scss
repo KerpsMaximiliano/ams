@@ -114,7 +114,8 @@ input[type="number"] {
 
 .mat-dialog-container {
   overflow-x: hidden;
-  background-color: var(--background-white);
+  /* background-color: var(--background-white); */
+  background-color: #fff;
 
   @media only screen and (min-width: 769px) {
     /* margin: 5vh 0; */
@@ -195,8 +196,10 @@ thead {
 }
 
 .mat-paginator-container {
-  min-height: 3.5rem;
+  /* min-height: 3.5rem; */
   height: 3rem;
+  /* min-height: 3rem; */
+  /* max-height: 3rem; */
   border-radius: 0 0 0.5rem 0.5rem;
 
   .mat-form-field-underline {
@@ -473,4 +476,8 @@ button {
 .mat-radio-button.mat-primary.mat-radio-checked .mat-radio-persistent-ripple,
 .mat-radio-button.mat-primary:active .mat-radio-persistent-ripple {
   background-color: var(--sancor-blue);
+}
+
+.d-none {
+  display: none;
 }

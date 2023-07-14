@@ -15,7 +15,8 @@
 
   <div class="section-content">
     <app-sub-motivo-movimiento-producto-filter (search)="getSubMotivoMovimiento($event)"
-      [motivoMovimientoProducto]="motivoMovimientoProducto"></app-sub-motivo-movimiento-producto-filter>
+      [motivoMovimientoProducto]="motivoMovimientoProducto"
+      [producto]="producto"></app-sub-motivo-movimiento-producto-filter>
     <app-sub-motivo-movimiento-producto-dashboard [receivedData]="dataSent" (viewEvent)="view($event)"
       (editEvent)="edit($event)"></app-sub-motivo-movimiento-producto-dashboard>
   </div>

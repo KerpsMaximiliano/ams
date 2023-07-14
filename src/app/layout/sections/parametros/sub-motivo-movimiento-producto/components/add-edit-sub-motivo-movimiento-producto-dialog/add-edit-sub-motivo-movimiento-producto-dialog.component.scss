@@ -13,6 +13,10 @@
   user-select: text !important;
 }
 
+.dialog-content {
+  min-width: 400px;
+}
+
 .form-datos {
   display: grid;
   grid-template-columns: 1fr;
@@ -29,10 +33,6 @@
   grid-template-columns: minmax(190px, 0.9fr) minmax(290px, 1.1fr);
   align-items: center;
   column-gap: 0rem;
-}
-
-.buttons-container {
-  margin-top: 0rem;
 }
 
 .content {

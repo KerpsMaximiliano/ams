@@ -73,7 +73,7 @@ export class MotivoMovimientoProductoDashboardComponent {
         case 'S':
           return 'SUBMOTIVO';
         default:
-          return 'S/N';
+          return '';
       }
     } else {
       switch (value) {
@@ -86,7 +86,7 @@ export class MotivoMovimientoProductoDashboardComponent {
         case 'O':
           return 'OSP';
         default:
-          return 'S/N';
+          return '';
       }
     }
   }

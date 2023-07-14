@@ -46,6 +46,7 @@
   min-width: 350px;
   width: 100%;
 }
+
 .primary-button {
   width: 130px;
 }
@@ -79,4 +80,8 @@
 
 .disabled:hover {
   filter: grayscale(100%);
+}
+
+.fixClick {
+  pointer-events: none;
 }

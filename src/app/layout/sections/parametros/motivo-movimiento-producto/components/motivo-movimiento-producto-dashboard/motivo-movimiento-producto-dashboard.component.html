@@ -29,8 +29,9 @@
 
     <ng-container matColumnDef="otra_cobertura">
       <th mat-header-cell *matHeaderCellDef> ¿Otra cobertura? </th>
-      <td mat-cell *matCellDef="let param"> {{ param.otra_cobertura === 'S'? 'Si': param.otra_cobertura === 'N'? 'No':
-        'S/N'}} </td>
+      <td mat-cell *matCellDef="let param">
+        {{ param.otra_cobertura === 'S'? 'Si': param.otra_cobertura === 'N'? 'No': '' }}
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="actions">

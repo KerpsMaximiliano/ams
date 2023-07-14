@@ -21,6 +21,7 @@ import {
 
 // * Material
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-add-edit-forma-pago-dialog',
@@ -30,6 +31,8 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class AddEditFormaPagoDialogComponent {
   public getErrorMessage = getErrorMessage;
   public formGroup: UntypedFormGroup;
+  public activeTabIndex: number = 0;
+  public banco: boolean;
   public banks: any[] = [
     {
       codigo: '',
@@ -45,6 +48,26 @@ export class AddEditFormaPagoDialogComponent {
     this.setUpForm();
   }
 
+  ngAfterViewInit() {
+    this.banco = true;
+  }
+
+  public nextStep(): void {
+    if (this.activeTabIndex !== 2) {
+      this.activeTabIndex += 1;
+    }
+  }
+
+  public prevStep(): void {
+    if (this.activeTabIndex !== 0) {
+      this.activeTabIndex -= 1;
+    }
+  }
+
+  public tabChanged(event: MatTabChangeEvent): void {
+    this.activeTabIndex = event.index;
+  }
+
   public confirm(): void {
     if (this.formGroup.valid) {
       this.dataSharingService.sendData({
@@ -57,8 +80,9 @@ export class AddEditFormaPagoDialogComponent {
         trabaja_archivos: this.formGroup.get('trabaja_archivos')?.value,
         trabaja_rechazos: this.formGroup.get('trabaja_rechazos')?.value,
         solicita_datos_ad: this.formGroup.get('solicita_datos_ad')?.value,
-        codigo_tarjeta_de_baja: this.formGroup.get('codigo_tarjeta_de_baja')
-          ?.value,
+        codigo_tarjeta_de_baja: this.data.codigo_tarjeta_de_baja
+          ? this.data.codigo_tarjeta_de_baja
+          : '',
       });
     } else {
       this.formGroup.markAllAsTouched();
@@ -69,21 +93,32 @@ export class AddEditFormaPagoDialogComponent {
     if (this.formGroup.get('forma_pago')?.value !== undefined) {
       switch (this.formGroup.get('forma_pago')?.value) {
         case 'BSF':
+          this.banco = true;
+          this.configureValidators();
           this.formGroup.patchValue({
             codigo_banco: 330,
           });
           break;
         case 'LNK':
+          this.banco = true;
+          this.configureValidators();
           this.formGroup.patchValue({
             codigo_banco: 815,
           });
           break;
-        case 'TC':
+        case 'TC ':
+          this.banco = true;
+          this.configureValidators();
           this.formGroup.patchValue({
-            codigo_banco: 0,
+            codigo_banco: null,
           });
           break;
-        default:
+        case 'CBU':
+          this.banco = false;
+          this.configureValidators();
+          this.formGroup.patchValue({
+            codigo_banco: null,
+          });
           this.formaPagoService
             .CRUD(JSON.stringify({ par_modo: 'B', description: '' }))
             .subscribe((res: any) => {
@@ -94,14 +129,29 @@ export class AddEditFormaPagoDialogComponent {
                 });
               }
             });
+          break;
       }
     }
   }
 
   public changeStatus(): void {
-    if (this.formGroup.get('codigo_tarjeta_de_baja')?.value === 'ACTIVO') {
-      this.formGroup.get('codigo_tarjeta_de_baja')?.setValue('BAJA');
+    this.data.codigo_tarjeta_de_baja = 'S';
+    this.confirm();
+  }
+
+  private configureValidators(): void {
+    if (this.formGroup.get('forma_pago')?.value === 'CBU') {
+      this.formGroup
+        .get('codigo_banco')
+        ?.setValidators([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(3),
+        ]);
+    } else {
+      this.formGroup.get('codigo_banco')?.clearValidators();
     }
+    this.formGroup.get('codigo_banco')?.updateValueAndValidity();
   }
 
   private setUpForm(): void {
@@ -156,10 +206,7 @@ export class AddEditFormaPagoDialogComponent {
         ])
       ),
       codigo_banco: new UntypedFormControl(
-        {
-          value: this.data.codigo_banco,
-          disabled: this.data.par_modo === 'R',
-        },
+        this.data.codigo_banco,
         Validators.compose([
           Validators.required,
           Validators.minLength(1),

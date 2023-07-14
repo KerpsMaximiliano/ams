@@ -51,8 +51,10 @@ export class MotivoMovimientoProductoComponent implements OnInit, OnDestroy {
           JSON.stringify({
             par_modo: 'R',
             id_producto: this.motivoMovimientoProductoService.get().id_producto,
-            codigo_motivo: this.motivoMovimientoProductoService.get().codigo_motivo,
-            tipo_motivo: this.motivoMovimientoProductoService.get().tipo_motivo[0],
+            codigo_motivo:
+              this.motivoMovimientoProductoService.get().codigo_motivo,
+            tipo_motivo:
+              this.motivoMovimientoProductoService.get().tipo_motivo[0],
           })
         );
         this.edit(this.motivoMovimientoProductoService.get());
@@ -130,13 +132,18 @@ export class MotivoMovimientoProductoComponent implements OnInit, OnDestroy {
       },
       error: (err: any) => {
         this.utilService.closeLoading();
-        err.status === 0
-          ? this.utilService.notification('Error de conexión.', 'error')
-          : this.utilService.notification(
-              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
-              'error'
-            );
-        if (err.status == 404) this.dataSent = [];
+        if (err.status === 0) {
+          this.utilService.notification('Error de conexión.', 'error');
+        }
+        if (err.status === 404) {
+          this.dataSent = [];
+        }
+        if (err.status !== 0 && err.status !== 404) {
+          this.utilService.notification(
+            `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+            'error'
+          );
+        }
       },
       complete: () => {
         this.utilService.closeLoading();

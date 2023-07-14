@@ -34,7 +34,7 @@ export class FormaPagoDashboardComponent implements OnInit, OnChanges {
     'forma_pago',
     'description',
     'nombre_tarjeta_nemot',
-    'desc_banco',
+    'descripcion_banco',
     'codigo_tarjeta_de_baja',
     'actions',
   ];

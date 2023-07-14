@@ -4,13 +4,20 @@
 <div class="dialog-content">
   <form class="form-datos" [formGroup]="formGroup">
     <div class="seeker-fields-container">
-      <h3> PRODUCTO </h3>
+      <h3> CÓDIGO DE PRODUCTO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput [value]="data.producto" required disabled />
+        <input matInput [value]="data.producto.codigo_producto" required disabled />
       </mat-form-field>
     </div>
 
     <div class="seeker-fields-container">
+      <h3> PRODUCTO </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <input matInput [value]="data.producto.descripcion_producto" required disabled />
+      </mat-form-field>
+    </div>
+
+    <div class=" seeker-fields-container">
       <h3> TIPO DE MOVIMIENTO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
         <mat-select [value]="data.movimiento.tipo_motivo" required disabled disableOptionCentering>
@@ -62,8 +69,8 @@
         Cancelar
       </button>
       <button class="primary-button icon-button" (click)="setStatus()" *ngIf="this.data.par_modo === 'U'">
-        <mat-icon> done_all </mat-icon>
-        BAJA
+        <mat-icon> remove_done </mat-icon>
+        Baja
       </button>
       <button [class]="formGroup.invalid ? 'primary-button icon-button disabled' : 'primary-button icon-button'"
         type="submit" (click)="confirm()">
