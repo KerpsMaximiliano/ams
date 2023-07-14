@@ -6,14 +6,14 @@
     <div class="seeker-fields-container mt-1">
       <h3> PRODUCTO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="descripcion_producto_principal" />
+        <input matInput formControlName="producto_principal_descripcion" />
       </mat-form-field>
     </div>
 
     <div class="seeker-fields-container">
       <h3> SUBPRODUCTO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="descripcion_subproducto_principal" placeholder="Sin subproducto." />
+        <input matInput formControlName="subproducto_principal_descripcion" placeholder="Sin subproducto." />
       </mat-form-field>
     </div>
 
@@ -23,10 +23,10 @@
           <h3> PRODUCTO </h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
             <input matInput class="seeker-input" placeholder="Seleccione un producto/subproducto."
-              formControlName="descripcion_producto_secundario" #descripcionProducto readonly required>
+              formControlName="producto_secundario_descripcion" #descripcionProducto readonly required>
             <mat-error
-              *ngIf="formGroup.get('descripcion_producto_secundario')?.invalid && formGroup.get('descripcion_producto_secundario')?.touched">
-              {{ getErrorMessage(formGroup.get("descripcion_producto_secundario")) }}
+              *ngIf="formGroup.get('producto_secundario_descripcion')?.invalid && formGroup.get('producto_secundario_descripcion')?.touched">
+              {{ getErrorMessage(formGroup.get("producto_secundario_descripcion")) }}
             </mat-error>
           </mat-form-field>
         </div>
@@ -34,12 +34,12 @@
         <div class="seeker-fields-container">
           <h3> SUBPRODUCTO </h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
-            <input matInput class="seeker-input" formControlName="descripcion_subproducto_secundario"
+            <input matInput class="seeker-input" formControlName="subproducto_secundario_descripcion"
               [placeholder]="descripcionProducto.value ? 'Sin subproducto.' : 'Seleccione un producto/subproducto.'"
               #descripcionSubproducto readonly>
             <mat-error
-              *ngIf="formGroup.get('descripcion_subproducto_secundario')?.invalid && formGroup.get('descripcion_subproducto_secundario')?.touched">
-              {{ getErrorMessage(formGroup.get("descripcion_subproducto_secundario")) }}
+              *ngIf="formGroup.get('subproducto_secundario_descripcion')?.invalid && formGroup.get('subproducto_secundario_descripcion')?.touched">
+              {{ getErrorMessage(formGroup.get("subproducto_secundario_descripcion")) }}
             </mat-error>
           </mat-form-field>
         </div>
@@ -47,33 +47,16 @@
 
       <div class="icon-container" *ngIf="data.par_modo === 'C'">
         <div (click)="getProducto()"
-          [class]="formGroup.get('descripcion_producto_principal')?.value  ? 'icon' : 'icon disabled fix'">
+          [class]="formGroup.get('producto_principal_descripcion')?.value  ? 'icon' : 'icon disabled fix'">
           <mat-icon class="material-symbols-outlined"> search </mat-icon>
         </div>
         <div
-          [class]="formGroup.get('descripcion_producto_secundario')?.value || formGroup.get('descripcion_subproducto_secundario')?.value  ? 'icon' : 'icon disabled fix'"
-          (click)="clear(descripcionProducto, 'descripcion_producto_secundario', descripcionSubproducto,
-            'descripcion_subproducto_secundario')">
+          [class]="formGroup.get('producto_secundario_descripcion')?.value || formGroup.get('subproducto_secundario_descripcion')?.value  ? 'icon' : 'icon disabled fix'"
+          (click)="clear(descripcionProducto, 'producto_secundario_descripcion', descripcionSubproducto,
+            'subproducto_secundario_descripcion')">
           <mat-icon class="material-symbols-outlined"> close </mat-icon>
         </div>
       </div>
-    </div>
-
-    <div class="seeker-fields-container">
-      <h3> ¿UNIFICA APORTES? </h3>
-      <mat-form-field class="seeker-form-field" appearance="outline">
-        <mat-select formControlName="unifica_aportes" required minlength="1" maxlength="1" disableOptionCentering>
-          <mat-option [value]="'S'">
-            SI
-          </mat-option>
-          <mat-option [value]="'N'">
-            NO
-          </mat-option>
-        </mat-select>
-        <mat-error *ngIf="formGroup.get('unifica_aportes')?.invalid && formGroup.get('unifica_aportes')?.touched">
-          {{ getErrorMessage(formGroup.get('unifica_aportes')) }}
-        </mat-error>
-      </mat-form-field>
     </div>
 
     <div class="buttons-container">
