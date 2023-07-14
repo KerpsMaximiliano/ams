@@ -24,10 +24,6 @@ td.mat-cell:first-of-type {
 */
 .mat-column-descripcion.mat-header-cell,
 .mat-column-descripcion.mat-cell,
-.mat-column-desc_prov.mat-header-cell,
-.mat-column-desc_prov.mat-cell,
-.mat-column-desc_depto.mat-header-cell,
-.mat-column-desc_depto.mat-cell,
 .mat-column-desc_position.mat-header-cell,
 .mat-column-desc_position.mat-cell {
   text-align: left !important;
@@ -39,47 +35,32 @@ td.mat-cell:first-of-type {
  * Tamaño de columnas.
 */
 .mat-column-codigo_postal.mat-header-cell,
-.mat-column-codigo_postal.mat-cell {
-  min-width: 80px;
-}
-
+.mat-column-codigo_postal.mat-cell,
 .mat-column-sub_codigo_postal.mat-header-cell,
 .mat-column-sub_codigo_postal.mat-cell {
-  min-width: 70px;
+  min-width: 140px;
 }
 
 .mat-column-descripcion.mat-header-cell,
 .mat-column-descripcion.mat-cell {
-  min-width: 120px;
-  width: 28%;
-}
-
-.mat-column-desc_prov.mat-header-cell,
-.mat-column-desc_prov.mat-cell {
-  min-width: 100px;
-  width: 26%;
-}
-
-.mat-column-desc_depto.mat-header-cell,
-.mat-column-desc_depto.mat-cell {
-  min-width: 120px;
-  width: 26%;
+  min-width: 300px;
+  width: 60%;
 }
 
 .mat-column-desc_position.mat-header-cell,
 .mat-column-desc_position.mat-cell {
-  width: 20%;
-  min-width: 90px;
+  width: 40%;
+  min-width: 140px;
 }
 
 .mat-column-cant_habitantes.mat-header-cell,
 .mat-column-cant_habitantes.mat-cell {
-  min-width: 90px;
+  min-width: 100px;
 }
 
 .mat-column-actions.mat-header-cell,
 .mat-column-actions.mat-cell {
-  min-width: 110px;
+  min-width: 130px;
 }
 
 /*

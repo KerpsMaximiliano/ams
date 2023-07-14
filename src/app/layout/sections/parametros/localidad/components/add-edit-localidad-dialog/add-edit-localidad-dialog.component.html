@@ -9,6 +9,102 @@
         dynamicHeight>
         <mat-tab>
           <div class="seeker-fields-container mt-1">
+            <h3> PROVINCIA </h3>
+            <mat-form-field class="seeker-form-field" appearance="outline">
+              <mat-select formControlName="letra_provincia" required placeholder="Seleccione una provincia. "
+                minlength="1" maxlength="1" disableOptionCentering>
+                <mat-option *ngFor="let provincia of data.provincias" [value]="provincia.codigo"
+                  (click)="getDepartamentos(provincia.codigo)">
+                  {{ provincia.nombre_provincia }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="formGroup.get('letra_provincia')?.invalid && formGroup.get('letra_provincia')?.touched">
+                {{ getErrorMessage(formGroup.get('letra_provincia')) }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="seeker-fields-container">
+            <h3> DEPARTAMENTO </h3>
+            <mat-form-field class="seeker-form-field" appearance="outline">
+              <mat-select formControlName="codigo_departamento" required
+                [placeholder]="formGroup.get('letra_provincia')?.value ? 'Seleccione un departamento.' : 'Provincia requerida.'"
+                disableOptionCentering [disabled]="!formGroup.get('letra_provincia')?.value">
+                <mat-option *ngFor="let departamento of data.departamentos" [value]="departamento.codigo_departamento">
+                  {{ departamento.descripcion }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="
+                  formGroup.get('codigo_departamento')?.invalid &&
+                  formGroup.get('codigo_departamento')?.touched">
+                {{ getErrorMessage(formGroup.get("codigo_departamento")) }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="seeker-fields-container">
+            <h3> POSICIÓN </h3>
+            <div class="content">
+              <mat-form-field class="seeker-form-field" appearance="outline">
+                <input matInput formControlName="desc_position" readonly required
+                  [placeholder]="formGroup.get('letra_provincia')?.value ? 'Busque una posición.' : 'Provincia requerida.'" />
+                <mat-error *ngIf="
+                    formGroup.get('desc_position')?.invalid &&
+                    formGroup.get('desc_position')?.touched">
+                  {{ getErrorMessage(formGroup.get("desc_position")) }}
+                </mat-error>
+              </mat-form-field>
+              <ng-container *ngIf="data.par_modo !== 'R'">
+                <div [class]="this.data.letra_provincia ? 'icon' : 'icon disabled fix'" (click)="getPosicion()">
+                  <mat-icon class="material-symbols-outlined">
+                    search
+                  </mat-icon>
+                </div>
+                <div (click)="clear()" [class]="
+                    formGroup.get('desc_position')?.value
+                      ? 'icon'
+                      : 'icon disabled fix'">
+                  <mat-icon class="material-symbols-outlined"> close </mat-icon>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+
+          <div class="seeker-fields-container">
+            <h3> ZONA DE PROMOCIÓN </h3>
+            <mat-form-field appearance="outline">
+              <mat-select formControlName="zona_promocion" required minlength="1" maxlength="2" disableOptionCentering>
+                <mat-option *ngFor="let promocion of data.promociones" [value]="promocion.codigo">
+                  {{ promocion.descripcion }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="
+                  formGroup.get('zona_promocion')?.invalid &&
+                  formGroup.get('zona_promocion')?.touched">
+                {{ getErrorMessage(formGroup.get("zona_promocion")) }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="seeker-fields-container">
+            <h3> ZONA DE ENVÍO </h3>
+            <mat-form-field appearance="outline">
+              <mat-select formControlName="zona_envio" required minlength="1" maxlength="10" disableOptionCentering>
+                <mat-option *ngFor="let envio of data.envios" [value]="envio.codigo">
+                  {{ envio.descripcion }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="
+                  formGroup.get('zona_envio')?.invalid &&
+                  formGroup.get('zona_envio')?.touched ">
+                {{ getErrorMessage(formGroup.get("zona_envio")) }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </mat-tab>
+
+        <mat-tab>
+          <div class="seeker-fields-container mt-1">
             <h3> CÓDIGO POSTAL </h3>
             <mat-form-field class="seeker-form-field" appearance="outline">
               <input matInput formControlName="codigo_postal" required placeholder="Ingrese un código postal. "
@@ -60,100 +156,6 @@
             </mat-form-field>
           </div>
 
-          <div class="seeker-fields-container">
-            <h3> PROVINCIA </h3>
-            <mat-form-field class="seeker-form-field" appearance="outline">
-              <mat-select formControlName="letra_provincia" required placeholder="Seleccione una provincia. "
-                minlength="1" maxlength="1" disableOptionCentering>
-                <mat-option *ngFor="let provincia of data.provincias" [value]="provincia.codigo"
-                  (click)="getDepartamentos(provincia.codigo)">
-                  {{ provincia.nombre_provincia }}
-                </mat-option>
-              </mat-select>
-              <mat-error *ngIf="formGroup.get('letra_provincia')?.invalid && formGroup.get('letra_provincia')?.touched">
-                {{ getErrorMessage(formGroup.get('letra_provincia')) }}
-              </mat-error>
-            </mat-form-field>
-          </div>
-        </mat-tab>
-
-        <mat-tab>
-          <div class="seeker-fields-container mt-1">
-            <h3> DEPARTAMENTO </h3>
-            <mat-form-field class="seeker-form-field" appearance="outline">
-              <mat-select formControlName="codigo_departamento" required placeholder="Seleccione un departamento. "
-                minlength="1" maxlength="3" [disabled]="this.formGroup.get('letra_provincia')?.value === undefined"
-                disableOptionCentering>
-                <mat-option *ngFor="let departamento of data.departamentos" [value]="departamento.codigo_departamento">
-                  {{ departamento.descripcion }}
-                </mat-option>
-              </mat-select>
-              <mat-error *ngIf="
-                  formGroup.get('codigo_departamento')?.invalid &&
-                  formGroup.get('codigo_departamento')?.touched">
-                {{ getErrorMessage(formGroup.get("codigo_departamento")) }}
-              </mat-error>
-            </mat-form-field>
-          </div>
-
-          <div class="seeker-fields-container">
-            <h3> POSICIÓN </h3>
-            <div class="content">
-              <mat-form-field class="seeker-form-field" appearance="outline">
-                <input matInput formControlName="desc_position" required readonly placeholder="Busque una posición." />
-                <mat-error *ngIf="
-                    formGroup.get('desc_position')?.invalid &&
-                    formGroup.get('desc_position')?.touched">
-                  {{ getErrorMessage(formGroup.get("desc_position")) }}
-                </mat-error>
-              </mat-form-field>
-              <ng-container *ngIf="data.par_modo !== 'R'">
-                <div [class]="this.data.letra_provincia === undefined || this.data.letra_provincia === null ? 'icon disabled fix' : 'icon'" (click)="getPosicion()">
-                  <mat-icon class="material-symbols-outlined">
-                    search
-                  </mat-icon>
-                </div>
-                <div (click)="clear()" [class]="
-                    formGroup.get('desc_position')?.value
-                      ? 'icon'
-                      : 'icon disabled fix'">
-                  <mat-icon class="material-symbols-outlined"> close </mat-icon>
-                </div>
-              </ng-container>
-            </div>
-          </div>
-
-          <div class="seeker-fields-container">
-            <h3> ZONA DE PROMOCIÓN </h3>
-            <mat-form-field appearance="outline">
-              <mat-select formControlName="zona_promocion" required minlength="1" maxlength="2" disableOptionCentering>
-                <mat-option *ngFor="let promocion of data.promociones" [value]="promocion.codigo">
-                  {{ promocion.descripcion }}
-                </mat-option>
-              </mat-select>
-              <mat-error *ngIf="
-                  formGroup.get('zona_promocion')?.invalid &&
-                  formGroup.get('zona_promocion')?.touched">
-                {{ getErrorMessage(formGroup.get("zona_promocion")) }}
-              </mat-error>
-            </mat-form-field>
-          </div>
-
-          <div class="seeker-fields-container">
-            <h3> ZONA DE ENVÍO </h3>
-            <mat-form-field appearance="outline">
-              <mat-select formControlName="zona_envio" required minlength="1" maxlength="10" disableOptionCentering>
-                <mat-option *ngFor="let envio of data.envios" [value]="envio.codigo">
-                  {{ envio.descripcion }}
-                </mat-option>
-              </mat-select>
-              <mat-error *ngIf="
-                  formGroup.get('zona_envio')?.invalid &&
-                  formGroup.get('zona_envio')?.touched ">
-                {{ getErrorMessage(formGroup.get("zona_envio")) }}
-              </mat-error>
-            </mat-form-field>
-          </div>
 
           <div class="seeker-fields-container">
             <h3> INGRESO DE TICKET </h3>
@@ -195,11 +197,11 @@
           Cancelar
         </button>
         <button class="primary-button icon-button" type="button" [disabled]="activeTabIndex === 0" (click)="prevStep()">
-          <mat-icon> close </mat-icon>
+          <mat-icon> arrow_back_ios </mat-icon>
           Anterior
         </button>
         <button class="primary-button icon-button" type="button" [disabled]="activeTabIndex === 1" (click)="nextStep()">
-          <mat-icon> close </mat-icon>
+          <mat-icon> arrow_forward_ios </mat-icon>
           Siguiente
         </button>
         <button [class]="
@@ -219,12 +221,12 @@
           </button>
           <button class="primary-button icon-button" type="button" [disabled]="activeTabIndex === 0"
             (click)="prevStep()">
-            <mat-icon> close </mat-icon>
+            <mat-icon> arrow_back_ios </mat-icon>
             Anterior
           </button>
           <button class="primary-button icon-button" type="button" [disabled]="activeTabIndex === 1"
             (click)="nextStep()">
-            <mat-icon> close </mat-icon>
+            <mat-icon> arrow_forward_ios </mat-icon>
             Siguiente
           </button>
         </div>

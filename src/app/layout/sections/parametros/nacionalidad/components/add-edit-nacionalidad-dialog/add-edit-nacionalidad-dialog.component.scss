@@ -13,6 +13,17 @@
   user-select: text !important;
 }
 
+.dialog-content {
+  min-width: 400px;
+}
+
+.seeker-fields-container {
+  display: grid;
+  grid-template-columns: 0.7fr 1.3fr;
+  align-items: center;
+  justify-content: center;
+}
+
 /*
   * Estilos del boton "Guardar" para que este deshabilitado.
 */

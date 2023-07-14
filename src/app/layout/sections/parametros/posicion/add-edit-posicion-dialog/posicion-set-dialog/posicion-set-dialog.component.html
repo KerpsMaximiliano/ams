@@ -45,7 +45,7 @@
 
   <section class="table-container" [ngClass]="{'d-none': !dataSource }">
     <mat-form-field appearance="standard" class="filter-container">
-      <mat-label> Ingrese la localidad </mat-label>
+      <mat-label> Ingrese una descripción o código </mat-label>
       <input matInput (keyup)="applyFilter($event)" #input [disabled]="!dataSource" maxlength="20">
     </mat-form-field>
 

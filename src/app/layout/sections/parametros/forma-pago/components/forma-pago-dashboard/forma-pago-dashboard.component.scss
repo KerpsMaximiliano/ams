@@ -24,8 +24,8 @@ td.mat-cell:first-of-type {
 .mat-column-description.mat-cell,
 .mat-column-nombre_tarjeta_nemot.mat-header-cell,
 .mat-column-nombre_tarjeta_nemot.mat-cell,
-.mat-column-desc_banco.mat-header-cell,
-.mat-column-desc_banco.mat-cell,
+.mat-column-descripcion_banco.mat-header-cell,
+.mat-column-descripcion_banco.mat-cell,
 .mat-column-codigo_tarjeta_de_baja.mat-header-cell,
 .mat-column-codigo_tarjeta_de_baja.mat-cell {
   text-align: left !important;
@@ -59,8 +59,8 @@ td.mat-cell:first-of-type {
   width: 10%;
 }
 
-.mat-column-desc_banco.mat-header-cell,
-.mat-column-desc_banco.mat-cell {
+.mat-column-descripcion_banco.mat-header-cell,
+.mat-column-descripcion_banco.mat-cell {
   min-width: 50px;
   width: 35%;
 }

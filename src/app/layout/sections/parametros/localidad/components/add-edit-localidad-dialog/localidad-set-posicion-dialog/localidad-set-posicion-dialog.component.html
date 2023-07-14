@@ -5,7 +5,7 @@
 
   <section class="table-container">
     <mat-form-field appearance="standard" class="filter-container">
-      <mat-label> Ingrese la descripción </mat-label>
+      <mat-label> Ingrese la descripción o código de la posición </mat-label>
       <input matInput (keyup)="applyFilter($event)" #input [disabled]="!dataSource">
     </mat-form-field>
 

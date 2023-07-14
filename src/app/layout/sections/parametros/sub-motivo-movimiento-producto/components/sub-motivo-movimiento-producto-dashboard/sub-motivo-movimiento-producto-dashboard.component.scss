@@ -1,9 +1,10 @@
-
 /*
  * Texto alineado a la izquierda.
 */
 .mat-column-descripcion.mat-header-cell,
-.mat-column-descripcion.mat-cell {
+.mat-column-descripcion.mat-cell,
+.mat-column-estado.mat-header-cell,
+.mat-column-estado.mat-cell {
   text-align: left !important;
   padding-left: 1vw;
   word-break: break-all;
@@ -24,23 +25,23 @@
 
 .mat-column-codigo_submotivo.mat-header-cell,
 .mat-column-codigo_submotivo.mat-cell {
-  min-width: 170px;
+  min-width: 130px;
 }
 
 .mat-column-descripcion.mat-header-cell,
 .mat-column-descripcion.mat-cell {
   width: 100%;
-  min-width: 230px;
+  min-width: 200px;
 }
 
 .mat-column-estado.mat-header-cell,
 .mat-column-estado.mat-cell {
-  min-width: 70px;
+  min-width: 100px;
 }
 
 .mat-column-actions.mat-header-cell,
 .mat-column-actions.mat-cell {
-  min-width: 100px;
+  min-width: 150px;
 }
 
 /*

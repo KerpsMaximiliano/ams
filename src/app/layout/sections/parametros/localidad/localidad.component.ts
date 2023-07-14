@@ -46,21 +46,17 @@ export class LocalidadComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    if (this.provinciaService.getProvincias() === undefined) {
-      this.getProvincias();
-    } else {
-      this.provincias = this.provinciaService.getProvincias();
-    }
-    if (this.provinciaService.getEnvios() === undefined) {
-      this.getEnvios();
-    } else {
-      this.envios = this.provinciaService.getEnvios();
-    }
-    if (this.provinciaService.getPromociones() === undefined) {
-      this.getPromociones();
-    } else {
-      this.promociones = this.provinciaService.getPromociones();
-    }
+    this.provinciaService.getProvincias()
+      ? (this.provincias = this.provinciaService.getProvincias())
+      : this.getProvincias();
+
+    this.provinciaService.getPromociones()
+      ? (this.promociones = this.provinciaService.getPromociones())
+      : this.getPromociones();
+
+    this.provinciaService.getEnvios()
+      ? (this.envios = this.provinciaService.getEnvios())
+      : this.getEnvios();
   }
 
   ngOnDestroy(): void {
@@ -117,13 +113,18 @@ export class LocalidadComponent implements OnInit, OnDestroy {
       },
       error: (err: any) => {
         this.utilService.closeLoading();
-        err.status === 0
-          ? this.utilService.notification('Error de conexión.', 'error')
-          : this.utilService.notification(
-              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
-              'error'
-            );
-        if (err.status == 404) this.dataSent = [];
+        if (err.status === 0) {
+          this.utilService.notification('Error de conexión.', 'error');
+        }
+        if (err.status === 404) {
+          this.dataSent = [];
+        }
+        if (err.status !== 0 && err.status !== 404) {
+          this.utilService.notification(
+            `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+            'error'
+          );
+        }
       },
       complete: () => {
         this.utilService.closeLoading();

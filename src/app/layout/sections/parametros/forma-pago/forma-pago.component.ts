@@ -85,13 +85,18 @@ export class FormaPagoComponent implements OnDestroy {
       },
       error: (err: any) => {
         this.utilService.closeLoading();
-        err.status === 0
-          ? this.utilService.notification('Error de conexión.', 'error')
-          : this.utilService.notification(
-              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
-              'error'
-            );
-        if (err.status == 404) this.dataSent = [];
+        if (err.status === 0) {
+          this.utilService.notification('Error de conexión.', 'error');
+        }
+        if (err.status === 404) {
+          this.dataSent = [];
+        }
+        if (err.status !== 0 && err.status !== 404) {
+          this.utilService.notification(
+            `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+            'error'
+          );
+        }
       },
       complete: () => {
         this.utilService.closeLoading();
@@ -115,10 +120,11 @@ export class FormaPagoComponent implements OnDestroy {
         description: data?.description,
         nombre_tarjeta_nemot: data?.nombre_tarjeta_nemot,
         codigo_banco: data?.codigo_banco,
+        descripcion_banco: data?.descripcion_banco,
         trabaja_archivos: data?.trabaja_archivos,
         trabaja_rechazos: data?.trabaja_rechazos,
         solicita_datos_ad: data?.solicita_datos_ad,
-        codigo_tarjeta_de_baja: '',
+        codigo_tarjeta_de_baja: data?.codigo_tarjeta_de_baja,
       },
     });
   }
@@ -137,6 +143,8 @@ export class FormaPagoComponent implements OnDestroy {
           JSON.stringify({
             par_modo: 'R',
             tipo_de_documento: data.tipo_de_documento,
+            codigo: data.codigo,
+            forma_pago: data.forma_pago,
           })
         );
       },

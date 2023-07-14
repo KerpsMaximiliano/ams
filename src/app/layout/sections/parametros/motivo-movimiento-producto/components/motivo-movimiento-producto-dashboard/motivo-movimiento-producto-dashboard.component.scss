@@ -26,7 +26,7 @@
 /*
  * Ancho máximo por columna individual de todas las columnas.
  */
- 
+
 .mat-column-codigo_motivo.mat-header-cell,
 .mat-column-codigo_motivo.mat-cell {
   min-width: 60px;
@@ -35,7 +35,7 @@
 .mat-column-descripcion.mat-header-cell,
 .mat-column-descripcion.mat-cell {
   min-width: 90px;
-  width: 100% ;
+  width: 100%;
 }
 
 .mat-column-tipo_motivo.mat-header-cell,
@@ -43,7 +43,7 @@
   min-width: 185px;
 }
 
-.mat-column-datos_adicionales.mat-cell.mat-header-cell,
+.mat-column-datos_adicionales.mat-header-cell,
 .mat-column-datos_adicionales.mat-cell {
   min-width: 190px;
 }
@@ -63,4 +63,3 @@
 .d-none {
   display: none;
 }
-

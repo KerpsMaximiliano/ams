@@ -56,8 +56,8 @@ td.mat-cell:first-of-type {
 /*
  * Texto alineado a la izquierda.
 */
-.mat-column-descripcion_producto.mat-header-cell,
-.mat-column-descripcion_producto.mat-cell {
+.mat-column-descripcion.mat-header-cell,
+.mat-column-descripcion.mat-cell {
   text-align: left !important;
   padding-left: 3vw;
   word-break: break-all;
@@ -66,8 +66,8 @@ td.mat-cell:first-of-type {
 /*
  * Número y fecha alineado a la derecha.
 */
-.mat-column-codigo_producto.mat-header-cell,
-.mat-column-codigo_producto.mat-cell {
+.mat-column-codigo_motivo.mat-header-cell,
+.mat-column-codigo_motivo.mat-cell {
   text-align: right !important;
   padding-right: 3vw;
   word-break: break-all;
@@ -76,13 +76,13 @@ td.mat-cell:first-of-type {
 /*
  * Tamaño de columnas.
 */
-.mat-column-codigo_producto.mat-header-cell,
-.mat-column-codigo_producto.mat-cell {
+.mat-column-codigo_motivo.mat-header-cell,
+.mat-column-codigo_motivo.mat-cell {
   width: 20%;
 }
 
-.mat-column-descripcion_producto.mat-header-cell,
-.mat-column-descripcion_producto.mat-cell {
+.mat-column-descripcion.mat-header-cell,
+.mat-column-descripcion.mat-cell {
   width: 60%;
 }
 

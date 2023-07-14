@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 // * Interfaces
 import { IMotivoMovimientoProducto } from 'src/app/core/models/motivo-movimiento-producto.interface';
+import { IProducto } from 'src/app/core/models/producto.interface';
 
 @Component({
   selector: 'app-sub-motivo-movimiento-producto-filter',
@@ -10,6 +11,7 @@ import { IMotivoMovimientoProducto } from 'src/app/core/models/motivo-movimiento
 })
 export class SubmotivoMovimientoProductoFilterComponent {
   @Input() public motivoMovimientoProducto: IMotivoMovimientoProducto;
+  @Input() public producto: IProducto;
 
   @Output() public search: EventEmitter<any> = new EventEmitter<any>();
 

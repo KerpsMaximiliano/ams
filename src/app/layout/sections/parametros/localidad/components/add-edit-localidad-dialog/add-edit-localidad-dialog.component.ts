@@ -21,12 +21,12 @@ import {
 import {
   isNumeric,
   getErrorMessage,
-  notOnlySpaces
+  notOnlySpaces,
 } from 'src/app/core/validators/character.validator';
 
 // * Material
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-import { MatTabChangeEvent } from '@angular/material/tabs';;
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 // * Components
 import { LocalidadSetDialogComponent } from './localidad-set-posicion-dialog/localidad-set-posicion-dialog.component';
@@ -56,13 +56,13 @@ export class AddEditLocalidadDialogComponent {
   }
 
   public nextStep(): void {
-    if (this.activeTabIndex !== 2) {
+    if (this.activeTabIndex === 0) {
       this.activeTabIndex += 1;
     }
   }
 
   public prevStep(): void {
-    if (this.activeTabIndex !== 0) {
+    if (this.activeTabIndex === 1) {
       this.activeTabIndex -= 1;
     }
   }
@@ -94,7 +94,7 @@ export class AddEditLocalidadDialogComponent {
 
   public getDepartamentos(value: string): void {
     this.utilService.openLoading();
-    console.log(value)
+    console.log(value);
     this.data.letra_provincia = value;
     this.departamentoService
       .CRUD(
@@ -161,15 +161,14 @@ export class AddEditLocalidadDialogComponent {
           this.utilService.closeLoading();
         },
       });
-
   }
 
-  public clear(){
+  public clear() {
     this.formGroup.get('desc_position')?.setValue(undefined);
     this.data.posicion_referente = undefined;
   }
 
-  private setPosicion(data: IPosicion[]){
+  private setPosicion(data: IPosicion[]) {
     const modalCapita = this.dialog.open(LocalidadSetDialogComponent, {
       data: {
         title: 'SELECCIONE UNA POSICIÓN',
@@ -244,18 +243,21 @@ export class AddEditLocalidadDialogComponent {
         Validators.compose([
           Validators.required,
           Validators.minLength(1),
-          Validators.maxLength(1)
+          Validators.maxLength(1),
         ])
       ),
       codigo_departamento: new UntypedFormControl(
         {
           value: this.data.codigo_departamento,
-          disabled: this.data.par_modo === 'R' || this.data.letra_provincia === undefined || this.data.letra_provincia === null,
+          disabled:
+            this.data.par_modo === 'R' ||
+            this.data.letra_provincia === undefined ||
+            this.data.letra_provincia === null,
         },
         Validators.compose([
           Validators.required,
           Validators.minLength(1),
-          Validators.maxLength(3)
+          Validators.maxLength(3),
         ])
       ),
       desc_position: new UntypedFormControl(
@@ -263,9 +265,7 @@ export class AddEditLocalidadDialogComponent {
           value: this.data.desc_position,
           disabled: this.data.par_modo === 'R',
         },
-        Validators.compose([
-          Validators.required
-        ])
+        Validators.compose([Validators.required])
       ),
       zona_promocion: new UntypedFormControl(
         {
@@ -275,7 +275,7 @@ export class AddEditLocalidadDialogComponent {
         Validators.compose([
           Validators.required,
           Validators.minLength(1),
-          Validators.maxLength(2)
+          Validators.maxLength(2),
         ])
       ),
       zona_envio: new UntypedFormControl(
@@ -286,7 +286,7 @@ export class AddEditLocalidadDialogComponent {
         Validators.compose([
           Validators.required,
           Validators.minLength(1),
-          Validators.maxLength(10)
+          Validators.maxLength(10),
         ])
       ),
       ingreso_ticket: new UntypedFormControl(
@@ -299,7 +299,7 @@ export class AddEditLocalidadDialogComponent {
         Validators.compose([
           Validators.required,
           Validators.minLength(1),
-          Validators.maxLength(1)
+          Validators.maxLength(1),
         ])
       ),
       visitado_auditor: new UntypedFormControl(
@@ -312,7 +312,7 @@ export class AddEditLocalidadDialogComponent {
         Validators.compose([
           Validators.required,
           Validators.minLength(1),
-          Validators.maxLength(1)
+          Validators.maxLength(1),
         ])
       ),
     });

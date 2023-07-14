@@ -57,8 +57,6 @@ export class AddEditProductoDialogComponent {
   public visibilidad: boolean = false;
   public estado: boolean = false;
   public activeTabIndex = 0;
-  public dynamicHeight: boolean;
-  public icon: string;
 
   constructor(
     private dataSharingService: DataSharingService,
@@ -74,31 +72,17 @@ export class AddEditProductoDialogComponent {
     this.setUpForm();
     this.configureValidators();
     this.configureButton();
-    if (this.data.par_modo !== 'C') {
-      this.formGroup.get('tipo_producto')?.value === 'S'
-        ? (this.dynamicHeight = false)
-        : (this.dynamicHeight = true);
-    } else {
-      this.dynamicHeight = false;
-    }
-    this.setIcon();
-  }
-
-  public toggleDynamicHeight(): void {
-    this.formGroup.get('tipo_producto')?.value === 'S'
-      ? (this.dynamicHeight = true)
-      : (this.dynamicHeight = false);
   }
 
   public nextStep(): void {
     if (this.activeTabIndex === 0) {
-      this.activeTabIndex = 1;
+      this.activeTabIndex += 1;
     }
   }
 
   public prevStep(): void {
     if (this.activeTabIndex === 1) {
-      this.activeTabIndex = 0;
+      this.activeTabIndex -= 1;
     }
   }
 
@@ -339,19 +323,12 @@ export class AddEditProductoDialogComponent {
           isAlpha(),
         ])
       ),
-      descripcion_producto_administrador: new UntypedFormControl(
-        {
-          value: this.data.descripcion_producto_administrador
-            ? this.data.descripcion_producto_administrador.trim()
-            : '',
-          disabled: this.data.par_modo === 'R' || this.data.par_modo === 'U',
-        },
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(3),
-          notOnlySpaces(),
-        ])
-      ),
+      descripcion_producto_administrador: new UntypedFormControl({
+        value: this.data.descripcion_producto_administrador
+          ? this.data.descripcion_producto_administrador.trim()
+          : '',
+        disabled: this.data.par_modo === 'R' || this.data.par_modo === 'U',
+      }),
       clase_producto: new UntypedFormControl(
         {
           value: this.data.clase_producto
@@ -408,22 +385,20 @@ export class AddEditProductoDialogComponent {
 
   private configureValidators(): void {
     this.formGroup.get('tipo_producto')?.valueChanges.subscribe((value) => {
-      const descripcionProductoAdministradorControl = this.formGroup.get(
-        'descripcion_producto_administrador'
-      );
+      const control = this.formGroup.get('descripcion_producto_administrador');
 
       if (value === 'S') {
-        descripcionProductoAdministradorControl?.setValidators([
+        control?.setValidators([
           Validators.required,
           Validators.minLength(3),
           Validators.maxLength(30),
           notOnlySpaces(),
         ]);
       } else {
-        descripcionProductoAdministradorControl?.clearValidators();
+        control?.clearValidators();
       }
 
-      descripcionProductoAdministradorControl?.updateValueAndValidity();
+      control?.updateValueAndValidity();
     });
   }
 
@@ -579,22 +554,5 @@ export class AddEditProductoDialogComponent {
         }
       },
     });
-  }
-
-  private setIcon(): void {
-    switch (this.data.par_modo) {
-      case 'C':
-        this.icon = 'add_box';
-        break;
-      case 'U':
-        this.icon = 'edit';
-        break;
-      case 'R':
-        this.icon = 'visibility';
-        break;
-      default:
-        this.icon = '';
-        break;
-    }
   }
 }
