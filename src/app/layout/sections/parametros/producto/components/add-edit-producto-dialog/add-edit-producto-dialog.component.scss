@@ -23,12 +23,16 @@
   background-color: var(--sancor-blue);
 }
 
+::ng-deep .mat-tab-label {
+  height: 3px !important;
+}
+
 h2 {
   margin-bottom: 0rem;
 }
 
 .dialog-content {
-  width: 550px;
+  width: 600px;
 }
 
 .mat-tab-text {
@@ -48,16 +52,16 @@ h2 {
 
 .seeker-fields-container {
   display: grid;
-  grid-template-columns: minmax(190px, 0.9fr) minmax(290px, 1.1fr);
+  grid-template-columns: 200px 1fr;
   align-items: center;
-  column-gap: 0rem;
+  column-gap: 0.5rem;
 }
 
 .content {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 0.3rem;
+  gap: 0.5rem;
 }
 
 .primary-button {
@@ -92,4 +96,8 @@ h2 {
 
 .disabled:hover {
   filter: grayscale(100%);
+}
+
+.fix {
+  pointer-events: none;
 }

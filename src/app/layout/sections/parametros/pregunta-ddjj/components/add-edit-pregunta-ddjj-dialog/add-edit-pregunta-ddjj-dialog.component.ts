@@ -55,11 +55,10 @@ export class AddEditPreguntaDDJJDialogComponent {
     }
   }
 
-  public changeOption() {
-    if (this.formGroup.get('pide_fecha')?.value === 'S') {
+  public changeOption(selection: boolean) {
+    if (selection) {
       this.formGroup.get('yes_no')?.setValue('N');
-    }
-    if (this.formGroup.get('yes_no')?.value === 'S') {
+    } else {
       this.formGroup.get('pide_fecha')?.setValue('N');
     }
   }
@@ -72,10 +71,7 @@ export class AddEditPreguntaDDJJDialogComponent {
           disabled: this.data.par_modo === 'U' || this.data.par_modo === 'R',
         },
         Validators.compose([
-          Validators.required,
-          Validators.minLength(1),
           Validators.maxLength(2),
-          isNumeric(),
         ])
       ),
       modelo_formulario: new UntypedFormControl(
@@ -103,7 +99,7 @@ export class AddEditPreguntaDDJJDialogComponent {
           isNumeric(),
           notZeroValidator(),
         ])
-        ),
+      ),
       primer_texto_preg: new UntypedFormControl(
         {
           value: this.data.primer_texto_preg
@@ -125,9 +121,7 @@ export class AddEditPreguntaDDJJDialogComponent {
             : '',
           disabled: this.data.par_modo === 'R',
         },
-        Validators.compose([
-          Validators.maxLength(50),
-          notOnlySpaces()])
+        Validators.compose([Validators.maxLength(50), notOnlySpaces()])
       ),
       pide_fecha: new UntypedFormControl(
         {

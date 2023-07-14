@@ -21,12 +21,15 @@ import { IDepartamento } from 'src/app/core/models/departamento.interface';
 })
 export class LocalidadFilterComponent {
   @Input() public provincias: IProvincia[];
+  @Input() public placeholder: string;
 
   @Output() public search: EventEmitter<string> = new EventEmitter<string>();
   @Output() public loadDepartamentos: EventEmitter<IDepartamento[]> =
     new EventEmitter<IDepartamento[]>();
 
   public departamentos: IDepartamento[];
+  public placeholderDep: string = 'Seleccione un departamento. ';
+  public request: boolean = true;
 
   @ViewChild('selectProvincia') public selectProvincia: any;
   @ViewChild('selectDepartamento') public selectDepartamento: any;
@@ -40,19 +43,12 @@ export class LocalidadFilterComponent {
     localidad: HTMLInputElement,
     codigo: HTMLInputElement
   ): void {
-    codigo.value
-      ? this.search.emit(
-          JSON.stringify({
-            par_modo: 'R',
-            letra_provincia: this.selectProvincia.value,
-            codigo_postal: codigo.value,
-          })
-        )
-      : this.search.emit(
+     this.search.emit(
           JSON.stringify({
             par_modo: 'O',
             letra_provincia: this.selectProvincia.value,
             codigo_departamento: this.selectDepartamento.value,
+            codigo_postal: codigo.value,
             descripcion: localidad.value,
           })
         );
@@ -63,6 +59,8 @@ export class LocalidadFilterComponent {
     this.selectDepartamento.value = '';
     if (localidad) localidad.value = '';
     if (codigo) codigo.value = '';
+    this.request = true;
+    this.loadDepartamentos.emit(undefined);
   }
 
   public getDepartamentos(value: string): void {
@@ -77,11 +75,15 @@ export class LocalidadFilterComponent {
       )
       .subscribe({
         next: (res: any) => {
+          this.request = false;
+          this.placeholderDep = 'Seleccione un departamento. ';
           this.departamentos = Array.isArray(res.dataset)
             ? (res.dataset as IDepartamento[])
             : [res.dataset as IDepartamento];
         },
         error: (err: any) => {
+          this.request = true;
+          this.placeholderDep = 'No se han podido cargar los departamentos. '
           this.utils.closeLoading();
           err.status == 0
             ? this.utils.notification('Error de conexión. ', 'error')

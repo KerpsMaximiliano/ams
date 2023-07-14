@@ -1,0 +1,15 @@
+<section class="browse-section">
+  <div class="section-header">
+    <h2> Reglas para movimientos para novedades automáticas </h2>
+    <button class="new-button icon-button" (click)="new()">
+      <mat-icon> add </mat-icon>
+      Nuevo
+    </button>
+  </div>
+
+  <div class="section-content">
+    <app-mvmts-novedades-auto-filter (search)="getMvmts($event)"></app-mvmts-novedades-auto-filter>
+    <app-mvmts-novedades-auto-dashboard [receivedData]="dataSent" (viewEvent)="view($event)"
+    (editEvent)="edit($event)"></app-mvmts-novedades-auto-dashboard>
+  </div>
+</section>

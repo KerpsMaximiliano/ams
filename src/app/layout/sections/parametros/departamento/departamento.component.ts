@@ -26,7 +26,6 @@ export class DepartamentoComponent implements OnInit, OnDestroy {
   private dataSubscription: Subscription | undefined;
   public provincias: IProvincia[];
   public dataSent: IDepartamento[];
-  public request: boolean = false;
 
   constructor(
     private dataSharingService: DataSharingService,
@@ -37,7 +36,9 @@ export class DepartamentoComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.getProvincias();
+    this.provinciaService.getProvincias()
+      ? (this.provincias = this.provinciaService.getProvincias())
+      : this.getProvincias();
   }
 
   ngOnDestroy(): void {
@@ -94,13 +95,18 @@ export class DepartamentoComponent implements OnInit, OnDestroy {
       },
       error: (err: any) => {
         this.utilService.closeLoading();
-        err.status === 0
-          ? this.utilService.notification('Error de conexión.', 'error')
-          : this.utilService.notification(
-              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
-              'error'
-            );
-        if (err.status == 404) this.dataSent = [];
+        if (err.status === 0) {
+          this.utilService.notification('Error de conexión.', 'error');
+        }
+        if (err.status === 404) {
+          this.dataSent = [];
+        }
+        if (err.status !== 0 && err.status !== 404) {
+          this.utilService.notification(
+            `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+            'error'
+          );
+        }
       },
       complete: () => {
         this.utilService.closeLoading();
@@ -141,7 +147,8 @@ export class DepartamentoComponent implements OnInit, OnDestroy {
         this.getDepartamento(
           JSON.stringify({
             par_modo: 'R',
-            tipo_de_documento: data.tipo_de_documento,
+            letra_provincia: data?.letra_provincia,
+            codigo_departamento: data?.codigo_departamento,
           })
         );
       },
@@ -171,7 +178,6 @@ export class DepartamentoComponent implements OnInit, OnDestroy {
           this.provincias = Array.isArray(res.dataset)
             ? (res.dataset as IProvincia[])
             : [res.dataset as IProvincia];
-          this.request = true;
         },
         error: (err: any) => {
           this.utilService.closeLoading();
@@ -183,6 +189,7 @@ export class DepartamentoComponent implements OnInit, OnDestroy {
               );
         },
         complete: () => {
+          this.provinciaService.setProvincias(this.provincias);
           this.utilService.closeLoading();
         },
       });

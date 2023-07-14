@@ -14,9 +14,9 @@ import {
 import {
   isAlpha,
   isNumeric,
-  isPercentage,
   notOnlySpaces,
   getErrorMessage,
+  isDecimal,
 } from 'src/app/core/validators/character.validator';
 
 // * Material
@@ -46,7 +46,9 @@ export class AddEditProvinciaDialogComponent {
         nombre_provincia: this.formGroup.get('nombre_provincia')?.value,
         codifica_altura: this.formGroup.get('codifica_altura')?.value,
         codigo_provincia: this.formGroup.get('codigo_provincia')?.value,
-        flete_transportista: this.formGroup.get('flete_transportista')?.value,
+        flete_transportista: this.formGroup
+          .get('flete_transportista')
+          ?.value.replace(',', '.'),
       });
     } else {
       this.formGroup.markAllAsTouched();
@@ -106,14 +108,16 @@ export class AddEditProvinciaDialogComponent {
       ),
       flete_transportista: new UntypedFormControl(
         {
-          value: this.data.flete_transportista,
+          value: this.data.flete_transportista
+            ? this.data.flete_transportista.toString().replace('.', ',')
+            : '',
           disabled: this.data.par_modo === 'R',
         },
         Validators.compose([
           Validators.required,
           Validators.minLength(1),
-          Validators.maxLength(6),
-          isPercentage(),
+          Validators.maxLength(7),
+          isDecimal(),
         ])
       ),
     });

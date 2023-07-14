@@ -6,6 +6,7 @@ import { DataSharingService } from 'src/app/core/services/data-sharing.service';
 import { UtilService } from 'src/app/core/services/util.service';
 import { ProductoService } from 'src/app/core/services/producto.service';
 import { FuenteIngresoService } from 'src/app/core/services/fuente-ingreso.service';
+import { UnificacionAporteProductoService } from 'src/app/core/services/unificacion-aporte-producto.service';
 
 // * Interfaces
 import { IFuenteIngreso } from 'src/app/core/models/fuente-ingreso.interface';
@@ -13,6 +14,7 @@ import {
   IProducto,
   IProductoObraSocial,
 } from 'src/app/core/models/producto.interface';
+import { IUnificacionAporteProducto } from 'src/app/core/models/unificacion-aporte-producto.interface';
 
 // * Form
 import {
@@ -30,7 +32,11 @@ import {
 } from 'src/app/core/validators/character.validator';
 
 // * Material
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 
 // * Components
@@ -51,46 +57,32 @@ export class AddEditProductoDialogComponent {
   public visibilidad: boolean = false;
   public estado: boolean = false;
   public activeTabIndex = 0;
-  public dynamicHeight: boolean;
-  public icon: string;
 
   constructor(
     private dataSharingService: DataSharingService,
     private fuenteIngresoService: FuenteIngresoService,
     private productoService: ProductoService,
+    private unificacionAporteProductoService: UnificacionAporteProductoService,
     private utilService: UtilService,
     private dialog: MatDialog,
     private router: Router,
+    private dialogRef: MatDialogRef<AddEditProductoDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.setUpForm();
     this.configureValidators();
     this.configureButton();
-    if (this.data.par_modo !== 'C') {
-      this.formGroup.get('tipo_producto')?.value === 'S'
-        ? (this.dynamicHeight = false)
-        : (this.dynamicHeight = true);
-    } else {
-      this.dynamicHeight = false;
-    }
-    this.setIcon();
-  }
-
-  public toggleDynamicHeight(): void {
-    this.formGroup.get('tipo_producto')?.value === 'S'
-      ? (this.dynamicHeight = true)
-      : (this.dynamicHeight = false);
   }
 
   public nextStep(): void {
     if (this.activeTabIndex === 0) {
-      this.activeTabIndex = 1;
+      this.activeTabIndex += 1;
     }
   }
 
   public prevStep(): void {
     if (this.activeTabIndex === 1) {
-      this.activeTabIndex = 0;
+      this.activeTabIndex -= 1;
     }
   }
 
@@ -183,6 +175,54 @@ export class AddEditProductoDialogComponent {
     this.productoService.set(this.data);
     this.productoService.setBack(false);
     this.router.navigate([url]);
+  }
+
+  public redirectToUnificacionAporteProducto(): void {
+    this.utilService.openLoading();
+    this.productoService.set(this.data);
+    this.unificacionAporteProductoService
+      .CRUD(
+        JSON.stringify({
+          par_modo: 'O',
+          producto_principal: this.data.producto_administrador
+            ? this.data.producto_administrador
+            : this.data.codigo_producto,
+          subproducto_principal: this.data.producto_administrador
+            ? this.data.codigo_producto
+            : 0,
+        })
+      )
+      .subscribe({
+        next: (res: any) => {
+          let data: IUnificacionAporteProducto[] = Array.isArray(res.dataset)
+            ? (res.dataset as IUnificacionAporteProducto[])
+            : [res.dataset as IUnificacionAporteProducto];
+          this.unificacionAporteProductoService.set(data);
+          this.dialogRef.close();
+          this.router.navigate(['parametros/unificacion-aportes-producto']);
+        },
+        error: (err: any) => {
+          this.utilService.closeLoading();
+          if (err.status == 0) {
+            this.utilService.notification('Error de conexión.', 'error');
+          } else {
+            if (err.status == 404) {
+              this.unificacionAporteProductoService.set([]);
+              this.utilService.notification(
+                'No se han encontrado unificación de aportes por producto. ',
+                'error'
+              );
+            } else {
+              this.utilService.notification(
+                `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+                'error'
+              );
+            }
+            this.dialogRef.close();
+            this.router.navigate(['parametros/unificacion-aportes-producto']);
+          }
+        },
+      });
   }
 
   private configureButton(): void {
@@ -283,19 +323,12 @@ export class AddEditProductoDialogComponent {
           isAlpha(),
         ])
       ),
-      descripcion_producto_administrador: new UntypedFormControl(
-        {
-          value: this.data.descripcion_producto_administrador
-            ? this.data.descripcion_producto_administrador.trim()
-            : '',
-          disabled: this.data.par_modo === 'R' || this.data.par_modo === 'U',
-        },
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(3),
-          notOnlySpaces(),
-        ])
-      ),
+      descripcion_producto_administrador: new UntypedFormControl({
+        value: this.data.descripcion_producto_administrador
+          ? this.data.descripcion_producto_administrador.trim()
+          : '',
+        disabled: this.data.par_modo === 'R' || this.data.par_modo === 'U',
+      }),
       clase_producto: new UntypedFormControl(
         {
           value: this.data.clase_producto
@@ -352,22 +385,20 @@ export class AddEditProductoDialogComponent {
 
   private configureValidators(): void {
     this.formGroup.get('tipo_producto')?.valueChanges.subscribe((value) => {
-      const descripcionProductoAdministradorControl = this.formGroup.get(
-        'descripcion_producto_administrador'
-      );
+      const control = this.formGroup.get('descripcion_producto_administrador');
 
       if (value === 'S') {
-        descripcionProductoAdministradorControl?.setValidators([
+        control?.setValidators([
           Validators.required,
           Validators.minLength(3),
           Validators.maxLength(30),
           notOnlySpaces(),
         ]);
       } else {
-        descripcionProductoAdministradorControl?.clearValidators();
+        control?.clearValidators();
       }
 
-      descripcionProductoAdministradorControl?.updateValueAndValidity();
+      control?.updateValueAndValidity();
     });
   }
 
@@ -523,22 +554,5 @@ export class AddEditProductoDialogComponent {
         }
       },
     });
-  }
-
-  private setIcon(): void {
-    switch (this.data.par_modo) {
-      case 'C':
-        this.icon = 'add_box';
-        break;
-      case 'U':
-        this.icon = 'edit';
-        break;
-      case 'R':
-        this.icon = 'visibility';
-        break;
-      default:
-        this.icon = '';
-        break;
-    }
   }
 }

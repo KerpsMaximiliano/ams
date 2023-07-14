@@ -1,0 +1,30 @@
+<section class="seeker-section">
+  <mat-accordion>
+    <mat-expansion-panel class="mat-elevation-z1" expanded>
+      <mat-expansion-panel-header floating>
+        <mat-panel-title> Opciones de búsqueda </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="seeker-fields-container pb-none">
+        <h4> Producto </h4>
+        <mat-form-field class="seeker-form-field" appearance="outline">
+          <input matInput
+            [value]="this.producto.descripcion_producto_administrador ? this.producto.descripcion_producto_administrador : this.producto.descripcion_producto"
+            disabled>
+        </mat-form-field>
+        <h4> Subproducto </h4>
+        <mat-form-field class="seeker-form-field" appearance="outline">
+          <input matInput
+            [value]="this.producto.descripcion_producto_administrador ? this.producto.descripcion_producto : ''"
+            placeholder="Sin subproducto." disabled>
+        </mat-form-field>
+      </div>
+
+      <div class="buttons-container">
+        <button class="primary-button icon-button" type="button" (click)="performSearch()">
+          <mat-icon> done </mat-icon>
+          Buscar
+        </button>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</section>

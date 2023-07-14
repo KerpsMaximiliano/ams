@@ -24,10 +24,9 @@ import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 export class LocalidadDashboardComponent implements OnInit, OnChanges {
   public displayedColumns: string[] = [
     'codigo_postal',
+    'sub_codigo_postal',
     'descripcion',
-    // 'desc_prov',
-    // 'desc_depto',
-    // 'posicion_referente',
+    'desc_position',
     'cant_habitantes',
     'actions',
   ];

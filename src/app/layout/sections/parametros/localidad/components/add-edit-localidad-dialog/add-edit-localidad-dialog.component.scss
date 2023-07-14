@@ -13,9 +13,66 @@
   user-select: text !important;
 }
 
+::ng-deep .mat-tab-label:not(:focus) {
+  background-color: #f1f1f1;
+  color: var(--sancor-blue);
+  opacity: 1;
+}
+
+::ng-deep .mat-tab-group.mat-primary .mat-ink-bar {
+  background-color: var(--sancor-blue);
+}
+
+::ng-deep .mat-tab-label {
+  height: 3px !important;
+}
+
+.dialog-content {
+  width: 650px;
+}
+
+.seeker-fields-container {
+  display: grid;
+  grid-template-columns: 315px 1fr;
+  align-items: center;
+  column-gap: 0.5rem;
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.primary-button {
+  width: 130px;
+}
+
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 1, "wght" 700, "GRAD" 200, "opsz" 48;
+  color: #fff;
+}
+
+.icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 7px;
+  padding: 0.35rem;
+  margin: 0px 0px 16px;
+  background-color: var(--sancor-blue);
+  color: #fff;
+  cursor: pointer;
+}
+
 /*
- * Estilos del boton "Guardar" para que este deshabilitado.
+  * Estilos del boton "Guardar" para que este deshabilitado.
 */
+.fix {
+  pointer-events: none;
+}
+
 .disabled {
   opacity: 0.5;
   pointer-events: pointer;

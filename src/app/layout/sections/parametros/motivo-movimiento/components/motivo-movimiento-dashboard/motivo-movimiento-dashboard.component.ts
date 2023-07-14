@@ -68,15 +68,15 @@ export class MotivoMovimientoDashboardComponent implements OnInit, OnChanges {
   public calcularValor(valor: string): string {
     switch (valor) {
       case 'B':
-        return 'B-BAJA';
+        return 'BAJA';
       case 'A':
-        return 'A-ALTA';
+        return 'ALTA';
       case 'S':
-        return 'S-SUSPENSIÓN';
+        return 'SUSPENSIÓN';
       case 'O':
-        return 'O-OSP';
+        return 'OSP';
       default:
-        return 'S/N';
+        return '';
     }
   }
 

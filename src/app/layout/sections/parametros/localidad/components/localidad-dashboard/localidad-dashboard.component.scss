@@ -11,6 +11,8 @@ td.mat-cell:first-of-type {
 */
 .mat-column-codigo_postal.mat-header-cell,
 .mat-column-codigo_postal.mat-cell,
+.mat-column-sub_codigo_postal.mat-header-cell,
+.mat-column-sub_codigo_postal.mat-cell,
 .mat-column-cant_habitantes.mat-header-cell,
 .mat-column-cant_habitantes.mat-cell {
   text-align: right !important;
@@ -21,7 +23,9 @@ td.mat-cell:first-of-type {
  * Texto alineado a la izquierda.
 */
 .mat-column-descripcion.mat-header-cell,
-.mat-column-descripcion.mat-cell {
+.mat-column-descripcion.mat-cell,
+.mat-column-desc_position.mat-header-cell,
+.mat-column-desc_position.mat-cell {
   text-align: left !important;
   padding-left: 1vw;
   word-break: break-all;
@@ -31,24 +35,32 @@ td.mat-cell:first-of-type {
  * Tamaño de columnas.
 */
 .mat-column-codigo_postal.mat-header-cell,
-.mat-column-codigo_postal.mat-cell {
-  min-width: 120px;
+.mat-column-codigo_postal.mat-cell,
+.mat-column-sub_codigo_postal.mat-header-cell,
+.mat-column-sub_codigo_postal.mat-cell {
+  min-width: 140px;
 }
 
 .mat-column-descripcion.mat-header-cell,
 .mat-column-descripcion.mat-cell {
-  min-width: 90px;
-  width: 100%;
+  min-width: 300px;
+  width: 60%;
+}
+
+.mat-column-desc_position.mat-header-cell,
+.mat-column-desc_position.mat-cell {
+  width: 40%;
+  min-width: 140px;
 }
 
 .mat-column-cant_habitantes.mat-header-cell,
 .mat-column-cant_habitantes.mat-cell {
-  min-width: 150px;
+  min-width: 100px;
 }
 
 .mat-column-actions.mat-header-cell,
 .mat-column-actions.mat-cell {
-  min-width: 150px;
+  min-width: 130px;
 }
 
 /*

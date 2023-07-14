@@ -113,9 +113,9 @@ export class NavMenuComponent {
           icon: 'keyboard_arrow_right',
         },
         {
-          // 32 - EXTENCION DE FUENTES DE INGRESOS
-          title: 'Extencion Fuente de Ingreso',
-          url: '/parametros/extencion-fuente-ingreso',
+          // 30 - REGLAS PARA MOVIMIENTOS PARA NOVEDADES AUTOMATICAS
+          title: 'Reglas para movimientos',
+          url: '/parametros/mvmts-novedades-automaticas',
           icon: 'keyboard_arrow_right',
         },
         {

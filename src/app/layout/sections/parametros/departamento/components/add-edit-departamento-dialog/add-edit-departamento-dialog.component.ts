@@ -106,9 +106,9 @@ export class AddEditDepartamentoDialogComponent {
     });
   }
 
-  private handleProvince(letra_provincia: string): string {
+  public handleProvince(letra_provincia: string): string {
     const province = this.data.provincias.find(
-      (provincia: IProvincia) => provincia.codigo === letra_provincia
+      (provincia: IProvincia) => provincia.codigo == letra_provincia
     );
     return province ? province.nombre_provincia : '';
   }

@@ -2,11 +2,11 @@ import { IResponse } from './response.interface';
 
 export interface IProvincia {
   par_modo: string;
-  codigo: string; // Error.
+  codigo: string; 
   nombre_provincia: string;
-  codigo_provincia: number; // Error.
-  codifica_altura: string; // Error.
-  flete_transportista: number; // Error.
+  codigo_provincia: number;
+  codifica_altura: string; 
+  flete_transportista: number; 
 }
 
 export type IProvinciaResponse = IResponse<IProvincia[]>;
