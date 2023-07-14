@@ -1,4 +1,13 @@
-import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild,
+} from '@angular/core';
+
+// * Interfaces
+import { IEmpresaFactura } from 'src/app/core/models/empresa-factura.interface';
 
 @Component({
   selector: 'app-producto-filter',
@@ -7,6 +16,8 @@ import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 })
 export class ProductoFilterComponent {
   @Output() public search: EventEmitter<string> = new EventEmitter<string>();
+
+  @Input() public empresaFactura: IEmpresaFactura[];
 
   @ViewChild('select') public select: any;
 

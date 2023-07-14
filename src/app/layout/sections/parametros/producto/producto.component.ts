@@ -14,6 +14,8 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 // * Components
 import { AddEditProductoDialogComponent } from './components/add-edit-producto-dialog/add-edit-producto-dialog.component';
+import { EmpresaFacturaService } from 'src/app/core/services/empresa-factura.service';
+import { IEmpresaFactura } from 'src/app/core/models/empresa-factura.interface';
 
 @Component({
   selector: 'app-producto',
@@ -22,11 +24,13 @@ import { AddEditProductoDialogComponent } from './components/add-edit-producto-d
 })
 export class ProductoComponent implements OnInit, AfterViewInit, OnDestroy {
   private dataSubscription: Subscription | undefined;
+  public empresaFactura: IEmpresaFactura[];
   public dataSent: IProducto[];
 
   constructor(
     private dataSharingService: DataSharingService,
     private productoService: ProductoService,
+    private empresaFacturaService: EmpresaFacturaService,
     private utilService: UtilService,
     private dialog: MatDialog
   ) {}
@@ -44,6 +48,10 @@ export class ProductoComponent implements OnInit, AfterViewInit, OnDestroy {
         this.edit(this.productoService.get());
       }
     }
+
+    this.empresaFacturaService.getEmpresas()
+      ? (this.empresaFactura = this.empresaFacturaService.getEmpresas())
+      : this.getEmpresas();
   }
 
   ngAfterViewInit(): void {
@@ -105,13 +113,18 @@ export class ProductoComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       error: (err: any) => {
         this.utilService.closeLoading();
-        err.status === 0
-          ? this.utilService.notification('Error de conexión.', 'error')
-          : this.utilService.notification(
-              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
-              'error'
-            );
-        if (err.status == 404) this.dataSent = [];
+        if (err.status === 0) {
+          this.utilService.notification('Error de conexión.', 'error');
+        }
+        if (err.status === 404) {
+          this.dataSent = [];
+        }
+        if (err.status !== 0 && err.status !== 404) {
+          this.utilService.notification(
+            `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+            'error'
+          );
+        }
       },
       complete: () => {
         this.utilService.closeLoading();
@@ -130,6 +143,7 @@ export class ProductoComponent implements OnInit, AfterViewInit, OnDestroy {
         title: title,
         edit: edit,
         par_modo: par_modo,
+        empresaFactura: this.empresaFactura,
         codigo_producto: data?.codigo_producto,
         descripcion_producto: data?.descripcion_producto,
         descripcion_reducida: data?.descripcion_reducida,
@@ -200,5 +214,42 @@ export class ProductoComponent implements OnInit, AfterViewInit, OnDestroy {
             );
       },
     });
+  }
+
+  private getEmpresas(): void {
+    this.utilService.openLoading();
+    this.empresaFacturaService
+      .CRUD(
+        JSON.stringify({
+          par_modo: 'O',
+          descripcion: '',
+        })
+      )
+      .subscribe({
+        next: (res: any) => {
+          this.empresaFactura = Array.isArray(res.dataset)
+            ? (res.dataset as IEmpresaFactura[])
+            : [res.dataset as IEmpresaFactura];
+        },
+        error: (err: any) => {
+          this.utilService.closeLoading();
+          if (err.status === 0) {
+            this.utilService.notification('Error de conexión.', 'error');
+          }
+          if (err.status === 404) {
+            this.dataSent = [];
+          }
+          if (err.status !== 0 && err.status !== 404) {
+            this.utilService.notification(
+              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+              'error'
+            );
+          }
+        },
+        complete: () => {
+          this.empresaFacturaService.setEmpresas(this.empresaFactura);
+          this.utilService.closeLoading();
+        },
+      });
   }
 }

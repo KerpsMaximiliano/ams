@@ -16,6 +16,8 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class EmpresaFacturaService {
+  private empresaFactura: IEmpresaFactura[];
+
   constructor(
     private http: HttpClient,
     private environmentService: EnvironmentService
@@ -27,5 +29,13 @@ export class EmpresaFacturaService {
       body,
       httpOptions
     );
+  }
+
+  public setEmpresas(empresaFactura: IEmpresaFactura[]): void {
+    this.empresaFactura = empresaFactura;
+  }
+
+  public getEmpresas(): IEmpresaFactura[] {
+    return this.empresaFactura;
   }
 }
