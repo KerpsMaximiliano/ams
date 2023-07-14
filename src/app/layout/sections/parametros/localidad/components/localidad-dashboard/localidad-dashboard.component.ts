@@ -26,8 +26,6 @@ export class LocalidadDashboardComponent implements OnInit, OnChanges {
     'codigo_postal',
     'sub_codigo_postal',
     'descripcion',
-    'desc_prov',
-    'desc_depto',
     'desc_position',
     'cant_habitantes',
     'actions',

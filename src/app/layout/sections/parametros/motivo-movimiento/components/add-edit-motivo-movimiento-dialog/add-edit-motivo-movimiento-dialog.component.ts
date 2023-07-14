@@ -161,7 +161,7 @@ export class AddEditMotivoMovimientoDialogComponent {
         Validators.compose([
           Validators.required,
           Validators.minLength(1),
-          Validators.maxLength(8)
+          Validators.maxLength(10),
         ])
       ),
       datos_adic_SN: new UntypedFormControl(

@@ -23,12 +23,16 @@
   background-color: var(--sancor-blue);
 }
 
+::ng-deep .mat-tab-label {
+  height: 3px !important;
+}
+
 h2 {
   margin-bottom: 0rem;
 }
 
 .dialog-content {
-  width: 550px;
+  width: 600px;
 }
 
 .mat-tab-text {
@@ -61,7 +65,7 @@ h2 {
 }
 
 .primary-button {
-  width: 130px;
+  min-width: 130px;
 }
 
 .icon {

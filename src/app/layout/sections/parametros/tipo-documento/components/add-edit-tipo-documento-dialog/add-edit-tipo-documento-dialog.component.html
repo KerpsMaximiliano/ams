@@ -3,7 +3,7 @@
 </div>
 
 <div class="dialog-content">
-  <form class="form-datos" [formGroup]="formGroup" (ngSubmit)="confirm()">
+  <form class="form-datos" [formGroup]="formGroup">
     <div class="seeker-fields-container">
       <h3> CÓDIGO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
@@ -54,7 +54,7 @@
         Cancelar
       </button>
       <button [class]="formGroup.invalid ? 'primary-button icon-button disabled' : 'primary-button icon-button'"
-      type="submit" (click)="confirm()">
+        type="submit" (click)="confirm()">
         <mat-icon> done </mat-icon>
         Guardar
       </button>

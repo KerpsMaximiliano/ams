@@ -36,11 +36,9 @@ export class PosicionComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    if (this.provinciaService.getProvincias() === undefined) {
-      this.getProvincias();
-    } else {
-      this.provincias = this.provinciaService.getProvincias();
-    }
+    this.provinciaService.getProvincias()
+      ? (this.provincias = this.provinciaService.getProvincias())
+      : this.getProvincias();
   }
 
   ngOnDestroy(): void {
@@ -97,13 +95,18 @@ export class PosicionComponent implements OnInit, OnDestroy {
       },
       error: (err: any) => {
         this.utilService.closeLoading();
-        err.status === 0
-          ? this.utilService.notification('Error de conexión.', 'error')
-          : this.utilService.notification(
-              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
-              'error'
-            );
-        if (err.status == 404) this.dataSent = [];
+        if (err.status === 0) {
+          this.utilService.notification('Error de conexión.', 'error');
+        }
+        if (err.status === 404) {
+          this.dataSent = [];
+        }
+        if (err.status !== 0 && err.status !== 404) {
+          this.utilService.notification(
+            `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+            'error'
+          );
+        }
       },
       complete: () => {
         this.utilService.closeLoading();

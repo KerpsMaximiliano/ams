@@ -6,15 +6,8 @@
   <form class="form-datos" [formGroup]="formGroup">
 
     <mat-tab-group [selectedIndex]="activeTabIndex" (selectedTabChange)="tabChanged($event)" mat-stretch-tabs
-      [dynamicHeight]="dynamicHeight">
+      dynamicHeight>
       <mat-tab>
-        <ng-template mat-tab-label>
-          <mat-icon class="mat-tab-icon">
-            {{ activeTabIndex === 0 ? icon : 'arrow_circle_left' }}
-          </mat-icon>
-          <div class="mat-tab-text"> {{ activeTabIndex === 0 ? '' : 'Anterior' }} </div>
-        </ng-template>
-
         <div class="seeker-fields-container mt-1">
           <h3> CÓDIGO </h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
@@ -51,10 +44,10 @@
           <h3> TIPO </h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
             <mat-select formControlName="tipo_producto" required minlength="1" maxlength="1" disableOptionCentering>
-              <mat-option [value]="'P'" (click)="toggleDynamicHeight()">
+              <mat-option [value]="'P'">
                 PRIMARIO
               </mat-option>
-              <mat-option [value]="'S'" (click)="toggleDynamicHeight()">
+              <mat-option [value]="'S'">
                 SECUNDARIO
               </mat-option>
             </mat-select>
@@ -64,12 +57,12 @@
           </mat-form-field>
         </div>
 
-        <div class="seeker-fields-container" *ngIf="formGroup.get('tipo_producto')?.value === 'S'">
+        <div class="seeker-fields-container">
+          <!-- *ngIf="formGroup.get('tipo_producto')?.value === 'S'" -->
           <h3> ADMINISTRADO POR </h3>
           <div class="content">
             <mat-form-field class="seeker-form-field" appearance="outline">
-              <input matInput formControlName="descripcion_producto_administrador" #inputDescripcionProducto readonly
-                required />
+              <input matInput formControlName="descripcion_producto_administrador" #inputDescripcionProducto readonly />
               <mat-error
                 *ngIf="formGroup.get('descripcion_producto_administrador')?.invalid && formGroup.get('descripcion_producto_administrador')?.touched">
                 {{ getErrorMessage(formGroup.get("descripcion_producto_administrador")) }}
@@ -90,13 +83,6 @@
       </mat-tab>
 
       <mat-tab>
-        <ng-template mat-tab-label>
-          <div class="mat-tab-text"> {{ activeTabIndex === 1 ? '' : 'Siguiente' }} </div>
-          <mat-icon class="mat-tab-icon">
-            {{ activeTabIndex === 1 ? icon : 'arrow_circle_right' }}
-          </mat-icon>
-        </ng-template>
-
         <div class="seeker-fields-container mt-1">
           <h3> CLASE </h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
@@ -212,6 +198,11 @@
 
 
     <div *ngIf="data.edit" class="buttons-container">
+      <button class="primary-button icon-button " type="button" (click)="setStatus()"
+        *ngIf="this.data.par_modo === 'U' && visibilidad">
+        <mat-icon> {{ this.estado ? 'remove_done' : 'done_all' }} </mat-icon>
+        {{ this.estado ? 'Baja' : 'Reactivar' }}
+      </button>
       <button class="primary-button icon-button" type="submit" (click)="redirectTo('parametros/parentesco-producto')"
         *ngIf="data.par_modo === 'U'" mat-dialog-close>
         <mat-icon> open_in_new_down </mat-icon>
@@ -234,11 +225,15 @@
         <mat-icon>close</mat-icon>
         Cancelar
       </button>
-      <button class="primary-button icon-button " type="button" (click)="setStatus()"
-        *ngIf="this.data.par_modo === 'U' && visibilidad">
-        <mat-icon> {{ this.estado ? 'remove_done' : 'done_all' }} </mat-icon>
-        {{ this.estado ? 'Baja' : 'Reactivar' }}
+      <button class="primary-button icon-button" type="button" [disabled]="activeTabIndex === 0" (click)="prevStep()">
+        <mat-icon> arrow_back_ios </mat-icon>
+        Anterior
       </button>
+      <button class="primary-button icon-button" type="button" [disabled]="activeTabIndex === 1" (click)="nextStep()">
+        <mat-icon> arrow_forward_ios </mat-icon>
+        Siguiente
+      </button>
+
       <button [class]="formGroup.invalid ? 'primary-button icon-button disabled' : 'primary-button icon-button'"
         type="submit" (click)="confirm()">
         <mat-icon> done </mat-icon>
@@ -252,7 +247,16 @@
           <mat-icon> done </mat-icon>
           Aceptar
         </button>
+        <button class="primary-button icon-button" type="button" [disabled]="activeTabIndex === 0" (click)="prevStep()">
+          <mat-icon> arrow_back_ios </mat-icon>
+          Anterior
+        </button>
+        <button class="primary-button icon-button" type="button" [disabled]="activeTabIndex === 1" (click)="nextStep()">
+          <mat-icon> arrow_forward_ios </mat-icon>
+          Siguiente
+        </button>
       </div>
     </ng-template>
   </form>
+
 </div>
