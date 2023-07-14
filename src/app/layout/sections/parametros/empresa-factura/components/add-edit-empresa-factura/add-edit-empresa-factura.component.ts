@@ -1,4 +1,5 @@
 import { Component, Inject } from '@angular/core';
+import { Router } from '@angular/router';
 
 // * Forms
 import {
@@ -52,6 +53,7 @@ export class AddEditEmpresaFacturaComponent {
     private dialog: MatDialog,
     public empresaFacturaService: EmpresaFacturaService,
     public localidadService: LocalidadService,
+    private router: Router,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.setUpForm();
@@ -196,10 +198,7 @@ export class AddEditEmpresaFacturaComponent {
         this.data.fact_cr_elec ? this.data.fact_cr_elec.trim() : '',
         Validators.compose([Validators.required])
       ),
-      modo: new UntypedFormControl(
-        this.data.modo ? this.data.modo : ''
-        // Validators.compose([Validators.required])
-      ),
+      modo: new UntypedFormControl(this.data.modo ? this.data.modo : ''),
 
       // * datos sin front
       campo_desc1: new UntypedFormControl(
@@ -218,7 +217,7 @@ export class AddEditEmpresaFacturaComponent {
         this.data.codigo_sicone ? this.data.codigo_sicone.trim() : ''
       ),
       fecha_inicio_act: new UntypedFormControl(
-        this.data.fecha_inicio_act ? this.data.fecha_inicio_act : 0
+        this.data.fecha_inicio_act ? this.data.fecha_inicio_act.trim() : 0
       ),
       gen_min_como_empr: new UntypedFormControl(
         this.data.gen_min_como_empr ? this.data.gen_min_como_empr.trim() : 'S'
@@ -293,12 +292,12 @@ export class AddEditEmpresaFacturaComponent {
 
   private setFormValues(): void {}
 
-  // * envia los datos a Datos Comercio
-  public datosComercio(): void {}
-
-  // * envia los datos a pago Link
-  public pagoLink() {}
-
+  // * envia los datos para Datos Comercio y pago Link
+  public redirectTo(url: string): void {
+    this.empresaFacturaService.set(this.data);
+    this.empresaFacturaService.setBack(false);
+    this.router.navigate([url]);
+  }
   // * limpia los datos de las localidad
   public searchLocalidad(): void {
     const modalSetLocalidad = this.dialog.open(ModalLocalidadComponent, {
@@ -374,11 +373,9 @@ export class AddEditEmpresaFacturaComponent {
           cbu_nro: this.formGroup.get('cbu_nro')?.value,
           codigo_postal_arg: this.formGroup.get('codigo_postal_arg')?.value,
           codigo_sicone: this.formGroup.get('codigo_sicone')?.value,
-          fecha_inicio_act: parseInt(
-            this.formGroup.get('fecha_inicio_act')?.value
-          )
+          fecha_inicio_act: this.formGroup.get('fecha_inicio_act')?.value
             ? this.formGroup.get('fecha_inicio_act')?.value
-            : 0,
+            : '0',
           gen_min_como_empr: this.formGroup.get('gen_min_como_empr')?.value,
           moneda1: parseInt(this.formGroup.get('moneda1')?.value),
           moneda2: parseInt(this.formGroup.get('moneda2')?.value),

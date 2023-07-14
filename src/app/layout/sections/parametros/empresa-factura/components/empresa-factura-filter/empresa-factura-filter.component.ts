@@ -1,6 +1,4 @@
 import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
-// * Validator
-import { getErrorMessage } from 'src/app/core/validators/character.validator';
 
 @Component({
   selector: 'app-empresa-factura-filter',

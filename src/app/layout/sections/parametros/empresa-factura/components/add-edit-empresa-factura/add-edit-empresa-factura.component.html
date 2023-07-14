@@ -409,10 +409,18 @@
       </div>
     </ng-template>
     <div *ngIf="data.par_modo == 'U'" class="buttons-container">
-      <button class="primary-button icon-button" type="button">
+      <button
+        (click)="redirectTo('parametros/')"
+        class="primary-button icon-button"
+        type="button"
+      >
         Datos Comercio
       </button>
-      <button class="primary-button icon-button" type="button">
+      <button
+        (click)="redirectTo('parametros/')"
+        class="primary-button icon-button"
+        type="button"
+      >
         Pagos Link
       </button>
     </div>

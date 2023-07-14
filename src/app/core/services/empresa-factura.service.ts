@@ -16,10 +16,28 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class EmpresaFacturaService {
+  empresaFactura: IEmpresaFactura
+  back: boolean=false;
   constructor(
     private http: HttpClient,
     private environmentService: EnvironmentService
   ) {}
+
+  set(empresa_factura: IEmpresaFactura) {
+    this.empresaFactura = empresa_factura;
+  }
+
+  get() {
+    return this.empresaFactura;
+  }
+
+  public getBack(): boolean{
+    return this.back;
+  }
+
+  public setBack(value: boolean): void {
+    this.back = value;
+  }
 
   CRUD(body: string): Observable<IEmpresaFactura> {
     return this.http.post<IEmpresaFactura>(

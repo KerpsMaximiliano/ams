@@ -2,12 +2,16 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
+  OnInit,
   Output,
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
+
 // * Interfaces
 import { IEmpresaFactura } from 'src/app/core/models/empresa-factura.interface';
+
 // * Material
 import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -17,7 +21,7 @@ import { MatTableDataSource } from '@angular/material/table';
   templateUrl: './empresa-factura-dashboard.component.html',
   styleUrls: ['./empresa-factura-dashboard.component.scss'],
 })
-export class EmpresaFacturaDashboardComponent {
+export class EmpresaFacturaDashboardComponent implements OnInit, OnChanges {
   public displayedColumns: string[] = ['id_empresa', 'name', 'actions'];
   public dataSource: MatTableDataSource<IEmpresaFactura>;
 
