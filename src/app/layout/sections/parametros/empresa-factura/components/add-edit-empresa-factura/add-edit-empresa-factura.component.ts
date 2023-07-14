@@ -48,7 +48,7 @@ export class AddEditEmpresaFacturaComponent {
 
   constructor(
     public dialogRef: MatDialogRef<ConfirmDialogComponent>,
-    private utils: UtilService,
+    private UtilService: UtilService,
     private dialog: MatDialog,
     public empresaFacturaService: EmpresaFacturaService,
     public localidadService: LocalidadService,
@@ -61,7 +61,6 @@ export class AddEditEmpresaFacturaComponent {
     if (this.data.id_empresa !== undefined) {
       this.setFormValues();
       this.loadModo();
-      this.loadLocalidad();
       if (this.data.par_modo === 'C' && this.data.edit !== true) {
         this.formGroup.disable();
       }
@@ -71,6 +70,7 @@ export class AddEditEmpresaFacturaComponent {
 
   // * carga de la lista
   private loadModo(): void {
+    this.UtilService.openLoading();
     this.empresaFacturaService
       .CRUD(
         JSON.stringify({
@@ -83,12 +83,16 @@ export class AddEditEmpresaFacturaComponent {
           this.formGroup.get('modo')?.setValue(res.dataset.modo);
         },
         error: (err: any) => {
+          this.UtilService.closeLoading();
           err.status == 0
-            ? this.utils.notification('Error de conexión. ', 'error')
-            : this.utils.notification(
+            ? this.UtilService.notification('Error de conexión. ', 'error')
+            : this.UtilService.notification(
                 `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}. `,
                 'error'
               );
+        },
+        complete: () => {
+          this.loadLocalidad();
         },
       });
   }
@@ -273,12 +277,16 @@ export class AddEditEmpresaFacturaComponent {
             ?.setValue(res.dataset.descripcion.trim());
         },
         error: (err: any) => {
+          this.UtilService.closeLoading();
           err.status == 0
-            ? this.utils.notification('Error de conexión. ', 'error')
-            : this.utils.notification(
+            ? this.UtilService.notification('Error de conexión. ', 'error')
+            : this.UtilService.notification(
                 `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}. `,
                 'error'
               );
+        },
+        complete: () => {
+          this.UtilService.closeLoading();
         },
       });
   }
@@ -368,7 +376,9 @@ export class AddEditEmpresaFacturaComponent {
           codigo_sicone: this.formGroup.get('codigo_sicone')?.value,
           fecha_inicio_act: parseInt(
             this.formGroup.get('fecha_inicio_act')?.value
-          ),
+          )
+            ? this.formGroup.get('fecha_inicio_act')?.value
+            : 0,
           gen_min_como_empr: this.formGroup.get('gen_min_como_empr')?.value,
           moneda1: parseInt(this.formGroup.get('moneda1')?.value),
           moneda2: parseInt(this.formGroup.get('moneda2')?.value),

@@ -137,7 +137,7 @@ export class EmpresaFacturaComponent implements OnInit {
       )
       .subscribe({
         next: (res: any) => {
-          this.utilService.notification(res.estado.Mensaje);
+          this.utilService.notification(res.estado.Mensaje, 'success');
         },
         error: (err: any) => {
           err.status == 0
