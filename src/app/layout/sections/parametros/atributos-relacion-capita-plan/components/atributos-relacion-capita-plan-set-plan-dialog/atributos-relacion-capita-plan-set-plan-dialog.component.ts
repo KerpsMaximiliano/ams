@@ -9,21 +9,22 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 
 // * Components
-import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent } from '../../../../components/confirm-dialog/confirm-dialog.component';
 
 @Component({
-  selector: 'app-set-motivo-dialog',
-  templateUrl: './set-motivo-dialog.component.html',
-  styleUrls: ['./set-motivo-dialog.component.scss'],
+  selector: 'app-atributos-relacion-capita-plan-set-plan-dialog',
+  templateUrl:
+    './atributos-relacion-capita-plan-set-plan-dialog.component.html',
+  styleUrls: [
+    './atributos-relacion-capita-plan-set-plan-dialog.component.scss',
+  ],
 })
-export class SetMotivoDialogComponent implements OnInit {
-  public displayedColumns: string[] = [
-    'id_motivo',
-    'descripcion',
-    'actions',
-  ];
+export class AtributosRelacionCapitaPlanSetPlanDialogComponent
+  implements OnInit
+{
+  public displayedColumns: string[] = ['plan', 'descripcion', 'actions'];
   public dataSource: MatTableDataSource<IProducto>;
-  public motivoMovimiento: any;
+  public plan: any;
 
   @ViewChild(MatPaginator, { static: true }) public paginator!: MatPaginator;
 
@@ -41,9 +42,11 @@ export class SetMotivoDialogComponent implements OnInit {
 
   public confirm(): void {
     this.dialogRef.close({
-      codigo_motivo: this.motivoMovimiento.id_motivo,
-      tipo_motivo: this.motivoMovimiento.tipo_motivo,
-      descripcion: this.motivoMovimiento.descripcion,
+      codigo_producto: this.plan.codigo_producto
+        ? this.plan.codigo_producto
+        : 0,
+      plan: this.plan.plan ? this.plan.plan : 0,
+      descripcion: this.plan.descripcion ? this.plan.descripcion.trim() : '',
     });
   }
 

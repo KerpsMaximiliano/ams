@@ -56,6 +56,7 @@ export class AddEditProductoDialogComponent {
   public visibilidad: boolean = false;
   public estado: boolean = false;
   public activeTabIndex = 0;
+  public uploaded: boolean = false;
 
   constructor(
     private dataSharingService: DataSharingService,
@@ -71,6 +72,8 @@ export class AddEditProductoDialogComponent {
     this.setUpForm();
     this.configureValidators();
     this.configureButton();
+    if (this.data.empresaFactura) this.uploaded = true;
+    console.log(this.data);
   }
 
   public nextStep(): void {
@@ -353,7 +356,10 @@ export class AddEditProductoDialogComponent {
       numero_empresa_factura: new UntypedFormControl(
         {
           value: this.data.numero_empresa_factura,
-          disabled: this.data.par_modo === 'R' || this.data.par_modo === 'U',
+          disabled:
+            this.data.par_modo === 'R' ||
+            this.data.par_modo === 'U' ||
+            !this.data.empresaFactura,
         },
         Validators.compose([
           Validators.required,

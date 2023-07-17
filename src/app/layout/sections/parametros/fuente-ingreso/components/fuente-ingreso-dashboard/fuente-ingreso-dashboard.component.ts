@@ -94,12 +94,18 @@ export class FuenteIngresoDashboardComponent {
       },
       error: (err: any) => {
         this.utilService.closeLoading();
-        err.status === 0
-          ? this.utilService.notification('Error de conexión.', 'error')
-          : this.utilService.notification(
-              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
-              'error'
-            );
+        if (err.status === 0) {
+          this.utilService.notification('Error de conexión.', 'error');
+        }
+        if (err.status === 404) {
+          this.fuenteIngresos = [];
+        }
+        if (err.status !== 0 && err.status !== 404) {
+          this.utilService.notification(
+            `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+            'error'
+          );
+        }
         this.dataSource = new MatTableDataSource();
       },
       complete: () => {
@@ -173,25 +179,26 @@ export class FuenteIngresoDashboardComponent {
                 'La fuente de ingreso se ha editado extiosamente. ',
                 'success'
               );
+              let body = {
+                par_modo: 'O',
+                descripcion: res.descripcion,
+                desc_empresa: '',
+              };
+              this.getFuenteIngreso(body);
             },
             error: (err: any) => {
               this.utilService.closeLoading();
+              this.editFuenteIngreso(res);
               err.status == 0
                 ? this.utilService.notification('Error de conexión. ', 'error')
                 : this.utilService.notification(
                     `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}. `,
                     'error'
                   );
-              this.editFuenteIngreso(res);
             },
             complete: () => {
               this.utilService.closeLoading();
               setTimeout(() => {}, 300);
-              let body = {
-                par_modo: 'R',
-                codigo_fuente_ingreso: res.codigo_fuente_ingreso,
-              };
-              this.getFuenteIngreso(body);
             },
           });
         }
@@ -204,7 +211,7 @@ export class FuenteIngresoDashboardComponent {
       data: {
         title: `VER FUENTE DE INGRESO`,
         edit: false,
-        par_modo: 'C',
+        par_modo: 'R',
         codigo_fuente_ingreso: fuenteIngreso?.codigo_fuente_ingreso,
         tipo_fuente: fuenteIngreso?.tipo_fuente,
         descripcion: fuenteIngreso?.descripcion,

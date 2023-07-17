@@ -33,7 +33,9 @@ td.mat-cell:first-of-type {
  * Tamaño de columnas.
 */
 .mat-column-codigo_fuente_ingreso.mat-header-cell,
-.mat-column-codigo_fuente_ingreso.mat-cell,
+.mat-column-codigo_fuente_ingreso.mat-cell {
+  width: 10%;
+}
 .mat-column-dia_corte.mat-header-cell,
 .mat-column-dia_corte.mat-cell {
   width: 20%;
@@ -52,7 +54,7 @@ td.mat-cell:first-of-type {
 
 .mat-column-actions.mat-header-cell,
 .mat-column-actions.mat-cell {
-  min-width: 150px;
+  min-width: 130px;
 }
 
 /*

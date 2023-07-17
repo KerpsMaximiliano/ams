@@ -182,7 +182,7 @@ export class AddEditFuenteIngresoDialogComponent {
   }
 
   // * carga de las lista
-  private async cargaDatos() {
+  private cargaDatos() {
     this.UtilService.openLoading();
     concat(
       this.fuentesIngresoService.CRUD(JSON.stringify({ par_modo: 'A' })),
@@ -427,6 +427,7 @@ export class AddEditFuenteIngresoDialogComponent {
   public getFuente(tipo: string): void {
     const modalFuenteIngreso = this.dialog.open(ModalFuenteIngresoComponent, {
       data: {
+        title: 'SELECCIONE UNA FUENTE DE INGRESO',
         datos: this.fuenteIngresos,
       },
     });

@@ -115,6 +115,13 @@ import { SetProdSubDialogComponent } from './mvmts-novedades-auto/components/set
 import { SetPlanDialogComponent } from './mvmts-novedades-auto/components/add-edit-mvmts-novedades-auto-dialog/set-plan-dialog/set-plan-dialog.component';
 import { FuenteIngresoSetDialogComponent } from './mvmts-novedades-auto/components/set-fuente-ingreso-dialog/set-fuente-ingreso-dialog.component';
 import { SetMotivMovimientoDialogComponent } from './mvmts-novedades-auto/components/add-edit-mvmts-novedades-auto-dialog/set-motivo-movimiento-dialog/set-motivo-movimiento-dialog.component';
+// 31 - ATRIBUTOS DE RELACIÓN CAPITA/PLAN
+import { AddEditAtributosRelacionCapitaPlanDialogComponent } from './atributos-relacion-capita-plan/components/add-edit-atributos-relacion-capita-plan-dialog/add-edit-atributos-relacion-capita-plan-dialog.component';
+import { AtributosRelacionCapitaPlanComponent } from './atributos-relacion-capita-plan/atributos-relacion-capita-plan.component';
+import { AtributosRelacionCapitaPlanDashboardComponent } from './atributos-relacion-capita-plan/components/atributos-relacion-capita-plan-dashboard/atributos-relacion-capita-plan-dashboard.component';
+import { AtributosRelacionCapitaPlanFilterComponent } from './atributos-relacion-capita-plan/components/atributos-relacion-capita-plan-filter/atributos-relacion-capita-plan-filter.component';
+import { AtributosRelacionCapitaPlanSetPlanDialogComponent } from './atributos-relacion-capita-plan/components/atributos-relacion-capita-plan-set-plan-dialog/atributos-relacion-capita-plan-set-plan-dialog.component';
+import { AtributosRelacionCapitaPlanSetProductoDialogComponent } from './atributos-relacion-capita-plan/components/atributos-relacion-capita-plan-set-producto-dialog/atributos-relacion-capita-plan-set-producto-dialog.component';
 // 32 - EXTENCION DE FUENTES DE INGRESOS
 import { ExtencionFuenteIngresoComponent } from './extencion-fuente-ingreso/extencion-fuente-ingreso.component';
 import { ExtencionFuenteIngresoDashboardComponent } from './extencion-fuente-ingreso/components/extencion-fuente-ingreso-dashboard/extencion-fuente-ingreso-dashboard.component';
@@ -232,6 +239,13 @@ import { LocalidadSetDialogComponent } from './localidad/components/add-edit-loc
     SetPlanDialogComponent,
     FuenteIngresoSetDialogComponent,
     SetMotivMovimientoDialogComponent,
+    // 31 - ATRIBUTOS DE RELACIÓN CAPITA/PLAN
+    AddEditAtributosRelacionCapitaPlanDialogComponent,
+    AtributosRelacionCapitaPlanComponent,
+    AtributosRelacionCapitaPlanDashboardComponent,
+    AtributosRelacionCapitaPlanFilterComponent,
+    AtributosRelacionCapitaPlanSetPlanDialogComponent,
+    AtributosRelacionCapitaPlanSetProductoDialogComponent,
     // 32 - EXTENCION FUENTES DE INGRESOS
     ExtencionFuenteIngresoComponent,
     ExtencionFuenteIngresoDashboardComponent,

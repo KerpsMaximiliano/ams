@@ -1,5 +1,5 @@
 <div class="dialog-title" [tabIndex]="0">
-  <h2>{{ data.title | uppercase}}</h2>
+  <h2> {{ data.title | uppercase }}</h2>
 </div>
 
 <div class="dialog-content">
@@ -7,48 +7,49 @@
     <div class="seeker-fields-container">
       <h3> PRODUCTO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput disabled [value]="data.producto.codigo_producto">
+        <input matInput disabled [value]="data.producto.descripcion_producto" />
       </mat-form-field>
     </div>
 
     <div class="seeker-fields-container">
-      <h3> TIPO DE MOVIMIENTO </h3>
+      <h3>TIPO DE MOVIMIENTO</h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
         <mat-select formControlName="tipo_motivo" minlength="1" maxlength="1" required disableOptionCentering
           (selectionChange)="clear(input, 'descripcion')">
-          <mat-option [value]="'A'">
-            ALTA
-          </mat-option>
-          <mat-option [value]="'B'">
-            BAJA
-          </mat-option>
-          <mat-option [value]="'S'">
-            SUSPENDIDO
-          </mat-option>
-          <mat-option [value]="'O'">
-            OSP
-          </mat-option>
+          <mat-option [value]="'A'"> ALTA </mat-option>
+          <mat-option [value]="'B'"> BAJA </mat-option>
+          <mat-option [value]="'S'"> SUSPENDIDO </mat-option>
+          <mat-option [value]="'O'"> OSP </mat-option>
         </mat-select>
-        <mat-error
-          *ngIf="formGroup.get('tipo_motivo')?.invalid && formGroup.get('tipo_motivo')?.touched">{{getErrorMessage(formGroup.get('tipo_motivo'))}}</mat-error>
+        <mat-error *ngIf="
+            formGroup.get('tipo_motivo')?.invalid &&
+            formGroup.get('tipo_motivo')?.touched
+          ">{{ getErrorMessage(formGroup.get("tipo_motivo")) }}</mat-error>
       </mat-form-field>
     </div>
 
     <div class="seeker-fields-container">
-      <h3> MOTIVO </h3>
+      <h3>MOTIVO</h3>
       <div class="content">
         <mat-form-field class="seeker-form-field" appearance="outline">
-          <input matInput formControlName="descripcion" required minlength="3" maxlength="30" readonly #input>
-          <mat-error
-            *ngIf="formGroup.get('descripcion')?.invalid">{{getErrorMessage(formGroup.get('descripcion'))}}</mat-error>
+          <input matInput formControlName="descripcion" required minlength="3" maxlength="30" readonly #input />
+          <mat-error *ngIf="formGroup.get('descripcion')?.invalid">{{
+            getErrorMessage(formGroup.get("descripcion"))
+            }}</mat-error>
         </mat-form-field>
         <ng-container *ngIf="data.par_modo === 'C'">
-          <div [class]="formGroup.get('tipo_motivo')?.value ? 'icon' : 'icon disabled fixClick'"
-            (click)="getMotivoMovimientoProducto()">
+          <div [class]="
+              formGroup.get('tipo_motivo')?.value
+                ? 'icon'
+                : 'icon disabled fixClick'
+            " (click)="getMotivoMovimiento()">
             <mat-icon class="material-symbols-outlined"> search </mat-icon>
           </div>
-          <div [class]="formGroup.get('descripcion')?.value ? 'icon' : 'icon disabled fixClick'"
-            (click)="clear(input, 'descripcion')">
+          <div [class]="
+              formGroup.get('descripcion')?.value
+                ? 'icon'
+                : 'icon disabled fixClick'
+            " (click)="clear(input, 'descripcion')">
             <mat-icon class="material-symbols-outlined"> close </mat-icon>
           </div>
         </ng-container>
@@ -56,40 +57,34 @@
     </div>
 
     <div class="seeker-fields-container">
-      <h3> ¿DATOS ADICIONALES? </h3>
+      <h3>¿DATOS ADICIONALES?</h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
         <mat-select formControlName="datos_adicionales" required minlength="1" maxlength="1" disableOptionCentering>
-          <mat-option [value]="'F'">
-            FECHA
-          </mat-option>
-          <mat-option [value]="'S'">
-            SUBMOTIVO
-          </mat-option>
-          <mat-option [value]="'T'">
-            TEXTO
-          </mat-option>
-          <mat-option [value]="'N'">
-            NADA
-          </mat-option>
+          <mat-option [value]="'F'"> FECHA </mat-option>
+          <mat-option [value]="'S'"> SUBMOTIVO </mat-option>
+          <mat-option [value]="'T'"> TEXTO </mat-option>
+          <mat-option [value]="'N'"> NADA </mat-option>
         </mat-select>
-        <mat-error
-          *ngIf="formGroup.get('datos_adicionales')?.invalid && formGroup.get('datos_adicionales')?.touched">{{getErrorMessage(formGroup.get('datos_adicionales'))}}</mat-error>
+        <mat-error *ngIf="
+            formGroup.get('datos_adicionales')?.invalid &&
+            formGroup.get('datos_adicionales')?.touched
+          ">{{ getErrorMessage(formGroup.get("datos_adicionales")) }}</mat-error>
       </mat-form-field>
     </div>
 
     <div class="seeker-fields-container">
-      <h3> ¿OTRA COBERTURA? </h3>
+      <h3>¿OTRA COBERTURA?</h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
         <mat-select formControlName="otra_cobertura" required minlength="1" maxlength="1" disableOptionCentering>
-          <mat-option [value]="'S'">
-            SI
-          </mat-option>
-          <mat-option [value]="'N'">
-            NO
-          </mat-option>
+          <mat-option [value]="'S'"> SI </mat-option>
+          <mat-option [value]="'N'"> NO </mat-option>
         </mat-select>
-        <mat-error
-          *ngIf="formGroup.get('otra_cobertura')?.invalid && formGroup.get('otra_cobertura')?.touched">{{getErrorMessage(formGroup.get('otra_cobertura'))}}</mat-error>
+        <mat-error *ngIf="
+            formGroup.get('otra_cobertura')?.invalid &&
+            formGroup.get('otra_cobertura')?.touched
+          ">
+          {{ getErrorMessage(formGroup.get("otra_cobertura")) }}
+        </mat-error>
       </mat-form-field>
     </div>
 
@@ -104,8 +99,11 @@
         <mat-icon> open_in_new_down </mat-icon>
         Sub motivos de movimiento por producto
       </button>
-      <button [class]="formGroup.invalid ? 'primary-button icon-button disabled' : 'primary-button icon-button'"
-        type="submit" (click)="confirm()">
+      <button [class]="
+          formGroup.invalid
+            ? 'primary-button icon-button disabled'
+            : 'primary-button icon-button'
+        " type="submit" (click)="confirm()">
         <mat-icon> done </mat-icon>
         Guardar
       </button>

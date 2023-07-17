@@ -9,8 +9,8 @@
 
   <div class="section-content">
     <app-producto-filter (search)="getData($event)" [empresaFactura]="empresaFactura"
-      app-producto-filter></app-producto-filter>
-    <app-producto-dashboard [receivedData]=" dataSent" (viewEvent)="view($event)" (editEvent)="edit($event)">
+      [isLoading]="isLoadingEmpresaFactura" [isLoadingError]="isLoadingError"></app-producto-filter>
+    <app-producto-dashboard [receivedData]="dataSent" (viewEvent)="view($event)" (editEvent)="edit($event)">
     </app-producto-dashboard>
   </div>
 </section>

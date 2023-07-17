@@ -24,6 +24,8 @@ import { IEmpresaFactura } from 'src/app/core/models/empresa-factura.interface';
 })
 export class ProductoComponent implements OnInit, AfterViewInit, OnDestroy {
   private dataSubscription: Subscription | undefined;
+  public isLoadingEmpresaFactura: boolean = false;
+  public isLoadingError: boolean;
   public empresaFactura: IEmpresaFactura[];
   public dataSent: IProducto[];
 
@@ -49,9 +51,13 @@ export class ProductoComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     }
 
-    this.empresaFacturaService.getEmpresas()
-      ? (this.empresaFactura = this.empresaFacturaService.getEmpresas())
-      : this.getEmpresas();
+    if (this.empresaFacturaService.getEmpresas()) {
+      this.empresaFactura = this.empresaFacturaService.getEmpresas();
+      this.isLoadingError = false;
+      this.isLoadingEmpresaFactura = true;
+    } else {
+      this.getEmpresas();
+    }
   }
 
   ngAfterViewInit(): void {
@@ -183,6 +189,7 @@ export class ProductoComponent implements OnInit, AfterViewInit, OnDestroy {
           data?.descripcion_producto_administrador,
         descripcion_obra_social: data?.descripcion_obra_social,
         descripcion_fuente_ingreso: data?.descripcion_fuente_ingreso,
+        descripcion_empresa: data?.descripcion_empresa,
       },
     });
   }
@@ -230,6 +237,8 @@ export class ProductoComponent implements OnInit, AfterViewInit, OnDestroy {
           this.empresaFactura = Array.isArray(res.dataset)
             ? (res.dataset as IEmpresaFactura[])
             : [res.dataset as IEmpresaFactura];
+          this.isLoadingEmpresaFactura = true;
+          this.isLoadingError = false;
         },
         error: (err: any) => {
           this.utilService.closeLoading();
@@ -237,7 +246,7 @@ export class ProductoComponent implements OnInit, AfterViewInit, OnDestroy {
             this.utilService.notification('Error de conexión.', 'error');
           }
           if (err.status === 404) {
-            this.dataSent = [];
+            this.empresaFactura = [];
           }
           if (err.status !== 0 && err.status !== 404) {
             this.utilService.notification(
@@ -245,6 +254,7 @@ export class ProductoComponent implements OnInit, AfterViewInit, OnDestroy {
               'error'
             );
           }
+          this.isLoadingError = true;
         },
         complete: () => {
           this.empresaFacturaService.setEmpresas(this.empresaFactura);

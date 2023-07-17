@@ -1,14 +1,13 @@
-/* Corrección tamaño modal */
-::ng-deep .mat-dialog-container {
-  background-color: #fff;
-}
-
 .dialog-content {
   display: flex;
   flex-direction: column;
-  min-height: 525px;
-  min-width: 650px;
+  min-height: 505px;
+  min-width: 750px;
   background-color: #fff;
+}
+
+h2 {
+  margin-bottom: 0rem;
 }
 
 .seeker-fields-container {
@@ -38,61 +37,55 @@ tr.mat-row {
 }
 
 /*
-   * Evita un espaciado innecesario en la primer columna.
-  */
+ * Evita un espaciado innecesario en la primer columna.
+*/
 th.mat-header-cell:first-of-type,
 td.mat-cell:first-of-type {
   padding-left: 0px !important;
 }
 
 /*
-   * Texto alineado a la izquierda.
-  */
+ * Texto alineado a la izquierda.
+*/
 .mat-column-descripcion.mat-header-cell,
 .mat-column-descripcion.mat-cell {
   text-align: left !important;
-  padding-left: 3vw;
+  padding-left: 1vw;
   word-break: break-all;
 }
 
 /*
-   * Número y fecha alineado a la derecha.
-  */
-.mat-column-codigo_fuente_ingreso.mat-header-cell,
-.mat-column-codigo_fuente_ingreso.mat-cell {
+ * Número y fecha alineado a la derecha.
+*/
+.mat-column-plan.mat-header-cell,
+.mat-column-plan.mat-cell {
   text-align: right !important;
-  padding-right: 3vw;
+  padding-right: 1vw;
   word-break: break-all;
 }
 
 /*
-   * Tamaño de columnas.
-  */
-.mat-column-codigo_fuente_ingreso.mat-header-cell,
-.mat-column-codigo_fuente_ingreso.mat-cell {
-  width: 20%;
+ * Tamaño de columnas.
+*/
+.mat-column-plan.mat-header-cell,
+.mat-column-plan.mat-cell {
+  min-width: 100px;
 }
 
 .mat-column-descripcion.mat-header-cell,
 .mat-column-descripcion.mat-cell {
-  width: 60%;
+  min-width: 300px;
+  width: 100%;
 }
 
 .mat-column-actions.mat-header-cell,
 .mat-column-actions.mat-cell {
-  width: 20%;
+  min-width: 130px;
 }
 
 /*
-   * Oculta la paginación y el botón confirmar hasta que existan datos.
-  */
-.d-none {
-  display: none;
-}
-
-/*
-   * Cambia el tamaño y los espacios del filtro.
-  */
+ * Cambia el tamaño y los espacios del filtro.
+*/
 .filter-container {
   width: 47%;
   margin-top: 0.3rem;
