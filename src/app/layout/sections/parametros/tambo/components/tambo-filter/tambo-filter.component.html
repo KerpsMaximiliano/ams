@@ -1,0 +1,56 @@
+<section class="seeker-section">
+  <mat-accordion>
+    <mat-expansion-panel class="mat-elevation-z1">
+      <mat-expansion-panel-header floating>
+        <mat-panel-title> Opciones de búsqueda </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <div class="seeker-fields-container pb-none">
+        <h4> Entidad </h4>
+        <mat-form-field class="seeker-form-field" appearance="outline">
+          <input matInput class="seeker-input"
+            [placeholder]="descripcionProducto.value ? 'Sin subproducto.' : 'Seleccione un producto/subproducto'"
+            disabled #descripcionSubproducto>
+        </mat-form-field>
+        <div class="icon-container">
+          <div (click)="getProducto()"
+            [class]="descripcionFuenteIngresoAdministradora.value  ? 'icon' : 'icon disabled fix'">
+            <mat-icon class="material-symbols-outlined"> search </mat-icon>
+          </div>
+          <div (click)="clear(descripcionProducto, descripcionSubproducto)"
+            [class]="descripcionProducto.value || descripcionSubproducto.value  ? 'icon' : 'icon disabled fix'">
+            <mat-icon class="material-symbols-outlined"> close </mat-icon>
+          </div>
+        </div>
+      </div>
+
+      <div class="seeker-fields-container">
+        <mat-form-field class="seeker-form-field">
+          <input matInput #inputLocalidad class="seeker-input" placeholder="Ingrese una localidad"
+            (keydown.enter)="performSearch(inputLocalidad, inputCodigo)" maxlength="30"
+            [disabled]="!selectProvincia?.value || !selectDepartamento?.value" />
+        </mat-form-field>
+
+        <mat-form-field class="seeker-form-field">
+          <input matInput class="seeker-input" placeholder="Ingrese un código postal" #inputCodigo maxlength="7"
+            [disabled]="!selectProvincia?.value || !selectDepartamento?.value" (keydown)="validateNumberInput($event)"
+            (keydown.enter)="performSearch(inputLocalidad, inputCodigo)" (paste)="handlePaste($event)" />
+        </mat-form-field>
+      </div>
+
+      <div class=" buttons-container">
+        <button class="primary-button icon-button" type="button"
+          [disabled]="!selectDepartamento?.value || !selectProvincia.value"
+          (click)="performSearch(inputLocalidad, inputCodigo)">
+          <mat-icon> done </mat-icon>
+          Buscar
+        </button>
+        <button class="primary-button icon-button" type="button" (click)="clear(inputLocalidad, inputCodigo)"
+          [disabled]="!selectProvincia?.value && !selectDepartamento?.value && inputLocalidad.value.length === 0 && inputCodigo.value.length === 0">
+          <mat-icon> close </mat-icon>
+          Limpiar
+        </button>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</section>

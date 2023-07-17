@@ -1,0 +1,71 @@
+/*
+ * Evita un espaciado innecesario en la primer columna.
+*/
+th.mat-header-cell:first-of-type,
+td.mat-cell:first-of-type {
+  padding-left: 0px;
+}
+
+/*
+ * Número y fecha alineado a la derecha.
+*/
+.mat-column-codigo_postal.mat-header-cell,
+.mat-column-codigo_postal.mat-cell,
+.mat-column-sub_codigo_postal.mat-header-cell,
+.mat-column-sub_codigo_postal.mat-cell,
+.mat-column-cant_habitantes.mat-header-cell,
+.mat-column-cant_habitantes.mat-cell {
+  text-align: right !important;
+  padding-right: 1vw;
+}
+
+/*
+ * Texto alineado a la izquierda.
+*/
+.mat-column-descripcion.mat-header-cell,
+.mat-column-descripcion.mat-cell,
+.mat-column-desc_position.mat-header-cell,
+.mat-column-desc_position.mat-cell {
+  text-align: left !important;
+  padding-left: 1vw;
+  word-break: break-all;
+}
+
+/*
+ * Tamaño de columnas.
+*/
+.mat-column-codigo_postal.mat-header-cell,
+.mat-column-codigo_postal.mat-cell,
+.mat-column-sub_codigo_postal.mat-header-cell,
+.mat-column-sub_codigo_postal.mat-cell {
+  min-width: 140px;
+}
+
+.mat-column-descripcion.mat-header-cell,
+.mat-column-descripcion.mat-cell {
+  min-width: 300px;
+  width: 60%;
+}
+
+.mat-column-desc_position.mat-header-cell,
+.mat-column-desc_position.mat-cell {
+  width: 40%;
+  min-width: 140px;
+}
+
+.mat-column-cant_habitantes.mat-header-cell,
+.mat-column-cant_habitantes.mat-cell {
+  min-width: 100px;
+}
+
+.mat-column-actions.mat-header-cell,
+.mat-column-actions.mat-cell {
+  min-width: 130px;
+}
+
+/*
+ * Oculta la tabla y paginación hasta que existan datos.
+*/
+.d-none {
+  display: none;
+}
