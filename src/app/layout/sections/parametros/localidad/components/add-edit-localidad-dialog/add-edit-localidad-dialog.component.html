@@ -9,6 +9,93 @@
         dynamicHeight>
         <mat-tab>
           <div class="seeker-fields-container mt-1">
+            <h3> CÓDIGO POSTAL </h3>
+            <mat-form-field class="seeker-form-field" appearance="outline">
+              <input matInput formControlName="codigo_postal" required placeholder="Ingrese un código postal. "
+                minlength="1" maxlength="7" />
+              <mat-error *ngIf="
+                  formGroup.get('codigo_postal')?.invalid &&
+                  formGroup.get('codigo_postal')?.touched">
+                {{ getErrorMessage(formGroup.get("codigo_postal")) }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="seeker-fields-container">
+            <h3> SUBCÓDIGO POSTAL </h3>
+            <mat-form-field class="seeker-form-field" appearance="outline">
+              <input matInput formControlName="sub_codigo_postal" required placeholder="Ingrese un subcódigo postal. "
+                minlength="1" maxlength="2" />
+              <mat-error *ngIf="
+                  formGroup.get('sub_codigo_postal')?.invalid &&
+                  formGroup.get('sub_codigo_postal')?.touched">
+                {{ getErrorMessage(formGroup.get("sub_codigo_postal")) }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="seeker-fields-container">
+            <h3> LOCALIDAD </h3>
+            <mat-form-field class="seeker-form-field" appearance="outline">
+              <input matInput formControlName="descripcion" required placeholder="Ingrese una localidad. " minlength="3"
+                maxlength="30" />
+              <mat-error *ngIf="
+                  formGroup.get('descripcion')?.invalid &&
+                  formGroup.get('descripcion')?.touched">
+                {{ getErrorMessage(formGroup.get("descripcion")) }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="seeker-fields-container">
+            <h3> HABITANTES </h3>
+            <mat-form-field class="seeker-form-field" appearance="outline">
+              <input matInput formControlName="cant_habitantes" required
+                placeholder="Ingrese la cantidad de habitantes. " minlength="1" maxlength="8" />
+              <mat-error *ngIf="
+                  formGroup.get('cant_habitantes')?.invalid &&
+                  formGroup.get('cant_habitantes')?.touched">
+                {{ getErrorMessage(formGroup.get("cant_habitantes")) }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+
+          <div class="seeker-fields-container">
+            <h3> INGRESO DE TICKET </h3>
+            <mat-form-field class="seeker-form-field" appearance="outline">
+              <mat-select formControlName="ingreso_ticket" required minlength="1" maxlength="1" required
+                disableOptionCentering>
+                <mat-option [value]="'S'"> SI </mat-option>
+                <mat-option [value]="'N'"> NO </mat-option>
+              </mat-select>
+              <mat-error *ngIf="
+                  formGroup.get('ingreso_ticket')?.invalid &&
+                  formGroup.get('ingreso_ticket')?.touched ">
+                {{ getErrorMessage(formGroup.get("ingreso_ticket")) }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="seeker-fields-container">
+            <h3> VISITADO POR MEDICO AUDITOR </h3>
+            <mat-form-field class="seeker-form-field" appearance="outline">
+              <mat-select formControlName="visitado_auditor" required minlength="1" maxlength="1"
+                disableOptionCentering>
+                <mat-option [value]="'S'"> SI </mat-option>
+                <mat-option [value]="'N'"> NO </mat-option>
+              </mat-select>
+              <mat-error *ngIf="
+                  formGroup.get('visitado_auditor')?.invalid &&
+                  formGroup.get('visitado_auditor')?.touched ">
+                {{ getErrorMessage(formGroup.get("visitado_auditor")) }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </mat-tab>
+
+        <mat-tab>
+          <div class="seeker-fields-container mt-1">
             <h3> PROVINCIA </h3>
             <mat-form-field class="seeker-form-field" appearance="outline">
               <mat-select formControlName="letra_provincia" required placeholder="Seleccione una provincia. "
@@ -98,93 +185,6 @@
                   formGroup.get('zona_envio')?.invalid &&
                   formGroup.get('zona_envio')?.touched ">
                 {{ getErrorMessage(formGroup.get("zona_envio")) }}
-              </mat-error>
-            </mat-form-field>
-          </div>
-        </mat-tab>
-
-        <mat-tab>
-          <div class="seeker-fields-container mt-1">
-            <h3> CÓDIGO POSTAL </h3>
-            <mat-form-field class="seeker-form-field" appearance="outline">
-              <input matInput formControlName="codigo_postal" required placeholder="Ingrese un código postal. "
-                minlength="1" maxlength="7" />
-              <mat-error *ngIf="
-                  formGroup.get('codigo_postal')?.invalid &&
-                  formGroup.get('codigo_postal')?.touched">
-                {{ getErrorMessage(formGroup.get("codigo_postal")) }}
-              </mat-error>
-            </mat-form-field>
-          </div>
-
-          <div class="seeker-fields-container">
-            <h3> SUBCÓDIGO POSTAL </h3>
-            <mat-form-field class="seeker-form-field" appearance="outline">
-              <input matInput formControlName="sub_codigo_postal" required placeholder="Ingrese un subcódigo postal. "
-                minlength="1" maxlength="2" />
-              <mat-error *ngIf="
-                  formGroup.get('sub_codigo_postal')?.invalid &&
-                  formGroup.get('sub_codigo_postal')?.touched">
-                {{ getErrorMessage(formGroup.get("sub_codigo_postal")) }}
-              </mat-error>
-            </mat-form-field>
-          </div>
-
-          <div class="seeker-fields-container">
-            <h3> LOCALIDAD </h3>
-            <mat-form-field class="seeker-form-field" appearance="outline">
-              <input matInput formControlName="descripcion" required placeholder="Ingrese una localidad. " minlength="3"
-                maxlength="30" />
-              <mat-error *ngIf="
-                  formGroup.get('descripcion')?.invalid &&
-                  formGroup.get('descripcion')?.touched">
-                {{ getErrorMessage(formGroup.get("descripcion")) }}
-              </mat-error>
-            </mat-form-field>
-          </div>
-
-          <div class="seeker-fields-container">
-            <h3> HABITANTES </h3>
-            <mat-form-field class="seeker-form-field" appearance="outline">
-              <input matInput formControlName="cant_habitantes" required
-                placeholder="Ingrese la cantidad de habitantes. " minlength="1" maxlength="8" />
-              <mat-error *ngIf="
-                  formGroup.get('cant_habitantes')?.invalid &&
-                  formGroup.get('cant_habitantes')?.touched">
-                {{ getErrorMessage(formGroup.get("cant_habitantes")) }}
-              </mat-error>
-            </mat-form-field>
-          </div>
-
-
-          <div class="seeker-fields-container">
-            <h3> INGRESO DE TICKET </h3>
-            <mat-form-field class="seeker-form-field" appearance="outline">
-              <mat-select formControlName="ingreso_ticket" required minlength="1" maxlength="1" required
-                disableOptionCentering>
-                <mat-option [value]="'S'"> SI </mat-option>
-                <mat-option [value]="'N'"> NO </mat-option>
-              </mat-select>
-              <mat-error *ngIf="
-                  formGroup.get('ingreso_ticket')?.invalid &&
-                  formGroup.get('ingreso_ticket')?.touched ">
-                {{ getErrorMessage(formGroup.get("ingreso_ticket")) }}
-              </mat-error>
-            </mat-form-field>
-          </div>
-
-          <div class="seeker-fields-container">
-            <h3> VISITADO POR MEDICO AUDITOR </h3>
-            <mat-form-field class="seeker-form-field" appearance="outline">
-              <mat-select formControlName="visitado_auditor" required minlength="1" maxlength="1"
-                disableOptionCentering>
-                <mat-option [value]="'S'"> SI </mat-option>
-                <mat-option [value]="'N'"> NO </mat-option>
-              </mat-select>
-              <mat-error *ngIf="
-                  formGroup.get('visitado_auditor')?.invalid &&
-                  formGroup.get('visitado_auditor')?.touched ">
-                {{ getErrorMessage(formGroup.get("visitado_auditor")) }}
               </mat-error>
             </mat-form-field>
           </div>

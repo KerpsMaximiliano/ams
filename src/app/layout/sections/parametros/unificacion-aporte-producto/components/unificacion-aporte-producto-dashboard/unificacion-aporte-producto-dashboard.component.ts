@@ -29,7 +29,6 @@ export class UnificacionAporteProductoDashboardComponent
     'producto_principal_descripcion',
     'subproducto_secundario',
     'subproducto_principal_descripcion',
-    'unifica_aportes',
     'actions',
   ];
   public dataSource: MatTableDataSource<IUnificacionAporteProducto>;

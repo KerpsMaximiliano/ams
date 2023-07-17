@@ -27,12 +27,16 @@
   height: 3px !important;
 }
 
-h2 {
-  margin-bottom: 0rem;
+.dialog-content {
+  min-width: 600px;
 }
 
-.dialog-content {
-  width: 600px;
+.min-height-u {
+  min-height: 455px;
+}
+
+.min-height-r {
+  min-height: 405px;
 }
 
 .mat-tab-text {

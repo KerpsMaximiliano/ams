@@ -32,7 +32,6 @@ export class AddEditFormaPagoDialogComponent {
   public getErrorMessage = getErrorMessage;
   public formGroup: UntypedFormGroup;
   public activeTabIndex: number = 0;
-  public banco: boolean;
   public banks: any[] = [
     {
       codigo: '',
@@ -46,10 +45,7 @@ export class AddEditFormaPagoDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.setUpForm();
-  }
-
-  ngAfterViewInit() {
-    this.banco = true;
+    this.configureValidators();
   }
 
   public nextStep(): void {
@@ -89,36 +85,34 @@ export class AddEditFormaPagoDialogComponent {
     }
   }
 
-  public changeBank(): void {
-    if (this.formGroup.get('forma_pago')?.value !== undefined) {
-      switch (this.formGroup.get('forma_pago')?.value) {
+  private configureValidators(): void {
+    this.formGroup.get('forma_pago')?.valueChanges.subscribe((value) => {
+      const control = this.formGroup.get('codigo_banco');
+
+      switch (value) {
         case 'BSF':
-          this.banco = true;
-          this.configureValidators();
-          this.formGroup.patchValue({
-            codigo_banco: 330,
-          });
+          control?.patchValue(330);
+          control?.clearValidators();
+          control?.disable();
           break;
         case 'LNK':
-          this.banco = true;
-          this.configureValidators();
-          this.formGroup.patchValue({
-            codigo_banco: 815,
-          });
+          control?.patchValue(815);
+          control?.clearValidators();
+          control?.disable();
           break;
         case 'TC ':
-          this.banco = true;
-          this.configureValidators();
-          this.formGroup.patchValue({
-            codigo_banco: null,
-          });
+          control?.reset();
+          control?.clearValidators();
+          control?.disable();
           break;
         case 'CBU':
-          this.banco = false;
-          this.configureValidators();
-          this.formGroup.patchValue({
-            codigo_banco: null,
-          });
+          control?.setValidators([
+            Validators.required,
+            Validators.minLength(1),
+            Validators.maxLength(3),
+          ]);
+          control?.enable();
+          control?.reset();
           this.formaPagoService
             .CRUD(JSON.stringify({ par_modo: 'B', description: '' }))
             .subscribe((res: any) => {
@@ -130,28 +124,18 @@ export class AddEditFormaPagoDialogComponent {
               }
             });
           break;
+        default:
+          break;
       }
-    }
+
+      control?.updateValueAndValidity();
+    });
   }
 
   public changeStatus(): void {
-    this.data.codigo_tarjeta_de_baja = 'S';
-    this.confirm();
-  }
-
-  private configureValidators(): void {
-    if (this.formGroup.get('forma_pago')?.value === 'CBU') {
-      this.formGroup
-        .get('codigo_banco')
-        ?.setValidators([
-          Validators.required,
-          Validators.minLength(1),
-          Validators.maxLength(3),
-        ]);
-    } else {
-      this.formGroup.get('codigo_banco')?.clearValidators();
-    }
-    this.formGroup.get('codigo_banco')?.updateValueAndValidity();
+    this.data.codigo_tarjeta_de_baja === 'S'
+      ? (this.data.codigo_tarjeta_de_baja = '')
+      : (this.data.codigo_tarjeta_de_baja = 'S');
   }
 
   private setUpForm(): void {
@@ -205,15 +189,10 @@ export class AddEditFormaPagoDialogComponent {
           notOnlySpaces(),
         ])
       ),
-      codigo_banco: new UntypedFormControl(
-        this.data.codigo_banco,
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(1),
-          Validators.maxLength(3),
-          isNumeric(),
-        ])
-      ),
+      codigo_banco: new UntypedFormControl({
+        value: this.data.codigo_banco,
+        disabled: true,
+      }),
       trabaja_archivos: new UntypedFormControl(
         {
           value: this.data.trabaja_archivos
