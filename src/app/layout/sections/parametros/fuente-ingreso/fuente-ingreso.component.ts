@@ -28,7 +28,6 @@ import { EmpresaFacturaService } from 'src/app/core/services/empresa-factura.ser
 export class FuenteIngresoComponent {
   @ViewChild(FuenteIngresoDashboardComponent)
   dashboard: FuenteIngresoDashboardComponent;
-  fuentesingreso$: Observable<IFuenteIngresoResponse>;
   datosEmpresa: IEmpresaFactura[] = [];
 
   constructor(
