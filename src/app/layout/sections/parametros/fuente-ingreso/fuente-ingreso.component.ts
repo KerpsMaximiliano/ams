@@ -128,29 +128,29 @@ export class FuenteIngresoComponent {
           this.fuenteIngresoService.CRUD(res).subscribe({
             next: () => {
               this.utilService.notification(
-                'La fuente de ingreso se ha creado exitosamente. ',
+                'La fuente de ingreso se ha editado extiosamente. ',
                 'success'
               );
+              let body = {
+                par_modo: 'O',
+                descripcion: res.descripcion,
+                desc_empresa: '',
+              };
+              this.dashboard.getFuenteIngreso(body);
             },
             error: (err: any) => {
               this.utilService.closeLoading();
+              this.nuevaFuenteIngreso(res);
               err.status == 0
                 ? this.utilService.notification('Error de conexión. ', 'error')
                 : this.utilService.notification(
                     `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
                     'error'
                   );
-              this.nuevaFuenteIngreso(res);
             },
             complete: () => {
               this.utilService.closeLoading();
-              setTimeout(() => {
-                let body = {
-                  par_modo: 'R',
-                  codigo_fuente_ingreso: res.codigo_fuente_ingreso,
-                };
-                this.dashboard.getFuenteIngreso(body);
-              }, 300);
+              setTimeout(() => {}, 300);
             },
           });
         }

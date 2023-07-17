@@ -427,6 +427,7 @@ export class AddEditFuenteIngresoDialogComponent {
   public getFuente(tipo: string): void {
     const modalFuenteIngreso = this.dialog.open(ModalFuenteIngresoComponent, {
       data: {
+        title: 'SELECCIONE UNA FUENTE DE INGRESO',
         datos: this.fuenteIngresos,
       },
     });
