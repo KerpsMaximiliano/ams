@@ -14,7 +14,6 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrls: ['./modal-fuente-ingreso.component.scss'],
 })
 export class ModalFuenteIngresoComponent {
-  // @Input () fuenteIngresos: IFuenteIngreso[];
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   displayedColumns: string[] = [

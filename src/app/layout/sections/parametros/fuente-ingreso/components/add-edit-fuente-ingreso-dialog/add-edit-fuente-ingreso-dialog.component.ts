@@ -182,7 +182,7 @@ export class AddEditFuenteIngresoDialogComponent {
   }
 
   // * carga de las lista
-  private async cargaDatos() {
+  private cargaDatos() {
     this.UtilService.openLoading();
     concat(
       this.fuentesIngresoService.CRUD(JSON.stringify({ par_modo: 'A' })),
