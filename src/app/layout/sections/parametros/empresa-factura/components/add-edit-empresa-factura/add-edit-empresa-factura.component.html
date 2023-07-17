@@ -399,12 +399,27 @@
 
     <ng-template #other_content>
       <div class="buttons-container">
-        <button class="primary-button icon-button">
+        <button class="primary-button icon-button" mat-dialog-close>
           <mat-icon> done </mat-icon>
           Aceptar
         </button>
-        <button class="primary-button icon-button" matStepperPrevious>
+        <button
+          class="primary-button icon-button"
+          type="button"
+          [disabled]="activeTabIndex === 0"
+          (click)="prevStep()"
+        >
+          <mat-icon>close</mat-icon>
           Anterior
+        </button>
+        <button
+          class="primary-button icon-button"
+          type="button"
+          [disabled]="activeTabIndex === 3"
+          (click)="nextStep()"
+        >
+          <mat-icon>close</mat-icon>
+          Siguiente
         </button>
       </div>
     </ng-template>
