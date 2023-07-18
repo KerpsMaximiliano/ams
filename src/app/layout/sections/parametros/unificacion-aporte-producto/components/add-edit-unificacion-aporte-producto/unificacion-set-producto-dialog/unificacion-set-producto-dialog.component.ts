@@ -33,9 +33,7 @@ export class UnificacionSetProductoDialogComponent implements OnInit {
     private matPaginatorIntl: MatPaginatorIntl,
     public dialogRef: MatDialogRef<ConfirmDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {
-    console.log(this.data);
-  }
+  ) {}
 
   ngOnInit(): void {
     this.configurePaginator();

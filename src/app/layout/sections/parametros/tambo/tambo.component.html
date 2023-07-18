@@ -8,7 +8,8 @@
   </div>
 
   <div class=" section-content">
-    <app-tambo-filter></app-tambo-filter>
-    <app-tambo-dashboard></app-tambo-dashboard>
+    <app-tambo-filter (search)="getData($event)"></app-tambo-filter>
+    <app-tambo-dashboard [receivedData]="dataSent" (viewEvent)="view($event)"
+      (editEvent)="edit($event)"></app-tambo-dashboard>
   </div>
 </section>

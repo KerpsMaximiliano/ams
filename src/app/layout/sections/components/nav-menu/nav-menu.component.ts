@@ -118,6 +118,12 @@ export class NavMenuComponent {
           url: '/parametros/mvmts-novedades-automaticas',
           icon: 'keyboard_arrow_right',
         },
+        {
+          // 31 - TAMBOS
+          title: 'Tambos',
+          url: '/parametros/tambos',
+          icon: 'keyboard_arrow_right',
+        },
       ],
     },
   ];

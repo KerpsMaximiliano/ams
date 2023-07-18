@@ -44,6 +44,8 @@ import { MvmtsNovedadesAutoComponent } from './mvmts-novedades-auto/mvmts-noveda
 import { AtributosRelacionCapitaPlanComponent } from './atributos-relacion-capita-plan/atributos-relacion-capita-plan.component';
 // 32 - EXTENCION FUENTES DE INGRESOS
 import { ExtencionFuenteIngresoComponent } from './extencion-fuente-ingreso/extencion-fuente-ingreso.component';
+// 33 - TAMBOS
+import { TamboComponent } from './tambo/tambo.component';
 
 const routes: Routes = [
   {
@@ -129,6 +131,10 @@ const routes: Routes = [
   {
     path: 'parametros/extencion-fuente-ingreso',
     component: ExtencionFuenteIngresoComponent,
+  },
+  {
+    path: 'parametros/tambos',
+    component: TamboComponent,
   },
 ];
 

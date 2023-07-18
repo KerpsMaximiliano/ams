@@ -129,6 +129,12 @@ import { ExtencionFuenteIngresoFilterComponent } from './extencion-fuente-ingres
 import { AddEditExtencionFuenteIngresoComponent } from './extencion-fuente-ingreso/components/add-edit-extencion-fuente-ingreso/add-edit-extencion-fuente-ingreso.component';
 import { ModalExtencionProductoComponent } from './extencion-fuente-ingreso/components/add-edit-extencion-fuente-ingreso/modal-extencion-producto/modal-extencion-producto.component';
 import { LocalidadSetDialogComponent } from './localidad/components/add-edit-localidad-dialog/localidad-set-posicion-dialog/localidad-set-posicion-dialog.component';
+// 33 - TAMBOS
+import { AddEditTamboDialogComponent } from './tambo/components/add-edit-tambo-dialog/add-edit-tambo-dialog.component';
+import { TamboComponent } from './tambo/tambo.component';
+import { TamboDashboardComponent } from './tambo/components/tambo-dashboard/tambo-dashboard.component';
+import { TamboFilterComponent } from './tambo/components/tambo-filter/tambo-filter.component';
+import { TamboSetEntidadDialogComponent } from './tambo/components/tambo-set-posicion-dialog/tambo-set-entidad-dialog.component';
 
 @NgModule({
   declarations: [
@@ -252,6 +258,12 @@ import { LocalidadSetDialogComponent } from './localidad/components/add-edit-loc
     ExtencionFuenteIngresoFilterComponent,
     AddEditExtencionFuenteIngresoComponent,
     ModalExtencionProductoComponent,
+    // 33 - TAMBOS
+    AddEditTamboDialogComponent,
+    TamboComponent,
+    TamboDashboardComponent,
+    TamboFilterComponent,
+    TamboSetEntidadDialogComponent,
   ],
   imports: [
     CommonModule,

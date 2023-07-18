@@ -3,6 +3,10 @@
   background-color: #fff;
 }
 
+h2 {
+  margin-bottom: 0rem;
+}
+
 .dialog-content {
   width: 650px;
   min-height: 398px;
@@ -26,11 +30,6 @@ tr.mat-row {
   height: 2.7rem;
 }
 
-::ng-deep .mat-paginator-container {
-  min-height: 3rem !important;
-  max-height: 3rem !important;
-}
-
 .btn {
   width: 100%;
   max-width: 130px;
@@ -39,34 +38,37 @@ tr.mat-row {
 /*
  * Texto alineado a la izquierda.
 */
-.mat-column-descripcion.mat-header-cell,
-.mat-column-descripcion.mat-cell {
+.mat-column-tambo.mat-header-cell,
+.mat-column-tambo.mat-cell {
   text-align: left !important;
-  padding-left: 1vw;
+  padding-left: 2vw;
   word-break: break-all;
 }
 
 /*
  * Número y fecha alineado a la derecha.
 */
-.mat-column-codigo_posicion.mat-header-cell,
-.mat-column-codigo_posicion.mat-cell {
+.mat-column-canal.mat-header-cell,
+.mat-column-canal.mat-cell,
+.mat-column-nro_asesor.mat-header-cell,
+.mat-column-nro_asesor.mat-cell {
   text-align: right !important;
-  padding-right: 1vw;
+  padding-right: 2vw;
 }
 
 /*
  * Tamaño de columnas.
 */
-.mat-column-codigo_posicion.mat-header-cell,
-.mat-column-codigo_posicion.mat-cell {
-  min-width: 60px;
-  width: 20%;
+.mat-column-canal.mat-header-cell,
+.mat-column-canal.mat-cell,
+.mat-column-nro_asesor.mat-header-cell,
+.mat-column-nro_asesor.mat-cell {
+  min-width: 100px;
 }
 
-.mat-column-descripcion.mat-header-cell,
-.mat-column-descripcion.mat-cell {
-  min-width: 110px;
+.mat-column-tambo.mat-header-cell,
+.mat-column-tambo.mat-cell {
+  min-width: 200px;
   width: 80%;
 }
 

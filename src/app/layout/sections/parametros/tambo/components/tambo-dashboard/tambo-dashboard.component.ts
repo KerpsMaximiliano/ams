@@ -10,35 +10,31 @@ import {
 } from '@angular/core';
 
 // * Interfaces
-import { ILocalidad } from 'src/app/core/models/localidad.interface';
+import { ITambo } from 'src/app/core/models/tambo.interface';
 
 // * Material
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 
 @Component({
-  selector: 'app-localidad-dashboard',
-  templateUrl: './localidad-dashboard.component.html',
-  styleUrls: ['./localidad-dashboard.component.scss'],
+  selector: 'app-tambo-dashboard',
+  templateUrl: './tambo-dashboard.component.html',
+  styleUrls: ['./tambo-dashboard.component.scss'],
 })
-export class LocalidadDashboardComponent implements OnInit, OnChanges {
+export class TamboDashboardComponent implements OnInit, OnChanges {
   public displayedColumns: string[] = [
-    'codigo_postal',
-    'sub_codigo_postal',
-    'descripcion',
-    'desc_position',
-    'cant_habitantes',
+    'id_tambos',
+    'razon_social',
+    'estado',
     'actions',
   ];
-  public dataSource: MatTableDataSource<ILocalidad>;
+  public dataSource: MatTableDataSource<ITambo>;
 
   @ViewChild(MatPaginator, { static: true }) public paginator!: MatPaginator;
 
-  @Input() public receivedData: ILocalidad[] = [];
-  @Output() public viewEvent: EventEmitter<ILocalidad> =
-    new EventEmitter<ILocalidad>();
-  @Output() public editEvent: EventEmitter<ILocalidad> =
-    new EventEmitter<ILocalidad>();
+  @Input() public receivedData: ITambo[] = [];
+  @Output() public viewEvent: EventEmitter<ITambo> = new EventEmitter<ITambo>();
+  @Output() public editEvent: EventEmitter<ITambo> = new EventEmitter<ITambo>();
 
   constructor(private matPaginatorIntl: MatPaginatorIntl) {}
 
@@ -48,16 +44,16 @@ export class LocalidadDashboardComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['receivedData'] && !changes['receivedData'].firstChange) {
-      this.dataSource = new MatTableDataSource<ILocalidad>(this.receivedData);
+      this.dataSource = new MatTableDataSource<ITambo>(this.receivedData);
       this.dataSource.paginator = this.paginator;
     }
   }
 
-  public view(element: ILocalidad): void {
+  public view(element: ITambo): void {
     this.viewEvent.emit(element);
   }
 
-  public edit(element: ILocalidad): void {
+  public edit(element: ITambo): void {
     this.editEvent.emit(element);
   }
 

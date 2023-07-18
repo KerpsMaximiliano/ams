@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 
 // * Interfaces
-import { IFuenteIngreso } from 'src/app/core/models/fuente-ingreso.interface';
+import { IEntidad } from 'src/app/core/models/entidad.interface';
 
 // * Material
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -12,20 +12,21 @@ import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
-  selector: 'app-localidad-set-posicion-dialog',
-  templateUrl: './localidad-set-posicion-dialog.component.html',
-  styleUrls: ['./localidad-set-posicion-dialog.component.scss'],
+  selector: 'app-tambo-set-entidad-dialog',
+  templateUrl: './tambo-set-entidad-dialog.component.html',
+  styleUrls: ['./tambo-set-entidad-dialog.component.scss'],
 })
-export class LocalidadSetDialogComponent implements OnInit {
-  @ViewChild(MatPaginator, { static: true }) public paginator!: MatPaginator;
+export class TamboSetEntidadDialogComponent implements OnInit {
   public displayedColumns: string[] = [
-    'codigo_posicion',
-    'descripcion',
+    'canal',
+    'nro_asesor',
+    'tambo',
     'actions',
   ];
-  public dataSource: MatTableDataSource<IFuenteIngreso>;
-  public fuentesIngreso: IFuenteIngreso[];
-  public showGuardarButton: any;
+  public dataSource: MatTableDataSource<IEntidad>;
+  public entidad: IEntidad;
+
+  @ViewChild(MatPaginator, { static: true }) public paginator!: MatPaginator;
 
   constructor(
     private matPaginatorIntl: MatPaginatorIntl,
@@ -35,21 +36,31 @@ export class LocalidadSetDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.configurePaginator();
-    this.dataSource = new MatTableDataSource<IFuenteIngreso>(this.data.data);
+    this.dataSource = new MatTableDataSource<IEntidad>(this.data.data);
     this.dataSource.paginator = this.paginator;
-
   }
 
-  public applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
-  
   public confirm(): void {
     this.dialogRef.close({
-      posicion_referente: this.showGuardarButton.codigo_posicion,
-      descripcion: this.showGuardarButton.descripcion ? this.showGuardarButton.descripcion.trim() : '',
+      nro_asesor: this.entidad?.nro_asesor ? this.entidad?.nro_asesor : 0,
+      canal: this.entidad?.canal ? this.entidad?.canal : 0,
+      tipo_asesor: this.entidad?.tipo_asesor ? this.entidad?.tipo_asesor : '',
+      id_empresa_persona: this.entidad?.id_empresa_persona
+        ? this.entidad?.id_empresa_persona
+        : 0,
+      desc_empresa: this.entidad?.desc_empresa
+        ? this.entidad?.desc_empresa
+        : '',
+      nombre_per: this.entidad?.nombre_per ? this.entidad?.nombre_per : '',
+      apellido_Per: this.entidad?.apellido_Per
+        ? this.entidad?.apellido_Per
+        : '',
     });
+  }
+
+  public applyFilter(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   private configurePaginator(): void {
@@ -70,4 +81,3 @@ export class LocalidadSetDialogComponent implements OnInit {
     };
   }
 }
-

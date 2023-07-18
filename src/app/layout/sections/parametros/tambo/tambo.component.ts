@@ -13,7 +13,7 @@ import { ITambo } from 'src/app/core/models/tambo.interface';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 // * Components
-import { AddEditLocalidadDialogComponent } from './components/add-edit-tambo-dialog/add-edit-tambo-dialog.component';
+import { AddEditTamboDialogComponent } from './components/add-edit-tambo-dialog/add-edit-tambo-dialog.component';
 
 @Component({
   selector: 'app-tambo',
@@ -106,8 +106,8 @@ export class TamboComponent implements OnDestroy {
     par_modo: string,
     edit: boolean,
     data?: ITambo
-  ): MatDialogRef<AddEditLocalidadDialogComponent, any> {
-    return this.dialog.open(AddEditLocalidadDialogComponent, {
+  ): MatDialogRef<AddEditTamboDialogComponent, any> {
+    return this.dialog.open(AddEditTamboDialogComponent, {
       data: {
         title: title,
         edit: edit,
