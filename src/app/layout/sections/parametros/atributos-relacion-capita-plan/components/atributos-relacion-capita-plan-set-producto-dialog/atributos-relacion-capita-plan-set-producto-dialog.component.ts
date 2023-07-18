@@ -9,21 +9,28 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 
 // * Components
-import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent } from '../../../../components/confirm-dialog/confirm-dialog.component';
 
 @Component({
-  selector: 'app-set-motivo-dialog',
-  templateUrl: './set-motivo-dialog.component.html',
-  styleUrls: ['./set-motivo-dialog.component.scss'],
+  selector: 'app-atributos-relacion-capita-plan-set-producto-dialog',
+  templateUrl:
+    './atributos-relacion-capita-plan-set-producto-dialog.component.html',
+  styleUrls: [
+    './atributos-relacion-capita-plan-set-producto-dialog.component.scss',
+  ],
 })
-export class SetMotivoDialogComponent implements OnInit {
+export class AtributosRelacionCapitaPlanSetProductoDialogComponent
+  implements OnInit
+{
   public displayedColumns: string[] = [
-    'id_motivo',
-    'descripcion',
+    'producto_administrador',
+    'descripcion_producto_administrador',
+    'codigo_producto',
+    'descripcion_producto',
     'actions',
   ];
   public dataSource: MatTableDataSource<IProducto>;
-  public motivoMovimiento: any;
+  public producto: any;
 
   @ViewChild(MatPaginator, { static: true }) public paginator!: MatPaginator;
 
@@ -41,9 +48,19 @@ export class SetMotivoDialogComponent implements OnInit {
 
   public confirm(): void {
     this.dialogRef.close({
-      codigo_motivo: this.motivoMovimiento.id_motivo,
-      tipo_motivo: this.motivoMovimiento.tipo_motivo,
-      descripcion: this.motivoMovimiento.descripcion,
+      producto_administrador: this.producto.producto_administrador
+        ? this.producto.producto_administrador
+        : 0,
+      descripcion_producto_administrador: this.producto
+        .descripcion_producto_administrador
+        ? this.producto.descripcion_producto_administrador
+        : '',
+      codigo_producto: this.producto.codigo_producto
+        ? this.producto.codigo_producto
+        : 0,
+      descripcion_producto: this.producto.descripcion_producto
+        ? this.producto.descripcion_producto
+        : '',
     });
   }
 

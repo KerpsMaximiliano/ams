@@ -18,6 +18,8 @@ export class ProductoFilterComponent {
   @Output() public search: EventEmitter<string> = new EventEmitter<string>();
 
   @Input() public empresaFactura: IEmpresaFactura[];
+  @Input() public isLoading: boolean;
+  @Input() public isLoadingError: boolean;
 
   @ViewChild('select') public select: any;
 

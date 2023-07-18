@@ -36,6 +36,12 @@ export interface IFuenteIngreso {
   liquidacion_mensual: string;
   condicion_venta_venc: number;
   condicion_venta_dos_venc: number;
+  desc_empresa: null;
+  es_admin: null;
+  es_subord: null;
+  es_mixta: null;
+  id_excluido: null;
+  descripcion_fuente_adm_mixta: string;
 }
 
 export type IFuenteIngresoResponse = IResponse<IFuenteIngreso[]>;

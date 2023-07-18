@@ -143,10 +143,16 @@
           <h3> EMPRESA QUE FACTURA </h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
             <mat-select formControlName="numero_empresa_factura" required minlength="1" maxlength="8"
+              [placeholder]="uploaded ? 'Seleccione una empresa.' : 'No se han podido cargar las empresas.'"
               [disabled]="!data.empresaFactura" disableOptionCentering>
-              <mat-option *ngFor="let empresa of data.empresaFactura" [value]="empresa.id_empresa">
-                {{ empresa.descripcion ? empresa.descripcion.trim() : '' }}
+              <mat-option [value]="data.numero_empresa_factura" *ngIf="data.par_modo !== 'C'; else load">
+                {{ data.descripcion_empresa }}
               </mat-option>
+              <ng-template #load>
+                <mat-option *ngFor="let empresa of data.empresaFactura" [value]="empresa.id_empresa">
+                  {{ empresa.descripcion ? empresa.descripcion.trim() : '' }}
+                </mat-option>
+              </ng-template>
             </mat-select>
             <mat-error
               *ngIf="formGroup.get('numero_empresa_factura')?.invalid && formGroup.get('numero_empresa_factura')?.touched">

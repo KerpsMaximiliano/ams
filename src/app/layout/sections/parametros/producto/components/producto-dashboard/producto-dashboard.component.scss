@@ -80,13 +80,14 @@ td.mat-cell:first-of-type {
 .detailExpand-list {
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: minmax(100px, 0.6fr) 1.1fr 1.1fr 1.1fr 1.1fr;
   justify-content: center;
   align-items: center;
   height: 40px;
   gap: 1vw;
   padding: 0rem 3vw;
   background-color: #dddddd;
+  word-break: break-all;
 }
 
 .detailExpand-container {

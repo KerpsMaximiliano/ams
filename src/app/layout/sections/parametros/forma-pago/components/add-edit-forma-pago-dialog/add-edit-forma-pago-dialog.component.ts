@@ -46,6 +46,7 @@ export class AddEditFormaPagoDialogComponent {
   ) {
     this.setUpForm();
     this.configureValidators();
+    console.log(this.data);
   }
 
   public nextStep(): void {
@@ -72,7 +73,9 @@ export class AddEditFormaPagoDialogComponent {
         forma_pago: this.formGroup.get('forma_pago')?.value,
         description: this.formGroup.get('description')?.value,
         nombre_tarjeta_nemot: this.formGroup.get('nombre_tarjeta_nemot')?.value,
-        codigo_banco: this.formGroup.get('codigo_banco')?.value,
+        codigo_banco: this.formGroup.get('codigo_banco')?.value
+          ? this.formGroup.get('codigo_banco')?.value
+          : 0,
         trabaja_archivos: this.formGroup.get('trabaja_archivos')?.value,
         trabaja_rechazos: this.formGroup.get('trabaja_rechazos')?.value,
         solicita_datos_ad: this.formGroup.get('solicita_datos_ad')?.value,

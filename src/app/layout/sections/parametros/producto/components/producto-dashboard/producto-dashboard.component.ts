@@ -71,6 +71,7 @@ export class ProductoDashboardComponent implements OnInit, OnChanges {
     if (changes['receivedData'] && !changes['receivedData'].firstChange) {
       this.dataSource = new MatTableDataSource<IProducto>(this.receivedData);
       this.dataSource.paginator = this.paginator;
+      console.log(this.receivedData);
     }
   }
 
