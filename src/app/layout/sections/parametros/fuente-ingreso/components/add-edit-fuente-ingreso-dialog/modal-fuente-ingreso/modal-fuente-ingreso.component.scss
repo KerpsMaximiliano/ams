@@ -1,6 +1,9 @@
 /* Corrección tamaño modal */
 ::ng-deep .mat-dialog-container {
+  padding: 1rem;
   background-color: #fff;
+  height: 100%;
+  width: 100%;
 }
 
 .dialog-content {
@@ -30,6 +33,11 @@ tr.mat-header-row {
 
 tr.mat-row {
   height: 2.7rem;
+}
+
+::ng-deep .mat-paginator-container {
+  min-height: 3rem !important;
+  max-height: 3rem !important;
 }
 
 .btn {

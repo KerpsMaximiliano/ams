@@ -47,9 +47,16 @@
         </tr>
       </table>
 
-      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+      <mat-paginator
+        [pageSizeOptions]="[5, 10, 25, 100]"
+        aria-label="Select page of users"
+      ></mat-paginator>
       <div class="container-button">
-        <button class="primary-button icon-button" (click)="selected()" [disabled]="!selectedItem">
+        <button
+          class="primary-button icon-button"
+          (click)="selected()"
+          [disabled]="!selectedItem"
+        >
           Seleccionar
         </button>
       </div>
