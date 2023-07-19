@@ -3,8 +3,11 @@ import { Router } from '@angular/router';
 
 // * Forms
 import {
+  AbstractControl,
+  FormControl,
   UntypedFormControl,
   UntypedFormGroup,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
 
@@ -46,6 +49,7 @@ export class AddEditEmpresaFacturaComponent {
   public listaModo: IEmpresaFactura;
   public activeTabIndex = 0;
   public icon: string;
+  public errorFecha: boolean = false;
 
   constructor(
     public dialogRef: MatDialogRef<ConfirmDialogComponent>,
@@ -68,6 +72,7 @@ export class AddEditEmpresaFacturaComponent {
       }
       this.formGroup.get('id_empresa')?.disable();
     }
+    this.configureValidators();
   }
 
   // * carga de la lista
@@ -173,7 +178,7 @@ export class AddEditEmpresaFacturaComponent {
         ])
       ),
       fecha_vto_cuit: new UntypedFormControl(
-        this.data.fecha_vto_cuit ? this.data.fecha_vto_cuit : 0,
+        this.data.fecha_vto_cuit ? this.data.fecha_vto_cuit : '00000000',
         Validators.compose([
           Validators.required,
           Validators.maxLength(8),
@@ -298,7 +303,8 @@ export class AddEditEmpresaFacturaComponent {
     this.empresaFacturaService.setBack(false);
     this.router.navigate([url]);
   }
-  // * limpia los datos de las localidad
+  
+  // * busca los datos de las localidad
   public searchLocalidad(): void {
     const modalSetLocalidad = this.dialog.open(ModalLocalidadComponent, {
       data: {
@@ -320,11 +326,49 @@ export class AddEditEmpresaFacturaComponent {
       },
     });
   }
-
+  // * limpa los datos de localidad
   public clear(): void {
     this.formGroup.get('localidad')?.setValue('');
     this.formGroup.get('codigo_postal')?.setValue('');
     this.formGroup.get('sub_codigo_postal')?.setValue('');
+  }
+
+  configureValidators() {
+    const fechaVtoCuitControl = this.formGroup.get(
+      'fecha_vto_cuit'
+    ) as UntypedFormControl;
+    fechaVtoCuitControl.setValidators(this.ValidacionFecha());
+    fechaVtoCuitControl.updateValueAndValidity();
+  }
+
+  ValidacionFecha(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const strDate1: string = this.formGroup.get('fecha_vto_cuit')?.value;
+      const strDate2: string = this.formatDate(new Date()).toString();
+
+      const year1: number = Number(strDate1.slice(0, 4));
+      const month1: number = Number(strDate1.slice(4, 6));
+      const day1: number = Number(strDate1.slice(6, 8));
+
+      const year2: number = Number(strDate2.slice(0, 4));
+      const month2: number = Number(strDate2.slice(4, 6));
+      const day2: number = Number(strDate2.slice(6, 8));
+      if (
+        year1 < year2 ||
+        (year1 === year2 && month1 < month2) ||
+        (year1 === year2 && month1 === month2 && day1 < day2)
+      ) {
+        return { errorFecha: 'Error al ingresar la fecha' };
+      }
+      return null;
+    };
+  }
+
+  private formatDate(date: Date): number {
+    const year = date.getFullYear();
+    const month = ('0' + (date.getMonth() + 1)).slice(-2);
+    const day = ('0' + date.getDate()).slice(-2);
+    return Number(`${year}${month}${day}`);
   }
 
   public closeDialog(): void {

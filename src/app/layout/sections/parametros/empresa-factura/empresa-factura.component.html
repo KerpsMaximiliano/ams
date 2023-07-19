@@ -8,13 +8,8 @@
   </div>
 
   <div class="section-content">
-    <app-empresa-factura-filter
-      (search)="getEmpresaFactura($event)"
-    ></app-empresa-factura-filter>
-    <app-empresa-factura-dashboard
-      [receivedData]="dataSent"
-      (viewEvent)="view($event)"
-      (editEvent)="edit($event)"
-    ></app-empresa-factura-dashboard>
+    <app-empresa-factura-filter (search)="getEmpresaFactura($event)"></app-empresa-factura-filter>
+    <app-empresa-factura-dashboard [receivedData]="dataSent" (viewEvent)="view($event)"
+      (editEvent)="edit($event)"></app-empresa-factura-dashboard>
   </div>
 </section>

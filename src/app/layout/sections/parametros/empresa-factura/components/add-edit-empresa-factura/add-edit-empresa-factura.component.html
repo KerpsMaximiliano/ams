@@ -4,27 +4,16 @@
 
 <div class="dialog-content">
   <form class="form-datos" [formGroup]="formGroup">
-    <mat-tab-group
-      [selectedIndex]="activeTabIndex"
-      (selectedTabChange)="tabChanged($event)"
-      mat-stretch-tabs
-    >
+    <mat-tab-group [selectedIndex]="activeTabIndex" (selectedTabChange)="tabChanged($event)" mat-stretch-tabs>
       <mat-tab>
         <div class="seeker-fields-container">
           <h3>EMPRESA</h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
-            <input
-              matInput
-              formControlName="descripcion"
-              required
-              [readonly]="!data.edit"
-            />
-            <mat-error
-              *ngIf="
+            <input matInput formControlName="descripcion" required [readonly]="!data.edit" />
+            <mat-error *ngIf="
                 formGroup.get('descripcion')?.invalid &&
                 formGroup.get('descripcion')?.touched
-              "
-            >
+              ">
               {{ getErrorMessage(formGroup.get("descripcion")) }}
             </mat-error>
           </mat-form-field>
@@ -33,18 +22,11 @@
         <div class="seeker-fields-container">
           <h3>CALLE</h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
-            <input
-              matInput
-              formControlName="calle"
-              required
-              [readonly]="!data.edit"
-            />
-            <mat-error
-              *ngIf="
+            <input matInput formControlName="calle" required [readonly]="!data.edit" />
+            <mat-error *ngIf="
                 formGroup.get('calle')?.invalid &&
                 formGroup.get('calle')?.touched
-              "
-            >
+              ">
               {{ getErrorMessage(formGroup.get("calle")) }}
             </mat-error>
           </mat-form-field>
@@ -53,18 +35,11 @@
         <div class="seeker-fields-container">
           <h3>NUMERO PUERTA</h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
-            <input
-              matInput
-              formControlName="nro_puerta"
-              required
-              [readonly]="!data.edit"
-            />
-            <mat-error
-              *ngIf="
+            <input matInput formControlName="nro_puerta" required [readonly]="!data.edit" />
+            <mat-error *ngIf="
                 formGroup.get('nro_puerta')?.invalid &&
                 formGroup.get('nro_puerta')?.touched
-              "
-            >
+              ">
               {{ getErrorMessage(formGroup.get("nro_puerta")) }}
             </mat-error>
           </mat-form-field>
@@ -73,17 +48,10 @@
         <div class="seeker-fields-container">
           <h3>PISO</h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
-            <input
-              matInput
-              formControlName="piso"
-              required
-              [readonly]="!data.edit"
-            />
-            <mat-error
-              *ngIf="
+            <input matInput formControlName="piso" required [readonly]="!data.edit" />
+            <mat-error *ngIf="
                 formGroup.get('piso')?.invalid && formGroup.get('piso')?.touched
-              "
-            >
+              ">
               {{ getErrorMessage(formGroup.get("piso")) }}
             </mat-error>
           </mat-form-field>
@@ -92,18 +60,11 @@
         <div class="seeker-fields-container">
           <h3>DEPARTAMENTO</h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
-            <input
-              matInput
-              formControlName="departamento"
-              required
-              [readonly]="!data.edit"
-            />
-            <mat-error
-              *ngIf="
+            <input matInput formControlName="departamento" required [readonly]="!data.edit" />
+            <mat-error *ngIf="
                 formGroup.get('departamento')?.invalid &&
                 formGroup.get('departamento')?.touched
-              "
-            >
+              ">
               {{ getErrorMessage(formGroup.get("departamento")) }}
             </mat-error>
           </mat-form-field>
@@ -114,20 +75,11 @@
           <h3>LOCALIDAD</h3>
           <div class="content">
             <mat-form-field class="seeker-form-field" appearance="outline">
-              <input
-                matInput
-                formControlName="localidad"
-                required
-                minlength="3"
-                maxlength="30"
-                readonly
-              />
-              <mat-error
-                *ngIf="
+              <input matInput formControlName="localidad" required minlength="3" maxlength="30" readonly />
+              <mat-error *ngIf="
                   formGroup.get('localidad')?.invalid &&
                   formGroup.get('localidad')?.touched
-                "
-              >
+                ">
                 {{ getErrorMessage(formGroup.get("localidad")) }}
               </mat-error>
             </mat-form-field>
@@ -135,14 +87,11 @@
               <div (click)="searchLocalidad()" class="icon">
                 <mat-icon class="material-symbols-outlined"> search </mat-icon>
               </div>
-              <div
-                (click)="clear()"
-                [class]="
+              <div (click)="clear()" [class]="
                   formGroup.get('localidad')?.value
                     ? 'icon'
                     : 'icon disabled fix'
-                "
-              >
+                ">
                 <mat-icon class="material-symbols-outlined"> close </mat-icon>
               </div>
             </ng-container>
@@ -152,18 +101,11 @@
         <div class="seeker-fields-container">
           <h3>TELEFONO</h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
-            <input
-              matInput
-              formControlName="nro_tel"
-              required
-              [readonly]="!data.edit"
-            />
-            <mat-error
-              *ngIf="
+            <input matInput formControlName="nro_tel" required [readonly]="!data.edit" />
+            <mat-error *ngIf="
                 formGroup.get('nro_tel')?.invalid &&
                 formGroup.get('nro_tel')?.touched
-              "
-            >
+              ">
               {{ getErrorMessage(formGroup.get("nro_tel")) }}
             </mat-error>
           </mat-form-field>
@@ -172,18 +114,11 @@
         <div class="seeker-fields-container">
           <h3>NUMERO DE FAX</h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
-            <input
-              matInput
-              formControlName="nro_fax"
-              required
-              [readonly]="!data.edit"
-            />
-            <mat-error
-              *ngIf="
+            <input matInput formControlName="nro_fax" required [readonly]="!data.edit" />
+            <mat-error *ngIf="
                 formGroup.get('nro_fax')?.invalid &&
                 formGroup.get('nro_fax')?.touched
-              "
-            >
+              ">
               {{ getErrorMessage(formGroup.get("nro_fax")) }}
             </mat-error>
           </mat-form-field>
@@ -192,18 +127,11 @@
         <div class="seeker-fields-container">
           <h3>CORREO ELECTRONICO</h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
-            <input
-              matInput
-              formControlName="email"
-              required
-              [readonly]="!data.edit"
-            />
-            <mat-error
-              *ngIf="
+            <input matInput formControlName="email" required [readonly]="!data.edit" />
+            <mat-error *ngIf="
                 formGroup.get('email')?.invalid &&
                 formGroup.get('email')?.touched
-              "
-            >
+              ">
               {{ getErrorMessage(formGroup.get("email")) }}
             </mat-error>
           </mat-form-field>
@@ -213,18 +141,11 @@
         <div class="seeker-fields-container">
           <h3>CODIGO IVA</h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
-            <input
-              matInput
-              formControlName="codigo_iva"
-              required
-              [readonly]="!data.edit"
-            />
-            <mat-error
-              *ngIf="
+            <input matInput formControlName="codigo_iva" required [readonly]="!data.edit" />
+            <mat-error *ngIf="
                 formGroup.get('codigo_iva')?.invalid &&
                 formGroup.get('codigo_iva')?.touched
-              "
-            >
+              ">
               {{ getErrorMessage(formGroup.get("codigo_iva")) }}
             </mat-error>
           </mat-form-field>
@@ -232,17 +153,10 @@
         <div class="seeker-fields-container">
           <h3>CUIT</h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
-            <input
-              matInput
-              formControlName="cuit"
-              required
-              [readonly]="!data.edit"
-            />
-            <mat-error
-              *ngIf="
+            <input matInput formControlName="cuit" required [readonly]="!data.edit" />
+            <mat-error *ngIf="
                 formGroup.get('cuit')?.invalid && formGroup.get('cuit')?.touched
-              "
-            >
+              ">
               {{ getErrorMessage(formGroup.get("cuit")) }}
             </mat-error>
           </mat-form-field>
@@ -250,18 +164,15 @@
         <div class="seeker-fields-container">
           <h3>FECHA VENCIMIENTO CUIT</h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
-            <input
-              matInput
-              formControlName="fecha_vto_cuit"
-              required
-              [readonly]="!data.edit"
-            />
+            <input matInput formControlName="fecha_vto_cuit" required [readonly]="!data.edit" />
             <mat-error
-              *ngIf="
+              *ngIf="formGroup.get('fecha_vto_cuit')?.errors?.['errorFecha'] && formGroup.get('fecha_vto_cuit')?.value != ''">
+              {{ formGroup.get('fecha_vto_cuit')?.errors?.['errorFecha'] }}
+            </mat-error>
+            <mat-error *ngIf="
                 formGroup.get('fecha_vto_cuit')?.invalid &&
                 formGroup.get('fecha_vto_cuit')?.touched
-              "
-            >
+              ">
               {{ getErrorMessage(formGroup.get("fecha_vto_cuit")) }}
             </mat-error>
           </mat-form-field>
@@ -269,18 +180,11 @@
         <div class="seeker-fields-container">
           <h3>CUENTA BANCO AMS</h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
-            <input
-              matInput
-              formControlName="cta_banco_ams"
-              required
-              [readonly]="!data.edit"
-            />
-            <mat-error
-              *ngIf="
+            <input matInput formControlName="cta_banco_ams" required [readonly]="!data.edit" />
+            <mat-error *ngIf="
                 formGroup.get('cta_banco_ams')?.invalid &&
                 formGroup.get('cta_banco_ams')?.touched
-              "
-            >
+              ">
               {{ getErrorMessage(formGroup.get("cta_banco_ams")) }}
             </mat-error>
           </mat-form-field>
@@ -294,12 +198,10 @@
               <mat-option [value]="'R'"> Resumen </mat-option>
               <mat-option [value]="'F'"> Factura </mat-option>
             </mat-select>
-            <mat-error
-              *ngIf="
+            <mat-error *ngIf="
                 formGroup.get('comprobante_generar')?.invalid &&
                 formGroup.get('comprobante_generar')?.touched
-              "
-            >
+              ">
               {{ getErrorMessage(formGroup.get("comprobante_generar")) }}
             </mat-error>
           </mat-form-field>
@@ -312,12 +214,10 @@
               <mat-option [value]="'S'"> SI </mat-option>
               <mat-option [value]="'N'"> NO </mat-option>
             </mat-select>
-            <mat-error
-              *ngIf="
+            <mat-error *ngIf="
                 formGroup.get('trabaja_ref_cont')?.invalid &&
                 formGroup.get('trabaja_ref_cont')?.touched
-              "
-            >
+              ">
               {{ getErrorMessage(formGroup.get("trabaja_ref_cont")) }}
             </mat-error>
           </mat-form-field>
@@ -330,12 +230,10 @@
               <mat-option [value]="'S'"> SI </mat-option>
               <mat-option [value]="'N'"> NO </mat-option>
             </mat-select>
-            <mat-error
-              *ngIf="
+            <mat-error *ngIf="
                 formGroup.get('fact_cr_elec')?.invalid &&
                 formGroup.get('fact_cr_elec')?.touched
-              "
-            >
+              ">
               {{ getErrorMessage(formGroup.get("fact_cr_elec")) }}
             </mat-error>
           </mat-form-field>
@@ -349,49 +247,43 @@
               <mat-option [value]="'V'"> VENCIDO </mat-option>
               <mat-option [value]="'W'"> VENCIDO 2 M </mat-option>
             </mat-select>
-            <mat-error
-              *ngIf="
+            <mat-error *ngIf="
                 formGroup.get('modo')?.invalid && formGroup.get('modo')?.touched
-              "
-            >
+              ">
               {{ getErrorMessage(formGroup.get("modo")) }}
             </mat-error>
           </mat-form-field>
         </div>
       </mat-tab>
     </mat-tab-group>
+    <div *ngIf="data.par_modo == 'U'" class="buttons-container">
+      <button (click)="redirectTo('parametros/')" class="primary-button icon-button" type="submit" mat-dialog-close>
+        <mat-icon> open_in_new_down </mat-icon>
+        Datos Comercio
+      </button>
+      <button (click)="redirectTo('parametros/')" class="primary-button icon-button" type="submit" mat-dialog-close>
+        <mat-icon> open_in_new_down </mat-icon>
+        Pagos Link
+      </button>
+    </div>
     <div *ngIf="data.edit; else other_content" class="buttons-container">
       <button class="primary-button icon-button" type="button" mat-dialog-close>
         <mat-icon>close</mat-icon>
         Cancelar
       </button>
-      <button
-        class="primary-button icon-button"
-        type="button"
-        [disabled]="activeTabIndex === 0"
-        (click)="prevStep()"
-      >
+      <button class="primary-button icon-button" type="button" [disabled]="activeTabIndex === 0" (click)="prevStep()">
         <mat-icon>close</mat-icon>
         Anterior
       </button>
-      <button
-        class="primary-button icon-button"
-        type="button"
-        [disabled]="activeTabIndex === 3"
-        (click)="nextStep()"
-      >
+      <button class="primary-button icon-button" type="button" [disabled]="activeTabIndex === 3" (click)="nextStep()">
         <mat-icon>close</mat-icon>
         Siguiente
       </button>
-      <button
-        [class]="
+      <button [class]="
           formGroup.invalid
             ? 'primary-button icon-button disabled'
             : 'primary-button icon-button'
-        "
-        type="submit"
-        (click)="confirm()"
-      >
+        " type="submit" (click)="confirm()">
         <mat-icon> done </mat-icon>
         Guardar
       </button>
@@ -403,41 +295,15 @@
           <mat-icon> done </mat-icon>
           Aceptar
         </button>
-        <button
-          class="primary-button icon-button"
-          type="button"
-          [disabled]="activeTabIndex === 0"
-          (click)="prevStep()"
-        >
+        <button class="primary-button icon-button" type="button" [disabled]="activeTabIndex === 0" (click)="prevStep()">
           <mat-icon>close</mat-icon>
           Anterior
         </button>
-        <button
-          class="primary-button icon-button"
-          type="button"
-          [disabled]="activeTabIndex === 3"
-          (click)="nextStep()"
-        >
+        <button class="primary-button icon-button" type="button" [disabled]="activeTabIndex === 3" (click)="nextStep()">
           <mat-icon>close</mat-icon>
           Siguiente
         </button>
       </div>
     </ng-template>
-    <div *ngIf="data.par_modo == 'U'" class="buttons-container">
-      <button
-        (click)="redirectTo('parametros/')"
-        class="primary-button icon-button"
-        type="button"
-      >
-        Datos Comercio
-      </button>
-      <button
-        (click)="redirectTo('parametros/')"
-        class="primary-button icon-button"
-        type="button"
-      >
-        Pagos Link
-      </button>
-    </div>
   </form>
 </div>
