@@ -179,20 +179,25 @@ export class AddEditExtencionFuenteIngresoComponent {
     const ModalNuevoProductoComponent = this.dialog.open(
       ModalExtencionProductoComponent,
       {
-        data: {},
+        data: {
+          title: 'SELECCIONE UN PRODUCTO',
+          data: {},
+        },
       }
     );
     ModalNuevoProductoComponent.afterClosed().subscribe({
       next: (res: any) => {
         if (res) {
-          if (this.formGroup.get('producto')?.enabled){
+          if (this.formGroup.get('producto')?.enabled) {
             this.formGroup.get('producto')?.setValue(res.codigo_producto);
             this.formGroup
               .get('producto_des')
               ?.setValue(res.descripcion_producto);
-          }
-          else {
-            this._utils.notification('No se puede cambiar el producto', 'error')
+          } else {
+            this._utils.notification(
+              'No se puede cambiar el producto',
+              'error'
+            );
           }
         }
       },
