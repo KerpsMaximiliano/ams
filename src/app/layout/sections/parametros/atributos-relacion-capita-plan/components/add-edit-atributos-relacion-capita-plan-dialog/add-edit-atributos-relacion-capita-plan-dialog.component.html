@@ -65,8 +65,7 @@
             </div>
             <div
               [class]="formGroup.get('descripcion_producto')?.value && formGroup.get('descripcion_fuente_adm_mixta')?.value  ? 'icon' : 'icon disabled fix'"
-              (click)="clear(descripcionProducto, 'descripcion_producto', descripcionSubproducto,
-            'descripcion_subproducto')">
+              (click)="clearProducto()">
               <mat-icon class="material-symbols-outlined"> close </mat-icon>
             </div>
           </div>
@@ -89,7 +88,7 @@
                 [class]="formGroup.get('descripcion_producto')?.value ? 'icon' : 'icon disabled fix'">
                 <mat-icon class="material-symbols-outlined"> search </mat-icon>
               </div>
-              <div (click)="clear(descripcionPlan, 'descripcion_plan')"
+              <div (click)="clearPlan()"
                 [class]="formGroup.get('descripcion_plan')?.value ? 'icon' : 'icon disabled fix'">
                 <mat-icon class="material-symbols-outlined"> close </mat-icon>
               </div>
@@ -197,21 +196,19 @@
         <div class="seeker-fields-container mt-1">
           <h3> RECUPERA A OBRA SOCIAL </h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
-            <mat-select formControlName="calcula_comision_SN" required minlength="1" maxlength="1"
-              disableOptionCentering>
-              <mat-option [value]="2">
+            <mat-select formControlName="recupera_Ob_Soc" required minlength="1" maxlength="1" disableOptionCentering>
+              <mat-option [value]="'2'">
                 2
               </mat-option>
-              <mat-option [value]="9">
+              <mat-option [value]="'9'">
                 9
               </mat-option>
               <mat-option [value]="'S'">
                 S
               </mat-option>
             </mat-select>
-            <mat-error
-              *ngIf="formGroup.get('calcula_comision_SN')?.invalid && formGroup.get('calcula_comision_SN')?.touched">
-              {{ getErrorMessage(formGroup.get('calcula_comision_SN')) }}
+            <mat-error *ngIf="formGroup.get('recupera_Ob_Soc')?.invalid && formGroup.get('recupera_Ob_Soc')?.touched">
+              {{ getErrorMessage(formGroup.get('recupera_Ob_Soc')) }}
             </mat-error>
           </mat-form-field>
         </div>
@@ -433,6 +430,4 @@
       </div>
     </ng-template>
   </form>
-
-
 </div>

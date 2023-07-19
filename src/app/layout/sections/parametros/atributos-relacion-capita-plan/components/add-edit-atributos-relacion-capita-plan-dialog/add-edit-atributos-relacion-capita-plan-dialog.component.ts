@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ViewChild } from '@angular/core';
 
 // * Services
 import { DataSharingService } from 'src/app/core/services/data-sharing.service';
@@ -43,10 +43,15 @@ import { AtributosRelacionCapitaPlanSetProductoDialogComponent } from '../atribu
   ],
 })
 export class AddEditAtributosRelacionCapitaPlanDialogComponent {
+  private requestProducto: any;
   public getErrorMessage = getErrorMessage;
   public formGroup: UntypedFormGroup;
   public activeTabIndex: number = 0;
   public icon: string;
+
+  @ViewChild('descripcionProducto') public descripcionProducto: any;
+  @ViewChild('descripcionSubproducto') public descripcionSubproducto: any;
+  @ViewChild('descripcionPlan') public descripcionPlan: any;
 
   constructor(
     private dataSharingService: DataSharingService,
@@ -77,6 +82,8 @@ export class AddEditAtributosRelacionCapitaPlanDialogComponent {
   }
 
   public confirm(): void {
+    console.log(this.formGroup);
+
     if (this.formGroup.valid) {
       this.dataSharingService.sendData({
         par_modo: this.data.par_modo,
@@ -111,20 +118,24 @@ export class AddEditAtributosRelacionCapitaPlanDialogComponent {
     }
   }
 
-  public clear(
-    inputElementOne: HTMLInputElement,
-    controlNameOne: string,
-    inputElementTwo?: HTMLInputElement,
-    controlNameTwo?: string
-  ): void {
-    inputElementOne.value = '';
-    this.formGroup.get(controlNameOne)?.setValue('');
-    if (inputElementTwo) {
-      inputElementTwo.value = '';
-    }
-    if (controlNameTwo) {
-      this.formGroup.get(controlNameTwo)?.setValue('');
-    }
+  public clearProducto(): void {
+    this.descripcionProducto.value = '';
+    this.formGroup.get('descripcion_producto')?.setValue('');
+    this.data.descripcion_producto = '';
+    this.data.producto_administrador = null;
+    this.descripcionSubproducto.value = '';
+    this.formGroup.get('descripcion_subproducto')?.setValue('');
+    this.data.descripcion_subproducto = '';
+    this.descripcionPlan.value = '';
+    this.data.codigo_producto = null;
+    this.formGroup.get('descripcion_plan')?.setValue('');
+    this.data.plan_producto_cap_adm = null;
+  }
+
+  public clearPlan(): void {
+    this.descripcionPlan.value = '';
+    this.formGroup.get('descripcion_plan')?.setValue('');
+    this.data.plan_producto_cap_adm = null;
   }
 
   public getProducto(): void {
@@ -461,6 +472,7 @@ export class AddEditAtributosRelacionCapitaPlanDialogComponent {
         Validators.compose([
           Validators.required,
           Validators.minLength(1),
+          Validators.maxLength(1),
           isAlphanumeric(),
         ])
       ),
@@ -468,7 +480,6 @@ export class AddEditAtributosRelacionCapitaPlanDialogComponent {
   }
 
   private setProducto(data: IProducto[]): void {
-    1;
     const modal = this.dialog.open(
       AtributosRelacionCapitaPlanSetProductoDialogComponent,
       {
@@ -502,13 +513,19 @@ export class AddEditAtributosRelacionCapitaPlanDialogComponent {
                 ? res?.descripcion_producto.trim()
                 : ''
             );
+
+          if (this.requestProducto) {
+            if (this.requestProducto !== res) {
+              this.clearPlan();
+            }
+          }
+          this.requestProducto = res;
         }
       },
     });
   }
 
   private setPlan(data: IPlan[]): void {
-    1;
     const modal = this.dialog.open(
       AtributosRelacionCapitaPlanSetPlanDialogComponent,
       {
