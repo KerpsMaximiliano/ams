@@ -6,6 +6,7 @@ import { UtilService } from 'src/app/core/services/util.service';
 import { FuenteIngresoService } from 'src/app/core/services/fuente-ingreso.service';
 import { ProductoService } from 'src/app/core/services/producto.service';
 import { MvmtsNovedadesAutoService } from 'src/app/core/services/mvmts-novedades-auto.service';
+import { MotivoMovimientoService } from 'src/app/core/services/motivo-movimiento.service';
 
 // * Interfaces
 import { IProductoAdministrador } from 'src/app/core/models/producto-administrador.interface';
@@ -37,9 +38,10 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
 // * Components
 import { SetProdSubDialogComponent } from '../set-producto-dialog/set-producto-dialog.component';
 import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
-import { SetMotivMovimientoDialogComponent } from './set-motivo-movimiento-dialog/set-motivo-movimiento-dialog.component';
+import { SetMotivoMovimientoDialogComponent } from './set-motivo-movimiento-dialog/set-motivo-movimiento-dialog.component';
 import { SetPlanDialogComponent } from './set-plan-dialog/set-plan-dialog.component';
 import { FuenteIngresoSetDialogComponent } from '../set-fuente-ingreso-dialog/set-fuente-ingreso-dialog.component';
+import { IMotivoMovimiento } from 'src/app/core/models/motivo-movimiento.interface';
 
 @Component({
   selector: 'app-add-edit-mvmts-novedades-auto-dialog',
@@ -62,6 +64,7 @@ export class AddEditMvmtsNovedadesAutoDialogComponent implements OnInit {
   constructor(
     private dataSharingService: DataSharingService,
     private fuenteIngresoService: FuenteIngresoService,
+    private movimientoService: MotivoMovimientoService,
     private mvmtsNovedadesService: MvmtsNovedadesAutoService,
     private productoService: ProductoService,
     private dialog: MatDialog,
@@ -145,28 +148,6 @@ export class AddEditMvmtsNovedadesAutoDialogComponent implements OnInit {
     }
   }
 
-  public setMotivoMovimiento() {
-    const motivoMovimiento = this.dialog.open(
-      SetMotivMovimientoDialogComponent,
-      {
-        data: {
-          title: 'SELECCIONE UN MOTIVO DE MOVIMIENTO',
-          edit: true,
-        },
-      }
-    );
-    motivoMovimiento.afterClosed().subscribe({
-      next: (res) => {
-        if (res) {
-          this.data.codigo_motivo = res.id_motivo;
-          this.formGroup
-            .get('codigo_motivo')
-            ?.setValue(res.descripcion ? res.descripcion.trim() : ' ');
-        }
-      },
-    });
-  }
-
   public confirm(): void {
     if (this.formGroup.valid) {
       this.dataSharingService.sendData({
@@ -174,17 +155,17 @@ export class AddEditMvmtsNovedadesAutoDialogComponent implements OnInit {
         capita_origen: this.data.capita_origen,
         producto_origen: this.data.producto_origen,
         sub_producto_origen: this.data.sub_producto_origen,
-        plan_origen: this.data.plan_origen,
+        plan_origen: this.data.plan_origen ? this.data.plan_origen : '',
         mov_origen: this.formGroup.get('mov_origen')?.value,
         monotributo: this.formGroup.get('monotributo')?.value,
         capita_rel: this.data.capita_rel,
+        sec_prod_rel: this.data.sec_prod_rel,
         producto_relacionado: this.data.producto_relacionado,
         sub_prod_rel: this.data.sub_prod_rel,
-        sec_prod_rel: this.formGroup.get('sec_prod_rel')?.value,
         movimiento_rel: this.formGroup.get('movimiento_rel')?.value,
         novedad_vinculo: this.formGroup.get('novedad_vinculo')?.value,
         clase_prod: this.formGroup.get('clase_prod')?.value,
-        plan_cambio: this.data.plan_cambio,
+        plan_cambio: this.data.plan_cambio ? this.data.plan_cambio : '',
         opcion_monotributo: this.formGroup.get('opcion_monotributo')?.value,
         codigo_motivo: this.data.codigo_motivo,
       });
@@ -350,6 +331,38 @@ export class AddEditMvmtsNovedadesAutoDialogComponent implements OnInit {
       });
   }
 
+  public getMovimientos(): void {
+    this.utilService.openLoading();
+    this.movimientoService
+      .CRUD(
+        JSON.stringify({
+          par_modo: 'O',
+          tipo_motivo: this.formGroup.get('movimiento_rel')?.value,
+          descripcion: ""
+        })
+      )
+      .subscribe({
+        next: (res: any) => {
+          let data: IMotivoMovimiento[] = Array.isArray(res.dataset)
+            ? (res.dataset as IMotivoMovimiento[])
+            : [res.dataset as IMotivoMovimiento];
+          this.setMotivoMovimiento(data);
+        },
+        error: (err: any) => {
+          this.utilService.closeLoading();
+          err.status == 0
+            ? this.utilService.notification('Error de conexión. ', 'error')
+            : this.utilService.notification(
+                `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+                'error'
+              );
+        },
+        complete: () => {
+          this.utilService.closeLoading();
+        },
+      });
+  }
+
   public getPlanRel(): void {
     this.utilService.openLoading();
     this.mvmtsNovedadesService
@@ -400,10 +413,30 @@ export class AddEditMvmtsNovedadesAutoDialogComponent implements OnInit {
     });
   }
 
+
+  private setMotivoMovimiento(data: IMotivoMovimiento[]) {
+    const modalSetProd = this.dialog.open(SetMotivoMovimientoDialogComponent, {
+      data: {
+        title: 'SELECCIONE UN MOTIVO DE MOVIMIENTO',
+        data: data,
+      },
+    });
+    modalSetProd.afterClosed().subscribe({
+      next: (res) => {
+        if (res) {
+          this.data.codigo_motivo = res.id_motivo;
+          this.formGroup
+            .get('codigo_motivo')
+            ?.setValue(res.descripcion ? res.descripcion.trim() : res.id_motivo);
+        }
+      },
+    });
+  }
+
   private setProducto(data: IProductoAdministrador[]) {
     const modalSetProd = this.dialog.open(SetProdSubDialogComponent, {
       data: {
-        title: 'SELECCIONE PRODUCTO',
+        title: 'SELECCIONE PRODUCTO/SUBPRODUCTO',
         data: data,
       },
     });
@@ -449,7 +482,7 @@ export class AddEditMvmtsNovedadesAutoDialogComponent implements OnInit {
           this.data.plan_origen = res.plan ? res.plan.trim() : res.plan;
           this.formGroup
             .get('plan_origen')
-            ?.setValue(res.plan ? res.plan.trim() : res.plan);
+            ?.setValue(res.descripcion);
         }
       },
     });
@@ -475,7 +508,7 @@ export class AddEditMvmtsNovedadesAutoDialogComponent implements OnInit {
   private setProductoRel(data: IProductoAdministrador[]) {
     const modalSetProd2 = this.dialog.open(SetProdSubDialogComponent, {
       data: {
-        title: 'SELECCIONE PRODUCTO',
+        title: 'SELECCIONE PRODUCTO/SUBPRODUCTO',
         data: data,
       },
     });
@@ -520,7 +553,7 @@ export class AddEditMvmtsNovedadesAutoDialogComponent implements OnInit {
       next: (res) => {
         if (res) {
           this.data.plan_cambio = res.plan ? res.plan.trim() : res.plan;
-          this.formGroup.get('plan_cambio')?.setValue(res.plan);
+          this.formGroup.get('plan_cambio')?.setValue(res.descripcion);
         }
       },
     });
@@ -530,7 +563,7 @@ export class AddEditMvmtsNovedadesAutoDialogComponent implements OnInit {
     this.formGroup = new UntypedFormGroup({
       capita_origen: new UntypedFormControl(
         {
-          value: this.data.capita_origen,
+          value: this.data.nombre_fuente ? this.data.nombre_fuente.trim() : this.data.capita_origen,
           disabled: this.data.par_modo !== 'C',
         },
         Validators.compose([Validators.required])
@@ -538,7 +571,7 @@ export class AddEditMvmtsNovedadesAutoDialogComponent implements OnInit {
       // Producto
       producto_origen: new UntypedFormControl(
         {
-          value: this.data.producto_origen,
+          value: this.data.nombre_prod ? this.data.nombre_prod.trim() : this.data.producto_origen,
           disabled: this.data.par_modo !== 'C',
         },
         Validators.compose([Validators.required])
@@ -546,14 +579,14 @@ export class AddEditMvmtsNovedadesAutoDialogComponent implements OnInit {
       // Subproducto
       sub_producto_origen: new UntypedFormControl(
         {
-          value: this.data.sub_producto_origen,
+          value: this.data.nombre_sub_prod ? this.data.nombre_sub_prod.trim() : this.data.sub_producto_origen,
           disabled: this.data.par_modo !== 'C',
         }
       ),
       // Plan
       plan_origen: new UntypedFormControl(
         {
-          value: this.data.plan_origen ? this.data.plan_origen.trim() : '',
+          value: this.data.nombre_plan ? this.data.plan_origen.trim() : '',
           disabled: this.data.par_modo !== 'C',
         },
         Validators.compose([Validators.required])
@@ -562,7 +595,7 @@ export class AddEditMvmtsNovedadesAutoDialogComponent implements OnInit {
       mov_origen: new UntypedFormControl(
         {
           value: this.data.mov_origen ? this.data.mov_origen.trim() : '',
-          disabled: this.data.par_modo !== 'C' && this.data.par_modo !== 'U',
+          disabled: this.data.par_modo !== 'C',
         },
         Validators.compose([
           Validators.required,
@@ -574,7 +607,7 @@ export class AddEditMvmtsNovedadesAutoDialogComponent implements OnInit {
       monotributo: new UntypedFormControl(
         {
           value: this.data.monotributo ? this.data.monotributo.trim() : '',
-          disabled: this.data.par_modo !== 'C' && this.data.par_modo !== 'U',
+          disabled: this.data.par_modo !== 'C',
         },
         Validators.compose([
           Validators.required,
@@ -584,27 +617,21 @@ export class AddEditMvmtsNovedadesAutoDialogComponent implements OnInit {
       ),
       // Fuente de Ingreso 2
       capita_rel: new UntypedFormControl(
-        { value: this.data.capita_rel, disabled: this.data.par_modo !== 'C' },
+        { value: this.data.nombre_fuente_rel, disabled: this.data.par_modo !== 'C' },
         Validators.compose([Validators.required])
       ),
       // Secuencia
       sec_prod_rel: new UntypedFormControl(
         { value: this.data.sec_prod_rel, disabled: this.data.par_modo !== 'C' },
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(1),
-          Validators.maxLength(2),
-          isNumeric(),
-        ])
       ),
       // Producto 2
       producto_relacionado: new UntypedFormControl(
-        { value: this.data.producto_relacionado, disabled: !this.data.edit },
+        { value: this.data.nombre_prod_rel, disabled: !this.data.edit },
         Validators.compose([Validators.required])
       ),
       // Subproducto 2
       sub_prod_rel: new UntypedFormControl(
-        { value: this.data.sub_prod_rel, disabled: !this.data.edit }
+        { value: this.data.nombre_sub_prod_rel ? this.data.nombre_sub_prod_rel : this.data.sub_prod_rel, disabled: !this.data.edit }
       ),
       // Movimiento
       movimiento_rel: new UntypedFormControl(
@@ -667,7 +694,7 @@ export class AddEditMvmtsNovedadesAutoDialogComponent implements OnInit {
       ),
       // Motivo
       codigo_motivo: new UntypedFormControl(
-        { value: this.data.codigo_motivo, disabled: !this.data.edit },
+        { value: this.data.desc_motivo, disabled: !this.data.edit },
         Validators.compose([Validators.required])
       ),
     });
@@ -690,9 +717,9 @@ export class AddEditMvmtsNovedadesAutoDialogComponent implements OnInit {
           return 'NADA';
         case '0':
           return 'AFILIACIÓN NORMAL';
-        case '01':
+        case '1':
           return 'MONOTRIBUTISTAS SIN OPCIÓN DE CAMBIO';
-        case '02':
+        case '2':
           return 'MONOTRIBUTISTAS CON OPCIÓN DE CAMBIO A PREPAGA';
         default:
           return 'S/N';

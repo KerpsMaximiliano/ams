@@ -1,4 +1,4 @@
-import { Component, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 // * Services
@@ -85,16 +85,17 @@ export class MvmtsNovedadesAutoComponent implements OnDestroy {
       },
       error: (err: any) => {
         this.utilService.closeLoading();
-        if (err.status == 0) {
+        if (err.status === 0) {
           this.utilService.notification('Error de conexión.', 'error');
-        } else {
+        }
+        if (err.status === 404) {
+          this.dataSent = [];
+        }
+        if (err.status !== 0 && err.status !== 404) {
           this.utilService.notification(
             `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
             'error'
           );
-        }
-        if (err.status == 404) {
-          this.dataSent = [];
         }
       },
       complete: () => {
@@ -127,9 +128,18 @@ export class MvmtsNovedadesAutoComponent implements OnDestroy {
         movimiento_rel: data?.movimiento_rel,
         novedad_vinculo: data?.novedad_vinculo,
         clase_prod: data?.clase_prod,
-        plan_cambio: data?.plan_cambio,
+        plan_cambio: data?.plan_cambio ? data?.plan_cambio.trim() : '',
         opcion_monotributo: data?.opcion_monotributo,
-        codigo_motivo: data?.codigo_motivo,  
+        codigo_motivo: data?.codigo_motivo,
+        nombre_fuente: data?.nombre_fuente,
+        nombre_prod: data?.nombre_prod,
+        nombre_sub_prod: data?.nombre_sub_prod,
+        nombre_plan: data?.nombre_plan,
+        nombre_fuente_rel: data?.nombre_fuente_rel,
+        nombre_prod_rel: data?.nombre_prod_rel,
+        nombre_sub_prod_rel: data?.nombre_sub_prod_rel,
+        nombre_plan_cambia: data?.nombre_plan_cambia,
+        desc_motivo: data?.desc_motivo
       },
     });
   }
@@ -141,9 +151,10 @@ export class MvmtsNovedadesAutoComponent implements OnDestroy {
   ): void {
     this.utilService.openLoading();
     this.mvmtsAutoService.CRUD(data).subscribe({
-      next: () => {
+      next: (res: any) => {
         this.utilService.notification(successMessage, 'success');
         dialogRef.close();
+        console.log(res)
         this.getMvmts(
           JSON.stringify({
             par_modo: 'R',
@@ -154,7 +165,7 @@ export class MvmtsNovedadesAutoComponent implements OnDestroy {
             mov_origen: data.mov_origen,
             monotributo: data.monotributo,
             capita_rel: data.capita_rel,
-            sec_prod_rel: data.sec_prod_rel ? data.sec_prod_rel : 0
+            sec_prod_rel: res.dataset.sec_prod_rel
           })
         );
       },

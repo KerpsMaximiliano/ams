@@ -114,7 +114,7 @@ import { MvmtsNovedadesAutoFilterComponent } from './mvmts-novedades-auto/compon
 import { SetProdSubDialogComponent } from './mvmts-novedades-auto/components/set-producto-dialog/set-producto-dialog.component';
 import { SetPlanDialogComponent } from './mvmts-novedades-auto/components/add-edit-mvmts-novedades-auto-dialog/set-plan-dialog/set-plan-dialog.component';
 import { FuenteIngresoSetDialogComponent } from './mvmts-novedades-auto/components/set-fuente-ingreso-dialog/set-fuente-ingreso-dialog.component';
-import { SetMotivMovimientoDialogComponent } from './mvmts-novedades-auto/components/add-edit-mvmts-novedades-auto-dialog/set-motivo-movimiento-dialog/set-motivo-movimiento-dialog.component';
+import { SetMotivoMovimientoDialogComponent } from './mvmts-novedades-auto/components/add-edit-mvmts-novedades-auto-dialog/set-motivo-movimiento-dialog/set-motivo-movimiento-dialog.component';
 // 31 - ATRIBUTOS DE RELACIÓN CAPITA/PLAN
 import { AddEditAtributosRelacionCapitaPlanDialogComponent } from './atributos-relacion-capita-plan/components/add-edit-atributos-relacion-capita-plan-dialog/add-edit-atributos-relacion-capita-plan-dialog.component';
 import { AtributosRelacionCapitaPlanComponent } from './atributos-relacion-capita-plan/atributos-relacion-capita-plan.component';
@@ -238,7 +238,7 @@ import { LocalidadSetDialogComponent } from './localidad/components/add-edit-loc
     SetProdSubDialogComponent,
     SetPlanDialogComponent,
     FuenteIngresoSetDialogComponent,
-    SetMotivMovimientoDialogComponent,
+    SetMotivoMovimientoDialogComponent,
     // 31 - ATRIBUTOS DE RELACIÓN CAPITA/PLAN
     AddEditAtributosRelacionCapitaPlanDialogComponent,
     AtributosRelacionCapitaPlanComponent,

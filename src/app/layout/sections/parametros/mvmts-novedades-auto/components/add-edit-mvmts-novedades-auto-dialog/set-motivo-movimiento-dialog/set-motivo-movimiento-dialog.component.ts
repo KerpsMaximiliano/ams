@@ -1,13 +1,4 @@
-import {
-  Component,
-  Inject,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
-
-// * Services
-import { UtilService } from 'src/app/core/services/util.service';
-import { MotivoMovimientoService } from 'src/app/core/services/motivo-movimiento.service';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 
 // * Interfaces
 import { IMotivoMovimiento } from 'src/app/core/models/motivo-movimiento.interface';
@@ -25,77 +16,28 @@ import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confi
   templateUrl: './set-motivo-movimiento-dialog.component.html',
   styleUrls: ['./set-motivo-movimiento-dialog.component.scss'],
 })
-export class SetMotivMovimientoDialogComponent implements OnInit {
+export class SetMotivoMovimientoDialogComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) public paginator!: MatPaginator;
-  @ViewChild('selectMovimiento') public selectMovimiento: any;
-  public displayedColumns = [
+  public displayedColumns: string[] = [
     'id_motivo',
     'descripcion',
     'actions',
   ];
+
   public dataSource: MatTableDataSource<IMotivoMovimiento>;
-  public movimientos: IMotivoMovimiento[];
+  public movimiento: IMotivoMovimiento[];
   public showGuardarButton: any;
 
   constructor(
-    private movimientoService: MotivoMovimientoService,
     private matPaginatorIntl: MatPaginatorIntl,
-    private utilService: UtilService,
     public dialogRef: MatDialogRef<ConfirmDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {}
+  ) { }
 
   ngOnInit(): void {
+    this.dataSource = new MatTableDataSource<IMotivoMovimiento>(this.data.data);
+    this.dataSource.paginator = this.paginator;
     this.configurePaginator();
-  }
-
-  public getMovimientos(value: string): void {
-    this.showGuardarButton = null;
-    this.utilService.openLoading();
-    this.movimientoService
-      .CRUD(
-        JSON.stringify({
-          par_modo: 'O',
-          tipo_motivo: this.selectMovimiento.value,
-          descripcion: value
-        })
-      )
-      .subscribe({
-        next: (res: any) => {
-          this.movimientos = Array.isArray(res.dataset)
-            ? (res.dataset as IMotivoMovimiento[])
-            : res.dataset
-            ? [res.dataset as IMotivoMovimiento]
-            : [];
-          this.dataSource = new MatTableDataSource<IMotivoMovimiento>(
-            this.movimientos
-          );
-          this.dataSource.paginator = this.paginator;
-        },
-        error: (err: any) => {
-          this.utilService.closeLoading();
-          if (err.status === 404) {
-            this.movimientos = [];
-            this.dataSource = new MatTableDataSource<IMotivoMovimiento>(
-              this.movimientos
-            );
-            this.dataSource.paginator = this.paginator;
-          } else {
-            const errorMessage =
-              err.status === 0
-                ? 'Error de conexión.'
-                : `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`;
-            this.utilService.notification(errorMessage, 'error');
-          }
-        },
-        complete: () => {
-          this.dataSource = new MatTableDataSource<IMotivoMovimiento>(
-            this.movimientos
-          );
-          this.dataSource.paginator = this.paginator;
-          this.utilService.closeLoading();
-        },
-      });
   }
 
   public confirm(): void {
@@ -105,8 +47,9 @@ export class SetMotivMovimientoDialogComponent implements OnInit {
     });
   }
 
-  public clear(input: HTMLInputElement) {
-    input.value = '';
+  public applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   private configurePaginator(): void {

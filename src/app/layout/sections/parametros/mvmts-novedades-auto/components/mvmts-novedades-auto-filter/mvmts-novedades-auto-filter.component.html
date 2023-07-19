@@ -13,7 +13,7 @@
               <h4> Fuente de ingreso </h4>
               <mat-form-field class="seeker-form-field" appearance="outline">
                 <input matInput class="seeker-input" placeholder="Seleccione una fuente de ingreso" disabled #inputCapita
-                (keydown.enter)="performSearch($event, inputCapita, descripcionProducto, descripcionSubproducto, inputPlan)" >
+                (keydown.enter)="performSearch($event, inputCapita, descripcionProducto, descripcionSubproducto, inputPlan, inputCodigoPlan)" >
               </mat-form-field>
             </div>
           </div>
@@ -22,7 +22,7 @@
               <mat-icon class="material-symbols-outlined"> search </mat-icon>
             </div>
             <div [class]="inputCapita.value ? 'icon' : 'icon disabled'">
-              <mat-icon class="material-symbols-outlined" (click)="clearInput('capita_origen', inputCapita, descripcionProducto, descripcionSubproducto, inputPlan)"> close </mat-icon>
+              <mat-icon class="material-symbols-outlined" (click)="clearInput('capita_origen', inputCapita, descripcionProducto, descripcionSubproducto, inputPlan, inputCodigoPlan)"> close </mat-icon>
             </div>
           </div>
         </div>
@@ -48,30 +48,42 @@
           </div>
 
           <div class="icon-container">
-            <div [class]="inputCapita.value ? 'icon' : 'icon disabled'" (click)="getProducto(descripcionProducto, descripcionSubproducto)">
+            <div class="icon" (click)="getProducto(descripcionProducto, descripcionSubproducto)">
               <mat-icon class="material-symbols-outlined"> search </mat-icon>
             </div>
-            <div [class]="descripcionProducto.value || descripcionSubproducto.value ? 'icon' : 'icon disabled'" (click)="clearInput('producto', inputCapita, descripcionProducto, descripcionSubproducto, inputPlan)">
+            <div [class]="descripcionProducto.value || descripcionSubproducto.value ? 'icon' : 'icon disabled'" (click)="clearInput('producto', inputCapita, descripcionProducto, descripcionSubproducto, inputPlan, inputCodigoPlan)">
               <mat-icon class="material-symbols-outlined"> close </mat-icon>
             </div>
           </div>
         </div>
 
-        <div class="seeker-fields-container pb-none">
-          <h4> Plan </h4>
-          <mat-form-field class="seeker-form-field" appearance="outline">
-            <input matInput class="seeker-input" placeholder="Ingrese un plan" #inputPlan 
-            (keydown.enter)="performSearch($event, inputCapita, descripcionProducto, descripcionSubproducto, inputPlan)">
-          </mat-form-field>
+        <div class="cont">
+          <div>
+            <div class="seeker-fields-container pb-none">
+              <h4> Plan </h4>
+              <mat-form-field class="seeker-form-field" appearance="outline">
+                <input matInput class="seeker-input" placeholder="Ingrese una descripción de plan" #inputPlan 
+                (keydown.enter)="performSearch($event, inputCapita, descripcionProducto, descripcionSubproducto, inputPlan, inputCodigoPlan)">
+              </mat-form-field>
+            </div>
+    
+            <div class="seeker-fields-container pb-none">
+              <h4></h4>
+              <mat-form-field class="seeker-form-field" appearance="outline">
+                <input matInput class="seeker-input" placeholder="Ingrese un código de plan" #inputCodigoPlan 
+                (keydown.enter)="performSearch($event, inputCapita, descripcionProducto, descripcionSubproducto, inputPlan, inputCodigoPlan)">
+              </mat-form-field>
+            </div>
+          </div>
         </div>
 
         <div class="buttons-container">
-          <button class="primary-button icon-button" type="button" (click)="performSearch($event, inputCapita, descripcionProducto, descripcionSubproducto, inputPlan)" >
+          <button class="primary-button icon-button" type="button" (click)="performSearch($event, inputCapita, descripcionProducto, descripcionSubproducto, inputPlan, inputCodigoPlan)" >
             <mat-icon> done </mat-icon>
             Buscar </button>
             <button class="primary-button icon-button" type="button" 
-            (click)="clearInput('limpiar', inputCapita, descripcionProducto, descripcionSubproducto, inputPlan)" 
-            [disabled]="inputPlan.value.length === 0">
+            (click)="clearInput('limpiar', inputCapita, descripcionProducto, descripcionSubproducto, inputPlan, inputCodigoPlan)" 
+            [disabled]="inputPlan.value.length === 0 && inputPlan.value.length === 0 && inputCodigoPlan.value.length === 0">
             <mat-icon> close </mat-icon>
             Limpiar
           </button>
