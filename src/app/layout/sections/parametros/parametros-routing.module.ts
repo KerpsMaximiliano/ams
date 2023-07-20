@@ -46,6 +46,8 @@ import { AtributosRelacionCapitaPlanComponent } from './atributos-relacion-capit
 import { ExtencionFuenteIngresoComponent } from './extencion-fuente-ingreso/extencion-fuente-ingreso.component';
 // 34 - EMPRESA FACTURA
 import { EmpresaFacturaComponent } from './empresa-factura/empresa-factura.component';
+// 35 - MONTOS MINIMO
+import { MontoMinimoComponent } from './montos-minimo/monto-minimo.component';
 
 const routes: Routes = [
   {
@@ -135,6 +137,10 @@ const routes: Routes = [
   {
     path: 'parametros/empresa-factura',
     component: EmpresaFacturaComponent,
+  },
+  {
+    path: 'parametros/monto-minimo',
+    component: MontoMinimoComponent,
   },
 ];
 

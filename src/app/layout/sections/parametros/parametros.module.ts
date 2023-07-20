@@ -135,6 +135,11 @@ import { EmpresaFacturaComponent } from './empresa-factura/empresa-factura.compo
 import { EmpresaFacturaDashboardComponent } from './empresa-factura/components/empresa-factura-dashboard/empresa-factura-dashboard.component';
 import { EmpresaFacturaFilterComponent } from './empresa-factura/components/empresa-factura-filter/empresa-factura-filter.component';
 import { ModalLocalidadComponent } from './empresa-factura/components/add-edit-empresa-factura/modal-localidad/modal-localidad.component';
+// 35 - MONTOS MINIMO
+import { AddEditMontoMinimoComponent } from './montos-minimo/components/add-edit-montos-minimo/add-edit-monto-minimo.component';
+import { MontoMinimoComponent } from './montos-minimo/monto-minimo.component';
+import { MontoMinimoDashboardComponent } from './montos-minimo/components/monto-minimo-dashboard/monto-minimo-dashboard.component';
+import { MontoMinimoFilterComponent } from './montos-minimo/components/monto-minimo-filter/monto-minimo-filter.component';
 
 @NgModule({
   declarations: [
@@ -259,11 +264,16 @@ import { ModalLocalidadComponent } from './empresa-factura/components/add-edit-e
     AddEditExtencionFuenteIngresoComponent,
     ModalExtencionProductoComponent,
     // 34 - EMPRESA QUE FACTURA
-    EmpresaFacturaComponent,
-    EmpresaFacturaFilterComponent,
-    EmpresaFacturaDashboardComponent,
     AddEditEmpresaFacturaComponent,
+    EmpresaFacturaComponent,
+    EmpresaFacturaDashboardComponent,
+    EmpresaFacturaFilterComponent,
     ModalLocalidadComponent,
+    // 35 - MONTOS MINIMO
+    AddEditMontoMinimoComponent,
+    MontoMinimoComponent,
+    MontoMinimoDashboardComponent,
+    MontoMinimoFilterComponent,
   ],
   imports: [
     CommonModule,

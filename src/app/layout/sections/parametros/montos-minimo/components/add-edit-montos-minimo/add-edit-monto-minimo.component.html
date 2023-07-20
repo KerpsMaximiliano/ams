@@ -1,0 +1,65 @@
+<div class="dialog-title">
+  <h2 tabindex="0">{{ data.title | uppercase }}</h2>
+</div>
+<div class="dialog-content">
+  <form class="form-datos" [formGroup]="formGroup">
+    <div class="seeker-fields-container">
+      <h3> ACTIVIDAD </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <input matInput class="seeker-input" placeholder="Ingrese una actividad"
+          formControlName="actividad" required minlength="1" maxlength="11">
+        <mat-error
+          *ngIf="formGroup.get('actividad')?.invalid && formGroup.get('actividad')?.touched">
+          {{ getErrorMessage(formGroup.get("actividad")) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3> SECCIÓN </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <input matInput class="seeker-input" placeholder="Ingrese una sección"
+          formControlName="seccion" required minlength="1" maxlength="1">
+        <mat-error
+          *ngIf="formGroup.get('seccion')?.invalid && formGroup.get('seccion')?.touched">
+          {{ getErrorMessage(formGroup.get("seccion")) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3> FECHA VIGENCIA DESDE </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <input matInput class="seeker-input" placeholder="Ingrese una fecha de vigencia" [max]="fecha_hoy"
+          formControlName="fecha_vigencia" required minlength="1" maxlength="10" type="date">
+        <mat-error
+          *ngIf="formGroup.get('fecha_vigencia')?.invalid && formGroup.get('fecha_vigencia')?.touched">
+          {{ getErrorMessage(formGroup.get("fecha_vigencia")) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3> IMPORTE MÍNIMO </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <input matInput class="seeker-input" placeholder="Ingrese un importe minimo" formControlName="importe_minimo" required minlength="1" maxlength="12">
+        <mat-error
+          *ngIf="formGroup.get('importe_minimo')?.invalid && formGroup.get('importe_minimo')?.touched">
+          {{ getErrorMessage(formGroup.get("importe_minimo")) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="buttons-container">
+      <button class="primary-button icon-button" type="button" mat-dialog-close>
+        <mat-icon> close </mat-icon>
+        Cancelar
+      </button>
+      <button [class]="formGroup.invalid ? 'primary-button icon-button disabled' : 'primary-button icon-button'"
+        type="submit" (click)="confirm()">
+        <mat-icon> {{ data.par_modo === 'C' || data.par_modo === 'U' ? 'done' : 'delete' }} </mat-icon>
+        {{ data.par_modo === 'C' || data.par_modo === 'U' ? 'Guardar' : 'Eliminar' }}
+      </button>
+    </div>
+  </form>
+</div>

@@ -124,6 +124,12 @@ export class NavMenuComponent {
           url: '/parametros/empresa-factura',
           icon: 'keyboard_arrow_right',
         },
+        {
+          // 35 - MONTOS MINIMOS
+          title: 'Montos Minimos',
+          url: '/parametros/monto-minimo',
+          icon: 'keyboard_arrow_right',
+        },
       ],
     },
   ];
