@@ -48,7 +48,7 @@
               <h3> SUBPRODUCTO </h3>
               <mat-form-field class="seeker-form-field" appearance="outline">
                 <input matInput formControlName="sub_producto_origen"
-                [placeholder]="data.par_modo === 'C' && !data.producto_origen ? 'seleccione un producto/subproducto origen.' : ''" readonly />
+                [placeholder]="data.par_modo === 'C' && !data.producto_origen ? 'seleccione un producto/subproducto origen.' : data.par_modo === 'C' && data.producto_origen ? 'El producto no tiene un subproducto.' : ''" readonly />
                 <mat-error *ngIf="formGroup.get('sub_producto_origen')?.invalid">
                   {{ getErrorMessage(formGroup.get("sub_producto_origen")) }}
                 </mat-error>
@@ -181,7 +181,7 @@
             <div class="seeker-fields-container">
               <h3> SUBPRODUCTO </h3>
               <mat-form-field class="seeker-form-field" appearance="outline">
-                <input matInput formControlName="sub_prod_rel" [placeholder]="data.par_modo === 'C' && !data.producto_relacionado ? 'Seleccione un producto/subproducto.' : ''"
+                <input matInput formControlName="sub_prod_rel" [placeholder]="data.par_modo === 'C' && !data.producto_relacionado ? 'Seleccione un producto/subproducto.' : data.par_modo === 'C' && data.producto_relacionado ? 'El producto no tiene un subproducto.' : ''"
                   readonly />
                 <mat-error *ngIf="formGroup.get('sub_prod_rel')?.invalid">
                   {{ getErrorMessage(formGroup.get("sub_prod_rel")) }}
@@ -204,8 +204,8 @@
           <h3> MOVIMIENTO </h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
             <ng-container *ngIf="data.par_modo === 'C' || data.par_modo === 'U'; else isView3">
-              <mat-select formControlName="movimiento_rel" [placeholder]="data.par_modo === 'C' ? 'Seleccione un movimiento relacionado.' : ''" required
-                minlength="1" maxlength="2" disableOptionCentering>
+              <mat-select formControlName="movimiento_rel" (selectionChange)="limpiar(5)" [placeholder]="data.par_modo === 'C' ? 'Seleccione un movimiento relacionado.' : ''" required
+                minlength="1" maxlength="2" disableOptionCentering >
                 <mat-option *ngFor="let mov2 of movimientos" [value]="mov2[0]">
                   {{ mov2 }}
                 </mat-option>
@@ -335,11 +335,11 @@
         Cancelar
       </button>
       <button class="primary-button icon-button" type="button" [disabled]="activeTabIndex === 0" (click)="prevStep()">
-        <mat-icon> close </mat-icon>
+        <mat-icon> arrow_back_ios </mat-icon>
         Anterior
       </button>
       <button class="primary-button icon-button" type="button" [disabled]="activeTabIndex === 2" (click)="nextStep()">
-        <mat-icon> close </mat-icon>
+        <mat-icon> arrow_forward_ios </mat-icon>
         Siguiente
       </button>
       <button [class]="formGroup.invalid ? 'primary-button icon-button disabled' : 'primary-button icon-button'"
@@ -354,11 +354,11 @@
           Aceptar
         </button>
         <button class="primary-button icon-button" type="button" [disabled]="activeTabIndex === 0" (click)="prevStep()">
-          <mat-icon> close </mat-icon>
+          <mat-icon> arrow_back_ios </mat-icon>
           Anterior
         </button>
         <button class="primary-button icon-button" type="button" [disabled]="activeTabIndex === 2" (click)="nextStep()">
-          <mat-icon> close </mat-icon>
+          <mat-icon> arrow_forward_ios </mat-icon>
           Siguiente
         </button>
       </div>

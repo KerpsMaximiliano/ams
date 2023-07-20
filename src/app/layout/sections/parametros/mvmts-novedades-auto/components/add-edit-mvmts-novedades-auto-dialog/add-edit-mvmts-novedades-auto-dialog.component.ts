@@ -145,6 +145,10 @@ export class AddEditMvmtsNovedadesAutoDialogComponent implements OnInit {
         this.formGroup.get('plan_cambio')?.setValue(undefined);
         this.data.plan_cambio = undefined;
         break;
+      case 5:
+        this.formGroup.get('codigo_motivo')?.setValue(undefined);
+        this.data.codigo_motivo = undefined;
+        break;
     }
   }
 
@@ -352,10 +356,14 @@ export class AddEditMvmtsNovedadesAutoDialogComponent implements OnInit {
           this.utilService.closeLoading();
           err.status == 0
             ? this.utilService.notification('Error de conexión. ', 'error')
-            : this.utilService.notification(
-                `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+            : err.status == 404 ?
+            this.utilService.notification(
+                `No existe un motivo de movimiento con el movimiento seleccionado`,
                 'error'
-              );
+              )
+              : this.utilService.notification(
+                `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+                'error')
         },
         complete: () => {
           this.utilService.closeLoading();
@@ -480,9 +488,13 @@ export class AddEditMvmtsNovedadesAutoDialogComponent implements OnInit {
       next: (res) => {
         if (res) {
           this.data.plan_origen = res.plan ? res.plan.trim() : res.plan;
+          res.plan.trim().length > 0 && res.descripcion.trim().length > 0 ?
           this.formGroup
             .get('plan_origen')
-            ?.setValue(res.descripcion);
+            ?.setValue(res.plan.trim()+ ' - ' +res.descripcion.trim())
+          : this.formGroup
+          .get('plan_origen')
+          ?.setValue(res.plan.value > 0 ? res.plan.trim() : res.descripcion)
         }
       },
     });
