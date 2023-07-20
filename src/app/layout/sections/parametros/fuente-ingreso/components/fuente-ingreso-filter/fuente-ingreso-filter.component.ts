@@ -21,8 +21,6 @@ export class FuenteIngresoFilterComponent {
     descripcion: new FormControl(''),
     empresa_asociada: new FormControl(''),
   });
-  listEmpresas: any;
-
   constructor() {}
 
   ngOnInit() {}

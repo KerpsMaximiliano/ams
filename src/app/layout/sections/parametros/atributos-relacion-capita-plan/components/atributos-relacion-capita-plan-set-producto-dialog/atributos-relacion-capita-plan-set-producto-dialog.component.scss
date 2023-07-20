@@ -1,0 +1,101 @@
+.dialog-content {
+  display: flex;
+  flex-direction: column;
+  min-height: 505px;
+  min-width: 750px;
+  background-color: #fff;
+}
+
+h2 {
+  margin-bottom: 0rem;
+}
+
+.seeker-fields-container {
+  margin-top: 1.2rem;
+}
+
+.buttons-container {
+  margin-top: auto;
+  margin-bottom: 0.5rem;
+}
+
+.table-container {
+  margin-bottom: 0.3rem;
+}
+
+tr.mat-header-row {
+  height: 3rem;
+}
+
+tr.mat-row {
+  height: 2.7rem;
+}
+
+.btn {
+  width: 100%;
+  max-width: 130px;
+}
+
+/*
+ * Evita un espaciado innecesario en la primer columna.
+*/
+th.mat-header-cell:first-of-type,
+td.mat-cell:first-of-type {
+  padding-left: 0px !important;
+}
+
+/*
+ * Texto alineado a la izquierda.
+*/
+.mat-column-descripcion_producto_administrador.mat-header-cell,
+.mat-column-descripcion_producto_administrador.mat-cell,
+.mat-column-descripcion_producto.mat-header-cell,
+.mat-column-descripcion_producto.mat-cell {
+  text-align: left !important;
+  padding-left: 1vw;
+  word-break: break-all;
+}
+
+/*
+ * Número y fecha alineado a la derecha.
+*/
+.mat-column-producto_administrador.mat-header-cell,
+.mat-column-producto_administrador.mat-cell,
+.mat-column-codigo_producto.mat-header-cell,
+.mat-column-codigo_producto.mat-cell {
+  text-align: right !important;
+  padding-right: 1vw;
+  word-break: break-all;
+}
+
+/*
+ * Tamaño de columnas.
+*/
+.mat-column-producto_administrador.mat-header-cell,
+.mat-column-producto_administrador.mat-cell,
+.mat-column-codigo_producto.mat-header-cell,
+.mat-column-codigo_producto.mat-cell {
+  min-width: 90px;
+}
+
+.mat-column-descripcion_producto_administrador.mat-header-cell,
+.mat-column-descripcion_producto_administrador.mat-cell,
+.mat-column-descripcion_producto.mat-header-cell,
+.mat-column-descripcion_producto.mat-cell {
+  min-width: 150px;
+  width: 50%;
+}
+
+.mat-column-actions.mat-header-cell,
+.mat-column-actions.mat-cell {
+  min-width: 100px;
+}
+
+/*
+ * Cambia el tamaño y los espacios del filtro.
+*/
+.filter-container {
+  width: 47%;
+  margin-top: 0.3rem;
+  margin-bottom: 0.3rem;
+}

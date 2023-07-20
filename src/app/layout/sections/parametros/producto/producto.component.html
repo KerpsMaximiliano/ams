@@ -8,7 +8,8 @@
   </div>
 
   <div class="section-content">
-    <app-producto-filter (search)="getData($event)"></app-producto-filter>
+    <app-producto-filter (search)="getData($event)" [empresaFactura]="empresaFactura"
+      [isLoading]="isLoadingEmpresaFactura" [isLoadingError]="isLoadingError"></app-producto-filter>
     <app-producto-dashboard [receivedData]="dataSent" (viewEvent)="view($event)" (editEvent)="edit($event)">
     </app-producto-dashboard>
   </div>

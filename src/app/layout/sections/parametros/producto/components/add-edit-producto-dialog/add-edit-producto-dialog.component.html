@@ -2,7 +2,8 @@
   <h2 tabindex="0">{{ data.title | uppercase }}</h2>
 </div>
 
-<div class="dialog-content">
+<div class="dialog-content"
+  [class]="data.par_modo === 'R' ? 'min-height-r' : data.par_modo === 'U' ? 'min-height-u' : ''">
   <form class="form-datos" [formGroup]="formGroup">
 
     <mat-tab-group [selectedIndex]="activeTabIndex" (selectedTabChange)="tabChanged($event)" mat-stretch-tabs
@@ -142,22 +143,16 @@
           <h3> EMPRESA QUE FACTURA </h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
             <mat-select formControlName="numero_empresa_factura" required minlength="1" maxlength="8"
-              disableOptionCentering>
-              <mat-option [value]="2">
-                Asociacion Mutual Sancor
+              [placeholder]="uploaded ? 'Seleccione una empresa.' : 'No se han podido cargar las empresas.'"
+              [disabled]="!data.empresaFactura" disableOptionCentering>
+              <mat-option [value]="data.numero_empresa_factura" *ngIf="data.par_modo !== 'C'; else load">
+                {{ data.descripcion_empresa }}
               </mat-option>
-              <mat-option [value]="3">
-                O.S.S.A.C.R.A.
-              </mat-option>
-              <mat-option [value]="4">
-                OspersaAms
-              </mat-option>
-              <mat-option [value]="1">
-                SanCor Medicina Privada S.A.
-              </mat-option>
-              <mat-option [value]="5">
-                STAFF
-              </mat-option>
+              <ng-template #load>
+                <mat-option *ngFor="let empresa of data.empresaFactura" [value]="empresa.id_empresa">
+                  {{ empresa.descripcion ? empresa.descripcion.trim() : '' }}
+                </mat-option>
+              </ng-template>
             </mat-select>
             <mat-error
               *ngIf="formGroup.get('numero_empresa_factura')?.invalid && formGroup.get('numero_empresa_factura')?.touched">

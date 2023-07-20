@@ -77,7 +77,6 @@ export class AddEditSubMotivoMovimientoProductoDialogComponent {
       } else {
         this.data.fecha_vigencia = 0;
       }
-      this.confirm();
     } else {
       this.formGroup.markAllAsTouched();
     }

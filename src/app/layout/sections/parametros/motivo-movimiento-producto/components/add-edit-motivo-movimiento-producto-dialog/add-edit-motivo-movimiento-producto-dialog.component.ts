@@ -5,11 +5,11 @@ import { Router } from '@angular/router';
 import { DataSharingService } from 'src/app/core/services/data-sharing.service';
 import { UtilService } from 'src/app/core/services/util.service';
 import { MotivoMovimientoProductoService } from 'src/app/core/services/motivo-movimiento-producto.service';
+import { MotivoMovimientoService } from 'src/app/core/services/motivo-movimiento.service';
 
 // * Interfaces
 import { IMotivoMovimientoProducto } from 'src/app/core/models/motivo-movimiento-producto.interface';
 import { IMotivoMovimiento } from 'src/app/core/models/motivo-movimiento.interface';
-import { IDialog } from 'src/app/core/models/dialog.interface';
 
 // * Form
 import {
@@ -44,6 +44,7 @@ export class AddEditMotivoMovimientoProductoDialogComponent {
   constructor(
     private dataSharingService: DataSharingService,
     private motivoMovimientoProductoService: MotivoMovimientoProductoService,
+    private motivoMovimientoService: MotivoMovimientoService,
     private productoService: ProductoService,
     private utilService: UtilService,
     private dialog: MatDialog,
@@ -62,7 +63,7 @@ export class AddEditMotivoMovimientoProductoDialogComponent {
     if (this.formGroup.valid) {
       this.dataSharingService.sendData({
         par_modo: this.data.par_modo,
-        tipo_motivo: this.formGroup.get('tipo_motivo')?.value[0],
+        tipo_motivo: this.formGroup.get('tipo_motivo')?.value,
         codigo_motivo: this.data.codigo_motivo,
         id_producto: this.data.producto.codigo_producto,
         descripcion: this.formGroup.get('descripcion')?.value,
@@ -74,14 +75,13 @@ export class AddEditMotivoMovimientoProductoDialogComponent {
     }
   }
 
-  public getMotivoMovimientoProducto(): void {
+  public getMotivoMovimiento(): void {
     this.utilService.openLoading();
-    this.motivoMovimientoProductoService
+    this.motivoMovimientoService
       .CRUD(
         JSON.stringify({
           par_modo: 'O',
           tipo_motivo: this.formGroup.get('tipo_motivo')?.value,
-          id_producto: this.data.producto.codigo_producto,
           descripcion: '',
         })
       )

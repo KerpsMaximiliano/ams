@@ -36,6 +36,16 @@ export class AddEditObraSocialDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.setUpForm();
+    if(this.data.par_modo === 'U' && this.data.propone_fecha_patologia === 'N'){
+      this.formGroup.get('tipo_fecha_patologia')?.clearValidators();
+    } else if(this.data.par_modo === 'U' && this.data.propone_fecha_patologia === 'S') {
+      this.formGroup.get('tipo_fecha_patologia')?.setValidators([
+        Validators.required,
+        Validators.minLength(1),
+        Validators.maxLength(2),
+        isAlpha(),
+      ])
+    }
   }
 
   public confirm(): void {
@@ -67,9 +77,16 @@ export class AddEditObraSocialDialogComponent {
     );
     if (proponeFechaPatologiaControl?.value === 'N') {
       tipoFechaPatologiaControl?.setValue('');
+      tipoFechaPatologiaControl?.clearValidators();
       tipoFechaPatologiaControl?.disable();
     } else {
       tipoFechaPatologiaControl?.enable();
+      tipoFechaPatologiaControl?.setValidators([
+        Validators.required,
+        Validators.minLength(1),
+        Validators.maxLength(2),
+        isAlpha(),
+      ])
     }
   }
 

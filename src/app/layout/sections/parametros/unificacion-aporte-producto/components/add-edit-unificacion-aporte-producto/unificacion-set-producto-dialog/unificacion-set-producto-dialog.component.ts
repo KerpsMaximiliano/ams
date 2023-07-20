@@ -18,10 +18,10 @@ import { ConfirmDialogComponent } from '../../../../../components/confirm-dialog
 })
 export class UnificacionSetProductoDialogComponent implements OnInit {
   public displayedColumns: string[] = [
-    'producto_administrador',
-    'descripcion_producto_administrador',
-    'codigo_producto',
-    'descripcion_producto',
+    'producto_principal',
+    'producto_principal_descripcion',
+    'subproducto_principal',
+    'subproducto_principal_descripcion',
     'actions',
   ];
   public dataSource: MatTableDataSource<IProducto>;
@@ -45,34 +45,18 @@ export class UnificacionSetProductoDialogComponent implements OnInit {
 
   public confirm(): void {
     this.dialogRef.close({
-      producto_secundario: this.producto.producto_administrador
-        ? this.producto.producto_administrador
-        : this.producto.codigo_producto,
-      producto_secundario_descripcion: this.producto
-        .descripcion_producto_administrador
-        ? this.producto.descripcion_producto_administrador
-        : this.producto.descripcion_producto
-        ? this.producto.descripcion_producto
-        : '',
-
-      subproducto_secundario: this.producto.producto_administrador
-        ? this.producto.codigo_producto
-          ? this.producto.codigo_producto
-          : 0
-        : 0,
-      subproducto_secundario_descripcion: this.producto
-        .descripcion_producto_administrador
-        ? this.producto.descripcion_producto
-          ? this.producto.descripcion_producto
-          : ''
-        : '',
+      producto_secundario: this.producto.producto_principal,
+      producto_secundario_descripcion:
+        this.producto.producto_principal_descripcion,
+      subproducto_secundario: this.producto.subproducto_principal,
+      subproducto_secundario_descripcion:
+        this.producto.subproducto_principal_descripcion,
     });
   }
 
-  public applyFilter(event: Event) {
-    this.dataSource.filter = (event.target as HTMLInputElement).value
-      .trim()
-      .toLowerCase();
+  public applyFilter(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   private configurePaginator(): void {

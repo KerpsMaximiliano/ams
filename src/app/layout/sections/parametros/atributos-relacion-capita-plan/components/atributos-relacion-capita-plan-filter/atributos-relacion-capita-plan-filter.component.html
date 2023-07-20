@@ -1,0 +1,87 @@
+<section class="seeker-section">
+  <mat-accordion>
+    <mat-expansion-panel class="mat-elevation-z1">
+      <mat-expansion-panel-header floating>
+        <mat-panel-title> Opciones de búsqueda </mat-panel-title>
+      </mat-expansion-panel-header>
+      <form>
+        <div class="seeker-fields-container pb-none">
+          <h4> Fuente de ingreso administradora </h4>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <input matInput #descripcionFuenteIngresoAdministradora
+              [value]="this.fuenteIngreso.descripcion_fuente_adm_mixta ? this.fuenteIngreso.descripcion_fuente_adm_mixta : this.fuenteIngreso.descripcion"
+              disabled>
+          </mat-form-field>
+        </div>
+
+        <div class="seeker-fields-container pb-none">
+          <h4> Fuente de ingreso subordinada </h4>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <input matInput placeholder="Sin fuente de ingreso subordinada"
+              [value]="this.fuenteIngreso.descripcion_fuente_adm_mixta ? this.fuenteIngreso.descripcion : ''" disabled>
+          </mat-form-field>
+        </div>
+
+        <div class="cont">
+          <div>
+            <div class="seeker-fields-container pb-none">
+              <h4> Producto </h4>
+              <mat-form-field class="seeker-form-field" appearance="outline">
+                <input matInput class="seeker-input" placeholder="Seleccione un producto/subproducto *" disabled
+                  #descripcionProducto>
+              </mat-form-field>
+            </div>
+
+            <div class="seeker-fields-container pb-none">
+              <h4> Subproducto </h4>
+              <mat-form-field class="seeker-form-field" appearance="outline">
+                <input matInput class="seeker-input"
+                  [placeholder]="descripcionProducto.value ? 'Sin subproducto.' : 'Seleccione un producto/subproducto'"
+                  disabled #descripcionSubproducto>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="icon-container">
+            <div (click)="getProducto()"
+              [class]="descripcionFuenteIngresoAdministradora.value  ? 'icon' : 'icon disabled fix'">
+              <mat-icon class="material-symbols-outlined"> search </mat-icon>
+            </div>
+            <div (click)="clear(descripcionProducto, descripcionSubproducto)"
+              [class]="descripcionProducto.value || descripcionSubproducto.value  ? 'icon' : 'icon disabled fix'">
+              <mat-icon class="material-symbols-outlined"> close </mat-icon>
+            </div>
+          </div>
+        </div>
+
+        <div class="seeker-fields-container pb-none">
+          <h4> Plan </h4>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <input matInput class="seeker-input" #descripcionPlan placeholder="Ingrese la descripción del plan"
+              (keydown.enter)="performSearch(codigoPlan.value, descripcionPlan.value)"
+              [disabled]="descripcionProducto.value.length === 0 && descripcionSubproducto.value.length === 0">
+          </mat-form-field>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <input matInput class="seeker-input" #codigoPlan placeholder="Ingrese el código del plan"
+              (keydown.enter)="performSearch(codigoPlan.value, descripcionPlan.value)"
+              [disabled]="descripcionProducto.value.length === 0 && descripcionSubproducto.value.length === 0">
+          </mat-form-field>
+        </div>
+
+        <div class="buttons-container">
+          <button class="primary-button icon-button" type="button"
+            [disabled]="descripcionProducto.value.length === 0 && descripcionSubproducto.value.length === 0"
+            (click)="performSearch(codigoPlan.value, descripcionPlan.value)">
+            <mat-icon> done </mat-icon>
+            Buscar
+          </button>
+          <button class="primary-button icon-button" type="button" (click)="clear(codigoPlan, descripcionPlan)"
+            [disabled]="codigoPlan.value.length === 0 && descripcionPlan.value.length === 0">
+            <mat-icon> close </mat-icon>
+            Limpiar
+          </button>
+        </div>
+      </form>
+    </mat-expansion-panel>
+  </mat-accordion>
+</section>

@@ -28,8 +28,8 @@
 }
 
 .dialog-content {
-  width: 700px;
-  min-height: 300px;
+  min-width: 600px;
+  min-height: 340px;
 }
 
 .mat-tab-text {
@@ -49,9 +49,9 @@
 
 .seeker-fields-container {
   display: grid;
-  grid-template-columns: 315px 1fr;
+  grid-template-columns: 260px 1fr;
   align-items: center;
-  column-gap: 0rem;
+  column-gap: 1rem;
 }
 
 .content {

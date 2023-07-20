@@ -8,22 +8,17 @@
       <form>
         <div class="seeker-fields-container">
           <mat-form-field class="seeker-form-field">
-            <mat-label class="seeker-label"> Seleccione una empresa </mat-label>
-            <mat-select #select disableOptionCentering>
-              <mat-option [value]="2">
-                Asociacion Mutual Sancor
-              </mat-option>
-              <mat-option [value]="3">
-                O.S.S.A.C.R.A.
-              </mat-option>
-              <mat-option [value]="4">
-                OspersaAms
-              </mat-option>
-              <mat-option [value]="1">
-                SanCor Medicina Privada S.A.
-              </mat-option>
-              <mat-option [value]="5">
-                STAFF
+            <mat-label class="seeker-label" *ngIf="isLoading; else load"> Seleccione una empresa </mat-label>
+            <ng-template #load>
+              <mat-label *ngIf="!isLoadingError; else loadError" class="seeker-label"> Cargando empresas ...
+              </mat-label>
+            </ng-template>
+            <ng-template #loadError>
+              <mat-label class="seeker-label"> No se han podido cargar las empresas. </mat-label>
+            </ng-template>
+            <mat-select #select disableOptionCentering [disabled]="!empresaFactura">
+              <mat-option *ngFor="let empresa of empresaFactura" [value]="empresa.id_empresa">
+                {{ empresa.descripcion ? empresa.descripcion.trim() : '' }}
               </mat-option>
             </mat-select>
           </mat-form-field>

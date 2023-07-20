@@ -4,13 +4,16 @@
 
 <div class="dialog-content">
   <form class="form-datos" [formGroup]="formGroup">
-    <mat-tab-group dynamicHeight [selectedIndex]="activeTabIndex" (selectedTabChange)="tabChanged($event)" mat-stretch-tabs>
+    <mat-tab-group dynamicHeight [selectedIndex]="activeTabIndex" (selectedTabChange)="tabChanged($event)"
+      mat-stretch-tabs>
       <mat-tab>
+        <h4 class="title"> ORIGEN </h4>
         <div class="seeker-fields-container mt-1">
           <h3> FUENTE DE INGRESO </h3>
           <div class="content">
             <mat-form-field class="seeker-form-field" appearance="outline">
-              <input matInput formControlName="capita_origen" placeholder="Seleccione una fuente de ingreso origen" readonly required (ngModelChange)="limpiar(1)"/>
+              <input matInput formControlName="capita_origen" [placeholder]="data.par_modo === 'C' ? 'Seleccione una fuente de ingreso origen.' : ''"
+                readonly required (ngModelChange)="limpiar(1)" />
               <mat-error *ngIf="formGroup.get('capita_origen')?.invalid">
                 {{ getErrorMessage(formGroup.get("capita_origen")) }}
               </mat-error>
@@ -19,20 +22,22 @@
               <div class="icon" (click)="getFuenteIngreso()">
                 <mat-icon class="material-symbols-outlined"> search </mat-icon>
               </div>
-              <div [class]="data.capita_origen ? 'icon' : 'icon disabled fix'" (click)="clearInput('capita_origen')" >
+              <div [class]="data.capita_origen ? 'icon' : 'icon disabled fix'" (click)="clearInput('capita_origen')">
                 <mat-icon class="material-symbols-outlined"> close </mat-icon>
               </div>
             </ng-container>
           </div>
         </div>
 
-        <div class="cont">
+        <div [class]="data.par_modo === 'C' ? 'cont' : 'no-cont'">
           <div>
             <div class="seeker-fields-container">
               <h3> PRODUCTO </h3>
               <div class="content">
                 <mat-form-field class="seeker-form-field" appearance="outline">
-                  <input matInput formControlName="producto_origen" placeholder="Seleccione un producto/subproducto origen" readonly [disabled]="data.capita_origen" required (ngModelChange)="limpiar(3)" />
+                  <input matInput formControlName="producto_origen"
+                  [placeholder]="data.par_modo === 'C' ? 'Seleccione un producto/subproducto origen.' : ''" readonly [disabled]="data.capita_origen"
+                    required (ngModelChange)="limpiar(3)" />
                   <mat-error *ngIf="formGroup.get('producto_origen')?.invalid">
                     {{ getErrorMessage(formGroup.get("producto_origen")) }}
                   </mat-error>
@@ -42,7 +47,8 @@
             <div class="seeker-fields-container">
               <h3> SUBPRODUCTO </h3>
               <mat-form-field class="seeker-form-field" appearance="outline">
-                <input matInput formControlName="sub_producto_origen" placeholder="Seleccione un producto/subproducto origen" readonly />
+                <input matInput formControlName="sub_producto_origen"
+                [placeholder]="data.par_modo === 'C' && !data.producto_origen ? 'seleccione un producto/subproducto origen.' : ''" readonly />
                 <mat-error *ngIf="formGroup.get('sub_producto_origen')?.invalid">
                   {{ getErrorMessage(formGroup.get("sub_producto_origen")) }}
                 </mat-error>
@@ -53,23 +59,25 @@
             <div [class]="data.capita_origen ? 'icon' : 'icon disabled fix'" (click)="getProducto()">
               <mat-icon class="material-symbols-outlined"> search </mat-icon>
             </div>
-            <div [class]="data.sub_producto_origen || data.producto_origen ? 'icon' : 'icon disabled fix'" (click)="clearInput('producto_origen')">
+            <div [class]="data.sub_producto_origen || data.producto_origen ? 'icon' : 'icon disabled fix'"
+              (click)="clearInput('producto_origen')">
               <mat-icon class="material-symbols-outlined"> close </mat-icon>
             </div>
           </div>
         </div>
-        
+
         <div class="seeker-fields-container">
           <h3> PLAN </h3>
           <div class="content">
             <mat-form-field class="seeker-form-field" appearance="outline">
-              <input matInput formControlName="plan_origen" placeholder="Seleccione un plan origen" readonly required />
+              <input matInput formControlName="plan_origen" [placeholder]="data.par_modo === 'C' ? 'Seleccione un plan origen.' : ''" readonly required />
               <mat-error *ngIf="formGroup.get('plan_origen')?.invalid">
                 {{ getErrorMessage(formGroup.get("plan_origen")) }}
               </mat-error>
             </mat-form-field>
             <ng-container *ngIf="this.data.par_modo === 'C'">
-              <div [class]="data.producto_origen || data.sub_producto_origen ? 'icon' : 'icon disabled fix'" (click)="getPlan()">
+              <div [class]="data.producto_origen || data.sub_producto_origen ? 'icon' : 'icon disabled fix'"
+                (click)="getPlan()">
                 <mat-icon class="material-symbols-outlined"> search </mat-icon>
               </div>
               <div [class]="data.plan_origen ? 'icon' : 'icon disabled fix'" (click)="clearInput('plan_origen')">
@@ -78,23 +86,24 @@
             </ng-container>
           </div>
         </div>
-        
+
         <div class="seeker-fields-container">
           <h3> TIPO DE MOVIMIENTO </h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
             <ng-container *ngIf="data.par_modo === 'C' || data.par_modo === 'U'; else isView">
-              <mat-select formControlName="mov_origen" placeholder="Seleccione un tipo de movimiento origen" required minlength="1" maxlength="2" disableOptionCentering>
+              <mat-select formControlName="mov_origen" [placeholder]="data.par_modo === 'C' ? 'Seleccione un tipo de movimiento origen.' : ''" required
+                minlength="1" maxlength="2" disableOptionCentering>
                 <mat-option *ngFor="let mov of movimientos" [value]="mov[0]">
                   {{ mov }}
                 </mat-option>
               </mat-select>
             </ng-container>
-            
+
             <mat-error *ngIf="formGroup.get('mov_origen')?.invalid">
               {{ getErrorMessage(formGroup.get("mov_origen")) }}</mat-error>
 
             <ng-template #isView>
-              <input matInput [value]="textTransform(data.mov_origen.trim(), 1)" disabled/>
+              <input matInput [value]="textTransform(data.mov_origen.trim(), 1)" disabled />
             </ng-template>
           </mat-form-field>
         </div>
@@ -103,28 +112,32 @@
           <h3> MONOTRIBUTO </h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
             <ng-container *ngIf="data.par_modo === 'C' || data.par_modo === 'U'; else isView2">
-            <mat-select formControlName="monotributo" placeholder="Seleccione un monotributo origen" required minlength="1" maxlength="1" disableOptionCentering>
-              <mat-option [value]="'S'"> SI </mat-option>
-              <mat-option [value]="'N'"> NO </mat-option>
-            </mat-select>
-          </ng-container>
+              <mat-select formControlName="monotributo" [placeholder]="data.par_modo === 'C' ? 'Seleccione un monotributo origen.' : ''" required
+                minlength="1" maxlength="1" disableOptionCentering>
+                <mat-option [value]="'S'"> SI </mat-option>
+                <mat-option [value]="'N'"> NO </mat-option>
+              </mat-select>
+            </ng-container>
             <mat-error *ngIf="formGroup.get('monotributo')?.invalid">
               {{ getErrorMessage(formGroup.get("monotributo")) }}
             </mat-error>
 
             <ng-template #isView2>
-              <input matInput [value]="data.monotributo === 'S' ? 'Si' : data.monotributo === 'N' ? 'Si' : 'No'" disabled/>
+              <input matInput [value]="data.monotributo === 'S' ? 'Si' : data.monotributo === 'N' ? 'Si' : 'No'"
+                disabled />
             </ng-template>
           </mat-form-field>
         </div>
       </mat-tab>
 
       <mat-tab>
+        <h4 class="title"> DESTINO </h4>
         <div class="seeker-fields-container mt-1">
           <h3> FUENTE DE INGRESO </h3>
           <div class="content">
             <mat-form-field class="seeker-form-field" appearance="outline">
-              <input matInput formControlName="capita_rel" placeholder="Seleccione una fuente de ingreso relacionada" readonly required (ngModelChange)="limpiar(2)"/>
+              <input matInput formControlName="capita_rel" [placeholder]="data.par_modo === 'C' ? 'Seleccione una fuente de ingreso relacionada.' : ''"
+                readonly required (ngModelChange)="limpiar(2)" />
               <mat-error *ngIf="formGroup.get('capita_rel')?.invalid">
                 {{ getErrorMessage(formGroup.get("capita_rel")) }}
               </mat-error>
@@ -140,65 +153,70 @@
           </div>
         </div>
 
-        <div class="seeker-fields-container">
+        <div class="seeker-fields-container" *ngIf="data.par_modo !== 'C'">
           <h3> SECUENCIA </h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
-            <input matInput formControlName="sec_prod_rel" placeholder="Ingrese una secuencia" required minlength="1" maxlength="2" />
+            <input matInput formControlName="sec_prod_rel" [placeholder]="data.par_modo === 'C' ? 'Ingrese una secuencia.' : ''" required minlength="1"
+              maxlength="2" />
             <mat-error *ngIf="formGroup.get('sec_prod_rel')?.invalid">
               {{ getErrorMessage(formGroup.get("sec_prod_rel")) }}
             </mat-error>
           </mat-form-field>
         </div>
 
-      <div class="cont">
-        <div>
-          <div class="seeker-fields-container">
-            <h3> PRODUCTO </h3>
-            <div class="content">
+        <div [class]="data.par_modo === 'C' || data.par_modo === 'U' ? 'cont' : 'no-cont'">
+          <div>
+            <div class="seeker-fields-container">
+              <h3> PRODUCTO </h3>
+              <div class="content">
+                <mat-form-field class="seeker-form-field" appearance="outline">
+                  <input matInput formControlName="producto_relacionado"
+                  [placeholder]="data.par_modo === 'C' ? 'Seleccione un producto/subproducto.' : ''" readonly required (ngModelChange)="limpiar(4)" />
+                  <mat-error *ngIf="formGroup.get('producto_relacionado')?.invalid">
+                    {{ getErrorMessage(formGroup.get("producto_relacionado")) }}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="seeker-fields-container">
+              <h3> SUBPRODUCTO </h3>
               <mat-form-field class="seeker-form-field" appearance="outline">
-                <input matInput formControlName="producto_relacionado" placeholder="Seleccione un producto/subproducto" readonly  required (ngModelChange)="limpiar(4)" />
-                <mat-error *ngIf="formGroup.get('producto_relacionado')?.invalid">
-                  {{ getErrorMessage(formGroup.get("producto_relacionado")) }}
+                <input matInput formControlName="sub_prod_rel" [placeholder]="data.par_modo === 'C' && !data.producto_relacionado ? 'Seleccione un producto/subproducto.' : ''"
+                  readonly />
+                <mat-error *ngIf="formGroup.get('sub_prod_rel')?.invalid">
+                  {{ getErrorMessage(formGroup.get("sub_prod_rel")) }}
                 </mat-error>
               </mat-form-field>
             </div>
           </div>
-          <div class="seeker-fields-container">
-            <h3> SUBPRODUCTO </h3>
-            <mat-form-field class="seeker-form-field" appearance="outline">
-              <input matInput formControlName="sub_prod_rel" placeholder="Seleccione un producto/subproducto" readonly />
-              <mat-error *ngIf="formGroup.get('sub_prod_rel')?.invalid">
-                {{ getErrorMessage(formGroup.get("sub_prod_rel")) }}
-              </mat-error>
-            </mat-form-field>
+          <div class="icon-container" *ngIf="this.data.par_modo === 'C' || this.data.par_modo === 'U'">
+            <div [class]="data.capita_rel ? 'icon' : 'icon disabled fix'" (click)="getProductoRel()">
+              <mat-icon class="material-symbols-outlined"> search </mat-icon>
+            </div>
+            <div [class]="data.sub_prod_rel || data.producto_relacionado ? 'icon' : 'icon disabled fix'"
+              (click)="clearInput('producto_relacionado')">
+              <mat-icon class="material-symbols-outlined"> close </mat-icon>
+            </div>
           </div>
         </div>
-        <div class="icon-container" *ngIf="this.data.par_modo === 'C'">
-          <div [class]="data.capita_rel ? 'icon' : 'icon disabled fix'" (click)="getProductoRel()">
-            <mat-icon class="material-symbols-outlined"> search </mat-icon>
-          </div>
-          <div [class]="data.sub_prod_rel || data.producto_relacionado ? 'icon' : 'icon disabled fix'" (click)="clearInput('producto_relacionado')">
-            <mat-icon class="material-symbols-outlined"> close </mat-icon>
-          </div>
-        </div>
-      </div>
-      
-      <div class="seeker-fields-container">
-        <h3> MOVIMIENTO </h3>
-        <mat-form-field class="seeker-form-field" appearance="outline">
-          <ng-container *ngIf="data.par_modo === 'C' || data.par_modo === 'U'; else isView3">
-          <mat-select formControlName="movimiento_rel" placeholder="Seleccione un movimiento relacionado" required minlength="1" maxlength="2" disableOptionCentering>
-            <mat-option *ngFor="let mov2 of movimientos" [value]="mov2[0]">
-              {{ mov2 }}
-            </mat-option>
-          </mat-select>
-        </ng-container>
-        <ng-template #isView3>
-          <input matInput [value]="textTransform(data.movimiento_rel.trim(), 1)" disabled>
-        </ng-template>
-          <mat-error *ngIf="formGroup.get('movimiento_rel')?.invalid">{{
-            getErrorMessage(formGroup.get("movimiento_rel"))
-            }}</mat-error>
+
+        <div class="seeker-fields-container">
+          <h3> MOVIMIENTO </h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <ng-container *ngIf="data.par_modo === 'C' || data.par_modo === 'U'; else isView3">
+              <mat-select formControlName="movimiento_rel" [placeholder]="data.par_modo === 'C' ? 'Seleccione un movimiento relacionado.' : ''" required
+                minlength="1" maxlength="2" disableOptionCentering>
+                <mat-option *ngFor="let mov2 of movimientos" [value]="mov2[0]">
+                  {{ mov2 }}
+                </mat-option>
+              </mat-select>
+            </ng-container>
+            <ng-template #isView3>
+              <input matInput [value]="textTransform(data.movimiento_rel.trim(), 1)" disabled>
+            </ng-template>
+            <mat-error *ngIf="formGroup.get('movimiento_rel')?.invalid">{{
+              getErrorMessage(formGroup.get("movimiento_rel"))
+              }}</mat-error>
           </mat-form-field>
         </div>
       </mat-tab>
@@ -208,15 +226,16 @@
           <h3> NOVEDAD DE VÍNCULO </h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
             <ng-container *ngIf="data.par_modo === 'C' || data.par_modo === 'U'; else isView4">
-            <mat-select formControlName="novedad_vinculo" placeholder="Seleccione una novedad de vinculo" required minlength="1" maxlength="1" disableOptionCentering>
-              <mat-option [value]="'A'"> ALTA </mat-option>
-              <mat-option [value]="'B'"> BAJA </mat-option>
-              <mat-option [value]="' '"> NADA </mat-option>
-            </mat-select>
-          </ng-container>
-          <mat-error *ngIf="formGroup.get('novedad_vinculo')?.invalid">
-            {{ getErrorMessage(formGroup.get("novedad_vinculo")) }}
-          </mat-error>
+              <mat-select formControlName="novedad_vinculo" [placeholder]="data.par_modo === 'C' ? 'Seleccione una novedad de vinculo.' : ''" required
+                minlength="1" maxlength="1" disableOptionCentering>
+                <mat-option [value]="'A'"> ALTA </mat-option>
+                <mat-option [value]="'B'"> BAJA </mat-option>
+                <mat-option [value]="' '"> NADA </mat-option>
+              </mat-select>
+            </ng-container>
+            <mat-error *ngIf="formGroup.get('novedad_vinculo')?.invalid">
+              {{ getErrorMessage(formGroup.get("novedad_vinculo")) }}
+            </mat-error>
             <ng-template #isView4>
               <input matInput [value]="textTransform(data.novedad_vinculo, 1)" disabled />
             </ng-template>
@@ -227,7 +246,8 @@
           <h3> CLASE DE PRODUCTO </h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
             <ng-container *ngIf="data.par_modo === 'C' || data.par_modo === 'U'; else isView5">
-              <mat-select formControlName="clase_prod" placeholder="Seleccione una clase de producto" required minlength="1" maxlength="2" disableOptionCentering>
+              <mat-select formControlName="clase_prod" [placeholder]="data.par_modo === 'C' ? 'Seleccione una clase de producto.' : ''" required
+                minlength="1" maxlength="2" disableOptionCentering>
                 <mat-option [value]="'L'"> CUOTA SOCIAL </mat-option>
                 <mat-option [value]="'S'"> SALUD </mat-option>
                 <mat-option [value]="'B'"> SUBSIDIO </mat-option>
@@ -250,12 +270,13 @@
           <h3> PLAN </h3>
           <div class="content">
             <mat-form-field class="seeker-form-field" appearance="outline">
-              <input matInput formControlName="plan_cambio" placeholder="Seleccione un plan" readonly required />
+              <input matInput formControlName="plan_cambio" [placeholder]="data.par_modo === 'C' ? 'Seleccione un plan.' : ''" readonly required />
               <mat-error *ngIf="formGroup.get('plan_cambio')?.invalid">
                 {{ getErrorMessage(formGroup.get("plan_cambio")) }} </mat-error>
             </mat-form-field>
             <ng-container *ngIf="this.data.par_modo === 'C' || this.data.par_modo === 'U'">
-              <div [class]="this.formGroup.get('producto_relacionado')?.value ? 'icon' : 'icon disabled fix'" (click)="getPlanRel()">
+              <div [class]="this.formGroup.get('producto_relacionado')?.value ? 'icon' : 'icon disabled fix'"
+                (click)="getPlanRel()">
                 <mat-icon class="material-symbols-outlined"> search </mat-icon>
               </div>
               <div [class]="data.plan_cambio ? 'icon' : 'icon disabled fix'" (click)="clearInput('plan_cambio')">
@@ -269,18 +290,19 @@
           <h3> OPCIÓN MONOTRIBUTO </h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
             <ng-container *ngIf="data.par_modo === 'C' || data.par_modo === 'U'; else isView6">
-            <mat-select formControlName="opcion_monotributo" placeholder="Seleccione una opción de monotributo" required minlength="1" maxlength="2" disableOptionCentering>
-              <mat-option [value]="0"> AFILIACIÓN NORMAL </mat-option>
-              <mat-option [value]="01"> MONOTRIBUTISTAS SIN OPCIÓN DE CAMBIO </mat-option>
-              <mat-option [value]="02"> MONOTRIBUTISTAS CON OPCIÓN DE CAMBIO A PREPAGA </mat-option>
-            </mat-select>
-          </ng-container>
-          <mat-error *ngIf="formGroup.get('opcion_monotributo')?.invalid">
-            {{ getErrorMessage(formGroup.get("opcion_monotributo")) }}
-          </mat-error>
-          <ng-template #isView6>
-            <input matInput [value]="textTransform(data.opcion_monotributo.toString(), 1)" disabled/>
-          </ng-template>
+              <mat-select formControlName="opcion_monotributo" [placeholder]="data.par_modo === 'C' ? 'Seleccione una opción de monotributo.' : ''"
+                required minlength="1" maxlength="2" disableOptionCentering>
+                <mat-option [value]="0"> AFILIACIÓN NORMAL </mat-option>
+                <mat-option [value]="01"> MONOTRIBUTISTAS SIN OPCIÓN DE CAMBIO </mat-option>
+                <mat-option [value]="02"> MONOTRIBUTISTAS CON OPCIÓN DE CAMBIO A PREPAGA </mat-option>
+              </mat-select>
+            </ng-container>
+            <mat-error *ngIf="formGroup.get('opcion_monotributo')?.invalid">
+              {{ getErrorMessage(formGroup.get("opcion_monotributo")) }}
+            </mat-error>
+            <ng-template #isView6>
+              <input matInput [value]="textTransform(data.opcion_monotributo.toString(), 1)" disabled />
+            </ng-template>
           </mat-form-field>
         </div>
 
@@ -288,13 +310,14 @@
           <h3> MOTIVO </h3>
           <div class="content">
             <mat-form-field class="seeker-form-field" appearance="outline">
-              <input matInput formControlName="codigo_motivo" placeholder="Seleccione un motivo de movimiento" readonly required />
+              <input matInput formControlName="codigo_motivo" [placeholder]="data.par_modo === 'C' ? this.formGroup.get('movimiento_rel')?.value.length === 0 ? 'Seleccione un movimiento.' : 'Seleccione un motivo de movimiento.' : ''" readonly
+                required />
               <mat-error *ngIf="formGroup.get('codigo_motivo')?.invalid">
                 {{ getErrorMessage(formGroup.get("codigo_motivo")) }}
               </mat-error>
             </mat-form-field>
             <ng-container *ngIf="this.data.par_modo === 'C' || this.data.par_modo === 'U'">
-              <div class="icon" (click)="setMotivoMovimiento()">
+              <div [class]="this.formGroup.get('movimiento_rel')?.value.length === 0 ? 'icon disabled fix' : 'icon'" (click)="getMovimientos()">
                 <mat-icon class="material-symbols-outlined"> search </mat-icon>
               </div>
               <div [class]="data.codigo_motivo ? 'icon' : 'icon disabled fix'" (click)="clearInput('codigo_motivo')">

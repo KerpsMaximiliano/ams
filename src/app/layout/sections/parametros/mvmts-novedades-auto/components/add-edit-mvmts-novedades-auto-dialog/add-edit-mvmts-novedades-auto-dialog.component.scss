@@ -29,7 +29,7 @@
 
 .dialog-content {
   width: 650px;
-  min-height: 393px;
+  min-height: 356px;
 }
 
 .mat-tab-text {
@@ -115,6 +115,11 @@
 
 .fix{
   pointer-events: none;
+}
+
+.title{
+  font-weight: bold;
+  padding-top: 5px;
 }
 
 /*

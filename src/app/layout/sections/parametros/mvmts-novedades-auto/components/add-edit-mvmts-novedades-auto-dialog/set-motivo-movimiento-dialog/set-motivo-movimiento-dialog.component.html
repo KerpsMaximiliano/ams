@@ -3,44 +3,12 @@
     <h2> {{ data.title | uppercase }} </h2>
   </div>
 
-  <form>
-    <div class="seeker-fields-container">
-      <mat-form-field class="seeker-form-field">
-        <mat-label class="seeker-label">
-          Seleccione un motivo de movimiento
-        </mat-label>
-        <mat-select #selectMovimiento disableOptionCentering required>
-          <mat-option value="A"> ALTA </mat-option>
-          <mat-option value="B"> BAJA </mat-option>
-          <mat-option value="S"> SUSPENDIDO </mat-option>
-          <mat-option value="O"> OSP </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field class="seeker-form-field">
-        <mat-label class="seeker-label">
-          Ingrese un motivo de movimiento
-        </mat-label>
-        <input matInput class="seeker-input" #input 
-        (keydown.enter)="getMovimientos(input.value)"
-        [disabled]="!selectMovimiento?.value">
-      </mat-form-field>   
-    </div>
-
-    <div class="buttons-container">
-      <button class="primary-button icon-button btn" type="button" 
-      (click)="getMovimientos(input.value)" 
-      [disabled]="!selectMovimiento?.value">
-        <mat-icon> done </mat-icon>
-        Buscar
-      </button>
-      <button class="primary-button icon-button btn" type="button" (click)="clear(input)" [disabled]="input.value.length === 0">
-        <mat-icon> close </mat-icon>
-        Limpiar
-      </button>
-    </div>
-  </form>
-
   <section class="table-container">
+    <mat-form-field appearance="standard" class="filter-container">
+      <mat-label> Ingrese la descripcion </mat-label>
+      <input matInput (keyup)="applyFilter($event)" #input [disabled]="!dataSource">
+    </mat-form-field>
+    
     <table mat-table [dataSource]="dataSource">
       <ng-container class="mat-row" *matNoDataRow>
         <td class="mat-cell no-data-cell" [attr.colspan]="displayedColumns.length"

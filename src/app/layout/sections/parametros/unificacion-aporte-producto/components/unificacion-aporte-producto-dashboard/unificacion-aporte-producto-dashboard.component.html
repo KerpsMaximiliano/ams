@@ -29,11 +29,6 @@
         param.subproducto_principal_descripcion : '' }} </td>
     </ng-container>
 
-    <ng-container matColumnDef="unifica_aportes">
-      <th mat-header-cell *matHeaderCellDef> ¿Unificación de aportes? </th>
-      <td mat-cell *matCellDef="let param"> {{ param.unifica_aportes === 'S' ? 'SI' : 'NO' }} </td>
-    </ng-container>
-
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef> Acciones </th>
       <td mat-cell *matCellDef="let element">

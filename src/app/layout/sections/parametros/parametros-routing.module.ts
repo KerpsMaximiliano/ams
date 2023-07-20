@@ -40,6 +40,8 @@ import { SubMotivoMovimientoProductoComponent } from './sub-motivo-movimiento-pr
 import { UnificacionAporteProductoComponent } from './unificacion-aporte-producto/unificacion-aporte-producto.component';
 // 30 - REGLAS PARA MOVIMIENTOS PARA NOVEDADES AUTOMATICAS
 import { MvmtsNovedadesAutoComponent } from './mvmts-novedades-auto/mvmts-novedades-auto.component';
+// 31 - ATRIBUTOS DE RELACIÓN CAPITA/PLAN
+import { AtributosRelacionCapitaPlanComponent } from './atributos-relacion-capita-plan/atributos-relacion-capita-plan.component';
 // 32 - EXTENCION FUENTES DE INGRESOS
 import { ExtencionFuenteIngresoComponent } from './extencion-fuente-ingreso/extencion-fuente-ingreso.component';
 // 34 - EMPRESA FACTURA
@@ -121,6 +123,10 @@ const routes: Routes = [
   {
     path: 'parametros/mvmts-novedades-automaticas',
     component: MvmtsNovedadesAutoComponent,
+  },
+  {
+    path: 'parametros/atributos-relacion-capita-plan',
+    component: AtributosRelacionCapitaPlanComponent,
   },
   {
     path: 'parametros/extencion-fuente-ingreso',

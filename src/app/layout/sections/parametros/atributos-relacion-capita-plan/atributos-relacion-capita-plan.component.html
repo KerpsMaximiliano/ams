@@ -1,0 +1,22 @@
+<section class="browse-section">
+  <div class="section-header">
+    <h2> Atributos según relación plan/cápita </h2>
+    <div class="section-header-item">
+      <button class="primary-button icon-button" (click)="back()">
+        <mat-icon> arrow_back </mat-icon>
+        Volver
+      </button>
+      <button class="new-button icon-button" (click)="new()">
+        <mat-icon> add </mat-icon>
+        Nuevo
+      </button>
+    </div>
+  </div>
+
+  <div class="section-content">
+    <app-atributos-relacion-capita-plan-filter (search)="getData($event)"
+      [fuenteIngreso]="fuenteIngreso"></app-atributos-relacion-capita-plan-filter>
+    <app-atributos-relacion-capita-plan-dashboard [receivedData]="dataSent" (viewEvent)="view($event)"
+      (editEvent)="edit($event)"></app-atributos-relacion-capita-plan-dashboard>
+  </div>
+</section>

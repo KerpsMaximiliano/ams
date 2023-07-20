@@ -1,3 +1,7 @@
+h2 {
+  margin-top: 0rem;
+}
+
 .dialog-content {
   min-width: 800px;
 }
@@ -32,10 +36,10 @@ tr.mat-row {
 /*
    * Texto alineado a la izquierda.
   */
-.mat-column-descripcion_producto_administrador.mat-header-cell,
-.mat-column-descripcion_producto_administrador.mat-cell,
-.mat-column-descripcion_producto.mat-header-cell,
-.mat-column-descripcion_producto.mat-cell {
+.mat-column-producto_principal_descripcion.mat-header-cell,
+.mat-column-producto_principal_descripcion.mat-cell,
+.mat-column-subproducto_principal_descripcion.mat-header-cell,
+.mat-column-subproducto_principal_descripcion.mat-cell {
   text-align: left !important;
   padding-left: 1vw;
   word-break: break-all;
@@ -44,10 +48,10 @@ tr.mat-row {
 /*
    * Número y fecha alineado a la derecha.
   */
-.mat-column-producto_administrador.mat-header-cell,
-.mat-column-producto_administrador.mat-cell,
-.mat-column-codigo_producto.mat-header-cell,
-.mat-column-codigo_producto.mat-cell {
+.mat-column-producto_principal.mat-header-cell,
+.mat-column-producto_principal.mat-cell,
+.mat-column-subproducto_principal.mat-header-cell,
+.mat-column-subproducto_principal.mat-cell {
   text-align: right !important;
   padding-right: 1vw;
 }
@@ -55,17 +59,17 @@ tr.mat-row {
 /*
    * Tamaño de columnas.
   */
-.mat-column-producto_administrador.mat-header-cell,
-.mat-column-producto_administrador.mat-cell,
-.mat-column-codigo_producto.mat-header-cell,
-.mat-column-codigo_producto.mat-cell {
+.mat-column-producto_principal.mat-header-cell,
+.mat-column-producto_principal.mat-cell,
+.mat-column-subproducto_principal.mat-header-cell,
+.mat-column-subproducto_principal.mat-cell {
   min-width: 60px;
 }
 
-.mat-column-descripcion_producto_administrador.mat-header-cell,
-.mat-column-descripcion_producto_administrador.mat-cell,
-.mat-column-descripcion_producto.mat-header-cell,
-.mat-column-descripcion_producto.mat-cell {
+.mat-column-producto_principal_descripcion.mat-header-cell,
+.mat-column-producto_principal_descripcion.mat-cell,
+.mat-column-subproducto_principal_descripcion.mat-header-cell,
+.mat-column-subproducto_principal_descripcion.mat-cell {
   min-width: 120px;
   width: 50%;
 }

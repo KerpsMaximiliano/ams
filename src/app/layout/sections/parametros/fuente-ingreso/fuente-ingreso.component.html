@@ -8,10 +8,7 @@
   </div>
 
   <div class="section-content">
-    <app-fuente-ingreso-filter
-      (searchEvent)="handleSearch($event)"
-      [datosEmpresas]="datosEmpresa"
-    >
+    <app-fuente-ingreso-filter (searchEvent)="handleSearch($event)" [datosEmpresas]="datosEmpresa">
     </app-fuente-ingreso-filter>
     <app-fuente-ingreso-dashboard [datosEmpresas]="datosEmpresa">
     </app-fuente-ingreso-dashboard>

@@ -50,13 +50,13 @@ import { SetObraSocialDialogComponent } from './set-obra-social-dialog/set-obra-
   styleUrls: ['./add-edit-producto-dialog.component.scss'],
 })
 export class AddEditProductoDialogComponent {
-  private element: any[];
   private date: number;
   public getErrorMessage = getErrorMessage;
   public formGroup: UntypedFormGroup;
   public visibilidad: boolean = false;
   public estado: boolean = false;
   public activeTabIndex = 0;
+  public uploaded: boolean = false;
 
   constructor(
     private dataSharingService: DataSharingService,
@@ -72,6 +72,8 @@ export class AddEditProductoDialogComponent {
     this.setUpForm();
     this.configureValidators();
     this.configureButton();
+    if (this.data.empresaFactura) this.uploaded = true;
+    console.log(this.data);
   }
 
   public nextStep(): void {
@@ -208,10 +210,6 @@ export class AddEditProductoDialogComponent {
           } else {
             if (err.status == 404) {
               this.unificacionAporteProductoService.set([]);
-              this.utilService.notification(
-                'No se han encontrado unificación de aportes por producto. ',
-                'error'
-              );
             } else {
               this.utilService.notification(
                 `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
@@ -358,7 +356,10 @@ export class AddEditProductoDialogComponent {
       numero_empresa_factura: new UntypedFormControl(
         {
           value: this.data.numero_empresa_factura,
-          disabled: this.data.par_modo === 'R' || this.data.par_modo === 'U',
+          disabled:
+            this.data.par_modo === 'R' ||
+            this.data.par_modo === 'U' ||
+            !this.data.empresaFactura,
         },
         Validators.compose([
           Validators.required,
@@ -403,7 +404,7 @@ export class AddEditProductoDialogComponent {
   }
 
   private getProductoPrimario(): void {
-    this.element = [];
+    let data: IProducto[];
     this.utilService.openLoading();
     this.productoService
       .CRUD(
@@ -413,14 +414,15 @@ export class AddEditProductoDialogComponent {
       )
       .subscribe({
         next: (res: any) => {
-          this.element = Array.isArray(res.dataset)
+          data = Array.isArray(res.dataset)
             ? (res.dataset as IProducto[])
             : [res.dataset as IProducto];
+          this.setProductoPrimario(data);
         },
         error: (err: any) => {
           this.utilService.closeLoading();
-          err.status == 0
-            ? this.utilService.notification('Error de conexión. ', 'error')
+          err.status === 0
+            ? this.utilService.notification('Error de conexión.', 'error')
             : this.utilService.notification(
                 `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
                 'error'
@@ -428,12 +430,12 @@ export class AddEditProductoDialogComponent {
         },
         complete: () => {
           this.utilService.closeLoading();
-          this.setProductoPrimario(this.element);
         },
       });
   }
 
   private getFuenteIngreso(): void {
+    let data: IFuenteIngreso[];
     this.utilService.openLoading();
     this.fuenteIngresoService
       .CRUD(
@@ -445,15 +447,15 @@ export class AddEditProductoDialogComponent {
       )
       .subscribe({
         next: (res: any) => {
-          let data: IFuenteIngreso[] = Array.isArray(res.dataset)
+          data = Array.isArray(res.dataset)
             ? (res.dataset as IFuenteIngreso[])
             : [res.dataset as IFuenteIngreso];
           this.setFuenteIngreso(data);
         },
         error: (err: any) => {
           this.utilService.closeLoading();
-          err.status == 0
-            ? this.utilService.notification('Error de conexión. ', 'error')
+          err.status === 0
+            ? this.utilService.notification('Error de conexión.', 'error')
             : this.utilService.notification(
                 `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
                 'error'
@@ -466,6 +468,7 @@ export class AddEditProductoDialogComponent {
   }
 
   private getObraSocial(): void {
+    let data: IProductoObraSocial[];
     this.utilService.openLoading();
     this.productoService
       .CRUD(
@@ -475,15 +478,15 @@ export class AddEditProductoDialogComponent {
       )
       .subscribe({
         next: (res: any) => {
-          let data: IProductoObraSocial[] = Array.isArray(res.dataset)
+          data = Array.isArray(res.dataset)
             ? (res.dataset as IProductoObraSocial[])
             : [res.dataset as IProductoObraSocial];
           this.setObraSocial(data);
         },
         error: (err: any) => {
           this.utilService.closeLoading();
-          err.status == 0
-            ? this.utilService.notification('Error de conexión. ', 'error')
+          err.status === 0
+            ? this.utilService.notification('Error de conexión.', 'error')
             : this.utilService.notification(
                 `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
                 'error'

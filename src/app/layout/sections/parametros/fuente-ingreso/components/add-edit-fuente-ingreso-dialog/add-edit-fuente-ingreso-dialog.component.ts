@@ -1,5 +1,5 @@
 import { Component, Inject, Input, inject } from '@angular/core';
-import { concat, toArray } from 'rxjs';
+import { concat, delay, toArray } from 'rxjs';
 
 // * Interface
 import { IFuenteIngreso } from 'src/app/core/models/fuente-ingreso.interface';
@@ -55,6 +55,7 @@ export class AddEditFuenteIngresoDialogComponent {
     id_referencia_contable: string;
   }[];
   mostrarAdministradora: boolean = false;
+  mostrarAdicional: boolean = false;
 
   dias: { d: number; dia: number }[];
   constructor(
@@ -96,14 +97,13 @@ export class AddEditFuenteIngresoDialogComponent {
       { d: 28, dia: 28 },
     ];
     this.listEmpresas = data.datosEmpresa;
-    this.cargaDatos();
     this.setUpForm();
     this.getFuenteIngreso();
   }
 
   ngOnInit() {
-    this.setFormValues();
     if (this.data.par_modo === 'U' || this.data.par_modo === 'R') {
+      this.setFormValues();
       if (this.data.edit === false) {
         this.formGroup.disable();
       } else {
@@ -127,7 +127,6 @@ export class AddEditFuenteIngresoDialogComponent {
         this.filtroFuente();
       },
       error: (err: any) => {
-        this.UtilService.closeLoading();
         err.status == 0
           ? this.UtilService.notification('Error de conexión. ', 'error')
           : this.UtilService.notification(
@@ -136,7 +135,7 @@ export class AddEditFuenteIngresoDialogComponent {
             );
       },
       complete: () => {
-        this.UtilService.closeLoading();
+        this.cargaDatos();
       },
     });
   }
@@ -203,16 +202,17 @@ export class AddEditFuenteIngresoDialogComponent {
           this.listTalonarios = res[2].dataset;
           // * listCondicionV
           this.listCondicionV = res[3].dataset;
-          this.UtilService.closeLoading();
         },
         error: (err: any) => {
-          this.UtilService.closeLoading();
           err.status == 0
             ? this.UtilService.notification('Error de conexión. ', 'error')
             : this.UtilService.notification(
                 `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}. `,
                 'error'
               );
+        },
+        complete: () => {
+          this.UtilService.closeLoading();
         },
       });
   }
@@ -260,8 +260,10 @@ export class AddEditFuenteIngresoDialogComponent {
         this.data.tipo_fuente ? this.data.tipo_fuente.trim() : '',
         Validators.compose([Validators.required])
       ),
-      codigo_fuente_admin: new UntypedFormControl(
-        this.data.codigo_fuente_admin ? this.data.codigo_fuente_admin : ''
+      codigo_fuente_admin: new UntypedFormControl({ value:
+        this.data.codigo_fuente_admin ? this.data.codigo_fuente_admin : '',
+        disabled: this.data.tipo_fuente == 'A' || this.data.tipo_fuente == '',
+      },
       ),
       codigo_fuente_admin_descripcion: new UntypedFormControl(),
       empresa_asociada: new UntypedFormControl(
@@ -343,9 +345,12 @@ export class AddEditFuenteIngresoDialogComponent {
         Validators.compose([Validators.required])
       ),
       condicion_aporte_adic_dec: new UntypedFormControl(
-        this.data.condicion_aporte_adic_dec
-          ? this.data.condicion_aporte_adic_dec
-          : 0,
+        {
+          value: this.data.condicion_aporte_adic_dec
+            ? this.data.condicion_aporte_adic_dec
+            : 0,
+          disabled: !this.mostrarAdicional,
+        },
         Validators.compose([Validators.maxLength(5)])
       ),
       fuente_aporte_adicional: new UntypedFormControl(
@@ -356,9 +361,12 @@ export class AddEditFuenteIngresoDialogComponent {
       ),
       fuente_aporte_adicional_descripcion: new UntypedFormControl(),
       concepto_aporte_adicional: new UntypedFormControl(
-        this.data.concepto_aporte_adicional
-          ? this.data.concepto_aporte_adicional
-          : 0,
+        {
+          value: this.data.concepto_aporte_adicional
+            ? this.data.concepto_aporte_adicional
+            : 0,
+          disabled: !this.mostrarAdicional,
+        },
         Validators.compose([Validators.maxLength(5)])
       ),
 
@@ -410,8 +418,21 @@ export class AddEditFuenteIngresoDialogComponent {
       this.formGroup.get('codigo_fuente_admin')?.setValue(0);
       this.formGroup.get('codigo_fuente_admin_descripcion')?.setValue('');
       this.mostrarAdministradora = false;
-    } else if (this.formGroup.get('tipo_fuente')?.value != 'A') {
+    } else {
       this.mostrarAdministradora = true;
+    }
+  }
+
+  // * valida los datos de la fuente de adicional
+  public fuenteAdicional() {
+    if (this.formGroup.get('aporte_adicional')?.value == 'S') {
+      this.mostrarAdicional = true;
+    } else {
+      this.formGroup.get('fuente_aporte_adicional')?.setValue(0);
+      this.formGroup.get('fuente_aporte_adicional_descripcion')?.setValue('');
+      this.formGroup.get('concepto_aporte_adicional')?.setValue(0);
+      this.formGroup.get('condicion_aporte_adic_dec')?.setValue(0);
+      this.mostrarAdicional = false;
     }
   }
 
@@ -428,6 +449,7 @@ export class AddEditFuenteIngresoDialogComponent {
   public getFuente(tipo: string): void {
     const modalFuenteIngreso = this.dialog.open(ModalFuenteIngresoComponent, {
       data: {
+        title: 'SELECCIONE UNA FUENTE DE INGRESO',
         datos: this.fuenteIngresos,
       },
     });
