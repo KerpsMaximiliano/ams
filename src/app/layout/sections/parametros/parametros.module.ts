@@ -129,6 +129,12 @@ import { ExtencionFuenteIngresoFilterComponent } from './extencion-fuente-ingres
 import { AddEditExtencionFuenteIngresoComponent } from './extencion-fuente-ingreso/components/add-edit-extencion-fuente-ingreso/add-edit-extencion-fuente-ingreso.component';
 import { ModalExtencionProductoComponent } from './extencion-fuente-ingreso/components/add-edit-extencion-fuente-ingreso/modal-extencion-producto/modal-extencion-producto.component';
 import { LocalidadSetDialogComponent } from './localidad/components/add-edit-localidad-dialog/localidad-set-posicion-dialog/localidad-set-posicion-dialog.component';
+// 34 - EMPRESA QUE FACTURA
+import { AddEditEmpresaFacturaComponent } from './empresa-factura/components/add-edit-empresa-factura/add-edit-empresa-factura.component';
+import { EmpresaFacturaComponent } from './empresa-factura/empresa-factura.component';
+import { EmpresaFacturaDashboardComponent } from './empresa-factura/components/empresa-factura-dashboard/empresa-factura-dashboard.component';
+import { EmpresaFacturaFilterComponent } from './empresa-factura/components/empresa-factura-filter/empresa-factura-filter.component';
+import { ModalLocalidadComponent } from './empresa-factura/components/add-edit-empresa-factura/modal-localidad/modal-localidad.component';
 
 @NgModule({
   declarations: [
@@ -252,6 +258,12 @@ import { LocalidadSetDialogComponent } from './localidad/components/add-edit-loc
     ExtencionFuenteIngresoFilterComponent,
     AddEditExtencionFuenteIngresoComponent,
     ModalExtencionProductoComponent,
+    // 34 - EMPRESA QUE FACTURA
+    EmpresaFacturaComponent,
+    EmpresaFacturaFilterComponent,
+    EmpresaFacturaDashboardComponent,
+    AddEditEmpresaFacturaComponent,
+    ModalLocalidadComponent,
   ],
   imports: [
     CommonModule,

@@ -118,6 +118,12 @@ export class NavMenuComponent {
           url: '/parametros/mvmts-novedades-automaticas',
           icon: 'keyboard_arrow_right',
         },
+        {
+          // 34 - EMPRESA FACTURA
+          title: 'Empresa que Factura',
+          url: '/parametros/empresa-factura',
+          icon: 'keyboard_arrow_right',
+        },
       ],
     },
   ];
