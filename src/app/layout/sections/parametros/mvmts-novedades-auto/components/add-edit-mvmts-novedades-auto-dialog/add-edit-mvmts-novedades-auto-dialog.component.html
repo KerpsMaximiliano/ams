@@ -8,12 +8,13 @@
       mat-stretch-tabs>
       <mat-tab>
         <h4 class="title"> ORIGEN </h4>
-        <div class="seeker-fields-container mt-1">
+        <div class="seeker-fields-container">
           <h3> FUENTE DE INGRESO </h3>
           <div class="content">
             <mat-form-field class="seeker-form-field" appearance="outline">
-              <input matInput formControlName="capita_origen" [placeholder]="data.par_modo === 'C' ? 'Seleccione una fuente de ingreso origen.' : ''"
-                readonly required (ngModelChange)="limpiar(1)" />
+              <input matInput formControlName="capita_origen"
+                [placeholder]="data.par_modo === 'C' ? 'Seleccione una fuente de ingreso origen.' : ''" readonly
+                required (ngModelChange)="limpiar(1)" />
               <mat-error *ngIf="formGroup.get('capita_origen')?.invalid">
                 {{ getErrorMessage(formGroup.get("capita_origen")) }}
               </mat-error>
@@ -36,8 +37,8 @@
               <div class="content">
                 <mat-form-field class="seeker-form-field" appearance="outline">
                   <input matInput formControlName="producto_origen"
-                  [placeholder]="data.par_modo === 'C' ? 'Seleccione un producto/subproducto origen.' : ''" readonly [disabled]="data.capita_origen"
-                    required (ngModelChange)="limpiar(3)" />
+                    [placeholder]="data.par_modo === 'C' ? 'Seleccione un producto/subproducto.' : ''" readonly
+                    [disabled]="data.capita_origen" required (ngModelChange)="limpiar(3)" />
                   <mat-error *ngIf="formGroup.get('producto_origen')?.invalid">
                     {{ getErrorMessage(formGroup.get("producto_origen")) }}
                   </mat-error>
@@ -48,8 +49,9 @@
               <h3> SUBPRODUCTO </h3>
               <mat-form-field class="seeker-form-field" appearance="outline">
                 <input matInput formControlName="sub_producto_origen"
-                [placeholder]="data.par_modo === 'C' && !data.producto_origen ? 'seleccione un producto/subproducto origen.' : data.par_modo === 'C' && data.producto_origen ? 'El producto no tiene un subproducto.' : ''" readonly />
-                <mat-error *ngIf="formGroup.get('sub_producto_origen')?.invalid">
+                  [placeholder]="!data.producto_origen? 'seleccione un producto/subproducto.' : 'Sin subproducto.'"
+                  readonly />
+                <mat-error *ngIf=" formGroup.get('sub_producto_origen')?.invalid">
                   {{ getErrorMessage(formGroup.get("sub_producto_origen")) }}
                 </mat-error>
               </mat-form-field>
@@ -70,7 +72,8 @@
           <h3> PLAN </h3>
           <div class="content">
             <mat-form-field class="seeker-form-field" appearance="outline">
-              <input matInput formControlName="plan_origen" [placeholder]="data.par_modo === 'C' ? 'Seleccione un plan origen.' : ''" readonly required />
+              <input matInput formControlName="plan_origen"
+                [placeholder]="data.par_modo === 'C' ? 'Seleccione un plan.' : ''" readonly required />
               <mat-error *ngIf="formGroup.get('plan_origen')?.invalid">
                 {{ getErrorMessage(formGroup.get("plan_origen")) }}
               </mat-error>
@@ -91,8 +94,9 @@
           <h3> TIPO DE MOVIMIENTO </h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
             <ng-container *ngIf="data.par_modo === 'C' || data.par_modo === 'U'; else isView">
-              <mat-select formControlName="mov_origen" [placeholder]="data.par_modo === 'C' ? 'Seleccione un tipo de movimiento origen.' : ''" required
-                minlength="1" maxlength="2" disableOptionCentering>
+              <mat-select formControlName="mov_origen"
+                [placeholder]="data.par_modo === 'C' ? 'Seleccione un tipo de movimiento.' : ''" required minlength="1"
+                maxlength="2" disableOptionCentering>
                 <mat-option *ngFor="let mov of movimientos" [value]="mov[0]">
                   {{ mov }}
                 </mat-option>
@@ -112,8 +116,9 @@
           <h3> MONOTRIBUTO </h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
             <ng-container *ngIf="data.par_modo === 'C' || data.par_modo === 'U'; else isView2">
-              <mat-select formControlName="monotributo" [placeholder]="data.par_modo === 'C' ? 'Seleccione un monotributo origen.' : ''" required
-                minlength="1" maxlength="1" disableOptionCentering>
+              <mat-select formControlName="monotributo"
+                [placeholder]="data.par_modo === 'C' ? 'Seleccione un monotributo.' : ''" required minlength="1"
+                maxlength="1" disableOptionCentering>
                 <mat-option [value]="'S'"> SI </mat-option>
                 <mat-option [value]="'N'"> NO </mat-option>
               </mat-select>
@@ -132,12 +137,13 @@
 
       <mat-tab>
         <h4 class="title"> DESTINO </h4>
-        <div class="seeker-fields-container mt-1">
+        <div class="seeker-fields-container">
           <h3> FUENTE DE INGRESO </h3>
           <div class="content">
             <mat-form-field class="seeker-form-field" appearance="outline">
-              <input matInput formControlName="capita_rel" [placeholder]="data.par_modo === 'C' ? 'Seleccione una fuente de ingreso relacionada.' : ''"
-                readonly required (ngModelChange)="limpiar(2)" />
+              <input matInput formControlName="capita_rel"
+                [placeholder]="data.par_modo === 'C' ? 'Seleccione una fuente de ingreso relacionada.' : ''" readonly
+                required (ngModelChange)="limpiar(2)" />
               <mat-error *ngIf="formGroup.get('capita_rel')?.invalid">
                 {{ getErrorMessage(formGroup.get("capita_rel")) }}
               </mat-error>
@@ -156,7 +162,8 @@
         <div class="seeker-fields-container" *ngIf="data.par_modo !== 'C'">
           <h3> SECUENCIA </h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
-            <input matInput formControlName="sec_prod_rel" [placeholder]="data.par_modo === 'C' ? 'Ingrese una secuencia.' : ''" required minlength="1"
+            <input matInput formControlName="sec_prod_rel"
+              [placeholder]="data.par_modo === 'C' ? 'Ingrese una secuencia.' : ''" required minlength="1"
               maxlength="2" />
             <mat-error *ngIf="formGroup.get('sec_prod_rel')?.invalid">
               {{ getErrorMessage(formGroup.get("sec_prod_rel")) }}
@@ -171,7 +178,8 @@
               <div class="content">
                 <mat-form-field class="seeker-form-field" appearance="outline">
                   <input matInput formControlName="producto_relacionado"
-                  [placeholder]="data.par_modo === 'C' ? 'Seleccione un producto/subproducto.' : ''" readonly required (ngModelChange)="limpiar(4)" />
+                    [placeholder]="data.par_modo === 'C' ? 'Seleccione un producto/subproducto.' : ''" readonly required
+                    (ngModelChange)="limpiar(4)" />
                   <mat-error *ngIf="formGroup.get('producto_relacionado')?.invalid">
                     {{ getErrorMessage(formGroup.get("producto_relacionado")) }}
                   </mat-error>
@@ -181,7 +189,8 @@
             <div class="seeker-fields-container">
               <h3> SUBPRODUCTO </h3>
               <mat-form-field class="seeker-form-field" appearance="outline">
-                <input matInput formControlName="sub_prod_rel" [placeholder]="data.par_modo === 'C' && !data.producto_relacionado ? 'Seleccione un producto/subproducto.' : data.par_modo === 'C' && data.producto_relacionado ? 'El producto no tiene un subproducto.' : ''"
+                <input matInput formControlName="sub_prod_rel"
+                  [placeholder]="!data.producto_origen? 'seleccione un producto/subproducto.' : 'Sin subproducto.'"
                   readonly />
                 <mat-error *ngIf="formGroup.get('sub_prod_rel')?.invalid">
                   {{ getErrorMessage(formGroup.get("sub_prod_rel")) }}
@@ -204,8 +213,9 @@
           <h3> MOVIMIENTO </h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
             <ng-container *ngIf="data.par_modo === 'C' || data.par_modo === 'U'; else isView3">
-              <mat-select formControlName="movimiento_rel" (selectionChange)="limpiar(5)" [placeholder]="data.par_modo === 'C' ? 'Seleccione un movimiento relacionado.' : ''" required
-                minlength="1" maxlength="2" disableOptionCentering >
+              <mat-select formControlName="movimiento_rel" (selectionChange)="limpiar(5)"
+                [placeholder]="data.par_modo === 'C' ? 'Seleccione un movimiento relacionado.' : ''" required
+                minlength="1" maxlength="2" disableOptionCentering>
                 <mat-option *ngFor="let mov2 of movimientos" [value]="mov2[0]">
                   {{ mov2 }}
                 </mat-option>
@@ -226,8 +236,9 @@
           <h3> NOVEDAD DE VÍNCULO </h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
             <ng-container *ngIf="data.par_modo === 'C' || data.par_modo === 'U'; else isView4">
-              <mat-select formControlName="novedad_vinculo" [placeholder]="data.par_modo === 'C' ? 'Seleccione una novedad de vinculo.' : ''" required
-                minlength="1" maxlength="1" disableOptionCentering>
+              <mat-select formControlName="novedad_vinculo"
+                [placeholder]="data.par_modo === 'C' ? 'Seleccione una novedad de vinculo.' : ''" required minlength="1"
+                maxlength="1" disableOptionCentering>
                 <mat-option [value]="'A'"> ALTA </mat-option>
                 <mat-option [value]="'B'"> BAJA </mat-option>
                 <mat-option [value]="' '"> NADA </mat-option>
@@ -246,8 +257,9 @@
           <h3> CLASE DE PRODUCTO </h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
             <ng-container *ngIf="data.par_modo === 'C' || data.par_modo === 'U'; else isView5">
-              <mat-select formControlName="clase_prod" [placeholder]="data.par_modo === 'C' ? 'Seleccione una clase de producto.' : ''" required
-                minlength="1" maxlength="2" disableOptionCentering>
+              <mat-select formControlName="clase_prod"
+                [placeholder]="data.par_modo === 'C' ? 'Seleccione una clase de producto.' : ''" required minlength="1"
+                maxlength="2" disableOptionCentering>
                 <mat-option [value]="'L'"> CUOTA SOCIAL </mat-option>
                 <mat-option [value]="'S'"> SALUD </mat-option>
                 <mat-option [value]="'B'"> SUBSIDIO </mat-option>
@@ -270,7 +282,8 @@
           <h3> PLAN </h3>
           <div class="content">
             <mat-form-field class="seeker-form-field" appearance="outline">
-              <input matInput formControlName="plan_cambio" [placeholder]="data.par_modo === 'C' ? 'Seleccione un plan.' : ''" readonly required />
+              <input matInput formControlName="plan_cambio"
+                [placeholder]="data.par_modo === 'C' ? 'Seleccione un plan.' : ''" readonly required />
               <mat-error *ngIf="formGroup.get('plan_cambio')?.invalid">
                 {{ getErrorMessage(formGroup.get("plan_cambio")) }} </mat-error>
             </mat-form-field>
@@ -290,8 +303,9 @@
           <h3> OPCIÓN MONOTRIBUTO </h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
             <ng-container *ngIf="data.par_modo === 'C' || data.par_modo === 'U'; else isView6">
-              <mat-select formControlName="opcion_monotributo" [placeholder]="data.par_modo === 'C' ? 'Seleccione una opción de monotributo.' : ''"
-                required minlength="1" maxlength="2" disableOptionCentering>
+              <mat-select formControlName="opcion_monotributo"
+                [placeholder]="data.par_modo === 'C' ? 'Seleccione una opción de monotributo.' : ''" required
+                minlength="1" maxlength="2" disableOptionCentering>
                 <mat-option [value]="0"> AFILIACIÓN NORMAL </mat-option>
                 <mat-option [value]="01"> MONOTRIBUTISTAS SIN OPCIÓN DE CAMBIO </mat-option>
                 <mat-option [value]="02"> MONOTRIBUTISTAS CON OPCIÓN DE CAMBIO A PREPAGA </mat-option>
@@ -310,14 +324,16 @@
           <h3> MOTIVO </h3>
           <div class="content">
             <mat-form-field class="seeker-form-field" appearance="outline">
-              <input matInput formControlName="codigo_motivo" [placeholder]="data.par_modo === 'C' ? this.formGroup.get('movimiento_rel')?.value.length === 0 ? 'Seleccione un movimiento.' : 'Seleccione un motivo de movimiento.' : ''" readonly
-                required />
+              <input matInput formControlName="codigo_motivo"
+                [placeholder]="data.par_modo === 'C' ? this.formGroup.get('movimiento_rel')?.value.length === 0 ? 'Seleccione un movimiento.' : 'Seleccione un motivo de movimiento.' : ''"
+                readonly required />
               <mat-error *ngIf="formGroup.get('codigo_motivo')?.invalid">
                 {{ getErrorMessage(formGroup.get("codigo_motivo")) }}
               </mat-error>
             </mat-form-field>
             <ng-container *ngIf="this.data.par_modo === 'C' || this.data.par_modo === 'U'">
-              <div [class]="this.formGroup.get('movimiento_rel')?.value.length === 0 ? 'icon disabled fix' : 'icon'" (click)="getMovimientos()">
+              <div [class]="this.formGroup.get('movimiento_rel')?.value.length === 0 ? 'icon disabled fix' : 'icon'"
+                (click)="getMovimientos()">
                 <mat-icon class="material-symbols-outlined"> search </mat-icon>
               </div>
               <div [class]="data.codigo_motivo ? 'icon' : 'icon disabled fix'" (click)="clearInput('codigo_motivo')">
