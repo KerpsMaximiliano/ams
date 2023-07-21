@@ -198,8 +198,10 @@
           <mat-form-field class="seeker-form-field" appearance="outline">
             <mat-select formControlName="recupera_Ob_Soc" required minlength="1" maxlength="1" disableOptionCentering>
               <mat-option [value]="''"> </mat-option>
+              <mat-option [value]="'1'"> 1 </mat-option>
               <mat-option [value]="'2'"> 2 </mat-option>
               <mat-option [value]="'9'"> 9 </mat-option>
+              <mat-option [value]="'S'"> S </mat-option>
             </mat-select>
             <mat-error *ngIf="formGroup.get('recupera_Ob_Soc')?.invalid && formGroup.get('recupera_Ob_Soc')?.touched">
               {{ getErrorMessage(formGroup.get('recupera_Ob_Soc')) }}
