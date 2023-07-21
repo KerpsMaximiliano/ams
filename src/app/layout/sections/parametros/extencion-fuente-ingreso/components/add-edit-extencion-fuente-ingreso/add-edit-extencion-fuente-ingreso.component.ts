@@ -2,8 +2,10 @@ import { Component, Inject } from '@angular/core';
 
 // * Form
 import {
+  AbstractControl,
   UntypedFormControl,
   UntypedFormGroup,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
 
@@ -38,8 +40,6 @@ export class AddEditExtencionFuenteIngresoComponent {
   validarRemuneracion: boolean = true;
   constructor(
     public dialogRef: MatDialogRef<ConfirmDialogComponent>,
-    private dialog: MatDialog,
-
     private extencionFuenteIngreso: ExtencionFuenteIngresoService,
     private utilService: UtilService,
     @Inject(MAT_DIALOG_DATA) public data: any
@@ -72,15 +72,35 @@ export class AddEditExtencionFuenteIngresoComponent {
       this.formGroup.get('producto_des')?.disable();
       this.valorInicialRemDesde();
     }
-    this.Remuneracion();
+    this.configureValidators()
+  }
+
+  configureValidators() {
+    const control = this.formGroup.get(
+      'remuneracion_hasta'
+    ) as UntypedFormControl;
+    control.setValidators(this.validacionRemuneracion());
+    control.updateValueAndValidity();
+  }
+
+  validacionRemuneracion(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const desde = parseFloat(this.formGroup.get('remuneracion_desde')?.value);
+      const hasta = parseFloat(this.formGroup.get('remuneracion_hasta')?.value);
+
+      if (desde !== null && hasta !== null && hasta <= desde) {
+        return { error: "Remuneración Hasta debe ser mayor que Remuneración Desde" };
+      }
+      return null;
+    };
   }
 
   Remuneracion() {
     if (
-      this.formGroup.get('remuneracion_desde')?.value >=
-      this.formGroup.get('remuneracion_hasta')?.value
-    ) {
-      this.validarRemuneracion = true;
+      parseFloat(this.formGroup.get('remuneracion_desde')?.value) >=
+      parseFloat(this.formGroup.get('remuneracion_hasta')?.value)
+      ) {
+        this.validarRemuneracion = true;
     } else {
       this.validarRemuneracion = false;
     }
