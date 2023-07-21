@@ -16,6 +16,7 @@ import { ExtencionFuenteIngresoDashboardComponent } from './components/extencion
 import { ExtencionFuenteIngresoFilterComponent } from './components/extencion-fuente-ingreso-filter/extencion-fuente-ingreso-filter.component';
 import { FuenteIngresoService } from 'src/app/core/services/fuente-ingreso.service';
 import { Router } from '@angular/router';
+import { IFuenteIngreso } from 'src/app/core/models/fuente-ingreso.interface';
 
 @Component({
   selector: 'app-extencion-fuente-ingreso',
@@ -28,16 +29,23 @@ export class ExtencionFuenteIngresoComponent {
   @ViewChild(ExtencionFuenteIngresoDashboardComponent)
   dashboard: ExtencionFuenteIngresoDashboardComponent;
   fuente_ingreso: IExtencionFuenteIngreso;
+  fuenteIngreso: IFuenteIngreso;
 
   constructor(
     private extencionFuenteIngreso: ExtencionFuenteIngresoService,
-    private fuenteIngreso: FuenteIngresoService,
+    private FuenteIngresoService: FuenteIngresoService,
     private utilService: UtilService,
     private dialog: MatDialog,
     private router: Router
-  ) {}
+  ) {
+    this.fuenteIngreso = this.FuenteIngresoService.get();
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (!this.fuenteIngreso) {
+        this.router.navigate(['parametros/fuentes-ingreso']);
+      }
+  }
 
   public handleSearch(inputValue: any): void {
     this.dashboard.filter(inputValue);
@@ -45,7 +53,7 @@ export class ExtencionFuenteIngresoComponent {
 
   public back(): void {
     this.utilService.openLoading();
-    this.fuenteIngreso.setBack(true);
+    this.FuenteIngresoService.setBack(true);
     this.router.navigate(['parametros/fuentes-ingreso']);
     return;
   }
@@ -65,7 +73,7 @@ export class ExtencionFuenteIngresoComponent {
       AddEditExtencionFuenteIngresoComponent,
       {
         data: {
-          title: `CREAR EXTENSION DE FUENTE DE INGRESO`,
+          title: `CREAR COEFICIENTE DE FUENTE DE INGRESO`,
           edit: true,
           par_modo: 'C',
           codigo_fuente_ingreso: this.filter.searchForm.get(
@@ -88,6 +96,10 @@ export class ExtencionFuenteIngresoComponent {
             .CRUD(JSON.stringify(res.datos))
             .subscribe({
               next: () => {
+                this.dashboard.getExtencionFuenteIngraso();
+                if (res.reload) {
+                  this.nuevaExtencionFuenteIngreso();
+                }
                 this.utilService.notification(
                   'Los coeficientes de fuente de ingreso se ha creado exitosamente. ',
                   'success'
@@ -95,6 +107,7 @@ export class ExtencionFuenteIngresoComponent {
               },
               error: (err) => {
                 this.utilService.closeLoading();
+                this.nuevaExtencionFuenteIngreso();
                 err.status == 0
                   ? this.utilService.notification(
                       'Error de conexión. ',
@@ -104,13 +117,9 @@ export class ExtencionFuenteIngresoComponent {
                       `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
                       'error'
                     );
-                this.nuevaExtencionFuenteIngreso();
               },
               complete: () => {
                 this.utilService.closeLoading();
-                if (res.reload) {
-                  this.nuevaExtencionFuenteIngreso();
-                }
               },
             });
         }

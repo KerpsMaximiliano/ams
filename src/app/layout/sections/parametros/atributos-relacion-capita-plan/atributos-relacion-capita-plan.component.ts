@@ -55,7 +55,7 @@ export class AtributosRelacionCapitaPlanComponent implements OnInit, OnDestroy {
   public back(): void {
     this.utilService.openLoading();
     this.fuenteIngresoService.setBack(true);
-    this.router.navigate(['parametros/fuente-ingreso']);
+    this.router.navigate(['parametros/fuentes-ingreso']);
     return;
   }
 
