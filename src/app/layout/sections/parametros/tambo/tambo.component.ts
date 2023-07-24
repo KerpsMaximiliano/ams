@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 // * Services
@@ -14,23 +14,33 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 // * Components
 import { AddEditTamboDialogComponent } from './components/add-edit-tambo-dialog/add-edit-tambo-dialog.component';
+import { IProvincia } from 'src/app/core/models/provincia.interface';
+import { ProvinciaService } from 'src/app/core/services/provincia.service';
 
 @Component({
   selector: 'app-tambo',
   templateUrl: './tambo.component.html',
   styleUrls: ['./tambo.component.scss'],
 })
-export class TamboComponent implements OnDestroy {
+export class TamboComponent implements OnInit, OnDestroy {
   private dataSubscription: Subscription | undefined;
 
+  public provincias: IProvincia[];
   public dataSent: ITambo[] = [];
 
   constructor(
     private dataSharingService: DataSharingService,
+    private provinciaService: ProvinciaService,
     private tamboService: TamboService,
     private utilService: UtilService,
     private dialog: MatDialog
   ) {}
+
+  ngOnInit(): void {
+    this.provinciaService.getProvincias()
+      ? (this.provincias = this.provinciaService.getProvincias())
+      : this.getProvincias();
+  }
 
   ngOnDestroy(): void {
     if (this.dataSubscription) {
@@ -112,16 +122,20 @@ export class TamboComponent implements OnDestroy {
         title: title,
         edit: edit,
         par_modo: par_modo,
+        provincias: this.provincias,
         id_empresa: data?.id_empresa,
+        id_tambos: data?.id_tambos,
         razon_social: data?.razon_social,
         grasa_ent: data?.grasa_ent,
         fecha_suspension: data?.fecha_suspension,
         fecha_rehabilitacion: data?.fecha_rehabilitacion,
         localidad: data?.localidad,
         provincia: data?.provincia,
+        fecha_baja: data?.fecha_baja,
         emp_vinc_ent: data?.emp_vinc_ent,
         ent_sancor: data?.ent_sancor,
         canal: data?.canal,
+        estado: data?.estado,
       },
     });
   }
@@ -154,5 +168,36 @@ export class TamboComponent implements OnDestroy {
             );
       },
     });
+  }
+
+  private getProvincias(): void {
+    this.utilService.openLoading();
+    this.provinciaService
+      .CRUD(
+        JSON.stringify({
+          par_modo: 'O',
+          nombre_provincia: '',
+        })
+      )
+      .subscribe({
+        next: (res: any) => {
+          this.provincias = Array.isArray(res.dataset)
+            ? (res.dataset as IProvincia[])
+            : [res.dataset as IProvincia];
+        },
+        error: (err: any) => {
+          this.utilService.closeLoading();
+          err.status === 0
+            ? this.utilService.notification('Error de conexión.', 'error')
+            : this.utilService.notification(
+                `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+                'error'
+              );
+        },
+        complete: () => {
+          this.provinciaService.setProvincias(this.provincias);
+          this.utilService.closeLoading();
+        },
+      });
   }
 }

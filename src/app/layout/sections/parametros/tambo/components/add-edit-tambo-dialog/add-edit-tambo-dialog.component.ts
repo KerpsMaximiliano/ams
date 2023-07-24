@@ -3,6 +3,9 @@ import { Component, Inject } from '@angular/core';
 // * Services
 import { DataSharingService } from 'src/app/core/services/data-sharing.service';
 
+// * Interfaces
+import { IProvincia } from 'src/app/core/models/provincia.interface';
+
 // * Forms
 import {
   UntypedFormControl,
@@ -16,6 +19,7 @@ import {
   getErrorMessage,
   notOnlySpaces,
   isAlpha,
+  isDecimal,
 } from 'src/app/core/validators/character.validator';
 
 // * Material
@@ -51,49 +55,54 @@ export class AddEditTamboDialogComponent {
     }
   }
 
+  public handleProvince(letra_provincia: string): string {
+    const province = this.data.provincias.find(
+      (provincia: IProvincia) => provincia.codigo == letra_provincia
+    );
+    return province ? province.nombre_provincia : '';
+  }
+
   private setUpForm(): void {
     this.formGroup = new UntypedFormGroup({
-      tipo_de_documento: new UntypedFormControl(
+      id_tambos: new UntypedFormControl(
         {
-          value: this.data.tipo_de_documento,
+          value: this.data.id_tambos,
           disabled: this.data.par_modo === 'U' || this.data.par_modo === 'R',
         },
         Validators.compose([
           Validators.required,
           Validators.minLength(1),
-          Validators.maxLength(2),
+          Validators.maxLength(5),
           isNumeric(),
         ])
       ),
-      descripcion: new UntypedFormControl(
+      razon_social: new UntypedFormControl(
         {
-          value: this.data.descripcion ? this.data.descripcion.trim() : '',
+          value: this.data.razon_social ? this.data.razon_social.trim() : '',
           disabled: this.data.par_modo === 'R',
         },
         Validators.compose([
           Validators.required,
           Validators.minLength(3),
-          Validators.maxLength(20),
+          Validators.maxLength(150),
           notOnlySpaces(),
         ])
       ),
-      descripcion_reducida: new UntypedFormControl(
+      grasa_ent: new UntypedFormControl(
         {
-          value: this.data.descripcion_reducida
-            ? this.data.descripcion_reducida.trim()
-            : '',
+          value: this.data.grasa_ent ? this.data.grasa_ent : '',
           disabled: this.data.par_modo === 'R',
         },
         Validators.compose([
           Validators.required,
           Validators.minLength(1),
-          Validators.maxLength(3),
-          notOnlySpaces(),
+          Validators.maxLength(6),
+          isDecimal(),
         ])
       ),
-      control_cuit: new UntypedFormControl(
+      provincia: new UntypedFormControl(
         {
-          value: this.data.control_cuit ? this.data.control_cuit.trim() : '',
+          value: this.data.provincia,
           disabled: this.data.par_modo === 'R',
         },
         Validators.compose([
@@ -101,6 +110,18 @@ export class AddEditTamboDialogComponent {
           Validators.minLength(1),
           Validators.maxLength(1),
           isAlpha(),
+        ])
+      ),
+      localidad: new UntypedFormControl(
+        {
+          value: this.data.localidad ? this.data.localidad.trim() : '',
+          disabled: this.data.par_modo === 'R',
+        },
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(22),
+          notOnlySpaces(),
         ])
       ),
     });

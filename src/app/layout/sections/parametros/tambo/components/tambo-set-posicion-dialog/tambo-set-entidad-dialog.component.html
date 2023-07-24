@@ -27,9 +27,17 @@
         <td mat-cell *matCellDef="let param"> {{ param.nro_asesor }} </td>
       </ng-container>
 
-      <ng-container matColumnDef="tambo">
-        <th mat-header-cell *matHeaderCellDef> Tambo </th>
-        <td mat-cell *matCellDef="let param"> {{ param.apellido_Per }}, {{ param.nombre_per }} </td>
+      <ng-container matColumnDef="entidad">
+        <th mat-header-cell *matHeaderCellDef> Entidad </th>
+        <td mat-cell *matCellDef="let param">
+          <ng-container *ngIf="param.tipo_asesor === 'E'; else typeS">
+            {{ param.desc_empresa ? param.desc_empresa.trim() : '' }}
+          </ng-container>
+          <ng-template #typeS>
+            {{ param.apellido_Per ? param.apellido_Per.trim() : '' }}
+            {{ param.nombre_per ? param.nombre_per.trim() : '' }}
+          </ng-template>
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="actions">

@@ -5,45 +5,55 @@
 <div class="dialog-content">
   <form class="form-datos" [formGroup]="formGroup">
     <div class="seeker-fields-container">
-      <h3> CÓDIGO </h3>
+      <h3> TAMBO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="tipo_de_documento" required minlength="1" maxlength="2">
-        <mat-error *ngIf="formGroup.get('tipo_de_documento')?.invalid && formGroup.get('tipo_de_documento')?.touched">
-          {{ getErrorMessage(formGroup.get('tipo_de_documento')) }}
+        <input matInput formControlName="id_tambos" required minlength="1" maxlength="5">
+        <mat-error *ngIf="formGroup.get('id_tambos')?.invalid && formGroup.get('id_tambos')?.touched">
+          {{ getErrorMessage(formGroup.get('id_tambos')) }}
         </mat-error>
       </mat-form-field>
     </div>
 
     <div class="seeker-fields-container">
-      <h3> TIPO DE DOCUMENTO </h3>
+      <h3> DESCRIPCIÓN </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="descripcion" required minlength="3" maxlength="20">
-        <mat-error *ngIf="formGroup.get('descripcion')?.invalid && formGroup.get('descripcion')?.touched">
-          {{ getErrorMessage(formGroup.get('descripcion')) }}
+        <input matInput formControlName="razon_social" required minlength="3" maxlength="150">
+        <mat-error *ngIf="formGroup.get('razon_social')?.invalid && formGroup.get('razon_social')?.touched">
+          {{ getErrorMessage(formGroup.get('razon_social')) }}
         </mat-error>
       </mat-form-field>
     </div>
 
     <div class="seeker-fields-container">
-      <h3> ABREVIATURA </h3>
+      <h3> KG. DE GRASA </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="descripcion_reducida" required minlength="1" maxlength="3">
-        <mat-error
-          *ngIf="formGroup.get('descripcion_reducida')?.invalid && formGroup.get('descripcion_reducida')?.touched">
-          {{ getErrorMessage(formGroup.get('descripcion_reducida')) }}
+        <input matInput formControlName="grasa_ent" required minlength="1" maxlength="8">
+        <mat-error *ngIf="formGroup.get('grasa_ent')?.invalid && formGroup.get('grasa_ent')?.touched">
+          {{ getErrorMessage(formGroup.get('grasa_ent')) }}
         </mat-error>
       </mat-form-field>
     </div>
 
     <div class="seeker-fields-container">
-      <h3> CONTROL DE CUIT </h3>
-      <mat-form-field class="seeker-form-field" appearance="outline">
-        <mat-select formControlName="control_cuit" required minlength="1" maxlength="1" disableOptionCentering>
-          <mat-option [value]="'S'"> SI </mat-option>
-          <mat-option [value]="'N'"> NO </mat-option>
+      <h3> PROVINCIA </h3>
+      <mat-form-field class="seeker-form-field" required appearance="outline">
+        <mat-select formControlName="provincia" disableOptionCentering required>
+          <mat-option *ngFor="let provincia of data.provincias" [value]="provincia.codigo">
+            {{ provincia.nombre_provincia }}
+          </mat-option>
         </mat-select>
-        <mat-error *ngIf="formGroup.get('control_cuit')?.invalid && formGroup.get('control_cuit')?.touched">
-          {{ getErrorMessage(formGroup.get('control_cuit')) }}
+        <mat-error *ngIf="formGroup.get('provincia')?.invalid && formGroup.get('provincia')?.touched">
+          {{ getErrorMessage(formGroup.get("provincia")) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3> LOCALIDAD </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <input matInput formControlName="localidad" required minlength="3" maxlength="22">
+        <mat-error *ngIf="formGroup.get('localidad')?.invalid && formGroup.get('localidad')?.touched">
+          {{ getErrorMessage(formGroup.get('localidad')) }}
         </mat-error>
       </mat-form-field>
     </div>

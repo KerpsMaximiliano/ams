@@ -38,8 +38,8 @@ tr.mat-row {
 /*
  * Texto alineado a la izquierda.
 */
-.mat-column-tambo.mat-header-cell,
-.mat-column-tambo.mat-cell {
+.mat-column-entidad.mat-header-cell,
+.mat-column-entidad.mat-cell {
   text-align: left !important;
   padding-left: 2vw;
   word-break: break-all;
@@ -66,10 +66,10 @@ tr.mat-row {
   min-width: 100px;
 }
 
-.mat-column-tambo.mat-header-cell,
-.mat-column-tambo.mat-cell {
+.mat-column-entidad.mat-header-cell,
+.mat-column-entidad.mat-cell {
   min-width: 200px;
-  width: 80%;
+  width: 100%;
 }
 
 .mat-column-actions.mat-header-cell,

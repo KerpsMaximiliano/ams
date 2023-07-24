@@ -20,7 +20,7 @@ export class TamboSetEntidadDialogComponent implements OnInit {
   public displayedColumns: string[] = [
     'canal',
     'nro_asesor',
-    'tambo',
+    'entidad',
     'actions',
   ];
   public dataSource: MatTableDataSource<IEntidad>;
@@ -42,7 +42,7 @@ export class TamboSetEntidadDialogComponent implements OnInit {
 
   public confirm(): void {
     this.dialogRef.close({
-      nro_asesor: this.entidad?.nro_asesor ? this.entidad?.nro_asesor : 0,
+      nro_asesor: this.entidad?.nro_asesor ? this.entidad.nro_asesor : 0,
       canal: this.entidad?.canal ? this.entidad?.canal : 0,
       tipo_asesor: this.entidad?.tipo_asesor ? this.entidad?.tipo_asesor : '',
       id_empresa_persona: this.entidad?.id_empresa_persona
