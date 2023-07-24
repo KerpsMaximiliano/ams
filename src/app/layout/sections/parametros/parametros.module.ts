@@ -135,6 +135,11 @@ import { EmpresaFacturaComponent } from './empresa-factura/empresa-factura.compo
 import { EmpresaFacturaDashboardComponent } from './empresa-factura/components/empresa-factura-dashboard/empresa-factura-dashboard.component';
 import { EmpresaFacturaFilterComponent } from './empresa-factura/components/empresa-factura-filter/empresa-factura-filter.component';
 import { ModalLocalidadComponent } from './empresa-factura/components/add-edit-empresa-factura/modal-localidad/modal-localidad.component';
+// 34 B - PAGO LINK
+import { AddEditPagoLinkDialogComponent } from './pago-link/components/add-edit-pago-link-dialog/add-edit-pago-link-dialog.component';
+import { PagoLinkComponent } from './pago-link/pago-link.component';
+import { PagoLinkDashboardComponent } from './pago-link/components/pago-link-dashboard/pago-link-dashboard.component';
+import { PagoLinkFilterComponent } from './pago-link/components/pago-link-filter/pago-link-filter.component';
 // 35 - MONTOS MINIMO
 import { AddEditMontoMinimoComponent } from './montos-minimo/components/add-edit-montos-minimo/add-edit-monto-minimo.component';
 import { MontoMinimoComponent } from './montos-minimo/monto-minimo.component';
@@ -269,6 +274,11 @@ import { MontoMinimoFilterComponent } from './montos-minimo/components/monto-min
     EmpresaFacturaDashboardComponent,
     EmpresaFacturaFilterComponent,
     ModalLocalidadComponent,
+    // 34 B - PAGO LINK
+    AddEditPagoLinkDialogComponent,
+    PagoLinkComponent,
+    PagoLinkDashboardComponent,
+    PagoLinkFilterComponent,
     // 35 - MONTOS MINIMO
     AddEditMontoMinimoComponent,
     MontoMinimoComponent,
