@@ -76,6 +76,14 @@ export function isAlphanumericWithPointAndSpaces(): ValidatorFn {
   };
 }
 
+// Number and Symbol.
+export function isNumberAndSymbol(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    let regex = /^[0-9.,]+$/;
+    return regex.test(control.value) ? null : { notNumberOrSymbal: true };
+  };
+}
+
 // Decimal.
 export function isDecimal(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
@@ -99,6 +107,9 @@ export function getErrorMessage(control: any) {
     }
     if (control.errors?.['notAlphanumericWithSpaces']) {
       return `No puede tener caracteres especiales.`;
+    }
+    if (control.errors?.['notNumberOrSymbal']) {
+      return `Solo se permite un número con hasta dos decimales.`;
     }
     if (control.errors?.['notAlpha']) {
       return `Solo se permiten letras.`;

@@ -20,6 +20,7 @@ import {
   notOnlySpaces,
   isAlpha,
   isDecimal,
+  isNumberAndSymbol,
 } from 'src/app/core/validators/character.validator';
 
 // * Material
@@ -33,12 +34,16 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class AddEditTamboDialogComponent {
   public formGroup: UntypedFormGroup;
   public getErrorMessage = getErrorMessage;
+  public errorMessage: string;
+  public setError: boolean;
+  public maxLength: number;
 
   constructor(
     private dataSharingService: DataSharingService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.setUpForm();
+    this.validate();
   }
 
   public confirm(): void {
@@ -88,18 +93,6 @@ export class AddEditTamboDialogComponent {
           notOnlySpaces(),
         ])
       ),
-      grasa_ent: new UntypedFormControl(
-        {
-          value: this.data.grasa_ent ? this.data.grasa_ent : '',
-          disabled: this.data.par_modo === 'R',
-        },
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(1),
-          Validators.maxLength(6),
-          isDecimal(),
-        ])
-      ),
       provincia: new UntypedFormControl(
         {
           value: this.data.provincia,
@@ -124,6 +117,31 @@ export class AddEditTamboDialogComponent {
           notOnlySpaces(),
         ])
       ),
+      grasa_ent: new UntypedFormControl(
+        {
+          value: this.data.grasa_ent ? this.data.grasa_ent : '',
+          disabled: this.data.par_modo === 'R',
+        },
+        Validators.compose([Validators.required, isNumberAndSymbol()])
+      ),
+    });
+  }
+
+  private validate(): void {
+    this.formGroup.get('grasa_ent')?.valueChanges.subscribe((value: any) => {
+      // const control = this.formGroup.get('grasa_ent')?.value;
+      const regex =
+        /^(?:\d{1,8}|\d{1,7},\d|\d{1,6},\d{2}|\d{5},\d{2}|\d{4},\d{2}|\d{3},\d{2}|\d{2},\d{2}|\d,\d{2}|\d{1,8},\d|\d{1,7},\d{2})$/;
+
+      this.maxLength = value.includes(',') ? 9 : 8;
+
+      if (regex.test(value)) {
+        console.log('El valor cumple con las condiciones establecidas.');
+        // Realizar acciones adicionales si el valor cumple con las condiciones establecidas.
+      } else {
+        console.log('El valor no cumple con las condiciones establecidas.');
+        // Realizar acciones adicionales si el valor no cumple con las condiciones establecidas.
+      }
     });
   }
 }

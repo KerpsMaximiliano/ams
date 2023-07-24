@@ -25,16 +25,6 @@
     </div>
 
     <div class="seeker-fields-container">
-      <h3> KG. DE GRASA </h3>
-      <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="grasa_ent" required minlength="1" maxlength="8">
-        <mat-error *ngIf="formGroup.get('grasa_ent')?.invalid && formGroup.get('grasa_ent')?.touched">
-          {{ getErrorMessage(formGroup.get('grasa_ent')) }}
-        </mat-error>
-      </mat-form-field>
-    </div>
-
-    <div class="seeker-fields-container">
       <h3> PROVINCIA </h3>
       <mat-form-field class="seeker-form-field" required appearance="outline">
         <mat-select formControlName="provincia" disableOptionCentering required>
@@ -54,6 +44,16 @@
         <input matInput formControlName="localidad" required minlength="3" maxlength="22">
         <mat-error *ngIf="formGroup.get('localidad')?.invalid && formGroup.get('localidad')?.touched">
           {{ getErrorMessage(formGroup.get('localidad')) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container">
+      <h3>KG. DE GRASA</h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <input matInput formControlName="grasa_ent" required [maxlength]="maxLength">
+        <mat-error *ngIf=" formGroup.get('grasa_ent')?.invalid && formGroup.get('grasa_ent')?.touched">
+          {{ getErrorMessage(formGroup.get('grasa_ent')) }}
         </mat-error>
       </mat-form-field>
     </div>

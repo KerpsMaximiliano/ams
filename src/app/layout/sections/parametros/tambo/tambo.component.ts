@@ -126,6 +126,7 @@ export class TamboComponent implements OnInit, OnDestroy {
         id_empresa: data?.id_empresa,
         id_tambos: data?.id_tambos,
         razon_social: data?.razon_social,
+        // grasa_ent: data?.grasa_ent.toString().replace('.', ','),
         grasa_ent: data?.grasa_ent,
         fecha_suspension: data?.fecha_suspension,
         fecha_rehabilitacion: data?.fecha_rehabilitacion,
