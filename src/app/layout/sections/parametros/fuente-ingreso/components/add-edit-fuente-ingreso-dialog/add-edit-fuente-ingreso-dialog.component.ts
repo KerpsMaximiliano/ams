@@ -55,6 +55,7 @@ export class AddEditFuenteIngresoDialogComponent {
     id_referencia_contable: string;
   }[];
   mostrarAdministradora: boolean = false;
+  mostrarAdicional: boolean = false;
 
   dias: { d: number; dia: number }[];
   constructor(
@@ -101,8 +102,8 @@ export class AddEditFuenteIngresoDialogComponent {
   }
 
   ngOnInit() {
-    this.setFormValues();
     if (this.data.par_modo === 'U' || this.data.par_modo === 'R') {
+      this.setFormValues();
       if (this.data.edit === false) {
         this.formGroup.disable();
       } else {
@@ -110,6 +111,8 @@ export class AddEditFuenteIngresoDialogComponent {
       }
       this.filtroFuente();
     }
+    console.log(this.formGroup.get('empresa_asociada')?.value);
+    
   }
 
   // * crea una lista con las fuente de ingreso
@@ -259,8 +262,10 @@ export class AddEditFuenteIngresoDialogComponent {
         this.data.tipo_fuente ? this.data.tipo_fuente.trim() : '',
         Validators.compose([Validators.required])
       ),
-      codigo_fuente_admin: new UntypedFormControl(
-        this.data.codigo_fuente_admin ? this.data.codigo_fuente_admin : ''
+      codigo_fuente_admin: new UntypedFormControl({ value:
+        this.data.codigo_fuente_admin ? this.data.codigo_fuente_admin : '',
+        disabled: this.data.tipo_fuente == 'A' || this.data.tipo_fuente == '',
+      },
       ),
       codigo_fuente_admin_descripcion: new UntypedFormControl(),
       empresa_asociada: new UntypedFormControl(
@@ -342,9 +347,12 @@ export class AddEditFuenteIngresoDialogComponent {
         Validators.compose([Validators.required])
       ),
       condicion_aporte_adic_dec: new UntypedFormControl(
-        this.data.condicion_aporte_adic_dec
-          ? this.data.condicion_aporte_adic_dec
-          : 0,
+        {
+          value: this.data.condicion_aporte_adic_dec
+            ? this.data.condicion_aporte_adic_dec
+            : 0,
+          disabled: !this.mostrarAdicional,
+        },
         Validators.compose([Validators.maxLength(5)])
       ),
       fuente_aporte_adicional: new UntypedFormControl(
@@ -355,9 +363,12 @@ export class AddEditFuenteIngresoDialogComponent {
       ),
       fuente_aporte_adicional_descripcion: new UntypedFormControl(),
       concepto_aporte_adicional: new UntypedFormControl(
-        this.data.concepto_aporte_adicional
-          ? this.data.concepto_aporte_adicional
-          : 0,
+        {
+          value: this.data.concepto_aporte_adicional
+            ? this.data.concepto_aporte_adicional
+            : 0,
+          disabled: !this.mostrarAdicional,
+        },
         Validators.compose([Validators.maxLength(5)])
       ),
 
@@ -409,8 +420,21 @@ export class AddEditFuenteIngresoDialogComponent {
       this.formGroup.get('codigo_fuente_admin')?.setValue(0);
       this.formGroup.get('codigo_fuente_admin_descripcion')?.setValue('');
       this.mostrarAdministradora = false;
-    } else if (this.formGroup.get('tipo_fuente')?.value != 'A') {
+    } else {
       this.mostrarAdministradora = true;
+    }
+  }
+
+  // * valida los datos de la fuente de adicional
+  public fuenteAdicional() {
+    if (this.formGroup.get('aporte_adicional')?.value == 'S') {
+      this.mostrarAdicional = true;
+    } else {
+      this.formGroup.get('fuente_aporte_adicional')?.setValue(0);
+      this.formGroup.get('fuente_aporte_adicional_descripcion')?.setValue('');
+      this.formGroup.get('concepto_aporte_adicional')?.setValue(0);
+      this.formGroup.get('condicion_aporte_adic_dec')?.setValue(0);
+      this.mostrarAdicional = false;
     }
   }
 

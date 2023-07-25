@@ -34,8 +34,8 @@ export class ModalExtencionProductoComponent {
 
   constructor(
     public dialogRef: MatDialogRef<any>,
-    private _productoService: ProductoService,
-    private _utils: UtilService,
+    private productoService: ProductoService,
+    private utilService: UtilService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     // * Assign the data to the data source for the table to render
@@ -63,17 +63,17 @@ export class ModalExtencionProductoComponent {
 
   // * recupera los datos de fuente de ingreso
   private getProductos(inputprod?: any): void {
-    this._utils.openLoading();
+    this.utilService.openLoading();
 
-    this._productoService
+    this.productoService
       .CRUD(
         JSON.stringify({
-          par_modo: 'P',
+          par_modo: 'B',
         })
       )
       .subscribe({
         next: (res: any) => {
-          this._utils.closeLoading();
+          this.utilService.closeLoading();
           this.Producto = res.dataset as IProducto[];
           this.dataSource = new MatTableDataSource<IProducto>(this.Producto);
           this.dataSource.sort = this.sort;
@@ -92,16 +92,16 @@ export class ModalExtencionProductoComponent {
           }, 100);
         },
         error: (err: any) => {
-          this._utils.closeLoading();
+          this.utilService.closeLoading();
           err.status == 0
-            ? this._utils.notification('Error de conexión', 'error')
-            : this._utils.notification(
+            ? this.utilService.notification('Error de conexión', 'error')
+            : this.utilService.notification(
                 `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
                 'error'
               );
         },
         complete: () => {
-          this._utils.closeLoading();
+          this.utilService.closeLoading();
         },
       });
   }

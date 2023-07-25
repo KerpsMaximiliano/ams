@@ -52,9 +52,9 @@ export class ExtencionFuenteIngresoDashboardComponent {
   constructor(
     private dialog: MatDialog,
     private cdr: ChangeDetectorRef,
-    private utils: UtilService,
+    private utilService: UtilService,
     private _liveAnnouncer: LiveAnnouncer,
-    private _extencionFuenteIngreso: ExtencionFuenteIngresoService
+    private extencionFuenteIngreso: ExtencionFuenteIngresoService
   ) {}
 
   ngOnInit(): void {
@@ -74,9 +74,9 @@ export class ExtencionFuenteIngresoDashboardComponent {
     };
   }
 
-  private getExtencionFuenteIngraso(): void {
-    this.utils.openLoading();
-    this._extencionFuenteIngreso
+  public getExtencionFuenteIngraso(): void {
+    this.utilService.openLoading();
+    this.extencionFuenteIngreso
       .CRUD(
         JSON.stringify({
           par_modo: 'F',
@@ -97,16 +97,23 @@ export class ExtencionFuenteIngresoDashboardComponent {
           this.dataSource.paginator = this.paginator;
         },
         error: (err: any) => {
-          this.utils.closeLoading();
-          err.status == 0
-            ? this.utils.notification('Error de conexión. ', 'error')
-            : this.utils.notification(
-                `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
-                'error'
-              );
+          this.utilService.closeLoading();
+          if (err.status === 0) {
+            this.utilService.notification('Error de conexión.', 'error');
+          }
+          if (err.status === 404) {
+            this.fuenteingreso = [];
+          }
+          if (err.status !== 0 && err.status !== 404) {
+            this.utilService.notification(
+              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+              'error'
+            );
+          }
+          this.dataSource = new MatTableDataSource();
         },
         complete: () => {
-          this.utils.closeLoading();
+          this.utilService.closeLoading();
         },
       });
   }
@@ -126,7 +133,7 @@ export class ExtencionFuenteIngresoDashboardComponent {
       AddEditExtencionFuenteIngresoComponent,
       {
         data: {
-          title: `EDITAR FUENTE DE INGRESO`,
+          title: `EDITAR COEFICIENTE DE FUENTE DE INGRESO`,
           edit: true,
           par_modo: 'U',
           codigo_fuente_ingreso: fuenteingreso?.codigo_fuente_ingreso,
@@ -148,26 +155,26 @@ export class ExtencionFuenteIngresoDashboardComponent {
     modalNuevaExtencionFuenteIngreso.afterClosed().subscribe({
       next: (res) => {
         if (res) {
-          this.utils.openLoading();
-          this._extencionFuenteIngreso.CRUD(res.datos).subscribe({
+          this.utilService.openLoading();
+          this.extencionFuenteIngreso.CRUD(res.datos).subscribe({
             next: () => {
-              this.utils.notification(
-                'La extencion de fuente de ingreso se ha editado extiosamente. ',
+              this.utilService.notification(
+                'Los coeficientes de fuente de ingreso se ha editado extiosamente. ',
                 'success'
               );
             },
             error: (err) => {
-              this.utils.closeLoading();
+              this.utilService.closeLoading();
+              this.editExtencionFuenteIngraso(res);
               err.status == 0
-                ? this.utils.notification('Error de conexión. ', 'error')
-                : this.utils.notification(
+                ? this.utilService.notification('Error de conexión. ', 'error')
+                : this.utilService.notification(
                     `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}. `,
                     'error'
                   );
-              this.editExtencionFuenteIngraso(res);
             },
             complete: () => {
-              this.utils.closeLoading();
+              this.utilService.closeLoading();
               this.getExtencionFuenteIngraso();
             },
           });
@@ -181,7 +188,7 @@ export class ExtencionFuenteIngresoDashboardComponent {
   ): void {
     this.dialog.open(AddEditExtencionFuenteIngresoComponent, {
       data: {
-        title: `VER FUENTE DE INGRESO`,
+        title: `VER COEFICIENTE DE FUENTE DE INGRESO`,
         edit: false,
         par_modo: 'R',
         codigo_fuente_ingreso: fuenteingreso?.codigo_fuente_ingreso,

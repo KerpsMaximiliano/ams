@@ -1,0 +1,25 @@
+<section class="seeker-section">
+  <mat-accordion>
+    <mat-expansion-panel class="mat-elevation-z1">
+      <mat-expansion-panel-header floating>
+        <mat-panel-title> Opciones de búsqueda </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="seeker-fields-container">
+        <mat-form-field class="seeker-form-field">
+          <mat-label class="seeker-label"> Empresa que Factura </mat-label>
+          <input matInput #input (keydown.enter)="searching(input.value)" />
+        </mat-form-field>
+      </div>
+      <div class="buttons-container">
+        <button class="primary-button icon-button" type="button" (click)="searching(input.value)">
+          <mat-icon> done </mat-icon>
+          Buscar
+        </button>
+        <button class="primary-button icon-button" type="button" [disabled]="!input?.value" (click)="clear(input)">
+          <mat-icon> close </mat-icon>
+          Limpiar
+        </button>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</section>

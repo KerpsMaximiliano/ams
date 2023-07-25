@@ -55,7 +55,7 @@ export class AtributosRelacionCapitaPlanComponent implements OnInit, OnDestroy {
   public back(): void {
     this.utilService.openLoading();
     this.fuenteIngresoService.setBack(true);
-    this.router.navigate(['parametros/fuente-ingreso']);
+    this.router.navigate(['parametros/fuentes-ingreso']);
     return;
   }
 
@@ -121,13 +121,18 @@ export class AtributosRelacionCapitaPlanComponent implements OnInit, OnDestroy {
       },
       error: (err: any) => {
         this.utilService.closeLoading();
-        err.status === 0
-          ? this.utilService.notification('Error de conexión.', 'error')
-          : this.utilService.notification(
-              `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
-              'error'
-            );
-        if (err.status == 404) this.dataSent = [];
+        if (err.status === 0) {
+          this.utilService.notification('Error de conexión.', 'error');
+        }
+        if (err.status === 404) {
+          this.dataSent = [];
+        }
+        if (err.status !== 0 && err.status !== 404) {
+          this.utilService.notification(
+            `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+            'error'
+          );
+        }
       },
       complete: () => {
         this.utilService.closeLoading();

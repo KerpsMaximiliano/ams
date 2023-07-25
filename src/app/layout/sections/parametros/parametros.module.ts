@@ -114,7 +114,7 @@ import { MvmtsNovedadesAutoFilterComponent } from './mvmts-novedades-auto/compon
 import { SetProdSubDialogComponent } from './mvmts-novedades-auto/components/set-producto-dialog/set-producto-dialog.component';
 import { SetPlanDialogComponent } from './mvmts-novedades-auto/components/add-edit-mvmts-novedades-auto-dialog/set-plan-dialog/set-plan-dialog.component';
 import { FuenteIngresoSetDialogComponent } from './mvmts-novedades-auto/components/set-fuente-ingreso-dialog/set-fuente-ingreso-dialog.component';
-import { SetMotivMovimientoDialogComponent } from './mvmts-novedades-auto/components/add-edit-mvmts-novedades-auto-dialog/set-motivo-movimiento-dialog/set-motivo-movimiento-dialog.component';
+import { SetMotivoMovimientoDialogComponent } from './mvmts-novedades-auto/components/add-edit-mvmts-novedades-auto-dialog/set-motivo-movimiento-dialog/set-motivo-movimiento-dialog.component';
 // 31 - ATRIBUTOS DE RELACIÓN CAPITA/PLAN
 import { AddEditAtributosRelacionCapitaPlanDialogComponent } from './atributos-relacion-capita-plan/components/add-edit-atributos-relacion-capita-plan-dialog/add-edit-atributos-relacion-capita-plan-dialog.component';
 import { AtributosRelacionCapitaPlanComponent } from './atributos-relacion-capita-plan/atributos-relacion-capita-plan.component';
@@ -135,6 +135,22 @@ import { TamboComponent } from './tambo/tambo.component';
 import { TamboDashboardComponent } from './tambo/components/tambo-dashboard/tambo-dashboard.component';
 import { TamboFilterComponent } from './tambo/components/tambo-filter/tambo-filter.component';
 import { TamboSetEntidadDialogComponent } from './tambo/components/tambo-set-posicion-dialog/tambo-set-entidad-dialog.component';
+// 34 - EMPRESA QUE FACTURA
+import { AddEditEmpresaFacturaComponent } from './empresa-factura/components/add-edit-empresa-factura/add-edit-empresa-factura.component';
+import { EmpresaFacturaComponent } from './empresa-factura/empresa-factura.component';
+import { EmpresaFacturaDashboardComponent } from './empresa-factura/components/empresa-factura-dashboard/empresa-factura-dashboard.component';
+import { EmpresaFacturaFilterComponent } from './empresa-factura/components/empresa-factura-filter/empresa-factura-filter.component';
+import { ModalLocalidadComponent } from './empresa-factura/components/add-edit-empresa-factura/modal-localidad/modal-localidad.component';
+// 34 B - PAGO LINK
+import { AddEditPagoLinkDialogComponent } from './pago-link/components/add-edit-pago-link-dialog/add-edit-pago-link-dialog.component';
+import { PagoLinkComponent } from './pago-link/pago-link.component';
+import { PagoLinkDashboardComponent } from './pago-link/components/pago-link-dashboard/pago-link-dashboard.component';
+import { PagoLinkFilterComponent } from './pago-link/components/pago-link-filter/pago-link-filter.component';
+// 35 - MONTOS MINIMO
+import { AddEditMontoMinimoComponent } from './montos-minimo/components/add-edit-montos-minimo/add-edit-monto-minimo.component';
+import { MontoMinimoComponent } from './montos-minimo/monto-minimo.component';
+import { MontoMinimoDashboardComponent } from './montos-minimo/components/monto-minimo-dashboard/monto-minimo-dashboard.component';
+import { MontoMinimoFilterComponent } from './montos-minimo/components/monto-minimo-filter/monto-minimo-filter.component';
 
 @NgModule({
   declarations: [
@@ -244,7 +260,7 @@ import { TamboSetEntidadDialogComponent } from './tambo/components/tambo-set-pos
     SetProdSubDialogComponent,
     SetPlanDialogComponent,
     FuenteIngresoSetDialogComponent,
-    SetMotivMovimientoDialogComponent,
+    SetMotivoMovimientoDialogComponent,
     // 31 - ATRIBUTOS DE RELACIÓN CAPITA/PLAN
     AddEditAtributosRelacionCapitaPlanDialogComponent,
     AtributosRelacionCapitaPlanComponent,
@@ -264,6 +280,22 @@ import { TamboSetEntidadDialogComponent } from './tambo/components/tambo-set-pos
     TamboDashboardComponent,
     TamboFilterComponent,
     TamboSetEntidadDialogComponent,
+    // 34 - EMPRESA QUE FACTURA
+    AddEditEmpresaFacturaComponent,
+    EmpresaFacturaComponent,
+    EmpresaFacturaDashboardComponent,
+    EmpresaFacturaFilterComponent,
+    ModalLocalidadComponent,
+    // 34 B - PAGO LINK
+    AddEditPagoLinkDialogComponent,
+    PagoLinkComponent,
+    PagoLinkDashboardComponent,
+    PagoLinkFilterComponent,
+    // 35 - MONTOS MINIMO
+    AddEditMontoMinimoComponent,
+    MontoMinimoComponent,
+    MontoMinimoDashboardComponent,
+    MontoMinimoFilterComponent,
   ],
   imports: [
     CommonModule,

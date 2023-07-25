@@ -34,7 +34,7 @@ export class MvmtsNovedadesAutoFilterComponent {
     private productoService: ProductoService,
     private utilService: UtilService) {}
 
-  public performSearch(event: any, inputCapita: HTMLInputElement, descripcionProducto: HTMLInputElement, descripcionSubproducto: HTMLInputElement,inputPlan: HTMLInputElement): void {
+  public performSearch(event: any, inputCapita: HTMLInputElement, descripcionProducto: HTMLInputElement, descripcionSubproducto: HTMLInputElement,inputPlan: HTMLInputElement, inputCodigoPlan: HTMLInputElement): void {
     event.preventDefault();
     this.search.emit(
       JSON.stringify({
@@ -42,14 +42,16 @@ export class MvmtsNovedadesAutoFilterComponent {
         nombre_fuente: inputCapita.value,
         nombre_prod: descripcionProducto.value,
         nombre_sub_prod: descripcionSubproducto.value,
-        nombre_plan: inputPlan.value
+        nombre_plan: inputPlan.value,
+        plan_origen: inputCodigoPlan.value
       })
     );
   }
 
-  public clearInput(campo: string, inputCapita: HTMLInputElement, descripcionProducto: HTMLInputElement, descripcionSubproducto: HTMLInputElement,inputPlan: HTMLInputElement): void{
+  public clearInput(campo: string, inputCapita: HTMLInputElement, descripcionProducto: HTMLInputElement, descripcionSubproducto: HTMLInputElement,inputPlan: HTMLInputElement, inputCodigoPlan: HTMLInputElement): void{
     switch(campo){
       case 'capita_origen':
+        this.codigo_fuente_ingreso = 0;
         inputCapita.value = '';
         descripcionProducto.value = '';
         descripcionSubproducto.value = '';
@@ -60,6 +62,8 @@ export class MvmtsNovedadesAutoFilterComponent {
         break;
       case 'limpiar':
         inputPlan.value = '';
+        inputCodigoPlan.value = ''
+        break;
     }
   }
 
@@ -97,14 +101,14 @@ export class MvmtsNovedadesAutoFilterComponent {
 
   public getProducto(descripcionProducto: HTMLInputElement, descripcionSubproducto: HTMLInputElement): void {
     this.utilService.openLoading();
+    let value = {}
+  this.codigo_fuente_ingreso && this.codigo_fuente_ingreso !== 0 ?
+      value = {par_modo: 'F', codigo_fuente_ingreso: this.codigo_fuente_ingreso }
+      : value = {par_modo: 'O', descripcion_producto: ""}
     this.productoService
-      .CRUD(
-        JSON.stringify({
-          par_modo: 'F',
-          codigo_fuente_ingreso: this.codigo_fuente_ingreso
-        })
-      )
-      .subscribe({
+    .CRUD(
+      JSON.stringify(value)
+    ).subscribe({
         next: (res: any) => {
           let data: IProductoAdministrador[] = Array.isArray(res.dataset)
             ? (res.dataset as IProductoAdministrador[])
@@ -136,8 +140,10 @@ export class MvmtsNovedadesAutoFilterComponent {
     modalSetProd.afterClosed().subscribe({
       next: (res) => {
         if (res) {
-          descripcionSubproducto.value = res.descripcion_producto ? res.descripcion_producto.trim() : '';
-          descripcionProducto.value = res.descripcion_producto_administrador ? res.descripcion_producto_administrador.trim() : '';
+          descripcionSubproducto.value =   res.descripcion_producto_administrador
+          ? res.descripcion_producto || ''
+          : ''
+          descripcionProducto.value = res.descripcion_producto_administrador ? res.descripcion_producto_administrador.trim() : res.descripcion_producto;
         }
       },
     });

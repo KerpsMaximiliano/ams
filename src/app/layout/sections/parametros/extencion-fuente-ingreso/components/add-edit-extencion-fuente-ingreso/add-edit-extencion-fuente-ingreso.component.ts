@@ -2,8 +2,10 @@ import { Component, Inject } from '@angular/core';
 
 // * Form
 import {
+  AbstractControl,
   UntypedFormControl,
   UntypedFormGroup,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
 
@@ -35,19 +37,17 @@ import { UtilService } from 'src/app/core/services/util.service';
 export class AddEditExtencionFuenteIngresoComponent {
   public formGroup: UntypedFormGroup;
   public getErrorMessage = getErrorMessage;
-
+  validarRemuneracion: boolean = true;
   constructor(
     public dialogRef: MatDialogRef<ConfirmDialogComponent>,
-    private dialog: MatDialog,
-
-    private _extencionFuenteIngreso: ExtencionFuenteIngresoService,
-    private _utils: UtilService,
+    private extencionFuenteIngreso: ExtencionFuenteIngresoService,
+    private utilService: UtilService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
   /**
    * 1. 'this.setUpForm();': Asigna las validaciones correspondientes a cada campo de entrada/selección.
-  //  * 2. Condición: comprueba que sea una actualización (modificación) o lectura.
+   //  * 2. Condición: comprueba que sea una actualización (modificación) o lectura.
    * 2. 'this.setFormValues();': Asigna los valores de 'data' a los campos de entrada/selección del formulario.
    * 4. Condición: comprueba si la edición esta deshabilitada.
    *     > Deshabilidada: deshabilita el formulario.
@@ -71,6 +71,38 @@ export class AddEditExtencionFuenteIngresoComponent {
       this.formGroup.get('fuente_ingreso')?.disable();
       this.formGroup.get('producto_des')?.disable();
       this.valorInicialRemDesde();
+    }
+    this.configureValidators()
+  }
+
+  configureValidators() {
+    const control = this.formGroup.get(
+      'remuneracion_hasta'
+    ) as UntypedFormControl;
+    control.setValidators(this.validacionRemuneracion());
+    control.updateValueAndValidity();
+  }
+
+  validacionRemuneracion(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const desde = parseFloat(this.formGroup.get('remuneracion_desde')?.value);
+      const hasta = parseFloat(this.formGroup.get('remuneracion_hasta')?.value);
+
+      if (desde !== null && hasta !== null && hasta <= desde) {
+        return { error: "Remuneración Hasta debe ser mayor que Remuneración Desde" };
+      }
+      return null;
+    };
+  }
+
+  Remuneracion() {
+    if (
+      parseFloat(this.formGroup.get('remuneracion_desde')?.value) >=
+      parseFloat(this.formGroup.get('remuneracion_hasta')?.value)
+      ) {
+        this.validarRemuneracion = true;
+    } else {
+      this.validarRemuneracion = false;
     }
   }
 
@@ -115,17 +147,12 @@ export class AddEditExtencionFuenteIngresoComponent {
         Validators.compose([
           Validators.required,
           Validators.min(0.0),
-          Validators.maxLength(11),
           isNumeric,
         ])
       ),
       remuneracion_hasta: new UntypedFormControl(
         this.data.remuneracion_hasta ? this.data.remuneracion_hasta : 0,
-        Validators.compose([
-          Validators.required,
-          Validators.maxLength(11),
-          isNumeric,
-        ])
+        Validators.compose([Validators.required, isNumeric])
       ),
       coeficiente_uno: new UntypedFormControl(
         this.data.coeficiente_uno ? this.data.coeficiente_uno : 0,
@@ -175,33 +202,9 @@ export class AddEditExtencionFuenteIngresoComponent {
     });
   }
 
-  public getProducto(): void {
-    const ModalNuevoProductoComponent = this.dialog.open(
-      ModalExtencionProductoComponent,
-      {
-        data: {},
-      }
-    );
-    ModalNuevoProductoComponent.afterClosed().subscribe({
-      next: (res: any) => {
-        if (res) {
-          if (this.formGroup.get('producto')?.enabled){
-            this.formGroup.get('producto')?.setValue(res.codigo_producto);
-            this.formGroup
-              .get('producto_des')
-              ?.setValue(res.descripcion_producto);
-          }
-          else {
-            this._utils.notification('No se puede cambiar el producto', 'error')
-          }
-        }
-      },
-    });
-  }
-
   private valorInicialRemDesde(): void {
-    this._utils.openLoading();
-    this._extencionFuenteIngreso
+    this.utilService.openLoading();
+    this.extencionFuenteIngreso
       .CRUD(
         JSON.stringify({
           par_modo: 'H',
@@ -213,22 +216,16 @@ export class AddEditExtencionFuenteIngresoComponent {
       )
       .subscribe({
         next: (res: any) => {
-          this._utils.closeLoading();
+          this.utilService.closeLoading();
           this.formGroup
             .get('remuneracion_desde')
             ?.setValue(res.dataset.remuneracion_hasta);
         },
         error: (err: any) => {
-          this._utils.closeLoading();
-          err.status == 0
-            ? this._utils.notification('Error de conexión', 'error')
-            : this._utils.notification(
-                `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
-                'error'
-              );
+          this.utilService.closeLoading();
         },
         complete: () => {
-          this._utils.closeLoading();
+          this.utilService.closeLoading();
         },
       });
   }

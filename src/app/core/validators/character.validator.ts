@@ -113,6 +113,15 @@ export function afterCommaNotZero(): ValidatorFn {
   };
 }
 
+// Cantidad de digitos numericos
+export function isNumberDigitsAndDecimal(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const value = control.value;
+    const regex = /^[0-9]{0,9}(,[0-9]{1,2})?$|^[0-9]{0,11}$/;
+    return regex.test(value) ? null : { numberDigitsAndDecimal: true };
+  };
+}
+
 export function getErrorMessage(control: any) {
   if (control.errors?.['required']) {
     return `Este campo es obligatorio.`;

@@ -14,6 +14,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddEditExtencionFuenteIngresoComponent } from './components/add-edit-extencion-fuente-ingreso/add-edit-extencion-fuente-ingreso.component';
 import { ExtencionFuenteIngresoDashboardComponent } from './components/extencion-fuente-ingreso-dashboard/extencion-fuente-ingreso-dashboard.component';
 import { ExtencionFuenteIngresoFilterComponent } from './components/extencion-fuente-ingreso-filter/extencion-fuente-ingreso-filter.component';
+import { FuenteIngresoService } from 'src/app/core/services/fuente-ingreso.service';
+import { Router } from '@angular/router';
+import { IFuenteIngreso } from 'src/app/core/models/fuente-ingreso.interface';
 
 @Component({
   selector: 'app-extencion-fuente-ingreso',
@@ -26,17 +29,33 @@ export class ExtencionFuenteIngresoComponent {
   @ViewChild(ExtencionFuenteIngresoDashboardComponent)
   dashboard: ExtencionFuenteIngresoDashboardComponent;
   fuente_ingreso: IExtencionFuenteIngreso;
+  fuenteIngreso: IFuenteIngreso;
 
   constructor(
     private extencionFuenteIngreso: ExtencionFuenteIngresoService,
-    private utils: UtilService,
-    private dialog: MatDialog
-  ) {}
+    private FuenteIngresoService: FuenteIngresoService,
+    private utilService: UtilService,
+    private dialog: MatDialog,
+    private router: Router
+  ) {
+    this.fuenteIngreso = this.FuenteIngresoService.get();
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (!this.fuenteIngreso) {
+        this.router.navigate(['parametros/fuentes-ingreso']);
+      }
+  }
 
   public handleSearch(inputValue: any): void {
     this.dashboard.filter(inputValue);
+  }
+
+  public back(): void {
+    this.utilService.openLoading();
+    this.FuenteIngresoService.setBack(true);
+    this.router.navigate(['parametros/fuentes-ingreso']);
+    return;
   }
 
   public validarBoton(): boolean {
@@ -49,14 +68,12 @@ export class ExtencionFuenteIngresoComponent {
     return false;
   }
 
-  public nuevaExtencionFuenteIngreso(
-    fuenteingreso?: IExtencionFuenteIngreso
-  ): void {
+  public nuevaExtencionFuenteIngreso(): void {
     const modalNuevaExtencionFuenteIngreso = this.dialog.open(
       AddEditExtencionFuenteIngresoComponent,
       {
         data: {
-          title: `CREAR FUENTE DE INGRESO`,
+          title: `CREAR COEFICIENTE DE FUENTE DE INGRESO`,
           edit: true,
           par_modo: 'C',
           codigo_fuente_ingreso: this.filter.searchForm.get(
@@ -74,31 +91,35 @@ export class ExtencionFuenteIngresoComponent {
     modalNuevaExtencionFuenteIngreso.afterClosed().subscribe({
       next: (res) => {
         if (res) {
-          this.utils.openLoading();
+          this.utilService.openLoading();
           this.extencionFuenteIngreso
             .CRUD(JSON.stringify(res.datos))
             .subscribe({
               next: () => {
-                this.utils.notification(
-                  'La extencion de fuente de ingreso se ha creado exitosamente. ',
+                this.dashboard.getExtencionFuenteIngraso();
+                if (res.reload) {
+                  this.nuevaExtencionFuenteIngreso();
+                }
+                this.utilService.notification(
+                  'Los coeficientes de fuente de ingreso se ha creado exitosamente. ',
                   'success'
                 );
               },
               error: (err) => {
-                this.utils.closeLoading();
+                this.utilService.closeLoading();
+                this.nuevaExtencionFuenteIngreso();
                 err.status == 0
-                  ? this.utils.notification('Error de conexión. ', 'error')
-                  : this.utils.notification(
+                  ? this.utilService.notification(
+                      'Error de conexión. ',
+                      'error'
+                    )
+                  : this.utilService.notification(
                       `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
                       'error'
                     );
-                this.nuevaExtencionFuenteIngreso(res);
               },
               complete: () => {
-                this.utils.closeLoading();
-                if (res.reload) {
-                  this.nuevaExtencionFuenteIngreso();
-                }
+                this.utilService.closeLoading();
               },
             });
         }

@@ -49,7 +49,7 @@
         <div class="seeker-fields-container">
           <h3>TIPO</h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
-            <mat-select formControlName="tipo_fuente" required (selectionChange)="fuenteAdministradora()">
+            <mat-select formControlName="tipo_fuente" required (SelectionChange)="fuenteAdministradora()">
               <mat-option [value]="'A'"> ADMINISTRADORA </mat-option>
               <mat-option [value]="'M'"> MIXTO </mat-option>
               <mat-option [value]="'S'"> SUBORDINADA </mat-option>
@@ -63,7 +63,7 @@
           </mat-form-field>
         </div>
 
-        <div class="seeker-fields-container" *ngIf="mostrarAdministradora">
+        <div class="seeker-fields-container">
           <h3>FUENTE DE INGRESO ADMINISTRADORA</h3>
           <div class="content">
             <mat-form-field class="seeker-form-field" appearance="outline">
@@ -80,7 +80,12 @@
               </mat-error>
             </mat-form-field>
             <ng-container *ngIf="data.edit">
-              <div (click)="getFuente('administrado')" class="icon">
+              <div [class]="
+                  formGroup.get('tipo_fuente')?.value != 'A' &&
+                  formGroup.get('tipo_fuente')?.value != ''
+                    ? 'icon'
+                    : 'icon disabled fix'
+                " (click)="getFuente('administrado')" class="icon">
                 <mat-icon class="material-symbols-outlined"> search </mat-icon>
               </div>
               <div (click)="limpiar('administrado')" [class]="
@@ -383,7 +388,8 @@
         <div class="seeker-fields-container">
           <h3>APORTE ADICIONAL</h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
-            <mat-select formControlName="aporte_adicional" required>
+            <mat-select formControlName="aporte_adicional" required disableOptionCentering
+              (valueChange)="fuenteAdicional()">
               <mat-option [value]="'S'"> SI </mat-option>
               <mat-option [value]="'N'"> NO </mat-option>
             </mat-select>
@@ -395,92 +401,100 @@
             </mat-error>
           </mat-form-field>
         </div>
-
-        <div *ngIf="formGroup.get('aporte_adicional')?.value == 'S'">
-          <div class="seeker-fields-container">
-            <h3>FUENTE APORTE ADICIONAL</h3>
-            <div class="content">
-              <mat-form-field class="seeker-form-field" appearance="outline">
-                <input matInput formControlName="fuente_aporte_adicional_descripcion" readonly />
-                <mat-error *ngIf="
-                    formGroup.get('fuente_aporte_adicional_descripcion')
-                      ?.invalid &&
-                    formGroup.get('fuente_aporte_adicional_descripcion')
-                      ?.touched
-                  ">
-                  {{
-                  getErrorMessage(
-                  formGroup.get("fuente_aporte_adicional_descripcion")
-                  )
-                  }}
-                </mat-error>
-              </mat-form-field>
-              <ng-container *ngIf="data.edit">
-                <div (click)="getFuente('adicional')" class="icon">
-                  <mat-icon class="material-symbols-outlined">
-                    search
-                  </mat-icon>
-                </div>
-                <div (click)="limpiar('adicional')" [class]="
-                    formGroup.get('fuente_aporte_adicional_descripcion')?.value
-                      ? 'icon'
-                      : 'icon disabled fix'
-                  ">
-                  <mat-icon class="material-symbols-outlined"> close </mat-icon>
-                </div>
-              </ng-container>
-            </div>
-          </div>
-          <div class="seeker-fields-container">
-            <h3>CONC. APORTE ADICIONAL</h3>
+        <div class="seeker-fields-container">
+          <h3>FUENTE APORTE ADICIONAL</h3>
+          <div class="content">
             <mat-form-field class="seeker-form-field" appearance="outline">
-              <mat-select formControlName="concepto_aporte_adicional">
-                <mat-option *ngFor="let concepto of listConceptos" [value]="concepto.id_concepto">
-                  {{ concepto.descripcion }}
-                </mat-option>
-              </mat-select>
+              <input matInput formControlName="fuente_aporte_adicional_descripcion" readonly />
               <mat-error *ngIf="
-                  formGroup.get('concepto_aporte_adicional')?.invalid &&
-                  formGroup.get('concepto_aporte_adicional')?.touched
+                  formGroup.get('fuente_aporte_adicional_descripcion')
+                    ?.invalid &&
+                  formGroup.get('fuente_aporte_adicional_descripcion')?.touched
                 ">
                 {{
-                getErrorMessage(formGroup.get("concepto_aporte_adicional"))
+                getErrorMessage(
+                formGroup.get("fuente_aporte_adicional_descripcion")
+                )
                 }}
               </mat-error>
             </mat-form-field>
-          </div>
-          <div class="seeker-fields-container">
-            <h3>CONC. APORTE ADICIONAL DEC.</h3>
-            <mat-form-field class="seeker-form-field" appearance="outline">
-              <mat-select formControlName="condicion_aporte_adic_dec">
-                <mat-option *ngFor="let concepto of listConceptos" [value]="concepto.id_concepto">
-                  {{ concepto.descripcion }}
-                </mat-option>
-              </mat-select>
-              <mat-error *ngIf="
-                  formGroup.get('condicion_aporte_adic_dec')?.invalid &&
-                  formGroup.get('condicion_aporte_adic_dec')?.touched
+            <ng-container *ngIf="data.edit">
+              <div (click)="getFuente('adicional')" [class]="
+                  formGroup.get('aporte_adicional')?.value == 'S'
+                    ? 'icon'
+                    : 'icon disabled fix'
+                " class="icon">
+                <mat-icon class="material-symbols-outlined"> search </mat-icon>
+              </div>
+              <div (click)="limpiar('adicional')" [class]="
+                  formGroup.get('fuente_aporte_adicional_descripcion')?.value
+                    ? 'icon'
+                    : 'icon disabled fix'
                 ">
-                {{
-                getErrorMessage(formGroup.get("condicion_aporte_adic_dec"))
-                }}
-              </mat-error>
-            </mat-form-field>
+                <mat-icon class="material-symbols-outlined"> close </mat-icon>
+              </div>
+            </ng-container>
           </div>
+        </div>
+        <div class="seeker-fields-container">
+          <h3>CONC. APORTE ADICIONAL</h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <mat-select formControlName="concepto_aporte_adicional" disableOptionCentering
+              [disabled]="formGroup.get('aporte_adicional')?.value != 'S'">
+              <mat-option *ngFor="let concepto of listConceptos" [value]="concepto.id_concepto">
+                {{ concepto.descripcion }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="
+                formGroup.get('concepto_aporte_adicional')?.invalid &&
+                formGroup.get('concepto_aporte_adicional')?.touched
+              ">
+              {{ getErrorMessage(formGroup.get("concepto_aporte_adicional")) }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="seeker-fields-container">
+          <h3>CONC. APORTE ADICIONAL DEC.</h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <mat-select formControlName="condicion_aporte_adic_dec" disableOptionCentering
+              [disabled]="formGroup.get('aporte_adicional')?.value != 'S'">
+              <mat-option *ngFor="let concepto of listConceptos" [value]="concepto.id_concepto">
+                {{ concepto.descripcion }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="
+                formGroup.get('condicion_aporte_adic_dec')?.invalid &&
+                formGroup.get('condicion_aporte_adic_dec')?.touched
+              ">
+              {{ getErrorMessage(formGroup.get("condicion_aporte_adic_dec")) }}
+            </mat-error>
+          </mat-form-field>
         </div>
       </mat-tab>
     </mat-tab-group>
+    <div *ngIf="data.par_modo == 'U'" class="buttons-container">
+      <button class="primary-button icon-button" type="submit"
+        (click)="redirectTo('/parametros/extencion-fuente-ingreso')" mat-dialog-close>
+        <mat-icon> open_in_new_down </mat-icon>
+        Coeficientes
+      </button>
+      <button class="primary-button icon-button" type="submit"
+        (click)="redirectTo('/parametros/atributos-relacion-capita-plan')" mat-dialog-close>
+        <mat-icon> open_in_new_down </mat-icon>
+        Atributos
+      </button>
+    </div>
     <div *ngIf="data.edit; else other_content" class="buttons-container">
       <button class="primary-button icon-button" type="button" mat-dialog-close>
         <mat-icon>close</mat-icon>
         Cancelar
       </button>
       <button class="primary-button icon-button" type="button" [disabled]="activeTabIndex === 0" (click)="prevStep()">
-        <mat-icon>close</mat-icon>
+        <mat-icon>arrow_back_ios</mat-icon>
         Anterior
       </button>
       <button class="primary-button icon-button" type="button" [disabled]="activeTabIndex === 4" (click)="nextStep()">
-        <mat-icon>close</mat-icon>
+        <mat-icon>arrow_forward_ios</mat-icon>
         Siguiente
       </button>
       <button [class]="
@@ -500,24 +514,14 @@
           Aceptar
         </button>
         <button class="primary-button icon-button" type="button" [disabled]="activeTabIndex === 0" (click)="prevStep()">
-          <mat-icon>close</mat-icon>
+          <mat-icon>arrow_back_ios</mat-icon>
           Anterior
         </button>
-        <button class="primary-button icon-button" type="button" [disabled]="activeTabIndex === 2" (click)="nextStep()">
-          <mat-icon>close</mat-icon>
+        <button class="primary-button icon-button" type="button" [disabled]="activeTabIndex === 4" (click)="nextStep()">
+          <mat-icon>arrow_forward_ios</mat-icon>
           Siguiente
         </button>
       </div>
     </ng-template>
-    <div *ngIf="data.par_modo == 'U'" class="buttons-container">
-      <button class="primary-button icon-button" type="submit"
-        (click)="redirectTo('/parametros/extencion-fuente-ingreso')" mat-dialog-close>
-        Coeficientes
-      </button>
-      <button class="primary-button icon-button" type="submit"
-        (click)="redirectTo('/parametros/atributos-relacion-capita-plan')" mat-dialog-close>
-        Atributos
-      </button>
-    </div>
   </form>
 </div>

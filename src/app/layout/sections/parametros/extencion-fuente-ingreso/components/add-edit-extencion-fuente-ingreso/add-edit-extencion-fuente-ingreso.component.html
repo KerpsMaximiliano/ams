@@ -46,16 +46,6 @@
             {{ getErrorMessage(formGroup.get("producto_des")) }}
           </mat-error>
         </mat-form-field>
-        <div class="icon">
-          <mat-icon class="material-symbols-outlined" (click)="getProducto()"
-            >search</mat-icon
-          >
-        </div>
-        <div class="icon">
-          <mat-icon class="material-symbols-outlined" (click)="limpiar()"
-            >close</mat-icon
-          >
-        </div>
       </div>
     </div>
     <div class="seeker-fields-container">
@@ -63,9 +53,13 @@
       <mat-form-field class="seeker-form-field" appearance="outline">
         <input
           matInput
+          type="text"
+          (ngModelChange)="Remuneracion()"
           formControlName="remuneracion_desde"
-          step="0.01"
-          type="number"
+          maxlength="12"
+          pattern="^\d{1,9}(\.\d{1,2})?$"
+          max="1000000000"
+          min="0"
         />
         <mat-error
           *ngIf="
@@ -82,9 +76,13 @@
       <mat-form-field class="seeker-form-field" appearance="outline">
         <input
           matInput
+          type="text"
+          (ngModelChange)="Remuneracion()"
           formControlName="remuneracion_hasta"
-          step="0.01"
-          type="number"
+          maxlength="12"
+          pattern="^\d{1,9}(\.\d{1,2})?$"
+          max="1000000000"
+          min="0"
         />
         <mat-error
           *ngIf="
@@ -93,6 +91,12 @@
           "
         >
           {{ getErrorMessage(formGroup.get("remuneracion_hasta")) }}
+        </mat-error>
+        <mat-error
+          *ngIf="formGroup.get('remuneracion_hasta')?.errors?.['error']
+          && formGroup.get('remuneracion_hasta')?.value != ''"
+        >
+          {{ formGroup.get('remuneracion_hasta')?.errors?.['error'] }}
         </mat-error>
       </mat-form-field>
     </div>
@@ -103,10 +107,10 @@
           <input
             matInput
             formControlName="coeficiente_uno"
-            type="number"
-            min="0.00"
-            step="0.01"
+            pattern="^\d{1}(\.\d{1,2})?$"
+            maxlength="4"
             max="1"
+            min="0.00"
           />
           <mat-error
             *ngIf="
@@ -124,10 +128,10 @@
           <input
             matInput
             formControlName="coeficiente_dos"
-            type="number"
-            min="0"
-            step="0.01"
+            pattern="^\d{1}(\.\d{1,2})?$"
+            maxlength="4"
             max="1"
+            min="0.00"
           />
           <mat-error
             *ngIf="
@@ -145,10 +149,10 @@
           <input
             matInput
             formControlName="coeficiente_tres"
-            type="number"
-            min="0"
-            step="0.01"
+            pattern="^\d{1}(\.\d{1,2})?$"
+            maxlength="4"
             max="1"
+            min="0.00"
           />
           <mat-error
             *ngIf="
@@ -166,10 +170,10 @@
           <input
             matInput
             formControlName="coeficiente_cuatro"
-            type="number"
-            min="0"
-            step="0.01"
+            pattern="^\d{1}(\.\d{1,2})?$"
+            maxlength="4"
             max="1"
+            min="0.00"
           />
           <mat-error
             *ngIf="
@@ -187,10 +191,10 @@
           <input
             matInput
             formControlName="coeficiente_cinco"
-            type="number"
-            min="0"
-            step="0.01"
+            pattern="^\d{1}(\.\d{1,2})?$"
+            maxlength="4"
             max="1"
+            min="0.00"
           />
           <mat-error
             *ngIf="
@@ -217,7 +221,7 @@
         class="primary-button icon-button"
         type="button"
         (click)="closeOpenDialog()"
-        [disabled]="formGroup.invalid"
+        [disabled]="formGroup.invalid || validarRemuneracion"
       >
         <mat-icon> done </mat-icon>
         Guardar y Nuevo
@@ -225,7 +229,7 @@
       <button
         class="primary-button icon-button"
         type="submit"
-        [disabled]="formGroup.invalid"
+        [disabled]="formGroup.invalid || validarRemuneracion"
       >
         <mat-icon> done </mat-icon>
         Guardar
