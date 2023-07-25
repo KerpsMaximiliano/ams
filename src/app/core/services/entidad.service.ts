@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { EnvironmentService } from './environment.service';
 
 // * Interfaces
-import { IEmpresaFacturaResponse } from '../models/empresa-factura.interface';
+import { IEntidad, IEntidadResponse } from '../models/entidad.interface';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -16,13 +16,23 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class EntidadService {
+  private entidad: IEntidad[];
+
   constructor(
     private http: HttpClient,
     private environmentService: EnvironmentService
   ) {}
 
-  CRUD(body: string): Observable<IEmpresaFacturaResponse> {
-    return this.http.post<IEmpresaFacturaResponse>(
+  public setEntidad(provincias: IEntidad[]): void {
+    this.entidad = provincias;
+  }
+
+  public getEntidad(): IEntidad[] {
+    return this.entidad;
+  }
+
+  public CRUD(body: string): Observable<IEntidadResponse> {
+    return this.http.post<IEntidadResponse>(
       `${this.environmentService.api}/abmtambos`,
       body,
       httpOptions

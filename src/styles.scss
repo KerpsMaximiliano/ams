@@ -472,9 +472,7 @@ button {
 }
 
 .mat-radio-button.mat-primary .mat-radio-inner-circle,
-.mat-radio-button.mat-primary
-  .mat-radio-ripple
-  .mat-ripple-element:not(.mat-radio-persistent-ripple),
+.mat-radio-button.mat-primary .mat-radio-ripple .mat-ripple-element:not(.mat-radio-persistent-ripple),
 .mat-radio-button.mat-primary.mat-radio-checked .mat-radio-persistent-ripple,
 .mat-radio-button.mat-primary:active .mat-radio-persistent-ripple {
   background-color: var(--sancor-blue);
@@ -482,4 +480,14 @@ button {
 
 .d-none {
   display: none !important;
+}
+
+/* Cambia el color y tamaño de los mat tool tips */
+.mat-tooltip.mt-tooltip {
+  background-color: var(--coral-sancor);
+  font-size: 0.9rem;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.01rem;
+  min-height: 1.8rem;
 }

@@ -50,3 +50,13 @@ td.mat-cell:first-of-type {
 .mat-column-actions.mat-cell {
   min-width: 150px;
 }
+
+/*
+ * Genera el espacio que corresponde al botón que no esta disponible.
+*/
+.no-edit {
+  display: inline-block;
+  vertical-align: bottom;
+  width: 40px;
+  height: 44.09px;
+}

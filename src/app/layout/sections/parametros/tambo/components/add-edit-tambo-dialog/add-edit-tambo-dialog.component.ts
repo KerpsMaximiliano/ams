@@ -1,7 +1,9 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 
 // * Services
 import { DataSharingService } from 'src/app/core/services/data-sharing.service';
+import { UtilService } from 'src/app/core/services/util.service';
+import { ProvinciaService } from 'src/app/core/services/provincia.service';
 
 // * Interfaces
 import { IProvincia } from 'src/app/core/models/provincia.interface';
@@ -20,7 +22,11 @@ import {
   notOnlySpaces,
   isAlpha,
   isDecimal,
-  isNumberAndSymbol,
+  notChar,
+  afterComma,
+  isNumberAndComma,
+  onlyTwoDecimal,
+  isMax,
 } from 'src/app/core/validators/character.validator';
 
 // * Material
@@ -31,29 +37,53 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
   templateUrl: './add-edit-tambo-dialog.component.html',
   styleUrls: ['./add-edit-tambo-dialog.component.scss'],
 })
-export class AddEditTamboDialogComponent {
+export class AddEditTamboDialogComponent implements OnInit {
+  private date: Number;
   public formGroup: UntypedFormGroup;
   public getErrorMessage = getErrorMessage;
-  public errorMessage: string;
-  public setError: boolean;
-  public maxLength: number;
+  public provincias: IProvincia[];
+  public status: string;
 
   constructor(
     private dataSharingService: DataSharingService,
+    private provinciaService: ProvinciaService,
+    private utilService: UtilService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.setUpForm();
     this.validate();
+    this.status = this.setStatus();
+    if (this.data.par_modo === 'U') {
+      this.date = this.formatDate(new Date());
+    }
+    console.log(this.data);
+  }
+
+  ngOnInit(): void {
+    this.provinciaService.getProvincias()
+      ? (this.provincias = this.provinciaService.getProvincias())
+      : this.getProvincias();
   }
 
   public confirm(): void {
     if (this.formGroup.valid) {
       this.dataSharingService.sendData({
-        par_modo: this.data.par_modo,
-        tipo_de_documento: this.formGroup.get('tipo_de_documento')?.value,
-        descripcion: this.formGroup.get('descripcion')?.value,
-        descripcion_reducida: this.formGroup.get('descripcion_reducida')?.value,
-        control_cuit: this.formGroup.get('control_cuit')?.value,
+        par_modo: this.data?.par_modo,
+        id_empresa: this.data?.id_empresa,
+        id_tambos: this.formGroup.get('id_tambos')?.value,
+        razon_social: this.formGroup.get('razon_social')?.value,
+        grasa_ent: this.formGroup
+          .get('grasa_ent')
+          ?.value.toString()
+          .replace(',', '.'),
+        fecha_suspension: this.data?.fecha_suspension,
+        fecha_rehabilitacion: this.data?.fecha_rehabilitacion,
+        localidad: this.formGroup.get('localidad')?.value,
+        provincia: this.formGroup.get('provincia')?.value,
+        fecha_baja: this.data?.fecha_baja,
+        emp_vinc_ent: this.data?.emp_vinc_ent,
+        ent_sancor: this.data?.ent_sancor,
+        canal: this.data?.canal,
       });
     } else {
       this.formGroup.markAllAsTouched();
@@ -61,10 +91,61 @@ export class AddEditTamboDialogComponent {
   }
 
   public handleProvince(letra_provincia: string): string {
-    const province = this.data.provincias.find(
+    const province = this.provincias.find(
       (provincia: IProvincia) => provincia.codigo == letra_provincia
     );
     return province ? province.nombre_provincia : '';
+  }
+
+  public validateNumberInput(event: KeyboardEvent): void {
+    const inputValue: string = this.formGroup.get('grasa_ent')?.value;
+    if (
+      (inputValue.length === 0 && event.key === ',') ||
+      (inputValue.length === 0 && event.key === '.')
+    ) {
+      event.preventDefault();
+    } else {
+      if (
+        (inputValue.includes(',') && event.key === ',') ||
+        (inputValue.includes(',') && event.key === '.')
+      ) {
+        event.preventDefault();
+      }
+    }
+  }
+
+  public delete(): void {
+    if (this.data.fecha_baja === 0) {
+      this.dataSharingService.sendData({
+        par_modo: 'CE',
+        estado: 'B',
+        id_empresa: this.data.id_empresa ? this.data.id_empresa : 0,
+        id_tambos: this.data.id_tambos ? this.data.id_tambos : 0,
+        fecha_baja: this.date,
+      });
+    }
+  }
+
+  public handleStatus(): void {
+    if (this.data.fecha_baja === 0) {
+      if (this.data.fecha_suspension === 0) {
+        this.dataSharingService.sendData({
+          par_modo: 'CE',
+          estado: 'S',
+          id_empresa: this.data.id_empresa ? this.data.id_empresa : 0,
+          id_tambos: this.data.id_tambos ? this.data.id_tambos : 0,
+          fecha_suspension: this.date,
+        });
+      } else {
+        this.dataSharingService.sendData({
+          par_modo: 'CE',
+          estado: 'R',
+          id_empresa: this.data.id_empresa ? this.data.id_empresa : 0,
+          id_tambos: this.data.id_tambos ? this.data.id_tambos : 0,
+          fecha_rehabilitacion: this.date,
+        });
+      }
+    }
   }
 
   private setUpForm(): void {
@@ -95,7 +176,7 @@ export class AddEditTamboDialogComponent {
       ),
       provincia: new UntypedFormControl(
         {
-          value: this.data.provincia,
+          value: this.data.provincia ? this.data.provincia.trim() : '',
           disabled: this.data.par_modo === 'R',
         },
         Validators.compose([
@@ -122,26 +203,84 @@ export class AddEditTamboDialogComponent {
           value: this.data.grasa_ent ? this.data.grasa_ent : '',
           disabled: this.data.par_modo === 'R',
         },
-        Validators.compose([Validators.required, isNumberAndSymbol()])
+        Validators.compose([
+          Validators.required,
+          notChar(),
+          isNumberAndComma(),
+          afterComma(),
+          onlyTwoDecimal(),
+          isMax(),
+        ])
       ),
     });
   }
 
   private validate(): void {
     this.formGroup.get('grasa_ent')?.valueChanges.subscribe((value: any) => {
-      // const control = this.formGroup.get('grasa_ent')?.value;
-      const regex =
-        /^(?:\d{1,8}|\d{1,7},\d|\d{1,6},\d{2}|\d{5},\d{2}|\d{4},\d{2}|\d{3},\d{2}|\d{2},\d{2}|\d,\d{2}|\d{1,8},\d|\d{1,7},\d{2})$/;
-
-      this.maxLength = value.includes(',') ? 9 : 8;
-
-      if (regex.test(value)) {
-        console.log('El valor cumple con las condiciones establecidas.');
-        // Realizar acciones adicionales si el valor cumple con las condiciones establecidas.
-      } else {
-        console.log('El valor no cumple con las condiciones establecidas.');
-        // Realizar acciones adicionales si el valor no cumple con las condiciones establecidas.
+      if (value[0] === ',') {
+        this.formGroup.get('grasa_ent')?.setValue('');
+      }
+      if (value.includes('.')) {
+        this.formGroup.get('grasa_ent')?.setValue(value.replace('.', ','));
       }
     });
+  }
+
+  private getProvincias(): void {
+    this.utilService.openLoading();
+    this.provinciaService
+      .CRUD(
+        JSON.stringify({
+          par_modo: 'O',
+          nombre_provincia: '',
+        })
+      )
+      .subscribe({
+        next: (res: any) => {
+          this.provincias = Array.isArray(res.dataset)
+            ? (res.dataset as IProvincia[])
+            : [res.dataset as IProvincia];
+        },
+        error: (err: any) => {
+          this.utilService.closeLoading();
+          err.status === 0
+            ? this.utilService.notification('Error de conexión.', 'error')
+            : this.utilService.notification(
+                `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
+                'error'
+              );
+        },
+        complete: () => {
+          this.provinciaService.setProvincias(this.provincias);
+          this.utilService.closeLoading();
+        },
+      });
+  }
+
+  private setStatus(): string {
+    if (this.data.fecha_baja !== 0) {
+      return 'BAJA';
+    }
+
+    if (
+      this.data.fecha_baja === 0 &&
+      this.data.fecha_suspension === 0 &&
+      this.data.fecha_rehabilitacion === 0
+    ) {
+      return 'ACTIVO';
+    }
+
+    if (this.data.fecha_baja === 0 && this.data.fecha_suspension !== 0) {
+      return 'SUSPENDIDO';
+    }
+
+    return 'REHABILITADO';
+  }
+
+  private formatDate(date: Date): number {
+    const year = date.getFullYear();
+    const month = ('0' + (date.getMonth() + 1)).slice(-2);
+    const day = ('0' + date.getDate()).slice(-2);
+    return Number(`${year}${month}${day}`);
   }
 }

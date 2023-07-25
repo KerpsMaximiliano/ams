@@ -19,12 +19,15 @@ import { TamboSetEntidadDialogComponent } from '../tambo-set-posicion-dialog/tam
   styleUrls: ['./tambo-filter.component.scss'],
 })
 export class TamboFilterComponent {
+  private entidades: IEntidad[];
   private ent_sancor: number;
   private canal: number;
 
-  @ViewChild('entidad') public entidad: any;
+  @ViewChild('inputEntidad') public inputEntidad: any;
 
-  @Output() public search: EventEmitter<string> = new EventEmitter<string>();
+  @Output() public handleSearch: EventEmitter<any> = new EventEmitter<any>();
+  @Output() public handleEntity: EventEmitter<IEntidad> =
+    new EventEmitter<IEntidad>();
 
   constructor(
     private entidadService: EntidadService,
@@ -33,21 +36,31 @@ export class TamboFilterComponent {
   ) {}
 
   public performSearch(inputElement: string): void {
-    this.search.emit(
+    this.handleSearch.emit(
       JSON.stringify({
         par_modo: 'O',
-        razon_social: inputElement ? inputElement : '',
-        ent_sancor: this.ent_sancor ? this.ent_sancor : 0,
-        canal: this.canal ? this.canal : 0,
+        razon_social: inputElement,
+        ent_sancor: this.ent_sancor,
+        canal: this.canal,
       })
     );
   }
 
   public clear(inputElement: HTMLInputElement): void {
     inputElement.value = '';
+    this.handleEntity.emit();
   }
 
-  public getEntidad(): void {
+  public searchEntidad(): void {
+    if (this.entidadService.getEntidad()) {
+      this.entidades = this.entidadService.getEntidad();
+      this.setEntidad(this.entidades);
+    } else {
+      this.getEntidad();
+    }
+  }
+
+  private getEntidad(): void {
     this.utilService.openLoading();
     this.entidadService
       .CRUD(
@@ -57,10 +70,10 @@ export class TamboFilterComponent {
       )
       .subscribe({
         next: (res: any) => {
-          let data: IEntidad[] = Array.isArray(res.dataset)
+          this.entidades = Array.isArray(res.dataset)
             ? (res.dataset as IEntidad[])
             : [res.dataset as IEntidad];
-          this.setEntidad(data);
+          this.setEntidad(this.entidades);
         },
         error: (err: any) => {
           this.utilService.closeLoading();
@@ -72,6 +85,7 @@ export class TamboFilterComponent {
               );
         },
         complete: () => {
+          this.entidadService.setEntidad(this.entidades);
           this.utilService.closeLoading();
         },
       });
@@ -87,9 +101,10 @@ export class TamboFilterComponent {
     modal.afterClosed().subscribe({
       next: (res) => {
         if (res) {
-          this.ent_sancor = res?.nro_asesor;
-          this.canal = res?.canal;
-          this.entidad.nativeElement.value = `${res?.nro_asesor}${res?.canal}`;
+          this.handleEntity.emit(res);
+          this.ent_sancor = res?.nro_asesor ? res?.nro_asesor : 0;
+          this.canal = res?.canal ? res?.canal : 0;
+          this.inputEntidad.nativeElement.value = `${res?.nro_asesor}${res?.canal}`;
         }
       },
     });

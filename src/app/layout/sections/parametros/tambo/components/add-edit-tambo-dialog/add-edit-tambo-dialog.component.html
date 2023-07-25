@@ -7,7 +7,8 @@
     <div class="seeker-fields-container">
       <h3> TAMBO </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="id_tambos" required minlength="1" maxlength="5">
+        <input matInput formControlName="id_tambos" required minlength="1" maxlength="5"
+          placeholder="Ingrese un código">
         <mat-error *ngIf="formGroup.get('id_tambos')?.invalid && formGroup.get('id_tambos')?.touched">
           {{ getErrorMessage(formGroup.get('id_tambos')) }}
         </mat-error>
@@ -17,7 +18,8 @@
     <div class="seeker-fields-container">
       <h3> DESCRIPCIÓN </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="razon_social" required minlength="3" maxlength="150">
+        <input matInput formControlName="razon_social" required minlength="3" maxlength="150"
+          placeholder="Ingrese una descripción">
         <mat-error *ngIf="formGroup.get('razon_social')?.invalid && formGroup.get('razon_social')?.touched">
           {{ getErrorMessage(formGroup.get('razon_social')) }}
         </mat-error>
@@ -27,8 +29,9 @@
     <div class="seeker-fields-container">
       <h3> PROVINCIA </h3>
       <mat-form-field class="seeker-form-field" required appearance="outline">
-        <mat-select formControlName="provincia" disableOptionCentering required>
-          <mat-option *ngFor="let provincia of data.provincias" [value]="provincia.codigo">
+        <mat-select formControlName="provincia" disableOptionCentering required
+          [placeholder]="!provincias ? 'No se han podido cargar las provincias' : 'Seleccione una provincia'">
+          <mat-option *ngFor="let provincia of provincias" [value]="provincia.codigo">
             {{ provincia.nombre_provincia }}
           </mat-option>
         </mat-select>
@@ -41,7 +44,8 @@
     <div class="seeker-fields-container">
       <h3> LOCALIDAD </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="localidad" required minlength="3" maxlength="22">
+        <input matInput formControlName="localidad" required minlength="3" maxlength="22"
+          placeholder="Ingrese una descripción">
         <mat-error *ngIf="formGroup.get('localidad')?.invalid && formGroup.get('localidad')?.touched">
           {{ getErrorMessage(formGroup.get('localidad')) }}
         </mat-error>
@@ -49,12 +53,20 @@
     </div>
 
     <div class="seeker-fields-container">
-      <h3>KG. DE GRASA</h3>
+      <h3> KG. DE GRASA </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="grasa_ent" required [maxlength]="maxLength">
-        <mat-error *ngIf=" formGroup.get('grasa_ent')?.invalid && formGroup.get('grasa_ent')?.touched">
+        <input matInput formControlName="grasa_ent" required [maxlength]="9" (keydown)="validateNumberInput($event)"
+          placeholder="Ingrese un valor">
+        <mat-error *ngIf="formGroup.get('grasa_ent')?.invalid && formGroup.get('grasa_ent')?.touched">
           {{ getErrorMessage(formGroup.get('grasa_ent')) }}
         </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="seeker-fields-container" *ngIf="data.par_modo !== 'C'">
+      <h3> ESTADO </h3>
+      <mat-form-field class="seeker-form-field" appearance="outline">
+        <input matInput [value]="status" disabled>
       </mat-form-field>
     </div>
 
@@ -63,6 +75,18 @@
         <mat-icon> close </mat-icon>
         Cancelar
       </button>
+
+      <ng-container *ngIf="data.par_modo === 'U' && data.fecha_baja === 0">
+        <button class="primary-button icon-button" type="button" (click)="delete()">
+          <mat-icon> remove_done </mat-icon>
+          Baja
+        </button>
+        <button class="primary-button icon-button" type="button" (click)="handleStatus()">
+          <mat-icon> {{ data.fecha_suspension !== 0 ? 'done_all' : 'remove_done' }} </mat-icon>
+          {{ data.fecha_suspension !== 0 ? 'Rehabilitar' : 'Suspender' }}
+        </button>
+      </ng-container>
+
       <button [class]="formGroup.invalid ? 'primary-button icon-button disabled' : 'primary-button icon-button'"
         type="submit" (click)="confirm()">
         <mat-icon> done </mat-icon>

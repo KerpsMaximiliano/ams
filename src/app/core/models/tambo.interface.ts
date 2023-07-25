@@ -14,7 +14,7 @@ export interface ITambo {
   emp_vinc_ent: number;
   ent_sancor: number;
   canal: number;
-  estado: null;
+  estado: number | null;
 }
 
 export type ITamboResponse = IResponse<ITambo[]>;

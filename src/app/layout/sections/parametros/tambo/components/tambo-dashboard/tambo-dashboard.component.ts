@@ -57,6 +57,26 @@ export class TamboDashboardComponent implements OnInit, OnChanges {
     this.editEvent.emit(element);
   }
 
+  public setStatus(element: ITambo): string {
+    if (element.fecha_baja !== 0) {
+      return 'BAJA';
+    }
+
+    if (
+      element.fecha_baja === 0 &&
+      element.fecha_suspension === 0 &&
+      element.fecha_rehabilitacion === 0
+    ) {
+      return 'ACTIVO';
+    }
+
+    if (element.fecha_baja === 0 && element.fecha_suspension !== 0) {
+      return 'SUSPENDIDO';
+    }
+
+    return 'REHABILITADO';
+  }
+
   private configurePaginator(): void {
     this.paginator._intl = this.matPaginatorIntl;
     this.paginator._intl.itemsPerPageLabel = 'Elementos por página: ';

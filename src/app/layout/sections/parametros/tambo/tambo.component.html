@@ -1,14 +1,16 @@
 <section class="browse-section">
   <div class="section-header">
     <h2> Tambos </h2>
-    <button class="new-button icon-button" (click)="new()">
-      <mat-icon> add </mat-icon>
+    <button class="new-button icon-button" [matTooltip]="!entity ? 'Entidad requerida' : ''" (click)="new()"
+      [class]="entity ? 'new-button icon-button' : 'new-button icon-button disabled fix'" [matTooltipPosition]="'left'"
+      [matTooltipShowDelay]="300" [matTooltipHideDelay]="1000" matTooltipClass="mt-tooltip">
+      <mat-icon class="icon"> {{ entity ? 'add' : 'lock' }} </mat-icon>
       Nuevo
     </button>
   </div>
 
   <div class=" section-content">
-    <app-tambo-filter (search)="getData($event)"></app-tambo-filter>
+    <app-tambo-filter (handleSearch)="getData($event)" (handleEntity)="getEntity($event)"></app-tambo-filter>
     <app-tambo-dashboard [receivedData]="dataSent" (viewEvent)="view($event)"
       (editEvent)="edit($event)"></app-tambo-dashboard>
   </div>

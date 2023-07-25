@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 // * Services
@@ -8,39 +8,30 @@ import { TamboService } from 'src/app/core/services/tambo.service';
 
 // * Interfaces
 import { ITambo } from 'src/app/core/models/tambo.interface';
+import { IEntidad } from 'src/app/core/models/entidad.interface';
 
 // * Material
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 // * Components
 import { AddEditTamboDialogComponent } from './components/add-edit-tambo-dialog/add-edit-tambo-dialog.component';
-import { IProvincia } from 'src/app/core/models/provincia.interface';
-import { ProvinciaService } from 'src/app/core/services/provincia.service';
 
 @Component({
   selector: 'app-tambo',
   templateUrl: './tambo.component.html',
   styleUrls: ['./tambo.component.scss'],
 })
-export class TamboComponent implements OnInit, OnDestroy {
+export class TamboComponent implements OnDestroy {
   private dataSubscription: Subscription | undefined;
-
-  public provincias: IProvincia[];
   public dataSent: ITambo[] = [];
+  public entity: IEntidad;
 
   constructor(
     private dataSharingService: DataSharingService,
-    private provinciaService: ProvinciaService,
     private tamboService: TamboService,
     private utilService: UtilService,
     private dialog: MatDialog
   ) {}
-
-  ngOnInit(): void {
-    this.provinciaService.getProvincias()
-      ? (this.provincias = this.provinciaService.getProvincias())
-      : this.getProvincias();
-  }
 
   ngOnDestroy(): void {
     if (this.dataSubscription) {
@@ -49,6 +40,9 @@ export class TamboComponent implements OnInit, OnDestroy {
   }
 
   public new(): void {
+    if (!this.entity) {
+      return;
+    }
     const dialogRef = this.openDialog('CREAR TAMBO', 'C', true);
     this.dataSubscription = this.dataSharingService
       .getData()
@@ -80,6 +74,10 @@ export class TamboComponent implements OnInit, OnDestroy {
 
   public view(data: ITambo): void {
     this.openDialog('VER TAMBO', 'R', false, data);
+  }
+
+  public getEntity(entidad: IEntidad): void {
+    this.entity = entidad;
   }
 
   public getData(value: string): void {
@@ -122,21 +120,23 @@ export class TamboComponent implements OnInit, OnDestroy {
         title: title,
         edit: edit,
         par_modo: par_modo,
-        provincias: this.provincias,
-        id_empresa: data?.id_empresa,
+        // Proviene del tambo.
         id_tambos: data?.id_tambos,
         razon_social: data?.razon_social,
-        // grasa_ent: data?.grasa_ent.toString().replace('.', ','),
-        grasa_ent: data?.grasa_ent,
-        fecha_suspension: data?.fecha_suspension,
-        fecha_rehabilitacion: data?.fecha_rehabilitacion,
-        localidad: data?.localidad,
         provincia: data?.provincia,
-        fecha_baja: data?.fecha_baja,
-        emp_vinc_ent: data?.emp_vinc_ent,
-        ent_sancor: data?.ent_sancor,
-        canal: data?.canal,
-        estado: data?.estado,
+        localidad: data?.localidad,
+        grasa_ent: data?.grasa_ent.toString().replace('.', ','), // Remplaza '.' por ','.
+        fecha_suspension: data?.fecha_suspension ? data?.fecha_suspension : 0,
+        fecha_rehabilitacion: data?.fecha_rehabilitacion
+          ? data?.fecha_rehabilitacion
+          : 0,
+        fecha_baja: data?.fecha_baja ? data?.fecha_baja : 0,
+        // Proviene de la entidad.
+        id_empresa: this.entity?.id_empresa_persona,
+        ent_sancor: this.entity?.nro_asesor,
+        canal: this.entity?.canal,
+        // Se desconoce su procedencia.
+        emp_vinc_ent: data?.emp_vinc_ent ? data?.emp_vinc_ent : 0,
       },
     });
   }
@@ -169,36 +169,5 @@ export class TamboComponent implements OnInit, OnDestroy {
             );
       },
     });
-  }
-
-  private getProvincias(): void {
-    this.utilService.openLoading();
-    this.provinciaService
-      .CRUD(
-        JSON.stringify({
-          par_modo: 'O',
-          nombre_provincia: '',
-        })
-      )
-      .subscribe({
-        next: (res: any) => {
-          this.provincias = Array.isArray(res.dataset)
-            ? (res.dataset as IProvincia[])
-            : [res.dataset as IProvincia];
-        },
-        error: (err: any) => {
-          this.utilService.closeLoading();
-          err.status === 0
-            ? this.utilService.notification('Error de conexión.', 'error')
-            : this.utilService.notification(
-                `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
-                'error'
-              );
-        },
-        complete: () => {
-          this.provinciaService.setProvincias(this.provincias);
-          this.utilService.closeLoading();
-        },
-      });
   }
 }
