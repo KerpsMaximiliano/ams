@@ -16,14 +16,16 @@
             <mat-label class="seeker-label">Producto</mat-label>
             <input matInput class="seeker-input" (ngModelChange)="fechas()" formControlName="producto_des" readonly />
           </mat-form-field>
-          <div class="content">
-            <div class="icon">
-              <mat-icon class="material-symbols-outlined" (click)="getProducto()">search</mat-icon>
+          <ng-container>
+            <div [class]="'icon'" (click)="getProducto()" class="icon">
+              <mat-icon class="material-symbols-outlined"> search </mat-icon>
             </div>
-            <div class="icon">
-              <mat-icon class="material-symbols-outlined" (click)="limpiarProducto()">close</mat-icon>
+            <div (click)="limpiarProducto()" [class]="
+                searchForm.get('producto')?.value ? 'icon' : 'icon disabled fix'
+              ">
+              <mat-icon class="material-symbols-outlined"> close </mat-icon>
             </div>
-          </div>
+          </ng-container>
         </div>
         <div class="seeker-fields-container">
           <mat-form-field class="seeker-form-field">

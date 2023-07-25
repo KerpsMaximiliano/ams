@@ -1,5 +1,9 @@
 import { Component, Inject } from '@angular/core';
 
+// * service
+import { UtilService } from 'src/app/core/services/util.service';
+import { ExtencionFuenteIngresoService } from 'src/app/core/services/extencion-fuente-ingreso.service';
+
 // * Form
 import {
   AbstractControl,
@@ -10,11 +14,7 @@ import {
 } from '@angular/forms';
 
 // * Material
-import {
-  MatDialogRef,
-  MAT_DIALOG_DATA,
-  MatDialog,
-} from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 // * Validations
 import {
@@ -25,9 +25,6 @@ import {
 
 // * Components
 import { ConfirmDialogComponent } from 'src/app/layout/sections/components/confirm-dialog/confirm-dialog.component';
-import { ModalExtencionProductoComponent } from './modal-extencion-producto/modal-extencion-producto.component';
-import { ExtencionFuenteIngresoService } from 'src/app/core/services/extencion-fuente-ingreso.service';
-import { UtilService } from 'src/app/core/services/util.service';
 
 @Component({
   selector: 'app-add-edit-extencion-fuente-ingreso',
@@ -38,6 +35,8 @@ export class AddEditExtencionFuenteIngresoComponent {
   public formGroup: UntypedFormGroup;
   public getErrorMessage = getErrorMessage;
   validarRemuneracion: boolean = true;
+  remuneracionMax: number = 1000000000;
+  remuneracionMin: number;
   constructor(
     public dialogRef: MatDialogRef<ConfirmDialogComponent>,
     private extencionFuenteIngreso: ExtencionFuenteIngresoService,
@@ -72,24 +71,142 @@ export class AddEditExtencionFuenteIngresoComponent {
       this.formGroup.get('producto_des')?.disable();
       this.valorInicialRemDesde();
     }
-    this.configureValidators()
+    this.configureValidators();
+    this.Remuneracion();
   }
 
   configureValidators() {
-    const control = this.formGroup.get(
+    const controlDesde = this.formGroup.get(
+      'remuneracion_desde'
+    ) as UntypedFormControl;
+    controlDesde.setValidators([
+      Validators.required,
+      Validators.min(0.0),
+      Validators.maxLength(12),
+      this.validacionRemuneracionDesde(),
+    ]);
+    controlDesde.updateValueAndValidity();
+    const controlHasta = this.formGroup.get(
       'remuneracion_hasta'
     ) as UntypedFormControl;
-    control.setValidators(this.validacionRemuneracion());
-    control.updateValueAndValidity();
+    controlHasta.setValidators([
+      Validators.required,
+      Validators.maxLength(12),
+      this.validacionRemuneracionHasta(),
+    ]);
+    controlHasta.updateValueAndValidity();
+    const controlCoef1 = this.formGroup.get(
+      'coeficiente_uno'
+    ) as UntypedFormControl;
+    controlCoef1.setValidators([
+      Validators.required,
+      Validators.min(0.0),
+      Validators.max(0.99),
+      Validators.maxLength(4),
+      this.validacionCoeficiente(),
+    ]);
+    controlCoef1.updateValueAndValidity();
+    const controlCoef2 = this.formGroup.get(
+      'coeficiente_dos'
+    ) as UntypedFormControl;
+    controlCoef2.setValidators([
+      Validators.required,
+      Validators.min(0.0),
+      Validators.max(0.99),
+      Validators.maxLength(4),
+      this.validacionCoeficiente(),
+    ]);
+    controlCoef2.updateValueAndValidity();
+    const controlCoef3 = this.formGroup.get(
+      'coeficiente_tres'
+    ) as UntypedFormControl;
+    controlCoef3.setValidators([
+      Validators.required,
+      Validators.min(0.0),
+      Validators.max(0.99),
+      Validators.maxLength(4),
+      this.validacionCoeficiente(),
+    ]);
+    controlCoef3.updateValueAndValidity();
+    const controlCoef4 = this.formGroup.get(
+      'coeficiente_cuatro'
+    ) as UntypedFormControl;
+    controlCoef4.setValidators([
+      Validators.required,
+      Validators.min(0.0),
+      Validators.max(0.99),
+      Validators.maxLength(4),
+      this.validacionCoeficiente(),
+    ]);
+    controlCoef4.updateValueAndValidity();
+    const controlCoef5 = this.formGroup.get(
+      'coeficiente_cinco'
+    ) as UntypedFormControl;
+    controlCoef5.setValidators([
+      Validators.required,
+      Validators.min(0.0),
+      Validators.max(0.99),
+      Validators.maxLength(4),
+      this.validacionCoeficiente(),
+    ]);
+    controlCoef5.updateValueAndValidity();
   }
 
-  validacionRemuneracion(): ValidatorFn {
+  validacionCoeficiente(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
-      const desde = parseFloat(this.formGroup.get('remuneracion_desde')?.value);
-      const hasta = parseFloat(this.formGroup.get('remuneracion_hasta')?.value);
+      const coeficiente = parseFloat(
+        control.value.toString().replace(',', '.')
+      );
+      if (coeficiente < 0 || coeficiente >= 1) {
+        return {
+          error: 'Debe ser un número entre 0 y 1. Ej: 0,12.',
+        };
+      }
+      return null;
+    };
+  }
 
-      if (desde !== null && hasta !== null && hasta <= desde) {
-        return { error: "Remuneración Hasta debe ser mayor que Remuneración Desde" };
+  validacionRemuneracionDesde(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const desde = control.value
+        ? parseFloat(control.value.toString().replace(',', '.'))
+        : 0;
+      this.Remuneracion();
+      if (desde != 0 && desde < this.remuneracionMin) {
+        return {
+          error:
+            'Remuneración Desde debe ser mayor que ' +
+            this.remuneracionMin.toString().replace('.', ',') +
+            '.',
+        };
+      }
+      return null;
+    };
+  }
+
+  validacionRemuneracionHasta(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const desde = this.formGroup.get('remuneracion_desde')?.value
+        ? parseFloat(
+            this.formGroup
+              .get('remuneracion_desde')
+              ?.value.toString()
+              .replace(',', '.')
+          )
+        : 0;
+      const hasta = this.formGroup.get('remuneracion_hasta')?.value
+        ? parseFloat(
+            this.formGroup
+              .get('remuneracion_hasta')
+              ?.value.toString()
+              .replace(',', '.')
+          )
+        : 0;
+      this.Remuneracion();
+      if (desde != 0 && hasta <= desde) {
+        return {
+          error: 'Remuneración Hasta debe ser mayor que Remuneración Desde',
+        };
       }
       return null;
     };
@@ -97,10 +214,20 @@ export class AddEditExtencionFuenteIngresoComponent {
 
   Remuneracion() {
     if (
-      parseFloat(this.formGroup.get('remuneracion_desde')?.value) >=
-      parseFloat(this.formGroup.get('remuneracion_hasta')?.value)
-      ) {
-        this.validarRemuneracion = true;
+      parseFloat(
+        this.formGroup
+          .get('remuneracion_desde')
+          ?.value.toString()
+          .replace(',', '.')
+      ) >=
+      parseFloat(
+        this.formGroup
+          .get('remuneracion_hasta')
+          ?.value.toString()
+          .replace(',', '.')
+      )
+    ) {
+      this.validarRemuneracion = true;
     } else {
       this.validarRemuneracion = false;
     }
@@ -143,61 +270,39 @@ export class AddEditExtencionFuenteIngresoComponent {
         this.data.producto_des ? this.data.producto_des.trim() : ''
       ),
       remuneracion_desde: new UntypedFormControl(
-        this.data.remuneracion_desde ? this.data.remuneracion_desde : 0,
-        Validators.compose([
-          Validators.required,
-          Validators.min(0.0),
-          isNumeric,
-        ])
+        this.data.remuneracion_desde
+          ? this.data.remuneracion_desde.toString().replace('.', ',')
+          : '0'
       ),
       remuneracion_hasta: new UntypedFormControl(
-        this.data.remuneracion_hasta ? this.data.remuneracion_hasta : 0,
-        Validators.compose([Validators.required, isNumeric])
+        this.data.remuneracion_hasta
+          ? this.data.remuneracion_hasta.toString().replace('.', ',')
+          : '0'
       ),
       coeficiente_uno: new UntypedFormControl(
-        this.data.coeficiente_uno ? this.data.coeficiente_uno : 0,
-        Validators.compose([
-          Validators.required,
-          Validators.min(0.0),
-          Validators.max(1.0),
-          isNumeric,
-        ])
+        this.data.coeficiente_uno
+          ? this.data.coeficiente_uno.toString().replace('.', ',')
+          : 0
       ),
       coeficiente_dos: new UntypedFormControl(
-        this.data.coeficiente_dos ? this.data.coeficiente_dos : 0,
-        Validators.compose([
-          Validators.required,
-          Validators.min(0.0),
-          Validators.max(1),
-          isNumeric,
-        ])
+        this.data.coeficiente_dos
+          ? this.data.coeficiente_dos.toString().replace('.', ',')
+          : 0
       ),
       coeficiente_tres: new UntypedFormControl(
-        this.data.coeficiente_tres ? this.data.coeficiente_tres : 0,
-        Validators.compose([
-          Validators.required,
-          Validators.min(0.0),
-          Validators.max(1),
-          isNumeric,
-        ])
+        this.data.coeficiente_tres
+          ? this.data.coeficiente_tres.toString().replace('.', ',')
+          : 0
       ),
       coeficiente_cuatro: new UntypedFormControl(
-        this.data.coeficiente_cuatro ? this.data.coeficiente_cuatro : 0,
-        Validators.compose([
-          Validators.required,
-          Validators.min(0.0),
-          Validators.max(1),
-          isNumeric,
-        ])
+        this.data.coeficiente_cuatro
+          ? this.data.coeficiente_cuatro.toString().replace('.', ',')
+          : 0
       ),
       coeficiente_cinco: new UntypedFormControl(
-        this.data.coeficiente_cinco ? this.data.coeficiente_cinco : 0,
-        Validators.compose([
-          Validators.required,
-          Validators.min(0.0),
-          Validators.max(1),
-          isNumeric,
-        ])
+        this.data.coeficiente_cinco
+          ? this.data.coeficiente_cinco.toString().replace('.', ',')
+          : 0
       ),
     });
   }
@@ -219,7 +324,10 @@ export class AddEditExtencionFuenteIngresoComponent {
           this.utilService.closeLoading();
           this.formGroup
             .get('remuneracion_desde')
-            ?.setValue(res.dataset.remuneracion_hasta);
+            ?.setValue(
+              res.dataset.remuneracion_hasta.toString().replace('.', ',')
+            );
+          this.remuneracionMin = res.dataset.remuneracion_hasta;
         },
         error: (err: any) => {
           this.utilService.closeLoading();
@@ -253,13 +361,48 @@ export class AddEditExtencionFuenteIngresoComponent {
           codigo_fuente_ingreso: this.formGroup.get('codigo_fuente_ingreso')
             ?.value,
           producto: this.formGroup.get('producto')?.value,
-          remuneracion_desde: this.formGroup.get('remuneracion_desde')?.value,
-          remuneracion_hasta: this.formGroup.get('remuneracion_hasta')?.value,
-          coeficiente_uno: this.formGroup.get('coeficiente_uno')?.value,
-          coeficiente_dos: this.formGroup.get('coeficiente_dos')?.value,
-          coeficiente_tres: this.formGroup.get('coeficiente_tres')?.value,
-          coeficiente_cuatro: this.formGroup.get('coeficiente_cuatro')?.value,
-          coeficiente_cinco: this.formGroup.get('coeficiente_cinco')?.value,
+          remuneracion_desde: parseFloat(
+            this.formGroup
+              .get('remuneracion_desde')
+              ?.value.toString()
+              .replace(',', '.')
+          ),
+          remuneracion_hasta: parseFloat(
+            this.formGroup
+              .get('remuneracion_hasta')
+              ?.value.toString()
+              .replace(',', '.')
+          ),
+          coeficiente_uno: parseFloat(
+            this.formGroup
+              .get('coeficiente_uno')
+              ?.value.toString()
+              .replace(',', '.')
+          ),
+          coeficiente_dos: parseFloat(
+            this.formGroup
+              .get('coeficiente_dos')
+              ?.value.toString()
+              .replace(',', '.')
+          ),
+          coeficiente_tres: parseFloat(
+            this.formGroup
+              .get('coeficiente_tres')
+              ?.value.toString()
+              .replace(',', '.')
+          ),
+          coeficiente_cuatro: parseFloat(
+            this.formGroup
+              .get('coeficiente_cuatro')
+              ?.value.toString()
+              .replace(',', '.')
+          ),
+          coeficiente_cinco: parseFloat(
+            this.formGroup
+              .get('coeficiente_cinco')
+              ?.value.toString()
+              .replace(',', '.')
+          ),
         },
         reload: reload,
       });
