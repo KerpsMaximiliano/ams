@@ -168,7 +168,7 @@ export class MontoMinimoComponent implements OnDestroy {
             this.getData(
               JSON.stringify({
                 par_modo: 'O',
-                actividad: data?.actividad,
+                actividad: '',
               })
             );
           }
