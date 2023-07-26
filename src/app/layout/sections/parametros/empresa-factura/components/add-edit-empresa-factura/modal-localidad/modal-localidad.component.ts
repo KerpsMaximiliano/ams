@@ -42,8 +42,11 @@ export class ModalLocalidadComponent {
   public localidad: any;
 
   @ViewChild(MatPaginator, { static: true }) public paginator!: MatPaginator;
+  @ViewChild('provincia') public provincia: any;
+  @ViewChild('departamento') public departamento: any;
+
   public provincias: any;
-  public departamento: any;
+  // public departamentos: any;
 
   constructor(
     private provinciaService: ProvinciaService,
@@ -170,9 +173,9 @@ export class ModalLocalidadComponent {
     });
   }
 
-  public clear(provincia: HTMLSelectElement, departamento: HTMLSelectElement) {
-    provincia.value = '';
-    departamento.value = '';
+  public clear() {
+    this.provincia.value = '';
+    this.departamento.value = '';
   }
 
   public applyFilter(event: Event) {
