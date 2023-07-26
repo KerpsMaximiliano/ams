@@ -1,9 +1,7 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 
 // * Services
 import { DataSharingService } from 'src/app/core/services/data-sharing.service';
-import { UtilService } from 'src/app/core/services/util.service';
-import { ProvinciaService } from 'src/app/core/services/provincia.service';
 
 // * Interfaces
 import { IProvincia } from 'src/app/core/models/provincia.interface';
@@ -21,7 +19,6 @@ import {
   getErrorMessage,
   notOnlySpaces,
   isAlpha,
-  isDecimal,
   notChar,
   afterComma,
   isNumberAndComma,
@@ -37,17 +34,14 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
   templateUrl: './add-edit-tambo-dialog.component.html',
   styleUrls: ['./add-edit-tambo-dialog.component.scss'],
 })
-export class AddEditTamboDialogComponent implements OnInit {
+export class AddEditTamboDialogComponent {
   private date: Number;
   public formGroup: UntypedFormGroup;
   public getErrorMessage = getErrorMessage;
-  public provincias: IProvincia[];
   public status: string;
 
   constructor(
     private dataSharingService: DataSharingService,
-    private provinciaService: ProvinciaService,
-    private utilService: UtilService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.setUpForm();
@@ -56,13 +50,6 @@ export class AddEditTamboDialogComponent implements OnInit {
     if (this.data.par_modo === 'U') {
       this.date = this.formatDate(new Date());
     }
-    console.log(this.data);
-  }
-
-  ngOnInit(): void {
-    this.provinciaService.getProvincias()
-      ? (this.provincias = this.provinciaService.getProvincias())
-      : this.getProvincias();
   }
 
   public confirm(): void {
@@ -91,7 +78,7 @@ export class AddEditTamboDialogComponent implements OnInit {
   }
 
   public handleProvince(letra_provincia: string): string {
-    const province = this.provincias.find(
+    const province = this.data.provincias.find(
       (provincia: IProvincia) => provincia.codigo == letra_provincia
     );
     return province ? province.nombre_provincia : '';
@@ -177,7 +164,7 @@ export class AddEditTamboDialogComponent implements OnInit {
       provincia: new UntypedFormControl(
         {
           value: this.data.provincia ? this.data.provincia.trim() : '',
-          disabled: this.data.par_modo === 'R',
+          disabled: this.data.par_modo === 'R' || !this.data.provincias,
         },
         Validators.compose([
           Validators.required,
@@ -224,37 +211,6 @@ export class AddEditTamboDialogComponent implements OnInit {
         this.formGroup.get('grasa_ent')?.setValue(value.replace('.', ','));
       }
     });
-  }
-
-  private getProvincias(): void {
-    this.utilService.openLoading();
-    this.provinciaService
-      .CRUD(
-        JSON.stringify({
-          par_modo: 'O',
-          nombre_provincia: '',
-        })
-      )
-      .subscribe({
-        next: (res: any) => {
-          this.provincias = Array.isArray(res.dataset)
-            ? (res.dataset as IProvincia[])
-            : [res.dataset as IProvincia];
-        },
-        error: (err: any) => {
-          this.utilService.closeLoading();
-          err.status === 0
-            ? this.utilService.notification('Error de conexión.', 'error')
-            : this.utilService.notification(
-                `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
-                'error'
-              );
-        },
-        complete: () => {
-          this.provinciaService.setProvincias(this.provincias);
-          this.utilService.closeLoading();
-        },
-      });
   }
 
   private setStatus(): string {

@@ -1,14 +1,16 @@
-import { Component, OnDestroy } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 // * Services
 import { DataSharingService } from 'src/app/core/services/data-sharing.service';
 import { UtilService } from 'src/app/core/services/util.service';
 import { TamboService } from 'src/app/core/services/tambo.service';
+import { ProvinciaService } from 'src/app/core/services/provincia.service';
 
 // * Interfaces
 import { ITambo } from 'src/app/core/models/tambo.interface';
 import { IEntidad } from 'src/app/core/models/entidad.interface';
+import { IProvincia } from 'src/app/core/models/provincia.interface';
 
 // * Material
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -21,17 +23,25 @@ import { AddEditTamboDialogComponent } from './components/add-edit-tambo-dialog/
   templateUrl: './tambo.component.html',
   styleUrls: ['./tambo.component.scss'],
 })
-export class TamboComponent implements OnDestroy {
+export class TamboComponent implements AfterViewInit, OnDestroy {
   private dataSubscription: Subscription | undefined;
+  private provincias: IProvincia[];
   public dataSent: ITambo[] = [];
   public entity: IEntidad;
 
   constructor(
     private dataSharingService: DataSharingService,
     private tamboService: TamboService,
+    private provinciaService: ProvinciaService,
     private utilService: UtilService,
     private dialog: MatDialog
   ) {}
+
+  ngAfterViewInit(): void {
+    this.provinciaService.getProvincias()
+      ? (this.provincias = this.provinciaService.getProvincias())
+      : this.getProvincias();
+  }
 
   ngOnDestroy(): void {
     if (this.dataSubscription) {
@@ -120,6 +130,8 @@ export class TamboComponent implements OnDestroy {
         title: title,
         edit: edit,
         par_modo: par_modo,
+        // Proviene de provinciaService.
+        provincias: this.provincias ? this.provincias : '',
         // Proviene del tambo.
         id_tambos: data?.id_tambos,
         razon_social: data?.razon_social,
@@ -169,5 +181,25 @@ export class TamboComponent implements OnDestroy {
             );
       },
     });
+  }
+
+  private getProvincias(): void {
+    this.provinciaService
+      .CRUD(
+        JSON.stringify({
+          par_modo: 'O',
+          nombre_provincia: '',
+        })
+      )
+      .subscribe({
+        next: (res: any) => {
+          this.provincias = Array.isArray(res.dataset)
+            ? (res.dataset as IProvincia[])
+            : [res.dataset as IProvincia];
+        },
+        complete: () => {
+          this.provinciaService.setProvincias(this.provincias);
+        },
+      });
   }
 }

@@ -30,8 +30,8 @@
       <h3> PROVINCIA </h3>
       <mat-form-field class="seeker-form-field" required appearance="outline">
         <mat-select formControlName="provincia" disableOptionCentering required
-          [placeholder]="!provincias ? 'No se han podido cargar las provincias' : 'Seleccione una provincia'">
-          <mat-option *ngFor="let provincia of provincias" [value]="provincia.codigo">
+          [placeholder]="!data.provincias ? 'No se han podido cargar las provincias' : 'Seleccione una provincia'">
+          <mat-option *ngFor="let provincia of data.provincias" [value]="provincia.codigo">
             {{ provincia.nombre_provincia }}
           </mat-option>
         </mat-select>
