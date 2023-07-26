@@ -21,6 +21,7 @@ import {
   getErrorMessage,
   notOnlySpaces,
   isNumeric,
+  isDecimal,
 } from 'src/app/core/validators/character.validator';
 
 // * Components
@@ -84,6 +85,9 @@ export class AddEditExtencionFuenteIngresoComponent {
       Validators.min(0.0),
       Validators.maxLength(12),
       this.validacionRemuneracionDesde(),
+      this.validarPunto(),
+      this.validarRemMaximo(),
+      this.Decimal(),
     ]);
     controlDesde.updateValueAndValidity();
     const controlHasta = this.formGroup.get(
@@ -93,6 +97,9 @@ export class AddEditExtencionFuenteIngresoComponent {
       Validators.required,
       Validators.maxLength(12),
       this.validacionRemuneracionHasta(),
+      this.validarPunto(),
+      this.validarRemMaximo(),
+      this.Decimal(),
     ]);
     controlHasta.updateValueAndValidity();
     const controlCoef1 = this.formGroup.get(
@@ -100,10 +107,10 @@ export class AddEditExtencionFuenteIngresoComponent {
     ) as UntypedFormControl;
     controlCoef1.setValidators([
       Validators.required,
-      Validators.min(0.0),
-      Validators.max(0.99),
       Validators.maxLength(4),
       this.validacionCoeficiente(),
+      this.validarPunto(),
+      this.Decimal(),
     ]);
     controlCoef1.updateValueAndValidity();
     const controlCoef2 = this.formGroup.get(
@@ -111,10 +118,10 @@ export class AddEditExtencionFuenteIngresoComponent {
     ) as UntypedFormControl;
     controlCoef2.setValidators([
       Validators.required,
-      Validators.min(0.0),
-      Validators.max(0.99),
       Validators.maxLength(4),
       this.validacionCoeficiente(),
+      this.validarPunto(),
+      this.Decimal(),
     ]);
     controlCoef2.updateValueAndValidity();
     const controlCoef3 = this.formGroup.get(
@@ -122,10 +129,10 @@ export class AddEditExtencionFuenteIngresoComponent {
     ) as UntypedFormControl;
     controlCoef3.setValidators([
       Validators.required,
-      Validators.min(0.0),
-      Validators.max(0.99),
       Validators.maxLength(4),
       this.validacionCoeficiente(),
+      this.validarPunto(),
+      this.Decimal(),
     ]);
     controlCoef3.updateValueAndValidity();
     const controlCoef4 = this.formGroup.get(
@@ -133,10 +140,10 @@ export class AddEditExtencionFuenteIngresoComponent {
     ) as UntypedFormControl;
     controlCoef4.setValidators([
       Validators.required,
-      Validators.min(0.0),
-      Validators.max(0.99),
       Validators.maxLength(4),
       this.validacionCoeficiente(),
+      this.validarPunto(),
+      this.Decimal(),
     ]);
     controlCoef4.updateValueAndValidity();
     const controlCoef5 = this.formGroup.get(
@@ -144,12 +151,26 @@ export class AddEditExtencionFuenteIngresoComponent {
     ) as UntypedFormControl;
     controlCoef5.setValidators([
       Validators.required,
-      Validators.min(0.0),
-      Validators.max(0.99),
       Validators.maxLength(4),
       this.validacionCoeficiente(),
+      this.validarPunto(),
+      this.Decimal(),
     ]);
     controlCoef5.updateValueAndValidity();
+  }
+
+  Decimal(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const value = control.value.toString().replace(',', '.');
+      const regex = /^\d+(\.\d{1,2})?$/;
+
+      if (!regex.test(value)) {
+        return {
+          error: 'Solo se permiten hasta 2 (dos) decimales.',
+        };
+      }
+      return null;
+    };
   }
 
   validacionCoeficiente(): ValidatorFn {
@@ -159,7 +180,7 @@ export class AddEditExtencionFuenteIngresoComponent {
       );
       if (coeficiente < 0 || coeficiente >= 1) {
         return {
-          error: 'Debe ser un número entre 0 y 1. Ej: 0,12.',
+          error: 'Debe ser un número entre 0 y 0,99. Ej: 0,12.',
         };
       }
       return null;
@@ -178,6 +199,28 @@ export class AddEditExtencionFuenteIngresoComponent {
             'Remuneración Desde debe ser mayor que ' +
             this.remuneracionMin.toString().replace('.', ',') +
             '.',
+        };
+      }
+      return null;
+    };
+  }
+
+  validarRemMaximo(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      if (control.value > 999999999.99) {
+        return {
+          error: 'No debe ser mayor que 999999999,99',
+        };
+      }
+      return null;
+    };
+  }
+
+  validarPunto(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      if (control.value.includes('.')) {
+        return {
+          error: 'No puede contener puntos (.)',
         };
       }
       return null;
@@ -282,27 +325,27 @@ export class AddEditExtencionFuenteIngresoComponent {
       coeficiente_uno: new UntypedFormControl(
         this.data.coeficiente_uno
           ? this.data.coeficiente_uno.toString().replace('.', ',')
-          : 0
+          : '0'
       ),
       coeficiente_dos: new UntypedFormControl(
         this.data.coeficiente_dos
           ? this.data.coeficiente_dos.toString().replace('.', ',')
-          : 0
+          : '0'
       ),
       coeficiente_tres: new UntypedFormControl(
         this.data.coeficiente_tres
           ? this.data.coeficiente_tres.toString().replace('.', ',')
-          : 0
+          : '0'
       ),
       coeficiente_cuatro: new UntypedFormControl(
         this.data.coeficiente_cuatro
           ? this.data.coeficiente_cuatro.toString().replace('.', ',')
-          : 0
+          : '0'
       ),
       coeficiente_cinco: new UntypedFormControl(
         this.data.coeficiente_cinco
           ? this.data.coeficiente_cinco.toString().replace('.', ',')
-          : 0
+          : '0'
       ),
     });
   }

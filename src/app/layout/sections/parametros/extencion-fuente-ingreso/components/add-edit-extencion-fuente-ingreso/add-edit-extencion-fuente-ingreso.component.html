@@ -80,7 +80,7 @@
       <div class="content-part">
         <h3>COEFICIENTE 1</h3>
         <mat-form-field class="seeker-form-field1" appearance="outline">
-          <input matInput formControlName="coeficiente_uno" pattern="^\d{1}(\,\d{1,2})?$" maxlength="4" [max]="1"
+          <input matInput formControlName="coeficiente_uno" pattern="^\d{1}(\,\d{1,2})?$" maxlength="4" [max]="0.99"
             [min]="0.0" />
           <mat-error *ngIf="
               formGroup.get('coeficiente_uno')?.invalid &&
@@ -96,7 +96,7 @@
       <div class="content-part">
         <h3>COEFICIENTE 2</h3>
         <mat-form-field class="seeker-form-field1" appearance="outline">
-          <input matInput formControlName="coeficiente_dos" pattern="^\d{1}(\,\d{1,2})?$" maxlength="4" [max]="1"
+          <input matInput formControlName="coeficiente_dos" pattern="^\d{1}(\,\d{1,2})?$" maxlength="4" [max]="0.99"
             [min]="0.0" />
           <mat-error *ngIf="
               formGroup.get('coeficiente_dos')?.invalid &&
@@ -112,7 +112,7 @@
       <div class="content-part">
         <h3>COEFICIENTE 3</h3>
         <mat-form-field class="seeker-form-field1" appearance="outline">
-          <input matInput formControlName="coeficiente_tres" pattern="^\d{1}(\,\d{1,2})?$" maxlength="4" [max]="1"
+          <input matInput formControlName="coeficiente_tres" pattern="^\d{1}(\,\d{1,2})?$" maxlength="4" [max]="0.99"
             [min]="0.0" />
           <mat-error *ngIf="
               formGroup.get('coeficiente_tres')?.invalid &&
@@ -128,7 +128,7 @@
       <div class="content-part">
         <h3>COEFICIENTE 4</h3>
         <mat-form-field class="seeker-form-field1" appearance="outline">
-          <input matInput formControlName="coeficiente_cuatro" pattern="^\d{1}(\,\d{1,2})?$" maxlength="4" [max]="1"
+          <input matInput formControlName="coeficiente_cuatro" pattern="^\d{1}(\,\d{1,2})?$" maxlength="4" [max]="0.99"
             [min]="0.0" />
           <mat-error *ngIf="
               formGroup.get('coeficiente_cuatro')?.invalid &&
@@ -144,7 +144,7 @@
       <div class="content-part">
         <h3>COEFICIENTE 5</h3>
         <mat-form-field class="seeker-form-field1" appearance="outline">
-          <input matInput formControlName="coeficiente_cinco" pattern="^\d{1}(\,\d{1,2})?$" maxlength="4" [max]="1"
+          <input matInput formControlName="coeficiente_cinco" pattern="^\d{1}(\,\d{1,2})?$" maxlength="4" [max]="0.99"
             [min]="0.0" />
           <mat-error *ngIf="
               formGroup.get('coeficiente_cinco')?.invalid &&
