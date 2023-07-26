@@ -151,7 +151,7 @@ const routes: Routes = [
     component: PagoLinkComponent,
   },
   {
-    path: 'parametros/monto-minimo',
+    path: 'parametros/montos-minimo',
     component: MontoMinimoComponent,
   },
 ];

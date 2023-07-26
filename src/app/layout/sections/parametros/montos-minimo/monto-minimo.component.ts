@@ -136,8 +136,10 @@ export class MontoMinimoComponent implements OnDestroy {
         actividad: data?.actividad,
         seccion: data?.seccion,
         fecha_vigencia: data?.fecha_vigencia,
-        importe_minimo: data?.importe_minimo,
         movimiento: data?.movimiento,
+        importe_minimo: data?.importe_minimo
+          ? data?.importe_minimo.toString().replace('.', ',')
+          : '', // Remplaza '.' por ','.
       },
     });
   }

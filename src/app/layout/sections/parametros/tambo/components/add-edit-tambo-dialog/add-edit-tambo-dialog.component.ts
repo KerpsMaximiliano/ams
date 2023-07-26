@@ -196,7 +196,7 @@ export class AddEditTamboDialogComponent {
           isNumberAndComma(),
           afterComma(),
           onlyTwoDecimal(),
-          isMax(),
+          isMax(999999),
         ])
       ),
     });

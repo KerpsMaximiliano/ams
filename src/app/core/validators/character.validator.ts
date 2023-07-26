@@ -82,13 +82,32 @@ export function onlyTwoDecimal(): ValidatorFn {
   };
 }
 
-// Valor máximo: 999999,99
-export function isMax(): ValidatorFn {
+/**
+ * Verifica el valor máximo.
+ * CU33 - Tambos: 'grasa_ent' = 999999. Final: 9999999,99.
+ * CU35 - Montos mínimo: 'importe_minimo' = 999999999. Final: 999999999,99.
+ * @param num Valor máximo de números enteros, es decir, sin decimal.
+ * @returns null | { notMax: true, maxValue: num }
+ */
+export function isMax(option: number): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
-    const regex = /^(999999(\.00)?|999999\.99|\d{1,6}(\.\d{1,2})?)$/;
+    let regex;
+    let maxValue;
+    switch (option) {
+      case 999999:
+        regex = /^(999999(\.00)?|999999\.99|\d{1,6}(\.\d{1,2})?)$/;
+        maxValue = '999999';
+        break;
+      case 999999999:
+        regex = /^(999999999(\.00)?|999999999\.99|\d{1,9}(\.\d{1,2})?)$/;
+        maxValue = '999999999';
+        break;
+      default:
+        break;
+    }
     let value = control.value;
     if (control.value.includes(',')) value = control.value.replace(',', '.');
-    return regex.test(value) ? null : { notMax: true };
+    return regex?.test(value) ? null : { notMax: true, maxValue: maxValue };
   };
 }
 
@@ -172,7 +191,7 @@ export function getErrorMessage(control: any) {
       return `Solo se permiten hasta 2 (dos) decimales.`;
     }
     if (control.errors?.['notMax']) {
-      return `Valor máximo: 999999,99.`;
+      return `Valor máximo: ${control.errors?.['maxValue']},99.`;
     }
   }
   return '';

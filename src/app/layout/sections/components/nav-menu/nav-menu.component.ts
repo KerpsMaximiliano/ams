@@ -133,7 +133,7 @@ export class NavMenuComponent {
         {
           // 35 - MONTOS MINIMOS
           title: 'Montos Minimos',
-          url: '/parametros/monto-minimo',
+          url: '/parametros/montos-minimo',
           icon: 'keyboard_arrow_right',
         },
       ],

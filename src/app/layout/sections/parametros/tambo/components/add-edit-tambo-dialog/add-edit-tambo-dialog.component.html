@@ -55,8 +55,8 @@
     <div class="seeker-fields-container">
       <h3> KG. DE GRASA </h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="grasa_ent" required [maxlength]="9" (keydown)="validateNumberInput($event)"
-          placeholder="Ingrese un valor">
+        <input matInput formControlName="grasa_ent" required minlength="1" maxlength="9"
+          (keydown)="validateNumberInput($event)" placeholder="Ingrese un valor">
         <mat-error *ngIf="formGroup.get('grasa_ent')?.invalid && formGroup.get('grasa_ent')?.touched">
           {{ getErrorMessage(formGroup.get('grasa_ent')) }}
         </mat-error>

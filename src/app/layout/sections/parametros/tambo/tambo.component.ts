@@ -137,7 +137,9 @@ export class TamboComponent implements AfterViewInit, OnDestroy {
         razon_social: data?.razon_social,
         provincia: data?.provincia,
         localidad: data?.localidad,
-        grasa_ent: data?.grasa_ent.toString().replace('.', ','), // Remplaza '.' por ','.
+        grasa_ent: data?.grasa_ent
+          ? data?.grasa_ent.toString().replace('.', ',')
+          : '', // Remplaza '.' por ','.
         fecha_suspension: data?.fecha_suspension ? data?.fecha_suspension : 0,
         fecha_rehabilitacion: data?.fecha_rehabilitacion
           ? data?.fecha_rehabilitacion
