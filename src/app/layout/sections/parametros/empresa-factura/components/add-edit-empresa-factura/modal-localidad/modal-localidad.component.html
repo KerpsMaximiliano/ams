@@ -1,0 +1,93 @@
+<div class="dialog-content">
+  <div class="dialog-title" [tabIndex]="0">
+    <h2>{{ data.title | uppercase }}</h2>
+  </div>
+
+  <form>
+    <div class="seeker-fields-container">
+      <mat-form-field class="seeker-form-field">
+        <mat-label class="seeker-label"> Seleccione una provincia </mat-label>
+        <mat-select #provincia required disableOptionCentering>
+          <mat-option *ngFor="let provincia of provincias" [value]="provincia.codigo"
+            (click)="loadDepartamentos(provincia)">
+            {{ provincia.nombre_provincia }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="seeker-form-field">
+        <mat-label class="seeker-label"> Seleccione un departamento </mat-label>
+        <mat-select #departamento required [disabled]="!provincia?.value" disableOptionCentering>
+          <mat-option *ngFor="let departamento of departamentos" [value]="departamento.codigo_departamento">
+            {{ departamento.descripcion }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="buttons-container">
+      <button class="primary-button icon-button btn" type="button"
+        (click)="getLocalidades(provincia.value, departamento.value)" [disabled]="!departamento?.value">
+        <mat-icon> done </mat-icon>
+        Buscar
+      </button>
+      <button class="primary-button icon-button btn" type="button" (click)="clear(provincia.value, departamento.value)"
+        [disabled]="!provincia?.value && !departamento?.value">
+        <mat-icon> close </mat-icon>
+        Limpiar
+      </button>
+    </div>
+  </form>
+
+  <section class="table-container" [ngClass]="{ 'd-none': !dataSource }">
+    <mat-form-field appearance="standard" class="filter-container">
+      <mat-label> Ingrese la localidad </mat-label>
+      <input matInput (keyup)="applyFilter($event)" #input [disabled]="!dataSource" maxlength="20" />
+    </mat-form-field>
+
+    <table mat-table [dataSource]="dataSource">
+      <ng-container class="mat-row" *matNoDataRow>
+        <td class="mat-cell no-data-cell" [attr.colspan]="displayedColumns.length" *ngIf="this.dataSource">
+          No se encontraron resultados
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="codigo_postal">
+        <th mat-header-cell *matHeaderCellDef>Código</th>
+        <td mat-cell *matCellDef="let param">{{ param.codigo_postal }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="descripcion">
+        <th mat-header-cell *matHeaderCellDef>Localidad</th>
+        <td mat-cell *matCellDef="let param">{{ param.descripcion }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Acciones</th>
+        <td mat-cell *matCellDef="let element">
+          <mat-radio-group [(ngModel)]="localidad" aria-label="Select an option">
+            <mat-radio-button [value]="element" class="btn-radio"></mat-radio-button>
+          </mat-radio-group>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+
+    <mat-paginator [pageSize]="5" showFirstLastButtons aria-label="Controles de paginación."
+      [ngClass]="{ 'd-none': !dataSource || this.dataSource.data.length < 5 }">
+    </mat-paginator>
+  </section>
+
+  <div class="buttons-container">
+    <button class="primary-button icon-button" type="button" mat-dialog-close>
+      <mat-icon> close </mat-icon>
+      Cancelar
+    </button>
+    <button class="primary-button icon-button btn" type="button" (click)="confirm()" *ngIf="localidad">
+      <mat-icon> done </mat-icon>
+      Guardar
+    </button>
+  </div>
+</div>

@@ -1,34 +1,19 @@
-/*
- * Evita un espaciado innecesario en la primer columna.
-*/
-th.mat-header-cell:first-of-type,
-td.mat-cell:first-of-type {
-  padding-left: 0px;
-}
 
 /*
  * Texto alineado a la izquierda.
 */
+.mat-column-sub_producto_origen.mat-header-cell,
+.mat-column-sub_producto_origen.mat-cell,
+.mat-column-capita_rel.mat-header-cell,
+.mat-column-capita_rel.mat-cell,
+.mat-column-producto_origen.mat-header-cell,
+.mat-column-producto_origen.mat-cell,
+.mat-column-capita_origen.mat-header-cell,
+.mat-column-capita_origen.mat-cell,
 .mat-column-plan_origen.mat-header-cell,
 .mat-column-plan_origen.mat-cell{
   text-align: left !important;
   padding-left: 1vw;
-}
-
-/*
- * Número y fecha alineado a la derecha.
-*/
-.mat-column-capita_origen.mat-header-cell,
-.mat-column-capita_origen.mat-cell,
-.mat-column-producto_origen.mat-header-cell,
-.mat-column-producto_origen.mat-cell,
-.mat-column-sub_producto_origen.mat-header-cell,
-.mat-column-sub_producto_origen.mat-cell,
-.mat-column-capita_rel.mat-header-cell,
-.mat-column-capita_rel.mat-cell {
-  text-align: right !important;
-  padding-right: 1vw;
-  word-break: break-all;
 }
 
 /*
@@ -119,6 +104,11 @@ td.mat-cell:first-of-type {
 .detailExpand-item {
   text-align: left !important;
   padding-left: 1vw !important;
+}
+
+.num{
+  padding-right: 1vw !important;
+  text-align: right !important;
 }
 
 .detailExpand-element {

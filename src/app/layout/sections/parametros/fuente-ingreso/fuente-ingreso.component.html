@@ -1,7 +1,7 @@
 <section class="browse-section">
   <div class="section-header">
     <h2>Fuentes de ingreso</h2>
-    <button class="new-button icon-button" (click)="nuevaFuenteIngreso()">
+    <button class="new-button icon-button" (click)="new()">
       <mat-icon> add </mat-icon>
       Nuevo
     </button>
@@ -10,7 +10,8 @@
   <div class="section-content">
     <app-fuente-ingreso-filter (searchEvent)="handleSearch($event)" [datosEmpresas]="datosEmpresa">
     </app-fuente-ingreso-filter>
-    <app-fuente-ingreso-dashboard [datosEmpresas]="datosEmpresa">
-    </app-fuente-ingreso-dashboard>
+    <app-fuente-ingreso-dashboard [datosEmpresas]="datosEmpresa"
+      (viewEvent)="view($event)"
+      (editEvent)="edit($event)"></app-fuente-ingreso-dashboard>
   </div>
 </section>

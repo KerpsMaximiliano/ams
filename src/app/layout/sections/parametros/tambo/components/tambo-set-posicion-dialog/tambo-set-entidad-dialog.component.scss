@@ -1,0 +1,93 @@
+/* Corrección tamaño modal */
+::ng-deep .mat-dialog-container {
+  background-color: #fff;
+}
+
+h2 {
+  margin-bottom: 0rem;
+}
+
+.dialog-content {
+  width: 650px;
+  min-height: 398px;
+}
+
+.buttons-container {
+  margin-top: auto;
+  margin-bottom: 0.5rem;
+}
+
+.table-container {
+  margin-bottom: 0.3rem;
+  min-height: 400px;
+}
+
+tr.mat-header-row {
+  height: 3rem;
+}
+
+tr.mat-row {
+  height: 2.7rem;
+}
+
+.btn {
+  width: 100%;
+  max-width: 130px;
+}
+
+/*
+ * Texto alineado a la izquierda.
+*/
+.mat-column-entidad.mat-header-cell,
+.mat-column-entidad.mat-cell {
+  text-align: left !important;
+  padding-left: 2vw;
+  word-break: break-all;
+}
+
+/*
+ * Número y fecha alineado a la derecha.
+*/
+.mat-column-canal.mat-header-cell,
+.mat-column-canal.mat-cell,
+.mat-column-nro_asesor.mat-header-cell,
+.mat-column-nro_asesor.mat-cell {
+  text-align: right !important;
+  padding-right: 2vw;
+}
+
+/*
+ * Tamaño de columnas.
+*/
+.mat-column-canal.mat-header-cell,
+.mat-column-canal.mat-cell,
+.mat-column-nro_asesor.mat-header-cell,
+.mat-column-nro_asesor.mat-cell {
+  min-width: 100px;
+}
+
+.mat-column-entidad.mat-header-cell,
+.mat-column-entidad.mat-cell {
+  min-width: 200px;
+  width: 100%;
+}
+
+.mat-column-actions.mat-header-cell,
+.mat-column-actions.mat-cell {
+  min-width: 100px;
+}
+
+/*
+ * Oculta la paginación y el botón confirmar hasta que existan datos.
+*/
+.d-none {
+  display: none;
+}
+
+/*
+ * Cambia el tamaño y los espacios del filtro.
+*/
+.filter-container {
+  width: 47%;
+  margin-bottom: 0.3rem;
+}

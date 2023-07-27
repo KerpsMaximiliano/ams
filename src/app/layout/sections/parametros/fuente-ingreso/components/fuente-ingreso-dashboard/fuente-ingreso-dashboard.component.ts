@@ -1,4 +1,11 @@
-import { ChangeDetectorRef, Component, Input, ViewChild } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 
 // * Services
@@ -30,11 +37,12 @@ export interface searchValue {
   styleUrls: ['./fuente-ingreso-dashboard.component.scss'],
 })
 export class FuenteIngresoDashboardComponent {
-  @ViewChild(MatSort) sort: MatSort = new MatSort();
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator =
-    new MatPaginator(new MatPaginatorIntl(), this.cdr);
-  @ViewChild(MatTable) table!: MatTable<any>;
+  @ViewChild(MatPaginator, { static: true }) public paginator!: MatPaginator;
   @Input() public datosEmpresas: IEmpresaFactura[];
+  @Output() public viewEvent: EventEmitter<IFuenteIngreso> =
+    new EventEmitter<IFuenteIngreso>();
+  @Output() public editEvent: EventEmitter<IFuenteIngreso> =
+    new EventEmitter<IFuenteIngreso>();
 
   public displayedColumns: string[] = [
     'codigo_fuente_ingreso',
@@ -89,7 +97,6 @@ export class FuenteIngresoDashboardComponent {
         this.dataSource = new MatTableDataSource<IFuenteIngreso>(
           this.fuenteIngresos
         );
-        this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
       },
       error: (err: any) => {
@@ -122,133 +129,143 @@ export class FuenteIngresoDashboardComponent {
     }
   }
 
-  public editFuenteIngreso(fuenteIngreso: IFuenteIngreso): void {
-    const modalNuevoFuenteIngreso = this.dialog.open(
-      AddEditFuenteIngresoDialogComponent,
-      {
-        data: {
-          title: `EDITAR FUENTE DE INGRESO`,
-          edit: true,
-          par_modo: 'U',
-          codigo_fuente_ingreso: fuenteIngreso?.codigo_fuente_ingreso,
-          tipo_fuente: fuenteIngreso?.tipo_fuente,
-          codigo_fuente_admin: fuenteIngreso?.codigo_fuente_admin,
-          descripcion: fuenteIngreso?.descripcion,
-          descripcion_reducida: fuenteIngreso?.descripcion_reducida,
-          solicita_ref: fuenteIngreso?.solicita_ref,
-          dia_corte: fuenteIngreso?.dia_corte,
-          empresa_asociada: fuenteIngreso?.empresa_asociada,
-          nro_solicitud: fuenteIngreso?.nro_solicitud,
-          fecha_ultima_liquidacion: fuenteIngreso?.fecha_ultima_liquidacion,
-          aporte_adicional: fuenteIngreso?.aporte_adicional,
-          fuente_aporte_adicional: fuenteIngreso?.fuente_aporte_adicional,
-          concepto_aporte_adicional: fuenteIngreso?.concepto_aporte_adicional,
-          controla_dec_jur: fuenteIngreso?.controla_dec_jur,
-          comprobante_general: fuenteIngreso?.comprobante_general,
-          condicion_venta: fuenteIngreso?.condicion_venta,
-          sub_prog_calc: fuenteIngreso?.sub_prog_calc,
-          ref_contable_asociada: fuenteIngreso?.ref_contable_asociada,
-          concepto_aporte: fuenteIngreso?.concepto_aporte,
-          concepto_arancel: fuenteIngreso?.concepto_arancel,
-          agrupa_entidades: fuenteIngreso?.agrupa_entidades,
-          grupo_familiar_imprimir: fuenteIngreso?.grupo_familiar_imprimir,
-          numeracion_auto: fuenteIngreso?.numeracion_auto,
-          talonario: fuenteIngreso?.talonario,
-          liquida_punitorio: fuenteIngreso?.liquida_punitorio,
-          liquida_reintegro: fuenteIngreso?.liquida_reintegro,
-          liquida_planes_mix: fuenteIngreso?.liquida_planes_mix,
-          liquida_planes_monotributo: fuenteIngreso?.liquida_planes_monotributo,
-          selecciona_productos_liq: fuenteIngreso?.selecciona_productos_liq,
-          condicion_aporte_adic_dec: fuenteIngreso?.condicion_aporte_adic_dec,
-          agrupador_capita: fuenteIngreso?.agrupador_capita,
-          liquidacion_mensual: fuenteIngreso?.liquidacion_mensual,
-          condicion_venta_venc: fuenteIngreso?.condicion_venta_venc,
-          condicion_venta_dos_venc: fuenteIngreso?.condicion_venta_dos_venc,
-          datosEmpresa: this.datosEmpresas,
-        },
-      }
-    );
-
-    modalNuevoFuenteIngreso.afterClosed().subscribe({
-      next: (res) => {
-        if (res) {
-          this.utilService.openLoading();
-          this.fuentesIngresoService.CRUD(res).subscribe({
-            next: () => {
-              this.utilService.notification(
-                'La fuente de ingreso se ha editado extiosamente. ',
-                'success'
-              );
-              let body = {
-                par_modo: 'O',
-                descripcion: res.descripcion,
-                desc_empresa: '',
-              };
-              this.getFuenteIngreso(body);
-            },
-            error: (err: any) => {
-              this.utilService.closeLoading();
-              this.editFuenteIngreso(res);
-              err.status == 0
-                ? this.utilService.notification('Error de conexión. ', 'error')
-                : this.utilService.notification(
-                    `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}. `,
-                    'error'
-                  );
-            },
-            complete: () => {
-              this.utilService.closeLoading();
-              setTimeout(() => {}, 300);
-            },
-          });
-        }
-      },
-    });
+  public view(element: IFuenteIngreso): void {
+    console.log(element);
+    
+    this.viewEvent.emit(element);
   }
 
-  public viewFuenteIngreso(fuenteIngreso: IFuenteIngreso): void {
-    this.dialog.open(AddEditFuenteIngresoDialogComponent, {
-      data: {
-        title: `VER FUENTE DE INGRESO`,
-        edit: false,
-        par_modo: 'R',
-        codigo_fuente_ingreso: fuenteIngreso?.codigo_fuente_ingreso,
-        tipo_fuente: fuenteIngreso?.tipo_fuente,
-        descripcion: fuenteIngreso?.descripcion,
-        descripcion_reducida: fuenteIngreso?.descripcion_reducida,
-        solicita_ref: fuenteIngreso?.solicita_ref,
-        dia_corte: fuenteIngreso?.dia_corte,
-        empresa_asociada: fuenteIngreso?.empresa_asociada,
-        nro_solicitud: fuenteIngreso?.nro_solicitud,
-        fecha_ultima_liquidacion: fuenteIngreso?.fecha_ultima_liquidacion,
-        aporte_adicional: fuenteIngreso?.aporte_adicional,
-        fuente_aporte_adicional: fuenteIngreso?.fuente_aporte_adicional,
-        concepto_aporte_adicional: fuenteIngreso?.concepto_aporte_adicional,
-        controla_dec_jur: fuenteIngreso?.controla_dec_jur,
-        comprobante_general: fuenteIngreso?.comprobante_general,
-        condicion_venta: fuenteIngreso?.condicion_venta,
-        sub_prog_calc: fuenteIngreso?.sub_prog_calc,
-        ref_contable_asociada: fuenteIngreso?.ref_contable_asociada,
-        concepto_aporte: fuenteIngreso?.concepto_aporte,
-        concepto_arancel: fuenteIngreso?.concepto_arancel,
-        agrupa_entidades: fuenteIngreso?.agrupa_entidades,
-        grupo_familiar_imprimir: fuenteIngreso?.grupo_familiar_imprimir,
-        numeracion_auto: fuenteIngreso?.numeracion_auto,
-        talonario: fuenteIngreso?.talonario,
-        liquida_punitorio: fuenteIngreso?.liquida_punitorio,
-        liquida_reintegro: fuenteIngreso?.liquida_reintegro,
-        liquida_planes_mix: fuenteIngreso?.liquida_planes_mix,
-        liquida_planes_monotributo: fuenteIngreso?.liquida_planes_monotributo,
-        selecciona_productos_liq: fuenteIngreso?.selecciona_productos_liq,
-        condicion_aporte_adic_dec: fuenteIngreso?.condicion_aporte_adic_dec,
-        agrupador_capita: fuenteIngreso?.agrupador_capita,
-        liquidacion_mensual: fuenteIngreso?.liquidacion_mensual,
-        condicion_venta_venc: fuenteIngreso?.condicion_venta_venc,
-        condicion_venta_dos_venc: fuenteIngreso?.condicion_venta_dos_venc,
-        datosEmpresa: this.datosEmpresas,
-      },
-    });
+  public edit(element: IFuenteIngreso): void {
+    this.editEvent.emit(element);
   }
+
+  // public editFuenteIngreso(fuenteIngreso: IFuenteIngreso): void {
+  //   const modalNuevoFuenteIngreso = this.dialog.open(
+  //     AddEditFuenteIngresoDialogComponent,
+  //     {
+  //       data: {
+  //         title: `EDITAR FUENTE DE INGRESO`,
+  //         edit: true,
+  //         par_modo: 'U',
+  //         codigo_fuente_ingreso: fuenteIngreso?.codigo_fuente_ingreso,
+  //         tipo_fuente: fuenteIngreso?.tipo_fuente,
+  //         codigo_fuente_admin: fuenteIngreso?.codigo_fuente_admin,
+  //         descripcion: fuenteIngreso?.descripcion,
+  //         descripcion_reducida: fuenteIngreso?.descripcion_reducida,
+  //         solicita_ref: fuenteIngreso?.solicita_ref,
+  //         dia_corte: fuenteIngreso?.dia_corte,
+  //         empresa_asociada: fuenteIngreso?.empresa_asociada,
+  //         nro_solicitud: fuenteIngreso?.nro_solicitud,
+  //         fecha_ultima_liquidacion: fuenteIngreso?.fecha_ultima_liquidacion,
+  //         aporte_adicional: fuenteIngreso?.aporte_adicional,
+  //         fuente_aporte_adicional: fuenteIngreso?.fuente_aporte_adicional,
+  //         concepto_aporte_adicional: fuenteIngreso?.concepto_aporte_adicional,
+  //         controla_dec_jur: fuenteIngreso?.controla_dec_jur,
+  //         comprobante_general: fuenteIngreso?.comprobante_general,
+  //         condicion_venta: fuenteIngreso?.condicion_venta,
+  //         sub_prog_calc: fuenteIngreso?.sub_prog_calc,
+  //         ref_contable_asociada: fuenteIngreso?.ref_contable_asociada,
+  //         concepto_aporte: fuenteIngreso?.concepto_aporte,
+  //         concepto_arancel: fuenteIngreso?.concepto_arancel,
+  //         agrupa_entidades: fuenteIngreso?.agrupa_entidades,
+  //         grupo_familiar_imprimir: fuenteIngreso?.grupo_familiar_imprimir,
+  //         numeracion_auto: fuenteIngreso?.numeracion_auto,
+  //         talonario: fuenteIngreso?.talonario,
+  //         liquida_punitorio: fuenteIngreso?.liquida_punitorio,
+  //         liquida_reintegro: fuenteIngreso?.liquida_reintegro,
+  //         liquida_planes_mix: fuenteIngreso?.liquida_planes_mix,
+  //         liquida_planes_monotributo: fuenteIngreso?.liquida_planes_monotributo,
+  //         selecciona_productos_liq: fuenteIngreso?.selecciona_productos_liq,
+  //         condicion_aporte_adic_dec: fuenteIngreso?.condicion_aporte_adic_dec,
+  //         agrupador_capita: fuenteIngreso?.agrupador_capita,
+  //         liquidacion_mensual: fuenteIngreso?.liquidacion_mensual,
+  //         condicion_venta_venc: fuenteIngreso?.condicion_venta_venc,
+  //         condicion_venta_dos_venc: fuenteIngreso?.condicion_venta_dos_venc,
+  //         datosEmpresa: this.datosEmpresas,
+  //       },
+  //     }
+  //   );
+
+  //   modalNuevoFuenteIngreso.afterClosed().subscribe({
+  //     next: (res) => {
+  //       if (res) {
+  //         this.utilService.openLoading();
+  //         this.fuentesIngresoService.CRUD(res).subscribe({
+  //           next: () => {
+  //             this.utilService.notification(
+  //               'La fuente de ingreso se ha editado extiosamente. ',
+  //               'success'
+  //             );
+  //             let body = {
+  //               par_modo: 'O',
+  //               descripcion: res.descripcion,
+  //               desc_empresa: '',
+  //             };
+  //             this.getFuenteIngreso(body);
+  //           },
+  //           error: (err: any) => {
+  //             this.utilService.closeLoading();
+  //             this.editFuenteIngreso(res);
+  //             err.status == 0
+  //               ? this.utilService.notification('Error de conexión. ', 'error')
+  //               : this.utilService.notification(
+  //                   `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}. `,
+  //                   'error'
+  //                 );
+  //           },
+  //           complete: () => {
+  //             this.utilService.closeLoading();
+  //             setTimeout(() => {}, 300);
+  //           },
+  //         });
+  //       }
+  //     },
+  //   });
+  // }
+
+  // public viewFuenteIngreso(fuenteIngreso: IFuenteIngreso): void {
+  //   this.dialog.open(AddEditFuenteIngresoDialogComponent, {
+  //     data: {
+  //       title: `VER FUENTE DE INGRESO`,
+  //       edit: false,
+  //       par_modo: 'R',
+  //       codigo_fuente_ingreso: fuenteIngreso?.codigo_fuente_ingreso,
+  //       tipo_fuente: fuenteIngreso?.tipo_fuente,
+  //       descripcion: fuenteIngreso?.descripcion,
+  //       descripcion_reducida: fuenteIngreso?.descripcion_reducida,
+  //       solicita_ref: fuenteIngreso?.solicita_ref,
+  //       dia_corte: fuenteIngreso?.dia_corte,
+  //       empresa_asociada: fuenteIngreso?.empresa_asociada,
+  //       nro_solicitud: fuenteIngreso?.nro_solicitud,
+  //       fecha_ultima_liquidacion: fuenteIngreso?.fecha_ultima_liquidacion,
+  //       aporte_adicional: fuenteIngreso?.aporte_adicional,
+  //       fuente_aporte_adicional: fuenteIngreso?.fuente_aporte_adicional,
+  //       concepto_aporte_adicional: fuenteIngreso?.concepto_aporte_adicional,
+  //       controla_dec_jur: fuenteIngreso?.controla_dec_jur,
+  //       comprobante_general: fuenteIngreso?.comprobante_general,
+  //       condicion_venta: fuenteIngreso?.condicion_venta,
+  //       sub_prog_calc: fuenteIngreso?.sub_prog_calc,
+  //       ref_contable_asociada: fuenteIngreso?.ref_contable_asociada,
+  //       concepto_aporte: fuenteIngreso?.concepto_aporte,
+  //       concepto_arancel: fuenteIngreso?.concepto_arancel,
+  //       agrupa_entidades: fuenteIngreso?.agrupa_entidades,
+  //       grupo_familiar_imprimir: fuenteIngreso?.grupo_familiar_imprimir,
+  //       numeracion_auto: fuenteIngreso?.numeracion_auto,
+  //       talonario: fuenteIngreso?.talonario,
+  //       liquida_punitorio: fuenteIngreso?.liquida_punitorio,
+  //       liquida_reintegro: fuenteIngreso?.liquida_reintegro,
+  //       liquida_planes_mix: fuenteIngreso?.liquida_planes_mix,
+  //       liquida_planes_monotributo: fuenteIngreso?.liquida_planes_monotributo,
+  //       selecciona_productos_liq: fuenteIngreso?.selecciona_productos_liq,
+  //       condicion_aporte_adic_dec: fuenteIngreso?.condicion_aporte_adic_dec,
+  //       agrupador_capita: fuenteIngreso?.agrupador_capita,
+  //       liquidacion_mensual: fuenteIngreso?.liquidacion_mensual,
+  //       condicion_venta_venc: fuenteIngreso?.condicion_venta_venc,
+  //       condicion_venta_dos_venc: fuenteIngreso?.condicion_venta_dos_venc,
+  //       datosEmpresa: this.datosEmpresas,
+  //     },
+  //   });
+  // }
 
   public filter(buscar: searchValue): void {
     let body = {

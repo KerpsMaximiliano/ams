@@ -1,0 +1,15 @@
+<section class="browse-section">
+  <div class="section-header">
+    <h2>EMPRESAS QUE FACTURAN</h2>
+    <button class="new-button icon-button" (click)="new()">
+      <mat-icon> add </mat-icon>
+      Nuevo
+    </button>
+  </div>
+
+  <div class="section-content">
+    <app-empresa-factura-filter (search)="getEmpresaFactura($event)"></app-empresa-factura-filter>
+    <app-empresa-factura-dashboard [receivedData]="dataSent" (viewEvent)="view($event)"
+      (editEvent)="edit($event)"></app-empresa-factura-dashboard>
+  </div>
+</section>

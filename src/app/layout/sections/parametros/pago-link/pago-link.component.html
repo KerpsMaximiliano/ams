@@ -1,0 +1,23 @@
+<section class="browse-section">
+  <div class="section-header">
+    <h2>
+      EMPRESAS QUE FACTURAN<br/>
+      Pago Link
+    </h2>
+    <div class="section-header-item">
+      <button class="primary-button icon-button" (click)="back()">
+        <mat-icon> arrow_back </mat-icon>
+        Volver
+      </button>
+      <button class="new-button icon-button" (click)="new()">
+        <mat-icon> add </mat-icon>
+        Nuevo
+      </button>
+    </div>
+  </div>
+
+  <div class="section-content">
+    <app-pago-link-filter (search)="getPagoLink($event)" [empresa]="empresaFactura"></app-pago-link-filter>
+    <app-pago-link-dashboard [receivedData]="dataSent" (deletEvent)="delet($event)"></app-pago-link-dashboard>
+  </div>
+</section>

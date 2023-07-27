@@ -1,0 +1,62 @@
+/*
+ * Evita un espaciado innecesario en la primer columna.
+*/
+th.mat-header-cell:first-of-type,
+td.mat-cell:first-of-type {
+  padding-left: 0px;
+}
+
+/*
+ * Número y fecha alineado a la derecha.
+*/
+.mat-column-id_tambos.mat-header-cell,
+.mat-column-id_tambos.mat-cell {
+  text-align: right !important;
+  padding-right: 3vw;
+}
+
+/*
+ * Texto alineado a la izquierda.
+*/
+.mat-column-razon_social.mat-header-cell,
+.mat-column-razon_social.mat-cell,
+.mat-column-estado.mat-header-cell,
+.mat-column-estado.mat-cell {
+  text-align: left !important;
+  padding-left: 3vw;
+  word-break: break-all;
+}
+
+/*
+ * Tamaño de columnas.
+*/
+.mat-column-id_tambos.mat-header-cell,
+.mat-column-id_tambos.mat-cell {
+  min-width: 130px;
+}
+
+.mat-column-razon_social.mat-header-cell,
+.mat-column-razon_social.mat-cell {
+  min-width: 300px;
+  width: 100%;
+}
+
+.mat-column-estado.mat-header-cell,
+.mat-column-estado.mat-cell {
+  min-width: 170px;
+}
+
+.mat-column-actions.mat-header-cell,
+.mat-column-actions.mat-cell {
+  min-width: 150px;
+}
+
+/*
+ * Genera el espacio que corresponde al botón que no esta disponible.
+*/
+.no-edit {
+  display: inline-block;
+  vertical-align: bottom;
+  width: 40px;
+  height: 44.09px;
+}

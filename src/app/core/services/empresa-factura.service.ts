@@ -17,6 +17,7 @@ const httpOptions = {
 })
 export class EmpresaFacturaService {
   private empresaFactura: IEmpresaFactura[];
+  private back: boolean = false;
 
   constructor(
     private http: HttpClient,
@@ -31,11 +32,19 @@ export class EmpresaFacturaService {
     );
   }
 
-  public setEmpresas(empresaFactura: IEmpresaFactura[]): void {
+  public set(empresaFactura: IEmpresaFactura[]): void {
     this.empresaFactura = empresaFactura;
   }
 
-  public getEmpresas(): IEmpresaFactura[] {
+  public get(): IEmpresaFactura[] {
     return this.empresaFactura;
+  }
+
+  public getBack(): boolean {
+    return this.back;
+  }
+
+  public setBack(value: boolean): void {
+    this.back = value;
   }
 }

@@ -1,0 +1,14 @@
+<section class="browse-section">
+  <div class="section-header">
+    <h2> Montos mínimos </h2>
+      <button class="new-button icon-button" (click)="new()">
+        <mat-icon> add </mat-icon>
+        Nuevo
+      </button>
+  </div>
+  <div class="section-content">
+    <app-monto-minimo-filter (search)="getData($event)"></app-monto-minimo-filter>
+    <app-monto-minimo-dashboard [receivedData]="dataSent"
+      (deleteEvent)="delete($event)" (editEvent)="edit($event)"></app-monto-minimo-dashboard>
+  </div>
+</section>

@@ -33,6 +33,7 @@ import { FormsModule } from '@angular/forms';
 import { MatStepperModule } from '@angular/material/stepper';
 
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { MatTabsModule } from '@angular/material/tabs';
     FormsModule,
     MatStepperModule,
     MatTabsModule,
+    MatTooltipModule,
   ],
   providers: [
     {
