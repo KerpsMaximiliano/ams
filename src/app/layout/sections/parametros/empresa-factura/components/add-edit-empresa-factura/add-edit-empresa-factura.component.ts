@@ -299,7 +299,7 @@ export class AddEditEmpresaFacturaComponent {
 
   // * envia los datos para Datos Comercio y pago Link
   public redirectTo(url: string): void {
-    this.empresaFacturaService.set(this.data);
+    this.empresaFacturaService.set([this.data]);
     this.empresaFacturaService.setBack(false);
     this.router.navigate([url]);
   }
