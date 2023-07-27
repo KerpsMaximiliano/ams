@@ -76,6 +76,7 @@ export class AddEditEmpresaFacturaComponent {
         this.formGroup.disable();
       }
       this.formGroup.get('id_empresa')?.disable();
+      this.loadLocalidad();
     }
   }
 
@@ -97,7 +98,6 @@ export class AddEditEmpresaFacturaComponent {
           this.UtilService.closeLoading();
         },
         complete: () => {
-          this.loadLocalidad();
         },
       });
   }
@@ -199,7 +199,7 @@ export class AddEditEmpresaFacturaComponent {
         this.data.fact_cr_elec ? this.data.fact_cr_elec.trim() : '',
         Validators.compose([Validators.required])
       ),
-      modo: new UntypedFormControl(this.data.modo ? this.data.modo : ''),
+      modo: new UntypedFormControl(this.data.modo ? this.data.modo : '0'),
 
       // * datos sin front
       campo_desc1: new UntypedFormControl(
@@ -295,7 +295,7 @@ export class AddEditEmpresaFacturaComponent {
 
   // * envia los datos para Datos Comercio y pago Link
   public redirectTo(url: string): void {
-    this.empresaFacturaService.set(this.data);
+    this.empresaFacturaService.set([this.data]);
     this.empresaFacturaService.setBack(false);
     this.router.navigate([url]);
   }
@@ -392,7 +392,6 @@ export class AddEditEmpresaFacturaComponent {
             ),
             'yyyyMMdd'
           ),
-          // parseInt(this.formGroup.get('fecha_vto_cuit')?.value),
           cta_banco_ams: this.formGroup.get('cta_banco_ams')?.value,
 
           comprobante_generar: this.formGroup.get('comprobante_generar')?.value,

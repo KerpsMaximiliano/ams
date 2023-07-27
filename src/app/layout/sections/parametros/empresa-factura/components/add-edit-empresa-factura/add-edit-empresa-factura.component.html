@@ -244,6 +244,7 @@
           <h3>MODO LIQUIDACION</h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
             <mat-select formControlName="modo" required>
+              <mat-option [value]="'0'"></mat-option>
               <mat-option [value]="'A'"> ANTICIPADA </mat-option>
               <mat-option [value]="'V'"> VENCIDO </mat-option>
               <mat-option [value]="'W'"> VENCIDO 2 M </mat-option>

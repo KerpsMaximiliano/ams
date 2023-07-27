@@ -28,7 +28,19 @@ export class EmpresaFacturaComponent implements OnInit {
     private dialog: MatDialog
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (this.empresaFacturaService.getBack()) {
+      if (this.empresaFacturaService.get()) {
+        this.getEmpresaFactura(
+          JSON.stringify({
+            par_modo: 'O',
+            descripcion: this.empresaFacturaService.get()[0].descripcion,
+          })
+        );
+        this.edit(this.empresaFacturaService.get()[0]);
+      }
+    }
+  }
 
   public new(): void {
     const dialogRef = this.openDialog('CREAR EMPRESA QUE FACTURA', 'C', true);
@@ -167,7 +179,9 @@ export class EmpresaFacturaComponent implements OnInit {
       this.empresaFacturaService.CRUD(data.empresa).subscribe({
         next: (res) => {
           this.utilService.notification(successMessage, 'success');
-          this.validarModo(data.modo.modo, res);
+          if (data.modo.modo != 0) {
+            this.validarModo(data.modo.modo, res);
+          }
           dialogRef.close();
           this.getEmpresaFactura(
             JSON.stringify({
