@@ -13,6 +13,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { getErrorMessage } from 'src/app/core/validators/character.validator';
 // * Components
 import { ModalExtencionProductoComponent } from '../add-edit-extencion-fuente-ingreso/modal-extencion-producto/modal-extencion-producto.component';
+import { UtilService } from 'src/app/core/services/util.service';
 
 @Component({
   selector: 'app-extencion-fuente-ingreso-filter',
@@ -21,6 +22,7 @@ import { ModalExtencionProductoComponent } from '../add-edit-extencion-fuente-in
 })
 export class ExtencionFuenteIngresoFilterComponent {
   @Output() searchEvent: EventEmitter<any> = new EventEmitter<any>();
+  @Output() validaBoton: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Input() public fuenteIngreso: IFuenteIngreso;
   public getErrorMessage = getErrorMessage;
   public listaFechas: IExtencionFuenteIngreso[];
@@ -33,8 +35,9 @@ export class ExtencionFuenteIngresoFilterComponent {
   });
 
   constructor(
-    private extencionFuenteIngreso: ExtencionFuenteIngresoService,
-    private dialog: MatDialog
+    private extencionFuenteIngresoService: ExtencionFuenteIngresoService,
+    private dialog: MatDialog,
+    private utilService: UtilService
   ) {
   }
 
@@ -100,7 +103,7 @@ export class ExtencionFuenteIngresoFilterComponent {
   }
 
   fechas() {
-    this.extencionFuenteIngreso
+    this.extencionFuenteIngresoService
       .CRUD(
         JSON.stringify({
           par_modo: 'R',
@@ -119,7 +122,6 @@ export class ExtencionFuenteIngresoFilterComponent {
   formatearFecha(numero: number): string {
     const enteros = Math.floor(numero / 100);
     const decimales = numero % 100;
-
     return `${enteros}/${decimales}`;
   }
 
@@ -132,5 +134,39 @@ export class ExtencionFuenteIngresoFilterComponent {
   public searchKeyUp(e: any): void {
     e.preventDefault();
     this.searchEvent.emit(this.searchForm.value);
+  }
+
+  public validarBotonValor() {
+    this.utilService.openLoading();
+    this.extencionFuenteIngresoService
+      .CRUD(
+        JSON.stringify({
+          par_modo: 'H',
+          codigo_fuente_ingreso: this.searchForm.get(
+            'codigo_fuente_ingreso'
+          )?.value,
+          fecha_de_vigencia:
+            this.searchForm.get('fecha_de_vigencia')?.value,
+          producto: this.searchForm.get('producto')?.value,
+        })
+      )
+      .subscribe({
+        next: (res: any) => {
+          this.utilService.closeLoading();
+          if (res.dataset.remuneracion_hasta >= 999999999.99) {
+            this.validaBoton.emit(true);
+          } else {
+            this.validaBoton.emit(false);
+          }
+        },
+        error: (err: any) => {
+          this.utilService.closeLoading();
+          if (err.esatado.Codigo == 404)
+          this.validaBoton.emit(false);
+        },
+        complete: () => {
+          this.utilService.closeLoading();
+        },
+      });
   }
 }

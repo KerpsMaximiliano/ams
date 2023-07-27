@@ -30,7 +30,7 @@
         <div class="seeker-fields-container">
           <mat-form-field class="seeker-form-field">
             <mat-label class="seeker-label"> Vigencia </mat-label>
-            <mat-select formControlName="fecha_de_vigencia" [disabled]="searchForm.get('producto')?.value == 0">
+            <mat-select formControlName="fecha_de_vigencia" (selectionChange)="validarBotonValor()" [disabled]="searchForm.get('producto')?.value == 0">
               <mat-option *ngFor="let fecha of listaFechas" [value]="fecha.fecha_de_vigencia">
                 {{ formatearFecha(fecha.fecha_de_vigencia) }}</mat-option>
             </mat-select>

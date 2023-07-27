@@ -30,6 +30,7 @@ export class ExtencionFuenteIngresoComponent {
   dashboard: ExtencionFuenteIngresoDashboardComponent;
   fuente_ingreso: IExtencionFuenteIngreso;
   fuenteIngreso: IFuenteIngreso;
+  validaBoton: boolean = true;
 
   constructor(
     private extencionFuenteIngreso: ExtencionFuenteIngresoService,
@@ -43,8 +44,8 @@ export class ExtencionFuenteIngresoComponent {
 
   ngOnInit(): void {
     if (!this.fuenteIngreso) {
-        this.router.navigate(['parametros/fuentes-ingreso']);
-      }
+      this.router.navigate(['parametros/fuentes-ingreso']);
+    }
   }
 
   public handleSearch(inputValue: any): void {
@@ -59,13 +60,18 @@ export class ExtencionFuenteIngresoComponent {
   }
 
   public validarBoton(): boolean {
-    if (this.filter)
+    if (this.filter) {
       return this.filter.searchForm.get('producto')?.value != 0 &&
         this.filter.searchForm.get('producto_des')?.value != '' &&
         this.filter.searchForm.get('fecha_de_vigencia')?.value != 0
         ? false
-        : true;
+        : true 
+    }
     return false;
+  }
+
+  onValidaBotonChange(valor: boolean) {
+    this.validaBoton = valor;
   }
 
   public nuevaExtencionFuenteIngreso(): void {
