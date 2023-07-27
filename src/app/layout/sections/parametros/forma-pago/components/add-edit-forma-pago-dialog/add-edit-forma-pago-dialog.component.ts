@@ -46,7 +46,6 @@ export class AddEditFormaPagoDialogComponent {
   ) {
     this.setUpForm();
     this.configureValidators();
-    console.log(this.data);
   }
 
   public nextStep(): void {

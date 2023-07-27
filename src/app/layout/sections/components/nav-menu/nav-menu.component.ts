@@ -119,9 +119,21 @@ export class NavMenuComponent {
           icon: 'keyboard_arrow_right',
         },
         {
+          // 31 - TAMBOS
+          title: 'Tambos',
+          url: '/parametros/tambos',
+          icon: 'keyboard_arrow_right',
+        },
+        {
           // 34 - EMPRESA FACTURA
-          title: 'Empresas que Facturan',
+          title: 'Empresa que Factura',
           url: '/parametros/empresa-factura',
+          icon: 'keyboard_arrow_right',
+        },
+        {
+          // 35 - MONTOS MINIMOS
+          title: 'Montos Minimos',
+          url: '/parametros/montos-minimo',
           icon: 'keyboard_arrow_right',
         },
       ],

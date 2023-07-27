@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 // * Services
 import { UtilService } from 'src/app/core/services/util.service';
+import { ExtencionFuenteIngresoService } from 'src/app/core/services/extencion-fuente-ingreso.service';
 // * Interfaces
 import { IExtencionFuenteIngreso } from 'src/app/core/models/extencion-fuente-ingreso.interface';
 // * Material
@@ -11,7 +12,6 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 // * Components
 import { AddEditExtencionFuenteIngresoComponent } from '../add-edit-extencion-fuente-ingreso/add-edit-extencion-fuente-ingreso.component';
-import { ExtencionFuenteIngresoService } from 'src/app/core/services/extencion-fuente-ingreso.service';
 // * Others
 import {
   animate,
@@ -54,7 +54,7 @@ export class ExtencionFuenteIngresoDashboardComponent {
     private cdr: ChangeDetectorRef,
     private utilService: UtilService,
     private _liveAnnouncer: LiveAnnouncer,
-    private _extencionFuenteIngreso: ExtencionFuenteIngresoService
+    private extencionFuenteIngresoService: ExtencionFuenteIngresoService
   ) {}
 
   ngOnInit(): void {
@@ -74,9 +74,9 @@ export class ExtencionFuenteIngresoDashboardComponent {
     };
   }
 
-  private getExtencionFuenteIngraso(): void {
+  public getExtencionFuenteIngraso(): void {
     this.utilService.openLoading();
-    this._extencionFuenteIngreso
+    this.extencionFuenteIngresoService
       .CRUD(
         JSON.stringify({
           par_modo: 'F',
@@ -133,7 +133,7 @@ export class ExtencionFuenteIngresoDashboardComponent {
       AddEditExtencionFuenteIngresoComponent,
       {
         data: {
-          title: `EDITAR EXTENSION DE FUENTE DE INGRESO`,
+          title: `EDITAR COEFICIENTE DE FUENTE DE INGRESO`,
           edit: true,
           par_modo: 'U',
           codigo_fuente_ingreso: fuenteingreso?.codigo_fuente_ingreso,
@@ -156,7 +156,7 @@ export class ExtencionFuenteIngresoDashboardComponent {
       next: (res) => {
         if (res) {
           this.utilService.openLoading();
-          this._extencionFuenteIngreso.CRUD(res.datos).subscribe({
+          this.extencionFuenteIngresoService.CRUD(res.datos).subscribe({
             next: () => {
               this.utilService.notification(
                 'Los coeficientes de fuente de ingreso se ha editado extiosamente. ',
@@ -165,13 +165,13 @@ export class ExtencionFuenteIngresoDashboardComponent {
             },
             error: (err) => {
               this.utilService.closeLoading();
+              this.editExtencionFuenteIngraso(res);
               err.status == 0
                 ? this.utilService.notification('Error de conexión. ', 'error')
                 : this.utilService.notification(
                     `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}. `,
                     'error'
                   );
-              this.editExtencionFuenteIngraso(res);
             },
             complete: () => {
               this.utilService.closeLoading();
@@ -188,7 +188,7 @@ export class ExtencionFuenteIngresoDashboardComponent {
   ): void {
     this.dialog.open(AddEditExtencionFuenteIngresoComponent, {
       data: {
-        title: `VER EXTENSION DE FUENTE DE INGRESO`,
+        title: `VER COEFICIENTE DE FUENTE DE INGRESO`,
         edit: false,
         par_modo: 'R',
         codigo_fuente_ingreso: fuenteingreso?.codigo_fuente_ingreso,

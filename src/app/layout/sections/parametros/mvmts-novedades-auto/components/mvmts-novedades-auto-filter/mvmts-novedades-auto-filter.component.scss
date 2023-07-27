@@ -24,6 +24,7 @@
 .seeker-fields-container {
   align-items: center;
   width: 100%;
+  column-gap: 0.5rem;
 }
 
 h4 {
@@ -33,14 +34,15 @@ h4 {
 
 .cont {
   display: grid;
-  grid-template-columns: 1fr 120px;
+  grid-template-columns: 1fr 80px;
+  gap: 0.5rem;
 }
 
 .icon-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
+  gap: 0.5rem;
 }
 
 .icon {

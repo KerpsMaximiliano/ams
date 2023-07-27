@@ -1,0 +1,66 @@
+/*
+ * Evita un espaciado innecesario en la primer columna.
+*/
+th.mat-header-cell:first-of-type,
+td.mat-cell:first-of-type {
+  padding-left: 0px;
+}
+
+/*
+ * Texto alineado a la izquierda.
+*/
+.mat-column-seccion.mat-header-cell,
+.mat-column-seccion.mat-cell {
+  text-align: left !important;
+  padding-left: 1vw;
+  word-break: break-all;
+}
+
+/*
+ * Número y fecha alineado a la derecha.
+*/
+.mat-column-actividad.mat-header-cell,
+.mat-column-actividad.mat-cell,
+.mat-column-fecha_vigencia.mat-header-cell,
+.mat-column-fecha_vigencia.mat-cell,
+.mat-column-importe_minimo.mat-header-cell,
+.mat-column-importe_minimo.mat-cell  {
+  text-align: right !important;
+  padding-right: 1vw;
+  word-break: break-all;
+}
+
+/*
+ * Ancho mínimo por columna.
+*/
+.mat-column-actividad.mat-header-cell,
+.mat-column-actividad.mat-cell {
+  min-width: 100px;
+}
+
+.mat-column-seccion.mat-header-cell,
+.mat-column-seccion.mat-cell {
+  min-width: 80px;
+}
+
+.mat-column-fecha_vigencia.mat-header-cell,
+.mat-column-fecha_vigencia.mat-cell {
+  min-width: 200px;
+}
+
+.mat-column-importe_minimo.mat-header-cell,
+.mat-column-importe_minimo.mat-cell {
+  min-width: 140px;
+}
+
+.mat-column-actions.mat-header-cell,
+.mat-column-actions.mat-cell {
+  min-width: 100px;  
+}
+
+/*
+ * Oculta la tabla y paginación hasta que existan datos.
+*/
+.d-none {
+  display: none;
+}

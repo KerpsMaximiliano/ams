@@ -111,6 +111,8 @@ export class AddEditFuenteIngresoDialogComponent {
       }
       this.filtroFuente();
     }
+    console.log(this.formGroup.get('empresa_asociada')?.value);
+    
   }
 
   // * crea una lista con las fuente de ingreso

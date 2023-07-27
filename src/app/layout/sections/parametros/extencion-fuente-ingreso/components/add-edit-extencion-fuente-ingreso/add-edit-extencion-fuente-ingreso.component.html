@@ -8,12 +8,10 @@
       <h3>FECHA VIGENCIA</h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
         <input matInput formControlName="fecha_de_vigencia" />
-        <mat-error
-          *ngIf="
+        <mat-error *ngIf="
             formGroup.get('fecha_de_vigencia')?.invalid &&
             formGroup.get('fecha_de_vigencia')?.touched
-          "
-        >
+          ">
           {{ getErrorMessage(formGroup.get("fecha_de_vigencia")) }}
         </mat-error>
       </mat-form-field>
@@ -22,12 +20,10 @@
       <h3>FUENTE DE INGRESO</h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
         <input matInput formControlName="fuente_ingreso" />
-        <mat-error
-          *ngIf="
+        <mat-error *ngIf="
             formGroup.get('fuente_ingreso')?.invalid &&
             formGroup.get('fuente_ingreso')?.touched
-          "
-        >
+          ">
           {{ getErrorMessage(formGroup.get("fuente_ingreso")) }}
         </mat-error>
       </mat-form-field>
@@ -37,62 +33,46 @@
       <div class="content">
         <mat-form-field class="seeker-form-field" appearance="outline">
           <input matInput formControlName="producto_des" />
-          <mat-error
-            *ngIf="
+          <mat-error *ngIf="
               formGroup.get('producto_des')?.invalid &&
               formGroup.get('producto_des')?.touched
-            "
-          >
+            ">
             {{ getErrorMessage(formGroup.get("producto_des")) }}
           </mat-error>
         </mat-form-field>
-        <div class="icon">
-          <mat-icon class="material-symbols-outlined" (click)="getProducto()"
-            >search</mat-icon
-          >
-        </div>
-        <div class="icon">
-          <mat-icon class="material-symbols-outlined" (click)="limpiar()"
-            >close</mat-icon
-          >
-        </div>
       </div>
     </div>
     <div class="seeker-fields-container">
       <h3>REMUNERACION DESDE ($)</h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input
-          matInput
-          formControlName="remuneracion_desde"
-          step="0.01"
-          type="number"
-        />
-        <mat-error
-          *ngIf="
+        <input matInput (ngModelChange)="Remuneracion()" formControlName="remuneracion_desde" maxlength="12"
+          pattern="^\d{1,9}(\,\d{1,2})?$" [max]="remuneracionMax" [min]="0" />
+        <mat-error *ngIf="
             formGroup.get('remuneracion_desde')?.invalid &&
             formGroup.get('remuneracion_desde')?.touched
-          "
-        >
+          ">
           {{ getErrorMessage(formGroup.get("remuneracion_desde")) }}
+        </mat-error>
+        <mat-error *ngIf="formGroup.get('remuneracion_desde')?.errors?.['error']
+          && formGroup.get('remuneracion_desde')?.value != ''">
+          {{ formGroup.get('remuneracion_desde')?.errors?.['error'] }}
         </mat-error>
       </mat-form-field>
     </div>
     <div class="seeker-fields-container">
       <h3>REMUNERACION HASTA ($)</h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input
-          matInput
-          formControlName="remuneracion_hasta"
-          step="0.01"
-          type="number"
-        />
-        <mat-error
-          *ngIf="
+        <input matInput (ngModelChange)="Remuneracion()" formControlName="remuneracion_hasta"
+          pattern="^\d{1,9}(\,\d{1,2})?$" maxlength="12" [max]="remuneracionMax" [min]="0" />
+        <mat-error *ngIf="
             formGroup.get('remuneracion_hasta')?.invalid &&
             formGroup.get('remuneracion_hasta')?.touched
-          "
-        >
+          ">
           {{ getErrorMessage(formGroup.get("remuneracion_hasta")) }}
+        </mat-error>
+        <mat-error *ngIf="formGroup.get('remuneracion_hasta')?.errors?.['error']
+          && formGroup.get('remuneracion_hasta')?.value != ''">
+          {{ formGroup.get('remuneracion_hasta')?.errors?.['error'] }}
         </mat-error>
       </mat-form-field>
     </div>
@@ -100,133 +80,95 @@
       <div class="content-part">
         <h3>COEFICIENTE 1</h3>
         <mat-form-field class="seeker-form-field1" appearance="outline">
-          <input
-            matInput
-            formControlName="coeficiente_uno"
-            type="number"
-            min="0.00"
-            step="0.01"
-            max="1"
-          />
-          <mat-error
-            *ngIf="
+          <input matInput formControlName="coeficiente_uno" pattern="^\d{1}(\,\d{1,2})?$" maxlength="4" [max]="0.99"
+            [min]="0.0" />
+          <mat-error *ngIf="
               formGroup.get('coeficiente_uno')?.invalid &&
               formGroup.get('coeficiente_uno')?.touched
-            "
-          >
+            ">
             {{ getErrorMessage(formGroup.get("coeficiente_uno")) }}
+          </mat-error>
+          <mat-error *ngIf="formGroup.get('coeficiente_uno')?.errors?.['error']">
+            {{ formGroup.get('coeficiente_uno')?.errors?.['error'] }}
           </mat-error>
         </mat-form-field>
       </div>
       <div class="content-part">
         <h3>COEFICIENTE 2</h3>
         <mat-form-field class="seeker-form-field1" appearance="outline">
-          <input
-            matInput
-            formControlName="coeficiente_dos"
-            type="number"
-            min="0"
-            step="0.01"
-            max="1"
-          />
-          <mat-error
-            *ngIf="
+          <input matInput formControlName="coeficiente_dos" pattern="^\d{1}(\,\d{1,2})?$" maxlength="4" [max]="0.99"
+            [min]="0.0" />
+          <mat-error *ngIf="
               formGroup.get('coeficiente_dos')?.invalid &&
               formGroup.get('coeficiente_dos')?.touched
-            "
-          >
+            ">
             {{ getErrorMessage(formGroup.get("coeficiente_dos")) }}
+          </mat-error>
+          <mat-error *ngIf="formGroup.get('coeficiente_dos')?.errors?.['error']">
+            {{ formGroup.get('coeficiente_dos')?.errors?.['error'] }}
           </mat-error>
         </mat-form-field>
       </div>
       <div class="content-part">
         <h3>COEFICIENTE 3</h3>
         <mat-form-field class="seeker-form-field1" appearance="outline">
-          <input
-            matInput
-            formControlName="coeficiente_tres"
-            type="number"
-            min="0"
-            step="0.01"
-            max="1"
-          />
-          <mat-error
-            *ngIf="
+          <input matInput formControlName="coeficiente_tres" pattern="^\d{1}(\,\d{1,2})?$" maxlength="4" [max]="0.99"
+            [min]="0.0" />
+          <mat-error *ngIf="
               formGroup.get('coeficiente_tres')?.invalid &&
               formGroup.get('coeficiente_tres')?.touched
-            "
-          >
+            ">
             {{ getErrorMessage(formGroup.get("coeficiente_tres")) }}
+          </mat-error>
+          <mat-error *ngIf="formGroup.get('coeficiente_tres')?.errors?.['error']">
+            {{ formGroup.get('coeficiente_tres')?.errors?.['error'] }}
           </mat-error>
         </mat-form-field>
       </div>
       <div class="content-part">
         <h3>COEFICIENTE 4</h3>
         <mat-form-field class="seeker-form-field1" appearance="outline">
-          <input
-            matInput
-            formControlName="coeficiente_cuatro"
-            type="number"
-            min="0"
-            step="0.01"
-            max="1"
-          />
-          <mat-error
-            *ngIf="
+          <input matInput formControlName="coeficiente_cuatro" pattern="^\d{1}(\,\d{1,2})?$" maxlength="4" [max]="0.99"
+            [min]="0.0" />
+          <mat-error *ngIf="
               formGroup.get('coeficiente_cuatro')?.invalid &&
               formGroup.get('coeficiente_cuatro')?.touched
-            "
-          >
+            ">
             {{ getErrorMessage(formGroup.get("coeficiente_cuatro")) }}
+          </mat-error>
+          <mat-error *ngIf="formGroup.get('coeficiente_cuatro')?.errors?.['error']">
+            {{ formGroup.get('coeficiente_cuatro')?.errors?.['error'] }}
           </mat-error>
         </mat-form-field>
       </div>
       <div class="content-part">
         <h3>COEFICIENTE 5</h3>
         <mat-form-field class="seeker-form-field1" appearance="outline">
-          <input
-            matInput
-            formControlName="coeficiente_cinco"
-            type="number"
-            min="0"
-            step="0.01"
-            max="1"
-          />
-          <mat-error
-            *ngIf="
+          <input matInput formControlName="coeficiente_cinco" pattern="^\d{1}(\,\d{1,2})?$" maxlength="4" [max]="0.99"
+            [min]="0.0" />
+          <mat-error *ngIf="
               formGroup.get('coeficiente_cinco')?.invalid &&
               formGroup.get('coeficiente_cinco')?.touched
-            "
-          >
+            ">
             {{ getErrorMessage(formGroup.get("coeficiente_cinco")) }}
+          </mat-error>
+          <mat-error *ngIf="formGroup.get('coeficiente_cinco')?.errors?.['error']">
+            {{ formGroup.get('coeficiente_cinco')?.errors?.['error'] }}
           </mat-error>
         </mat-form-field>
       </div>
     </div>
     <div *ngIf="data.edit; else other_content" class="buttons-container">
-      <button
-        class="primary-button icon-button"
-        type="button"
-        (click)="closeDialog()"
-      >
+      <button class="primary-button icon-button" type="button" (click)="closeDialog()">
         <mat-icon> close </mat-icon>
         Cancelar
       </button>
-      <button
-        *ngIf="data.par_modo == 'C'"
-        class="primary-button icon-button"
-        type="button"
-        (click)="closeOpenDialog()"
-        [disabled]="formGroup.invalid"
-      >
+      <button *ngIf="data.par_modo == 'C'" class="primary-button icon-button" type="button" (click)="closeOpenDialog()"
+        [disabled]="formGroup.invalid || validarRemuneracion">
         <mat-icon> done </mat-icon>
         Guardar y Nuevo
       </button>
-      <button
-        class="primary-button icon-button"
-        type="submit"
-        [disabled]="formGroup.invalid"
-      >
+      <button class="primary-button icon-button" type="submit" [disabled]="formGroup.invalid || validarRemuneracion">
         <mat-icon> done </mat-icon>
         Guardar
       </button>

@@ -38,10 +38,10 @@
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>Acciones</th>
       <td mat-cell *matCellDef="let fuenteIngreso">
-        <button class="action-button" (click)="viewFuenteIngreso(fuenteIngreso)">
+        <button class="action-button" (click)="view(fuenteIngreso)">
           <mat-icon class="edit-icon" aria-label="false"> visibility </mat-icon>
         </button>
-        <button class="action-button" (click)="editFuenteIngreso(fuenteIngreso)">
+        <button class="action-button" (click)="edit(fuenteIngreso)">
           <mat-icon class="delete-icon" aria-label="false"> edit </mat-icon>
         </button>
       </td>

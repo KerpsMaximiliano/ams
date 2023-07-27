@@ -12,15 +12,12 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class MvmtsNovedadesAutoService {
-  
   constructor(
     private http: HttpClient,
     private environmentService: EnvironmentService
   ) {}
 
-  CRUD(
-    body: string
-  ): Observable<MvmtsNovedadesAutoResponse> {
+  CRUD(body: string): Observable<MvmtsNovedadesAutoResponse> {
     return this.http.post<MvmtsNovedadesAutoResponse>(
       `${this.environmentService.api}/abmmovimientosnovauto`,
       body,

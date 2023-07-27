@@ -97,8 +97,7 @@ export class AddEditEmpresaFacturaComponent {
         error: (err: any) => {
           this.UtilService.closeLoading();
         },
-        complete: () => {
-        },
+        complete: () => {},
       });
   }
 
@@ -299,7 +298,6 @@ export class AddEditEmpresaFacturaComponent {
     this.empresaFacturaService.setBack(false);
     this.router.navigate([url]);
   }
-
   // * busca los datos de las localidad
   public searchLocalidad(): void {
     const modalSetLocalidad = this.dialog.open(ModalLocalidadComponent, {

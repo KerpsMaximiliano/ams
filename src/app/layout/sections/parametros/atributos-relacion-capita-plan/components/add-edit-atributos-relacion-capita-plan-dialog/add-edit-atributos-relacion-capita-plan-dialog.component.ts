@@ -462,20 +462,12 @@ export class AddEditAtributosRelacionCapitaPlanDialogComponent {
           isAlphanumeric(),
         ])
       ),
-      recupera_Ob_Soc: new UntypedFormControl(
-        {
-          value: this.data.recupera_Ob_Soc
-            ? this.data.recupera_Ob_Soc.trim()
-            : '',
-          disabled: this.data.par_modo === 'R',
-        },
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(1),
-          Validators.maxLength(1),
-          isAlphanumeric(),
-        ])
-      ),
+      recupera_Ob_Soc: new UntypedFormControl({
+        value: this.data.recupera_Ob_Soc
+          ? this.data.recupera_Ob_Soc.trim()
+          : '',
+        disabled: this.data.par_modo === 'R',
+      }),
     });
   }
 

@@ -3,7 +3,7 @@ import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 // Letras y números.
 export function isAlphanumeric(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
-    let regex = /^[a-zA-Z0-9]*$/;
+    const regex = /^[a-zA-Z0-9]*$/;
     return regex.test(control.value) ? null : { notAlphanumeric: true };
   };
 }
@@ -11,7 +11,7 @@ export function isAlphanumeric(): ValidatorFn {
 // Letras, números y espacios.
 export function isAlphanumericWithSpaces(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
-    let regex = /^[A-Za-z0-9\s]+$/g;
+    const regex = /^[A-Za-z0-9\s]+$/g;
     return regex.test(control.value)
       ? null
       : { notAlphanumericWithSpaces: true };
@@ -21,7 +21,7 @@ export function isAlphanumericWithSpaces(): ValidatorFn {
 // Letras.
 export function isAlpha(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
-    let regex = /^[a-zA-Z]+$/;
+    const regex = /^[a-zA-Z]+$/;
     return regex.test(control.value) ? null : { notAlpha: true };
   };
 }
@@ -29,15 +29,23 @@ export function isAlpha(): ValidatorFn {
 // Números.
 export function isNumeric(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
-    let regex = /^[0-9]+$/;
+    const regex = /^[0-9]+$/;
     return regex.test(control.value) ? null : { notNumeric: true };
+  };
+}
+
+// Decimal.
+export function isDecimal(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const regex = /^\d{1,3}(?:,\d{1,3})?$/;
+    return regex.test(control.value) ? null : { notDecimal: true };
   };
 }
 
 // Distinto de espacios.
 export function notOnlySpaces(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
-    let regex = /^\s+$/;
+    const regex = /^\s+$/;
     return regex.test(control.value) ? { onlySpaces: true } : null;
   };
 }
@@ -45,42 +53,91 @@ export function notOnlySpaces(): ValidatorFn {
 // Distinto de cero.
 export function notZeroValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
-    let regex = /^[1-9][0-9]*$/;
+    const regex = /^[1-9][0-9]*$/;
     return regex.test(control.value) ? null : { differentFromZero: true };
   };
 }
 
-// Distinto de caracter especial.
-export function noSpecialCharacters(): ValidatorFn {
+// No caracter o conjunto de caracteres.
+export function notChar(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
-    let regex = /^[a-zA-Z0-9\s]*$/;
-    return regex.test(control.value) ? null : { hasSpecialCharacters: true };
+    const regex = /[a-zA-Z]+/;
+    return !regex.test(control.value) ? null : { isChar: true };
   };
 }
 
-// Porcentaje.
-export function isPercentage(): ValidatorFn {
+// Solo número y coma.
+export function isNumberAndComma(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
-    let regex = /^((?:|0|[1-9]\d?|100)(?:\.\d{1,2})?)$/;
-    return regex.test(control.value) ? null : { notPercentage: true };
+    const regex = /^[0-9,]*$/;
+    return regex.test(control.value) ? null : { notIsNumberAndComma: true };
   };
 }
 
-// Letras, números, espacios y puntos.
-export function isAlphanumericWithPointAndSpaces(): ValidatorFn {
+// Máximo dos decimales.
+export function onlyTwoDecimal(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
-    let regex = /^[a-zA-Z0-9.\s]+$/;
-    return regex.test(control.value)
-      ? null
-      : { notAlphanumericWithPoint: true };
+    const regex = /^\d+(,\d{1,2})?$/;
+    return regex.test(control.value) ? null : { notOnlyTwoDecimal: true };
   };
 }
 
-// Decimal.
-export function isDecimal(): ValidatorFn {
+/**
+ * Verifica el valor máximo.
+ * CU33 - Tambos: 'grasa_ent' = 999999. Final: 9999999,99.
+ * CU35 - Montos mínimo: 'importe_minimo' = 999999999. Final: 999999999,99.
+ * @param num Valor máximo de números enteros, es decir, sin decimal.
+ * @returns null | { notMax: true, maxValue: num }
+ */
+export function isMax(option: number): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
-    let regex = /^\d{1,3}(?:,\d{1,3})?$/;
-    return regex.test(control.value) ? null : { notDecimal: true };
+    let regex;
+    let maxValue;
+    switch (option) {
+      case 999999:
+        regex = /^(999999(\.00)?|999999\.99|\d{1,6}(\.\d{1,2})?)$/;
+        maxValue = '999999';
+        break;
+      case 999999999:
+        regex = /^(999999999(\.00)?|999999999\.99|\d{1,9}(\.\d{1,2})?)$/;
+        maxValue = '999999999';
+        break;
+      default:
+        break;
+    }
+    let value = control.value;
+    if (control.value.includes(',')) value = control.value.replace(',', '.');
+    return regex?.test(value) ? null : { notMax: true, maxValue: maxValue };
+  };
+}
+
+// Valor requerido después de una coma.
+export function afterComma(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    if (control.value.includes(',')) {
+      const regex = /,(\S+)/;
+      return regex.test(control.value) ? null : { notAfterComma: true };
+    }
+    return null;
+  };
+}
+
+export function afterCommaNotZero(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    if (control.value.includes(',')) {
+      const regex = /,0*([1-9]\d*|0[1-9]\d*)/;
+      return regex.test(control.value) ? null : { notAfterCommaNotZero: true };
+    }
+    return null;
+  };
+}
+
+// Cantidad de digitos numericos
+export function isNumberDigitsAndDecimal(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const value = control.value;
+    const regex = /^[0-9]{0,9}(,[0-9]{1,2})?$|^[0-9]{0,11}$/;
+    return regex.test(value) ? null : { numberDigitsAndDecimal: true };
   };
 }
 
@@ -121,23 +178,21 @@ export function getErrorMessage(control: any) {
     if (control.errors?.['notDecimal']) {
       return `Debe ser un número que represente un decimal o un entero, maximo 3 enteros y 3 decimales. Ej: 121,525`;
     }
+    if (control.errors?.['isChar']) {
+      return `No se permiten letras.`;
+    }
+    if (control.errors?.['notIsNumberAndComma']) {
+      return `Solo se permite un valor númerico. `;
+    }
+    if (control.errors?.['notAfterComma']) {
+      return `Debe de tener al menos un decimal.`;
+    }
+    if (control.errors?.['notOnlyTwoDecimal']) {
+      return `Solo se permiten hasta 2 (dos) decimales.`;
+    }
+    if (control.errors?.['notMax']) {
+      return `Valor máximo: ${control.errors?.['maxValue']},99.`;
+    }
   }
   return '';
-}
-
-// Verificar
-export function isAlphanumericWithSlash(): ValidatorFn {
-  return (control: AbstractControl): ValidationErrors | null => {
-    let regex = /^[a-zA-Z0-9\/]*$/;
-    return regex.test(control.value)
-      ? null
-      : { notAlphanumericWithSlash: true };
-  };
-}
-
-export function notOnlySpacesValidator(): ValidatorFn {
-  return (control: AbstractControl): ValidationErrors | null => {
-    let regex = /^\s+$/;
-    return regex.test(control.value) ? { notOnlySpaces: true } : null;
-  };
 }

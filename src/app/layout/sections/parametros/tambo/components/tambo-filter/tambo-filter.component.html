@@ -1,0 +1,46 @@
+<section class="seeker-section">
+  <mat-accordion>
+    <mat-expansion-panel class="mat-elevation-z1">
+      <mat-expansion-panel-header floating>
+        <mat-panel-title> Opciones de búsqueda </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <div class="seeker-fields-container-special pb-none">
+        <h4> Entidad </h4>
+        <mat-form-field class="seeker-form-field" appearance="outline">
+          <input matInput class="seeker-input" disabled #inputEntidad placeholder="Busque una entidad">
+        </mat-form-field>
+        <div class="icon-container">
+          <div (click)="searchEntidad()" class="icon">
+            <mat-icon class="material-symbols-outlined"> search </mat-icon>
+          </div>
+          <div (click)="clear(inputEntidad)" [class]="inputEntidad.value ? 'icon' : 'icon disabled fix'">
+            <mat-icon class="material-symbols-outlined"> close </mat-icon>
+          </div>
+        </div>
+      </div>
+
+      <div class="seeker-fields-container pb-none">
+        <h4> Tambo </h4>
+        <mat-form-field class="seeker-form-field" appearance="outline">
+          <input matInput #tambo class="seeker-input"
+            [placeholder]="!inputEntidad.value ? 'Entidad requerida' : 'Ingrese un tambo'"
+            (keydown.enter)="performSearch(tambo.value)" maxlength="30" [disabled]="!inputEntidad?.value" />
+        </mat-form-field>
+      </div>
+
+      <div class=" buttons-container">
+        <button class="primary-button icon-button" type="button" [disabled]="!inputEntidad?.value"
+          (click)="performSearch(tambo.value)">
+          <mat-icon> done </mat-icon>
+          Buscar
+        </button>
+        <button class="primary-button icon-button" type="button" (click)="clear(tambo)"
+          [disabled]="tambo.value.length === 0">
+          <mat-icon> close </mat-icon>
+          Limpiar
+        </button>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</section>

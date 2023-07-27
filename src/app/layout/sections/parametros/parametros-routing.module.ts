@@ -44,8 +44,14 @@ import { MvmtsNovedadesAutoComponent } from './mvmts-novedades-auto/mvmts-noveda
 import { AtributosRelacionCapitaPlanComponent } from './atributos-relacion-capita-plan/atributos-relacion-capita-plan.component';
 // 32 - EXTENCION FUENTES DE INGRESOS
 import { ExtencionFuenteIngresoComponent } from './extencion-fuente-ingreso/extencion-fuente-ingreso.component';
+// 33 - TAMBOS
+import { TamboComponent } from './tambo/tambo.component';
 // 34 - EMPRESA FACTURA
 import { EmpresaFacturaComponent } from './empresa-factura/empresa-factura.component';
+// 34 B - PAGO LINK
+import { PagoLinkComponent } from './pago-link/pago-link.component';
+// 35 - MONTOS MINIMO
+import { MontoMinimoComponent } from './montos-minimo/monto-minimo.component';
 
 const routes: Routes = [
   {
@@ -133,8 +139,20 @@ const routes: Routes = [
     component: ExtencionFuenteIngresoComponent,
   },
   {
+    path: 'parametros/tambos',
+    component: TamboComponent,
+  },
+  {
     path: 'parametros/empresa-factura',
     component: EmpresaFacturaComponent,
+  },
+  {
+    path: 'parametros/pago-link',
+    component: PagoLinkComponent,
+  },
+  {
+    path: 'parametros/montos-minimo',
+    component: MontoMinimoComponent,
   },
 ];
 

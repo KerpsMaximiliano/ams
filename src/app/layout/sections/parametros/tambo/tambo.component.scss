@@ -1,0 +1,16 @@
+.disabled {
+  opacity: 0.5;
+  pointer-events: pointer;
+  cursor: not-allowed;
+  filter: grayscale(100%);
+}
+
+.disabled:hover {
+  filter: grayscale(100%);
+}
+
+.icon {
+  color: #fff;
+  background-color: var(--coral-sancor);
+  font-size: 1.1rem !important;
+}

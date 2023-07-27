@@ -51,8 +51,8 @@ export class ProductoComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     }
 
-    if (this.empresaFacturaService.getEmpresas()) {
-      this.empresaFactura = this.empresaFacturaService.getEmpresas();
+    if (this.empresaFacturaService.get()) {
+      this.empresaFactura = this.empresaFacturaService.get();
       this.isLoadingError = false;
       this.isLoadingEmpresaFactura = true;
     } else {
@@ -257,7 +257,7 @@ export class ProductoComponent implements OnInit, AfterViewInit, OnDestroy {
           this.isLoadingError = true;
         },
         complete: () => {
-          this.empresaFacturaService.setEmpresas(this.empresaFactura);
+          this.empresaFacturaService.set(this.empresaFactura);
           this.utilService.closeLoading();
         },
       });

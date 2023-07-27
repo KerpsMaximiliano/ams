@@ -48,7 +48,7 @@ import { IMotivoMovimiento } from 'src/app/core/models/motivo-movimiento.interfa
   templateUrl: './add-edit-mvmts-novedades-auto-dialog.component.html',
   styleUrls: ['./add-edit-mvmts-novedades-auto-dialog.component.scss'],
 })
-export class AddEditMvmtsNovedadesAutoDialogComponent implements OnInit {
+export class AddEditMvmtsNovedadesAutoDialogComponent {
   public getErrorMessage = getErrorMessage;
   public formGroup: UntypedFormGroup;
   public activeTabIndex = 0;
@@ -71,9 +71,7 @@ export class AddEditMvmtsNovedadesAutoDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<ConfirmDialogComponent>,
     private utilService: UtilService,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {}
-
-  ngOnInit(): void {
+  ) {
     this.setUpForm();
   }
 
@@ -144,6 +142,10 @@ export class AddEditMvmtsNovedadesAutoDialogComponent implements OnInit {
       case 4:
         this.formGroup.get('plan_cambio')?.setValue(undefined);
         this.data.plan_cambio = undefined;
+        break;
+      case 5:
+        this.formGroup.get('codigo_motivo')?.setValue(undefined);
+        this.data.codigo_motivo = undefined;
         break;
     }
   }
@@ -243,7 +245,7 @@ export class AddEditMvmtsNovedadesAutoDialogComponent implements OnInit {
       .CRUD(
         JSON.stringify({
           par_modo: 'P',
-          producto_origen: this.data.producto_origen ,
+          producto_origen: this.data.producto_origen,
         })
       )
       .subscribe({
@@ -338,7 +340,7 @@ export class AddEditMvmtsNovedadesAutoDialogComponent implements OnInit {
         JSON.stringify({
           par_modo: 'O',
           tipo_motivo: this.formGroup.get('movimiento_rel')?.value,
-          descripcion: ""
+          descripcion: '',
         })
       )
       .subscribe({
@@ -352,6 +354,11 @@ export class AddEditMvmtsNovedadesAutoDialogComponent implements OnInit {
           this.utilService.closeLoading();
           err.status == 0
             ? this.utilService.notification('Error de conexión. ', 'error')
+            : err.status == 404
+            ? this.utilService.notification(
+                `No existe un motivo de movimiento con el movimiento seleccionado`,
+                'error'
+              )
             : this.utilService.notification(
                 `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
                 'error'
@@ -413,7 +420,6 @@ export class AddEditMvmtsNovedadesAutoDialogComponent implements OnInit {
     });
   }
 
-
   private setMotivoMovimiento(data: IMotivoMovimiento[]) {
     const modalSetProd = this.dialog.open(SetMotivoMovimientoDialogComponent, {
       data: {
@@ -427,7 +433,9 @@ export class AddEditMvmtsNovedadesAutoDialogComponent implements OnInit {
           this.data.codigo_motivo = res.id_motivo;
           this.formGroup
             .get('codigo_motivo')
-            ?.setValue(res.descripcion ? res.descripcion.trim() : res.id_motivo);
+            ?.setValue(
+              res.descripcion ? res.descripcion.trim() : res.id_motivo
+            );
         }
       },
     });
@@ -480,9 +488,15 @@ export class AddEditMvmtsNovedadesAutoDialogComponent implements OnInit {
       next: (res) => {
         if (res) {
           this.data.plan_origen = res.plan ? res.plan.trim() : res.plan;
-          this.formGroup
-            .get('plan_origen')
-            ?.setValue(res.descripcion);
+          res.plan.trim().length > 0 && res.descripcion.trim().length > 0
+            ? this.formGroup
+                .get('plan_origen')
+                ?.setValue(res.plan.trim() + ' - ' + res.descripcion.trim())
+            : this.formGroup
+                .get('plan_origen')
+                ?.setValue(
+                  res.plan.value > 0 ? res.plan.trim() : res.descripcion
+                );
         }
       },
     });
@@ -516,27 +530,26 @@ export class AddEditMvmtsNovedadesAutoDialogComponent implements OnInit {
       next: (res) => {
         if (res) {
           this.data.producto_relacionado = res.producto_administrador
-          ? res.producto_administrador
-          : res.codigo_producto || 0;
-        this.formGroup
-          .get('producto_relacionado')
-          ?.setValue(
-            res.descripcion_producto_administrador
-              ? res.descripcion_producto_administrador.trim()
-              : res.descripcion_producto.trim() || ''
-          );
+            ? res.producto_administrador
+            : res.codigo_producto || 0;
+          this.formGroup
+            .get('producto_relacionado')
+            ?.setValue(
+              res.descripcion_producto_administrador
+                ? res.descripcion_producto_administrador.trim()
+                : res.descripcion_producto.trim() || ''
+            );
 
-        this.data.sub_prod_rel = res.producto_administrador
-          ? res.codigo_producto || 0
-          : 0;
-        this.formGroup
-          .get('sub_prod_rel')
-          ?.setValue(
-            res.descripcion_producto_administrador
-              ? res.descripcion_producto.trim() || ''
-              : ''
-          );
-
+          this.data.sub_prod_rel = res.producto_administrador
+            ? res.codigo_producto || 0
+            : 0;
+          this.formGroup
+            .get('sub_prod_rel')
+            ?.setValue(
+              res.descripcion_producto_administrador
+                ? res.descripcion_producto.trim() || ''
+                : ''
+            );
         }
       },
     });
@@ -563,7 +576,9 @@ export class AddEditMvmtsNovedadesAutoDialogComponent implements OnInit {
     this.formGroup = new UntypedFormGroup({
       capita_origen: new UntypedFormControl(
         {
-          value: this.data.nombre_fuente ? this.data.nombre_fuente.trim() : this.data.capita_origen,
+          value: this.data.nombre_fuente
+            ? this.data.nombre_fuente.trim()
+            : this.data.capita_origen,
           disabled: this.data.par_modo !== 'C',
         },
         Validators.compose([Validators.required])
@@ -571,18 +586,20 @@ export class AddEditMvmtsNovedadesAutoDialogComponent implements OnInit {
       // Producto
       producto_origen: new UntypedFormControl(
         {
-          value: this.data.nombre_prod ? this.data.nombre_prod.trim() : this.data.producto_origen,
+          value: this.data.nombre_prod
+            ? this.data.nombre_prod.trim()
+            : this.data.producto_origen,
           disabled: this.data.par_modo !== 'C',
         },
         Validators.compose([Validators.required])
       ),
       // Subproducto
-      sub_producto_origen: new UntypedFormControl(
-        {
-          value: this.data.nombre_sub_prod ? this.data.nombre_sub_prod.trim() : this.data.sub_producto_origen,
-          disabled: this.data.par_modo !== 'C',
-        }
-      ),
+      sub_producto_origen: new UntypedFormControl({
+        value: this.data.nombre_sub_prod
+          ? this.data.nombre_sub_prod.trim()
+          : '',
+        disabled: this.data.par_modo !== 'C',
+      }),
       // Plan
       plan_origen: new UntypedFormControl(
         {
@@ -617,22 +634,29 @@ export class AddEditMvmtsNovedadesAutoDialogComponent implements OnInit {
       ),
       // Fuente de Ingreso 2
       capita_rel: new UntypedFormControl(
-        { value: this.data.nombre_fuente_rel, disabled: this.data.par_modo !== 'C' },
+        {
+          value: this.data.nombre_fuente_rel,
+          disabled: this.data.par_modo !== 'C',
+        },
         Validators.compose([Validators.required])
       ),
       // Secuencia
-      sec_prod_rel: new UntypedFormControl(
-        { value: this.data.sec_prod_rel, disabled: this.data.par_modo !== 'C' },
-      ),
+      sec_prod_rel: new UntypedFormControl({
+        value: this.data.sec_prod_rel,
+        disabled: this.data.par_modo !== 'C',
+      }),
       // Producto 2
       producto_relacionado: new UntypedFormControl(
         { value: this.data.nombre_prod_rel, disabled: !this.data.edit },
         Validators.compose([Validators.required])
       ),
       // Subproducto 2
-      sub_prod_rel: new UntypedFormControl(
-        { value: this.data.nombre_sub_prod_rel ? this.data.nombre_sub_prod_rel : this.data.sub_prod_rel, disabled: !this.data.edit }
-      ),
+      sub_prod_rel: new UntypedFormControl({
+        value: this.data.nombre_sub_prod_rel
+          ? this.data.nombre_sub_prod_rel
+          : this.data.sub_prod_rel,
+        disabled: !this.data.edit,
+      }),
       // Movimiento
       movimiento_rel: new UntypedFormControl(
         {

@@ -129,13 +129,28 @@ import { ExtencionFuenteIngresoDashboardComponent } from './extencion-fuente-ing
 import { ExtencionFuenteIngresoFilterComponent } from './extencion-fuente-ingreso/components/extencion-fuente-ingreso-filter/extencion-fuente-ingreso-filter.component';
 import { AddEditExtencionFuenteIngresoComponent } from './extencion-fuente-ingreso/components/add-edit-extencion-fuente-ingreso/add-edit-extencion-fuente-ingreso.component';
 import { ModalExtencionProductoComponent } from './extencion-fuente-ingreso/components/add-edit-extencion-fuente-ingreso/modal-extencion-producto/modal-extencion-producto.component';
+// 33 - TAMBOS
+import { AddEditTamboDialogComponent } from './tambo/components/add-edit-tambo-dialog/add-edit-tambo-dialog.component';
+import { TamboComponent } from './tambo/tambo.component';
+import { TamboDashboardComponent } from './tambo/components/tambo-dashboard/tambo-dashboard.component';
+import { TamboFilterComponent } from './tambo/components/tambo-filter/tambo-filter.component';
+import { TamboSetEntidadDialogComponent } from './tambo/components/tambo-set-posicion-dialog/tambo-set-entidad-dialog.component';
 // 34 - EMPRESA QUE FACTURA
-import { EmpresaFacturaComponent } from './empresa-factura/empresa-factura.component';
-import { EmpresaFacturaFilterComponent } from './empresa-factura/components/empresa-factura-filter/empresa-factura-filter.component';
-import { EmpresaFacturaDashboardComponent } from './empresa-factura/components/empresa-factura-dashboard/empresa-factura-dashboard.component';
 import { AddEditEmpresaFacturaComponent } from './empresa-factura/components/add-edit-empresa-factura/add-edit-empresa-factura.component';
+import { EmpresaFacturaComponent } from './empresa-factura/empresa-factura.component';
+import { EmpresaFacturaDashboardComponent } from './empresa-factura/components/empresa-factura-dashboard/empresa-factura-dashboard.component';
+import { EmpresaFacturaFilterComponent } from './empresa-factura/components/empresa-factura-filter/empresa-factura-filter.component';
 import { ModalLocalidadComponent } from './empresa-factura/components/add-edit-empresa-factura/modal-localidad/modal-localidad.component';
-
+// 34 B - PAGO LINK
+import { AddEditPagoLinkDialogComponent } from './pago-link/components/add-edit-pago-link-dialog/add-edit-pago-link-dialog.component';
+import { PagoLinkComponent } from './pago-link/pago-link.component';
+import { PagoLinkDashboardComponent } from './pago-link/components/pago-link-dashboard/pago-link-dashboard.component';
+import { PagoLinkFilterComponent } from './pago-link/components/pago-link-filter/pago-link-filter.component';
+// 35 - MONTOS MINIMO
+import { AddEditMontoMinimoComponent } from './montos-minimo/components/add-edit-montos-minimo/add-edit-monto-minimo.component';
+import { MontoMinimoComponent } from './montos-minimo/monto-minimo.component';
+import { MontoMinimoDashboardComponent } from './montos-minimo/components/monto-minimo-dashboard/monto-minimo-dashboard.component';
+import { MontoMinimoFilterComponent } from './montos-minimo/components/monto-minimo-filter/monto-minimo-filter.component';
 
 @NgModule({
   declarations: [
@@ -259,12 +274,28 @@ import { ModalLocalidadComponent } from './empresa-factura/components/add-edit-e
     ExtencionFuenteIngresoFilterComponent,
     AddEditExtencionFuenteIngresoComponent,
     ModalExtencionProductoComponent,
+    // 33 - TAMBOS
+    AddEditTamboDialogComponent,
+    TamboComponent,
+    TamboDashboardComponent,
+    TamboFilterComponent,
+    TamboSetEntidadDialogComponent,
     // 34 - EMPRESA QUE FACTURA
-    EmpresaFacturaComponent,
-    EmpresaFacturaFilterComponent,
-    EmpresaFacturaDashboardComponent,
     AddEditEmpresaFacturaComponent,
+    EmpresaFacturaComponent,
+    EmpresaFacturaDashboardComponent,
+    EmpresaFacturaFilterComponent,
     ModalLocalidadComponent,
+    // 34 B - PAGO LINK
+    AddEditPagoLinkDialogComponent,
+    PagoLinkComponent,
+    PagoLinkDashboardComponent,
+    PagoLinkFilterComponent,
+    // 35 - MONTOS MINIMO
+    AddEditMontoMinimoComponent,
+    MontoMinimoComponent,
+    MontoMinimoDashboardComponent,
+    MontoMinimoFilterComponent,
   ],
   imports: [
     CommonModule,
