@@ -134,6 +134,10 @@
               ">
               {{ getErrorMessage(formGroup.get("email")) }}
             </mat-error>
+            <mat-error
+              *ngIf="formGroup.get('email')?.errors?.['error'] && formGroup.get('email')?.value != ''">
+              {{ formGroup.get('email')?.errors?.['error'] }}
+            </mat-error>
           </mat-form-field>
         </div>
       </mat-tab>
@@ -167,8 +171,8 @@
             <input matInput class="date-input" formControlName="fecha_vto_cuit" required minlength="1" maxlength="10"
           type="date" [min]="fecha_hoy">
             <mat-error
-              *ngIf="formGroup.get('fecha_vto_cuit')?.errors?.['errorFecha'] && formGroup.get('fecha_vto_cuit')?.value != ''">
-              {{ formGroup.get('fecha_vto_cuit')?.errors?.['errorFecha'] }}
+              *ngIf="formGroup.get('fecha_vto_cuit')?.errors?.['error'] && formGroup.get('fecha_vto_cuit')?.value != ''">
+              {{ formGroup.get('fecha_vto_cuit')?.errors?.['error'] }}
             </mat-error>
             <mat-error *ngIf="
                 formGroup.get('fecha_vto_cuit')?.invalid &&

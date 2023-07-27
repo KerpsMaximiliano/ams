@@ -4,8 +4,10 @@ import { DatePipe } from '@angular/common';
 
 // * Forms
 import {
+  AbstractControl,
   UntypedFormControl,
   UntypedFormGroup,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
 
@@ -156,6 +158,7 @@ export class AddEditEmpresaFacturaComponent {
           Validators.required,
           Validators.maxLength(50),
           Validators.email,
+          this.validarCorreo(),
         ])
       ),
       codigo_iva: new UntypedFormControl(
@@ -175,10 +178,10 @@ export class AddEditEmpresaFacturaComponent {
         ])
       ),
       fecha_vto_cuit: new UntypedFormControl(
-        this.data.par_modo !== 'C'
+        this.data.fecha_vto_cuit != '0'
           ? this.calcularValor(this.data.fecha_vto_cuit)
           : this.data.fecha_vto_cuit,
-        Validators.compose([Validators.required])
+        Validators.compose([Validators.required, this.vigenciaFecha()])
       ),
       cta_banco_ams: new UntypedFormControl(
         this.data.cta_banco_ams ? this.data.cta_banco_ams.trim() : '',
@@ -290,7 +293,18 @@ export class AddEditEmpresaFacturaComponent {
       });
   }
 
-  private setFormValues(): void {}
+  private setFormValues(): void {
+    this.formGroup
+      .get('email')
+      ?.setValue(this.data.email ? this.data.email.trim() : '');
+    this.formGroup
+      .get('fecha_vto_cuit')
+      ?.setValue(
+        this.data.fecha_vto_cuit
+          ? this.calcularValor(this.data.fecha_vto_cuit)
+          : this.data.fecha_vto_cuit
+      );
+  }
 
   // * envia los datos para Datos Comercio y pago Link
   public redirectTo(url: string): void {
@@ -327,6 +341,34 @@ export class AddEditEmpresaFacturaComponent {
     this.formGroup.get('sub_codigo_postal')?.setValue('');
   }
 
+  validarCorreo(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const correo = control.value;
+      if (correo != '') {
+        if (!correo.includes('@') || !correo.includes('.')) {
+          return {
+            error:
+              'Ingrese un correo electrónico válido. Ej: ejemplo@gmail.com',
+          };
+        }
+      }
+      return null;
+    };
+  }
+
+  vigenciaFecha(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const fecha = control.value,
+        fecha_hoy = this.calcularFecha(new Date());
+      if (fecha != 0 && fecha < fecha_hoy) {
+        return {
+          error: 'La fecha ha expirado.',
+        };
+      }
+      return null;
+    };
+  }
+
   private calcularFecha(fecha: Date) {
     return (
       fecha.getFullYear() +
@@ -352,7 +394,7 @@ export class AddEditEmpresaFacturaComponent {
         'yyyy-MM-dd'
       );
     } else {
-      return this.data.fecha_inicio_vigencia;
+      return this.data.fecha_vto_cuit;
     }
   }
 
