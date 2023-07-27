@@ -40,6 +40,7 @@ import { AddEditLocalidadDialogComponent } from './localidad/components/add-edit
 import { LocalidadComponent } from './localidad/localidad.component';
 import { LocalidadDashboardComponent } from './localidad/components/localidad-dashboard/localidad-dashboard.component';
 import { LocalidadFilterComponent } from './localidad/components/localidad-filter/localidad-filter.component';
+import { LocalidadSetDialogComponent } from './localidad/components/add-edit-localidad-dialog/localidad-set-posicion-dialog/localidad-set-posicion-dialog.component';
 // 07 - FORMAS DE PAGO
 import { AddEditFormaPagoDialogComponent } from './forma-pago/components/add-edit-forma-pago-dialog/add-edit-forma-pago-dialog.component';
 import { FormaPagoComponent } from './forma-pago/forma-pago.component';
@@ -128,7 +129,6 @@ import { ExtencionFuenteIngresoDashboardComponent } from './extencion-fuente-ing
 import { ExtencionFuenteIngresoFilterComponent } from './extencion-fuente-ingreso/components/extencion-fuente-ingreso-filter/extencion-fuente-ingreso-filter.component';
 import { AddEditExtencionFuenteIngresoComponent } from './extencion-fuente-ingreso/components/add-edit-extencion-fuente-ingreso/add-edit-extencion-fuente-ingreso.component';
 import { ModalExtencionProductoComponent } from './extencion-fuente-ingreso/components/add-edit-extencion-fuente-ingreso/modal-extencion-producto/modal-extencion-producto.component';
-import { LocalidadSetDialogComponent } from './localidad/components/add-edit-localidad-dialog/localidad-set-posicion-dialog/localidad-set-posicion-dialog.component';
 // 33 - TAMBOS
 import { AddEditTamboDialogComponent } from './tambo/components/add-edit-tambo-dialog/add-edit-tambo-dialog.component';
 import { TamboComponent } from './tambo/tambo.component';

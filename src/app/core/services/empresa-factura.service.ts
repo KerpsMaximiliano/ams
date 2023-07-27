@@ -17,12 +17,28 @@ const httpOptions = {
 })
 export class EmpresaFacturaService {
   private empresaFactura: IEmpresaFactura[];
-  private back: boolean = false;
+  private back: boolean=false;
 
   constructor(
     private http: HttpClient,
     private environmentService: EnvironmentService
   ) {}
+
+  set(empresaFactura: IEmpresaFactura[]): void {
+    this.empresaFactura = empresaFactura;
+  }
+
+  get(): IEmpresaFactura[] {
+    return this.empresaFactura;
+  }
+
+  public getBack(): boolean{
+    return this.back;
+  }
+
+  public setBack(value: boolean): void {
+    this.back = value;
+  }
 
   CRUD(body: string): Observable<IEmpresaFactura> {
     return this.http.post<IEmpresaFactura>(
@@ -30,21 +46,5 @@ export class EmpresaFacturaService {
       body,
       httpOptions
     );
-  }
-
-  public set(empresaFactura: IEmpresaFactura[]): void {
-    this.empresaFactura = empresaFactura;
-  }
-
-  public get(): IEmpresaFactura[] {
-    return this.empresaFactura;
-  }
-
-  public getBack(): boolean {
-    return this.back;
-  }
-
-  public setBack(value: boolean): void {
-    this.back = value;
   }
 }

@@ -1,13 +1,11 @@
 import { Component, Inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { DatePipe } from '@angular/common';
 
 // * Forms
 import {
-  AbstractControl,
-  FormControl,
   UntypedFormControl,
   UntypedFormGroup,
-  ValidatorFn,
   Validators,
 } from '@angular/forms';
 
@@ -41,6 +39,7 @@ import { ModalLocalidadComponent } from './modal-localidad/modal-localidad.compo
   selector: 'app-add-edit-empresa-factura',
   templateUrl: './add-edit-empresa-factura.component.html',
   styleUrls: ['./add-edit-empresa-factura.component.scss'],
+  providers: [DatePipe],
 })
 export class AddEditEmpresaFacturaComponent {
   empresaFactura: IEmpresaFactura[];
@@ -50,6 +49,7 @@ export class AddEditEmpresaFacturaComponent {
   public activeTabIndex = 0;
   public icon: string;
   public errorFecha: boolean = false;
+  fecha_hoy: string | undefined;
 
   constructor(
     public dialogRef: MatDialogRef<ConfirmDialogComponent>,
@@ -58,8 +58,13 @@ export class AddEditEmpresaFacturaComponent {
     public empresaFacturaService: EmpresaFacturaService,
     public localidadService: LocalidadService,
     private router: Router,
+    private datePipe: DatePipe,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
+    const fechaEndPicker = this.calcularFecha(new Date());
+    this.fecha_hoy = this.datePipe
+      .transform(fechaEndPicker, 'yyyy-MM-dd')
+      ?.toString();
     this.setUpForm();
   }
 
@@ -67,12 +72,12 @@ export class AddEditEmpresaFacturaComponent {
     if (this.data.id_empresa !== undefined) {
       this.setFormValues();
       this.loadModo();
-      if (this.data.par_modo === 'C' && this.data.edit !== true) {
+      if (this.data.par_modo === 'R' && this.data.edit !== true) {
         this.formGroup.disable();
       }
       this.formGroup.get('id_empresa')?.disable();
+      this.loadLocalidad();
     }
-    this.configureValidators();
   }
 
   // * carga de la lista
@@ -91,16 +96,8 @@ export class AddEditEmpresaFacturaComponent {
         },
         error: (err: any) => {
           this.UtilService.closeLoading();
-          err.status == 0
-            ? this.UtilService.notification('Error de conexión. ', 'error')
-            : this.UtilService.notification(
-                `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}. `,
-                'error'
-              );
         },
-        complete: () => {
-          this.loadLocalidad();
-        },
+        complete: () => {},
       });
   }
 
@@ -178,12 +175,10 @@ export class AddEditEmpresaFacturaComponent {
         ])
       ),
       fecha_vto_cuit: new UntypedFormControl(
-        this.data.fecha_vto_cuit ? this.data.fecha_vto_cuit : '00000000',
-        Validators.compose([
-          Validators.required,
-          Validators.maxLength(8),
-          isNumeric(),
-        ])
+        this.data.par_modo !== 'C'
+          ? this.calcularValor(this.data.fecha_vto_cuit)
+          : this.data.fecha_vto_cuit,
+        Validators.compose([Validators.required])
       ),
       cta_banco_ams: new UntypedFormControl(
         this.data.cta_banco_ams ? this.data.cta_banco_ams.trim() : '',
@@ -203,7 +198,7 @@ export class AddEditEmpresaFacturaComponent {
         this.data.fact_cr_elec ? this.data.fact_cr_elec.trim() : '',
         Validators.compose([Validators.required])
       ),
-      modo: new UntypedFormControl(this.data.modo ? this.data.modo : ''),
+      modo: new UntypedFormControl(this.data.modo ? this.data.modo : '0'),
 
       // * datos sin front
       campo_desc1: new UntypedFormControl(
@@ -303,7 +298,6 @@ export class AddEditEmpresaFacturaComponent {
     this.empresaFacturaService.setBack(false);
     this.router.navigate([url]);
   }
-  
   // * busca los datos de las localidad
   public searchLocalidad(): void {
     const modalSetLocalidad = this.dialog.open(ModalLocalidadComponent, {
@@ -333,42 +327,33 @@ export class AddEditEmpresaFacturaComponent {
     this.formGroup.get('sub_codigo_postal')?.setValue('');
   }
 
-  configureValidators() {
-    const fechaVtoCuitControl = this.formGroup.get(
-      'fecha_vto_cuit'
-    ) as UntypedFormControl;
-    fechaVtoCuitControl.setValidators(this.ValidacionFecha());
-    fechaVtoCuitControl.updateValueAndValidity();
+  private calcularFecha(fecha: Date) {
+    return (
+      fecha.getFullYear() +
+      '-' +
+      (fecha.getMonth() + 1) +
+      '-' +
+      (fecha.getDate() + 1)
+    );
   }
 
-  ValidacionFecha(): ValidatorFn {
-    return (control: AbstractControl): { [key: string]: any } | null => {
-      const strDate1: string = this.formGroup.get('fecha_vto_cuit')?.value;
-      const strDate2: string = this.formatDate(new Date()).toString();
-
-      const year1: number = Number(strDate1.slice(0, 4));
-      const month1: number = Number(strDate1.slice(4, 6));
-      const day1: number = Number(strDate1.slice(6, 8));
-
-      const year2: number = Number(strDate2.slice(0, 4));
-      const month2: number = Number(strDate2.slice(4, 6));
-      const day2: number = Number(strDate2.slice(6, 8));
-      if (
-        year1 < year2 ||
-        (year1 === year2 && month1 < month2) ||
-        (year1 === year2 && month1 === month2 && day1 < day2)
-      ) {
-        return { errorFecha: 'Error al ingresar la fecha' };
-      }
-      return null;
-    };
-  }
-
-  private formatDate(date: Date): number {
-    const year = date.getFullYear();
-    const month = ('0' + (date.getMonth() + 1)).slice(-2);
-    const day = ('0' + date.getDate()).slice(-2);
-    return Number(`${year}${month}${day}`);
+  public calcularValor(fecha: number) {
+    const newFecha = fecha.toString();
+    if (fecha !== null) {
+      const dateFecha = new Date(
+        newFecha.slice(0, 4) +
+          '-' +
+          newFecha.slice(4, 6) +
+          '-' +
+          newFecha.slice(6, 8)
+      );
+      return this.datePipe.transform(
+        this.calcularFecha(dateFecha),
+        'yyyy-MM-dd'
+      );
+    } else {
+      return this.data.fecha_inicio_vigencia;
+    }
   }
 
   public closeDialog(): void {
@@ -376,12 +361,7 @@ export class AddEditEmpresaFacturaComponent {
   }
 
   public confirm(): void {
-    if (
-      this.formGroup.valid &&
-      this.formGroup.valid &&
-      this.formGroup.valid &&
-      this.formGroup.valid
-    ) {
+    if (this.formGroup.valid) {
       this.dialogRef.close({
         empresa: {
           par_modo: this.data.par_modo,
@@ -404,7 +384,12 @@ export class AddEditEmpresaFacturaComponent {
 
           codigo_iva: parseInt(this.formGroup.get('codigo_iva')?.value),
           cuit: parseInt(this.formGroup.get('cuit')?.value),
-          fecha_vto_cuit: parseInt(this.formGroup.get('fecha_vto_cuit')?.value),
+          fecha_vto_cuit: this.datePipe.transform(
+            this.calcularFecha(
+              new Date(this.formGroup.get('fecha_vto_cuit')?.value)
+            ),
+            'yyyyMMdd'
+          ),
           cta_banco_ams: this.formGroup.get('cta_banco_ams')?.value,
 
           comprobante_generar: this.formGroup.get('comprobante_generar')?.value,
@@ -435,23 +420,6 @@ export class AddEditEmpresaFacturaComponent {
       });
     } else {
       this.formGroup.markAllAsTouched();
-    }
-  }
-
-  private setIcon(): void {
-    switch (this.data.par_modo) {
-      case 'C':
-        this.icon = 'add_box';
-        break;
-      case 'U':
-        this.icon = 'edit';
-        break;
-      case 'R':
-        this.icon = 'visibility';
-        break;
-      default:
-        this.icon = '';
-        break;
     }
   }
 }

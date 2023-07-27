@@ -35,7 +35,7 @@
         <div class="seeker-fields-container">
           <h3>NUMERO PUERTA</h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
-            <input matInput formControlName="nro_puerta" required [readonly]="!data.edit" />
+            <input matInput formControlName="nro_puerta" maxlength="5" required [readonly]="!data.edit" />
             <mat-error *ngIf="
                 formGroup.get('nro_puerta')?.invalid &&
                 formGroup.get('nro_puerta')?.touched
@@ -48,7 +48,7 @@
         <div class="seeker-fields-container">
           <h3>PISO</h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
-            <input matInput formControlName="piso" required [readonly]="!data.edit" />
+            <input matInput formControlName="piso" maxlength="2" required [readonly]="!data.edit" />
             <mat-error *ngIf="
                 formGroup.get('piso')?.invalid && formGroup.get('piso')?.touched
               ">
@@ -60,7 +60,7 @@
         <div class="seeker-fields-container">
           <h3>DEPARTAMENTO</h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
-            <input matInput formControlName="departamento" required [readonly]="!data.edit" />
+            <input matInput formControlName="departamento" maxlength="5" required [readonly]="!data.edit" />
             <mat-error *ngIf="
                 formGroup.get('departamento')?.invalid &&
                 formGroup.get('departamento')?.touched
@@ -141,7 +141,7 @@
         <div class="seeker-fields-container">
           <h3>CODIGO IVA</h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
-            <input matInput formControlName="codigo_iva" required [readonly]="!data.edit" />
+            <input matInput formControlName="codigo_iva" maxlength="2" required [readonly]="!data.edit" />
             <mat-error *ngIf="
                 formGroup.get('codigo_iva')?.invalid &&
                 formGroup.get('codigo_iva')?.touched
@@ -153,7 +153,7 @@
         <div class="seeker-fields-container">
           <h3>CUIT</h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
-            <input matInput formControlName="cuit" required [readonly]="!data.edit" />
+            <input matInput formControlName="cuit" maxlength="11" required [readonly]="!data.edit" />
             <mat-error *ngIf="
                 formGroup.get('cuit')?.invalid && formGroup.get('cuit')?.touched
               ">
@@ -164,7 +164,8 @@
         <div class="seeker-fields-container">
           <h3>FECHA VENCIMIENTO CUIT</h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
-            <input matInput formControlName="fecha_vto_cuit" required [readonly]="!data.edit" />
+            <input matInput class="date-input" formControlName="fecha_vto_cuit" required minlength="1" maxlength="10"
+          type="date" [min]="fecha_hoy">
             <mat-error
               *ngIf="formGroup.get('fecha_vto_cuit')?.errors?.['errorFecha'] && formGroup.get('fecha_vto_cuit')?.value != ''">
               {{ formGroup.get('fecha_vto_cuit')?.errors?.['errorFecha'] }}
@@ -243,6 +244,7 @@
           <h3>MODO LIQUIDACION</h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
             <mat-select formControlName="modo" required>
+              <mat-option [value]="'0'"></mat-option>
               <mat-option [value]="'A'"> ANTICIPADA </mat-option>
               <mat-option [value]="'V'"> VENCIDO </mat-option>
               <mat-option [value]="'W'"> VENCIDO 2 M </mat-option>
@@ -272,11 +274,11 @@
         Cancelar
       </button>
       <button class="primary-button icon-button" type="button" [disabled]="activeTabIndex === 0" (click)="prevStep()">
-        <mat-icon>close</mat-icon>
+        <mat-icon>arrow_back_ios</mat-icon>
         Anterior
       </button>
       <button class="primary-button icon-button" type="button" [disabled]="activeTabIndex === 3" (click)="nextStep()">
-        <mat-icon>close</mat-icon>
+        <mat-icon>arrow_forward_ios</mat-icon>
         Siguiente
       </button>
       <button [class]="
@@ -296,11 +298,11 @@
           Aceptar
         </button>
         <button class="primary-button icon-button" type="button" [disabled]="activeTabIndex === 0" (click)="prevStep()">
-          <mat-icon>close</mat-icon>
+          <mat-icon>arrow_back_ios</mat-icon>
           Anterior
         </button>
         <button class="primary-button icon-button" type="button" [disabled]="activeTabIndex === 3" (click)="nextStep()">
-          <mat-icon>close</mat-icon>
+          <mat-icon>arrow_forward_ios</mat-icon>
           Siguiente
         </button>
       </div>
