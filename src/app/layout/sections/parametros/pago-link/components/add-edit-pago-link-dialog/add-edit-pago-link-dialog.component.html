@@ -7,7 +7,7 @@
     <div class="seeker-fields-container">
       <h3>EMPRESA</h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <input matInput formControlName="empresa_factura_descripcion" required [readonly]="!data.edit" />
+        <input matInput formControlName="empresa_factura_descripcion" required readonly />
         <mat-error *ngIf="
             formGroup.get('empresa_factura_descripcion')?.invalid &&
             formGroup.get('empresa_factura_descripcion')?.touched

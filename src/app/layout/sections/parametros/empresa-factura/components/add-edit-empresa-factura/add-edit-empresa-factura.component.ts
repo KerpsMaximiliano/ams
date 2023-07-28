@@ -360,9 +360,8 @@ export class AddEditEmpresaFacturaComponent {
     return (control: AbstractControl): { [key: string]: any } | null => {
       const fecha = control.value;
       const fecha_hoy = new Date();
-      const fechaObjeto2 = new Date(fecha);
-      console.log(fecha_hoy, fechaObjeto2);
-      if (fecha_hoy > fechaObjeto2) {
+      const fechaValida = new Date(fecha);
+      if (fecha_hoy > fechaValida) {
         return {
           error: 'La fecha ha expirado.',
         };
