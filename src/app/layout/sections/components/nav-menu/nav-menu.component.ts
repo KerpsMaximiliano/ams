@@ -126,7 +126,7 @@ export class NavMenuComponent {
         },
         {
           // 34 - EMPRESA FACTURA
-          title: 'Empresa que Factura',
+          title: 'Empresas que Facturan',
           url: '/parametros/empresa-factura',
           icon: 'keyboard_arrow_right',
         },
