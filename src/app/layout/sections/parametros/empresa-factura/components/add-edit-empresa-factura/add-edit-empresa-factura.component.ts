@@ -178,9 +178,9 @@ export class AddEditEmpresaFacturaComponent {
         ])
       ),
       fecha_vto_cuit: new UntypedFormControl(
-        this.data.fecha_vto_cuit != '0'
+        this.data.fecha_vto_cuit
           ? this.calcularValor(this.data.fecha_vto_cuit)
-          : this.data.fecha_vto_cuit,
+          : '00000000',
         Validators.compose([Validators.required, this.vigenciaFecha()])
       ),
       cta_banco_ams: new UntypedFormControl(
@@ -302,7 +302,7 @@ export class AddEditEmpresaFacturaComponent {
       ?.setValue(
         this.data.fecha_vto_cuit
           ? this.calcularValor(this.data.fecha_vto_cuit)
-          : this.data.fecha_vto_cuit
+          : new Date()
       );
   }
 
@@ -358,9 +358,11 @@ export class AddEditEmpresaFacturaComponent {
 
   vigenciaFecha(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
-      const fecha = control.value,
-        fecha_hoy = this.calcularFecha(new Date());
-      if (fecha != 0 && fecha < fecha_hoy) {
+      const fecha = control.value;
+      const fecha_hoy = new Date();
+      const fechaObjeto2 = new Date(fecha);
+      console.log(fecha_hoy, fechaObjeto2);
+      if (fecha_hoy > fechaObjeto2) {
         return {
           error: 'La fecha ha expirado.',
         };
