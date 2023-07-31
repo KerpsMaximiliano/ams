@@ -134,8 +134,7 @@
               ">
               {{ getErrorMessage(formGroup.get("email")) }}
             </mat-error>
-            <mat-error
-              *ngIf="formGroup.get('email')?.errors?.['error'] && formGroup.get('email')?.value != ''">
+            <mat-error *ngIf="formGroup.get('email')?.errors?.['error'] && formGroup.get('email')?.value != ''">
               {{ formGroup.get('email')?.errors?.['error'] }}
             </mat-error>
           </mat-form-field>
@@ -168,12 +167,11 @@
         <div class="seeker-fields-container">
           <h3>FECHA VENCIMIENTO CUIT</h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
-            <input matInput class="date-input" formControlName="fecha_vto_cuit" required minlength="1" maxlength="10"
-          type="date" [min]="fecha_hoy">
-            <mat-error
-              *ngIf="formGroup.get('fecha_vto_cuit')?.errors?.['error'] && formGroup.get('fecha_vto_cuit')?.value != ''">
-              {{ formGroup.get('fecha_vto_cuit')?.errors?.['error'] }}
-            </mat-error>
+            <input matInput class="date-input" formControlName="fecha_vto_cuit" required minlength="1" maxlength="8"
+              type="date"/>
+            <mat-hint class="warning-hint" *ngIf="vigenciaFecha()">
+              La fecha ha expirado.
+            </mat-hint>
             <mat-error *ngIf="
                 formGroup.get('fecha_vto_cuit')?.invalid &&
                 formGroup.get('fecha_vto_cuit')?.touched
@@ -263,11 +261,13 @@
       </mat-tab>
     </mat-tab-group>
     <div *ngIf="data.par_modo == 'U'" class="buttons-container">
-      <button (click)="redirectTo('parametros/dato-comercio')" class="primary-button icon-button" type="submit" mat-dialog-close>
+      <button (click)="redirectTo('parametros/dato-comercio')" class="primary-button icon-button" type="submit"
+        mat-dialog-close>
         <mat-icon> open_in_new_down </mat-icon>
         Datos Comercio
       </button>
-      <button (click)="redirectTo('parametros/pago-link')" class="primary-button icon-button" type="submit" mat-dialog-close>
+      <button (click)="redirectTo('parametros/pago-link')" class="primary-button icon-button" type="submit"
+        mat-dialog-close>
         <mat-icon> open_in_new_down </mat-icon>
         Pagos Link
       </button>
