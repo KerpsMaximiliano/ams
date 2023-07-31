@@ -155,17 +155,7 @@ export class EmpresaFacturaComponent implements OnInit {
         })
       )
       .subscribe({
-        next: (res: any) => {
-          this.utilService.notification(res.estado.Mensaje, 'success');
-        },
-        error: (err: any) => {
-          err.status == 0
-            ? this.utilService.notification('Error de conexión. ', 'error')
-            : this.utilService.notification(
-                `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}. `,
-                'error'
-              );
-        },
+        next: () => {},
       });
   }
 

@@ -180,8 +180,7 @@ export class AddEditEmpresaFacturaComponent {
       fecha_vto_cuit: new UntypedFormControl(
         this.data.fecha_vto_cuit
           ? this.calcularValor(this.data.fecha_vto_cuit)
-          : '00000000',
-        Validators.compose([Validators.required, this.vigenciaFecha()])
+          : '00000000'
       ),
       cta_banco_ams: new UntypedFormControl(
         this.data.cta_banco_ams ? this.data.cta_banco_ams.trim() : '',
@@ -304,6 +303,8 @@ export class AddEditEmpresaFacturaComponent {
           ? this.calcularValor(this.data.fecha_vto_cuit)
           : new Date()
       );
+    this.formGroup.get('fecha_vto_cuit')?.markAsTouched({onlySelf:true});
+    this.formGroup.get('fecha_vto_cuit')?.updateValueAndValidity(this.formGroup.get('fecha_vto_cuit')?.value);
   }
 
   // * envia los datos para Datos Comercio y pago Link
@@ -356,18 +357,13 @@ export class AddEditEmpresaFacturaComponent {
     };
   }
 
-  vigenciaFecha(): ValidatorFn {
-    return (control: AbstractControl): { [key: string]: any } | null => {
-      const fecha = control.value;
-      const fecha_hoy = new Date();
-      const fechaValida = new Date(fecha);
-      if (fecha_hoy > fechaValida) {
-        return {
-          error: 'La fecha ha expirado.',
-        };
-      }
-      return null;
-    };
+  vigenciaFecha(){
+    const fechaVencimiento = this.formGroup.get('fecha_vto_cuit')?.value;
+    const today = new Date();
+    if (fechaVencimiento != '00000000') {
+      return new Date(fechaVencimiento) < today;
+    }
+    return false;
   }
 
   private calcularFecha(fecha: Date) {
@@ -381,7 +377,19 @@ export class AddEditEmpresaFacturaComponent {
   }
 
   public calcularValor(fecha: number) {
-    const newFecha = fecha.toString();
+    let newFecha = fecha.toString();
+    if (newFecha.length < 8) {
+      const dateFecha = new Date(
+        '0' +
+          newFecha.slice(0, 1) +
+          '-' +
+          newFecha.slice(1, 3) +
+          '-' +
+          newFecha.slice(3, 7)
+      );
+      return this.datePipe.transform(dateFecha, 'yyyy-dd-MM');
+    }
+
     if (fecha !== null) {
       const dateFecha = new Date(
         newFecha.slice(0, 4) +
