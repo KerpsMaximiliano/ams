@@ -1,0 +1,27 @@
+.hover-option:hover {
+  background-color: #bbbbbb;
+}
+
+.buttons-container {
+  margin-top: 0.5rem;
+}
+
+.equal-width {
+  width: 140px;
+  display: inline-block;
+}
+
+.seeker-fields-container {
+  align-items: center;
+}
+
+.disabled {
+  opacity: 0.5;
+  pointer-events: pointer;
+  cursor: not-allowed;
+  filter: grayscale(100%);
+
+  &:hover {
+    filter: grayscale(100%);
+  }
+}

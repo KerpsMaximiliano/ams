@@ -1,0 +1,91 @@
+<section class="seeker-section">
+  <mat-expansion-panel class="mat-elevation-z1" [expanded]="expanded">
+    <mat-expansion-panel-header>
+      <mat-panel-title> Opciones de búsqueda </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <form>
+      <div class="seeker-fields-container pb-none">
+        <h4 class="equal-width"> Empresa que factura </h4>
+        <mat-form-field class="seeker-form-field" appearance="outline">
+          <input matInput class="seeker-input disabled" [value]="empresaFactura?.descripcion?.trim()" disabled>
+        </mat-form-field>
+      </div>
+
+      <div class="seeker-fields-container pb-none">
+        <h4 class="equal-width"> Forma de pago </h4>
+        <mat-form-field class="seeker-form-field">
+          <mat-label *ngIf="loadingError && isLoadingFormaPago; else loadFormaPago" class="seeker-label">
+            No se han podido cargar las formas de pago
+          </mat-label>
+          <ng-template #loadFormaPago>
+            <mat-label *ngIf="isLoadingFormaPago; else selectFormaPago" class="seeker-label">
+              Cargando formas de pago...
+            </mat-label>
+          </ng-template>
+          <ng-template #selectFormaPago>
+            <mat-label *ngIf="formasPago?.length; else disabledFormaPago" class="seeker-label">
+              Seleccione una forma de pago
+            </mat-label>
+          </ng-template>
+          <ng-template #disabledFormaPago>
+            <mat-label class="seeker-label">
+              No se encontraron formas de pago habilitadas
+            </mat-label>
+          </ng-template>
+          <mat-select #formaPago disableOptionCentering [disabled]="!formasPago?.length || isLoadingFormaPago">
+            <mat-option *ngFor="let formaPago of formasPago" [value]="formaPago">
+              {{ formaPago.descripcion?.trim() }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="seeker-fields-container pb-none">
+        <h4 class="equal-width"> Tarjeta </h4>
+        <mat-form-field class="seeker-form-field">
+          <mat-label *ngIf="loadingError && isLoadingTarjeta; else loadingTarjeta" class="seeker-label">
+            No se han podido cargar las tarjetas
+          </mat-label>
+          <ng-template #loadingTarjeta>
+            <mat-label class="seeker-label" *ngIf="isLoadingTarjeta; else seleccionarTarjeta">
+              Cargando tarjetas...
+            </mat-label>
+          </ng-template>
+          <ng-template #seleccionarTarjeta>
+            <mat-label *ngIf="tarjetas.length; else formaPagoNotSelected" class="seeker-label">
+              Seleccione una tarjeta
+            </mat-label>
+          </ng-template>
+          <ng-template #formaPagoNotSelected>
+            <mat-label *ngIf="!formaPago.value; else disabledTarjeta" class="seeker-label">
+              Debe seleccionar una forma de pago
+            </mat-label>
+          </ng-template>
+          <ng-template #disabledTarjeta>
+            <mat-label class="seeker-label">
+              No se encontraron tarjetas habilitadas para esa forma de pago
+            </mat-label>
+          </ng-template>
+          <mat-select #tarjeta disableOptionCentering [disabled]="!tarjetas.length || isLoadingTarjeta">
+            <mat-option *ngFor="let tarjeta of tarjetas" [value]="tarjeta">
+              {{ tarjeta.description?.trim() }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="buttons-container">
+        <button class="primary-button icon-button" type="button" (click)="performSearch()">
+          <mat-icon> done </mat-icon>
+          Buscar
+        </button>
+        <button class="primary-button icon-button" type="button" (click)="clear()"
+          [disabled]="!formaPago.value && !tarjeta.value">
+          <mat-icon> close </mat-icon>
+          Limpiar
+        </button>
+      </div>
+    </form>
+  </mat-expansion-panel>
+</section>

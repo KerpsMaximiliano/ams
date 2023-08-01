@@ -48,6 +48,8 @@ import { ExtencionFuenteIngresoComponent } from './extencion-fuente-ingreso/exte
 import { TamboComponent } from './tambo/tambo.component';
 // 34 - EMPRESA FACTURA
 import { EmpresaFacturaComponent } from './empresa-factura/empresa-factura.component';
+// 34A - DATO COMERCIO
+import { DatoComercioComponent } from './dato-comercio/dato-comercio.component';
 // 34 B - PAGO LINK
 import { PagoLinkComponent } from './pago-link/pago-link.component';
 // 35 - MONTOS MINIMO
@@ -145,6 +147,10 @@ const routes: Routes = [
   {
     path: 'parametros/empresa-factura',
     component: EmpresaFacturaComponent,
+  },
+  {
+    path: 'parametros/datos-comercio',
+    component: DatoComercioComponent,
   },
   {
     path: 'parametros/pago-link',

@@ -1,0 +1,22 @@
+<section class="browse-section">
+  <div class="section-header">
+    <h2> Datos de comercio </h2>
+    <div class="section-header-item">
+      <button class="primary-button icon-button" (click)="back()">
+        <mat-icon> arrow_back </mat-icon>
+        Volver
+      </button>
+      <button class="new-button icon-button" (click)="new()">
+        <mat-icon> add </mat-icon>
+        Nuevo
+      </button>
+    </div>
+  </div>
+
+  <div class="section-content">
+    <app-dato-comercio-filter (search)="search($event)" [formasPago]="formasPago" [empresaFactura]="empresaFactura"
+      [isLoadingFormaPago]="isLoadingFormaPago" [loadingError]="loadingError" />
+    <app-dato-comercio-dashboard *ngIf="dataSent" [receivedData]="dataSent" (deleteEvent)="delete($event)"
+      (editEvent)="edit($event)" />
+  </div>
+</section>
