@@ -8,7 +8,7 @@ import { EnvironmentService } from './environment.service';
 // * Interfaces
 import {
   IDatoComercioResponse,
-  IListFormaPago,
+  ITipoFormaPago,
 } from '../models/dato-comercio.interface';
 
 const httpOptions = {
@@ -19,17 +19,17 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class DatoComercioService {
-  private listFormaPago: IListFormaPago[];
+  private listFormaPago: ITipoFormaPago[];
   constructor(
     private http: HttpClient,
     private environmentService: EnvironmentService
   ) {}
 
-  public setFormasPago(formaPago: IListFormaPago[]) {
+  public setFormasPago(formaPago: ITipoFormaPago[]) {
     this.listFormaPago = formaPago;
   }
 
-  public getFormasPago(): IListFormaPago[] {
+  public getFormasPago(): ITipoFormaPago[] {
     return this.listFormaPago;
   }
 
