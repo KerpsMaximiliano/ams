@@ -69,7 +69,7 @@
           </ng-template>
           <mat-select #tarjeta disableOptionCentering [disabled]="!tarjetas.length || isLoadingTarjeta">
             <mat-option *ngFor="let tarjeta of tarjetas" [value]="tarjeta">
-              {{ tarjeta.description?.trim() }}
+              {{ tarjeta.description ? tarjeta.description.trim() : '' }}
             </mat-option>
           </mat-select>
         </mat-form-field>
