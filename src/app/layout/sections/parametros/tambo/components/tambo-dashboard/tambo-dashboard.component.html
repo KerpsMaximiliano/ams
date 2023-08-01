@@ -1,8 +1,7 @@
 <section>
-  <table mat-table [dataSource]="dataSource" [ngClass]="{'d-none': !dataSource }">
+  <table mat-table [dataSource]="dataSource" [ngClass]="{'d-none': !dataSource || !searchData }">
     <ng-container class="mat-row" *matNoDataRow>
-      <td class="mat-cell no-data-cell" [attr.colspan]="displayedColumns.length"
-        *ngIf="this.dataSource.data.length === 0">
+      <td class="mat-cell no-data-cell" [attr.colspan]="displayedColumns.length">
         No se encontraron resultados
       </td>
     </ng-container>
@@ -47,6 +46,7 @@
   </table>
 
   <mat-paginator [pageSizeOptions]="[10, 20, 30]" [pageSize]="10" showFirstLastButtons
-    aria-label="Controles de paginación." [ngClass]="{'d-none': !dataSource || this.dataSource.data.length < 10 }">
+    aria-label="Controles de paginación."
+    [ngClass]="{'d-none': !dataSource || dataSource.data.length < 10 || !searchData }">
   </mat-paginator>
 </section>

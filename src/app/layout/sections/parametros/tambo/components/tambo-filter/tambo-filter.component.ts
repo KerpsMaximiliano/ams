@@ -20,12 +20,16 @@ import { TamboSetEntidadDialogComponent } from '../tambo-set-posicion-dialog/tam
 })
 export class TamboFilterComponent {
   private entidades: IEntidad[];
+  private entity: IEntidad;
   private ent_sancor: number;
   private canal: number;
+  private backUpEntity: any;
 
   @ViewChild('inputEntidad') public inputEntidad: any;
 
   @Output() public handleSearch: EventEmitter<any> = new EventEmitter<any>();
+  @Output() public handleStatus: EventEmitter<boolean> =
+    new EventEmitter<boolean>();
   @Output() public handleEntity: EventEmitter<IEntidad> =
     new EventEmitter<IEntidad>();
 
@@ -36,6 +40,7 @@ export class TamboFilterComponent {
   ) {}
 
   public performSearch(inputElement: string): void {
+    this.handleEntity.emit(this.entity);
     this.handleSearch.emit(
       JSON.stringify({
         par_modo: 'O',
@@ -48,10 +53,15 @@ export class TamboFilterComponent {
 
   public clear(inputElement: HTMLInputElement): void {
     inputElement.value = '';
-    this.handleEntity.emit();
   }
 
-  public searchEntidad(): void {
+  public clearEntity(inputElement: HTMLInputElement): void {
+    inputElement.value = '';
+    this.handleEntity.emit();
+    this.handleStatus.emit(false);
+  }
+
+  public searchEntity(): void {
     if (this.entidadService.getEntidad()) {
       this.entidades = this.entidadService.getEntidad();
       this.setEntidad(this.entidades);
@@ -98,9 +108,19 @@ export class TamboFilterComponent {
         data: data,
       },
     });
+
     modal.afterClosed().subscribe({
       next: (res) => {
         if (res) {
+          if (this.entity) {
+            if (this.entity !== res) {
+              this.handleStatus.emit(false);
+            } else {
+              this.handleStatus.emit(true);
+            }
+          }
+
+          this.entity = res;
           this.handleEntity.emit(res);
           this.ent_sancor = res?.nro_asesor ? res?.nro_asesor : 0;
           this.canal = res?.canal ? res?.canal : 0;

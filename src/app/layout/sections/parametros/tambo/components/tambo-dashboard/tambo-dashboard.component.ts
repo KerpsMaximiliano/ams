@@ -2,15 +2,16 @@ import {
   Component,
   Input,
   ViewChild,
-  OnInit,
   OnChanges,
   SimpleChanges,
   EventEmitter,
   Output,
+  OnInit,
 } from '@angular/core';
 
 // * Interfaces
 import { ITambo } from 'src/app/core/models/tambo.interface';
+import { IEntidad } from 'src/app/core/models/entidad.interface';
 
 // * Material
 import { MatTableDataSource } from '@angular/material/table';
@@ -33,6 +34,8 @@ export class TamboDashboardComponent implements OnInit, OnChanges {
   @ViewChild(MatPaginator, { static: true }) public paginator!: MatPaginator;
 
   @Input() public receivedData: ITambo[] = [];
+  @Input() public searchData: boolean;
+
   @Output() public viewEvent: EventEmitter<ITambo> = new EventEmitter<ITambo>();
   @Output() public editEvent: EventEmitter<ITambo> = new EventEmitter<ITambo>();
 
