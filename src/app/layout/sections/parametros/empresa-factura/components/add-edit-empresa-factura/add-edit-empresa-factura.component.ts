@@ -301,10 +301,12 @@ export class AddEditEmpresaFacturaComponent {
       ?.setValue(
         this.data.fecha_vto_cuit
           ? this.calcularValor(this.data.fecha_vto_cuit)
-          : new Date()
+          : '00000000'
       );
-    this.formGroup.get('fecha_vto_cuit')?.markAsTouched({onlySelf:true});
-    this.formGroup.get('fecha_vto_cuit')?.updateValueAndValidity(this.formGroup.get('fecha_vto_cuit')?.value);
+    this.formGroup.get('fecha_vto_cuit')?.markAsTouched({ onlySelf: true });
+    this.formGroup
+      .get('fecha_vto_cuit')
+      ?.updateValueAndValidity(this.formGroup.get('fecha_vto_cuit')?.value);
   }
 
   // * envia los datos para Datos Comercio y pago Link
@@ -357,7 +359,7 @@ export class AddEditEmpresaFacturaComponent {
     };
   }
 
-  vigenciaFecha(){
+  vigenciaFecha() {
     const fechaVencimiento = this.formGroup.get('fecha_vto_cuit')?.value;
     const today = new Date();
     if (fechaVencimiento != '00000000') {
@@ -379,29 +381,25 @@ export class AddEditEmpresaFacturaComponent {
   public calcularValor(fecha: number) {
     let newFecha = fecha.toString();
     if (newFecha.length < 8) {
-      const dateFecha = new Date(
+      const dateFecha =
+        newFecha.slice(3, 7) +
+        '-' +
+        newFecha.slice(1, 3) +
+        '-' +
         '0' +
-          newFecha.slice(0, 1) +
-          '-' +
-          newFecha.slice(1, 3) +
-          '-' +
-          newFecha.slice(3, 7)
-      );
-      return this.datePipe.transform(dateFecha, 'yyyy-dd-MM');
+        newFecha.slice(0, 1);
+      return this.datePipe.transform(dateFecha, 'yyyy-MM-dd');
     }
-
-    if (fecha !== null) {
-      const dateFecha = new Date(
-        newFecha.slice(0, 4) +
+    if (newFecha !== '00000000') {
+      const dateFecha = this.datePipe.transform(
+        newFecha.slice(4, 8) +
           '-' +
-          newFecha.slice(4, 6) +
+          newFecha.slice(2, 4) +
           '-' +
-          newFecha.slice(6, 8)
-      );
-      return this.datePipe.transform(
-        this.calcularFecha(dateFecha),
+          newFecha.slice(0, 2),
         'yyyy-MM-dd'
       );
+      return dateFecha;
     } else {
       return this.data.fecha_vto_cuit;
     }
@@ -436,10 +434,8 @@ export class AddEditEmpresaFacturaComponent {
           codigo_iva: parseInt(this.formGroup.get('codigo_iva')?.value),
           cuit: parseInt(this.formGroup.get('cuit')?.value),
           fecha_vto_cuit: this.datePipe.transform(
-            this.calcularFecha(
-              new Date(this.formGroup.get('fecha_vto_cuit')?.value)
-            ),
-            'yyyyMMdd'
+            this.formGroup.get('fecha_vto_cuit')?.value,
+            'ddMMyyyy'
           ),
           cta_banco_ams: this.formGroup.get('cta_banco_ams')?.value,
 

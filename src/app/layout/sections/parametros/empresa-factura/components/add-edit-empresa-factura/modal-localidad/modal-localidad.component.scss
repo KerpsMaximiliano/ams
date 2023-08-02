@@ -6,11 +6,20 @@
   width: 100%;
 }
 
+::ng-deep .mat-expansion-panel-header {
+  background-color: var(--sancor-blue) !important;
+  color: #fff !important;
+}
+.mat-expansion-panel-header.mat-expanded {
+  height: 48px;
+}
+
 .dialog-content {
   display: flex;
   flex-direction: column;
-  min-height: 530px;
-  width: 650px;
+  min-height: 400px;
+  max-height: 90vh;
+  min-width: 650px;
   background-color: #fff;
 }
 
@@ -19,12 +28,17 @@
 }
 
 .buttons-container {
+  position: sticky;
   margin-top: auto;
   margin-bottom: 0px !important;
 }
 
 .table-container {
   margin-bottom: 0.3rem;
+}
+.table-scroll{
+  max-height: 200px !important;
+  overflow-y: auto !important;
 }
 
 tr.mat-header-row {
