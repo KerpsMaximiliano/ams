@@ -167,7 +167,7 @@
         <div class="seeker-fields-container">
           <h3>FECHA VENCIMIENTO CUIT</h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
-            <input matInput class="date-input" formControlName="fecha_vto_cuit" required minlength="1" maxlength="8"
+            <input matInput class="date-input" formControlName="fecha_vto_cuit" required minlength="1" maxlength="10"
               type="date"/>
             <mat-hint class="warning-hint" *ngIf="vigenciaFecha()">
               La fecha ha expirado.

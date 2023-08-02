@@ -2,7 +2,6 @@
   <div class="dialog-title" [tabIndex]="0">
     <h2>{{ data.title | uppercase }}</h2>
   </div>
-
   <form>
     <div class="seeker-fields-container">
       <mat-form-field class="seeker-form-field">
@@ -38,7 +37,6 @@
       </button>
     </div>
   </form>
-
   <section class="table-container" [ngClass]="{ 'd-none': !dataSource }">
     <mat-form-field appearance="standard" class="filter-container">
       <mat-label> Ingrese la localidad </mat-label>
@@ -75,11 +73,12 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
 
-    <mat-paginator [pageSize]="5" showFirstLastButtons aria-label="Controles de paginación."
-      [ngClass]="{ 'd-none': !dataSource || this.dataSource.data.length < 5 }">
+    <mat-paginator [pageSizeOptions]="[5, 10, 20, 30]" [pageSize]="5" showFirstLastButtons
+      aria-label="Controles de paginación." [ngClass]="{
+        'd-none': !dataSource || this.dataSource.data.length < 5
+      }">
     </mat-paginator>
   </section>
-
   <div class="buttons-container">
     <button class="primary-button icon-button" type="button" mat-dialog-close>
       <mat-icon> close </mat-icon>
@@ -90,4 +89,3 @@
       Guardar
     </button>
   </div>
-</div>
