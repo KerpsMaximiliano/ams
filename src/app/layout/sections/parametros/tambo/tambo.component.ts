@@ -24,10 +24,13 @@ import { AddEditTamboDialogComponent } from './components/add-edit-tambo-dialog/
   styleUrls: ['./tambo.component.scss'],
 })
 export class TamboComponent implements AfterViewInit, OnDestroy {
-  private dataSubscription: Subscription | undefined;
+  private dialogSubscription: Subscription | undefined;
   private provincias: IProvincia[];
-  public dataSent: ITambo[] = [];
+  private status: boolean = false;
+
   public entity: IEntidad;
+  public dataSent: ITambo[] = [];
+  public searchData: boolean = false;
 
   constructor(
     private dataSharingService: DataSharingService,
@@ -44,30 +47,32 @@ export class TamboComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.dataSubscription) {
-      this.dataSubscription.unsubscribe();
-    }
+    if (this.dialogSubscription) this.dialogSubscription.unsubscribe();
   }
 
   public new(): void {
-    if (!this.entity) {
-      return;
-    }
+    if (!this.entity) return;
+
     const dialogRef = this.openDialog('CREAR TAMBO', 'C', true);
-    this.dataSubscription = this.dataSharingService
+
+    this.dialogSubscription = this.dataSharingService
       .getData()
       .subscribe((res) => {
         this.performCRUD(res, 'El tambo se ha creado exitosamente.', dialogRef);
       });
+
     dialogRef.afterClosed().subscribe(() => {
-      this.dataSharingService.unsubscribeData(this.dataSubscription!);
-      this.dataSubscription = undefined;
+      this.dataSharingService.unsubscribeData(this.dialogSubscription!);
+      this.dialogSubscription = undefined;
     });
   }
 
   public edit(data: ITambo): void {
+    if (!this.entity) return;
+
     const dialogRef = this.openDialog('EDITAR TAMBO', 'U', true, data);
-    this.dataSubscription = this.dataSharingService
+
+    this.dialogSubscription = this.dataSharingService
       .getData()
       .subscribe((res) => {
         this.performCRUD(
@@ -76,9 +81,10 @@ export class TamboComponent implements AfterViewInit, OnDestroy {
           dialogRef
         );
       });
+
     dialogRef.afterClosed().subscribe(() => {
-      this.dataSharingService.unsubscribeData(this.dataSubscription!);
-      this.dataSubscription = undefined;
+      this.dataSharingService.unsubscribeData(this.dialogSubscription!);
+      this.dialogSubscription = undefined;
     });
   }
 
@@ -90,6 +96,10 @@ export class TamboComponent implements AfterViewInit, OnDestroy {
     this.entity = entidad;
   }
 
+  public getStatus(status: boolean): void {
+    this.searchData = status;
+  }
+
   public getData(value: string): void {
     this.utilService.openLoading();
     this.tamboService.CRUD(value).subscribe({
@@ -97,6 +107,7 @@ export class TamboComponent implements AfterViewInit, OnDestroy {
         this.dataSent = Array.isArray(res.dataset)
           ? (res.dataset as ITambo[])
           : [res.dataset as ITambo];
+        this.searchData = true;
       },
       error: (err: any) => {
         this.utilService.closeLoading();
@@ -146,9 +157,11 @@ export class TamboComponent implements AfterViewInit, OnDestroy {
           : 0,
         fecha_baja: data?.fecha_baja ? data?.fecha_baja : 0,
         // Proviene de la entidad.
-        id_empresa: this.entity?.id_empresa_persona,
-        ent_sancor: this.entity?.nro_asesor,
-        canal: this.entity?.canal,
+        id_empresa:
+          par_modo === 'C' ? this.entity?.id_empresa_persona : data?.id_empresa,
+        ent_sancor:
+          par_modo === 'C' ? this.entity?.nro_asesor : data?.ent_sancor,
+        canal: par_modo === 'C' ? this.entity?.canal : data?.canal,
         // Se desconoce su procedencia.
         emp_vinc_ent: data?.emp_vinc_ent ? data?.emp_vinc_ent : 0,
       },

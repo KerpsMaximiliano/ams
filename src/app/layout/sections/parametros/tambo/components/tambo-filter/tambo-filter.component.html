@@ -11,10 +11,10 @@
           <input matInput class="seeker-input" disabled #inputEntidad placeholder="Busque una entidad">
         </mat-form-field>
         <div class="icon-container">
-          <div (click)="searchEntidad()" class="icon">
+          <div (click)="searchEntity()" class="icon">
             <mat-icon class="material-symbols-outlined"> search </mat-icon>
           </div>
-          <div (click)="clear(inputEntidad)" [class]="inputEntidad.value ? 'icon' : 'icon disabled fix'">
+          <div (click)="clearEntity(inputEntidad)" [class]="inputEntidad.value ? 'icon' : 'icon disabled fix'">
             <mat-icon class="material-symbols-outlined"> close </mat-icon>
           </div>
         </div>

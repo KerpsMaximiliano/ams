@@ -10,8 +10,9 @@
   </div>
 
   <div class=" section-content">
-    <app-tambo-filter (handleSearch)="getData($event)" (handleEntity)="getEntity($event)"></app-tambo-filter>
-    <app-tambo-dashboard [receivedData]="dataSent" (viewEvent)="view($event)"
-      (editEvent)="edit($event)"></app-tambo-dashboard>
+    <app-tambo-filter (handleSearch)="getData($event)" (handleEntity)="getEntity($event)"
+      (handleStatus)="getStatus($event)"></app-tambo-filter>
+    <app-tambo-dashboard [receivedData]="dataSent" (viewEvent)="view($event)" (editEvent)="edit($event)"
+      [searchData]="searchData"></app-tambo-dashboard>
   </div>
 </section>

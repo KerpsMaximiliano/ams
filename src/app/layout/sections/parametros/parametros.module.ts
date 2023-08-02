@@ -141,6 +141,12 @@ import { EmpresaFacturaComponent } from './empresa-factura/empresa-factura.compo
 import { EmpresaFacturaDashboardComponent } from './empresa-factura/components/empresa-factura-dashboard/empresa-factura-dashboard.component';
 import { EmpresaFacturaFilterComponent } from './empresa-factura/components/empresa-factura-filter/empresa-factura-filter.component';
 import { ModalLocalidadComponent } from './empresa-factura/components/add-edit-empresa-factura/modal-localidad/modal-localidad.component';
+// 34A - DATOS DE COMERCIO
+import { DatoComercioComponent } from './dato-comercio/dato-comercio.component';
+import { DatoComercioDashboardComponent } from './dato-comercio/components/dato-comercio-dashboard/dato-comercio-dashboard.component';
+import { DatoComercioFilterComponent } from './dato-comercio/components/dato-comercio-filter/dato-comercio-filter.component';
+import { AddEditDatoComercioDialogComponent } from './dato-comercio/components/add-edit-producto-dialog/add-edit-dato-comercio-dialog.component';
+import { SetBancoDialogComponent } from './dato-comercio/components/add-edit-producto-dialog/set-banco-dialog/set-banco-dialog.component';
 // 34 B - PAGO LINK
 import { AddEditPagoLinkDialogComponent } from './pago-link/components/add-edit-pago-link-dialog/add-edit-pago-link-dialog.component';
 import { PagoLinkComponent } from './pago-link/pago-link.component';
@@ -286,6 +292,12 @@ import { MontoMinimoFilterComponent } from './montos-minimo/components/monto-min
     EmpresaFacturaDashboardComponent,
     EmpresaFacturaFilterComponent,
     ModalLocalidadComponent,
+    // 34A - DATOS DE COMERCIO
+    DatoComercioComponent,
+    DatoComercioDashboardComponent,
+    DatoComercioFilterComponent,
+    AddEditDatoComercioDialogComponent,
+    SetBancoDialogComponent,
     // 34 B - PAGO LINK
     AddEditPagoLinkDialogComponent,
     PagoLinkComponent,

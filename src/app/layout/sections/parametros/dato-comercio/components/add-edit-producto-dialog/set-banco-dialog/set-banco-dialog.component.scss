@@ -6,19 +6,10 @@
   width: 100%;
 }
 
-::ng-deep .mat-expansion-panel-header {
-  background-color: var(--sancor-blue) !important;
-  color: #fff !important;
-}
-.mat-expansion-panel-header.mat-expanded {
-  height: 48px;
-}
-
 .dialog-content {
   display: flex;
   flex-direction: column;
-  min-height: 400px;
-  max-height: 90vh;
+  min-height: 525px;
   min-width: 650px;
   background-color: #fff;
 }
@@ -28,17 +19,12 @@
 }
 
 .buttons-container {
-  position: sticky;
   margin-top: auto;
-  margin-bottom: 0px !important;
+  margin-bottom: 0.5rem;
 }
 
 .table-container {
   margin-bottom: 0.3rem;
-}
-.table-scroll{
-  max-height: 200px !important;
-  overflow-y: auto !important;
 }
 
 tr.mat-header-row {
@@ -60,16 +46,16 @@ tr.mat-row {
 }
 
 /*
-   * Evita un espaciado innecesario en la primer columna.
-  */
+ * Evita un espaciado innecesario en la primer columna.
+*/
 th.mat-header-cell:first-of-type,
 td.mat-cell:first-of-type {
-  padding: 0px !important;
+  padding-left: 0px !important;
 }
 
 /*
-   * Texto alineado a la izquierda.
-  */
+ * Texto alineado a la izquierda.
+*/
 .mat-column-descripcion.mat-header-cell,
 .mat-column-descripcion.mat-cell {
   text-align: left !important;
@@ -78,20 +64,20 @@ td.mat-cell:first-of-type {
 }
 
 /*
-   * Número y fecha alineado a la derecha.
-  */
-.mat-column-codigo_postal.mat-header-cell,
-.mat-column-codigo_postal.mat-cell {
+ * Número y fecha alineado a la derecha.
+*/
+.mat-column-codigo_fuente_ingreso.mat-header-cell,
+.mat-column-codigo_fuente_ingreso.mat-cell {
   text-align: right !important;
   padding-right: 3vw;
   word-break: break-all;
 }
 
 /*
-   * Tamaño de columnas.
-  */
-.mat-column-codigo_postal.mat-header-cell,
-.mat-column-codigo_postal.mat-cell {
+ * Tamaño de columnas.
+*/
+.mat-column-codigo_fuente_ingreso.mat-header-cell,
+.mat-column-codigo_fuente_ingreso.mat-cell {
   width: 20%;
 }
 
@@ -106,19 +92,17 @@ td.mat-cell:first-of-type {
 }
 
 /*
-   * Oculta la paginación y el botón confirmar hasta que existan datos.
-  */
+ * Oculta la paginación y el botón confirmar hasta que existan datos.
+*/
 .d-none {
   display: none;
 }
 
 /*
-   * Cambia el tamaño y los espacios del filtro.
-  */
+ * Cambia el tamaño y los espacios del filtro.
+*/
 .filter-container {
   width: 47%;
-}
-
-h2 {
-  margin: 0px !important;
+  margin-top: 0.3rem;
+  margin-bottom: 0.3rem;
 }

@@ -1,0 +1,176 @@
+<div class="dialog-title">
+  <h2 tabindex="0">{{ data.title | uppercase }}</h2>
+</div>
+
+<div class="dialog-content"
+  [class]="data.par_modo === 'R' ? 'min-height-r' : data.par_modo === 'U' ? 'min-height-u' : ''">
+  <form class="form-datos" [formGroup]="formGroup">
+
+    <mat-tab-group [selectedIndex]="activeTabIndex" (selectedTabChange)="tabChanged($event)" mat-stretch-tabs
+      dynamicHeight>
+      <mat-tab>
+        <div class="seeker-fields-container mt-1">
+          <h3> EMPRESA QUE FACTURA </h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <input matInput required minlength="1" maxlength="4" disabled [value]="data.empresa_factura.descripcion" />
+          </mat-form-field>
+        </div>
+
+        <div class="seeker-fields-container">
+          <h3> FORMAS DE PAGO </h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <ng-container *ngIf="data.par_modo === 'C'; else isView1">
+              <mat-select formControlName="forma_pago" required minlength="1" maxlength="3"
+                (selectionChange)="getCodigoTarjeta($event.value)"
+                [placeholder]="uploaded ? 'Seleccione una forma de pago.' : 'No se han podido cargar las formas de pago.'"
+                [disabled]="!data.formaPago" disableOptionCentering>
+                <mat-option [value]="data.id_forma_pago" *ngIf="data.par_modo !== 'C'; else load">
+                  {{ data.descripcion }}
+                </mat-option>
+                <ng-template #load>
+                  <mat-option *ngFor="let formaPago of data.formas_pago" [value]="formaPago.id_forma_pago">
+                    {{ formaPago.descripcion ? formaPago.descripcion.trim() : '' }}
+                  </mat-option>
+                </ng-template>
+              </mat-select>
+            </ng-container>
+            <ng-template #isView1>
+              <input matInput formControlName="forma_pago" [disabled]="true" />
+            </ng-template>
+            <mat-error *ngIf="formGroup.get('forma_pago')?.invalid && formGroup.get('forma_pago')?.touched">
+              {{ getErrorMessage(formGroup.get("forma_pago")) }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="seeker-fields-container">
+          <h3> TARJETA </h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <ng-container class="select-disabled" *ngIf="data.par_modo === 'C'; else isView2">
+              <mat-select formControlName="codigo_tarjeta" required minlength="1" maxlength="2" disableOptionCentering
+                [disabled]="booleanPago"
+                [placeholder]="!this.formGroup.get('forma_pago')?.value ? 'Debe seleccionar una forma de pago' : booleanPago ? 'Seleccione una forma de pago valida.' : 'Seleccione una tarjeta.'">
+                <mat-option *ngFor="let tarjeta of listTarjetas" [value]="tarjeta.codigo">
+                  {{ tarjeta.description }}
+                </mat-option>
+              </mat-select>
+            </ng-container>
+            <ng-template #isView2>
+              <input matInput formControlName="codigo_tarjeta" [disabled]="true" />
+            </ng-template>
+            <mat-error *ngIf="formGroup.get('codigo_tarjeta')?.invalid && formGroup.get('codigo_tarjeta')?.touched">
+              {{ getErrorMessage(formGroup.get("codigo_tarjeta")) }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="seeker-fields-container">
+          <h3> COMERCIO </h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <input matInput formControlName="nro_comercio" required minlength="1" maxlength="11"
+              placeholder="Ingrese un numero de comercio.">
+            <mat-error *ngIf="formGroup.get('nro_comercio')?.invalid && formGroup.get('nro_comercio')?.touched">
+              {{ getErrorMessage(formGroup.get('nro_comercio')) }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </mat-tab>
+
+      <mat-tab>
+        <div class="seeker-fields-container mt-1">
+          <h3> CODIGO DE SERVICIO </h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <input matInput formControlName="codigo_servicio" required minlength="1" maxlength="2"
+              placeholder="Ingrese un código de servicio.">
+            <mat-error *ngIf="formGroup.get('codigo_servicio')?.invalid && formGroup.get('codigo_servicio')?.touched">
+              {{ getErrorMessage(formGroup.get('codigo_servicio')) }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="seeker-fields-container">
+          <h3> CAJA </h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <input matInput formControlName="nro_caja" required minlength="1" maxlength="4"
+              placeholder="Ingrese un numero de caja.">
+            <mat-error *ngIf="formGroup.get('nro_caja')?.invalid && formGroup.get('nro_caja')?.touched">
+              {{ getErrorMessage(formGroup.get('nro_caja')) }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="seeker-fields-container">
+          <h3> BANCO </h3>
+          <div class="content">
+            <mat-form-field class="seeker-form-field" appearance="outline">
+              <input matInput formControlName="banco_descripcion" required placeholder="Seleccione un banco." readonly>
+              <mat-error
+                *ngIf="formGroup.get('banco_descripcion')?.invalid && formGroup.get('banco_descripcion')?.touched">
+                {{ getErrorMessage(formGroup.get('banco_descripcion')) }}
+              </mat-error>
+            </mat-form-field>
+            <ng-container *ngIf="data.par_modo !== 'D'">
+              <div class="icon" (click)="getBanco()">
+                <mat-icon class="material-symbols-outlined"> search </mat-icon>
+              </div>
+              <div [class]="data.id_banco ? 'icon' : 'icon disabled fix'" (click)="clearInput()">
+                <mat-icon class="material-symbols-outlined"> close </mat-icon>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+
+        <div class="seeker-fields-container">
+          <h3> SUCURSAL </h3>
+          <mat-form-field class="seeker-form-field" appearance="outline">
+            <input matInput formControlName="nro_suc" required minlength="1" maxlength="3"
+              placeholder="Ingrese un numero de sucursal.">
+            <mat-error *ngIf="formGroup.get('nro_suc')?.invalid && formGroup.get('nro_suc')?.touched">
+              {{ getErrorMessage(formGroup.get('nro_suc')) }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+
+    <div *ngIf="data.edit; else other_content" class="buttons-container">
+      <button class="primary-button icon-button" type="button" mat-dialog-close>
+        <mat-icon>close</mat-icon>
+        Cancelar
+      </button>
+      <button class="primary-button icon-button" type="button" [disabled]="activeTabIndex === 0" (click)="prevStep()">
+        <mat-icon> arrow_back_ios </mat-icon>
+        Anterior
+      </button>
+      <button class="primary-button icon-button" type="button" [disabled]="activeTabIndex === 1" (click)="nextStep()">
+        <mat-icon> arrow_forward_ios </mat-icon>
+        Siguiente
+      </button>
+
+      <button
+        [class]="formGroup.invalid || this.formGroup.get('codigo_tarjeta')?.value === undefined ||
+      this.formGroup.get('codigo_tarjeta')?.value === null ? 'primary-button icon-button disabled' : 'primary-button icon-button'"
+        type="submit" (click)="confirm()">
+        <mat-icon> {{ data.par_modo === 'C' || data.par_modo === 'U' ? 'done' : 'delete' }} </mat-icon>
+        {{ data.par_modo === 'C' || data.par_modo === 'U' ? 'Guardar' : 'Eliminar' }}
+      </button>
+    </div>
+
+    <ng-template #other_content>
+      <div class="buttons-container">
+        <button class="primary-button icon-button" mat-dialog-close>
+          <mat-icon> done </mat-icon>
+          Aceptar
+        </button>
+        <button class="primary-button icon-button" type="button" [disabled]="activeTabIndex === 0" (click)="prevStep()">
+          <mat-icon> arrow_back_ios </mat-icon>
+          Anterior
+        </button>
+        <button class="primary-button icon-button" type="button" [disabled]="activeTabIndex === 1" (click)="nextStep()">
+          <mat-icon> arrow_forward_ios </mat-icon>
+          Siguiente
+        </button>
+      </div>
+    </ng-template>
+  </form>
+</div>

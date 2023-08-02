@@ -1,3 +1,5 @@
+import { IEmpresaFactura } from './empresa-factura.interface';
+import { IFormaPago } from './formas-pago.interface';
 import { IResponse } from './response.interface';
 
 export interface IDatoComercio {
@@ -20,6 +22,18 @@ export interface IBanco {
   par_modo: string;
   codigo: number;
   description: string;
+}
+
+export interface ITipoFormaPago {
+  id_forma_pago: string;
+  descripcion?: string;
+  forma_habilitada: string;
+}
+
+export interface IFiltroDatoComercio {
+  empresaFactura?: IEmpresaFactura;
+  formaPago?: ITipoFormaPago;
+  tarjeta?: IFormaPago;
 }
 
 export interface IListFormaPago {

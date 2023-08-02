@@ -1,6 +1,6 @@
 <section class="browse-section">
   <div class="section-header">
-    <h2> Pagos Link </h2>
+    <h2> Datos de comercio </h2>
     <div class="section-header-item">
       <button class="primary-button icon-button" (click)="back()">
         <mat-icon> arrow_back </mat-icon>
@@ -14,7 +14,9 @@
   </div>
 
   <div class="section-content">
-    <app-pago-link-filter (search)="getPagoLink($event)" [empresa]="empresaFactura"></app-pago-link-filter>
-    <app-pago-link-dashboard [receivedData]="dataSent" (deletEvent)="delet($event)"></app-pago-link-dashboard>
+    <app-dato-comercio-filter (search)="search($event)" [formasPago]="formasPago" [empresaFactura]="empresaFactura"
+      [isLoadingFormaPago]="isLoadingFormaPago" [loadingError]="loadingError" />
+    <app-dato-comercio-dashboard *ngIf="dataSent" [receivedData]="dataSent" (deleteEvent)="delete($event)"
+      (editEvent)="edit($event)" />
   </div>
 </section>
