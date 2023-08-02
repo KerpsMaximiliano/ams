@@ -18,7 +18,7 @@ export class PagoLinkFilterComponent {
       JSON.stringify({
         par_modo: 'R',
         empresa_factura: this.empresa.id_empresa,
-        codigo_forma_pago: input.toUpperCase(),
+        descripcion_forma_pago: input,
       })
     );
   }
