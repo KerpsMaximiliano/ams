@@ -380,8 +380,6 @@ export class AddEditEmpresaFacturaComponent {
 
   public calcularValor(fecha: number) {
     let newFecha = fecha.toString();
-    console.log(newFecha);
-
     if (newFecha.length < 8) {
       const dateFecha =
         newFecha.slice(3, 7) +
@@ -390,10 +388,8 @@ export class AddEditEmpresaFacturaComponent {
         '-' +
         '0' +
         newFecha.slice(0, 1);
-      console.log(dateFecha);
       return this.datePipe.transform(dateFecha, 'yyyy-MM-dd');
     }
-
     if (newFecha !== '00000000') {
       const dateFecha = this.datePipe.transform(
         newFecha.slice(4, 8) +
@@ -403,12 +399,7 @@ export class AddEditEmpresaFacturaComponent {
           newFecha.slice(0, 2),
         'yyyy-MM-dd'
       );
-      console.log(dateFecha);
       return dateFecha;
-      // return this.datePipe.transform(
-      //   (dateFecha),
-      //   'yyyy-MM-dd'
-      // );
     } else {
       return this.data.fecha_vto_cuit;
     }
@@ -419,13 +410,6 @@ export class AddEditEmpresaFacturaComponent {
   }
 
   public confirm(): void {
-    console.log(
-      this.datePipe.transform(
-        this.formGroup.get('fecha_vto_cuit')?.value,
-        'ddMMyyyy'
-      )
-    );
-
     if (this.formGroup.valid) {
       this.dialogRef.close({
         empresa: {

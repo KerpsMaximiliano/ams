@@ -35,6 +35,9 @@
 
 .table-container {
   margin-bottom: 0.3rem;
+}
+.table-scroll{
+  max-height: 200px !important;
   overflow-y: auto !important;
 }
 
