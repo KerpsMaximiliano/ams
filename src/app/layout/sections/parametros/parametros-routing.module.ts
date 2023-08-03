@@ -153,7 +153,7 @@ const routes: Routes = [
     component: DatoComercioComponent,
   },
   {
-    path: 'parametros/pago-link',
+    path: 'parametros/pagos-link',
     component: PagoLinkComponent,
   },
   {

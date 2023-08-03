@@ -168,7 +168,7 @@
           <h3>FECHA VENCIMIENTO CUIT</h3>
           <mat-form-field class="seeker-form-field" appearance="outline">
             <input matInput class="date-input" formControlName="fecha_vto_cuit" required minlength="1" maxlength="10"
-              type="date"/>
+              type="date" />
             <mat-hint class="warning-hint" *ngIf="vigenciaFecha()">
               La fecha ha expirado.
             </mat-hint>
@@ -261,12 +261,12 @@
       </mat-tab>
     </mat-tab-group>
     <div *ngIf="data.par_modo == 'U'" class="buttons-container">
-      <button (click)="redirectTo('parametros/dato-comercio')" class="primary-button icon-button" type="submit"
+      <button (click)="redirectTo('parametros/datos-comercio')" class="primary-button icon-button" type="submit"
         mat-dialog-close>
         <mat-icon> open_in_new_down </mat-icon>
         Datos Comercio
       </button>
-      <button (click)="redirectTo('parametros/pago-link')" class="primary-button icon-button" type="submit"
+      <button (click)="redirectTo('parametros/pagos-link')" class="primary-button icon-button" type="submit"
         mat-dialog-close>
         <mat-icon> open_in_new_down </mat-icon>
         Pagos Link
