@@ -48,6 +48,9 @@ export class AddEditPagoLinkDialogComponent {
   private setUpForm(): void {
     // * primer formulario
     this.formGroup = new UntypedFormGroup({
+      par_modo: new UntypedFormControl(
+        this.data.par_modo ? this.data.par_modo : ''
+      ),
       empresa_factura: new UntypedFormControl(
         this.data.empresa_factura ? this.data.empresa_factura : ''
       ),
@@ -60,7 +63,14 @@ export class AddEditPagoLinkDialogComponent {
         this.data.codigo_forma_pago ? this.data.codigo_forma_pago : '',
         Validators.compose([Validators.required, Validators.maxLength(3)])
       ),
+      descripcion_forma_pago: new UntypedFormControl(
+        this.data.descripcion_forma_pago ? this.data.descripcion_forma_pago : '',
+        Validators.compose([Validators.required])
+      ),
     });
+  }
+  public guardarID(id: string): void {
+    this.formGroup.get('codigo_forma_pago')?.setValue(id)
   }
   private setFormValues(): void {}
 
@@ -74,6 +84,7 @@ export class AddEditPagoLinkDialogComponent {
         par_modo: this.data.par_modo,
         empresa_factura: this.formGroup.get('empresa_factura')?.value,
         codigo_forma_pago: this.formGroup.get('codigo_forma_pago')?.value,
+        descripcion_forma_pago: this.formGroup.get('descripcion_forma_pago')?.value,
       });
     }
   }

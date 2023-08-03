@@ -145,6 +145,7 @@ export class PagoLinkComponent {
         empresa_factura: this.empresaFactura.id_empresa,
         empresa_factura_descripcion: this.empresaFactura.descripcion,
         codigo_forma_pago: pagoLink?.codigo_forma_pago,
+        descripcion_forma_pago: pagoLink?.descripcion_forma_pago,
         formasPago: this.formasPago,
       },
     });
@@ -164,7 +165,7 @@ export class PagoLinkComponent {
             JSON.stringify({
               par_modo: 'R',
               empresa_factura: data.empresa_factura,
-              codigo_forma_pago: data.codigo_forma_pago,
+              descripcion_forma_pago: data.descripcion_forma_pago,
             })
           );
           dialogRef.close();

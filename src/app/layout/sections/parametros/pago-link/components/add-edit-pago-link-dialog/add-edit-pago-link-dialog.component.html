@@ -20,15 +20,16 @@
     <div class="seeker-fields-container">
       <h3>FORMA DE PAGO</h3>
       <mat-form-field class="seeker-form-field" appearance="outline">
-        <mat-select formControlName="codigo_forma_pago" required disableOptionCentering>
-          <mat-option [value]="item.id_forma_pago" *ngFor="let item of data.formasPago">{{ item.descripcion
+        <mat-select formControlName="descripcion_forma_pago" required disableOptionCentering>
+          <mat-option [value]="item.descripcion" *ngFor="let item of data.formasPago"
+            (onSelectionChange)="guardarID(item.id_forma_pago)">{{ item.descripcion
             }}</mat-option>
         </mat-select>
         <mat-error *ngIf="
-            formGroup.get('codigo_forma_pago')?.invalid &&
-            formGroup.get('codigo_forma_pago')?.touched
+            formGroup.get('descripcion_forma_pago')?.invalid &&
+            formGroup.get('descripcion_forma_pago')?.touched
           ">
-          {{ getErrorMessage(formGroup.get("codigo_forma_pago")) }}
+          {{ getErrorMessage(formGroup.get("descripcion_forma_pago")) }}
         </mat-error>
       </mat-form-field>
     </div>
