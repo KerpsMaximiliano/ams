@@ -48,8 +48,7 @@
           <mat-form-field class="seeker-form-field" appearance="outline">
             <ng-container class="select-disabled" *ngIf="data.par_modo === 'C'; else isView2">
               <mat-select formControlName="codigo_tarjeta" required minlength="1" maxlength="2" disableOptionCentering
-                [disabled]="booleanPago"
-                [placeholder]="!this.formGroup.get('forma_pago')?.value ? 'Debe seleccionar una forma de pago' : booleanPago ? 'Seleccione una forma de pago valida.' : 'Seleccione una tarjeta.'">
+                [placeholder]="!this.formGroup.get('forma_pago')?.value ? 'Debe seleccionar una forma de pago' : !listTarjetas.length ? 'No existen tarjetas para la forma de pago seleccionada.' : 'Seleccione una tarjeta.'">
                 <mat-option *ngFor="let tarjeta of listTarjetas" [value]="tarjeta.codigo">
                   {{ tarjeta.description }}
                 </mat-option>
@@ -148,8 +147,7 @@
       </button>
 
       <button
-        [class]="formGroup.invalid || this.formGroup.get('codigo_tarjeta')?.value === undefined ||
-      this.formGroup.get('codigo_tarjeta')?.value === null ? 'primary-button icon-button disabled' : 'primary-button icon-button'"
+        [class]="formGroup.invalid || isLoading ? 'primary-button icon-button disabled' : 'primary-button icon-button'"
         type="submit" (click)="confirm()">
         <mat-icon> {{ data.par_modo === 'C' || data.par_modo === 'U' ? 'done' : 'delete' }} </mat-icon>
         {{ data.par_modo === 'C' || data.par_modo === 'U' ? 'Guardar' : 'Eliminar' }}

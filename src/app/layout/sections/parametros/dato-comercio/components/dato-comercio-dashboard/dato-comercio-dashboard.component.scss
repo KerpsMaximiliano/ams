@@ -10,7 +10,8 @@
   }
 
   /* Número y fecha alineado a la derecha */
-  &.mat-column-nro_suc {
+  &.mat-column-nro_suc,
+  &.mat-column-comercio {
     text-align: right !important;
     padding-right: 1vw;
     word-break: break-all;

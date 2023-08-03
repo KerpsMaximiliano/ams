@@ -39,9 +39,9 @@ export class AddEditDatoComercioDialogComponent {
   public formGroup: UntypedFormGroup;
   public visibilidad: boolean = false;
   public activeTabIndex = 0;
-  public booleanPago: boolean = true;
   public uploaded: boolean = false;
-  public listTarjetas: IFormaPago[];
+  public listTarjetas: IFormaPago[] = [];
+  public isLoading: boolean = false;
 
   constructor(
     private dataSharingService: DataSharingService,
@@ -81,17 +81,14 @@ export class AddEditDatoComercioDialogComponent {
           : this.formGroup.get('forma_pago')?.value,
         codigo_tarjeta: this.formGroup.get('codigo_tarjeta')?.value,
       });
-    } else if (
-      this.formGroup.valid &&
-      this.formGroup.get('codigo_tarjeta')?.value !== null
-    ) {
+    } else if (this.formGroup.valid) {
       this.dataSharingService.sendData({
         par_modo: this.data.par_modo,
         id_empresa: this.data.empresa_factura.id_empresa,
         forma_pago: this.formGroup.get('forma_pago')?.value
           ? this.formGroup.get('forma_pago')?.value.trim()
           : this.formGroup.get('forma_pago')?.value,
-        codigo_tarjeta: this.formGroup.get('codigo_tarjeta')?.value,
+        codigo_tarjeta: this.formGroup.get('codigo_tarjeta')?.value || 0,
         nro_comercio: this.formGroup.get('nro_comercio')?.value,
         codigo_servicio: this.formGroup.get('codigo_servicio')?.value,
         nro_caja: this.formGroup.get('nro_caja')?.value,
@@ -118,8 +115,9 @@ export class AddEditDatoComercioDialogComponent {
   }
 
   public getCodigoTarjeta(formaPago: any) {
-    this.formGroup.get('codigo_tarjeta')?.setValue(undefined);
     this.utilService.openLoading();
+    this.formGroup.get('codigo_tarjeta')?.reset();
+    this.isLoading = true;
     this.formaPagoService
       .CRUD(
         JSON.stringify({
@@ -132,29 +130,26 @@ export class AddEditDatoComercioDialogComponent {
           this.listTarjetas = Array.isArray(res.dataset)
             ? (res.dataset as IFormaPago[])
             : [res.dataset as IFormaPago];
-          this.booleanPago = false;
+          this.formGroup.get('codigo_tarjeta')?.enable();
+          this.formGroup.get('codigo_tarjeta')?.addValidators(Validators.required);
         },
         error: (err: any) => {
           this.utilService.closeLoading();
-          err.status === 0
-            ? this.utilService.notification('Error de conexión.', 'error')
-            : this.utilService.notification(
-                `Status Code ${err.error.estado.Codigo}: ${err.error.estado.Mensaje}`,
-                'error'
-              );
+          if (err.status === 0) {
+            this.utilService.notification('Error de conexión.', 'error');
+          }
           this.formGroup.get('codigo_tarjeta')?.disable();
-          this.booleanPago = true;
+          this.formGroup.get('codigo_tarjeta')?.removeValidators(Validators.required);
+          this.listTarjetas = [];
+
+          this.formGroup.get('codigo_tarjeta')?.updateValueAndValidity();
+          this.utilService.closeLoading();
+          this.isLoading = false;
         },
         complete: () => {
-          this.formGroup
-            .get('codigo_tarjeta')
-            ?.setValidators([
-              Validators.required,
-              Validators.minLength(1),
-              Validators.maxLength(2),
-            ]);
-          this.formGroup.get('codigo_tarjeta')?.reset();
+          this.formGroup.get('codigo_tarjeta')?.updateValueAndValidity();
           this.utilService.closeLoading();
+          this.isLoading = false;
         },
       });
   }
@@ -162,6 +157,7 @@ export class AddEditDatoComercioDialogComponent {
   public getBanco(): void {
     let data: IBanco[];
     this.utilService.openLoading();
+    this.isLoading = true;
     this.formaPagoService
       .CRUD(
         JSON.stringify({
@@ -178,6 +174,7 @@ export class AddEditDatoComercioDialogComponent {
         },
         error: (err: any) => {
           this.utilService.closeLoading();
+          this.isLoading = false;
           err.status === 0
             ? this.utilService.notification('Error de conexión.', 'error')
             : this.utilService.notification(
@@ -187,6 +184,7 @@ export class AddEditDatoComercioDialogComponent {
         },
         complete: () => {
           this.utilService.closeLoading();
+          this.isLoading = false;
         },
       });
   }
@@ -228,7 +226,6 @@ export class AddEditDatoComercioDialogComponent {
           disabled: this.data.par_modo === 'U' || this.data.par_modo === 'D',
         },
         Validators.compose([
-          Validators.required,
           Validators.minLength(1),
           Validators.maxLength(2),
         ])
