@@ -5,14 +5,14 @@
     </mat-expansion-panel-header>
 
     <form>
-      <div class="seeker-fields-container pb-none">
+      <div class="seeker-fields-container">
         <h4 class="equal-width"> Empresa que factura </h4>
         <mat-form-field class="seeker-form-field" appearance="outline">
           <input matInput class="seeker-input disabled" [value]="empresaFactura?.descripcion?.trim()" disabled>
         </mat-form-field>
       </div>
 
-      <div class="seeker-fields-container pb-none">
+      <div class="seeker-fields-container">
         <h4 class="equal-width"> Forma de pago </h4>
         <mat-form-field class="seeker-form-field">
           <mat-label *ngIf="loadingError && isLoadingFormaPago; else loadFormaPago" class="seeker-label">
@@ -41,7 +41,7 @@
         </mat-form-field>
       </div>
 
-      <div class="seeker-fields-container pb-none">
+      <div class="seeker-fields-container">
         <h4 class="equal-width"> Tarjeta </h4>
         <mat-form-field class="seeker-form-field">
           <mat-label *ngIf="loadingError && isLoadingTarjeta; else loadingTarjeta" class="seeker-label">
