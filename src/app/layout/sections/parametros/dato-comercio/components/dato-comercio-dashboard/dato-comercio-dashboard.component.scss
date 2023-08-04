@@ -2,7 +2,6 @@
 .mat-cell {
   /* Texto alineado a la izquierda */
   &.mat-column-forma_pago_descripcion,
-  &.mat-column-codigo_servicio,
   &.mat-column-banco_descripcion {
     text-align: left !important;
     padding-left: 1vw;
@@ -10,6 +9,7 @@
   }
 
   /* Número y fecha alineado a la derecha */
+  &.mat-column-codigo_servicio,
   &.mat-column-nro_suc,
   &.mat-column-comercio {
     text-align: right !important;

@@ -12,7 +12,7 @@
     </ng-container>
 
     <ng-container matColumnDef="codigo_servicio">
-      <th mat-header-cell *matHeaderCellDef> Codigo de envio </th>
+      <th mat-header-cell *matHeaderCellDef> Código de envío </th>
       <td mat-cell *matCellDef="let param"> {{ param.codigo_servicio }} </td>
     </ng-container>
 
@@ -56,11 +56,11 @@
       <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length">
         <div class="detailExpand" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
           <div>
-            <span class="title">Caja</span>
+            <span class="title"> Caja </span>
             <span class="item num"> {{ element.nro_caja }} </span>
           </div>
           <div>
-            <span class="title">Código Servicio</span>
+            <span class="title"> Código Servicio </span>
             <span class="item text"> {{ element.codigo_servicio }} </span>
           </div>
         </div>

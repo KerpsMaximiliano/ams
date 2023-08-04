@@ -55,7 +55,11 @@
               </mat-select>
             </ng-container>
             <ng-template #isView2>
-              <input matInput formControlName="codigo_tarjeta" [disabled]="true" />
+              <input *ngIf="this.formGroup.get('codigo_tarjeta')?.value; else isView2SinTarjeta" matInput
+                formControlName="codigo_tarjeta" [disabled]="true" />
+            </ng-template>
+            <ng-template #isView2SinTarjeta>
+              <input matInput value="No existen tarjetas para la forma de pago seleccionada." [disabled]="true" />
             </ng-template>
             <mat-error *ngIf="formGroup.get('codigo_tarjeta')?.invalid && formGroup.get('codigo_tarjeta')?.touched">
               {{ getErrorMessage(formGroup.get("codigo_tarjeta")) }}
