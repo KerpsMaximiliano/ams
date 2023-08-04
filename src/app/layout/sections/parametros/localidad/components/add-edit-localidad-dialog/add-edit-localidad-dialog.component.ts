@@ -83,7 +83,9 @@ export class AddEditLocalidadDialogComponent {
         codigo_departamento: this.formGroup.get('codigo_departamento')?.value,
         posicion_referente: this.data.posicion_referente,
         zona_promocion: this.formGroup.get('zona_promocion')?.value,
-        zona_envio: this.formGroup.get('zona_envio')?.value,
+        zona_envio: this.formGroup.get('zona_envio')?.value
+          ? this.formGroup.get('zona_envio')?.value
+          : '',
         ingreso_ticket: this.formGroup.get('ingreso_ticket')?.value,
         visitado_auditor: this.formGroup.get('visitado_auditor')?.value,
       });
@@ -278,17 +280,10 @@ export class AddEditLocalidadDialogComponent {
           Validators.maxLength(2),
         ])
       ),
-      zona_envio: new UntypedFormControl(
-        {
-          value: this.data.zona_envio ? this.data.zona_envio : '',
-          disabled: this.data.par_modo === 'R',
-        },
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(1),
-          Validators.maxLength(10),
-        ])
-      ),
+      zona_envio: new UntypedFormControl({
+        value: this.data.zona_envio ? this.data.zona_envio : '',
+        disabled: this.data.par_modo === 'R',
+      }),
       ingreso_ticket: new UntypedFormControl(
         {
           value: this.data.ingreso_ticket

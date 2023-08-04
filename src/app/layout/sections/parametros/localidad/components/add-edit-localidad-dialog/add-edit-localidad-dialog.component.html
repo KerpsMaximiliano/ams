@@ -176,7 +176,7 @@
           <div class="seeker-fields-container">
             <h3> ZONA DE ENVÍO </h3>
             <mat-form-field appearance="outline">
-              <mat-select formControlName="zona_envio" required minlength="1" maxlength="10" disableOptionCentering>
+              <mat-select formControlName="zona_envio" disableOptionCentering>
                 <mat-option *ngFor="let envio of data.envios" [value]="envio.codigo">
                   {{ envio.descripcion }}
                 </mat-option>
